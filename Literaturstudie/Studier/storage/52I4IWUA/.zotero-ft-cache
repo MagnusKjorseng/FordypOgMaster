@@ -1,0 +1,299 @@
+IFAC PapersOnLine 51-8 (2018) 257–262
+ScienceDirect
+ScienceDirect
+Available online at www.sciencedirect.com
+2405-8963 © 2018, IFAC (International Federation of Automatic Control) Hosting by Elsevier Ltd. All rights reserved. Peer review under responsibility of International Federation of Automatic Control. 10.1016/j.ifacol.2018.06.386
+© 2018, IFAC (International Federation of Automatic Control) Hosting by Elsevier Ltd. All rights reserved.
+Simplified Modelling and Identification of an Inspection ROV
+Thomas Thuesen Enevoldsen ∗ Emil M ́ar Einarsson ∗ Simon Pedersen ∗ Zhenyu Yang ∗
+∗ Department of Energy Technology, Aalborg University, Niels Bohrs Vej 8, 6700 Esbjerg, Denmark (e-mail: spe@et.aau.dk).
+Abstract: The expansion of subsea applications demands extended use of autonomous capabilities within Remotely Operated Vehicles (ROVs), which can reduce the overall operation time and cost. Obtaining a simple but also reasonably precise model is important for an autonomized control strategy. This study outlines a low-dimensional model structure for a commercial underwater inspection ROV, based on simplifying physical assumptions. The respective model parameters are obtained from experimental data. Tuning parameters are then introduced in order to further improve the accuracy of the identified model. Based on a model validation it is concluded that the obtained model contains the main properties of the ROV.
+Keywords: Parameter estimation, mathematical modelling, model validation, ROV, offshore robotics
+1. INTRODUCTION
+Underwater robots are used in many different tasks such as mapping, surveillance, welding, inspections and assembly. In most cases Autonomous Underwater Vehicles (AUVs) focus on the mapping and surveilance where Remotely Operated Vehicles (ROVs), normally perform more precise operational tasks such as welding and assembly, see Mai et al. (2016), Wynn et al. (2014) and Marine Technology Society (2017). The biggest user of ROVs is the offshore industry and in the last few years an increase in use and cost for both ROV and AUV has been recorded, see Reid (2013) and Brun (2014).
+In general, most industrial ROV operations are manually controlled, with neither automatic control functions nor autonomous capabilities (Schjølberg and Utne (2015)). However, automation can decrease the time and cost of operation (Tena (2011)) and the development of an automized control-strategy typically demands a simple but yet accurate dynamic model of the vehicle. Previous studies (Eidsvik (2015) and Mai et al. (2017)) have focused on modelling and identification of the same commercial ROV using a different model structure, but with the same quadratic drag structure as described in this paper. Furthermore, Arnesen (2016) implemented a modified version of the estimated parameters from Eidsvik (2015).
+Based on a commercial offshore inspection ROV (VideoRay Pro 4), this paper investigates a control-oriented dynamic model structure based on simplified physical assumptions. Furthermore, a set of new tuning parameters is introduced as well as an associated model tuning guide. Experimental testing results are obtained for validation of the model. The rest of the paper is organized as follows: In section 2 the ROV platform is introduced, in section 3 the model structure is described and then in section 4 the detailed parameter estimation. Section 5 describes the
+model validation and model modifications, and section 6 contains the conclusion and future work.
+2. CONSIDERED ROV PLATFORM
+Fig. 1. VideoRay Pro 4 ROV
+The vehicle used in this paper is the VideoRay Pro 4 ROV. The ROV is a small inspection class ROV, see figure 1. The ROV consists of a main waterproof hull that stores all the electronics. The electronics include a forward facing camera, a forward facing LED array and an inertial measurement unit that consist of the sensors shown in table 1. The ROV is powered by three thrusters, two rear-facing thrusters and one upward-facing thruster, making this an under-actuated vehicle. The ROV has adjustable ballast for buoyancy control, allowing for positive, negative and neutral buoyancy. The vehicle is rated for 300m depths and has a maximum forward speed of approximately 2.1m/s. It is powered and controlled through the tether, where the software for the top-side computer is written in C# . The current platform includes built-in PID controllers that the user can manually tune using the VideoRay Cockpit. See VideoRay LCC (2012) for further technical details.
+Proceedings of the 3rd IFAC Workshop on Automatic Control in Offshore Oil and Gas Production May 30 - June 1, 2018. Esbjerg, Denmark
+Copyright © 2018 IFAC 257
+Simplified Modelling and Identification of an Inspection ROV
+Thomas Thuesen Enevoldsen ∗ Emil M ́ar Einarsson ∗ Simon Pedersen ∗ Zhenyu Yang ∗
+∗ Department of Energy Technology, Aalborg University, Niels Bohrs Vej 8, 6700 Esbjerg, Denmark (e-mail: spe@et.aau.dk).
+Abstract: The expansion of subsea applications demands extended use of autonomous capabilities within Remotely Operated Vehicles (ROVs), which can reduce the overall operation time and cost. Obtaining a simple but also reasonably precise model is important for an autonomized control strategy. This study outlines a low-dimensional model structure for a commercial underwater inspection ROV, based on simplifying physical assumptions. The respective model parameters are obtained from experimental data. Tuning parameters are then introduced in order to further improve the accuracy of the identified model. Based on a model validation it is concluded that the obtained model contains the main properties of the ROV.
+Keywords: Parameter estimation, mathematical modelling, model validation, ROV, offshore robotics
+1. INTRODUCTION
+Underwater robots are used in many different tasks such as mapping, surveillance, welding, inspections and assembly. In most cases Autonomous Underwater Vehicles (AUVs) focus on the mapping and surveilance where Remotely Operated Vehicles (ROVs), normally perform more precise operational tasks such as welding and assembly, see Mai et al. (2016), Wynn et al. (2014) and Marine Technology Society (2017). The biggest user of ROVs is the offshore industry and in the last few years an increase in use and cost for both ROV and AUV has been recorded, see Reid (2013) and Brun (2014).
+In general, most industrial ROV operations are manually controlled, with neither automatic control functions nor autonomous capabilities (Schjølberg and Utne (2015)). However, automation can decrease the time and cost of operation (Tena (2011)) and the development of an automized control-strategy typically demands a simple but yet accurate dynamic model of the vehicle. Previous studies (Eidsvik (2015) and Mai et al. (2017)) have focused on modelling and identification of the same commercial ROV using a different model structure, but with the same quadratic drag structure as described in this paper. Furthermore, Arnesen (2016) implemented a modified version of the estimated parameters from Eidsvik (2015).
+Based on a commercial offshore inspection ROV (VideoRay Pro 4), this paper investigates a control-oriented dynamic model structure based on simplified physical assumptions. Furthermore, a set of new tuning parameters is introduced as well as an associated model tuning guide. Experimental testing results are obtained for validation of the model. The rest of the paper is organized as follows: In section 2 the ROV platform is introduced, in section 3 the model structure is described and then in section 4 the detailed parameter estimation. Section 5 describes the
+model validation and model modifications, and section 6 contains the conclusion and future work.
+2. CONSIDERED ROV PLATFORM
+Fig. 1. VideoRay Pro 4 ROV
+The vehicle used in this paper is the VideoRay Pro 4 ROV. The ROV is a small inspection class ROV, see figure 1. The ROV consists of a main waterproof hull that stores all the electronics. The electronics include a forward facing camera, a forward facing LED array and an inertial measurement unit that consist of the sensors shown in table 1. The ROV is powered by three thrusters, two rear-facing thrusters and one upward-facing thruster, making this an under-actuated vehicle. The ROV has adjustable ballast for buoyancy control, allowing for positive, negative and neutral buoyancy. The vehicle is rated for 300m depths and has a maximum forward speed of approximately 2.1m/s. It is powered and controlled through the tether, where the software for the top-side computer is written in C# . The current platform includes built-in PID controllers that the user can manually tune using the VideoRay Cockpit. See VideoRay LCC (2012) for further technical details.
+Proceedings of the 3rd IFAC Workshop on Automatic Control in Offshore Oil and Gas Production May 30 - June 1, 2018. Esbjerg, Denmark
+Copyright © 2018 IFAC 257
+Simplified Modelling and Identification of an Inspection ROV
+Thomas Thuesen Enevoldsen ∗ Emil M ́ar Einarsson ∗ Simon Pedersen ∗ Zhenyu Yang ∗
+∗ Department of Energy Technology, Aalborg University, Niels Bohrs Vej 8, 6700 Esbjerg, Denmark (e-mail: spe@et.aau.dk).
+Abstract: The expansion of subsea applications demands extended use of autonomous capabilities within Remotely Operated Vehicles (ROVs), which can reduce the overall operation time and cost. Obtaining a simple but also reasonably precise model is important for an autonomized control strategy. This study outlines a low-dimensional model structure for a commercial underwater inspection ROV, based on simplifying physical assumptions. The respective model parameters are obtained from experimental data. Tuning parameters are then introduced in order to further improve the accuracy of the identified model. Based on a model validation it is concluded that the obtained model contains the main properties of the ROV.
+Keywords: Parameter estimation, mathematical modelling, model validation, ROV, offshore robotics
+1. INTRODUCTION
+Underwater robots are used in many different tasks such as mapping, surveillance, welding, inspections and assembly. In most cases Autonomous Underwater Vehicles (AUVs) focus on the mapping and surveilance where Remotely Operated Vehicles (ROVs), normally perform more precise operational tasks such as welding and assembly, see Mai et al. (2016), Wynn et al. (2014) and Marine Technology Society (2017). The biggest user of ROVs is the offshore industry and in the last few years an increase in use and cost for both ROV and AUV has been recorded, see Reid (2013) and Brun (2014).
+In general, most industrial ROV operations are manually controlled, with neither automatic control functions nor autonomous capabilities (Schjølberg and Utne (2015)). However, automation can decrease the time and cost of operation (Tena (2011)) and the development of an automized control-strategy typically demands a simple but yet accurate dynamic model of the vehicle. Previous studies (Eidsvik (2015) and Mai et al. (2017)) have focused on modelling and identification of the same commercial ROV using a different model structure, but with the same quadratic drag structure as described in this paper. Furthermore, Arnesen (2016) implemented a modified version of the estimated parameters from Eidsvik (2015).
+Based on a commercial offshore inspection ROV (VideoRay Pro 4), this paper investigates a control-oriented dynamic model structure based on simplified physical assumptions. Furthermore, a set of new tuning parameters is introduced as well as an associated model tuning guide. Experimental testing results are obtained for validation of the model. The rest of the paper is organized as follows: In section 2 the ROV platform is introduced, in section 3 the model structure is described and then in section 4 the detailed parameter estimation. Section 5 describes the
+model validation and model modifications, and section 6 contains the conclusion and future work.
+2. CONSIDERED ROV PLATFORM
+Fig. 1. VideoRay Pro 4 ROV
+The vehicle used in this paper is the VideoRay Pro 4 ROV. The ROV is a small inspection class ROV, see figure 1. The ROV consists of a main waterproof hull that stores all the electronics. The electronics include a forward facing camera, a forward facing LED array and an inertial measurement unit that consist of the sensors shown in table 1. The ROV is powered by three thrusters, two rear-facing thrusters and one upward-facing thruster, making this an under-actuated vehicle. The ROV has adjustable ballast for buoyancy control, allowing for positive, negative and neutral buoyancy. The vehicle is rated for 300m depths and has a maximum forward speed of approximately 2.1m/s. It is powered and controlled through the tether, where the software for the top-side computer is written in C# . The current platform includes built-in PID controllers that the user can manually tune using the VideoRay Cockpit. See VideoRay LCC (2012) for further technical details.
+Automatic Control in Offshore Oil and Gas Production May 30 - June 1, 2018. Esbjerg, Denmark
+Copyright © 2018 IFAC 257
+Abstract: The expansion of subsea applications demands extended use of autonomous capabilities within Remotely Operated Vehicles (ROVs), which can reduce the overall operation time and cost. Obtaining a simple but also reasonably precise model is important for an autonomized control strategy. This study outlines a low-dimensional model structure for a commercial underwater inspection ROV, based on simplifying physical assumptions. The respective model parameters are obtained from experimental data. Tuning parameters are then introduced in order to further improve the accuracy of the identified model. Based on a model validation it is concluded that the obtained model contains the main properties of the ROV.
+Keywords: Parameter estimation, mathematical modelling, model validation, ROV, offshore robotics
+1. INTRODUCTION
+Underwater robots are used in many different tasks such as mapping, surveillance, welding, inspections and assembly. In most cases Autonomous Underwater Vehicles (AUVs) focus on the mapping and surveilance where Remotely Operated Vehicles (ROVs), normally perform more precise operational tasks such as welding and assembly, see Mai et al. (2016), Wynn et al. (2014) and Marine Technology Society (2017). The biggest user of ROVs is the offshore industry and in the last few years an increase in use and cost for both ROV and AUV has been recorded, see Reid (2013) and Brun (2014).
+In general, most industrial ROV operations are manually controlled, with neither automatic control functions nor autonomous capabilities (Schjølberg and Utne (2015)). However, automation can decrease the time and cost of operation (Tena (2011)) and the development of an automized control-strategy typically demands a simple but yet accurate dynamic model of the vehicle. Previous studies (Eidsvik (2015) and Mai et al. (2017)) have focused on modelling and identification of the same commercial ROV using a different model structure, but with the same quadratic drag structure as described in this paper. Furthermore, Arnesen (2016) implemented a modified version of the estimated parameters from Eidsvik (2015).
+Based on a commercial offshore inspection ROV (VideoRay Pro 4), this paper investigates a control-oriented dynamic model structure based on simplified physical assumptions. Furthermore, a set of new tuning parameters is introduced as well as an associated model tuning guide. Experimental testing results are obtained for validation of the model. The rest of the paper is organized as follows: In section 2 the ROV platform is introduced, in section 3 the model structure is described and then in section 4 the detailed parameter estimation. Section 5 describes the
+model validation and model modifications, and section 6 contains the conclusion and future work.
+2. CONSIDERED ROV PLATFORM
+Fig. 1. VideoRay Pro 4 ROV
+The vehicle used in this paper is the VideoRay Pro 4 ROV. The ROV is a small inspection class ROV, see figure 1. The ROV consists of a main waterproof hull that stores all the electronics. The electronics include a forward facing camera, a forward facing LED array and an inertial measurement unit that consist of the sensors shown in table 1. The ROV is powered by three thrusters, two rear-facing thrusters and one upward-facing thruster, making this an under-actuated vehicle. The ROV has adjustable ballast for buoyancy control, allowing for positive, negative and neutral buoyancy. The vehicle is rated for 300m depths and has a maximum forward speed of approximately 2.1m/s. It is powered and controlled through the tether, where the software for the top-side computer is written in C# . The current platform includes built-in PID controllers that the user can manually tune using the VideoRay Cockpit. See VideoRay LCC (2012) for further technical details.
+Simplified Modelling and Identification of an Inspection ROV
+Thomas Thuesen Enevoldsen ∗ Emil M ́ar Einarsson ∗ Simon Pedersen ∗ Zhenyu Yang ∗
+∗ Department of Energy Technology, Aalborg University, Niels Bohrs Vej 8, 6700 Esbjerg, Denmark (e-mail: spe@et.aau.dk).
+Abstract: The expansion of subsea applications demands extended use of autonomous capabilities within Remotely Operated Vehicles (ROVs), which can reduce the overall operation time and cost. Obtaining a simple but also reasonably precise model is important for an autonomized control strategy. This study outlines a low-dimensional model structure for a commercial underwater inspection ROV, based on simplifying physical assumptions. The respective model parameters are obtained from experimental data. Tuning parameters are then introduced in order to further improve the accuracy of the identified model. Based on a model validation it is concluded that the obtained model contains the main properties of the ROV.
+Keywords: Parameter estimation, mathematical modelling, model validation, ROV, offshore robotics
+1. INTRODUCTION
+Underwater robots are used in many different tasks such as mapping, surveillance, welding, inspections and assembly. In most cases Autonomous Underwater Vehicles (AUVs) focus on the mapping and surveilance where Remotely Operated Vehicles (ROVs), normally perform more precise operational tasks such as welding and assembly, see Mai et al. (2016), Wynn et al. (2014) and Marine Technology Society (2017). The biggest user of ROVs is the offshore industry and in the last few years an increase in use and cost for both ROV and AUV has been recorded, see Reid (2013) and Brun (2014).
+In general, most industrial ROV operations are manually controlled, with neither automatic control functions nor autonomous capabilities (Schjølberg and Utne (2015)). However, automation can decrease the time and cost of operation (Tena (2011)) and the development of an automized control-strategy typically demands a simple but yet accurate dynamic model of the vehicle. Previous studies (Eidsvik (2015) and Mai et al. (2017)) have focused on modelling and identification of the same commercial ROV using a different model structure, but with the same quadratic drag structure as described in this paper. Furthermore, Arnesen (2016) implemented a modified version of the estimated parameters from Eidsvik (2015).
+Based on a commercial offshore inspection ROV (VideoRay Pro 4), this paper investigates a control-oriented dynamic model structure based on simplified physical assumptions. Furthermore, a set of new tuning parameters is introduced as well as an associated model tuning guide. Experimental testing results are obtained for validation of the model. The rest of the paper is organized as follows: In section 2 the ROV platform is introduced, in section 3 the model structure is described and then in section 4 the detailed parameter estimation. Section 5 describes the
+model validation and model modifications, and section 6 contains the conclusion and future work.
+2. CONSIDERED ROV PLATFORM
+Fig. 1. VideoRay Pro 4 ROV
+The vehicle used in this paper is the VideoRay Pro 4 ROV. The ROV is a small inspection class ROV, see figure 1. The ROV consists of a main waterproof hull that stores all the electronics. The electronics include a forward facing camera, a forward facing LED array and an inertial measurement unit that consist of the sensors shown in table 1. The ROV is powered by three thrusters, two rear-facing thrusters and one upward-facing thruster, making this an under-actuated vehicle. The ROV has adjustable ballast for buoyancy control, allowing for positive, negative and neutral buoyancy. The vehicle is rated for 300m depths and has a maximum forward speed of approximately 2.1m/s. It is powered and controlled through the tether, where the software for the top-side computer is written in C# . The current platform includes built-in PID controllers that the user can manually tune using the VideoRay Cockpit. See VideoRay LCC (2012) for further technical details.
+Proceedings of the 3rd IFAC Workshop on Automatic Control in Offshore Oil and Gas Production May 30 - June 1, 2018. Esbjerg, Denmark
+Copyright © 2018 IFAC 257
+Simplified Modelling and Identification of an Inspection ROV
+Thomas Thuesen Enevoldsen ∗ Emil M ́ar Einarsson ∗ Simon Pedersen ∗ Zhenyu Yang ∗
+∗ Department of Energy Technology, Aalborg University, Niels Bohrs Vej 8, 6700 Esbjerg, Denmark (e-mail: spe@et.aau.dk).
+Abstract: The expansion of subsea applications demands extended use of autonomous capabilities within Remotely Operated Vehicles (ROVs), which can reduce the overall operation time and cost. Obtaining a simple but also reasonably precise model is important for an autonomized control strategy. This study outlines a low-dimensional model structure for a commercial underwater inspection ROV, based on simplifying physical assumptions. The respective model parameters are obtained from experimental data. Tuning parameters are then introduced in order to further improve the accuracy of the identified model. Based on a model validation it is concluded that the obtained model contains the main properties of the ROV.
+Keywords: Parameter estimation, mathematical modelling, model validation, ROV, offshore robotics
+1. INTRODUCTION
+Underwater robots are used in many different tasks such as mapping, surveillance, welding, inspections and assembly. In most cases Autonomous Underwater Vehicles (AUVs) focus on the mapping and surveilance where Remotely Operated Vehicles (ROVs), normally perform more precise operational tasks such as welding and assembly, see Mai et al. (2016), Wynn et al. (2014) and Marine Technology Society (2017). The biggest user of ROVs is the offshore industry and in the last few years an increase in use and cost for both ROV and AUV has been recorded, see Reid (2013) and Brun (2014).
+In general, most industrial ROV operations are manually controlled, with neither automatic control functions nor autonomous capabilities (Schjølberg and Utne (2015)). However, automation can decrease the time and cost of operation (Tena (2011)) and the development of an automized control-strategy typically demands a simple but yet accurate dynamic model of the vehicle. Previous studies (Eidsvik (2015) and Mai et al. (2017)) have focused on modelling and identification of the same commercial ROV using a different model structure, but with the same quadratic drag structure as described in this paper. Furthermore, Arnesen (2016) implemented a modified version of the estimated parameters from Eidsvik (2015).
+Based on a commercial offshore inspection ROV (VideoRay Pro 4), this paper investigates a control-oriented dynamic model structure based on simplified physical assumptions. Furthermore, a set of new tuning parameters is introduced as well as an associated model tuning guide. Experimental testing results are obtained for validation of the model. The rest of the paper is organized as follows: In section 2 the ROV platform is introduced, in section 3 the model structure is described and then in section 4 the detailed parameter estimation. Section 5 describes the
+model validation and model modifications, and section 6 contains the conclusion and future work.
+2. CONSIDERED ROV PLATFORM
+Fig. 1. VideoRay Pro 4 ROV
+The vehicle used in this paper is the VideoRay Pro 4 ROV. The ROV is a small inspection class ROV, see figure 1. The ROV consists of a main waterproof hull that stores all the electronics. The electronics include a forward facing camera, a forward facing LED array and an inertial measurement unit that consist of the sensors shown in table 1. The ROV is powered by three thrusters, two rear-facing thrusters and one upward-facing thruster, making this an under-actuated vehicle. The ROV has adjustable ballast for buoyancy control, allowing for positive, negative and neutral buoyancy. The vehicle is rated for 300m depths and has a maximum forward speed of approximately 2.1m/s. It is powered and controlled through the tether, where the software for the top-side computer is written in C# . The current platform includes built-in PID controllers that the user can manually tune using the VideoRay Cockpit. See VideoRay LCC (2012) for further technical details.
+Proceedings of the 3rd IFAC Workshop on Automatic Control in Offshore Oil and Gas Production May 30 - June 1, 2018. Esbjerg, Denmark
+Copyright © 2018 IFAC 257
+Simplified Modelling and Identification of an Inspection ROV
+Thomas Thuesen Enevoldsen ∗ Emil M ́ar Einarsson ∗ Simon Pedersen ∗ Zhenyu Yang ∗
+∗ Department of Energy Technology, Aalborg University, Niels Bohrs Vej 8, 6700 Esbjerg, Denmark (e-mail: spe@et.aau.dk).
+Abstract: The expansion of subsea applications demands extended use of autonomous capabilities within Remotely Operated Vehicles (ROVs), which can reduce the overall operation time and cost. Obtaining a simple but also reasonably precise model is important for an autonomized control strategy. This study outlines a low-dimensional model structure for a commercial underwater inspection ROV, based on simplifying physical assumptions. The respective model parameters are obtained from experimental data. Tuning parameters are then introduced in order to further improve the accuracy of the identified model. Based on a model validation it is concluded that the obtained model contains the main properties of the ROV.
+Keywords: Parameter estimation, mathematical modelling, model validation, ROV, offshore robotics
+1. INTRODUCTION
+Underwater robots are used in many different tasks such as mapping, surveillance, welding, inspections and assembly. In most cases Autonomous Underwater Vehicles (AUVs) focus on the mapping and surveilance where Remotely Operated Vehicles (ROVs), normally perform more precise operational tasks such as welding and assembly, see Mai et al. (2016), Wynn et al. (2014) and Marine Technology Society (2017). The biggest user of ROVs is the offshore industry and in the last few years an increase in use and cost for both ROV and AUV has been recorded, see Reid (2013) and Brun (2014).
+In general, most industrial ROV operations are manually controlled, with neither automatic control functions nor autonomous capabilities (Schjølberg and Utne (2015)). However, automation can decrease the time and cost of operation (Tena (2011)) and the development of an automized control-strategy typically demands a simple but yet accurate dynamic model of the vehicle. Previous studies (Eidsvik (2015) and Mai et al. (2017)) have focused on modelling and identification of the same commercial ROV using a different model structure, but with the same quadratic drag structure as described in this paper. Furthermore, Arnesen (2016) implemented a modified version of the estimated parameters from Eidsvik (2015).
+Based on a commercial offshore inspection ROV (VideoRay Pro 4), this paper investigates a control-oriented dynamic model structure based on simplified physical assumptions. Furthermore, a set of new tuning parameters is introduced as well as an associated model tuning guide. Experimental testing results are obtained for validation of the model. The rest of the paper is organized as follows: In section 2 the ROV platform is introduced, in section 3 the model structure is described and then in section 4 the detailed parameter estimation. Section 5 describes the
+model validation and model modifications, and section 6 contains the conclusion and future work.
+2. CONSIDERED ROV PLATFORM
+Fig. 1. VideoRay Pro 4 ROV
+The vehicle used in this paper is the VideoRay Pro 4 ROV. The ROV is a small inspection class ROV, see figure 1. The ROV consists of a main waterproof hull that stores all the electronics. The electronics include a forward facing camera, a forward facing LED array and an inertial measurement unit that consist of the sensors shown in table 1. The ROV is powered by three thrusters, two rear-facing thrusters and one upward-facing thruster, making this an under-actuated vehicle. The ROV has adjustable ballast for buoyancy control, allowing for positive, negative and neutral buoyancy. The vehicle is rated for 300m depths and has a maximum forward speed of approximately 2.1m/s. It is powered and controlled through the tether, where the software for the top-side computer is written in C# . The current platform includes built-in PID controllers that the user can manually tune using the VideoRay Cockpit. See VideoRay LCC (2012) for further technical details.
+Proceedings of the 3rd IFAC Workshop on Automatic Control in Offshore Oil and Gas Production May 30 - June 1, 2018. Esbjerg, Denmark
+Copyright © 2018 IFAC 257
+
+
+258 Thomas Thuesen Enevoldsen et al. / IFAC PapersOnLine 51-8 (2018) 257–262
+Table 1. Available sensory data
+Sensors Measurements Units Accelerometer Linear acceleration m
+s2
+Gyroscope Angular velocities m
+s
+Pressure sensor Depth position m Compass Heading angle deg Temperature External/Internal ◦C
+Heave w
+Sway v
+Pitch q
+z
+θ
+φ
+Body frame
+World frame
+ψ
+y
+Yaw r
+x
+Roll p
+Surge u
+Fig. 2. Reference frames and notations (Mai et al. (2017)).
+Table 2. Model nomenclature
+Symbol Description Unit Ft, Fl, Fr Top, left and right thrust force N ut, ul, ur Top, left and right thruster input % Fu
+d ,Fw
+d Surge and Heave dependant drag force N
+u, w, r Surge, Heave and Yaw movement m
+s , rad
+s
+τrear Rear thruster torque Nm τr
+d Yaw dependant drag torque Nm
+ad/bd Quadratic/Linear drag coefficient at/bt Quadratic/Linear thruster coefficient mrov ROV mass kg Ir Moment of inertia (Yaw) kgm2 R Distance between centre of mass and thruster m γ Angle for the rear thruster force vector decomposition rad α, β Tuning parameters T au Time constant s Vss Respective Steady-State velocity m
+s , rad
+s
+3. CONTROL-ORIENTED DYNAMIC MODEL
+Based on previous work from Mai et al. (2017) and Wang and Clark (2006), the model structure for the thrusters and drag force is obtained, and is shown in (1) and (2). The quadratic formulation is beneficial, since it simplifies the process of identifying the model parameters, due to the generalization of the characteristics into a linear and quadratic term. This is a suitable structure for the model parameters if the operation of the actual ROV will take place in a similar environment. Also, the experiments performed later in the paper, make it so that the different environmental parameters are indistinguishable from each other. The quadratic structure also captures the dominant linear behaviour of the drag forces at lower velocities (Wang and Clark (2006)). Fu
+d = ad|u|u + bdu (1)
+Ft = at|ut|ut + btut (2)
+The following equations of motion that are obtained describe the 3 directly controllable degrees of freedom, based on Newtons second law.
+mrovu ̇ = Fr + Fl − F u
+d + f (r, q, p) (3a)
+mrovw ̇ = Ft − F w
+d + g(r, q, p) (3b)
+Irr ̇ = τrear − τ r
+d + h(q, p) (3c)
+Neutral buoyancy is assumed during the modelling, meaning that the gravitational and buoyancy forces are equal. The functional expression added to the end of each movement in (3) contains the coupling dynamics between the given degrees of freedom. Due to operating at low velocities the coupling dynamics are ignored. The effect of the coupling is investigated further in section 4.6.
+Irr ̇ = FlRsin(γ) + FrRsin(−γ) − (adr|r| + bdr) (4)
+The torques described in (3c) for the yaw movement are calculated by decomposing the thruster placements with respect to the center of mass, as shown in (4).
+Irr ̇ = Rsin(γ)(Fl + Fr) − (adr|r| + bdr) (5)
+By assuming that the thrusters receive an actuation signal of opposite signs, the expression can be combined as a single thruster torque as shown in (5). The value Ir is estimated based on its geometry of the ROV.
+4. PARAMETER ESTIMATION
+Experiments are carried out to identify the remaining model parameters. It consists mainly of the parameters for the quadratic and linear terms for the thruster and drag polynomials ((1) and (2)). All the presented experiments are obtained with 100 Hz sampling rate, which is sufficient for all the dynamics present in the system. The testing environments were limited to locations with a maximum depth of 2.5m and 1.9m.
+4.1 Heave Experiments
+Using obtained pressure data, it was possible to differentiate the positional data and obtain the downward and upward velocities. Due to the derivative being noise sensitive and with noise present in the recorded data, the positional data is filtered using a moving average filter. By comparing the different operational points from the two heave experiments, it is observed that the upward and downward velocities have almost equivalent effects in the respective directions when operating at 20-70% thrust, see table 3. These velocities are obtained once the ROV has reached a constant velocity, as shown in figure 3, where the mean value of the steady-state velocity is indicated with the dotted line.
+Fig. 3. Downward velocity at 50% thrust.
+IFAC OOGP 2018 Esbjerg, Denmark. May 30 - June 1, 2018
+258
+
+
+Thomas Thuesen Enevoldsen et al. / IFAC PapersOnLine 51-8 (2018) 257–262 259
+Table 3. Steady-state heave velocities (m/s)
+Thruster % Upward Vel Downward Vel 20 0.13 0.13 30 0.17 0.17 50 0.25 0.28 70 0.37 0.38
+4.2 Surge Experiments
+In order to determine the surge velocity there were two options available, either double integrating the accelerometer data or using underwater recordings of the ROV. Integrating the accelerometer data yields results that drift heavily over time, due to the integration amplifying the noise present. Using an underwater camera (GoPro Hero4 Black), the ROV was recorded travelling a set distance at different thruster percentages. The higher velocities (70%+) are dominated by significant coupling, as shown in section 4.6, but the VideoRay normally operates at lower velocities when performing inspection tasks, due to the requirement of steady positioning for the camera. When attempting to perform the same experiments for the reverse surge motion, the tether interfered with the ROVs path which yielded uncertainty in the obtained data. The obtained surge data can be seen in table 4.
+Table 4. Steady-state surge velocities (m/s)
+Thruster % Fwd Vel Thruster % Fwd Vel 20 0.31 50 0.86 30 0.47 60 1.14 40 0.69 70 1.47
+4.3 Yaw Experiments
+The experiments related to the yaw motion were performed by powering the thrusters in opposite directions inducing a rotational motion. Due to the visual symmetry of the ROV it is assumed that the velocity obtained in one direction is the same for the opposite. Differentiating the compass data, the angular velocity is obtained, which is pre-filtered using a moving average filter. Similar to previously, the mean velocity is whenever the ROV seems to have reached a steady-state velocity. Most of the experiments showed interference from additional non-modelled water dynamics induced by the rotational motion, due to the turbulence created from the rotating body. This resulted in oscillating values in the recorded velocity data, making it hard to determine when the steady-state velocity was reached. During the rotational motion, the tether also twists and begins to tangle, which influenced the measurements due to the added strain from the twisted tether. Besides the uncertainties the data is still useful, since it provides an adequate estimate for the yaw motion. Selected mean values for the yaw velocities are shown in Table 5.
+Table 5. Steady-state yaw velocities. (rad/s)
+Thruster % Yaw Vel Thruster % Yaw Vel 20 1.34 50 2.61 30 1.51 60 3.76 40 2.00 70 4.06
+4.4 Thruster Parameters Experiment Setup
+In order to estimate the parameters for the thrusters, the force produced was recorded at steady-state values using the PASCO PS-3202 digital force sensor. The sensor has an operating range of ±50N (Pasco Scientific (2017)), where the ROV at full forward thrust is able to produce approximately 90N (VideoRay LCC (2013)). The ROV was attached to the sensor using a sequence of pulleys to halve the measured force when necessary.
+Fig. 4. Forward and backward thruster characteristics
+Rear Thrusters Figure 4 shows the forward and backward thrust characteristics, where the force is the combined force from the two rear thrusters (Fr +Fl). The force produced when reversing with the ROV is significantly lower compared to the forward thrust. The dynamics for the reverse thrust is neglected, since forward surge movement is the primary motion during regular operation. Thus, the modelling of the combined rear thruster dynamics will consist of the characteristics related to the forward surge motion.
+Fig. 5. Curve fits for the forward thrust.
+min
+at ,bt
+=
+∑t
+k=1
+(Fss,k − Fˆss,k)2 (6)
+Using the steady-state force values and the given structure in (2), a curve fit is obtained using least mean squares, as shown in (6). Figure 5 shows two suggested curve fits, where the one uses all of the recorded data points and the second uses the weighted least mean squares, shown in (7), where the lower thruster percentages are weighted the highest,
+min
+at ,bt
+=
+∑t
+k=1
+Wk(Fss,k − Fˆss,k)2 (7)
+since the lower forward thruster percentages are the main operational points during precision operation. Therefore
+IFAC OOGP 2018 Esbjerg, Denmark. May 30 - June 1, 2018
+259
+
+
+260 Thomas Thuesen Enevoldsen et al. / IFAC PapersOnLine 51-8 (2018) 257–262
+the secondary curve fit using the weighted least mean squares is favoured, since it provides better performance at the lower thruster percentages. This results in a weighting vector Wk with zero entries relating to the high thrust percentages outside the desired operating range. The expressions for the first curve fit is found in (8) and the weighted fit in (9), where urear is the control input (%) given to the two rear thrusters simultaneously.
+(Fl + Fr) = 100.3|urear|urear − 27.09urear (8)
+(Fl + Fr) = 42.9|urear|urear + 2.711urear (9)
+Top Thruster During the depth experiments in section 4.1, the gathered velocities for the heave motion show that the velocities are similar for both the upward and downward motion. Due to this fact, the data obtained for the downward motion will be used for both directions. Similar to the surge motion, the quadratic structure for
+Fig. 6. Curve fit for the downward thrust.
+the thruster is used when performing the curve fit using least mean squares on the downward force data. (10) shows the resulting curve fit for the top-side thruster, where ut is the given input thruster percentage.
+Ft = 6.494|ut|ut + 0.0513ut (10)
+4.5 Drag Coefficients
+To determine the drag coefficients for the three movement directions, the equations of motion are utilized for the surge, heave, yaw motion and the respective thruster expressions. At zero acceleration the equations for the surge and heave motion becomes as follows in (11) and (12).
+Fr + Fl = F u
+d = adu|u| + bdu (11)
+Ft = F w
+d = adw|w| + bdw (12)
+Then, by equating the velocities measured at the given thruster forces it is possible to obtain the different velocity dependant drag coefficients. Similar to surge and heave, the drag force from the yaw movement will be calculated using the torque produced by the thrusters and the measured angular velocities, as shown in (13).
+τrear = τ r
+d = adr|r| + bdr (13)
+Figure 7 and 8 shows the curve fits for the drag force related to heave and surge. Similar to the curve fit for the rear thrusters, two curve fits have been made for the surge drag force as shown in figure 7. The curve fit using all data points has an undesired performance around the operating point, the lower velocities, therefore the weighted least mean squares is utilised to weigh the
+Fig. 7. Surge drag coefficient fit.
+Fig. 8. Heave drag coefficient fit.
+lower velocities higher. The equation describing the surge drag force is then as follows in (14). Fu
+d = 3.159u|u| + 9.379u (14)
+The curve fit for the heave drag force fits the data points well for the given velocity interval and the equation for the heave drag force fit can be found in (15). Fw
+d = 18.72w|w| + 0.6324w (15) Figure 9 shows the curve fit for the yaw drag torque. The
+Fig. 9. Yaw drag coefficient fit.
+current curve fit tracks the operating point precisely at the lower angular velocities, and is therefore a sufficient description of the yaw drag. (16) is curve fit for the yaw drag, where r is yaw velocity. τr
+d = 0.1246|r|r + 0.103r (16)
+4.6 Coupling
+In order to identify the amount of coupling present between the surge motion and angular movements, angular data was recorded when surging at different thrust percentages. Figure 10 shows the pitch and roll motions during 20% and 80% rear-thruster movement. The results show that the higher thrust percentages impacts the pitch
+IFAC OOGP 2018 Esbjerg, Denmark. May 30 - June 1, 2018
+260
+
+
+Thomas Thuesen Enevoldsen et al. / IFAC PapersOnLine 51-8 (2018) 257–262 261
+motion significantly more than at low thrust actuation. Furthermore even at high thrusters percentages the roll motion is close to zero. The minor roll movement present
+(a) 20% thrust
+(b) 80% thrust
+Fig. 10. Pitch and Roll data when surging
+on figure 10a is amplified measurement noise due to the close proximity of the sensor to the rear thrusters.
+5. MODEL VALIDATION
+The obtained model was validated based on experimental data, see figure 11. It is clear that the steady-state velocity characteristics are close to the experimental data but also that the transient performances lack accuracy. The transient behaviour of the velocity outputs can be described by the time constants, T au, since the dynamic behaviour of the velocities act as first order linear systems (see (3)) and the non-linearities are only present in the static equations (see (1) and (2)). (17) is applied to estimate T au. T au = t(1− 1
+e )Vss (17)
+By introducing tuning parameters, α and β, it is possible to tune the transient and steady-state behaviour of the obtained non-linear system. The parameters are introduced as follows in (18).
+mrovu ̇ = βu(αu(Fr + Fl) − F u
+d ) (18a)
+mrovw ̇ = βw(αwFt − F w
+d ) (18b)
+Irr ̇ = βr(αrτrear − τ r
+d ) (18c)
+Modifying the parameter α impacts both the steadystate and the T au values. Since β scales the expression it only influences T au. A tuning guide for the introduced parameters is proposed as follows.
+• Tune α for the desired steady-state value (Changes both Steady-State and T au) • Tune β for the desired T au (Changes only T au)
+The results from the parameter tuning of the non-linear model are found in tables 6, 7 and 8. The model has been
+tuned around an operating point of 30% thrust and due to weighted curve fits previously, especially for the surge motion, since it deviates at the higher percentages. The overall motivation behind tuning the non-linear model was to improve its behaviour regarding the transient response, by increasing the duration of T au, since the parameter estimation only took place using steady-state values.
+(a) Heave
+(b) Yaw
+Fig. 11. Non-linear model comparison to selected experimental data
+Table 6. Heave (Vss [m/s], T au [s])
+Thruster % Non-Linear Scaled NL Exp
+Vss T au Vss T au Vss T au 20 0.10 1.76 0.11 3.08 0.13 2.87 30 0.16 1.33 0.17 2.23 0.17 2.33 50 0.28 0.80 0.30 1.40 0.28 1.54 70 0.39 0.58 0.42 1.04 0.38 1.18
+Table 7. Yaw (Vss [rad/s], T au [s])
+Thruster % Non-Linear Scaled NL Exp
+Vss T au Vss T au Vss T au 20 0.93 0.39 1.10 3.08 1.34 3.05 30 1.47 0.29 1.61 2.23 1.51 1.95 50 2.57 0.19 2.82 1.46 2.61 1.41 70 3.68 0.14 4.07 1.10 4.06 1.12
+Table 8. Surge (Vss [m/s], T au [s])
+Thruster % Non-linear Scaled NL Exp
+Vss T au Vss T au Vss T au 20 0.22 0.63 0.24 0.63 0.31 30 0.43 0.56 0.47 0.56 0.47 50 0.97 0.48 1.03 0.48 0.86 70 1.59 0.40 1.69 0.40 1.47 
+Figure 11a shows the comparison between the two version of the non-linear model compared to the experimental
+IFAC OOGP 2018 Esbjerg, Denmark. May 30 - June 1, 2018
+261
+
+
+262 Thomas Thuesen Enevoldsen et al. / IFAC PapersOnLine 51-8 (2018) 257–262
+data. The initial spikes in the experimental data is due to the moving average filter. With the addition of the tuning parameters, the steady-state and T au values of the scaled non-linear model are now closer to the experimental values. Table 6 contains the steady-state and T au values at different thruster percentages and the chosen tuning parameters are found in table 9.
+Table 9. Estimated coefficients
+Symbol Value Unit Structure Ft 6.494/0.0513 N at/bt Fr + Fl 42.9/2.711 N at/bt Fu
+d 3.159/9.379 N ad/bd
+Fw
+d 18.72/0.6324 N ad/bd
+τr
+drag 0.1246/0.103 Nm ad/bd mrov 6.57 kg Irov 0.105 kgm2 R 0.22 m γ 0.423 rad βu/αu 1/1.1 - βw/αw 0.59/1.14 - βr/αr 0.12/1.2 - 
+The β value for the heave tuning is used to compensate from the static drag force which is present when the ROV starts moving from rest, and thus a significant scaling is required. Similarly to the heave tuning, figure 11b shows the updated and scaled non-linear model for yaw compared to the experimental data. The fluctuation of the experimental data is due to the turbulence induced from the rotational motion, as mentioned during the parameter estimation in section 4.5. The turbulence changes for each experiment but the model tendency shown in figure 11b is representative of the overall turbulent behaviour. Before introducing the tuning parameters, the non-linear model for yaw was significantly faster than the experimental data. Therefore a small β value is required, in order to slow down the yaw movement and increase T au accordingly. The time-delay present in the yaw experimental data decreases as the thruster input is increased, due to the static friction the ROV must overcome when rotating from rest. This can be taken into consideration during future modifications and potentially be modelled as a time-delay.
+6. CONCLUSION AND FUTURE WORK
+This paper examined a simplified model structure of a VideoRay Pro 4 Underwater inspection ROV, as well as the identification of the model parameters and a detailed model validation. Furthermore, the model parameters were experimentally identified and the identified model was then compared to experimental data. The results indicated that the introduction of new tuning parameters to the model could improve the overall model accuracy and a straight-forward tuning guide was proposed. The tuned model clearly showed that especially the transient performances were significantly improved by added the new tuning parameters.
+Coupling effects caused by the asymmetry of the location of the thrusters were neglected, due to operating at lower velocities. However, the experiments in section 4.6 showed that there indeed was a great amount of coupling present between the surge and pitching motion at the large thruster actuations. In order to operate within the entire
+velocity range it is required that model structure takes these coupling dynamics into account. In future work, this coupling will be included as a model expansion.
+It is concluded that an accurate and yet simple controloriented model is developed, identified and validated. The simplified model can be easier to identify due to the simple structure and tuned with the proposed additional parameters. The simple structure is also easy to extend in order to include disturbances and so forth. Due to its easy implementation for simulation, it is also efficient for use when doing control design. Based on the results, the simpler structure does not compromise the accuracy of the most important model features and is therefore a valid representation of the system.
+REFERENCES
+Arnesen, B.O. (2016). Motion Control Systems for ROVsUnderwater Path-Following for a Videoray Pro 4 ROV. Master’s thesis, NTNU. Brun, L. (2014). ROV/AUV Trends: Market and Technology.
+Eidsvik, O.A. (2015). Identification of hydrodynamic parameters for remotely operated vehicles. Master’s thesis, NTNU. Mai, C., Pedersen, S., Hansen, L., Jepsen, K.L., and Yang, Z. (2016). Subsea infrastructure inspection: A review study. In 2016 IEEE International Conference on Underwater System Technology: Theory and Applications (USYS), 71–76.
+Mai, C., Pedersen, S., Hansen, L., Jepsen, K.L., and Yang, Z. (2017). Modeling and Control of Industrial ROVs for Semi-Autonomous Subsea Maintenance Services. IFAC Congress.
+Marine Technology Society (2017). ROV Applications What ROVs can do. URL http://www.rov.org/rov_ applications.cfm.
+Pasco Scientific (2017). PS-3202. URL https://www. pasco . com / prodCatalog / PS / PS - 3202 _ wireless force-acceleration-sensor/.
+Reid, A. (2013). ROV Market Prospects. URL http:// www.subseauk.com/documents/presentations/ssuk% 20- %20rov%20event%20- %20sep%202013%20%5Bweb% 5D.pdf.
+Schjølberg, I. and Utne, I.B. (2015). Towards autonomy in rov operations. IFAC-PapersOnLine, 48(2), 183 – 188. Tena, I. (2011). Automating ROV Operations in aid of the Oil & Gas Offshore Industry. VideoRay LCC (2012). VideoRay Pro 4 Operation Manual. URL http://www.videoray.com/images/User_ Manuals/pro_4_manual.pdf.
+VideoRay LCC (2013). VideoRay Thruster Datasheet. URL http : / / www . videoray . com / images / specsheets/2013/Brushless_Thrusters.pdf.
+Wang, W. and Clark, C.M. (2006). Modeling and Simulation of the VideoRay Pro III Underwater Vehicle. IEEE OCEANS 2006.
+Wynn, R.B., Huvenne, V.A., Bas, T.P.L., Murton, B.J., Connelly, D.P., Bett, B.J., Ruhl, H.A., Morris, K.J., Peakall, J., Parsons, D.R., Sumner, E.J., Darby, S.E., Dorrell, R.M., and Hunt, J.E. (2014). Autonomous Underwater Vehicles (AUVs): Their past, present and future contributions to the advancement of marine geoscience. Marine Geology, 352, 451 – 468.
+IFAC OOGP 2018 Esbjerg, Denmark. May 30 - June 1, 2018
+262

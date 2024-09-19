@@ -1,0 +1,290 @@
+Ocean Engineering 235 (2021) 109382
+Available online 26 June 2021
+0029-8018/© 2021 The Author(s). Published by Elsevier Ltd. This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+Contents lists available at ScienceDirect
+Ocean Engineering
+journal homepage: www.elsevier.com/locate/oceaneng
+Dynamic positioning of ROV in the wave zone during launch and recovery from a small surface vessel✩
+Olav Landstad a, Håkon S. Halvorsen a, Henning Øveraas a, Vidar Smines b, Tor A. Johansen a,∗
+a Center for Autonomous Marine Operations and Systems, Department of Engineering Cybernetics, Norwegian University of Science and Technology, 7491 Trondheim, Norway b Kongsberg Maritime, Ålesund, Norway
+ARTICLE INFO
+Keywords:
+Dynamic positioning Marine operations Launch and recovery ROV motion control Reference tracking First order wave motion
+ABSTRACT
+Dynamical positioning (DP) control of a remotely operated vehicle (ROV) using thrusters is investigated as a means to increase operability of its launch and recovery system (LARS) on relatively small surface vessels. The ROV uses its DP control system to dynamically track the wave-driven motion of the surface vessel that may also be under DP control. We consider the critical phase when the ROV position is very close to the LARS. In this phase, the ROV’s motion is strongly influenced by first-order surface waves and hydrodynamic couplings from the surface vessel motion. Hence, there is risk of collision between the ROV and the surface vessel and its LARS. We employ a time-domain dynamic system simulator that calculates the coupled motions of both the surface vessel and the ROV to analyse and optimize the operability of the system. It is based on coupled added mass, damping and wave force response amplitude operators (RAO) for both the surface vessel and the ROV, which can be calculated using WAMIT coupled hydrodynamic multi-body computations, accounting also for the moonpool water column dynamics. Simulation results show the positive effect of the ROV DP on the operability of the LARS using statistical environmental data from the North Sea.
+1. Introduction
+Work-class ROVs (remotely operated vehicles) are commonly used in subsea inspection, maintenance and repair (IMR) operations. The launch and recovery of the ROV is a critical phase, where there are two alternative approaches. The first is using a deck mounted launch and recovery system (LARS) where the ROV is launched and recovered on side of the vessel’s hull, and the second is a moonpool based LARS where the ROV is launched and recovered through a moonpool in the centre of the vessel. In both cases, the ROV is in the wave zone and very close to the surface vessel during the launch and recovery process. A risk of damage due to collision arises due to their relative motion. ROVs are typically operated from relatively large offshore service or construction vessels that use dynamic positioning (DP) for holding the horizontal position and heading during the launch and recovery, (Sørensen, 2011). In addition, the LARS usually involves a heave compensation system that may be used to decouple the ROVs motion from the surface vessel’s vertical motion driven by surface waves, (Huster et al., 2009; Johansen et al., 2003).
+✩ This work was supported by the Research Council of Norway, Kongsberg Martime, DOF Subsea and Reach Subsea through the ROV Revolution projects number 296262 and 310166, and the Research Council of Norway, Equinor and DNV GL through the Centre for Autonomous Marine Operations and Systems, project number 223254. ∗ Corresponding author. E-mail address: tor.arne.johansen@ntnu.no (T.A. Johansen).
+In this paper, we consider the possibility to utilize relatively small unmanned surface vessels (USV) for ROV operations with a moonpoolbased LARS as exemplified in Fig. 1. Using smaller vessels can provide significant economic savings. However, the motion of a small USV is more influenced by waves than conventional (larger and heavier) offshore service and construction vessels. Even though the USV has a DP system, its first order horizontal-plane wave motions are typically not compensated for by state-of-the-art DP systems due to limitations in thrusters’ dynamic responses, (Fung and Grimble, 1983; Sælid et al., 1983). Hence, the waves will cause significant horizontal motion of both the USV and the ROV during launch and recovery. Due to the very different inertial and hydrodynamic properties of the ROV and the USV, their wave-driven oscillatory motions might not be completely synchronized (i.e. be somewhat out of phase), and might have different amplitudes. This motivates the use of active DP control of the ROV’s position and orientation in order to track its docking position in the USV LARS that moves with the waves. ROVs are open-framed structures that are typically fitted with a number of relatively powerful and fast thrusters that are making them
+https://doi.org/10.1016/j.oceaneng.2021.109382 Received 26 August 2020; Received in revised form 21 May 2021; Accepted 19 June 2021
+
+
+Ocean Engineering 235 (2021) 109382
+2
+O. Landstad et al.
+Fig. 1. ROV launched and recovered from a relatively small exemplary USV. Courtesy Kongsberg Maritime.
+fully actuated and possibly quite agile. They are commonly operated manually by personnel located onboard the surface vessel, where the control signals, as well as operating power, are fed to the ROV through an umbilical, (Christ and Wernli, 2014). To ease the workload on the operator, ROVs can be fitted with a dynamical positioning (DP) system handling some or all of the stabilization, tracking and maneuvering tasks, e.g. Smallwood and Whitcomb (2004), Hsu et al. (2000), Dukan et al. (2011), da Cunha et al. (1995), Garcia-Valdovinos et al. (2009) and Soylu et al. (2016). A typical DP system architecture consists of guidance, navigation and control sub-systems, (Fossen, 2011). A navigation system determines the ROV’s position and attitude which is used by the guidance system to generate a reference trajectory. The control system then determines the desired total control forces and moments necessary to follow the given trajectory, and allocates them to the active thrusters, (Fossen and Johansen, 2006). As the ROV will be close to the USV during the launch and recovery process, its relative position and attitude is assumed to be accurately measured at all times, e.g. Li et al. (2015), Christ and Wernli (2014), Toal et al. (2011), and the design of a navigational system for the ROV is therefore not considered here. The main topic of this paper is the control of the motion of the ROV relative to its docking position in the USV’s LARS, where the ROV is actively tracking the USV’s motions using a DP control system. The study uses the ROV DP control algorithm given in de Fernandes et al. (2015), that is tuned considering the thruster dynamics limitations, hydrodynamic interaction between the USV and the ROV, and first order wave force disturbances. The main contribution is an analysis of the coupled dynamics using a multi-body system simulation-based method that can be used to evaluate the effect of the ROV’s DP system on the operability of the surface vessel’s LARS. The models and algorithms are described in Section 2, while simulation results are given in Section 3 and conclusions in Section 4.
+2. Method
+2.1. Kinematics and hydrodynamics
+The launch and recovery process concerns the motion of both the USV and ROV. When they are operating close to one another, there will be hydrodynamic coupling between them. Such couplings are due to hydrodynamic forces on the ROV created by the wave-driven motion of the USV. The strength of these couplings depends on location of the ROV relative to the USV, which is given by the LARS arrangement. In
+Fig. 2. ROV with exemplary LARS in a moonpool. During the critical phase of the launch and recovery, the ROV is connected to a latch-beam that is guided by cables through a cursor that runs on rails to hoist the ROV in and out of the moonpool. Courtesy Kongsberg Maritime.
+the case study in this paper, there are strong couplings particularly in heave since the ROV operates just below the keel of the USV as illustrated in Fig. 2. This means that when the USV moves in the waves, it creates motion in the water that surrounds the ROV, and thus leads to significant hydrodynamic forces on the ROV. The moonpool adds to the complexity of this phenomenon since its water surface may be very different from the water surface surrounding the USV, including resonant ‘‘piston-like’’ motion of the water column in the moonpool and horizontal water motions created partly by skegs and moonpool doors. The simulation model is therefore a multi-body dynamic system, which is given by the equations of motion:
+η̇ = J (Θ)(νr + νb
+c ) (1)
+Mν̇ r + Dlνr + Dq(νr)νr + Gη = τ + τb
+env (2)
+The model is based on Fossen (2011) and has 13 degrees of freedom (dof) as both the USV and ROV are modelled with 6 dof each, and the moonpool (MP) vertical motion is modelled separately to include the effects of the fluctuating water column inside it. The vector η contains the three-dimensional north-east-down (NED) coordinates of the USV and ROV, their orientation relative to the surface plane, given by the Euler angles Θ = (φ, θ, ψ), and the moonpool’s water surface vertical position. The vector ν contains the corresponding velocities decomposed in the USV’s and ROV’s body coordinate frames. The vectors are related through the transformation matrix J (Θ) in the kinematics Eq. (1), see Fossen (2011). The vector νr = ν − νb
+c contains the bodies’ relative velocity with respect to the surrounding water which therefore accounts for the ocean current vector νc that is more or less constant in the NED coordinate frame, while the super-script b indicates that νb
+c is decomposed in the body coordinate frames. The input vectors τ
+and τb
+env represents the forces and moments on the bodies caused by their thruster system and environmental loads, respectively. The environmental loads are composed of wave loads and wind loads which are superimposed, resulting in τb
+env = τb
+wave + τb
+wind . The model matrices are obtained using WAMIT, (WAMIT, 2020), and the MSS toolbox, (Fossen and Perez, 2004), where the mass/inertia matrix M ∈ R13×13 includes the coupled rigid body and hydrodynamic added mass/inertia of the system, Dl ∈ R13×13 is the linear damping matrix which is the sum of the potential and linear viscous damping, Dq(νr) ∈ R13×13 is the nonlinear damping and G ∈ R13×13 the system’s restoring matrix. Since the control problem concerns station keeping, the effects of Coriolis and centripetal forces can be neglected (Fossen, 2011).
+
+
+Ocean Engineering 235 (2021) 109382
+3
+O. Landstad et al.
+2.2. ROV thruster system
+The ROV is assumed to be equipped with a number of thrusters in a given configuration. To provide the total thrust and torques demanded by the controllers, a standard thrust allocation algorithm based on the Moore–Penrose pseudo-inverse of the thrust configuration matrix is utilized as described in Fossen (2011). To simulate the ROV with a realistic response to a given force input, we implemented a four-quadrant propeller model and a motor model capturing the thruster’s dynamics. Propeller thrust is given by a nonlinear relationship as the propeller has varying efficiency for different rotational speeds. It is also dependent on the velocity of the water surrounding the propeller as its thrust force is generated by accelerating it. To capture these nonlinear hydrodynamic effects, the propeller model presented in Carlton (1994), Oosterveld (1969) is implemented. It assumes the propeller is deeply submerged and that the propeller can be modelled without considering interactions with the hull due to the open-frame structure of the ROV. The four quadrants represents the four different working conditions of the propeller that are characterized by the sign of the rotational speed n given in revolutions per second, and the flow speed of the surrounding water ua. The equations capturing the dimensionless relationship between the propeller’s rotational speed and its resulting thrust and torque are derived in Oosterveld (1969):
+C∗
+T= T
+1
+2 ρ[u2a + (0.7πnD)2] π
+4 D2 (3a)
+C∗
+T N = TN
+1
+2 ρ[u2a + (0.7πnD)2] π
+4 D2 (3b)
+C∗
+Q= Q
+1
+2 ρ[u2a + (0.7πnD)2] π
+4 D3 (3c)
+with ρ being the density of the surrounding fluid, T and TN the thrust forces produced by the propeller and nozzle respectively, and Q the torque necessary to maintain the rotational speed. They can be obtained through testing the specific propeller and nozzle, (Oosterveld, 1969). A numerical approximation of the resulting curve is found by a Fourier series with N terms (typically 20), (Oosterveld, 1969). As for calculation of the velocity of the surrounding water, the components of νr were decomposed in each thruster’s local coordinate frame. The motor model is included to capture the thruster’s dynamics as the propeller model only offers a way of converting rotational speed to torque and thrust. Its structure is based on the work of Pivano et al. (2009), where a torque driven motor is used with a shaft speed PI controller. As can be seen in Fig. 3, the propeller model is used to calculate the necessary rotational speed nr for a given force reference. It is fed to the controller together with the measured rotational speed n. The controller outputs a desired torque Qd to accelerate the propeller accordingly. Parts of the torque Qd is not available for accelerating the propeller as there are losses Qa due to internal friction and hydrodynamic damping that will resist the rotation. Qa, together with the propeller’s delivered thrust force, are also calculated applying the propeller model but in a separate calculation using the actual rotational speed n as input. The electrical motor’s equation of motion takes the acceleration-torque Qd − Qa as input and includes an inertia, rotational viscous damper and a measurement of the resulting rotational speed. Together with the PI controller, the inertia and viscous damping allows for an accurate tuning of the thruster’s response to match a desired curve.
+2.3. USV DP controller
+It is assumed that the USV’s DP controller uses a conventional wave filter that removes the first-order wave motions from the measured position ηUSV and velocity νUSV before using them to the controller, (Fossen, 2011). Consequently, the controller mainly responds
+Fig. 3. Schematic drawing of the thruster model.
+to the slowly time-varying environmental loads such as wind, current and second order wave forces. To cancel out these slowly varying forces, standard PID controllers in surge, sway and yaw are used. In this control architecture the couplings between surge, sway and yaw motions are neglected in the control design, except for the coupling between thrusters handled by the thrust allocation. This is motivated by the relatively weak couplings that are present in conventional ship designs, (Fossen, 2011), and leads to
+τUSV = KUSV
+p Rb
+nηUSV
+e + KUSV
+i Rb
+nηUSV
+i + KUSV
+d νUSV
+e (4)
+where ηUSV
+e = ηUSV
+ref −ηUSV ∈ R3 is the north-east-yaw error, ηUSV
+i ∈ R3 its integral and νUSV
+e = νUSV
+ref − νUSV ∈ R3 is the body-fixed velocity error. The matrix Rb
+n(ψUSV ) ∈ R3×3 rotates the position error vectors to body-fixed coordinates. The controller’s bandwidth is therefore set low enough to neglect the dynamics of the USV’s thrusters and power system. The tuning of the controller is done by the principle of poleplacement given in Fossen (2011) which places the closed-loop system’s poles in predetermined locations in the complex plane by the following calculation of the gains
+ωb = ωn
+√
+1 − 2ζ 2 +
+√
+4ζ 4 − 4ζ 2 + 2 (5)
+KUSV
+p = M USV ω2
+n (6)
+KUSV
+d = 2ζ ωnM USV − DUSV
+l (7)
+KUSV
+i = ωn
+β KUSV
+p (8)
+where ωb and ζ are the controller’s desired bandwidth and damping factor, respectively. The diagonal mass (inertia) matrix is MUSV ∈ R3×3, and the diagonal matrix DUSV
+l ∈ R3×3 represents the linear damping. The tuning parameter β tunes the integral action, where a typical choice β = 10 makes the integral action effective for frequencies approximately one order of magnitude below the control bandwidth.
+2.4. ROV docking reference point
+For the launch and recovery process it is usually advantageous for the USV to be heading against the waves. This will yield favourable operating conditions for the ROV as the USV will experience less roll angle oscillations. The ROV’s docking location is at a point below the waterline. This point may thus experience larger oscillations than the USV’s centre-of-gravity (CG) position as a roll angle of the USV causes a sway perturbation of the ROV’s docking position, and a pitch angle of the USV will cause a surge perturbation. From the position and attitude of the USV, the ROV’s docking position reference vector is defined as
+ηROV
+ref = ηUSV +
+[Rn
+b(ΘUSV )rb
+LARS 0
+]
+(9)
+where rb
+LARS ∈ R3 is the LARS’s docking position relative to the origin of the USV’s body-fixed coordinate system. The rotational matrix Rn
+b(ΘUSV ) rotates the linear displacement of the LARS, caused by the
+USV’s Euler angles ΘUSV , to NED coordinates which are superimposed on the USV’s CG position ηUSV in NED coordinates.
+
+
+Ocean Engineering 235 (2021) 109382
+4
+O. Landstad et al.
+2.5. ROV DP controller
+The ROV’s mass (including hydrodynamic added mass) and damping matrices are typically diagonal dominant, meaning that couplings are weak, and low angular rates imply that off-diagonal Coriolis-type terms are weak. This motivates that couplings between the ROV’s six degrees of freedom can be neglected when designing the DP controller, (de Fernandes et al., 2015). We note that couplings due to thruster forces will still be fully accounted for in the thrust allocation, (Fossen, 2011). The ROV is exposed to nonlinear damping and restoring forces, and is intended to operate in a range of different conditions. Using a linear controller with nonlinear ROV dynamics can result in sub-optimal tracking depending on its orientation and speed as the controller’s tuning can only be optimal for a certain speed range. A linearizing feedback PID controller is utilized to address this challenge, which aims at providing a suitable control input to cancel the nonlinear effects, thus allowing the decoupled PID to control a diagonal linear model. Such a controller is proposed in de Fernandes et al. (2015), which is implemented with minor modifications here. Its total thrust vector τROV ∈ R6 is defined as
+τROV = τROV
+LIN + τROV
+P ID + τROV
+F F (10)
+where τROV
+LIN is the linearizing feedback term, τROV
+P ID is a multi-input
+multi-output (MIMO) PID controller and τROV
+F F is a feedforward term that is aiding the PID in tracking its time-varying reference point. By matching the nonlinear terms in the equation of motion, Eq. (2), the feedback linearizing input is set as
+τ ROV
+LIN = DROV
+q (νROV
+r )νROV
+r (11)
+where the DROV
+q matrix is a diagonal matrix given by the ROV’s decoupled 6-dof equation of motion. Slightly scaling the matrices in the feedback linearization is recommended in de Fernandes et al. (2015) to have some residual nonlinearity left, rather than to risk overcompensation due to modelling errors. The MIMO PID is set to potentially enable control of the ROV in 6 dof. It is implemented in the ROV’s body-fixed coordinate system and is defined as
+τ ROV
+P ID = KROV
+p JT
+ROV ηROV
+e + KROV
+i JT
+ROV ηROV
+i + KROV
+d νROV
+e (12)
+where and KROV
+p , KROV
+i , KROV
+d ∈ R6×6 are positive diagonal matrices that contain the proportional, integral and derivative gains for each dof. The generalized position error vector is defined in the NED coordinate system as ηROV
+e = ηROV
+ref − ηROV ∈ R6, with its integral given as
+ηROV
+i ∈ R6, and νROV
+e = νROV
+ref − νROV ∈ R6 defines the velocity error, decomposed in the body-fixed coordinate system. The transformation matrix J T
+ROV depends on is Euler angles that are elements of the
+vector ΘROV , and transforms the NED vectors to the ROV’s body-fixed coordinates as shown in Eq. (1). PID controllers need feed-forward to ensure sufficient control action is taken to achieve asymptotic tracking of a reference. We use the following feed-forward control that was proposed in de Fernandes et al. (2015)
+τ ROV
+F F = M ROV ν̇ ROV
+ref + DROV
+l νROV
+ref (13)
+where νROV
+ref is the reference velocity vector. The diagonal matrices
+M ROV and DROV
+l are given by the ROV’s decoupled 6 dof model. For the stability of the tracking error dynamics, we refer to de Fernandes et al. (2015), where it is proved to be globally exponentially stable by choosing appropriate gains.
+2.6. Simulator implementation
+The multi-body dynamic model is built and simulated in Matlab/Simulink. The MSS (Marine Systems Simulator) toolbox of Fossen and Perez (2004) is extensively used. The MSS toolbox provides
+Fig. 4. Thrust response to a step input at zero surrounding water flow speed ua.
+easy modelling and implementation of environmental loads through its Simulink blocks. It also comes with functions for converting the data from the WAMIT (WAMIT, 2020) computations to get the model matrices of Eq. (1) and time-domain models of the force RAOs. For the thruster motor’s dynamical model, the Simulink toolbox SimScape is utilized which allows for easy building of physical systems that can be directly integrated in the Simulink environment. The model is created using blocks from the rotational library and consists of an ideal torque source, rotational inertia, rotational viscous damper and rotational motion sensor.
+3. Results and discussion
+3.1. Case study
+The case study considers a 24 m long conceptual USV hull with a moonpool-based LARS with docking position 4.5 m below the waterline, and a generic ROV, see Figs. 1 and 2 for illustrations. The ROV model is based on the exterior dimensions of the Saab Seaeye Leopard (SAAB, 2020) work-class ROV. It is modelled as a solid box with the Leopard’s dimensions for obtaining the hydrodynamic models. Compared to the open-frame structure of common ROVs, a solid box will be a more conservative choice with respect to the hydrodynamics as it will be more prone to perturbations from the environmental loads and less responsive to a thrust input. The ROV is simulated with an approximation of the Saab Seaeye Leopard thruster locations and orientations. It is therefore configured with 11 fixed thrusters making it over-actuated (SAAB, 2020). The assumed propeller is the Ka-470 with diameter is 254 mm and the 19 A nozzle from Oosterveld (1969). While it would be interesting to study the capabilities and limitations of existing ROV designs, we found it more interesting to study how active control of the ROV while being located in the wave zone could increase operability without being limited by a specific ROV design. We therefore simulated more powerful thrusters than most work-class ROVs have today. Hence, the thrusters have a saturation on rotational speed which is set to match the thrust force that is necessary for the ROV to reach its desired maximum surge velocity of 6 knots, causing its thrusters to be capable of delivering twice the thrust force of the Saab Seaeye Leopard. The shaft speed controller of the electrical motor, see Fig. 3, is tuned to yield a ramp time of approximately 2.5. It is modelled with a first order dynamic response with a time-constant of approximately 1.0 s and a time-delay of 0.1 s which results in the thrust response curve to a step input seen in Fig. 4, with ua = 0. The exemplary LARS is assumed to have a 6 dof dynamic compensation ability for the inevitable linear deviation and angular misalignment
+
+
+Ocean Engineering 235 (2021) 109382
+5
+O. Landstad et al.
+Table 1
+Exemplary bounds on dynamic compensation capability of ROV launch and recovery system from the docking position’s origin. Constraints
+Heave +/- 0.75 m Surge +/- 0.5 m Sway +/- 0.5 m Roll +/- 30◦ Pitch +/- 30◦ Yaw No limit
+Table 2
+Sea states for the Haltenbanken field given by significant wave height Hs(m) and wave mean peak period Tp(s).
+Hs(m) Tp (s)
+0.5 5.5 6.5 7.5 8.5 1.5 6.5 7.5 8.5 9.5 2.5 7.5 8.5 9.5 10.5 3.5 8.5 9.5 10.5 11.5 4.5 9.5 10.5 11.5 12.5 5.5 10.5 11.5 12.5 13.5
+between the ROV and its docking position. The operability of the system will largely depend on the bounds on dynamic compensation capacity which are presented in Table 1. Furthermore, the LARS compensator is assumed to be implemented with a control system that has a sufficiently fast response to track the ROV’s position within its dynamic reach without any latency.
+3.2. Environmental loads
+The forces and moments τb
+wave produced by the waves on the bodies at a given sea state are obtained using force RAOs. The waves are generated based on the JONSWAP wave spectrum with spreading, which is created from statistical data collected at the Haltenbanken field in the North Sea (Katopodes, 2018). Each sea state is described by a significant wave height Hs(m) and a wave peak period Tp(s). In line with the overall control objective, a total of 24 sea states were chosen which includes the most likely sea states. These are presented in Table 2.
+3.3. Tuning USV DP controller
+As can be seen in Table 2, the peak frequency for the waves in the considered sea states is in the interval between 0.46 and 1.14 rad∕s. A bandwidth of ωb = 0.1 rad∕s and damping factor of ζ = 1 is chosen For the USV’s DP controller. This ensures a critically damped response which is considered sufficiently slow to neglect the dynamics of the USV’s thruster system.
+3.4. Tuning ROV DP controller
+Two approaches are utilized to evaluate the performance of active ROV control. The first tests the operability of a typical LARS. The second disregards the dynamic compensation capabilities of the LARS to make the results less equipment specific. The controller’s performance is thus not measured by its capability to maintain its position withing the LARS’ reach, but rather by the following two criteria. The first is the Euclidean relative position error in the horizontal plane where both average values and maximum peaks are evaluated. The second is the heave relative position error since it is related to collision hazard. The idea is thus to give an indication on how large the dynamic compensation capability of the LARS ought to be for safely docking the ROV. To assess how much the operating conditions are improved, the actively controlled ROV is also evaluated against a freely floating ROV during launch and recovery.
+Ad.hoc. tuning of the MIMO PID controller can be a time consuming and difficult task as each degree of freedom introduces three variables and each tuning candidate must be numerically tested to assess its performance. The utilization of more structured methods is therefore motivated, and two approaches are chosen for the ROV’s PID control. These are the approach introduced in de Fernandes et al. (2015), and pole-placement as presented in Section 2.3, but with individual bandwidths for each degree of freedom. Both approaches are tuned for the sea state given by Hs = 3.5m and Tp = 8.5s as it introduces one of the most challenging operating conditions with the largest oscillations of the docking position.
+3.4.1. PID tuned by optimal criterion
+It is proposed in de Fernandes et al. (2015) to tune the controller based on the criterion presented in Graham and Lathrop (1953) called integral of time multiplied with absolute error (ITAE). It assumes a single-input single-output (SISO) system but can be used here since all the matrices in the controller are diagonal, such that the individual degrees of freedom are decoupled. The criterion proposes an optimal system transfer function (TF) for a given system’s order and desired response. They are all suited for tracking a reference but favours different characteristics of the reference. In Graham and Lathrop (1953) optimal TF’s for zero acceleration, velocity and displacement error are obtained, each introducing its own dynamic response. For a step input in position, they range from rapidly responding with overshoot for the zero acceleration error TF, to slowly responding for the zero displacement error TF. As the ROV is tracking position and attitude, the tuning uses the TF for zero velocity error as it experiences a fairly rapid response with no overshoot when given a step input in position. The gains are therefore defined as
+K ROV
+P =3.25 ⋅ MROV Ω2 (14)
+K ROV
+I =M ROV Ω3 (15)
+K ROV
+D =1.75 ⋅ MROV Ω (16)
+where the numeric constants and Ω are taken from the third order TF for zero velocity tracking error in Graham and Lathrop (1953). The gains are multiplied with the ROV’s 6 dof diagonal inertia matrix MROV ∈ R6×6 as it relates to a commanded acceleration vector, as presented in Fossen (2011). The diagonal matrix Ω ∈ R6×6 is defined as
+Ω ∶= 2π (DROV
+l
+)−1 W −1
+Ω M ROV (17)
+where each entry represents the natural frequency of the corresponding degree of freedom and DROV
+l ∈ R6×6 keeps only the diagonal terms of
+the ROV’s 6 dof linear damping matrix. The diagonal matrix WΩ ∈ R6×6 weights the tracking of each state. As the ROV is metacentrically stable in roll and pitch, which causes their perturbations to be limited, they can effectively be excluded from the controller by setting the corresponding entries in WΩ very high. The resulting controller has four non-trivial tuning parameters which are tuned according to the performance criterion mentioned at the start of this section, and tested for stability using the approach presented in de Fernandes et al. (2015), which resulted in
+WΩ = diag(960, 585, 82, 1010, 1010, 145). (18)
+3.4.2. PID tuned by pole-placement
+As an alternative tuning strategy, the PID controller was also tuned by pole-placement using the approach presented in Section 2.3, including also the ROV’s heave. It was tested with a range of different bandwidths for each dof, with the best results obtained using a damping factor ζ = 1 and a bandwidth ωb = 1.15 rad∕s for all the dofs. Each dof is therefore a critically damped system with the same closed-loop bandwidth.
+
+
+Ocean Engineering 235 (2021) 109382
+6
+O. Landstad et al.
+Fig. 5. Position and heading of freely floating ROV relative to the docking position in the LARS (no active ROV control). Simulated with Hs = 3.5 m and Tp = 8.5 s.
+3.4.3. Comparison and discussion
+As a result of the thruster dynamics, the tracking performance is enhanced with a strong derivative action. This is due to the phase loss that can be partly compensated by high derivative action. The tuning by the ITAE criterion favours high proportional gain in the horizontal degrees of freedom. The controller tuning parameters (WΩ) therefore had to be adjusted to decrease their effect on the natural frequency matrix Ω, thus making the controller slower. On the contrary, the pole-placement approach yields higher derivative gains causing more favourable relative position tracking in surge and sway. In heave, the free-floating ROV can be seen to oscillate in phase with the LARS’ docking position, but with a smaller amplitude, see Fig. 5. This is partly caused by the ROV operating in a less waveaffected environment at a depth of 4.5 m, with smaller first-order wave forces. These working conditions are more suited for the ITAE tuned controller which gave superior tracking results in heave compared to the pole-placement controller tuning. As each of the ROV’s degrees of freedom is assumed decoupled from the rest, can they be tuned using individual approaches. To exploit the strengths of each tuning approach, the surge, sway and yaw responses were tuned by pole-placement, and heave tuned according to the ITAE criterion. The resulting tracking performance is presented in Fig. 6, where the ROV is simulated using the same environmental conditions as the simulations with the free-floating ROV. The ROV is tracking the docking position quite well in its linear degrees of freedom. The yaw tracking, however, experiences oscillations. This is a result of the thruster dynamics which causes the horizontal thrust components to be somewhat unbalanced about yaw. These perturbing moments are not detected by the thrust allocation which tries to produce the correct yaw moment, but must instead be compensated for by the controller, thus introducing additional lag. This effect can be identified in the thrust plot in Fig. 7. We note that yaw misalignment between USV and ROV are less than 5 deg in the scenario illustrated in Figs. 5 and 6, which is not a limiting factor in this operation. Hence, one could choose to deactivate the yaw controller if desired.
+Fig. 6. Position and heading of active ROV control relative to the docking position in the LARS. Simulated with Hs = 3.5 m and Tp = 8.5 s.
+Fig. 7. Generalized force commanded from the controller and the actual thrust. Simulated with Hs = 3.5 m and Tp = 8.5 s.
+
+
+Ocean Engineering 235 (2021) 109382
+7
+O. Landstad et al.
+Table 3
+Maximum Euclidean tracking error (in metres) in the horizontal plane using active ROV. Hs (m) Tp (s)
+5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5
+0.5 0.445 0.255 0.190 0.094 1.5 1.0873 0.434 0.223 0.152 2.5 1.122 0.355 0.248 0.161 3.5 0.505 0.341 0.218 0.175 4.5 0.492 0.295 0.218 0.203 5.5 0.384 0.284 0.245 0.188
+Table 4
+Maximum heave error (in metres). Hs (m) Tp (s)
+5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5
+0.5 0.196 0.106 0.161 0.130 1.5 0.470 0.352 0.283 0.288 2.5 0.920 0.374 0.363 0.386 3.5 0.634 0.460 0.416 0.449 4.5 0.989 0.529 0.443 0.447 5.5 1.231 0.629 0.488 0.476
+Table 5
+Improvement on the maximum Euclidean tracking error in the horizontal plane compared to free-floating ROV. Hs (m) Tp (s)
+5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5
+0.5 −21.1% 7.1% 48.1% 70.6% 1.5 −8.7% 51.1% 56.7% 67.2% 2.5 35.0% 61.6% 75.5% 82.4% 3.5 60.1% 75.1% 83.5% 87.8% 4.5 67.6% 81.5% 87.3% 88.6% 5.5 79.8% 86.1% 87.8% 90.7%
+Table 6
+Improvement on the maximum tracking error in heave compared to free-floating ROV. Negative percentages mean reduced performance. Hs (m) Tp (s)
+5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5
+0.5 −21.5% 1.8% −10.3% −21.6% 1.5 2.3% 12.9% 28.7% 27.8% 2.5 22.5% 43.9% 53.9% 45.6% 3.5 49.4% 58.2% 62.5% 57.5% 4.5 43.3% 65.8% 67.3% 66.1% 5.5 39.2% 66.8% 73.9% 73.1%
+3.5. Results
+The effects of active ROV control is assessed in Tables 3–10 using the performance criteria presented in Section 2.4. In the simulations, the mean environmental loads are all aligned except for some random spreading. The ocean current is modelled as slowly varying, without any vertical components, and irrotational. Its average speed is set to 0.3 m∕s with a maximum variation of 0.3 m∕s which are both based on statistical data from the North Sea (Haugan et al., 1991). The USV and ROV are assumed to be heading towards the waves, as this is expected to yield favourable operating conditions for launch and recovery. The umbilical connecting the ROV to the USV is assumed to be soft and cause small enough disturbance forces to be neglected. The simulation time of 1000 s is considered adequate to evaluate the system performance. To evaluate the improvement related to using active ROV control, its performance is compared to a free-floating neutrally buoyant ROV, where the ROV’s DP control system is deactivated. From Tables 3–8, a clear trend is that the most peaked sea states are the most challenging. The maximum tracking errors in the horizontal plane and heave increase with the wave height and decrease with the peak wave period. This is as expected since an increasing wave height
+will cause larger oscillations of the USV’s position and a decreasing wave period will cause its motions to become faster. In Table 5, where the percentage improvement on the maximum horizontal error peaks are presented, less performance improvement for the sea states with the shortest wave periods can be observed. The short wave periods cause the ROV’s thruster responses to be a limiting factor. However, the maximum peaks are however quite small compared to the rougher sea states. Hence, active control of the ROV motion is not needed in these sea states. Table 6 shows that in the lowest sea states there is an increase in the maximum heave error peaks with active ROV DP control compared to the free-floating ROV. This is caused by the USV experiencing heave motions of relatively small amplitude, but short period, and the controller is more limited by the thruster dynamics. The ROV experiences overshoots relative to the docking position on the LARS. The maximum peaks are relatively small compared to the rougher sea states, hence active control of the ROV motion is not needed in these sea states. Alternatively, an adaptive tuning or gain-scheduling of the controller may be useful if better tracking is desirable also for the lower sea states. Although active control of the ROV’s roll and pitch angles is not used, an excessively large relative angle between the LARS and ROV could inhibit docking. Hence, in Tables 7 and 8, the maximum relative
+
+
+Ocean Engineering 235 (2021) 109382
+8
+O. Landstad et al.
+Table 7
+Maximum relative roll angle during the simulation, using active ROV. Hs (m) Tp (s)
+5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5
+0.5 17.7◦ 12.8◦ 6.5◦ 2.7◦ 1.5 24.5◦ 16.3◦ 7.7◦ 4.9◦ 2.5 24.5◦ 11.8◦ 8.1◦ 6.0◦ 3.5 17.9◦ 12.1◦ 8.5◦ 6.2◦ 4.5 16.2◦ 11.9◦ 9.5◦ 6.6◦ 5.5 16.1◦ 13.1◦ 8.1◦ 6.5◦
+Table 8
+Maximum relative pitch angle during the simulation, using active ROV. Hs (m) Tp (s)
+5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5
+0.5 5.6◦ 3.3◦ 2.3◦ 1.5◦ 1.5 14.7◦ 5.5◦ 2.5◦ 2.1◦ 2.5 16.8◦ 5.4◦ 4.3◦ 2.8◦ 3.5 9.9◦ 6.5◦ 4.4◦ 3.2◦ 4.5 7.5◦ 7.1◦ 4.6◦ 3.7◦ 5.5 9.3◦ 6◦ 4.8◦ 4.6◦
+roll and pitch angles between the ROV and LARS are presented. It can be seen that the largest misalignment appear in the most peaked sea states. This could motivate active control of roll and pitch to reduce misalignment. Its necessity however, will depend on the dynamic roll and pitch compensation capabilities of the LARS. To analyse the required dynamic compensation capabilities of the LARS, the maximum peaks both in the horizontal plane and heave are evaluated. To avoid collision between the ROV and LARS, and enable safe launch and recovery, the LARS must be able to compensate for an error of 1.12 m from the docking position’s origin in the horizontal plane and 1.23 m in heave. If excluding the most challenging sea states for each wave height, i.e. the sea states with the shortest peak wave period, the required dynamic compensation capability is reduced to 0.43 and 0.63 m in the horizontal plane and heave, respectively. As the docking position is located below the hull of the USV, the ROV’s horizontal compensation error does not introduce collision danger, but rather concerns the feasibility of docking. To analyse the operability of the LARS, we evaluate the percentage of the time where active ROV control fails to make the launch and recovery feasible. Therefore, the time period where the ROV’s position or attitude violates either the linear or angular dynamic capabilities of the LARS (see Table 1) is logged and presented in Table 9. Active ROV control enables launch and recovery for all the sea states except the most peaked ones, where in up to 5.5% of the simulation time the assumed dynamic compensation capability of the LARS is not sufficient. To offer a benchmark related to the specific use case, also the operability of the free-floating ROV without active control is assessed, which is presented in Table 10. Similar to the improvement on maximum error peaks in the horizontal plane and heave (see Tables 5 and 6), the largest effect can be observed for the rougher sea states. Particularly the largest wave heights are problematic for the free-floating ROV. It is thus oscillating in and out of the LARS’ reach, which indicates that launch and recovery is infeasible.
+4. Conclusions
+Based on the analysis of the simulation results, it is possible to conclude that active ROV control is highly beneficial for launch and recovery operations from a small unmanned surface vessel. It can be seen to decrease the ROV’s maximum relative position error peaks, with the largest improvement experienced for the rougher sea states. The simulation method could be used to determine the necessary dynamic capabilities of the LARS. It will depend on the desired operability of the system, where a trade-off between operability and necessary dynamic
+Table 9
+Percentage of time when the active ROV’s position and attitude violates the assumed dynamic capabilities of the LARS. Hs (m) Tp (s)
+5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5
+0.5 0% 0% 0% 0% 1.5 5.5% 0% 0% 0% 2.5 5.1% 0% 0% 0% 3.5 0.02% 0% 0% 0% 4.5 0.4% 0% 0% 0% 5.5 0.6% 0% 0% 0%
+Table 10
+Percentage of time when the free-floating ROV’s position and attitude violates the assumed dynamic capabilities of the LARS (no active ROV control). Hs (m) Tp (s)
+5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5
+0.5 0% 0% 0% 0% 1.5 10.3% 4.4% 0% 0% 2.5 41.5% 18.2% 9.0% 5.7% 3.5 48.4% 33.1% 25.8% 18.5% 4.5 55.8% 48.2% 40.2% 35.4% 5.5 66.2% 58.6% 53.4% 50.4%
+LARS tracking capability must be made, as a minor reduction in the operability causes a major reduction of the LARS’ necessary dynamic reach. Further research should also consider the tether tension as a potential stabilizing force. By estimating the sea state using sensor data on the USV, the simulation method could be used as decision support for when to allow launch and recovery, and when to wait. The launch and recovery process is very time limited and will typically last only few minutes. As the simulation results are obtained for a 1000 s simulation period in order to capture a sea state’s worst case scenarios, also the sea states experiencing large error peaks will have calmer periods where the tracking error is significantly lower. For a given LARS, it may therefore be periods where recovery is possible despite the maximum error peaks introducing risk of collision or indicating the ROV occasionally being located beyond the LARS’ dynamic capability. The operability of the system is highly dependent on both the thrusters response time, and their thrust capabilities. The assumed thrusters are relatively powerful compared to thrusters fitted on many conventional ROV’s. The thrusters are however assumed to be moderately slow, meaning that a part of the thrust gap can be made up for by utilizing more rapidly responding thrusters.
+CRediT authorship contribution statement
+Olav Landstad: Conceptualization, Methodology, Software, Formal analysis, Validation, Investigation, Writing, Visualization. Håkon S. Halvorsen: Methodology, Software, Review. Henning Øveraas: Methodology, Software, Review. Vidar Smines: Conceptualization, Review, Funding. Tor A. Johansen: Validation, Conceptualization, Methodology, Writing, Supervision, Project administration.
+Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+Acknowledgements
+Thanks to Reza Firoozkoohi, Sofie Kopperstad Gjerde, Mohd Atif Siddiqui for making hydrodynamic models. Thanks to the team in Kongsberg Maritime for supporting the project.
+
+
+Ocean Engineering 235 (2021) 109382
+9
+O. Landstad et al.
+References
+Carlton, J.S., 1994. Marine Propellers and Propulsion. Butterworth-Heinemann Ltd., Oxford, U.K. Christ, R.D., Wernli, R.L., 2014. The ROV Manual: A User Guide for Remotely Operated Vehicles. Butterworth-Heinemann. da Cunha, J.P.V.S., Costa, R.R., Hsu, Liu., 1995. Design of a high performance variable structure position control of ROVs. IEEE J. Ocean. Eng. 20, 42–55. Dukan, F., Ludvigsen, M., Sørensen, A.J., 2011. Dynamic positioning system for a small size ROV with experimental results. In: OCEANS 2011 IEEE - Spain. de Fernandes, D., Sørensen, A.J., Pettersen, K.Y., Donha, D.C., 2015. Output feedback motion control system for observation class ROVs based on a high-gain state observer: Theoretical and experimental results. Control Eng. Pract. 39, 90–102. Fossen, T.I., 2011. Handbook of Marine Craft Hydrodynamics and Motion Control. WILEY. Fossen, T.I., Johansen, T.A., 2006. A of control allocation methods for ships and underwater vehicles. In: 2006 14th Mediterranean Conference on Control and Automation. Fossen, T.I., Perez, T., 2004. Marine systems simulator (MSS). URL: https://github.com/ cybergalactic/MSS. Fung, P., Grimble, M., 1983. Dynamic ship positioning using a self-tuning Kalman filter. IEEE Trans. Automat. Control 28 (3), 339–350. Garcia-Valdovinos, L., Salgado-Jiménez, T., Torres-Rodríguez, H., 2009. Model-free high order sliding mode control for ROV: Station-keeping approach. In: OCEANS 2009. pp. 1–7. Graham, F.D., Lathrop, R.C., 1953. The synthesis of ‘‘optimum’’ transient response: Criteria and standard forms. Trans. Am. Inst. Electr. Eng. II 72 (5), 273–288. Haugan, P.M., Evensen, G., Johannessen, J.A., Johannessen, O.M., Pettersson, L.H., 1991. Modeled and observed mesoscale circulation and wave-current refraction during the 1988 Norwegian Continental Shelf Experiment. J. Geophys. Res. Oceans 96, 10487–10506.
+Hsu, Liu., Costa, R.R., Lizarralde, F., Da Cunha, J.P.V.S., 2000. Dynamic positioning of remotely operated underwater vehicles. IEEE Robot. Autom. Mag. 7, 21–31. Huster, A., Bergstrom, H., Gosior, J., White, D., 2009. Design and operational performance of a standalone passive heave compensation system for a work class ROV. In: OCEANS 2009. Johansen, T., Fossen, T.I., Sagatun, S.I., Nielsen, F.G., 2003. Wave synchronizing crane control during water entry in offshore moonpool operations - experimental results. IEEE J. Oceanic Eng. 29, 720–728. Katopodes, N., 2018. Free-Surface Flow: 1st Edition. Butterworth-Heinemann. Li, Y., Jiang, Y., Cao, J., Wang, B., Li, Y., 2015. AUV docking experiments based on vision positioning using two cameras. Ocean Eng. 110, 163–173. Oosterveld, M.W.C., 1969. Wake Adapted Ducted Propellers (Doctors thesis). Delft University of Technology, Publication 345 of the Netherlands Ship Model Basin. Pivano, L., Johansen, T.A., Smogeli, O.N., 2009. A four-quadrant thrust controller for marine propellers with loss estimation and anti-spin: Theory and experiments. SNAME J. Mar. Technol. 26, 229–242. SAAB, 2020. Saab Seaeye Leopard catalogue. https://www.saabseaeye.com/uploads/ seaeye_leopard.pdf, (Accessed: 05 november 2020). Sælid, S., Jenssen, N., Balchen, J., 1983. Design and analysis of a dynamic positioning system based on Kalman filtering and optimal control. IEEE Trans. Automat. Control 28 (3), 331–339. Smallwood, D.A., Whitcomb, L.L., 2004. Model-based dynamic positioning of underwater robotic vehicles: theory and experiment. IEEE J. Ocean. Eng. 29, 169–186. Sørensen, A.J., 2011. A survey of dynamic positioning control systems. Ann. Rev. Control 35, 123–136. Soylu, S., Proctor, A.A., Podhorodesk, R.P., Bradley, C., Buckham, B.J., 2016. Precise trajectory control for an inspection class ROV. Ocean Eng. 111, 508–523. Toal, D., Omerdic, E., Dooly, G., 2011. Precision navigation sensors facilitate full auto pilot control of Smart ROV for ocean energy applications. In: SENSORS, 2011 IEEE. pp. 1897–1900. WAMIT, 2020. WAMIT© user manual version 7.3. https://www.scribd.com/document/ 255163083/WAMIT-V70-Manual, (Accessed: 16 april 2020).

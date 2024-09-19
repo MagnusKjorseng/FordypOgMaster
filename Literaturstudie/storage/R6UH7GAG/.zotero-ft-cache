@@ -1,0 +1,548 @@
+Ocean Engineering 184 (2019) 299–310
+Available online 4 June 2019
+0029-8018/© 2019 Elsevier Ltd. All rights reserved.
+Tracking control of a remotely operated underwater vehicle with time delay and actuator saturation
+Jing Yan a, Jin Gao a, Xian Yang b,*, Xiaoyuan Luo a, Xinping Guan c
+a Department of Automation, Yanshan University, Qinhuangdao, 066004, China
+b Department of Computer Science, Yanshan University, Qinhuangdao, 066004, China
+c Department of Automation, Shanghai Jiao Tong University, Shanghai, 200240, China
+ARTICLE INFO
+Keywords: Tracking ROV Time delay Actuator saturation
+ABSTRACT
+Human-in-the-loop (HITL) system is referred to as a promising technology to extend human actions and intelligences to deep ocean. Many applications of HITL demand the remotely operated vehicle (ROV) to track a desired target point. However, the cyber- and physical-constrained characteristics on ROV make it challenging to achieve the tracking task. This paper is concerned with a tracking control problem for the ROV, subjected to time-varying delay in cyber channels and actuator saturation in physical channels. We design a model-free proportional-derivative (PD) controller to enforce the position tracking of ROV. For the proposed controller, Lyapunov-Krasovskii functions are constructed to analyze the stability, and then the sufficient conditions are provided to show that the tracking controller can stabilize ROV. In order to estimate and optimize the domain of attraction (DOA), the stability conditions are rearranged into a form of linear matrix inequalities (LMIs), through which the required initial stability conditions can be developed. Finally, simulation and experiment results are performed to validate the effectiveness. It is demonstrated that the designed tracking controller can guarantee asymptotic stability, while the DOA in this paper can be significantly enlarged as compared with the other ones.
+1. Introduction
+With the advances of marine robotics technology, remotely operated vehicle (ROV) has increasingly been recognized as a flexible sensing and computational platform for a variety of applications, such as marine environment monitoring, pipeline detecting, port surveillance and safety systems (Zhang, 2016). However, in some dynamic and dangerous scenarios (e.g., rescue for nuclear leak), the pure autonomy is not sufficient for ROV to accomplish rapid response operations. In such scenarios, the concept of human-in-the-loop (HITL) was proposed (Vasilijevic et al., 2017), where human interferes with ROV based on all available measurement data. The HITL system extends the actions and intelligences of human to remote locations and allows ROV to concentrate on rapid response operations. An illustration of HITL system is shown in Fig. 1. In HITL system, human in control center decides the desired position of ROV, and then sends control commands to ROV through the relay of buoys. The most critical problem for human is to design appropriate tracking controller, such that ROV can arrive at the desired target point. To address this problem, a number of tracking controllers have been
+developed. For instance, Ye et al. (2015) used cascaded system and backstepping method to design a tracking controller. Ferreira et al. (2018) presented a multivariable control strategy, where the unknown disturbances and identification errors were both considered. Chao et al. (2018) incorporated model predictive algorithm into the tracking control of underwater vehicle. These tracking controllers are well developed by using full or partial knowledge of the vehicle dynamics. However, the calculation of underwater vehicle dynamics is highly complex and computationally complicated, and sometimes it is impossible to acquire exact parameters of dynamics. Inspired by this, Lei et al. (2017) proposed three exponentially convergent robust controllers to drive a vehicle to the desired trajectory. In Kim et al. (2016), an integral sliding mode controller was proposed for the tracking control problem. Also of relevance, our previous works Yan et al. (2019a) and Yan et al. (2019b) integrated the asynchronous localization algorithm into the tracking control process. Nevertheless, these results do not consider the effect of communication delay. It is noted that, the propagation delay of acoustic speed (� 1500 m/s) is five orders of magnitude higher than in radio frequency terrestrial channels (� 3 � 108 m/s). In particular, the existence of even a small communication delay can cause the instability of
+* Corresponding author. E-mail address: xyang@ysu.edu.cn (X. Yang).
+Contents lists available at ScienceDirect
+Ocean Engineering
+journal homepage: www.elsevier.com/locate/oceaneng
+https://doi.org/10.1016/j.oceaneng.2019.04.041 Received 12 January 2019; Received in revised form 2 April 2019; Accepted 14 April 2019
+
+
+Ocean Engineering 184 (2019) 299–310
+300
+control system. To address tracking problem associated with the communication delay, Mukherjee et al. (2015) adopted an auxiliary signal to compensate the constant delay, through which a delay-based tracking controller was developed. In Yan et al. (2018b), a leader-follower strategy was employed to ensure the achievement of target tracking. Several other delay-based controllers were also developed, for example, see (Yang et al., 2013; Zhao and Hu, 2017). However, the communication delays in the above works are assumed to be constant. Due to the movement of ROV, the relative distance between ROV and control center is time-varying, which results in a time-varying property of communication delays. Per knowledge of the authors, how to design a tracking controller to stabilize the time-varying ROV system is not well studied. Moreover, all physical control devices including the thrusters in ROV are inherently subject to actuator saturation. Once the actuator has reached its input limit, any effort to further increase the actuator output will result in no variation for the output. The ignorance of actuator saturation in control design can lead to system instability (Hu and Lin, 2005). Inspired by this, many methods have been developed to address the actuator saturation (Li and Lin, 2015, 2017; Hashemzadeh et al., 2013; Yan et al., 2016, 2018a). Nevertheless, these methods are not developed in the context of underwater (or surface) vehicle, and it is not easy to apply these methods to ROV. In Du et al. (2016), the actuator saturation was considered into the dynamic localization of surface vehicle. Also of relevance, Fu and Yu (2018) jointly considered the input saturation and disturbances, through which a finite-time tracking controller was developed for surface vehicle. However, the domain of attraction (DOA) was not discussed in the above two literature. As we know, the DOA is an important index to evaluate the system conservation. In Kim (2015), the DOA was discussed for the tracking of underwater vehicle. Of note, the estimation of DOA in Kim (2015) was based on the single ellipsoid assumption. However, the DOA with single ellipsoid assumption is much smaller than the ones with multi-ellipsoid assumption (Li and Lin, 2013). By relaxing the single ellipsoid assumption, the estimation of DOA for a tracking controller to stabilize the delayed ROV system is largely unexplored. This paper investigates the tracking control problem for a ROV in the presence of time delay and actuator saturation constraints. A model-free PD controller is designed to enforce the position tracking of the ROV. For the proposed controller, a high proportional gain results in a large change in the output for a given error change, while the derivative term has the effect of reducing the overshoot and improving the transient response. Moreover, Lyapunov analysis is involved to provide the
+stability conditions, and the DOA is estimated with the multi-ellipsoid assumption. Main contributions lie in two aspects:
+1. Tracking Controller Design. A model-free PD tracking controller is designed for the ROV, while the sufficient stability conditions are given to stabilize the system. Different from the existing works (Yang et al., 2013; Zhao and Hu, 2017), the time varying delay and the actuator saturation are both considered in our proposed controller. 2. Estimation of the DOA. DOA is estimated and optimized by using linear matrix inequalities (LMIs), through which ROV can adjust its initial state to guarantee the tracking stability. Different from Kim (2015), the convex hull in this paper relies on multiple ellipsoids, such that the DOA in this paper is much larger than the one in Kim (2015).
+The remainder of this paper is organized as follows. Section 2 includes the model and problem formulation. In Section 3, controller design and stability analysis are presented. Simulations and experiments of the proposed method are provided in Section 4, followed by conclusion in Section 5.
+We use the following notations throughout this paper. For u 2 R n; sat fug denotes the standard saturation function. Particularly, the ith component of sat ðuÞ is denoted by sat ðuiÞ 1⁄4 sgn ðuiÞminf1; juijg For k1 2 Z and k2 2 Z ; it is defined that Λ1⁄2k1; k2� 1⁄4 fk1; k1 þ 1; ...; k2g; where k1 < k2: For positive definite matrix P 2 R n�n and scalar ρ 2 R þ; the ellipsoid εðP; ρÞ is denoted by εðP; ρÞ 1⁄4 fx 2 R n : xTPx � ρg For
+matrix Hi 2 R n�n; L ðHiÞ is defined as L ðHiÞ 1⁄4 fx 2 R n : jhilxj � 1; i 2 Λ1⁄21; 2n�; l 2 Λ1⁄21; n�g where hil is the lth row of Hi: Besides, co f⋅g denotes the convex hull of a set. For simplicity, ρ is set as 1 in this paper, through which the ellipsoid εðP; 1Þ is abbreviated as. εðPÞ:
+2. Model and problem formulation
+As shown in Fig. 2, ROV is uniquely determined by six degrees of freedom (DOF). Particularly, two reference frames are introduced to describe the dynamics of ROV (Fossen, 1994), i.e., body-fixed reference frame (BRF) and inertial reference frame (IRF). In BRF, v 1⁄4 1⁄2u; υ; w; p; q; r�T denotes the linear and angle velocity vector of ROV, where u; υ and w represent the linear velocities on surge, sway, and heave, respectively. Meanwhile, p; q and r are the angle velocities on roll, pitch and yaw, respectively. Without loss of generality, it is assumed that the center of ROV coincides with the origin of BRF. In IRF, η 1⁄4 1⁄2x; y; z; φ; θ; ψ�T represents the position and attitude vector of ROV, where x; y and z are the positions on surge, sway and heave, respectively. φ; θ and ψ are the angles on roll, pitch and yaw, respectively. Accordingly, the motion model of ROV can be described as
+Fig. 1. An example of the HITL system, where ROV continuously feeds the control center through acoustic and electromagnetic communication links. With the same links in the opposite direction, control center is able to abort or change the target points.
+Fig. 2. The body-fixed and inertial reference frames for a ROV.
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+301
+_η 1⁄4 JðηÞv
+M _v þ CðvÞv þ DðvÞv þ gðηÞ 1⁄4 F (1)
+where M 2 R 6�6 is the inertia matrix. CðvÞ 2 R 6�6 is the Corioliscentripetal matrix. DðvÞ 2 R 6�6 is the hydrodynamic damping matrix. gðηÞ 2 R 6 is the vector of gravitational and buoyancy effects. F 2 R 6 describes the exerted force. JðηÞ 2 R 6�6 denotes the rotation matrices between BRF and IRF, i.e.,
+JðηÞ 1⁄4
+2
+4 J1ðηÞ 03�3
+03�3 J2ðηÞ
+3
+5;
+where
+and
+J2ðηÞ 1⁄4
+2
+664
+1 sin φ tan θ cos φ tan θ 0 cos φ sin φ 0 sin φ=cos θ cos φ=cos θ
+3
+775:
+For facilitation of stability analysis, the motion model (1) is rearranged as
+M€η þ Cðv; _ηÞ _η þ Dðv; _ηÞ _η þ gðηÞ 1⁄4 τ (2)
+where M 1⁄4 J TMJ 1, Cðv; η_ Þ 1⁄4 J T1⁄2CðvÞ MJ 1 _J�J 1, gðηÞ 1⁄4 J TgðηÞ
+and Dðv; _ηÞ 1⁄4 J TDðvÞJ 1. τ 1⁄4 J TF is the control input to be designed. It should be emphasized that, τ is restricted by a given saturation bound T 2 R 6; i.e., each element τl of τ satisfies jτlj � Tl; where Tl > 0 and. l 1⁄4 1; ...; 6: Model (2) has the following properties (Chao et al., 2018; Soylu et al., 2016).
+Property 1. Inertia matrix M is symmetric positive definite and bounded, i. e., 0 < κ�I � M 1⁄4 MT � κbI < ∞ for κ�; κb 2 R þ:
+Property 2. Matrix M_ 2Cðv; _ηÞ is skew-symmetric.
+Property 3. Damping matrix is strictly positive definite, i.e., Dðv; _ηÞ > 0:
+Property 4. Gravitational torque gðηÞ is bounded, i.e., each element glðηÞ of gðηÞ satisfies
+��glðηÞ
+�� � εl; where εl > 0 and l 1⁄4 1; ...; 6: As it is mentioned above, the communication delay in underwater environment cannot be ignored. Inspired by this, the communication delay from ROV to control center is denoted as dcrðtÞ; while the delay in reverse direction is denoted as drcðtÞ: Accordingly, the bidirectional delay can be defined as dðtÞ 1⁄4 dcrðtÞ þ drcðtÞ: For stability analysis, the following assumption is used.
+Assumption 1. dðtÞ is lower and upper bounded, i.e., there exist positive scalars d2; d1; μ1 and μ2; such that d1 � dðtÞ � d2 and μ1 � d_ðtÞ � μ2. Accordingly, the position tracking problems are now detailed as follows.
+Problem 1. Considering the time-varying delay and actuator saturation constraints, we aim to design a model-free PD tracking controller and give its stability condition to guarantee state synchronization. This problem is reduced to guarantee η→Xd, where Xd is the position and attitude vector for target point.
+Problem 2. With the proposed stability condition, we aim to estimate
+and optimize the DOA, such that ROV can adjust its initial states to guarantee the tracking stability. This problem is reduced to construct an invariant convex hull with the assistance of multiple ellipsoids, and then maximize the DOA.
+3. Controller design and stability analysis
+3.1. Design of the tracking controller
+In HITL, ROV sends its state to the control center through acoustic and electromagnetic links. With the available measurements, human decides the target point of ROV, and then sends control commands to ROV. In order to achieve the tracking task, the position and attitude vectors for ROV and target point are required to be synchronized, i.e.,
+ðη XdÞ→0 with t→∞: Then, the model-free PD tracking controller is designed as
+τ 1⁄4 sat kðηðt dðtÞÞ XdÞ |fflfflfflfflfflfflfflfflfflfflfflfflfflfflfflfflfflffl{zfflfflfflfflfflfflfflfflfflfflfflfflfflfflfflfflfflffl}
+Proportional Control
+αη_ ðt dðtÞÞÞ |fflfflfflfflfflfflfflfflfflffl{zfflfflfflfflfflfflfflfflfflffl}
+Derivative Control
+þ gðηÞ (3)
+where k 2 R 6�6 and α 2 R 6�6 are the gain matrices to be designed. dðtÞ denotes the time varying delay in the cyber channels, as defined in Assumption 1. It is known that sat ð⋅Þ denotes the standard saturation functions and is bounded by μ, i.e., each element of μ satisfies μl � Tl εl; where l 1⁄4 1; ...; 6: The control framework is shown in Fig. 3.
+Remark 1. It is noted that, the time-varying delay and the actuator saturation are both considered in tracking controller (3). When time-varying delay and actuator saturation constraints are ignored in this paper, the tracking controller (3) is the same as the one in Martin and Whitcomb (2018). Thereby, the tracking controller in Martin and Whitcomb (2018) is a special case of (3).
+3.2. Stability condition and DOA estimation
+For stability analysis, the following lemmas are provided.
+Lemma 1. (Li and Lin, 2013) Given feedback matrices K 2 R n�n and Hi 2 R n�n: If x 2 L ðHiÞ; then
+satðKxÞ 2 co�EiKx þ Ei Hix; i 1⁄4 1; ...; 2n�; (4)
+where E is the set of n � n diagonal matrices Ei with 1 or 0 as its diagonal entries, i.e., E 1⁄4 fEi : i 1⁄4 1; ...; 2ng and. Ei 1⁄4 I Ei:
+Fig. 3. The schematic of the ROV control system.
+J1ðηÞ 1⁄4
+2
+664
+cos ψ cos θ cos ψ sin θ sin φ sin ψ cos φ sin ψ sin φ þ cos ψ sin θ cos φ sin ψ cos θ sin θ sin ψ sin φ þ cos ψ cos φ sin ψ sin θ cos φ cos ψ sin θ sin θ cos θ sin φ cos θ cos φ
+3
+775
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+302
+Lemma 2. (Seuret and Gouaisbaut, 2013) Given positive definite matrix R 2 R n�n. For all continuous function ω in 1⁄2a; b�→R n, we have
+lRðωÞ � 1
+ba
+Zb
+a
+ωðσÞdσ�T
+R
+Zb
+a
+ωðσÞdσ� þ 3
+b aΩT RΩ (5)
+where Ω 1⁄4 R b
+a ωðsÞ ds b2a
+Rb a
+Rs
+a ωðrÞdrds.
+Lemma 3. (Seuret and Gouaisbaut, 2013) Given positive integers n and m; scalar β 2 ð0; 1Þ, positive definite matrix R 2 R n�n, matrices W1 2 R n�m and W2 2 R n�m, arbitrary vector ξ 2 R m; and the function Θðβ; RÞ defined by Θðβ; RÞ 1⁄4 1
+βξT WT
+1 RW1ξ þ 1
+1 βξTWT
+2RW2ξ: If there exists matrix X 2 R n�n such that 1⁄2R; X; *, R� > 0, the following inequality holds:
+min
+β2ð0;1Þ
+Θðβ; RÞ �
+2
+4 W1ξ W2 ξ
+3
+5
+T2
+4R X
+�R
+3
+5
+2
+4 W1ξ W2 ξ
+3
+5: (6)
+In this paper, the initial state error of ROV is defined as x0 1⁄4 1⁄2e0; _e0�T; while its state trajectory is ςðt; x0Þ: Then, the DOA of origin is given as Γ 1⁄4 fx0 2 R 12 : limt→∞ςðt; x0Þ 1⁄4 0g. Particularly, a set is said to be invariant if all trajectories starting from the DOA will remain in it. In order to demonstrate the DOA, the bounds of initial values for ROV tracking system are defined as
+max
+θ21⁄2 d2;0�
+����e0ðθÞ
+���� � δ1; max
+θ21⁄2 d2;0�
+���� _e0 ðθÞ
+���� � δ2; (7)
+where e0 1⁄4 ηð0Þ Xd denotes the initial error of position tracking, and e_0 1⁄4 η_ ð0Þ denotes the initial velocity of ROV. Besides, δ1 and δ2 are positive parameters. In the following, the composite quadratic function (Li and Lin, 2003) is introduced to support the stability analysis. With a set of positive definite matrices Qj 2 R n�n, j 2 Λ1⁄21; J�; J 2 N þ; the composite quadratic
+function is defined as VcðxÞ 1⁄4 minγ2Υ xTðPjJ1⁄41γjQjÞ 1x , where Υ 1⁄4 fγ 2
+R J : PjJ1⁄41γj 1⁄4 1; γj � 0g and x 2 R n: Clearly, Vcð⋅Þ is a positive-definite function and it satisfies VcðxÞ � xTQj 1x: Based on this, a level set of Vc is defined as LVc ð1Þ 1⁄4 fx 2 R n : VcðxÞ � 1g; which is the convex hull of ellipsoids εðQj 1Þ; i.e., LVc ð1Þ 1⁄4 cofεðQj 1Þ; j 2 Λ1⁄21; J�g If each of the ellipsoids εðQj 1Þ is controlled invariant, the convex hull LVc ð1Þ is controlled contractively invariant. Accordingly, the stability conditions for tracking controller (3) are given in Theorem 1. Several notations are defined in the Appendix A. Of note, the positive integer n is set to be six under the consideration of six DOF.
+Theorem 1. Consider the ROV system (2) with (3), if there exist matrices
+X 2 R n�n, N 2 R 9n�n; Y 2 R 9n�n; Hk;ij 2 R n�n; Hα;ij 2 R n�n; i 2
+Λ1⁄21; 2n�; j 2 Λ1⁄21; J�; J 2 N þ; positive definite matrices R 2 R n�n; Z 2
+R n�n; U 2 R n�n; L 2 R n�n; S 2 R n�n; and Wj 2 R n�n; such that
+Φκðη; η_ Þ 1⁄4 Φ0;κðη; _ηÞ 1
+d2
+ρT Θρ < 0; (8)
+Θ1⁄4
+2
+4 ~R X
+XT R~
+3
+5 > 0; (9)
+hijl Qj hT
+ijl < 1; l 2 Λ1⁄21; n� (10)
+then the tracking system controlled by (3) is asymptotically stable for 8x 2
+LVc ð1Þnf0g⊂L ðHiÞ; where hijl is the lth row of Hij; and Qj 1 1⁄4diag
+�
+Wj; 12 κ�
+�
+Moreover, the estimation of DOA is given by. Γ 1⁄4 fe0; _e0 : Γδ � 1g
+Proof. Define the position error as e 1⁄4 η Xd; then we construct the
+following Lyapunov-Krasovskii function V 1⁄4 Pi61⁄41Vi with
+V1 1⁄4 _ηTM _η
+V2 1⁄4 eTXJ
+j1⁄41 Wj e
+V3 1⁄4
+Z t dðtÞ
+t d2
+eTðσÞSeðσÞdσ
+V4 1⁄4
+Z0
+d2
+Zt
+tþθ
+η_ TðσÞR _ηðσÞdσdθ
+V5 1⁄4
+Zt
+t dðtÞ
+eTðσÞdσU
+Zt
+t dðtÞ
+eðσÞdσ þ
+Z t dðtÞ
+t d2
+eTðσÞdσZ
+Z t dðtÞ
+t d2
+eðσÞdσ
+V6 1⁄4
+Zt
+t dðtÞ
+η_ TðσÞL _ηðσÞdσ:
+(11)
+Obviously, we have V > 0. Applying Lemma 1, the time derivative of V1 is
+V_ 1 1⁄4 2
+X2n
+r1⁄41 βr
+�
+η_ T� Erk þ Er Hk;rj
+��
+� Zt
+t dðtÞ
+η_ ðσÞdσ þ e
+�
+þ Erα þ Er Hα;rj
+� _ηðt dðtÞ Þ�� 2 _ηTDðv; _ηÞ _η:
+(12)
+Referring to Fossen (1994), the hydrodynamic damping matrix DðvÞ in (1) can be denoted as DðvÞ 1⁄4diagfku; kυ; kw; kp; kq; krgþdiagfkujuj
+��u
+��; kυjυj
+��υ��;
+kwjwj
+��w
+��; kpjpj
+��p
+��; kqjqj
+��q
+��; krjrj
+��r
+��g where ku; kυ; kw; kp; kq and kr are damping constants. kujuj; kυjυj; kwjwj; kpjpj; kqjqj and krjrj are quadratic damping scales. Based on this, we have DðvÞ 1⁄4 A þ Bjvj with A 1⁄4diagfku; kυ; kw; kp; kq; krg; B 1⁄4diagfkujuj; kυjυj; kwjwj; kpjpj; kqjqj; krjrjg and v 1⁄4 J 1 _η: As λðJ TAJ 1Þ 1⁄4 λðAÞ 1⁄4 fku; kυ; kw; kp; kq; krg Then, one obtains
+η_ TDðv; _ηÞη_ < _ηTJ TAJ 1 _η < λa _ηT _η; (13)
+where λa 1⁄4 minfku; kυ; kw; kp; kq; krg. It hence yields from (13) that
+V_ 1 � 2
+X2n
+r1⁄41 βr
+�
+η_ T� Erk þ Er Hk;rj
+�� Z t
+t dðtÞ
+_ηðσÞdσ þ e
+�
+þ Erα þ Er Hα;rj
+� _ηðt dðtÞ Þ�� 2 _ηTλa _η:
+(14)
+The time derivative of V2 is calculated as
+V_ 2 1⁄4 η_ TXJ
+j1⁄41Wje þ eTXJ
+j1⁄41Wjη_ : (15)
+Moreover, the time derivative of V3 is
+V_ 3 1⁄4 ð1 d_ðtÞÞeTðt dðtÞÞSeðt dðtÞÞ eTðt d2ÞSeðt d2Þ; (16)
+and the time derivative of V4 is given by
+V_ 4 1⁄4 d2 _ηTR _η
+Zt
+t d2
+η_ TðσÞR _ηðσÞdσ; (17)
+where R t
+t d2 _ηTðσÞR _ηðσÞdσ 1⁄4 R t dðtÞ
+t d2 _ηTðσÞR _ηðσÞdσ þ R t
+t dðtÞ η_ TðσÞR _ηðσÞdσ:
+By employing Lemma 2 and defining P1 1⁄4 1⁄2G1; G2�T, we have
+Z t dðtÞ
+t d2
+η_ TðσÞR _ηðσÞdσ
+�1
+d2 dðtÞ
+Z t dðtÞ
+t d2
+_ηTðσÞdσ
+!
+R
+Z t dðtÞ
+t d2
+_ηðσÞdσ
+!
+:3
+d2 dðtÞðeðt dðtÞ�
+þeðt d2Þ 2
+d2 dðtÞ
+Z t dðtÞ
+t d2
+eðσÞdσ�
+þeðt d2Þ 2
+d2 dðtÞ
+Z t dðtÞ
+t d2
+eðσÞdσ�
+1⁄41
+d2 dðtÞ
+�ðG1ξÞTRðG1ξÞ þ ðG2ξÞT3RðG2ξÞ�
+1⁄41
+d2 dðtÞξTPT
+1
+2
+664
+R0
+0 3R
+3
+775P1ξ:
+(18)
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+303
+Similar to (18), we define P2 1⁄4 1⁄2G3; G4�T; then we have
+Zt
+t dðtÞ
+_ηTðσÞRη_ ðσÞdσ � 1
+dðtÞξTPT
+2
+2
+4R 0
+0 3R
+3
+5P2ξ: (19)
+According to Lemma 3, if there exists a matrix X such that Θ > 0, the following inequality can be held, i.e.,
+Zt
+t d2
+_ηTðσÞR _ηðσÞdσ
+�1
+d2
+2
+664
+P1 ξ
+P2 ξ
+3
+775
+T2
+664
+R~ X
+XT R~
+3
+775
+2
+664
+P1ξ
+P2ξ
+3
+775
+�1
+d2
+ξT ρT Θρξ:
+(20)
+where ~R 1⁄4diagðR; 3RÞ and ρ 1⁄4
+�
+G1T G2T G3T G4T
+�T :
+In addition, the time derivative of V5 is given by
+V_ 5 1⁄4 2dðtÞeTU
+�1
+dðtÞ
+Zt
+t dðtÞ
+eðσÞdσ
+�
+2dðtÞeTðt dðtÞÞðð1 d_ðtÞÞUÞ
+�
+�1
+dðtÞ
+Zt
+t dðtÞ
+eðσÞdσ
+�
+þ 2ðd2 dðtÞÞeTðt dðtÞÞðð1 d_ðtÞÞZÞ
+�
+�1
+d2 dðtÞ
+Z t dðtÞ
+t d2
+eðσÞdσ
+�
+2ðd2 dðtÞÞeTðt d2Þ
+�Z
+�1
+d2 dðtÞ
+Z t dðtÞ
+t d2
+eðσÞdσ
+� ;
+(21)
+and the time derivative of V6 is given by
+V_ 6 1⁄4 _ηTL _η _ηTðt dðtÞÞðð1 d_ðtÞÞLÞ _ηðt dðtÞÞ: (22)
+Based on Newton–Leibniz formula, we construct the following free
+weighting matrices: f1 1⁄4 2ξTN1⁄2eðtÞ eðt dðtÞÞ R t
+t dðtÞ η_ ðσÞdσ� 1⁄4 0 and
+f2 1⁄4 2ξTY1⁄2eðt dðtÞÞ eðt d2Þ R t dðtÞ
+t d2
+η_ ðσÞdσ� 1⁄4 0: Accordingly, we finally obtain
+V_ 1⁄4
+X6
+i1⁄41
+V_ i þ
+X2
+j1⁄41fj �
+X2n
+r1⁄41βrξT Φκξ (23)
+where
+ξ1⁄41⁄2η_ ; e; _ηðt dðtÞÞ; eðt d2Þ; R t dðtÞ
+t d2 η_ ðσÞdσ; eðt dðtÞÞ; d2 1dðtÞ
+R t dðtÞ
+t d2 eðσÞd
+σ; dð1tÞ
+Rt
+t dðtÞ eðσÞdσ; R t
+t dðtÞ η_ ðσÞdσ� and Φκðη; η_ Þ 1⁄4 Φ0;κðη; _ηÞ d12ρTΘρ:
+With the condition in (10), one knows that εðQj 1Þ 2 L ðHiÞ is contractively invariant for all j 2 Λ1⁄21; J�; i.e., LVc ð1Þ is contractively invariant.
+In view of (8), (9) and (23), we can conclude that V_ < 0 for 8x 2 LVc ð1Þn f0g⊂L ðHiÞ with xT 1⁄4 1⁄2eT; _eT�, i.e., the tracking system x asymptotically converges to zero by using controller (3). Moreover, one has
+VcðxÞ � xTQj 1x � VðxÞ < Vðx0Þ �
+�PjJ1⁄41λmax Wj
+� þ ðd2 d1ÞλmaxðSÞ þ
+d22λmaxðUÞ þ ðd2 d1Þ2λmaxðZÞ
+�
+δ21 þ
+�
+κb þ 12d22λmaxðRÞ þ d2λmaxðLÞ
+�
+δ22 1⁄4
+Γδ; j 2 Λ1⁄21; J�; J 2 N þ: Then, the estimation of the DOA can be obtained from Γδ � 1: In Theorem 1, it is sufficient to ensure that Φκ < 0 at the vertices of the internal 1⁄2d1; d2�� 1⁄2μ1; μ2�; because Φκðη; _ηÞ is convex with respect to dðtÞ and
+d_ðtÞ. Thus, Φκ < 0 can be solved as an LMIs optimization problem. By solving the inequalities, the matrices R; S; U; Z; X; N; Y; L; Wj; and the upper bounds of delays can be obtained. Correspondingly, the matrices Hk;ij and Hα;ij can also be calculated. With the LMIs Toolbox in MATLAB, the above-mentioned inequalities are feasible and easily computed. It is interesting to derive a solution, such that the estimate of DOA is maximized.
+In Yan et al. (2018a) and Hua et al. (2017), we have provided an LMI-based optimization strategy for teleoperation system. However, the optimization strategy in Yan et al. (2018a) and Hua et al. (2017) is based on the single ellipsoid assumption. In order to relax the single ellipsoid assumption, this paper adopts multiple ellipsoids to estimate and optimize the DOA. Of note, the convex hull under single ellipsoid assumption is constructed by a single auxiliary feedback gain H; while the convex hull under multi-ellipsoid assumption is constructed by K and Hi for i 2 Λ1⁄21; 2n�. Thus, the convex hull under multi-ellipsoid assumption can be optimized by allowing different auxiliary feedback gains Hij for each ellipsoid εðQj 1Þ; through which an enlarged estimation of DOA can be obtained. To show more intuitively, Fig. 4 depicts the difference between single-ellipsoid and multi-ellipsoid assumptions. Clearly, the DOA with multi-ellipsoid assumption is larger than the one with single-ellipsoid assumption.
+Accordingly, the following optimization problem is obtained:
+min π s:t: aÞ ωk > 0; k 1⁄4 1; ...; J þ 5;
+bÞ ωjI Wj � 0; ωJþ1I S � 0; ωJþ2I R � 0;
+ωJþ3I U � 0; ωJþ4I Z � 0; ωJþ5I L � 0; cÞ ε
+�
+Q1
+j
+�
+⊂L ðHiÞ;
+dÞ Φκ < 0; Θ > 0
+where π 1⁄4 PjJ1⁄41ωj þ ðd2 d1ÞωJþ1 þ 12d22ωJþ2 þ d22ωJþ3 þ ðd2 d1Þ2ωJþ4þ
+d2ωJþ5; j 2 Λ1⁄21;J�; J 2 N þ: It is noted that, the first inequation in constraint bÞ is equivalent to λmaxðWjÞ � ωj: Applying this conclusion to
+the other inequations in constraint bÞ we get PjJ1⁄41λmaxðWjÞ þ ðd2 d1Þ λmaxðSÞ þ 12d22λmaxðRÞ þ d22λmaxðUÞ þ ðd2 d1Þ2λmaxðZÞ þ d2λmaxðLÞ � π: Therefore a maximized estimation of the DOA can be designed as
+Fig. 4. Example for the difference between single-ellipsoid and multi-ellipsoid assumptions, where J 1⁄4 3
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+304
+Fig. 5. Simulation results when the initial states are inside the estimate of DOA.
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+305
+Fig. 6. Simulation results when the initial states are outside the estimate of DOA.
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+306
+δmax 1⁄4 p1ffiπffiffi:
+4. Simulation and experimental results
+4.1. Simulation studies
+In this section, simulation results are given to verify the effectiveness of tracking controller (3). Without loss of generality, the tracking control
+on roll and pitch is neglected, i.e., φ 1⁄4 0 and θ 1⁄4 0, because ROV is intrinsically stable on roll and pitch (Kim et al., 2016). In respect that, the position and attitude vector of target point is set as Xd 1⁄4 1⁄215; 30; 20; 0; 0; 8�: Meanwhile, the parameters used for the simulation are given as: k 1⁄4 diagf60; 60; 60; 0; 0; 60g α 1⁄4 diagf31; 31; 31; 0; 0; 31g, and the saturation level is �1. The upper and lower bounds of time delay are designed as d2 1⁄4 0:055s and d1 1⁄4 0:027s, respectively. The derivative of time delay has lower and upper bounds, i.e., μ1 1⁄4 0:001 and μ2 1⁄4 0:003.
+Fig. 7. Simulation results under different conditions.
+Fig. 8. Comparison of the estimation of DOA.
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+307
+Solving LMIs in Theorem 1, the maximum of estimation of the DOA can be calculated as. δmax 1⁄4 2:707: With respect to δmax; the initial states of ROV are given as η0 1⁄4 1⁄216:9237; 31:0319; 18:5609; 0; 0; 8:4728� and η_ 0 1⁄4 1⁄20; 0; 0; 0; 0; 0�. It is easy to see that Γδ � 1 with Theorem 1, i.e., the initial states are inside the estimate of DOA. In order to verify this conclusion, the invariant set LVc ð1Þ and the trajectory of position error e are depicted by Fig. 5(a). Meanwhile, the trajectory of velocity error _e is shown in Fig. 5(b). Clearly, the initial states of ROV are inside the estimate of DOA, while the errors e and e_ can converge to zero. To show more clearly, the positions and attitudes on surge, sway, heave and yaw, are represented in Fig. 5(c). Correspondingly, the errors of positions and attitudes are given in Fig. 5(d). The linear and angle velocities on surge, sway, heave and yaw, are shown in Fig. 5(e). From Fig. 5(c)-(e), one obtains that the tracking task can be achieved, because all tracking errors approximately converge to zero. Moreover, the control inputs are shown in Fig. 5(f). It
+is obvious that, the control inputs are smooth while being restricted by the saturation bounds. Consider another set of initial states η0 1⁄4 1⁄218:9237; 35:9319; 21:5391; 0; 0; 10:6928� and _η0 1⁄4 1⁄20:0835; 4:2303; 0:3578; 0; 0; 0:1286�: From Theorem 1, it is obtained that Γδ > 1; i.e., the initial states are outside the estimate of DOA. To verify this conclusion, the trajectories of position error e and velocity error e_ are shown in Fig. 6(a) and Fig. 6(b), respectively. The positions and attitudes are shown in Fig. 6(c), while the errors of positions and attitudes are presented in Fig. 6(d). Moreover, Fig. 6(e) depicts the linear and angle velocities on surge, sway, heave and yaw. From Fig. 6(c)-(e), we know the tracking task is not achieved. Moreover, the control inputs are shown in Fig. 6(f). It can be seen that control inputs in Fig. 6(f) present dynamic switching states, which leads to instability of the tracking system. These results reflect that the estimation of DOA in this paper is meaningful and necessary. In order to better show the effectiveness of Theorem 1, the position of target point and the initial states of ROV are changed simultaneously. Then, the position and attitude vector of target point is set as Xd 1⁄4 1⁄23:43; 4:27; 0; 0; 0; 0�: Particularly, the initial states of ROV are given as η0 1⁄4 1⁄22; 2:27; 0; 0; 0; 0� and η_ 0 1⁄4 1⁄20; 0; 0; 0; 0; 0�. Meanwhile, the proportional and derivative gains are set as k 1⁄4 diagf5; 5; 5; 0; 0; 5g and α 1⁄4 diagf31; 31; 31; 0; 0; 31g respectively. From Theorem 1, it is obtained that Γδ � 1; i.e., the initial states are inside the estimate of DOA. Then, we believe the tracking task can be achieved. To verify our judgement, the position trajectory of ROV is shown in Fig. 7(a), while the errors on surge and sway are shown in Fig. 7(b). It can be seen that the tracking task is achieved. In the following, we change the initial states of ROV, i. e., η0 1⁄4 1⁄20:54; 0:58; 0; 0; 0; 0� and _η0 1⁄4 1⁄20; 0; 0; 0; 0; 0�. In addition, the
+Fig. 9. Experimental setup.
+Fig. 10. Experimental results when.Xd 1⁄4 1⁄23:43; 4:27; 0; 0; 0; 0�
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+308
+proportional and derivative gains are set as k 1⁄4 diagf75; 75; 14; 0; 0; 14g and α 1⁄4 diagf35; 42; 35; 0; 0; 35g, respectively. Referring to Theorem 1, we believe that the tracking task cannot be achieved because Γδ > 1; i.e., the initial states are outside the estimate of DOA. Accordingly, the position trajectory of ROV is shown in Fig. 7(c), and the tracking errors are shown in Fig. 7(d). Clearly, the tracking task is not achieved. Through Fig. 7(a)-(d), we know the tracking controller (3) is effective under different conditions. For comparison, we consider the single ellipsoid-based estimation of DOA as given in Kim (2015). Under the same control parameters, Fig. 8 (a) and (b) illustrate the invariant set by the method in Kim (2015) and the proposed approach. Clearly, the DOA in Fig. 8(a) is smaller than the one in Fig. 8(b). This comparison reflects that the system conservation with the stability conditions in Kim (2015) is stronger as compared with the method in this paper.
+4.2. Implementation and experimental studies
+In this section, experimental studies are presented to demonstrate the performance of tracking controller (3). The experimental setup is shown in Fig. 9. The hardware is mainly divided into three parts: 1) Control Center: Host computer decides the target point of ROV, then sends control commands to ROV. 2) ROV: ROV is 430 � 390 � 220 mm3 in dimension, and it receives the control signal through decoding. Particularly, ROV is powered by lithium batteries, while it is equipped with six thrusters including four planar omnidirectional thrusters and two vertical thrusters. The ultra-wideband (UWB) localization system and the gyroscope module are jointly adopted to locate the position of
+ROV. Meanwhile, the velocity of ROV can also be measured by gyroscope module. 3) Base station (or Buoy): Three base stations are equipped with wireless positioning modules, and they adopt UWB localization technology to localize the ROV. The communication in the experiment is wireless, and the control algorithms are developed based on STM32 development boards. The readers can refer to Yan et al. (2019c) for more detailed information about the platform. The boundaries of time-varying delays are chosen as d2 1⁄4 0:055s and d1 1⁄4 0:027s. The detailed value of time delays in experiment cannot not be previously given due to the uncertain communication conditions, and dðtÞ is only required to enter into the bounds of time delay. The position and attitude vector of target point is set as Xd 1⁄4 1⁄23:43; 4:27; 0; 0; 0; 0�: Based on the above design, the following two cases are considered: Case 1. The initial states of ROV satisfy the conditions in Theorem 1, i.e., η0 1⁄4 1⁄22; 2:77; 0; 0; 0; 0� and _η0 1⁄4 1⁄20; 0; 0; 0; 0; 0�; Case 2. The initial states of ROV donot satisfy the conditions in Theorem 1, i.e., η0 1⁄4 1⁄20:54; 0:58; 0; 0; 0; 0� and _η0 1⁄4 1⁄20; 0; 0; 0; 0; 0�. Accordingly, the trajectory of ROV in Case 1 is shown by Fig. 10(a). To show more clearly, the errors on surge and sway are shown in Fig. 10(b). Clearly, the tracking task is achieved, and the video of this experiment is provided in Ex1. Similarly, the trajectory of ROV in Case 2 is shown by Fig. 10(c), while the errors on surge and sway are given by Fig. 10(d). Particularly, the video of this experiment is shown in Ex2. It is clear that the tracking task cannot be achieved. In the following, the position of target point is changed as Xd 1⁄4 1⁄21:49; 4:71; 0; 0; 0; 0�: When the initial states of ROV satisfy the conditions in Theorem 1, e.g., η0 1⁄4 1⁄20:64; 0:67; 0; 0; 0; 0� and _η0 1⁄4 1⁄20:2; 0:17; 0; 0; 0; 0�, the trajectory of ROV can be shown by Fig. 11(a). Correspondingly,
+Fig. 11. Experimental results when.Xd 1⁄4 1⁄21:49; 4:71; 0; 0; 0; 0�
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+309
+the errors on surge and sway are shown in Fig. 11(b). The video of this experiment is provided in Ex3. It is obvious that the tracking task can be achieved. When the initial states of ROV donot satisfy the conditions in Theorem 1, e.g., η0 1⁄4 1⁄20:32; 0:21; 0; 0; 0; 0� and _η0 1⁄4 1⁄20:183; 0:23; 0; 0; 0; 0�, the trajectory of ROV is shown by Fig. 11(c). Accordingly, the errors on surge and sway are shown in Fig. 11(d). Specially, the video of the above experiment is provided in Ex4. Clearly, the tracking task cannot be achieved. Through the above experimental results, one knows that the proposed approach is practically useful by different conditions of work.
+5. Conclusion and future works
+This paper addresses the position tracking control problem for a ROV under time-varying delay and actuator saturation constraints. We first design a model-free PD controller to enforce the position tracking of the ROV. For the tracking controller, we use Lyapunov–Krasovskii functions
+to derive the delay dependent stability criteria. By analyzing the stability conditions, the estimation of DOA is presented, through which ROV can adjust its initial states to guarantee the tracking stability. Furthermore, the optimization of DOA is developed to maximize the estimation of DOA. Finally, simulation and experimental studies are conducted to demonstrate performance of the proposed methods. In the future, we will extend our work to deal with ROV system in more complex communication and operation environments.
+Acknowledgement
+This work was partially supported by NSFC under 61873345,61603328 and 61633017, by Youth Talent Support Program of Hebei under BJ2018050, by Teturned Overseas Chinese Scholar Foundation of Hebei under C201829, and by Civil-military Integration Foundation of Hebei under 2018B220.
+Appendix A. Notations for Theorem 1
+Φκðη; _ηÞ 1⁄4 Φ0;κðη; _ηÞ 1
+d2
+ρTΘρ; Φ0;κðη; _ηÞ 1⁄4 Rb þ bL þ cW þ Nb þ Yb þ Ub þ Zb þ bS þ Φ3;κρ 1⁄4
+"
+GT
+1 GT
+2 GT
+3 GT
+4
+#T
+;
+G1 1⁄4 1⁄20n; 0n; 0n; 0n; In; 0n; 0n; 0n; 0n�;
+G2 1⁄4 1⁄20n; 0n; 0n; In; 0n; In; 2In; 0n; 0n�;
+G3 1⁄4 1⁄20n; 0n; 0n; 0n; 0n; 0n; 0n; 0n; In�;
+G4 1⁄4 1⁄20n; In; 0n; 0n; 0n; In; 0n; 2In; 0n�;
+R~ 1⁄4 diagðR; 3RÞRb 1⁄4 diagfd2R; 08ng
+Lb 1⁄4 diagfL; 0n; ð1 d_ðtÞÞL; 06ng
+Wc 1⁄4 1⁄2cWi;j�9n�9n with Wc1;2 1⁄4 JP
+j1⁄41
+Wj, and the others are zeros, Nb 1⁄4 NJ1;
+Yb 1⁄4 YJ2; with J1 1⁄4 f0n; 2I; 0n; 0n; 0n; 2I; 0n; 0n; 2Ig
+J2 1⁄4 f0n; 0n; 0n; 2I; 2I; 2I; 0n; 0n; 0ng
+Ub 1⁄4 1⁄2Ub i;j�9n�9n with Ub 2;8 1⁄4 dðtÞU; Ub 6;8 1⁄4 dðtÞ1⁄2ð1 d_ðtÞÞU�; and the others are zeros. bZ 1⁄4 1⁄2Zb ij�9n�9n with Zb 4;7 1⁄4 ðd2 dðtÞÞZ; bZ6;7 1⁄4 ðd2 dðtÞÞ1⁄2ð1 d_ðtÞÞZ�; and the others are zeros.
+Sb 1⁄4 diag.f0n; 0n; 0n; S; 0n; ð1 d_ðtÞÞS; 0n; 0n; 0ngΦ3;κ 1⁄4 1⁄2Φ3κ
+i;j �9n�9n with Φ3κ
+1;1 1⁄4 2λaI; Φ3κ
+1;2 1⁄4 Φ3κ
+1;9 1⁄4 P2n
+r1⁄41βr Erk þ Er Hk;rj
+�; Φ3κ
+1;3 1⁄4 P2n
+r1⁄41 βr
+Erα þ Er Hα;rj
+�; and the others are zeros,
+Φκðη; _ηÞ 1⁄4 �Φij
+�
+9n�9n :
+Γδ 1⁄4
+� J X
+j1⁄41
+λmax Wj
+� þ ðd2 d1ÞλmaxðSÞ þ d2
+2λmaxðUÞ þ ðd2 d1Þ2λmaxðZÞ
+� δ2
+1þ
+�
+κbi þ 1
+2d2
+2λmaxðRÞ þ d2λmaxðLÞ
+� δ2
+2:
+References
+Chao, S., Yang, S., Buckham, B., 2018. Trajectory tracking control of an autonomous underwater vehicle using lyapunov-based model predictive control. IEEE Trans. Ind. Electron. 65 (7), 5796–5805. Du, J., Xin, H., Krsti, M., Sun, Y., 2016. Robust dynamic positioning of ships with disturbances under input saturation. Automatica 73 (1), 207–214. Ex1. http://v.youku.com/v_show/id_XMzk5NDg1NDI2OA1⁄41⁄4.html?spm1⁄4a2h3j. 8428770.3416059.1. (Accessed 3 January 2019). Ex2. https://v.youku.com/v_show/id_XMzk5NDgzODcyNA1⁄41⁄4.html?spm1⁄4a2h3j. 8428770.3416059.1. (Accessed 3 January 2019).
+Ex3. https://v.youku.com/v_show/id_XNDExMjIxMDE0OA1⁄41⁄4.html?spm1⁄4a2h 0j.11185381.listitem_page1.5!2~A. (Accessed 26 March 2019). Ex4. https://v.youku.com/v_show/id_XNDExMjIxMjg1Mg1⁄41⁄4.html?spm1⁄4a2h0j.111 85381.listitem_page1.5~A. (Accessed 26 March 2019). Ferreira, C., Cardoso, R., Meza, M., Avila, J., 2018. Controlling tracking trajectory of a robotic vehicle for inspection of underwater structures. Ocean Eng. 149 (1), 373–382. Fossen, T., 1994. Guidance and Control of Ocean Vehicles. John Wiley and Sons Inc., New York.
+J. Yan et al.
+
+
+Ocean Engineering 184 (2019) 299–310
+310
+Fu, M., Yu, L., 2018. Finite-time extended state observer-based distributed formation control for marine surface vehicles with input saturation and disturbances. Ocean Eng. 159 (1), 219–227. Hashemzadeh, F., Hassanzadeh, I., Tavakoli, M., 2013. Teleoperation in the presence of varying time delays and sandwich linearity in actuators. Automatica 49 (9), 2813–2821. Hu, T., Lin, Z., 2005. Absolute stability analysis of discrete-time systems with composite quadratic lyapunov functions. IEEE Trans. Autom. Control 50 (6), 781–797. Hua, C., Yang, X., Yan, J., Guan, X., 2017. On exploring the domain of attraction for bilateral teleoperator subject to interval delay and saturated pþd control scheme. IEEE Trans. Autom. Control 62 (6), 2923–2928. Kim, D., 2015. Tracking of remus autonomous underwater vehicles with actuator saturations. Automatica 58 (1), 15–21. Kim, J., Joe, H., Yu, S., Jin, L., Kim, M., 2016. Time delay controller design for position control of autonomous underwater vehicle under disturbances. IEEE Trans. Ind. Electron. 63 (2), 1052–1061. Lei, Q., Yi, B., Wu, D., Zhang, W., 2017. Design of three exponentially convergent robust controllers for the trajectory tracking of autonomous underwater vehicles. Ocean Eng. 134 (1), 157–172. Li, Y., Lin, Z., 2003. Composite quadratic lyapunov functions. IEEE Trans. Autom. Control 48 (3), 440–450. Li, Y., Lin, Z., 2013. Improvements to the linear differential inclusion approach to stability analysis of linear systems with saturated linear feedback. Automatica 49 (3), 821–828. Li, Y., Lin, Z., 2015. A complete characterization of the maximal contractively invariant ellipsoids of linear systems under saturated linear feedback. IEEE Trans. Autom. Control 60 (1), 179–185. Li, Y., Lin, Z., 2017. The maximal contractively invariant ellipsoids for discrete-time linear systems under saturated linear feedback. Automatica 76 (1), 336–344. Martin, S., Whitcomb, L., 2018. Nonlinear model-based tracking control of underwater vehicles with three degree-of-freedom fully coupled dynamical plant models: theory and experimental evaluation. IEEE Trans. Control Syst. Technol. 26 (2), 404–414. Mukherjee, K., Kar, I., Bhatt, R., 2015. Region tracking based control of an autonomous underwater vehicle with input delay. Ocean Eng. 99 (1), 107–114.
+Seuret, A., Gouaisbaut, F., 2013. Wirtinger-based integral inequality: application to timedelay systems. Automatica 49 (9), 2860–2866. Soylu, S., Proctor, A., Podhorodeski, R., Bradley, C., Buckham, B., 2016. Precise trajectory control for an inspection class rov. Ocean Eng. 111 (2), 508–523. Vasilijevic, A., Nad, D., Mandic, F., Miskovic, N., Vukic, Z., 2017. Coordinated navigation of surface and underwater marine robotic vehicles for ocean sampling and environmental monitoring. IEEE ASME Trans. Mechatron. 22 (3), 1174–1184. Yan, J., Chen, C., Luo, X., Yang, X., Hua, C., Guan, X.P., 2016. Distributed formation control for teleoperating cyber-physical system under time delay and actuator saturation constrains. Inf. Sci. 370–371 (1), 680–694. Yan, J., Wan, Y., Luo, X., Chen, C., Hua, C., Guan, X., 2018. Formation control of teleoperating cyber-physical syste with time delay and actuator saturation. IEEE Trans. Control Syst. Technol. 26 (4), 1458–1467. Yan, Z., Liu, X., Zhou, J., Wu, D., 2018. Coordinated target tracking strategy for multiple unmanned underwater vehicles with time delays. IEEE Acc. 6 (1), 10348–10357. Yan, J., Ban, H., Luo, X., Zhao, H., Guan, X., 2019. Joint localization and tracking design for auv with asynchronous clocks and state disturbances. IEEE Trans. Veh. Technol. 1–15 (in press). Yan, J., Li, X., Luo, X., Yadi, G., Guan, X., 2019. Joint localization and tracking for autonomous underwater vehicle: a reinforcement learning based approach. IET Control Theory & Appl. 1–9 (in press). Yan, J., Tian, X., Luo, X., Guan, X., 2019. Design of an embedded communication system for underwater asynchronous localization. IEEE Embed. Lett. 1–4 (in press). Yang, H., Wang, C., Zhang, F., 2013. A decoupled controller design approach for formation control of autonomous underwater vehicles with time delays. IET Control Theory & Appl. 7 (15), 1950–1958. Ye, L., Cong, W., Qi, W., Chen, P., Jiang, Y., Li, Y., 2015. Study of 3 dimension trajectory tracking of underactuated autonomous underwater vehicle. Ocean Eng. 105 (1), 270–274. Zhang, F., 2016. Cyber-maritime cycle: autonomy of marine robots for ocean sensing. Found. Trends Robot. 5 (1), 1–115. Zhao, J., Hu, Z., 2017. Path following control of discrete-time auv with input-delay. In: Proceedings of Chinese Control and Decision Conference, pp. 4648–4652.
+J. Yan et al.

@@ -1,0 +1,258 @@
+Ocean Engineering 212 (2020) 107612
+Available online 3 July 2020 0029-8018/© 2020 Elsevier Ltd. All rights reserved.
+Experimental and numerical study of hydrodynamic performance of remotely operated vehicle
+Ahmad Zarei a, Ali Ashouri b, S.M.J. Hashemi c, S.A.S. Farrahi Bushehri d, Ehsan Izadpanah e,*,
+Yasser Amini e
+a Department of Mechanical Engineering, K.N. Toosi University of Technology, Tehran, Iran
+b Department of Mechanical Engineering, Tarbiat Modares University, Tehran, Iran
+c Vocational and Technical Training Organization, Center No.3, Bushehr, Iran
+d APADANA Technical and Engineering Office, Bushehr, Iran
+e Department of Mechanical Engineering, Persian Gulf University, Bushehr, 75169, Iran
+ARTICLE INFO
+Keywords:
+Remotely operated vehicle Angle of attack Turbulent flow Wind tunnel testing CFD simulation
+ABSTRACT
+Nowadays, remotely operated vehicle (ROV) is an integral part of the marine industry. In this study, the hydrodynamic performance of a specific model of ROV is evaluated by numerical and experimental simulations in different Reynolds numbers ranging from 39291 to 157163 and various angles of attack from 0� to 45�. Moreover, two rectangular cubic models with fillet and sharp edges are modeled for comparative study. The wind tunnel and the finite volume methods are used for experimental and numerical simulations, respectively, and the Menter’s SST k-ω model is employed to simulate the turbulent flow. The leading edge geometry, angle of attack, and Reynolds number are found to be the most effective factors on the drag forces. Additionally, the fillet edge model had better hydrodynamic performance than the ROV and the sharp edge rectangular cubic model considerably.
+1. Introduction
+Analyzing the depth of seas and oceans is playing a significant role in undersea exploration, military operations, geological activities, zoology, medical, and environmental investigations. Some devices called remotely operated underwater vehicle (ROV) are used widely for these purposes. Currently, these robots are an essential and reliable part of the coastal industry used by commercial, government, military, and academic institutions. Effective factors on ROV’s movements and their stability are playing a vital role in their design and operation. In recent years, many researchers (Benfield et al., 2019; Bond et al., 2018; Corbera et al., 2019; Macreadie et al., 2018; Raoult et al., 2020; Wetz et al., 2020) used ROV devices for samplings, explorations, measurements and recording high quality images and videos. Capocci et al. (2017) categorized the underwater vehicles and investigated the difference between the mid-sized inspection-class and the handheld ROVs. Allard and Shahbazian (2014) and Wynn et al. (2014) reviewed the military and commercial applications of autonomous underwater vehicles (AUVs), respectively. Modeling drag and lift forces is essential in design and operation of
+underwater vehicles. Several experiments and numerical investigations have been performed on different types of vehicles immersed in the water such as: submarine, ROV, and AUV to analyze these characteristics. To improve the submarine hydrodynamic performance, Liu et al. (2010) investigated the effects of using vortex control baffler on the horseshoe vortex which is generated around the sail of submarine by numerical and experimental tests. The results showed that the vortex control baffler can reduce the strength of the horseshoe vortex and help to improve the performance of the submarine propeller. In addition, Pan et al. (2012), Shang (2013), Zhang et al. (2013), and Zhang and Zhang (2014) simulated the fluid flow over some submarines to improve their hydrodynamic performance. Jagadeesh and Murali (2010) investigated the capabilities of k-ε RNG, k-ε Realizable (high-Re), and k-ε AKN (low-Re) turbulent models simultaneously by employing the VOF method to assess the free surface effect on the hydrodynamic coefficients of an underwater vehicle. Saeidinezhad et al. (2015) studied the effects of the Reynolds number and the angle of attack on the hydrodynamic characteristics of a submarine model with a non-axisymmetric nose, experimentally. They concluded that the drag coefficient is increased by increasing the
+* Corresponding author. E-mail address: e.izadpanah@pgu.ac.ir (E. Izadpanah).
+Contents lists available at ScienceDirect
+Ocean Engineering
+journal homepage: www.elsevier.com/locate/oceaneng
+https://doi.org/10.1016/j.oceaneng.2020.107612 Received 29 November 2019; Received in revised form 3 June 2020; Accepted 4 June 2020
+
+
+Ocean Engineering 212 (2020) 107612
+2
+Reynolds number up to the critical Reynolds number (5:9 �106Þ and then approaches to an approximately constant value. Wang et al. (2017), Amini et al. (2019), Wang et al. (2019), Lampe et al. (2020), and Tong and Chen (2020) calculated the hydrodynamic coefficients of the submarine propeller for different environmental conditions. Many researchers investigated the hydrodynamic performance of AUVs, numerically, experimentally, and analytically. Jagadeesh et al. (2009) measured the hydrodynamic forces acting over an AUV hull at different Reynolds number (Re) and angle of attack (α) experimentally (using towing tank) and numerically (using the ANSYS Fluent commercial software). Results showed that at α 1⁄4 15� and Re 1⁄4 3:67� 105 the drag and lift coefficients are increased by 90% and 182% with
+respect to α 1⁄4 0�. De Barros et al. (2008) and De Barros and Dantas (2012) applied ANSYS Fluent software to the estimate the normal force and moment coefficients of an AUV and a propeller duct for different angles of attack, and the results were compared with analytical and semi-empirical, ASE, methods. They deduced that the normal force coefficient is enhanced by increasing the angle of attack. Mansoorzadeh and Javanmard (2014) studied the effect of a free surface on drag and lift coefficients of the AUV at various submergence depths and AUV velocities numerically and experimentally. They obtained the drag coefficient near the free surface is greater than those obtained at higher depths. The hydrodynamic forces acting on an AUV when operating close to a larger submarine were investigated by Leong et al. (2015) by numerical and experimental tests. The results indicated that the maximum sway force exerting on the AUV due to the presence of submarine occurs when the AUV is located behind the nose of the larger moving vehicle. The effect of two shapes of the bow on the hydrodynamic performance of the underwater vehicle at different Froude numbers was investigated experimentally by Javadi et al. (2015). They concluded that the residual resistance of the standard bow in the Froude numbers from 0.19 to 0.3 is higher than the tango bow. Da Silva Costa et al. (2017) studied the effects of different fishtail shapes of an AUV device on the hydrodynamic coefficients and stability of the AUV by using the Large Eddy Simulation (LES) turbulence model in the OpenFoam software. Hai et al. (2019) investigated the restoring forces and hydrodynamic performance of two AUV models in which the battery capsule was located inside and outside of I-AUV. Mitra et al. in Ref (2019) and Ref (2020) examined the effects of the sea bed slope and free stream turbulence on the AUV device’s hydrodynamic parameters included the force coefficients, the velocities, the Reynolds stresses, the skin friction, and the pressure coefficient in a variety of Reynolds numbers and submergence depths, experimentally and numerically (using the ANYSY Fluent). Sayer (2008) measured wave forces on a ROV and a solid box with similar dimensions, and compared these against Morison’s equation using coefficients derived from fixed coefficient, least squares, and peak load methods. Moreover, Avila and Adamowski (2011) and Avila et al. (2013) determined velocities, accelerations, and all forces of a ROV device at different Reynolds numbers and sinusoidal thrust profiles, experimentally. Khadhraoui et al. (2016) experimentally analyzed the ROV device motion and velocities to stabilize its movement in the undergoes of the hydraulic forces. Khojasteh and Kamali (2017) investigated the translational and rotational motions and all forces exerting on simplified ROV with different buoy shapes, using ANSYS AQWA commercial software. The aim of this paper is to investigate the hydrodynamic performance of a ROV numerically and experimentally and compare the results with sharp and fillet edge rectangular cubic models. The 3D unsteady Reynolds-averaged Navier-Stokes (URANS) equations coupled with a shear stress transport (SST) k-ω turbulence model are applied to conduct simulations at Reynolds numbers ranging from 39291 to 157163 and angles of attack ranging from 0� to 45�.
+Fig. 1. Schematic of used geometry and domain for numerical simulation.
+Fig. 2. Depiction of the Wind tunnel.
+Table 1
+Dimensions of full scale and wind tunnel models of ROV.
+Full-scale model of ROV (mm) wind tunnel model of ROV (mm)
+Length 2440 130.6 Height 1770 94.7 width 2085 110.8
+Fig. 3. Depiction of the A) sharp-edge model, B) fillet-edge model and C) ROV model.
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+3
+2. Numerical method
+2.1. Governing equations
+The governing equations (URANS equations) consist of mass and momentum conservation equations with a shear stress transport (SST) kω turbulence model for the three-dimensional, incompressible Newtonian fluid flow are as follows:
+∂ui ∂xi
+1⁄4 0 (1)
+∂ρui
+∂t þ ∂ ρuiuj
+�
+∂xj
+1⁄4 ∂p
+∂xi
+þ μr2ui
+∂
+�
+ρui’ uj’
+�
+∂xj (2)
+where ρ is the fluid density, μ is the dynamic viscosity, t is time, p is pressure, xi is the Cartesian coordinate in i direction, ui and u0
+i are the instantaneous velocity component and the fluctuation velocity component, respectively. ρu0
+i u0
+j is the Reynolds stress defined as follows:
+ρu’
+i u’
+j 1⁄4 μt
+�∂ui ∂xj
+þ ∂uj
+∂xi
+�2
+3 ρktδij (3)
+where μt is the turbulent eddy viscosity, kt is turbulent kinetic energy, andδijis the Kronecker delta function. The SST k-ω turbulence model (a two-equation model) is used for its ability in resolving the near wall boundary layer from the standard k-ω model and switching to the
+standard k ε model in free shear streams and the fully turbulent region (Hoffman and Chiang, 2000; Menter, 1994; Pope, 2001; Wilcox, 1998). The transport equations for kt (turbulent kinetic energy) and ω (specific dissipation rate) are expressed as follows:
+∂ðρkt Þ
+∂t þ ∂ðρktuiÞ
+∂xi
+1⁄4∂
+∂xj
+��
+μ þ μt
+σk
+� ∂kt ∂xj
+�
+þ P~k β*ρktω (4)
+∂ðρωÞ
+∂t þ ∂ðρωuiÞ
+∂xi
+1⁄4∂
+∂xj
+��
+μ þ μt
+σω
+� ∂ω ∂xj
+�
+þ Pω βρω2
+þ 2ρð1 F1Þ 1
+σ ω2 ω
+∂kt ∂xj
+∂ω
+∂xj (5)
+Fig. 4. The sample placement status in the wind tunnel.
+Table 2
+The range of maximum uncertainty of parameters.
+Parameter Range (%)
+l (m) �0:01 Uncertainty in the measurement F (N) �1 V (m/s) �3 Uncertainty of variable CD �1:7 CL �1:7
+Fig. 5. a) Close-up view of the ROV’s mesh, b) overall used computational mesh at α 1⁄4 0 and c) geometry’s multi-block.
+Fig. 6. Mesh generated for ROV model in xy plane at α 1⁄4 0 and Re 1⁄4 78582.
+Table 3
+The grid properties.
+Mesh Cell length on the ROV surface
+ROV surface cell numbers
+Total node numbers
+Total cell numbers
+Mesh1 4:5 � 10 3m 132496 749902 792694 Mesh2 3:0 � 10 3m 320419 1673598 1815150 Mesh3 2:0 � 10 3m 959653 3472638 3975662 Mesh4 1:8 � 10 3m 1221656 4674675 5794720
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+4
+where P~k, Pk, and Pω are the effective rate, the production rate of turbulent kinetic energy, and rate of production of specific dissipation rate, respectively and are defined as follows:
+P~k 1⁄4 minðPk; 10β*ρktωÞ (6)
+Pk 1⁄4 2μtSij:Sij
+2
+3 ρkt
+∂ui ∂xj
+δij (7)
+Pω 1⁄4 γ
+�
+2ρSij:Sij
+2
+3 ρω ∂ui
+∂xj
+δij
+�
+(8)
+where Sij is the mean rate of deformation components, and σk, σω, β and γ are the SST k-ω model constants and obtained as:
+φ 1⁄4 F1φ1 þ ð1 F1Þφ2 (9)
+where φ � fσk ; σω ; β ; γg and F1 is the blending function for switching between the k ε and k ω formulations in the near-wall region and far-field. φ1 (constants of standard the k - ω model) and φ2(constant of standard the k ε model) are set as follows:
+φ1 � fσk1; σω1; β1; γ1; β* g 1⁄4 f1:176; 2:0; 0:075; 0:5532; 0:09g
+φ2 � fσk2; σω2; β2; γ2; β*g 1⁄4 f1:0; 1:168; 0:0828; 0:4404; 0:09g (10)
+The turbulence kinetic energy (TKE) is defined as follows:
+k1⁄41
+2
+" 3 X
+i1⁄41
+ui’
+2
+#
+(11)
+2.2. Numerical model
+The numerical simulations are performed using the finite volume method in the ANSYS FLUENT 19.1. The coupling between pressure and velocities is conducted by the semi-implicit method for the pressurelinked equations (SIMPLE) (Patankar and Spalding, 1983). The second-order upwind scheme is used for convection terms in all transport equations due to its conservativeness, boundedness, and accuracy, as described by (Ferziger and Peric, 2012; Patankar, 2018; Versteeg and Malalasekera, 2007). The time-step is set to 5 � 10 3 ðsÞ to meet the requirement of Courant–Friedrichs–Lewy (CFL) number being smaller than one. The convergence criteria for all simulations is set as 10 6. Fig. 1 shows the overall schematic of the geometry and domain used for numerical simulation, where að 1⁄4 457 mmÞ is the width of the square cross-section, and bð 1⁄4 1200 mmÞ is the tunnel length. The distance from the center of the ROV to the inlet is 330 mm. Moreover, different angles of the attack are created by rotating the models around the vertical axis (yaw axis direction). For the boundary conditions, at the inlet, a velocity inlet boundary condition is considered where a uniform velocity is assumed. Also, the turbulent intensity (I) is considered to be 3%. At the outlet boundary, the outflow boundary condition is chosen. In this boundary condition, the normal gradient of all variables is zero. The wall boundary condition is
+Fig. 7. Time histories of drag coefficient values to evaluate the mesh independency.
+Fig. 8. z-vorticity contour around the ROV device, fillet edge cubic, and sharp edge cubic at α 1⁄4 0 for a) Re 1⁄4 39291 and b) Re 1⁄4 157163.
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+5
+set for the surfaces around the channel, and the ROV device surfaces. All velocity components have zero value due to the no-slip condition on the wall.
+3. Experimental setup
+In addition to the numerical simulation, the experimental investigation is performed to examine the hydrodynamic performance of the ROV.
+3.1. Wind tunnel properties and calibration
+The present experimental study is conducted in a low-speed wind tunnel including a test room with the 4.2 m length and the square crosssection of 457 � 457mm2 (see Fig. 2). The maximum wind tunnel speed is about 25 m/s, and the turbulence intensity of the free flow is less than 3%. The wind tunnel has a centrifugal fan with forward-inclined blades, with low broadband and tonal noise signature. The ROV hydrodynamic forces are measured by a device called TQ-TE81, including three components balance with measuring accuracy of 0:01 N, and recording frequency of 100 Hz. The accuracy of the motor’s controller is 3%. To verify the wind tunnel performance at the first step, a circular crosssection cylinder is used and then, the ROV models are tested at the velocities of 5, 10, 15, and 20 m=s. According to the low values of velocities in this research, the wind tunnel can be used to investigate the hydrodynamic behavior of the flow around the ROV.
+Fig. 9. Streamline contour around the ROV device, fillet edge cubic, and sharp edge cubic in xy (A) and xz (B) planes at α 1⁄4 0 and Re 1⁄4 78582.
+Fig. 10. Velocity magnitude at the centerline in xy plane at α 1⁄4 0 and Re 1⁄4 157163.
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+6
+3.2. The ROV models
+Because of the wind tunnel’s limitation, the weight of the models must be less than 1 kg, so the models were made from Plexi by a 3D printer to achieve high precision fabrication. The weight of the model is 200g by this procedure. The ROV model used in this research is a simplified of a real device. The full-scale and wind tunnel scale dimensions of the ROV model are presented in Table 1. In the present work, the maximum velocity of the ROV model is 20 m/s. According to Table 1, this velocity is equal to 1.06 m/s for the real ROV device, which is close to the maximum operating velocity of ROV devices. Fig. 3 shows the ROV model, the sharp edge model, and the fillet edge model. The working fluid is the air with the density of 1:25 kg= m3 and dynamic viscosity of 1:41 � 10 5 Pa:s. The characteristic length in calculating the Reynolds number is 110:8 mm. In this work, the hydrodynamic behavior of ROV in different operating conditions is investigated by considering the various angles of attack in the range of 0–45� which is important to control the stability of these devices. Fig. 4 displays the sample placement status in the wind tunnel. The results are obtained in the four velocities of 5, 10, 15, and 20 for each model.
+3.3. Uncertainty analysis
+The uncertainty analysis expresses the measured data deviation rate from their real value. If the variable of R is the function of multiple variables such as x1, x2, ..., xn, so that the uncertainty analysis is computed by the Eq (12) (Moffat, 1988).
+Wþ
+R1⁄4
+�� ∂R
+∂x1
+W1
+� þ
+� ∂R ∂x2
+W2
+�
+þ ::: þ
+� ∂R ∂xn
+Wn
+��
+(12)
+The uncertainty values for the parameters of this investigation are presented in Table 2.
+4. Results and discussion
+In this section, the numerical and experimental results are presented for the ROV model, sharp and fillet edge at different Reynolds numbers (39291, 78582, 117872, and 157163) and different attack angles (0� 45�).
+4.1. Numerical results
+Controlling the size of cells near the ROV is important in the grid generation. Accordingly, the computational domain is divided into blocks to control the size of cells in the region that the velocity gradient is considerable. Due to the complex geometry of the ROV, it is complicated to build a structured grid around and on the ROV surfaces. As shown in Figs. 5 and 6, the grid generation around the models includes an unstructured grid with a tetrahedral cell (near the model) and a structured grid with quadrilateral cells (elsewhere in the computational domain). As shown in Fig. 6, the size of cells in the wake region of the ROV is small (due to the formation of vortexes). The grid independence study is conducted for the ROV at α 1⁄4 0 and Re 1⁄4 157163. In this study, by changing the mesh elements qualities, four different grids with the
+Fig. 11. z-direction vorticity (ωz) contour on the xy plane around the ROV device, fillet edge cubic and sharp edge cubic at α 1⁄4 0 for a) Re 1⁄4 39291, b) Re 1⁄4 78582, c) Re 1⁄4 117872 and d).Re 1⁄4 157163
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+7
+cell numbers of 792594, 1811510, 3975662, and 5794720 are generated. The grid properties are listed in Table 3. The mesh refinement results are presented in Fig. 7. When the mesh resolution is refined from 3.9 M (million) to 5.8 M of mesh cells, the variations of the drag coefficient are significantly reduced. Therefore, the grid with the cell number of 3.9 M is used for the rest of the simulations.
+4.1.1. Reynolds number effect
+In this section, the Reynolds number effect on hydrodynamic characteristics is studied. Fig. 8 shows the z-direction vorticity contour around models for different Reynolds numbers (Black for positive vorticity and white for negative vorticity). The vorticity of ROV device at the low and high Re is ωz 1⁄4 �701=s and ωz 1⁄4 �3001=s, for the fillet edge cubic is ωz 1⁄4 �701=s and ωz 1⁄4 �1501=s, and for the sharp edge cubic is ωz 1⁄4 �701=s and ωz 1⁄4 �3001=s, respectively. It can be realized that the vorticity power for each model is increased by increasing the Reynolds number. In sharp edge and fillet edge cases that; the positive and negative vortices are distributed symmetrically on the top and bottom of the model. However, for the sharp edge, the vorticity contour
+is formed more widely around it, so the vortex size is larger than the other models and causes an increase in the drag coefficient. In the fillet edge model, due to delaying in the flow separation, the vorticity contour is smaller than the sharp edge model. Therefore, the drag coefficient is expected to be lower than the sharp edge model. In the ROV model, unlike the other two models, vorticity contour is not symmetric and positive, and negative vortices are combined. Therefore, the ROV drag coefficient is expected to be lower than the sharp edge model. Fig. 9 shows the streamline contour around the models at xy and xz planes at α 1⁄4 0 and Re 1⁄4 78582. As expected, the flow pattern in the sharp edge and fillet edge models is symmetric. However, the vortex length of the sharp-edge model is greater than the vortex length of the fillet edge model and, therefore, will have a higher drag coefficient. The streamlines around and in cavities of the ROV model are irregular and asymmetric. Furthermore, in addition to the vortex behind the sharp edge model, vortices on its top and bottom surfaces increase the drag coefficient. Therefore, the fillet edge drag coefficient is expected to be lower than the ROV model. The filleting of the edge reduces the size of the vortex in the fillet edge cube model compared to other models. The ROV model cavities have increased flow mixing and created larger vortices than the fillet edge model. Fig. 10 shows the velocity magnitude in the centerline of the xy plane at α 1⁄4 0 and Re 1⁄4 157163. The length of the created vortices can be calculated. The sharp edge model’s vortex length is longer than the other models (0.22 m). However, for the fillet edge model, in addition to the shorter vortex length, the velocity behind the model has grown faster than the sharp edge model. Fig. 11 displays the vorticity contour in the x-direction (ωx) on the yz plane for all the models at zero angle of attack for the different Reynolds numbers. The complexity of the flow, positive and negative vorticity, and mixing the flow behind the models are observed. As it is expected, the strength of vortices which affects the hydrodynamic forces, is increased by increasing the Reynolds number. Fig. 12 shows the turbulence kinetic energy (k) contour on the xy plane around the models at α 1⁄4 0 and Re 1⁄4 157163. The highest value of the turbulence kinetic energy was observed for the sharp edge rectangular cubic with respect to the other models especially, in the region where flow separation has occurred, and vortices have formed. For the ROV model, the maximum value of k was observed at the front edge, where the flow separation occurred. The turbulence kinetic energy is transferred downstream and dissipated by viscous forces. To compare the performance of the models, the quantity of k can be compared. The
+Fig. 12. Turbulence kinetic energy (k) contour on the xy plane around the ROV device, fillet edge cubic, and sharp edge cubic at α 1⁄4 0 for Re 1⁄4 157163.
+Fig. 13. Turbulence kinetic energy (k) at the centerline in xy plane at α 1⁄4 0 and Re 1⁄4 157163.
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+8
+Fig. 14. Pressure contour around the ROV device, fillet edge cubic and sharp edge cubic at xy plane at α 1⁄4 0 for a) Re 1⁄4 39291, b) Re 1⁄4 78582, c) Re 1⁄4 117872 and d).Re 1⁄4 157163
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+9
+maximum value of k is related to the sharp edge. Because the viscous layer around the sharp-edge model is the widest, and its drag coefficient is the highest among the tested shapes. To compare the turbulence kinetic energy of two sharp edge and fillet edge models, the value of k is depicted on the centerline of the xy plane at α 1⁄4 0 and Re 1⁄4 78582 (see Fig. 13). It can be seen that k value is higher for the sharp edge geometry, indicating that its drag coefficient should be higher when compared to that of the fillet edge model. Fig. 14 shows the pressure contour for all Reynolds numbers at α 1⁄4 0. The pressure contour is almost symmetry for the top and bottom of the sharp edge and fillet edge cubic, and it is expected that the lift coefficient does not increase significantly contrary to what is seen for the ROV model. Also, it can be predicted that the drag force is higher than the lift force. The mean pressure difference on the front and back sides of the model creates a pressure drag, which is the highest for the sharp edge model. Therefore, one should expect the sharp-edge model drag coefficient to be higher than the other models. The lift and drag forces and coefficients results are shown in Fig. 15 and Fig. 16, respectively. As expected, the drag force of the sharp edge cubic model is the highest when compared to the other models. Moreover, all the drag forces increase with the Reynolds number, and the drag coefficient growth rate is the highest for the sharp-edge cubic. The lift force value for the sharp edge and the fillet edge cubic at α 1⁄4 0 is approximately insignificant because, the pressure distribution of top and bottom of them is symmetry. The lift force for the ROV is the highest among all the models. According to the dependency between hydrodynamic coefficients with velocity and forces, it can be concluded that the lift coefficient for all models is negligible. Also, the drag coefficient is reduced by increasing the Reynolds number. The drag coefficient of the ROV and fillet edge devices does not change significantly by increasing the Reynolds number. The flow separation location does not depend on the Reynolds number, especially at the high Reynolds number range (Sohankar, 2006). The vortex region near the walls for the fillet-edge cubic and the ROV device is so smaller than for the sharp edge cubic and can be negligible. Hence, the vortex zone does not change significantly with increasing the Reynolds number for the ROV device and fillet edge cubic. So, the drag coefficient of these models does not change significantly, too. As mentioned before, according to Fig. 16, the drag coefficient of the fillet edge model is lower than the ROV model. In fact, the effect of filleting the cube edges has greatly reduced the drag coefficient.
+4.1.2. Angles of attack effect
+In Fig. 17, the pressure and x-vorticity contours for the ROV model at
+the angles of attack of 0�, 25�, and 45 � and Re 1⁄4 78582 are shown. As the angle of attack changes, the flow pattern is completely changed (Fig. 18), and the pressure distribution will be different. It can be concluded that as increasing the angle of attack, the pressure difference between the two sides of the ROV is increased, and so the drag coefficient is enhanced. Numerical and experimental results confirm this hypothesis.
+4.2. The experimental results
+Fig. 19 and Fig. 20 show the experimental results for the lift and drag forces and coefficients for different Reynolds numbers at α 1⁄4 0. In general, the drag coefficient is decreased with increasing the Reynolds number, although such a decrease was not so significant for the ROV model. The lift coefficient is also close to zero for the models and can be ignored. The experimental results of the drag coefficient at Re 1⁄4 78582 and different angles of attack are presented in Fig. 21. The flow separation takes place in various locations at different angles of attack and causes an asymmetric pressure distribution around the ROV and also increases the pressure difference on both sides of it. The drag coefficient is boosted by increasing the angle of attack for all models, and the largest values are related to the sharp edge cubic. In the range of α 1⁄4 25� to 30�, the changes in the drag coefficient of ROV and fillet edge cubic are considerable. At most angles of attack, the drag coefficient of the fillet edge model is lower than the ROV model. Fig. 22 and Fig. 23 show the numerical and experimental drag and lift coefficients for the ROV device, respectively. The relative error between the numerical and the experimental drag coefficient is in the range from 7% to 14%, which can be related to the geometry complexity, turbulence model, and measurement instrument. This range of difference is reasonable as well as that has been reported in the related researches (Jagadeesh et al., 2009) and (Jagadeesh and Murali, 2010).
+5. Conclusion
+In this paper, numerical and experimental investigations were conducted to analyze the hydrodynamic performance of the ROV, sharp edge, and fillet edge rectangular cubic. The 3D URANS equations and the SST k ρturbulence model were utilized to simulate the fluid flow for the Reynolds number ranging from 39291 to 157163 and angle of attack ranging from 0� to 45�. The numerical simulation results showed that the mean pressures on the top and bottom sides of all models are almost similar at different Reynolds numbers. Whereas, the mean pressure difference on the front
+Fig. 15. Numerical results of the lift and drag forces results for.α 1⁄4 0 Fig. 16. Numerical results of the lift and drag coefficient results for.α 1⁄4 0
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+10
+and rear sides of all models is increased by enhancing the Reynolds number. Hence, the lift force for all models is insignificant, and the drag force is boosted by increasing the Reynolds number. Since, the vortex region near the walls of both the ROV device, fillet edge cubic model does not change significantly at all the Reynolds number, and the drag coefficient is almost constant for both of them at all the Reynolds numbers. The flow separation location of the ROV device is changed by variation of the angle of attack and leads to increase the pressure gradient in both x and y directions. Consequently, the drag and lift coefficients are increased by enhancing the angle of attack. The same results were observed in the experimental simulations by the utilization of a wind tunnel. The experimental results showed that the angle of attack increases the drag and lift forces for all models.
+Furthermore, at different Reynolds numbers and angles of attack, the drag force (or coefficient) for the sharp-edge model is highest among all models. Filleting the edge of the model has an important role in delaying the flow separation and reducing the drag coefficient. Due to the results proximity of the ROV and fillet edge cubic model and the ROV geometry complexity for simulation, the results of the fillet edge cubic model can be used as an estimate for the lift and drag coefficients of the ROV.
+Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+Fig. 17. Pressure and x-vorticity contours for the ROV device in different angles of attack at xy and yz plane, respectively, and Re 1⁄4 78582.
+Fig. 18. Streamline contours for the different angles of attack for the ROV, at Re 1⁄4 78582.
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+11
+CRediT authorship contribution statement
+Ahmad Zarei: Software, Formal analysis, Writing - original draft. Ali Ashouri: Software, Validation, Investigation, Visualization. S.M.J. Hashemi: Validation, Investigation. S.A.S. Farrahi Bushehri: Validation, Investigation. Ehsan Izadpanah: Conceptualization, Methodology, Writing - review & editing, Project administration. Yasser Amini: Methodology, Software, Writing - review & editing.
+Acknowledgment
+The authors would like to acknowledge Prof. A.A. Dehghan, Dr. A. Movahedi, Dr. A. Saeidinezhad, and Yazd University (Dept. of Mechanical engineering) for kind contribution to use the wind tunnel.
+Fig. 19. Experimental results of the lift and drag forces results for.α 1⁄4 0
+Fig. 20. Experimental results of the lift and drag coefficient results for.α 1⁄4 0
+Fig. 21. Experimental results of the drag coefficient results for.Re 1⁄4 78582
+Fig. 22. Comparison of the experimental and numerical drag coefficient in different angles of attack for the ROV device at.Re 1⁄4 78582
+Fig. 23. Comparison of the experimental and numerical lift coefficient in different angles of attack for the ROV device at.Re 1⁄4 78582
+A. Zarei et al.
+
+
+Ocean Engineering 212 (2020) 107612
+12
+References
+Allard, Y., Shahbazian, E., 2014. Unmanned Underwater Vehicle (UUV) Information Study. OODA Technologies Inc Montreal, Quebec Canada. Amini, Y., Kianmehr, B., Emdad, H., 2019. Dynamic stall simulation of a pitching hydrofoil near free surface by using the volume of fluid method. Ocean. Eng. 192, 106553. Avila, J.P., Donha, D.C., Adamowski, J.C., 2013. Experimental model identification of open-frame underwater vehicles. Ocean. Eng. 60, 81–94. Avila, J.P.J., Adamowski, J.C., 2011. Experimental evaluation of the hydrodynamic coefficients of a ROV through Morison’s equation. Ocean. Eng. 38 (17–18), 2162–2170. Benfield, M.C., Kupchik, M.J., Palandro, D.A., Dupont, J.M., Blake, J.A., Winchell, P., 2019. Documenting deepwater habitat utilization by fishes and invertebrates associated with Lophelia pertusa on a petroleum platform on the outer continental shelf of the Gulf of Mexico using a remotely operated vehicle. Deep Sea Res. Oceanogr. Res. Pap. 149, 103045. Bond, T., Langlois, T., Partridge, J., Birt, M., Malseed, B., Smith, L., McLean, D., 2018. Diel shifts and habitat associations of fish assemblages on a subsea pipeline. Fish. Res. 206, 220–234. Capocci, R., Dooly, G., Omerdi�c, E., Coleman, J., Newe, T., Toal, D., 2017. Inspectionclass remotely operated vehicles—a review. J. Mar. Sci. Eng. 5 (1), 13. Corbera, G., Lo Iacono, C., Gr�acia, E., Griny�o, J., Pierdomenico, M., Huvenne, V.A., Aguilar, R., Gili, J.M., 2019. Ecological characterisation of a mediterranean coldwater coral reef: cabliers coral mound province (alboran sea, western mediterranean). Prog. Oceanogr. 175, 245–262. da Silva Costa, G., Ruiz, A., Reis, M., da Cunha Lima, A., de Almeida, M., da Cunha Lima, I., 2017. Numerical analysis of stability and manoeuvrability of Autonomous Underwater Vehicles (AUV) with fishtail shape. Ocean. Eng. 144, 320–326. De Barros, E.A., Dantas, J.L., 2012. Effect of a propeller duct on AUV maneuverability. Ocean. Eng. 42, 61–70. De Barros, E.A., Dantas, J.L., Pascoal, A.M., de Sa�, E., 2008. Investigation of normal force and moment coefficients for an AUV at nonlinear angle of attack and sideslip range. IEEE J. Ocean. Eng. 33 (4), 538–549. Ferziger, J.H., Peric, M., 2012. Computational Methods for Fluid Dynamics, third ed. Springer Science & Business Media. Hai, H., Zexing, Z., Jiyong, L., Qirong, T., Wanli, Z., Wang, G., 2019. Investigation on the mechanical design and manipulation hydrodynamics for a small sized, single body and streamlined I-AUV. Ocean. Eng. 186, 106106. Hoffman, K.A., Chiang, S.T., 2000. Computational Fluid Dynamics Volume IIl. Engineering Education System. Wichita, Kansas USA. Jagadeesh, P., Murali, K., 2010. RANS predictions of free surface effects on axisymmetric underwater body. Eng. Appl.Comput. Fluid.Mech. 4 (2), 301–313. Jagadeesh, P., Murali, K., Idichandy, V., 2009. Experimental investigation of hydrodynamic force coefficients over AUV hull form. Ocean. Eng. 36 (1), 113–118. Javadi, M., Manshadi, M.D., Kheradmand, S., Moonesun, M., 2015. Experimental investigation of the effect of bow profiles on resistance of an underwater vehicle in free surface motion. J. Mar. Sci. Appl. 14 (1), 53–60. Khadhraoui, A., Beji, L., Otmane, S., Abichou, A., 2016. Stabilizing control and human scale simulation of a submarine ROV navigation. Ocean. Eng. 114, 66–78. Khojasteh, D., Kamali, R., 2017. Design and dynamic study of a ROV with application to oil and gas industries of Persian Gulf. Ocean. Eng. 136, 18–30. Lampe, T., Radtke, L., Abdel-Maksoud, M., Düster, A., 2020. A partitioned solution approach for the simulation of dynamic behaviour and acoustic signature of flexible cavitating marine propellers. Ocean. Eng. 197, 106854. Leong, Z., Ranmuthugala, D., Forrest, A., Duffy, J., 2015. Numerical investigation of the hydrodynamic interaction between two underwater bodies in relative motion. Appl. Ocean Res. 51, 14–24. Liu, Z.-h., Xiong, Y., Wang, Z.-z., Wang, S., Tu, C.-x., 2010. Numerical simulation and experimental study of the new method of horseshoe vortex control. J. Hydrodyn.Ser. B 22 (4), 572–581.
+Macreadie, P.I., McLean, D.L., Thomson, P.G., Partridge, J.C., Jones, D.O., Gates, A.R., Benfield, M.C., Collin, S.P., Booth, D.J., Smith, L.L., 2018. Eyes in the sea: unlocking the mysteries of the ocean using industrial, remotely operated vehicles (ROVs). Sci. Total Environ. 634, 1077–1091. Mansoorzadeh, S., Javanmard, E., 2014. An investigation of free surface effects on drag and lift coefficients of an autonomous underwater vehicle (AUV) using computational and experimental fluid dynamics methods. J. Fluid Struct. 51, 161–171. Menter, F.R., 1994. Two-equation eddy-viscosity turbulence models for engineering applications. AIAA J. 32 (8), 1598–1605. Mitra, A., Panda, J., Warrior, H., 2019. The effects of free stream turbulence on the hydrodynamic characteristics of an AUV hull form. Ocean. Eng. 174, 148–158. Mitra, A., Panda, J.P., Warrior, H.V., 2020. Experimental and Numerical Investigation of the Hydrodynamic Characteristics of Autonomous Underwater Vehicles over SeaBeds with Complex Topography arXiv preprint arXiv:1904.13305. Moffat, R.J., 1988. Describing the uncertainties in experimental results. Exp. Therm. Fluid Sci. 1 (1), 3–17. Pan, Y.-c., Zhang, H.-x., Zhou, Q.-d., 2012. Numerical prediction of submarine hydrodynamic coefficients using CFD simulation. J. Hydrodyn. 24 (6), 840–847. Patankar, S., 2018. Numerical Heat Transfer and Fluid Flow. CRC press. Patankar, S.V., Spalding, D.B., 1983. A Calculation Procedure for Heat, Mass and Momentum Transfer in Three-Dimensional Parabolic Flows, Numerical Prediction of Flow, Heat Transfer, Turbulence and Combustion. Elsevier, pp. 54–73. Pope, S.B., 2001. Turbulent Flows. IOP Publishing, Cambridge University Press, New York. Raoult, V., Tosetto, L., Harvey, C., Nelson, T.M., Reed, J., Parikh, A., Chan, A.J., Smith, T. M., Williamson, J.E., 2020. Remotely operated vehicles as alternatives to snorkellers for video-based marine research. J. Exp. Mar. Biol. Ecol. 522, 151253. Saeidinezhad, A., Dehghan, A.A., Dehghan Manshadi, M., 2015. Experimental investigation of hydrodynamic characteristics of a submersible vehicle model with a non-axisymmetric nose in pitch maneuver. Ocean. Eng. 100, 26–34. Sayer, P., 2008. Hydrodynamic loads during the deployment of ROVs. Ocean. Eng. 35 (1), 41–46. Shang, Z., 2013. Numerical investigations of supercavitation around blunt bodies of submarine shape. Appl. Math. Model. 37 (20–21), 8836–8845. Sohankar, A., 2006. Flow over a bluff body from moderate to high Reynolds numbers using large eddy simulation. Comput. Fluid 35 (10), 1154–1168. Tong, X., Chen, Y., 2020. Random response of highly skewed propeller-shafting system induced by inflow turbulence. Ocean. Eng. 195, 106750. Versteeg, H.K., Malalasekera, W., 2007. An Introduction to Computational Fluid Dynamics: the Finite Volume Method, second ed. Pearson education. Wang, C., Sun, S., Sun, S., Li, L., 2017. Numerical analysis of propeller exciting force in oblique flow. J. Mar. Sci. Technol. 22 (4), 602–619. Wang, Y.-x., Liu, J.-f., Liu, T.-j., Jiang, Z.-b., Tang, Y.-g., Huang, C., 2019. A numerical and experimental study on the hull-propeller interaction of A long range autonomous underwater vehicle. China Ocean Eng. 33 (5), 573–582. Wetz, J.J., Ajemian, M.J., Shipley, B., Stunz, G.W., 2020. An assessment of two visual survey methods for documenting fish community structure on artificial platform reefs in the Gulf of Mexico. Fish. Res. 225, 105492. Wilcox, D.C., 1998. Turbulence Modeling for CFD, third ed. ed. DCW industries La Canada, CA. Wynn, R.B., Huvenne, V.A., Le Bas, T.P., Murton, B.J., Connelly, D.P., Bett, B.J., Ruhl, H. A., Morris, K.J., Peakall, J., Parsons, D.R., 2014. Autonomous Underwater Vehicles (AUVs): their past, present and future contributions to the advancement of marine geoscience. Mar. Geol. 352, 451–468. Zhang, J.T., Maxwell, J.A., Gerber, A.G., Holloway, A.G.L., Watt, G.D., 2013. Simulation of the flow over axisymmetric submarine hulls in steady turning. Ocean. Eng. 57, 180–196. Zhang, N., Zhang, S.-l., 2014. Numerical simulation of hull/propeller interaction of submarine in submergence and near surface conditions. J. Hydrodyn. 26 (1), 50–56.
+A. Zarei et al.

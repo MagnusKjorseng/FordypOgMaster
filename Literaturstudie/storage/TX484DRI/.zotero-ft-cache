@@ -1,0 +1,1354 @@
+Skip to main content
+Skip to article
+View PDF
+Download full issue
+Ocean Engineering
+Volume 239
+, 1 November 2021, 109854
+Dynamic characteristics of deep-sea ROV umbilical cables under complex sea conditions
+Author links open overlay panel
+Peng Chen a b c
+,
+Yuwang Liu a b
+,
+Shangkui Yang e
+,
+Jibiao Chen d
+,
+Qifeng Zhang a b
+,
+Yuangui Tang a b
+Show more
+Share
+Cite
+https://doi.org/10.1016/j.oceaneng.2021.109854
+Get rights and content
+Highlights
+
+•
+
+We established a dynamic model of a deep-sea ROV umbilical cable system.
+
+•
+
+An optimization algorithm is proposed to solve the model effectively.
+
+•
+
+Using the static analysis to obtain the shape of the umbilical cable.
+
+•
+
+The motion and force characteristics of the umbilical cable are obtained through dynamic analysis.
+
+Abstract
+
+Ensuring the safety of umbilical cables is a core challenge in deep-sea robotics. The umbilical cable usually amplifies the motion amplitude of the mother ship owing to its elastic material. Under the joint action of the mother ship motion and ocean current, the strong internal force waves generated in the umbilical cable tend to cause serious accidents such as umbilical cable breakage. Based on the Kirchhoff rod theory, a dynamic model of an umbilical cable under complex sea conditions is established. The differential quadrature method and Newmark method are used to discretize the equation in the space and time domains. The characteristics of the umbilical cable under different conditions are analyzed. The results show that the amplitude amplification rate of the umbilical cable is directly proportional to the velocity of the ocean current and amplitude of the mother ship motion, and inversely proportional to the period of the mother ship motion. When the length of the umbilical cable changes, the amplitude amplification rate reaches a maximum at 3000 m.
+
+Previous
+Next
+Keywords
+Umbilical cableJoint actionKirchhoff rod theoryNonlinear dynamics
+Nomenclature
+L
+
+Umbilical cable length
+
+N
+
+Number of discrete units
+
+d
+
+Umbilical cable diameter
+
+ρ
+
+Umbilical cable density
+
+ρw
+
+Sea water density
+
+S
+
+Umbilical cable cross-sectional area
+
+J
+
+Umbilical cable inertia tensor
+
+K
+
+Umbilical cable stiffness coefficient
+
+r
+
+Umbilical cable section position vector
+
+s
+
+Umbilical cable centerline arc coordinates
+
+F
+
+Force on the umbilical cable section
+
+M
+
+Moment of the umbilical cable section
+
+E
+
+Young's modulus
+
+G
+
+Shear modulus
+
+e3
+
+T-axis unit vector
+
+φ
+
+Umbilical cable section angle
+
+v
+
+Umbilical cable section velocity
+
+vw
+
+Ocean current velocity
+
+C1
+
+Tangential water resistance coefficient
+
+C2
+
+Normal water resistance coefficient
+
+C3
+
+Subnormal water resistance coefficient
+
+Ca
+
+Additional mass force coefficient
+
+Gw
+
+Umbilical cable gravity in water
+
+mc
+
+Cage mass in water
+
+ω
+
+Change rate of the section angular displacement relative to the arc coordinate
+
+Ω
+
+Section angular velocity
+
+f
+
+Distribution force
+
+fw
+
+Force of the ocean current on the umbilical cable
+
+fa
+
+Umbilical cable additional mass force
+
+fg
+
+Umbilical cable gravity
+
+1. Introduction
+
+In recent years, abundant marine resources have gradually attracted the attention of all countries, especially with the depletion of resources on land, which has stimulated and driven the rapid development of deep-sea remotely operated vehicles (ROVs) (
+Chen and Liu, 2018
+). ROV systems are usually composed of a supporting mother ship, an umbilical cable, a tether-management-system (TMS, also named cage), and the ROV, as shown in
+Fig. 1
+. The umbilical cable is responsible for energy transmission, information interaction, and receiving and releasing the ROV, which is the lifeline of the ROV system (
+Li et al., 2013
+). Under complex sea conditions, the mother ship generates a large six-degrees-of-freedom motion in three-dimensional space. The heave motion of the mother ship has the most significant effect on the cage (
+Driscoll, 1999
+). The gravity and buoyancy of the ROV are almost equal in water, and its impact on the cage is negligible. The umbilical cable amplifies the motion amplitude of the mother ship owing to its elastic material, and a high cage motion amplitude may cause serious accidents, such as equipment damage and umbilical cable breakage. Therefore, theoretical research on umbilical cables is urgently required (
+Zhu et al., 2008
+).
+
+Download: Download high-res image (364KB)
+Download: Download full-size image
+
+Fig. 1. Schematic diagram of a deep-sea ROV umbilical cable system.
+
+Extensive research on the nonlinear mechanical model of ROV umbilical cables has been performed based on the mass-spring model, finite difference method and finite element method.
+Driscoll et al. (1999
+,
+2000a
+,
+2000b
+,
+2000c)
+ established a one-dimensional mass-spring model for umbilical cables, and the equation of motion was determined by assembling a finite element discrete force balance equation.
+Buckham et al. (2001
+,
+2003)
+ established a mass-spring model for an umbilical cable under low tension, and the internal bending force was deduced in terms of the local curvature. The mass-spring method is a low-order finite element method that has the advantages of modularity and can easily to embed cable modules with different properties.
+Park et al. (2003
+,
+2005)
+ used the finite difference method to model a towed sonar system, and considered the influence of the cable tangential and normal resistance coefficients. The numerical calculation results were in good agreement with the experimental data.
+Koh and Rong (2004)
+ used the finite difference method and conducted a three-dimensional dynamic analysis of general cables used in engineering, considering the geometric nonlinear factors of stretching, bending, torsion and large deformation. The accuracy of the dynamic analysis was verified experimentally. Based on the finite element method,
+Cho et al. (2004)
+ proposed a method for analyzing the dynamic response of an umbilical cable by considering the coupling between the mother ship and ocean current.
+Eidsvik and Schjolberg (2016
+,
+2018)
+ used the linear finite element theory based on the Euler–Bernoulli beam theory to construct a numerical model for an ROV umbilical cable, which is suitable for low-tension situations.
+Curic (2003)
+ established an umbilical cable model with variable length based on the finite element method and evaluated its effectiveness using numerical simulations.
+Jordan and Bustamante (2007
+,
+2008)
+ ignored the gravity of the umbilical cable and analyzed the stability of the ROV system under the action of heaving motion and nonlinear vibrations.
+Quan et al. (2014
+,
+2015
+,
+2016
+,
+2020)
+, calculated the stress state of the ROV umbilical cable endpoint under the joint action of the mother ship and ocean current using the finite element method and the geometrically accurate beam model.
+
+The elastic rod theory is a modeling method that is different from the mass-spring model, finite difference method and finite element method, and mainly includes the Cosserat theory (
+Liu and Xue, 2011
+;
+Kumar, 2016
+;
+Gao et al., 2017
+) and Kirchhoff rod theory (
+Kratchman et al., 2017
+;
+Luo et al., 2014
+;
+Bretl and Mccarthy, 2014
+). Compared with the Kirchhoff rod theory, the Cosserat theory considers the strain of the elastic rod, where the model is more accurate, but more complex and difficult to solve. Owing to its simple mathematical model, the Kirchhoff rod theory is widely used.
+Liu et al. (2018)
+ established a curved surface constraint theoretical model for a soft cable based on the Kirchhoff rod theory.
+Liu et al. (2014)
+ and
+Wang et al. (2012)
+ used the Kirchhoff rod theory to develop a simulation for a cable in a virtual assembly process and obtained good simulation results. Based on the Kirchhoff rod theory,
+Goyal et al. (2005
+,
+2008)
+ studied the process of twisted submarine cables, and applied the model to DNA research. Currently, the application of the Kirchhoff rod theory in cable modeling mainly focuses on the simulation of the static form of the cable in the virtual assembly process. However, only a few applications in ROV umbilical cable analysis have considered the external environmental force and axial tensile deformation.
+
+Based on the Kirchhoff rod theory, a nonlinear dynamic model is established, considering the axial tensile deformation, the force of the ocean current on the umbilical cable and the complex sea conditions. The remainder of this paper is organized as follows. Dynamic models of the umbilical cable are described in section
+2
+. The static form of the umbilical cables with different lengths under different sea conditions and the dynamic characteristics under the joint action of the mother ship motion and ocean current are calculated in section
+3
+. The conclusions are presented in section
+4
+.
+
+2. Dynamic analysis of an umbilical cable
+2.1. Main model
+
+A dynamic model of an umbilical cable can be built from the Kirchhoff rod theory in the world coordinate system
+O−ξηζ
+, Frenet coordinate system
+P−NBT
+, and spindle coordinate system
+P−xyz
+, as shown in
+Fig. 1
+ (
+Jordan and Bustamante, 2007
+). The origin O of the world coordinate system
+O−ξηζ
+ is connected to the initial point of the umbilical cable centerline. The Frenet coordinate system
+P−NBT
+ follows the movement of point P. The axes are defined as follows: tangent vector
+T(s)=dr/ds
+, main normal vector
+N(s)=dT/(|dT/ds|ds)
+, and vice normal vector
+B(s)=T(s)×N(s)
+. The spindle coordinate system
+P−xyz
+ is fixed to the cable section. The z-axis coincides with the T-axis, while the angle between the N and x axes is denoted by
+α
+.
+
+As shown in
+Fig. 2
+, the micro-arc is analyzed in the world coordinate system
+O−ξηζ
+. The internal forces and torques in the negative section of point P are
+F
+ and
+M
+, respectively. And the internal forces and torques in the section of point
+P0
+ are
+F+ΔF
+ and
+M+ΔM
+, respectively. The distributed forces, including the distributed forces of current and gravity, are f. At point P, we obtain
+(1)
+v=∂r∂t
+(2)
+Ω=∂φ∂t
+where
+φ
+ is the section rotation angle from time t to time
+t+Δt
+.
+
+Download: Download high-res image (253KB)
+Download: Download full-size image
+
+Fig. 2. Arc-microelement force diagram. The position of any point P on the centerline is determined by the vector r. The position of P and
+P0
+ relative to point O are r and
+r+Δr
+, respectively. The arc-coordinates relative to point O are s and
+s+Δs
+, respectively.
+
+From the momentum theorem and the moment of momentum theorem, we obtain
+(3)
+∂F∂s+f=ρS(∂v∂t)
+(4)
+∂M∂s+e3×F=∂(JΩ)∂t
+where
+e3
+ is the z-axis basis vector in the spindle coordinate system
+P−xyz
+. The inertia tensor
+J=diag(Jx,Jy,Jz)
+, and
+(5)
+Jx=ρπd432Jy=ρπd432Jz=ρπd464
+
+Let
+ω
+ be the curvature-twisting of the section, which is the rate of change of the section angle
+φ
+ relative to the arc coordinate s (
+Liu, 2006
+).
+(6)
+ω=∂φ∂s
+
+ω
+ and
+Ω
+ satisfy
+(7)
+∂ω∂t=∂Ω∂s
+
+Taking the partial derivative of Eq.
+(1)
+ with respect to s yields
+(8)
+∂v∂s=∂e3∂t
+
+In the spindle coordinate system
+P−xyz
+, Eqs.
+(3)
+,
+(4)
+,
+(7)
+,
+(8)
+ can be written as (
+Liu, 2006
+):
+(9)
+{∂ω∂t=∂Ω∂s+ω×Ω
+∂v∂s+ω×v=Ω×e3
+∂F∂s+ω×F+f=ρS(∂v∂t+Ω×v)
+∂M∂s+ω×M+e3×F=∂(JΩ)∂t+Ω×(JΩ)
+
+Eq.
+(9)
+ can be written in a scalar form as follows:
+(10)
+u1=∂Ωx∂s+ωyΩz−ωzΩy−∂ωx∂t=0
+(11)
+u2=∂Ωy∂s+ωzΩx−ωxΩz−∂ωy∂t=0
+(12)
+u3=∂Ωz∂s+ωxΩy−ωyΩx−∂ωz∂t=0
+(13)
+u4=∂vx∂s+ωyvz−ωzvy−Ωy=0
+(14)
+u5=∂vy∂s+ωzvx−ωxvz+Ωx=0
+(15)
+u6=∂vz∂s+ωxvy−ωyvx=0
+(16)
+u7=∂Fx∂s+ωyFz−ωzFy−ρS(∂vx∂t+Ωyvz−Ωzvy)+fx=0
+(17)
+u8=∂Fy∂s+ωzFx−ωxFz−ρS(∂vy∂t+Ωzvx−Ωxvz)+fy=0
+(18)
+u9=∂Fz∂s+ωxFy−ωyFx−ρS(∂vz∂t+Ωxvy−Ωyvx)+fz=0
+(19)
+u10=kx∂ωx∂s+(kz−ky)ωyωz−Fy−Jx∂Ωx∂t+(Jy−Jz)ΩyΩz=0
+(20)
+u11=ky∂ωy∂s+(kx−kz)ωxωz+Fx−Jy∂Ωy∂t+(Jz−Jx)ΩxΩz=0
+(21)
+u12=kz∂ωz∂s+(ky−kx)ωxωy−Jz∂Ωz∂t+(Jx−Jy)ΩxΩy=0
+
+The Euler angle is usually employed to describe the robot posture, which appears singular. The Euler parameters (
+q1
+,
+q2
+,
+q3
+,
+q4
+) can also be used to describe the posture of the section, which eliminates singular solutions. Therefore, the Euler parameters are adopted to describe the section posture of the umbilical cable. The relationship between the Euler parameters,
+ω
+ and
+Ω
+ is defined as follows (
+Liu, 2006
+):
+(22)
+{ωx=2(−q2dq1ds+q1dq2ds+q4dq3ds−q3dq4ds)
+ωy=2(−q3dq1ds−q4dq2ds+q1dq3ds+q2dq4ds)
+ωz=2(−q4dq1ds+q3dq2ds−q2dq3ds+q1dq4ds)
+(23)
+{Ωx=2(−q2dq1dt+q1dq2dt+q4dq3dt−q3dq4dt)
+Ωy=2(−q3dq1dt−q4dq2dt+q1dq3dt+q2dq4dt)
+Ωz=2(−q4dq1dt+q3dq2dt−q2dq3dt+q1dq4dt)
+
+The partial differential equations for (
+vx
+,
+vy
+,
+vz
+,
+q1
+,
+q2
+,
+q3
+,
+q4
+,
+Fx
+,
+Fy
+,
+Fz
+) can be obtained by unifying all the physical quantities with the Euler parameters, where the Euler parameters satisfy
+(24)
+u13=q12+q22+q32+q42−1=0
+
+Before solving the dynamic model for the umbilical cable, the boundary conditions musted be defined. The initial point of the umbilical cable moves with the mother ship. Considering only the heaving motion of the mother ship and ignoring horizontal motion, the heaving motion of the mother ship at sea level can be expressed using a sine function:
+(25)
+Z=Bsin(2πTt)
+where B is the amplitude and T is the period. The position of the umbilical cable at the initial point is
+(26)
+u14=[ξ1−0
+η1−0
+ζ1−Z]=0
+
+The form of the section is limited by the Euler parameters. Supposing that the sections at the initial and end positions in the spindle coordinate system
+P−xyz
+ are set parallel to those in the world coordinate system
+O−ξηζ
+, the Euler parameters at the initial and end position sections satisfy:
+(27)
+u15=[q1,1−1
+q2,1−0
+q3,1−0
+q4,1−0]=0
+(28)
+u16=[q1,N+1−1
+q2,N+1−0
+q3,N+1−0
+q4,N+1−0]=0
+
+The force on the end section of umbilical cable is
+(29)
+u17=[Fx,N+1−mc∂vx,N+1∂s
+Fy,N+1−mc∂vy,N+1∂s
+Fz,N+1−mcg−mc∂vy,N+1∂s]=0
+
+Eqs.
+(26)
+,
+(27)
+,
+(28)
+,
+(29)
+ constitute the boundary conditions of the umbilical cable dynamics.
+
+Written in matrix form,
+(30)
+u=[u1	u2	...	u17]T=0
+
+The closed partial differential in Eq.
+(30)
+ represents the umbilical cable dynamics model.
+
+2.2. Distribution force
+
+The rotation matrix of the spindle coordinate system
+P−xyz
+ with respect to the world coordinate system
+O−ξηζ
+ is expressed in terms of the Euler parameters as follows:
+(31)
+R=[q12+q22−q32−q42	2(q2q3−q1q4)	2(q2q4+q1q3)
+2(q2q3+q1q4)	q12−q22+q32−q42	2(q3q4−q1q2)
+2(q2q4−q1q3)	2(q3q4+q1q2)	q12−q22−q32+q42]
+
+The velocity
+vw
+ of the current is approximately linearly proportional to the sea depth. There is almost no sea current below 2000 m. Therefore, it is assumed that the velocity is only a function of depth:
+(32)
+vw=vw0(1−zH),0<z<H
+where
+vw0
+ is the current velocity at sea level and H = 2000 m. In the world coordinate system
+O−ξηζ
+,
+(33)
+vw=vwξe1+vwηe2
+
+In the spindle coordinate system
+P−xyz
+, the current velocity is
+(34)
+vˆw=RT[vwξ
+vwη
+0]=[vˆwξ
+vˆwη
+vˆwζ]
+
+In the spindle coordinate system
+P−xyz
+, the relative speed of the ocean current and the umbilical cable is
+(35)
+vˆr=RTvˆ−vˆw=[vˆrξ
+vˆrη
+vˆrζ]
+
+And the force of the ocean current on the cable is
+(36)
+fw=[−12ρwC1πdvˆrξ|vˆrξ|
+−12ρwC2dvˆrηvrη2+vrζ2
+−12ρwC3dvˆrζvrη2+vrζ2]
+
+In addition, in a marine environment, the influence of the additional mass force on the umbilical cable model must be considered. The additional mass force of the cable in the spindle coordinate system
+P−xyz
+ is:
+(37)
+fa=ρwCaS∂v∂t
+where
+ρw
+ is the density of sea water.
+
+The umbilical cable is subject to gravity and a force distribution from the ocean current in the world coordinate system
+O−ξηζ
+. Let the distribution of the gravitational force be
+fg
+. The projection of the force distribution in the spindle coordinate system
+P−xyz
+ is:
+(38)
+f=[fx
+fy
+fz]=RT[0
+0
+fg]+fw+fa
+
+2.3. Discretization of the equations
+
+The differential quadrature method (DQM) algorithm is used to discretize Eq.
+(30)
+ with the zero point of a Chebyshev polynomial as the node, as shown in Eqs.
+(39)
+,
+(40)
+.
+(39)
+si=1−cos[(i−1)π/N]2L
+(40)
+drxdsr|s=sj=∑i=1N+1Ajkrxi
+
+Using the Lagrange interpolation basis function, the formula for calculating the weight coefficient matrix A is
+(41)
+{Aij(1)=∏k=1
+k≠i,jN+1(si−sk)/∏k=1
+k≠jN+1(sj−sk)(i,j=1,2,...,N+1;i≠j)
+Aii(1)=∑k=1
+k≠iN+11si−sk(i=j)
+where x represents an unknown quantity
+x=[q1,q2,q3,q4,vx,vy,vz,Fx,Fy,Fz]T
+.
+
+Owing to the tensile deformation of the umbilical cable centerline, the model must be modified when performing spatial dispersion. The arc coordinate in the stressed state is represented by
+s′
+, and the arc coordinate in the relaxed state is represented by s. The relationship between the two is given by
+(42)
+ds′=(1+FzES)ds
+
+The implicit time-domain algorithm is used to solve Eq.
+(31)
+ in the time domain, as shown in Eqs.
+(43)
+,
+(44)
+ (
+Quan et al., 2014
+).
+(43)
+v(n+1)=λ1(u(n+1)−u(n))+λ2v(n)+λ3a(n)
+(44)
+a(n+1)=λ4(u(n+1)−u(n))−λ5v(n)−λ6a(n)
+(45)
+{λ1=αβΔt,λ2=1−αβ,λ3=1−α2βΔt
+λ4=1βΔt2,λ5=1βΔt,λ6=1−2β2β
+
+2.4. Numerical solution
+
+In Eq.
+(30)
+, the partial differentials at each moment in time are combined to form a completely closed algebraic system of equations
+f(x)=[f1(x),...,fm(x)]T=0
+, where m is the number of equations. The problem can be transformed into a nonlinear least-squares problem, where the objective function is
+(46)
+{minF(x)
+F(x)=12∑i=1N+1fi2(x)
+
+The optimization algorithm shown in
+Fig. 3
+ is used to solve the model.
+(α,β,μ,q,ε1,ε2)
+ are preset parameters, k is the number of iterations, and
+x0
+ is the initial value in each iteration.
+J(xk)
+ is the
+f(x)
+ Jacobi matrix at
+xk
+,
+gk
+ is the gradient, and GK is the modulus of
+gk
+.
+(47)
+gk=J(xk)Tf(xk)
+(48)
+GK=|gk|
+where
+dk
+ is the search direction, which is divided into the Gauss–Newton (GN) and Levenberg–Marquardt (LM) directions. When the Hesse matrix is singular, a LM direction search is performed, and when the Hesse matrix is not singular, a GN direction search is performed. Sometimes, the determinant of the Hesse matrix is extremely large in the calculation process. Owing to the limited computing power of computers, the inversion fails. Therefore, when the Hesse matrix determinant is very large, the search is also performed in the GN direction.
+(49)
+d(xk)=−xk)(xk)(xk)TJ(xk))−1g(xk)(GN)
+(50)
+d(xk)=−xk)(xk)(xk)TJ(xk)+μI)−1g(xk)(LM)
+
+Download: Download high-res image (458KB)
+Download: Download full-size image
+
+Fig. 3. Flow chart showing the optimization algorithm.
+
+The Flag is an identifier, where
+Flag=0
+ indicates a search along the GN direction and
+Flag=1
+ indicates a search along the LM direction.
+
+The optimal iteration step size is determined using the Armijo criteria.
+(51)
+F(xk+βad(xk))<F(xk)+αβag(xk)d(xk)
+
+r is the ratio of the actual decline to the theoretical decline, and
+r1
+ and
+r2
+ are the thresholds of the trust-region radius.
+xk+1
+ and
+μ
+ are adjusted based on the search direction and trust region.
+(52)
+{xk+1=xkifr<r1&Flag=1
+xk+1=xk+βmd(xk)ifr≥r1
+(53)
+μ={μqifr<r1
+μifr1≤r≤r2
+μ/qifr>r2
+
+3. Calculation results
+
+In this section, we verify the accuracy of the umbilical cable dynamic model using existing test data and then calculate the static and dynamic characteristics of the umbilical cable under different sea conditions.
+
+3.1. Model validation
+
+Data showing the motion of the mother ship and cage collected by the ROPOS Canadian deep-sea ROV system were used to verify the model (
+Driscoll et al., 1999
+). The relevant parameters of the umbilical cable are listed in
+Table 1
+. A comparison between the theoretical and actual values of the cage is shown in
+Fig. 4
+, for the case where the motion of the mother ship is considered and the effect of the ocean current is ignored. In
+Fig. 4
+(a), we calculate the movement of the cage based on the measured movement of the ROPOS's mother ship and compare it with the measured movement of the cage. As shown in
+Fig. 4
+(b), the theoretical calculation value of the cage motion coincides with the actual value, and the difference
+Ze
+ between the theoretical and the actual values was calculated. The mean difference
+Ze
+ is 0.0040.
+
+Table 1. ROPOS umbilical cable parameters.
+
+symbol	name	value	symbol	name	value
+d (mm)	Diameter	30	
+C1
+	Tangential water resistance coefficient	0.02
+Gw (N/m)	Cable gravity in water	25.9	
+C2
+	Normal water resistance coefficient	2.0
+mc(kg)	Cage mass in water	4320	
+C3
+	Subnormal water resistance coefficient	2.0
+E (GPa)	Young's modulus	64.4	
+Ca
+	Additional mass force coefficient	1.5
+G (GPa)	Shear modulus	26.9	Fs(kN)	Safe working load	200
+Download: Download high-res image (386KB)
+Download: Download full-size image
+
+Fig. 4. Comparison between measured data and calculated values for the Cage. (c) means calculated values and (r) means real values.
+
+3.2. Static analysis of the mother ship's heaving motion with constant current
+
+When the motion of the mother ship is ignored, the umbilical cable reaches static equilibrium under the action of the sea current, and total time derivatives in Eq.
+(30)
+ are set to 0, that is, Eq.
+(30)
+ is reduced to a steady state. Then, the variables in Eq.
+(30)
+ become
+(54)
+u˜1=u˜2=u˜3=u˜4=u˜5=u˜6≡0
+(55)
+u˜7=∂Fx∂s+ωyFz−ωzFy+fx=0
+(56)
+u˜8=∂Fy∂s+ωzFx−ωxFz+fy=0
+(57)
+u˜9=∂Fz∂s+ωxFy−ωyFx+fz=0
+(58)
+u˜10=kx∂ωx∂s+(kz−ky)ωyωz−Fy=0
+(59)
+u˜11=ky∂ωy∂s+(kx−kz)ωxωz+Fx=0
+(60)
+u˜12=kz∂ωz∂s+(ky−kx)ωxωy=0
+
+Eqs.
+(54)
+,
+(55)
+,
+(56)
+,
+(57)
+,
+(58)
+,
+(59)
+,
+(60)
+ constitute the static equations of the umbilical cable, which can be written in the matrix form as follows:
+(61)
+u˜=[u˜7	u˜8	⋯	u˜12]T=0
+
+Before solving the static model for the umbilical cable, the boundary conditions must be defined. In the static model for an umbilical cable, the postures of the sections at the initial and final positions are the same as those in Eqs.
+(28)
+,
+(29)
+, respectively. However, Eqs.
+(26)
+,
+(29)
+ must be modified as follows:
+(62)
+u˜13=[ξ˜1−0
+η˜1−0
+ζ˜1−0]=0
+(63)
+u˜14=[F˜x,N+1−0
+F˜y,N+1−0
+F˜z,N+1−mcg]=0
+
+Eqs.
+(62)
+,
+(63)
+ define the boundary conditions of the static umbilical cable.
+
+The ocean current in the
+η=ξ
+ direction and there is no current below 2000 m. We calculate the static form of the umbilical cables under different lengths and sea conditions. When the umbilical cable is not affected by ocean currents, it remains upright. Under the action of ocean currents, the umbilical cable bends and deforms. We define the distance of the endpoint of the umbilical cable relative to the
+ζ
+ axis as the offset.
+
+The shape of the 2000 m long umbilical cable in ocean currents with different velocities is shown in
+Fig. 5
+. The umbilical cable has a larger deviation relative to the
+ζ
+-axis as the ocean current gradually increases. When the ocean current velocities are 0.1, 0.2, 0.3, 0.4 and 0.5 m/s, the offsets of the umbilical cable end relative to the
+ζ
+-axis are 1.326, 6.221, 13.367, 20.915 and 24.394 m, respectively, as shown in
+Table 2
+. At the same time, the equilibrium position of the endpoint of the umbilical cable gradually rises under the action of the ocean current, as shown in
+Fig. 5
+(c). However, the furthest point from the umbilical cable to the
+ζ
+-axis is not the endpoint, but a point near the center of the cable. There are two reasons for this phenomenon: 1) the two ends of the umbilical cable are constrained, as shown in Eqs.
+(62)
+,
+(63)
+; 2) when the ocean current velocity decreases with depth, the force gradually decreases.
+
+Download: Download high-res image (560KB)
+Download: Download full-size image
+
+Fig. 5. Umbilical cable shape at different ocean current velocities.
+
+Table 2. Offsets of the endpoints under different ocean current velocities.
+
+velocity	0.1 m/s	0.2 m/s	0.3 m/s	0.4 m/s	0.5 m/s
+offset	1.326 m	6.221 m	13.367 m	20.915 m	24.394 m
+
+The shapes of the umbilical cables with different lengths when the ocean current velocity is 1.0 m/s are shown in
+Fig. 6
+. When the lengths of the umbilical cable are 1000, 2000, 3000, 4000, and 5000 m, the offsets of the endpoint to the z-axis are 14.412, 24.393, 17.828, 17.749 and 10.989 m, respectively, as shown in
+Table 3
+. The offset of the umbilical cable end first increases and then decreases because there is no current below 2000 m, and the umbilical cable only experiences gravity.
+
+Download: Download high-res image (435KB)
+Download: Download full-size image
+
+Fig. 6. Shapes of the umbilical cables of different lengths.
+
+Table 3. Endpoint offsets for umbilical cables with different lengths.
+
+length	1000 m	2000 m	3000 m	4000 m	5000 m
+offset	14.412 m	24.394 m	17.828 m	17.749 m	10.989 m
+
+It is assumed that the direction of the ocean current is different in the range of 0–1000 m and 1000–2000 m. The velocity of the ocean current at sea level is 0.5 m/s, and the length of the umbilical cable is 2000 m. S1 ∼ S4 represent four cases where the directions of the current are different, and the direction of the current in each case is shown in
+Table 4
+. The shape of the umbilical cable for each case is shown in
+Fig. 7
+. When the direction of the ocean current is different at different depths, the static form of the umbilical cable is different, and the position of the endpoint is also different. The umbilical cable is bent in a three-dimensional space.
+
+Table 4. Direction of the ocean current.
+
+Empty Cell
+	S1	S2	S3	S4
+0–250m	
+−η
+	
+−η
+	
+−ξ
+	
+−ξ
+
+250–500m	
++ξ
+	
+−ξ
+	
++η
+	
+−η
+
+ξ
+ and
+η
+ represent the axes.
+
+Download: Download high-res image (430KB)
+Download: Download full-size image
+
+Fig. 7. Shapes of umbilical cables with different current direction.
+
+The dynamic form of the umbilical cable under the joint action of the mother ship's motion and ocean current oscillates near the static location. The static shape can be used as a theoretical reference for the dynamic shape. At the same time, the form parameters can be used as the initial state of the algorithm in the dynamic analysis.
+
+3.3. Dynamic analysis under joint action
+
+Determining the dynamic characteristics of the umbilical cable under the joint action of the mother ship and ocean current is of great significance to the stability of the ROV system. This section describes the calculation of the dynamic characteristics of an umbilical cable under different conditions.
+
+3.3.1. Different ocean current velocities
+
+Suppose the equation of motion for the mother ship is
+(64)
+Z=Bsin(2πTt)
+where B = 1 m and T = 5 s.
+
+When L = 3000 m, we calculate the dynamic motion of the umbilical cables with different ocean current velocities. The static results are considered as the initial state of the umbilical cable, and we assume that each node has the same initial velocity
+v0
+ but no initial acceleration.
+(65)
+v0=B2πT
+
+As shown in
+Fig. 8
+(a)–(e), the phase difference gradually increases with an increase in the current velocity. When the ocean current velocities are 0.25 m/s, 0.5 m/s, 0.75 m/s, 1.00 m/s and 1.25 m/s, the corresponding amplitude amplification ratios are 1.530, 1.532, 1.538, 1.540 and 1.541, respectively, indicating that the amplitude amplification ratio gradually increases with an increase in the current velocity, as shown in
+Fig. 8
+(f). However, the force change at the head end of the umbilical cable is small. Compared to the umbilical cable gravity and cage gravity, the force generated by the ocean current is small, so the impact on the stress state of the umbilical cable is small. The umbilical cable has a stress of 80–160 kN at the head within a safe working load range.
+
+Download: Download high-res image (1MB)
+Download: Download full-size image
+
+Fig. 8. Comparison of the motion and forces at the initial point with different ocean current velocities. In (a)–(e), the red dotted line represents the movement of the mother ship, and the solid blue line represents the movement of the end of the umbilical cable and the force at the head. (For interpretation of the references to colour in this figure legend, the reader is referred to the Web version of this article.)
+
+3.3.2. Different periods of the mother ship motion
+
+Suppose the motion amplitude of the mother ship is
+B=1m
+, and the ocean current velocity is
+v0=0.5m/s
+. We calculate the effect of different periods of the mother ship on the umbilical cable.
+
+As shown in
+Fig. 9
+(a)–(e), with an increase in the motion period, the phase difference gradually decreases. When the mother ship motion periods are 2.5, 5.0, 7.5, 10.0, and 12.5 s, the corresponding amplitude amplification ratios are 1.56, 1.53, 1.51, 1.49, and 1.48, respectively. It can be observed that the amplitude amplification ratio tends to decrease with an increase in the motion period, as shown in
+Fig. 9
+(f). The stress on the umbilical cable decreases with an increase in the movement period of the mother ship. When
+T≥5s
+, the force on the head of the umbilical cable is always within the safe working load range. However, when
+T=2.5s
+, the force on the head of the umbilical cable is greater than 200 kN, which exceeds the safe working load. Therefore, when the sea conditions are serious and the motion period of the mother ship is small, the umbilical cable is most likely to break.
+
+Download: Download high-res image (1MB)
+Download: Download full-size image
+
+Fig. 9. Comparison of motion and force at initial point with different periods of mother ship motion. In (a)–(e), the red dotted line represents the movement of the mother ship, and the solid blue line represents the movement of the end of the umbilical cable and the force at the head. (For interpretation of the references to colour in this figure legend, the reader is referred to the Web version of this article.)
+
+3.3.3. Different amplitudes of the mother ship motion
+
+Suppose the motion period of the mother ship is
+T=5s
+, and the current velocity is
+v0=0.5
+m/s. We analyze the effects of different mother ship amplitudes on the umbilical cable.
+
+As shown in
+Fig. 10
+(a)–(e), the phase difference gradually increases with an increase in the mother ship motion amplitude. When the mother ship motion amplitudes are 0.5, 0.75, 1.0, 1.25 and 1.5 m, the corresponding amplitude amplification ratios are 1.50, 1.52, 1.53, 1.54, and 1.55, respectively. The amplitude amplification ratio increases with an increase in the amplitude, as shown in
+Fig. 10
+(f). The stress on the umbilical cable increases with an increase of the amplitude. When the amplitude is 1.5 m, the maximum force on the head of the umbilical cable is 75–185 kN, which is within the safe working load range.
+
+Download: Download high-res image (1MB)
+Download: Download full-size image
+
+Fig. 10. Comparison of motion and force at initial point with different amplitudes of mother ship motion. In (a)–(e), the red dotted line represents the movement of the mother ship, and the solid blue line represents the movement of the end of the umbilical cable and the force at the head. (For interpretation of the references to colour in this figure legend, the reader is referred to the Web version of this article.)
+
+3.3.4. Different umbilical cable lengths
+
+Suppose the ocean current velocity is
+v0=0.5
+m/s, the motion period of the mother ship is
+T=5s
+, and the motion amplitude of the mother ship is
+B=1m
+. We calculate the dynamic motion of the umbilical cables of different lengths.
+
+As shown in
+Fig. 11
+(a)–(e), when the length of the umbilical cable increases, the phase difference increases. When the lengths are 1000, 2000, 3000, 4000 and 5000 m, the amplitude amplification ratios are 1.18, 1.32, 1.53, 1.47 and 1.43, respectively. As the length increases, the stress on the umbilical cable also increases. When the length is 5000 m, the maximum force on the head of the umbilical cable is 140–200 kN, which is within but very close to the safe working load range.
+
+Download: Download high-res image (1MB)
+Download: Download full-size image
+
+Fig. 11. Comparison of motion and force at initial point when the mother ship is in sinusoidal motion with different cable lengths. In (a)–(e), the red dotted line represents the movement of the mother ship, and the solid blue line represents the movement of the end of the umbilical cable and the force at the head. (For interpretation of the references to colour in this figure legend, the reader is referred to the Web version of this article.)
+
+When the sinusoidal heave motion of the mother ship is transmitted to the cage through the cable, the heave motion of cage is also observed. Within a certain underwater depth range, the movement amplitude of the cage will be increased to the maximum, and the amplitude of the tension fluctuation of the cable will also be increased to the maximum. Determination of the depth range is essential for the safe operation of the deep-sea ROV systems. We call this depth range the resonance region of the deep-water umbilical cable system. As shown in
+Fig. 11
+(f), when the length is 3000 m, the amplitude amplification ratio is the largest, indicating a strong resonance phenomenon is generated at 3000 m.
+
+3.3.5. Actual motion action of the mother ship
+
+In this section, we use the motion data of the mother ship, which were measured by the "Da Yang Yi Hao" research ship. The measured data for the mother ship are shown in
+Fig. 12
+. The ocean current velocity is
+v0=0.5
+m/s. We calculate the dynamic motion of the umbilical cables of different lengths.
+
+Download: Download high-res image (150KB)
+Download: Download full-size image
+
+Fig. 12. Real heave motion data of ship “Da Yang Yi Hao”.
+
+As shown in
+Fig. 13
+(a)–(e), when the length of the umbilical cable increases, the phase difference increases gradually. When the lengths of the umbilical cable are 1000, 2000, 3000, 4000, and 5000 m, the cage amplitude amplification ratios are 1.17, 1.26, 1.45, 1.43 and 1.39, respectively, as shown in
+Fig. 13
+(f). This trend indicates that the umbilical cable system exhibits a large resonance phenomenon at 3000 m. The heave amplitude of the cage is amplified underwater, but not infinitely. The cage amplitude amplification ratio varies from 1.1 to 1.5, in the range of 1000–5000 m. The stress fluctuation ranges at the initial point of the umbilical cable are 60–80, 80–110, 100–130, 130–160 and 150–190 kN, respectively. When the length is 5000 m, the stress of the umbilical cable is close to the safe working load of 200 kN. If the length of the umbilical cable continues to increase or the sea conditions become more adverse, the umbilical cable may break. A heave compensation device should be added to ensure the safe operation of the umbilical cable.
+
+Download: Download high-res image (1MB)
+Download: Download full-size image
+
+Fig. 13. Comparison of motion and force at initial point when using mother ship actual motion data with different cable lengths. In (a)–(e), the red dotted line represents the movement of the mother ship, and the solid blue line represents the movement of the end of the umbilical cable and the force at the head. (For interpretation of the references to colour in this figure legend, the reader is referred to the Web version of this article.)
+
+3.3.6. Discussion
+
+We analyze the effects of different sea conditions, the movements of different mother ships and the length on the dynamic characteristics of the umbilical cables, as shown in
+Table 5
+. The results show that the amplitude amplification ratio is proportional to the current velocity and amplitude of the mother ship, and inversely proportional to the period of the mother ship. The force on the head of the umbilical cable is inversely proportional to the period of the mother ship motion and proportional to the length of the umbilical cable, and is less affected by the current velocity and amplitude of the mother ship motion. The phase difference is proportional to the current velocity, amplitude of the mother ship motion and length of the umbilical cable, and inversely proportional to the period of the mother ship motion.
+
+Table 5. Relationship between the dynamic characteristics of the umbilical cable and various parameters.
+
+Empty Cell
+	CV↑	PMM↑	AMM↑	LUC↑
+amplitude amplification ratio	↑	↓	↑	Take the maximum at 3000m
+force on the umbilical cable	—	↓	↑	↑
+Phase difference	↑	↓	↑	↑
+
+CV: current velocity; PMM: period of the mother ship motion; AMM: amplitude of the mother ship motion; LUC: length of the umbilical cable;
+
+Based on the analysis presented in sections
+3.3.4 Different umbilical cable lengths
+,
+3.3.5 Actual motion action of the mother ship
+, it can be observed that when the length of the umbilical cable changes from 1000 to 3000 m, the amplitude amplification ratio of the cage gradually increases. When the length of the umbilical cable changes from 3000 to 5000 m, the amplification ratio of the cage amplitude gradually decreases, indicating that the umbilical cable system produces a strong resonance phenomenon in the 3000 m region. When it is far away from this resonance depth range, the heave amplitude of the cage is significantly reduced. We compare the effect of the different mother ship movements on the amplitude amplification ratios, as shown in
+Fig. 14
+. As the amplitude of the average motion of the mother ship increases, the amplitude amplification ratio also gradually increases. When the mother ship undergoes sinusoidal motion, the average motion amplitude and amplitude amplification ratio are the largest, which is the same conclusion as that in section
+3.3.3
+.
+
+Download: Download high-res image (283KB)
+Download: Download full-size image
+
+Fig. 14. Effects of different mother ship movements on amplitude amplification ratios.
+
+4. Conclusion
+
+During the underwater operation of the deep-sea ROV, the umbilical cable often breaks owing to the joint action of the mother ship's motion and ocean current, resulting in the loss of the expensive underwater robot. Considering the shortcomings of existing modeling methods, a new modeling method based on the Kirchhoff rod theory was presented in this paper. After deriving a dynamic model, the DQM algorithm was used for spatial discretization, and the
+Newmark−β
+ method was adopted for iterations in the time domain. The accuracy of the model was verified against the data collected by the Canadian ROPOS system. The static shape and the dynamic characteristics of the umbilical cables were calculated.
+
+The motion amplitude and period of the mother ship and ocean current velocity have little effect on the amplitude amplification rate of the cage, but the length of the umbilical cable has a significant effect. In particular, when the length of the umbilical cable is 3000 m, the amplitude amplification rate reaches a maximum. Therefore, the cage should avoid staying in the 3000 m area for too long, as it may result in cable damage.
+
+CRediT authorship contribution statement
+
+Peng Chen: Modeling, Algorithm design, Writing – original draft, preparation. Yuwang Liu: Software, Data curation. Shangkui Yang: Visualization, Investigation. Jibiao Chen: Writing- Reviewing. Qifeng Zhang: Software, Validation. Yuangui Tang: Supervision.
+
+Declaration of competing interest
+
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+Acknowledgments
+
+This work was supported by the Key Research Program of Frontier Sciences (Grant No.
+ZDBS-LY- JSC011
+), National Natural Science Foundation of China (
+61821005
+,
+51975566
+), National Key R&D Program of China (
+2017YFC030560101
+) and Liao Ning Revitalization Talents Program (
+XLYC1807090
+).
+
+References
+Bretl and Mccarthy, 2014
+T. Bretl, Z. Mccarthy
+Quasi-static manipulation of a Kirchhoff elastic rod based on a geometric analysis of equilibrium configurations
+Int. J. Robot Res., 33 (1) (2014), pp. 48-68
+View at publisher
+Crossref
+View in Scopus
+Google Scholar
+Buckham et al., 2003
+B.J. Buckham, F.R. Driscoll, M. Nahon, B. Radanovic
+Three dimensional dynamics simulation of slack tether motion in an ROV system
+2003 13th International Offshore and Polar Engineering Conference (2003), pp. 127-134
+Google Scholar
+Buckham and Nahon, 2001
+B.J. Buckham, M. Nahon
+Formulation and validation of a lumped mass model for low-tension ROV tethers
+Int. J. Offshore Polar Eng., 11 (4) (2001), pp. 282-289
+View in Scopus
+Google Scholar
+Curic, 2003
+D. Curic
+Development of a Variable Length Underwater Cable Model
+Master Dissertation, Florida Atlantic University (2003)
+Google Scholar
+Chen and Liu, 2018
+Q. Chen, Z.B. Liu
+A novel voltage regulation strategy for the electric power delivery system of a 6000-m ROV
+Appl. Ocean Res., 80 (2018), pp. 112-117
+View PDF
+View article
+View in Scopus
+Google Scholar
+Cho et al., 2004
+K.N. Cho, H.C. Song, D.C. Hong
+Struct. Eng. Mech., 18 (4) (2004), pp. 429-440
+View at publisher
+Crossref
+View in Scopus
+Google Scholar
+Driscoll, 1999
+F.R. Driscoll
+Dynamics of a Vertically Tethered Marine Platform
+Doctoral Dissertation, University of Victoria (1999)
+Google Scholar
+Driscoll et al., 2000a
+F.R. Driscoll, R.G. Lueck, M. Nahon
+Development and validation of a lumped-mass dynamics model of a deep-sea ROV system
+Appl. Ocean Res., 22 (3) (2000), pp. 169-182
+View PDF
+View article
+View in Scopus
+Google Scholar
+Driscoll et al., 2000b
+F.R. Driscoll, R.G. Lueck, M. Nahon
+The motion of a deep-sea remotely operated vehicle system Part 1: motion observations
+Ocean. Eng., 27 (2000), pp. 29-56
+View PDF
+View article
+View in Scopus
+Google Scholar
+Driscoll et al., 2000c
+F.R. Driscoll, R.G. Lueck, M. Nahon
+The motion of a deep-sea remotely operated vehicle system Part 2: analytical model
+Ocean. Eng., 27 (2000), pp. 57-76
+View PDF
+View article
+View in Scopus
+Google Scholar
+Eidsvik and Schjolberg, 2016
+O.A. Eidsvik, I. Schjolberg
+Time domain modeling of ROV umbilical using beam equations
+10th IFAC Conference on Control Applications in Marine System (2016), pp. 452-457
+View PDF
+View article
+View in Scopus
+Google Scholar
+Eidsvik and Schjolberg, 2018
+O.A. Eidsvik, I. Schjolberg
+Finite element cable-model for Remotely Operated Vehicles (ROVs) by application of beam theory
+Ocean. Eng., 163 (2018), pp. 322-336
+Google Scholar
+Gao et al., 2017
+A.Z. Gao, R.J. Murphy, H. Liu, I.I. Iordachita, M. Armand
+Mechanical model of dexterous continuum manipulators with compliant joints and tendon/external force interactions
+IEEE-ASME Transactions on Mechatronics, 22 (1) (2017), pp. 465-475
+View in Scopus
+Google Scholar
+Goyal et al., 2005
+S. Goyal, N.C. Perkins, C.L. Lee
+Nonlinear dynamics and loop formation in Kirchhoff rods with implications to the mechanics of DNA and cables
+J. Comput. Phys., 209 (1) (2005), pp. 371-389
+View PDF
+View article
+View in Scopus
+Google Scholar
+Goyal et al., 2008
+S. Goyal, N.C. Perkins, C.L. Lee
+Non-linear dynamic intertwining of rods with self-contact
+Int. J. Non Lin. Mech., 43 (1) (2008), pp. 65-73
+View PDF
+View article
+View in Scopus
+Google Scholar
+Jordan and Bustamante, 2007
+M.A. Jordan, J.L. Bustamante
+Numerical stability analysis and control of umbilical-ROV systems in one-degree-of-freedom taut-slack condition
+Nonlinear Dynam., 49 (1–2) (2007), pp. 163-191
+View at publisher
+Crossref
+View in Scopus
+Google Scholar
+Jordan and Bustamante, 2008
+M.A. Jordan, J.L. Bustamante
+Guidance of underwater vehicles with cable tug perturbations under fixed and adaptive control systems
+IEEE J. Ocean. Eng., 33 (4) (2008), pp. 579-598
+View in Scopus
+Google Scholar
+Koh and Rong, 2004
+C.G. Koh, Y. Rong
+Dynamic analysis of large displacement cable motion with experimental verification
+J. Sound Vib., 272 (1) (2004), pp. 187-206
+View PDF
+View article
+View in Scopus
+Google Scholar
+Kratchman et al., 2017
+L.B. Kratchman, T.L. Bruns, J.J. Abbott, R.J. Webster
+Guiding elastic rods with a robot-manipulated magnet for medical applications
+IEEE Trans. Robot., 33 (1) (2017), pp. 227-233
+View in Scopus
+Google Scholar
+Kumar et al., 2016
+A. Kumar, S. Kumar, P. Gupta
+A helical Cauchy-Born rule for special Cosserat rod modeling of Nano and continuum rods
+J. Elasticity, 124 (1) (2016), pp. 81-106
+View at publisher
+Crossref
+View in Scopus
+Google Scholar
+Liu, 2006
+Y. Liu
+Nonlinear Mechanics of Thin Elastic Rod: Theoretical Basis of Mechanical Model of DNA
+(first ed.), Tsinghua University Press, Beijing (2006)
+(in Chinese)
+Google Scholar
+Liu et al., 2018
+Y. Liu, J. Chen, J. Liu, X. Jin
+Nonlinear mechanics of flexible cables in space robotic arms subject to complex physical environment
+Nonlinear Dynam., 94 (1) (2018), pp. 649-667
+View at publisher
+Crossref
+Google Scholar
+Liu and Xue, 2011
+Y.Z. Liu, Y. Xue
+Stability analysis of helical rod based on exact Cosserat model
+Applied Mathematics and Mechanics-English Edition, 32 (5) (2011), pp. 603-612
+Crossref
+View in Scopus
+Google Scholar
+Luo et al., 2014
+M.S. Luo, H.Z. Xie, L. Xie, P. Cai, L.X. Gu
+A robust and real-time vascular intervention simulation based on Kirchhoff elastic rod
+Comput. Med. Imag. Graph., 38 (8) (2014), pp. 735-743
+View PDF
+View article
+View in Scopus
+Google Scholar
+Liu et al., 2014
+J. Liu, T. Zhao, R. Ning
+Physics-based modeling and simulation for motional cable harness design
+Chin. J. Mech. Eng., 27 (5) (2014), pp. 1075-1082
+Crossref
+View in Scopus
+Google Scholar
+Li et al., 2013
+L. Li, Y.H. Zhang, P. Yang
+The tension calculation of self-propelled, cable-controlled vehicles' cables
+Adv. Mater. Res., 823 (2013), pp. 24-28
+Google Scholar
+Park et al., 2003
+H.I. Park, D.H. Jung, W. Koterayama
+A numerical and experimental study on dynamics of a towed low tension cable
+Appl. Ocean Res., 25 (5) (2003), pp. 289-299
+View PDF
+View article
+View in Scopus
+Google Scholar
+Park et al., 2005
+H.I. Park, D.Y. Kwon, D.H. Jung
+A numerical analysis for the dynamic behavior of ROV launcher and umbilical cable under combined excitations
+2005 15th International Offshore and Polar Engineering Conference (2005), pp. 313-318
+View in Scopus
+Google Scholar
+Quan et al., 2016
+W.C. Quan, Y.S. Liu, A.Q. Zhang, X.F. Zhao, X.H. Li
+The nonlinear finite element modeling and performance analysis of the passive heave compensation system for the deep-sea tethered ROVs
+Ocean. Eng., 127 (2016), pp. 246-257
+View PDF
+View article
+View in Scopus
+Google Scholar
+Quan et al., 2014
+W.C. Quan, Z.Y. Zhang, A.Q. Zhang
+Dynamics analysis of planar armored cable motion in deep-sea ROV system
+J. Cent. S. Univ., 21 (12) (2014), pp. 4456-4467
+Crossref
+View in Scopus
+Google Scholar
+Quan et al., 2015
+W.C. Quan, Z.Y. Zhang, A.Q. Zhang, Q.F. Zhang, Y. Tian
+A geometrically exact formulation for three-dimensional numerical simulation of the umbilical cable in a deep-sea ROV system
+China Ocean Eng., 29 (2) (2015), pp. 223-240
+Crossref
+View in Scopus
+Google Scholar
+Quan et al., 2020
+W.C. Quan, Q.Q. Zhang, Q.F. Zhang, J. Gong
+Dynamics calculation for variable-length underwater cable with geometrically nonlinear motion
+Ocean. Eng., 212 (2020), p. 107695
+View PDF
+View article
+View in Scopus
+Google Scholar
+Wang et al., 2012
+C.S. Wang, R.X. Ning, J.H. Liu, T. Zhao
+Dynamic simulation and disturbance torque analyzing of motional cable harness based on Kirchhoff rod model
+J. Mech. Eng., 25 (2) (2012), pp. 346-354
+View in Scopus
+Google Scholar
+Zhu et al., 2008
+K.Q. Zhu, H.Y. Zhu, Y.S. Zhang, J. Gao, G.P. Miao
+A multi-body space-coupled motion simulation for a deep-sea tethered remotely operated vehicle
+J. Hydrodyn., 20 (2) (2008), pp. 210-215
+View PDF
+View article
+Crossref
+View in Scopus
+Google Scholar
+Cited by (14)
+Dynamic responses of ROV system experiencing vessel heave during deployment and recovery processes
+2024, Ocean Engineering
+Show abstract
+SPH-DEM modeling of cable-controlled ROVs: Underwater mobility and path planning
+2024, Ocean Engineering
+Show abstract
+The absolute nodal coordinate formulation in the analysis of offshore floating operations, Part II: Code validation and case study
+2023, Ocean Engineering
+Show abstract
+Dynamic analysis of the umbilical cable pull-in operation through J-tube under different wave directions
+2023, Ocean Engineering
+Show abstract
+A hamiltonian global nodal position finite element method for dynamics analysis of submarine cables
+2022, Ocean Engineering
+Citation Excerpt :
+
+Yang et al. (2021) developed an analytical model to calculate the nonlinear tension-torsion coupling effect of the submarine cable. Chen et al. (2021) established the submarine cable dynamic model under complex sea conditions based on the Kirchhoff rod theory. Viel et al. (2022) proposed a model to predict the shape of the submarine cable so as to avoid entanglement of the cable itself or with surrounding obstacles.
+
+Show abstract
+Analysis of the vibration characteristics of non-uniform tension cables in a ship-cable-robot mining system
+2023, Harbin Gongcheng Daxue Xuebao/Journal of Harbin Engineering University
+View all citing articles on Scopus
+View Abstract
+© 2021 Elsevier Ltd. All rights reserved.
+About ScienceDirect
+Remote access
+Shopping cart
+Advertise
+Contact and support
+Terms and conditions
+Privacy policy
+
+Cookies are used by this site.Cookie Settings
+
+All content on this site: Copyright © 2024 Elsevier B.V., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the Creative Commons licensing terms apply.

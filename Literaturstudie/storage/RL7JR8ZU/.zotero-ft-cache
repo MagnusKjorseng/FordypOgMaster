@@ -1,0 +1,642 @@
+Ocean Engineering 269 (2023) 113570
+Available online 3 January 2023 0029-8018/© 2023 Elsevier Ltd. All rights reserved.
+Contents lists available at ScienceDirect
+Ocean Engineering
+journal homepage: www.elsevier.com/locate/oceaneng
+ROV localization based on umbilical angle measurement
+Christophe Viel a,∗, Juliette Drupt b, Claire Dune b, Vincent Hugel b
+a CNRS, Lab-STICC, F-29806, Brest, France b Laboratoire Cosmer, Université de Toulon, France
+ARTICLE INFO
+Keywords:
+Underwater robotics Cables model Localization system
+ABSTRACT
+If the umbilical of Remote Operated Vehicle (ROV) allows the transmission of information in real time or the supply of energy to the robot, it also has many disadvantages such as entanglement or the difficulty of predicting its shape, which raises the question of being able to do without it. In order to turn these constraints into advantages, this paper proposes a method to estimate the position of an ROV by observing the shape of its umbilical. The umbilical is equipped with moving ballasts and buoys to give it a predictable shape with straight lines: simple mathematical models of the umbilical can thus be defined. Using these models and measuring the angles at the ends of the cable, the position of the ROV can be found. Three umbilical models with different equipment are proposed. The methods were tested in a pool and the estimated position of the ROV was compared with its actual position measured using a motion capture system.
+1. Introduction
+Remotely Operated Vehicles (ROV) are underwater robots created to explore the seas where humans cannot do so directly. Their use and technology have developed rapidly over the past decades. However, to perform tasks such as exploration, map reconstruction or docking, a tracking system is required. The problem of underwater positioning is complex because GPS radio signals do not penetrate the water. An underwater equivalent could be the Underwater Wireless Sensor Networks (UWSNs), which have received a lot of attention in the last decade (Awan et al., 2019; Su et al., 2020). UWSNs contain several components such as vehicles and sensors that are deployed in a specific acoustic area to perform collaborative monitoring and data collection tasks. These networks are used interactively between different nodes and ground-based stations, and can therefore be used for vehicle localization. In Park et al. (2016) and Park et al. (2017) for example, an infrastructure-based localization scheme is proposed using four anchor nodes to form an UWSN, each located at known positions and broadcasting electromagnetic waves (EMW) at their own frequency. The localization of an Unmanned underwater vehicle (UUV) is performed using EMW and received signal strength (RSSs) to estimate distances and angles to the anchor nodes. However, UWSNs face many problems such as limited bandwidth, high propagation delay, power constraints, cost and installation of structures. The most common solution for locating an underwater robot such as an ROV is Ultra Short Base Line (USBL). USBL is an underwater acoustic
+∗ Corresponding author. E-mail addresses: christophe.viel@gadz.org (C. Viel), juliette.drupt@gmail.com (J. Drupt), claire.dune@univ-tln.fr (C. Dune), vincent.hugel@univ-tln.fr (V. Hugel).
+positioning method that consists of a transceiver under a vessel and a transponder on the vehicle. USBL calculates both a distance and an angle between the transceiver and the subsea beacon. However, USBL provides the position at a low update rate and sometimes with a lack of accuracy, so it is often combined with several sensors such as an inertial measurement unit (IMU), a camera, a barometer, or a sonar (Audric, 2004; Fan et al., 2019; Mandić et al., 2016). In the absence of USBL, sonars are a common solution for locating ROVs. In Wang et al. (2017), the authors present a 3D mapping and localization (SLAM) approach for an underwater robot using only a depth sensor and a single-beam scanning sonar. Sonars can also be deported: Kim and Yu (2016) describes a method to detect and track a small ROV manipulator in successive sonar images taken by a main AUV. A convolutional neural network is applied to locate the agent in the sonar images. Vision methods are also used underwater. Karras and Kyriakopoulos (2007) and Karras et al. (2006) describe the development of a position tracking system designed for an ROV using information provided by the vehicle camera and the projection of two laser pointers into the camera’s optical field. Trslić et al. (2020) presents a vision-based location system for ROVs/AUVs. Underwater lights are used as light markers attached to the Tether Management System (TMS) cage to estimate and correct the ROV position. However, while vision methods can show good performance comparable to USBL, this performance is highly dependent on water turbidity and underwater visibility.
+https://doi.org/10.1016/j.oceaneng.2022.113570 Received 10 November 2022; Received in revised form 16 December 2022; Accepted 26 December 2022
+
+
+Ocean Engineering 269 (2023) 113570
+2
+C. Viel et al.
+This works aims at defining a localization system dedicated to ROVs. The specificity of ROVs lies in their underwater umbilicals, allowing to transmit information in real time in both directions (see Christ and Wernli (2011) and Stuart et al. (2017)), to supply the robot with energy, and to maintain a lifeline with the robot to avoid losing it (Lasbouygues et al., 2017). However, umbilicals present several problems, such as collision with external objects, entanglement, inertia and drag forces impacting navigation, cable breakage, etc... making it a tradeoff between its constraints and its advantages (Crandle et al., 2017). Here the objective is to turn the disadvantage of the umbilical into an advantage by converting it into a localization system using a model of the umbilical and observing its shape. To provide feedback on its position and shape, the umbilical can be modeled, equipped or instrumented. Two main categories of methods exist: detection of the umbilical, using vision (Laranjeira et al., 2017, 2019, 2020) and/or sensors placed directly on/in the umbilical (Drupt et al., 2022b; Duncan et al., 2007; Frank et al., 2013), and direct modeling of the umbilical using only the positions of the vessel and the ROV (Ganoni et al., 2018; González et al., 2017; Eidsvik and Schjølberg, 2018). The main advantage of the first category is that an accurate model can be obtained in real time, but the equipment is often expensive and complex to install. In contrast, modeling strategies are cheap, but often less accurate and cannot always provide real-time results. Several mathematical model exist to represent the shape and dynamics of the cable, from the simplest geometrical model such as the catenary curve (Such et al., 2009; Drupt et al., 2022a) or the chain of segments (Ganoni et al., 2018), to the finite-element methods (Eidsvik and Schjølberg, 2018). Geometrical models can simulate a large number of segments in real-time and are memory efficient, but with limited physical accuracy. In contrast, the Lumped-mass–spring method (Buckham and Nahon, 1999; González et al., 2017; Hong et al., 2020), which models the cable as mass points connected by massless elastic elements, and the segmental methods (Eidsvik and Schjølberg, 2016, 2018; Blintsov, 2017), which describe the cable as a continuous system and numerically solve the resulting partial differential equations, obtain accurate results but require a significant amount of computational time. To provide a fast time computational model of the cable, the main author (Viel, 2022b,a) has proposed to equip the umbilical with ballasts or buoys moving freely on the cable, allowing it to be stretched and given a predictable shape. The umbilical can therefore be assimilated to predictable straight lines, simple to model and compute in real time. In the continuity of this work, this paper proposes a method to estimate the position of an ROV by observing the shape of its umbilical. By measuring the angles at the end of the cable and the depth of the ROV, the shape of the umbilical can be reconstructed using the straight line models, allowing the position of the ROV to be determined. Neither motorization nor TMS are used, which makes the method simple to implement. The experiments compare the result of the proposed method with the measurement of the umbilical shape by a motion capture system. The main contributions of this works are
+• a method to estimate the ROV position without USBL, UWSN or sonar, • a proper umbilical model to be computed in real time by measuring only the angles at the ends of the cable and the depth of the ROV, • a method that can be added easily to existing ROVs with a practical setup without motorization nor TMS.
+The purpose of this research study and the assumptions are outlined in Section 2. Section 3 describes a localization method using a single sliding element to stretch the umbilical. Section 4 extends the method to two elements to stretch the umbilical. The results of experiments with both methods are compared with measured data in Section 6. Discussion and perspective are exposed in Section 7. Section 8 concludes this work.
+2. Problematic, assumptions and application scope
+Let  be the referential of origin O = (0, 0, 0) corresponding to the coordinates of the boat where the first extremity of the umbilical is attached. R = (x, y, z) are the coordinates of the ROV, corresponding to the second extremity of the umbilical. The vertical axis is oriented downwards, so for two (z1, z2
+), z1 > z2 means z1 is deeper than z2 and z = 0 corresponds to the sea surface. In the absence of tension, a cable will take on an irregular shape. To prevent the cable from moving freely and becoming entangled with itself or its environment, a technique mostly used for shallow dives is to hang a ballast at a fixed length on the umbilical to stretch it between the boat and the ballast. When the ROV is close to the ballast, the cable between them takes the shape of a bell, similar to a catenary curve. However, the cable becomes like a straight line as the ROV moves away from the ballast due to the tension exerted by the ROV and the ballast. Since straight lines are easier to model, we propose to equip the umbilical with others elements such as buoys to keep the entire umbilical taut regardless the position of the ROV, similarly to Viel (2022b). A ballast or a buoy tied to a cable, namely ‘‘fixed’’, can usually only stretch one part of it, both in particular configuration. However, a ballast/buoy moving freely along the cable, namely ‘‘sliding’’, will always find its position at the lowest/highest point, corresponding to its minimum potential energy, where it stretches both parts of the cable simultaneously. Thus, a combination of fixed and sliding ballasts and/or buoys on the umbilical is an interesting solution to stretch it, and therefore to prevent cable entanglement. Once the umbilical is stretched, its shape becomes similar to straight lines, whose model can be determined analytically and used to reconstruct the shape of the umbilical. The ROV position can be found by measuring the angles at the ends of the cable. The following assumptions are considered:
+(A1) The ratio of mass to buoyancy of the umbilical is negligible compared to the ballasts’ weight and the buoys’ buoyancy used in the configuration, or currents applied on ballast/buoys.
+(A2) The length variation of the umbilical is negligible compared to its length, considered constant.
+(A3) When the umbilical is taut, its geometry can be assimilated to straight lines between defined points, here the ballasts, the buoys, the boat and the ROV.
+(A4) The vertical position z of the ROV is known, and measured using a depth sensor for example.
+(A5) The boat and anchor are assumed to be strong/heavy enough to be unaffected by the action of the umbilical and ROV, and so can be considered motionless.
+The study is divided into two parts: the first with a single sliding element, and the second with a fixed ballast and a sliding element. When necessary, some assumptions on the angles to be measured will be added. Due to the umbilical modeled by straight lines, with a negligible length variation, the scope of application of the system is for ROVs with an umbilical shorter than 50 m. The umbilical must also be flexible and allow the sliding elements to move freely on the cable. The method is therefore suitable for
+• Exploration of shallow water from a boat with a depth of less than 50 m, • Umbilical between an ROV and its cage in case of deep exploration. The cage is considered as an ‘‘anchor’’ in this study and the cable between the boat and the cage does not need to respect the assumptions described in Section 2.
+
+
+Ocean Engineering 269 (2023) 113570
+3
+C. Viel et al.
+• Chain of ROVs attached with the same umbilical. The model is applicable for each section of cable between each pair of ROVs.
+This approach can be used as a location system when other systems are unusable or as a redundant system to another location system.
+3. Single element model
+This section describes a method of localization with a single sliding element: a ballast or a buoy, as illustrated in Fig. 1. The use a sliding ballast allows exploration near the surface, such as inspecting ship’s hull, navigation under uniform ice, etc..., but is not suitable for seafloor exploration because the ballast must not touch it to keep the cable taut. Conversely, the use of a sliding buoy allows exploration near to the seafloor and not the surface.
+3.1. System description
+The parameters are illustrated in Fig. 1. The umbilical of length l is divided in three parts: the first part l0 = ‖OA‖ between the boat O and an anchor A, the second part l1 = ‖AB‖ between the anchor A and a sliding element B (a ballast or buoy), and the last part l2 = ‖BR‖ between the sliding element B and the ROV R. The cable L = ‖AR‖ between the anchor and the ROV such that L = l1 + l2 has a fixed length. The sliding element can move freely on the cable L. Note that l = l0 + L and that l0 can be taken equal to zero, i.e. the anchor A and the boat O are the same elements, i.e. A = O. The oriented angles α and β are respectively the angle between the anchor A and the sliding element B, and between B and the ROV R in the plane (O,x⃗,z⃗ ). In the same way, let μ and η be the angles between the anchor A and the sliding element B, and between B and the ROV R in the plane (O,y⃗,z⃗ ). Let l1x, l1y, l2x, l2y be the projections of l1 and l2 on the plane (O,x⃗,z⃗ ) and (O,y⃗,z⃗ ). The parameter sb is defined such that sb = 1 if the sliding element is a ballast, sb = −1 if the sliding element is a buoy. As shown in Viel (2022b), the described configuration allows the umbilical to remain stretched in any quasi-static equilibrium and in presence of current and wave due to the sliding element. In Viel (2022b), the position (x, y, z) and forces applied on the sliding elements are supposed to be known, allowing to find the umbilical shape. Here, the objective is reverse: to find the coordinates of the ROV using the shape of the umbilical. As some parameters are unknown, the observed properties and hypotheses taken in Viel (2022b) will not be exploited here. However, the following assumption is added: (A6) The oriented angles α, β, μ and η can be measured. Proposals for securing Assumption A6 in practice will be discussed in Section 7. Note that, unlike Viel (2022b), knowledge of ballast weight and buoyancy of the buoy is not required in this study. Moreover, the presence of perturbations like currents is automatically considered in the proposed models because included in the orientation of the measured angles (configuration with current illustrated in Fig. 3).
+Parameters constraints. Let zf loor be the minimum depth, i.e. the seafloor or a rock, and hB the height of the ballast or the height of the submerged part of the buoy. If the sliding element is a buoy, the anchor is the lowest element and so one must have l0 ≤ zf loor to keep the umbilical stretched between the boat and the anchor. If the sliding element is a ballast, one must have l0 ≤ zf loor and (1) either l0 + L ≤ zf loor to allow the ROV to move without the ballast touching the seafloor in all cases, (2) or the ROV must maintain its depth such that the ballast does not touch the seafloor, i.e. z < zlim (x) where
+zlim (x) = 2 (zf loor − hM
+)−L
+√
+1−
+(x L
+)2
+as described in Viel (2022b, Section 4.1). In the same way, the buoy must not touch the surface. However, since (x, z) are supposed to be initially unknown here,
+Fig. 1. Parameters for a sliding ballast or buoy for (x, y, z) = (5, 2, 3), L = 10 and l0 = 0 in the ballast case, and (x, y, z) = (5, 2, 8.8), L = 10 and l0 = L in the buoy case. R: ROV. B: sliding ballast or buoy. The black, red and blue lines correspond to l0, l1, l2. l1x, l1y, l2x, l2y are the projections of l1 and l2 on the plane (O,x⃗,z⃗ ) and (O,y⃗,z⃗ ). (For interpretation of the references to color in this figure legend, the reader is referred to the web version of this article.)
+zlim (x) cannot be used and the worst case scenario with (x, z) = (0, 0) is considered, leading to the following conditions
+L + l0 + hA ≤ zf loor − hB if sb = 1 (1)
+⎧
+⎪ ⎨ ⎪ ⎩
+l0 + hA ≤ zf loor
+L ≤ l0 − hB
+if sb = −1. (2)
+where hA is the height of the anchor.
+3.2. Geometrical system
+In a configuration where the umbilical is taut, the system can be expressed as
+⎧
+⎪ ⎨ ⎪ ⎩
+x = l1x sin (α) + l2x sin (β)
+y = l1y sin (μ) + l2y sin (η)
+(3)
+and
+⎧
+⎪ ⎨ ⎪ ⎩
+z = l0 + sbl1x cos (α) − sbl2x cos (β)
+z = l0 + sbl1y cos (μ) − sbl2y cos (η)
+(4)
+The relations between these projections can be expressed as
+l2
+1 = l2
+1x + sin (μ)2 l2
+1y (5)
+l2
+2 = l2
+2x + sin (η)2 l2
+2y (6)
+L = l1 + l2. (7)
+
+
+Ocean Engineering 269 (2023) 113570
+4
+C. Viel et al.
+Using the steps described in Appendix A.1, one gets
+l2
+1x =
+l2
+1
+(1 + tan (μ)2 cos (α)2) (8)
+l2
+1y =
+l2
+1
+(
+sin (μ)2 +
+( cos(μ) cos(α)
+)2) (9)
+l2
+2x =
+l2
+2
+(1 + tan (η)2 cos (β)2) (10)
+l2
+2y =
+l2
+2
+(
+sin (η)2 +
+( cos(η) cos(β)
+)2) . (11)
+3.3. Calculation of the position (x, y, z)
+From Assumptions A4 and A6, the depth z and the angles α, β, μ and η are known. Then, following the steps described in Appendix A.2, the length l1 and l2 can be expressed as
+l1 = L − l2 (12)
+l2 =
+( L cos(α) a1
+− sb
+(z − l0
+))
+( cos(α) a1
++ cos(β)
+a2
+) (13)
+where
+a1 =
+√
+1 + tan (μ)2 cos (α)2 (14)
+a2 =
+√
+1 + tan (η)2 cos (β)2. (15)
+The length l1 and l2 can so be obtained if z, α, β, μ and η are known. Thus, using (12)–(13) and the measured parameters, l1x, l1y, l2x and l2y can be evaluated using (8)–(11). Then, the position (x, y) can be obtained using (3).
+4. Two-element model
+This section presents a method of localization with two elements: a ballast fixed to the umbilical at a constant distance from the boat, and a sliding element, ballast or buoy, that can move freely between the ballast and the ROV, inspired from Viel (2022b). Compared to the strategy proposed in Section 3, the ROV can operate close to the seafloor and in a large area using the full length of the umbilical l. The ballast compensates for some of the action of the buoy, inducing less effort for the ROV. However, its movements remain limited when it is close to the surface.
+4.1. System description
+Parameters are illustrated in Fig. 2. Consider here the configuration with a sliding element described in Section 3 but where the anchor (1) is not strong enough to compensate for the actions of the current and umbilical, (2) or has been replaced by a ballast that is too light to be considered as an anchor. In both cases, let us call the fixed element ‘‘ballast M’’ in the rest of the study and keep the notation B for the sliding element, buoy or ballast. The umbilical is still divided in three parts l0 = ‖OM‖, l1 = ‖MB‖ and l2 = ‖BR‖, where M is put at a fixed distance l0 > 0. Let us defined the oriented angles γ and φ between the boat O and the ballast M in the plane (O,x⃗,z⃗ ) and (O,y⃗,z⃗ ). Note that this configuration becomes equivalent to the one in Section 3 when the ballast is perfectly vertical, i.e. when γ = 0 and φ = 0. Let l0x, l0y be the projection of l0 on the plane (O,x⃗,z⃗ ) and (O,y⃗,z⃗ ). The main advantage of this configuration is that it allows to explore a larger area using the length l0. To ensure that l0 stays stretched, a condition is that the ballast M must be taken stronger than the buoy
+Fig. 2. Parameters for the ballast and the sliding buoy for (x, y, z) = (6, 5, 3), L = 8, l0 = 5. R: ROV. B: sliding ballast or buoy. The black, red and blue lines correspond to l0, l1, l2. l0x, l0y, l1x, l1y, l2x, l2y are the projections of l0, l1 and l2 on the plane (O,x⃗,z⃗ ) and (O,y⃗,z⃗ ). An other configuration can be obtained by exchanging the buoy B with a sliding ballast. (For interpretation of the references to color in this figure legend, the reader is referred to the web version of this article.)
+B, as shown in Viel (2022b, Assumption A8). Again, the described configuration allows the umbilical to stay stretched in all quasi-static equilibrium.
+(A7) In addition to α, β, μ and η, it is assumed that the oriented angles γ and φ can be measured.
+In the following sections, the study will be illustrated using a sliding buoy, i.e. sb = −1, but the same study can be performed with a sliding ballast.
+Parameters constraints. Let define hM the height of the ballast which has replaced the anchor. By taking hM instead of hA, the same constraints on l0 and L described in Section 3.1 must be taken into account, following the same logic. Moreover, the ballast M is fixed on the umbilical and is not motionless like the anchor A in Section 3. Thus, an additional condition must be taken to keep the umbilical taut. A minimum depth zmin is defined such that the ROV must always dive to a depth less than zmin, i.e. z > zmin. Otherwise, the cable l0 is not tensioned because the ROV is too close to the surface for the ballast M to stretch l0 and L simultaneously. As shown in Viel (2022b, Section 5), zmin can be expressed as
+zmin (x) =
+⎧
+⎪ ⎪ ⎪ ⎨ ⎪ ⎪ ⎪ ⎩
+√
+l2
+0 − x2 − L + hB if
+(
+|x| <
+√
+l2
+0 − L2
+)
+&
+(l0 > L) ,
+√
+L2 − x2 − l0 + hB if
+(
+|x| <
+√
+L2 − l2
+0
+)
+&
+(L > l0
+),
+hB else.
+(16)
+However, since (x, z) are supposed to be initially unknown here, the worst case scenario with (x, z) = (0, 0) can be considered, leading to take zmin (0) in all situations. Note that if the parameters are chosen such that l0 = L, zmin (x) does not exist.
+
+
+Ocean Engineering 269 (2023) 113570
+5
+C. Viel et al.
+Fig. 3. Example of configuration with horizontal current (red and green arrow) for the ballast and the sliding buoy for (x, y, z) = (3, 5, 4), L = 8, l0 = 5. R: ROV. B: sliding ballast or buoy. (For interpretation of the references to color in this figure legend, the reader is referred to the web version of this article.)
+4.2. Geometrical system
+In a configuration where the umbilical is taut, the system can be expressed as
+⎧
+⎪ ⎨ ⎪ ⎩
+x = l0x sin (γ) + l1x sin (α) + l2x sin (β)
+y = l0y sin (φ) + l1y sin (μ) + l2y sin (η)
+(17)
+and
+⎧
+⎪ ⎨ ⎪ ⎩
+z = l0x cos (γ) + sbl1x cos (α) − sbl2x cos (β)
+z = l0y cos (φ) + sbl1y cos (μ) − sbl2y cos (η)
+(18)
+Note that (17)–(18) is equal to (3)–(4) if γ = 0 and φ = 0, which is the case if the ballast M is heavy enough to be considered as an anchor. As shown in Appendix B.1, the relations between l1x, l1y and l2x, l2y can still be expressed with (5)–(11). Since the length of l0 is fixed, the relation between l0x, l0y and l0 can be expressed as
+l2
+0 = l2
+0x + sin (γ)2 l2
+0y. (19)
+Using steps described in Appendix B.1, one gets
+l2
+0x =
+l2
+0
+(1 + tan (φ)2 cos (γ)2) (20)
+l2
+0y =
+l2
+0
+(
+sin (φ)2 +
+( cos(φ) cos(γ )
+)2) . (21)
+It is to be noted that since l0 is known and constant, l0x and l0y can be evaluated if γ and φ are known.
+4.3. Calculation of the position (x, y, z)
+From Assumptions A4, A6 and A7, the depth z and the angles γ, φ, α, β, μ and η are known. Then, following the steps described in Appendix A.2, the length l1 and l2 can be expressed as
+l1 = L − l2 (22)
+l2 =
+L cos(α) a1
+− sb
+(z − l0 cos (γ))
+cos(α) a1
++ cos(β)
+a2
+(23)
+where
+a1 =
+√
+1 + tan (μ)2 cos (α)2 (24)
+a2 =
+√
+1 + tan (η)2 cos (β)2. (25)
+Note that if γ = 0, i.e. the ballast M is an anchor that allows l0 to remain vertical, (22)–(23) become equal to (12)–(13). The length l1 and l2 can so be obtained if z, α, β, γ, μ and η are known, and so l1x, l1y, l2x and l2y using (8)–(11). Moreover, l0x and l0y can be evaluated if γ and φ are known using (20)–(21). Then, the position (x, y) can be obtained using (17).
+5. Angles measurement: positioning IMUs
+To implement this system in practice, we propose to install IMUs at several positions on the umbilical corresponding to the points P0, P1 and P2 in Figs. 6 and 8, i.e. two IMUs for the single element model and three for the two-element model. The angles β and η can be easily obtained installing an IMU near R (see P1) and connecting it directly to the ROV: the information can then be transmitted via the umbilical. The main inconvenient is that the sensor blocks the displacement of the sliding element between it and the ROV. Since an IMU placed far from the ROV provides a better estimate of the angle, its position is a compromise between element displacement and measurement accuracy. The angles α and μ can also be easily obtained when l0 = 0 by installing the IMU at the origin of the umbilical O and receiving the information on the boat. When l0 ≠ 0, the sensor must be installed far underwater, so a communication cable is needed to transmit the sensor data to the surface. Since there is no sliding element on l0, this cable can be attached to l0 without creating any inconvenience. The angles γ and φ can be measured at the umbilical origin, or at the ballast M, as illustrated by P0 in Fig. 8. Since a cable is required to receive information for α and μ, the second option is preferred to group the two sensors at the same location. In addition, placing the IMU in this position reduces the influence of the waves. Both sensors can use the same communication cable. Since there is no sliding elements on l0, the sensor can be placed at a position P0 at a larger distance from M than for P1 to obtain an accurate angle measurement.
+6. Experimental test
+6.1. Material description
+The configurations described in Sections 3 and 4 were tested in the pool of the Cephismer, Marine Nationale France. The umbilical was equipped with markers made by reflective tape stuck on the cable every 20 cm so that its position could be tracked using the Qualisys1 motion capture system. An aquatic motion tracking system composed of 5 cameras2 follows the 3D positions of markers during the displacements of the cable generated by the movements of the ROV. 4 cameras are fixed at the edge of the tank and one camera is placed at the bottom. The data were processed with the Qualisys Track Manager software to find the position of each marker (see Fig. 4(e)). The thickness of markers is thin enough not to affect the movements of the sliding objects. The force exerted by a buoy is evaluated in grams, corresponding to the maximum mass it can lift. Four configurations illustrated in Fig. 4 were tested with the following parameters:
+1 https://www.qualisys.com. 2 https://www.qualisys.com/cameras/underwater/.
+
+
+Ocean Engineering 269 (2023) 113570
+6
+C. Viel et al.
+Fig. 4. Configurations tested in the pool of the Cephismer. d: Pulley for sliding buoy. 1: pulley. 2: umbilical. 3: ball joint to reduce twist effort between buoy and pulley. 4: additional buoy and ballast to give neutral buoyancy to the pulley assembly. 5: buoys for the self-management strategy.
+• 1 sliding ballast B of mass 240 g, l0 = 0 m and L = 2.6 m, see Fig. 4(a). • 1 sliding buoy B of mass 130 g and an anchor A of 2 kg, l0 = 2.75 m and L = 3 m, see Fig. 4(b). • 1 fixed ballast M of mass 240 g and 1 siding buoy B of mass 130 g, l0 = 2.2 m and L = 2.2 m, see Fig. 4(c). • 1 sliding ballast B of mass 240 g, l0 = 0 m and L = 3 m, equipped with two IMUs, see Fig. 5.
+Here, the configuration with a sliding mass has been tested with the IMUs. Other configurations will be the object of future experiments.
+Fig. 5. Placement of IMUs on the umbilical to measure angle.
+The sliding elements were obtained using a neutrally buoyant pulley shown in Fig. 4(d). The size of the pool is 7.2 m× 4.2 m with a depth of 3 m.
+Let (xi, yi, zi
+) be the coordinate of the ith position measured and (x̂ i,ŷ i
+) the estimation of (xi, yi
+) obtained using the measured angles, (22)–(23) and (17), with γ = 0 and φ = 0 for the cases with a single element. Note thatẑ i = zi because zi is supposed to be measured. For the number N of points measured by the motion capture, the average position error Ed relative to the method is
+Ed =
+N
+∑
+i=1
+√
+(xi −x̂ i
+)2 + (yi −ŷ i
+)2. (26)
+One point is measured every dt = 0.01 s. The number of points N is therefore equal to N = T ∕dt, where T is the experimental time (indicated in the figures for each test. N = 10000 with the sliding mass for example).
+6.2. Angles measurement during the experiments
+Let La be the list of measured angles La = {α, β, γ, μ, η, φ}. For the experiment, the angles were measured using two methods: qualisys system to obtain an accurate measurement and IMUs to show the validity of the method.
+6.2.1. Angles measurement with qualisys system
+Here, the angles were estimated with the motion capture system using the coordinate of two points measured on the umbilical. In the absence of this motion capture system, La could be measured by equipping the umbilical with sensors, for example IMUs, see Section 7. Let M∗ be, depending on the chosen configuration, the boat O is if l0 = 0, the anchor A if l0 ≠ 0 and A is heavy enough to respect Assumption A5, the ballast M otherwise. Let also P0 ∈ OM, P1 ∈ M∗B and P2 ∈ BR be three points measured on the umbilical, illustrated in Figs. 6 and 8. For I ∈ {P0, P1, P2, O, M, M∗, B, R}, let (xI , yI , zI
+) be the coordinates of point I. The angles La can be evaluated using
+α = atan
+( | |
+xP 1 − xM∗ |
+|
+| |
+zP 1 − zM∗ |
+|
+)
+(27)
+μ = atan
+( | |
+yP 1 − yM∗ |
+|
+| |
+zP 1 − zM∗ |
+|
+)
+(28)
+β = atan
+( | |
+xR − xP 2|
+|
+| |
+zR − zP 2|
+|
+)
+(29)
+η = atan
+( | |
+yR − yP 2|
+|
+| |
+zR − zP 2|
+|
+)
+(30)
+γ = atan
+( | |
+xP 0 − xM |
+|
+| |
+zP 0 − zM |
+|
+)
+(31)
+
+
+Ocean Engineering 269 (2023) 113570
+7
+C. Viel et al.
+Fig. 6. Estimation of the ROV position (in mm) with single sliding element. In black, measured umbilical positions. In green, estimated umbilical and ROV positions. Red dots and lines represent points used to estimate umbilical angles. (For interpretation of the references to color in this figure legend, the reader is referred to the web version of this article.)
+φ = atan
+( | |
+yP 0 − yM |
+|
+| |
+zP 0 − zM |
+|
+)
+(32)
+An ideal measurement would be to take P0 = O and P1 = P2 = B to evaluate La. However, for several reasons such as the fact that B is sliding, these points may be difficult or impossible to measure in practice without a motion capture system. Thus, the proposed method was evaluated by taking points such that a sensor could be installed at these positions. These ‘‘sensors’’ positions have to be chosen such that
+1. they must avoid blocking the movement of the sliding element on the umbilical as much as possible, 2. they are far enough to obtain a good estimate of the umbilical orientation, 3. the distance between the sensor and the axis of rotation of the angles it measures is realistic.
+Two estimates of the angles are evaluated and compared in the next section:
+Fig. 7. Position error with sliding mass or buoy. Holes in curve line correspond to missing data in the motion capture. Black line: current ROV position. Green lines: estimation made with ideal measurement. Red lines: estimation made with non-ideal measurement. (For interpretation of the references to color in this figure legend, the reader is referred to the web version of this article.)
+Table 1
+IMU errors on orientation measurement. The orientation is expressed in Euler angles using the convention R = Rz (y) Ry (p) Rx (r) with yaw y, pitch p and roll r. σr, σp and σy are the standard deviation of the angle measurement, for the roll, pitch and yaw after drift correction respectively. IMU1 IMU2
+Yaw drift (◦∕s) 0.628 −0.599 σy (◦) 0.334 0.041 σp (◦) 0.158 0.330 σr (◦) 0.621 0.582
+• with ideal measurement taking P0 = O and P1 = P2 = B, • where P0, P1 and P2 simulate sensors position fixed on the umbilical, respecting the three conditions exposed above. Here, P0, P1
+and P2 were selected such that ‖
+‖
+P0 M ‖
+‖
+= 110 cm, ‖
+‖
+M ∗ P1 ‖
+‖
+= 40
+cm, ‖
+‖
+P2R‖
+‖
+= 20 cm, as illustrated in red in Figs. 6 and 8.
+6.2.2. Angles measurement with IMUs
+The cable is equipped with a pair of PhidgetSpatial Precision 3/3/3 High Resolution IMUs, as in the previous work (Drupt et al., 2022b) where it is used to estimate the catenary shape of a heavy cable: the accuracy of the IMU for local cable tangent orientation measurement was already tested and validated in Drupt et al. (2022b). The experiments were conducted in a steel made pool, preventing the use of magnetometer data in the IMU measurements integration. This lead to a drift of the yaw angle measurement around the vertical axis. This drift was characterized on a static sequence, as well as the noise on the angle measurements. These values are presented in Table 1. In the following, the drift on the yaw is corrected. The IMUs are sealed in waterproof housings. The IMUs’ positions must be chosen such that
+1. they must avoid blocking the movement of the sliding ballast B on the umbilical as much as possible, 2. they are far enough from the extremities to obtain a good estimate of the umbilical orientation.
+
+
+Ocean Engineering 269 (2023) 113570
+8
+C. Viel et al.
+As illustrated in Fig. 5, let I1 be the IMU on the umbilical segment OB, i.e. between the origin and the ballast, and I2 be the IMU ob the umbilical segment BR, i.e. between the ballast and the ROV. Let us note lI1 and lI2 the distance between OI1 and I2R, respectively. During the test, we took distances lI1 = 0.4 m and lI2 = 0.2 m. The IMUs were placed with an axis tangent to the umbilical, denoted v1 and v2 respectively for IMU1 and 2. These axes were calibrated in the IMU frames FI1 and FI2 in order to recover α, β, μ and η from the measurements. A change of referential puts all measurements of the two IMUs in the theoretical referential , same for the Qualisys. The depth of the robot is measured, using a barometer. The data have been processed offline, including a synchronization of the clock between the IMUs, the barometer and the Qualisys data, as well as the computation of the transformation between the Qualisys frame and the sensor frames.
+6.3. Results with qualisys
+As illustrated in Figs. 7 and 8, the ROV motion was captured with a large combination of motions in all axes (within the field of view of the motion capture system and the size of the pool). Figs. 6 and 7 show the results obtained with a single element. Considering the nonideal measurement, an average error Ed = 0.043 m was measured with the ballast and Ed = 0.107 m with the buoy. Fig. 8 shows the results obtained with two elements, and a measurement of Ed = 0.108 m. These figures show that the discrepancy between the theoretical and current positions is small, even while the ROV is moving. The umbilical remained perfectly taut during all tests. The position estimation appears to be more accurate with one element than two: it is surely due to the angle measurement error that accumulates with the second method. Indeed, when the angles are evaluated using ideal measurements P0 = O and P1 = P2 = B, one gets an average error Ed below 0.038 m in all cases (green curves): the comparison of the results showed that the accuracy of the method is directly proportional to the accuracy of the angle measurement. By keeping the same measurement point but with a longer cable, the cable will look less like a straight line and, therefore, the accuracy of the estimated position will likely decrease. Note that part of the remaining measurement error is fixed because it comes from (1) the measurement error of the Qualisys itself (about 1 cm), (2) the approximation of the umbilical cable by straight lines. Indeed, in practice, the pulleys are responsible for a bending of the cable, which creates a difference with the model, inducing an error in the final position which cannot be compensated but which will remain independent of the length of the umbilical. However, the tests are very promising and experiments using sensors to directly measure the angles are planned for further developments.
+6.4. Results with IMUs
+Two tests were carried out. They are illustrated in Figs. 9 and 10. The test 1 is a specific experimentation with a short acquisition with very slow horizontal and vertical displacements. The umbilical is 3 m long. During this test, we observe that the performances between the Qualisys and the IMUs are similar with a very small mean error less than 10 cm. It shows that in configurations where the ROV is nearly stationary, a very accurate estimation of the position can be obtained. In the test 2 where the ROV’s displacement was closer to a real use case, the Qualisys gave more accurate results than IMUs, with a mean error less than 10 cm for the Qualisys and 25 cm for the IMUs, with respectively Ed = 0.065 m and Ed = 0.18 m. The comparison of the results obtained with the IMUs and the Qualisys shows that the accuracy of the method is directly proportional to the accuracy of the angle measurement. But it also shows that, with a more accurate IMU-based measurement of the angles, a more precise estimation of the position is possible. In the current experimental setup,
+Fig. 8. Estimation of the ROV position with a fixed mass M and sliding buoy B. In black, measured umbilical positions. Holes in curve lines correspond to missing data in the motion capture sequence. Green lines: estimation made with ideal measurement. Red lines: estimation made with non-ideal measurement. (For interpretation of the references to color in this figure legend, the reader is referred to the web version of this article.)
+Fig. 9. Comparison of position estimated by the Qualisys and the IMU.
+the IMU measurement integration was disturbed by the magnetometer being unavailable due to the huge metallic mass of the pool, inducing a drift of the yaw angle estimation. A constant drift was estimated and corrected, but in field conditions the magnetometer data should be available and allow a more accurate estimation of the yaw angle than the one given by the current correction.
+
+
+Ocean Engineering 269 (2023) 113570
+9
+C. Viel et al.
+Fig. 10. Comparison of the average error of position estimated by the Qualisys and the IMU. Average error with IMUs: Ed = 0.08 m for Test1 and Ed = 0.18 m for Test2. Average error with Qualisys: Ed = 0.062 m for Test1 and Ed = 0.065 m for Test2.
+6.5. Influence of angle measurement’s noise on localization
+The accuracy of the ROV position estimation depends mainly on the angles measurement. This section attempts to illustrate the influence of the measurement error on the localization by adding measurement error on the data measured during the test. Noise is applied separately to each measured angle. Two types of noise are tested: a Gaussian noise and a fixed constant noise. For all angles θ ∈ {α, β, γ, μ, η, φ}, let us name θm (t) the angle obtained with an ideal measurement at instant t and θG (t) the Gaussian noised angle expressed as
+θG (t) = θm (t) + emDi (t) (33)
+where em ≥ 0 is the noise variance and Di(t) is an independent realization of zero-mean Gaussian noise with a variance equal to 1. Let us also define θF (t) as the constant noised angle expressed as
+θF (t) = θm (t) + emBi (t) (34)
+where Bi (t) ∈ {−1, 1} is a random value chosen between −1 and 1. The average Gaussian error EG
+d and average fixed error EF
+d can so be
+defined using (26) where (x̂ i,ŷ i
+) are evaluated using θG (t) and θF (t) instead of θm (t). Fig. 11 shows the results obtain for EG
+d and EF
+d using
+em = [0◦, 1◦, 2◦, 3◦, 4◦, 5◦, 7.5◦, 10◦, 12◦, 15◦, 20◦, 30◦] on all measured angles, representing the worst case. It can be observed that the average errors EG
+d and EF
+d stay below 0.5 m for em values that are less than
+10◦, with a small variance. In addition, the average error appears to increase proportionally with the measurement error, but the variance increases much faster, approaching a second-order function. Note that these tests are conducted with a short cable of 3 m : the ratio between the average error and error measurement will certainly increase with the length of the umbilical.
+7. Discussion and perspective
+7.1. Discussion: Influence of dynamics and waves
+The proposed method has a maximum accuracy when the umbilical is kept stretched by the ballast and buoy. Each time the ROV descends, ascends or retreats, a part of the umbilical becomes temporary loose. To keep the cable taut, the ballast and the buoy must be chosen so
+Fig. 11. Average error in function of the error em on all the angles measured. Plain line: Gaussian error. Dash line: fixed error. Tests for em = [0◦, 1◦, 2◦, 3◦, 4◦, 5◦, 7.5◦, 10◦, 12◦, 15◦, 20◦, 30◦].
+that their behavior is faster than the ROV’s movement, i.e. , the ballast dives faster than the ROV descends and the buoy rises faster than the ROV ascends. To prevent a too heavy ballast or a too strong buoy from inducing a significant drag force on the umbilical, an alternative approach is to control the ROV to move slower than the rise of the buoy or the fall of the ballast. A similar method can be used to counteract the effect of waves: to ensure the umbilical stays stretched even in the presence of waves, the weight of the anchor or the ballast must allow it to accelerate and fall faster than the wave, which is the same for the rise of the buoy. Both methods are described in more detail in Viel (2022b). In the same way, since the angles can be measured and the umbilical is stretched, the model admits the presence of disturbances such as complex force currents on the umbilical as long as their orientations and intensities change in time relatively slowly (i.e. since the umbilical remains stretched, thus assimilable to lines).
+7.2. Choice of ballast and buoy parameters
+The choice of the ballast mass and buoy volume depends on several factors: the weight/buoyancy of the umbilical, the presence of waves
+
+
+Ocean Engineering 269 (2023) 113570
+10
+C. Viel et al.
+characterized by their height and frequency, depth if a buoy is used due to the variation of its density. The ballast’s mass and buoy’s volume must at least counter-balance the action of the umbilical in order to meet Assumption A1, i.e. the fall of the ballast/the strength of the buoy must be stronger than the total umbilical’s action (weight if it is diving, rise if it is floating, inertia if it is neutral). A complete study of the choice of these parameters in presence of waves has already been studied in Viel (2022b, Section 9). The actions of the ballast and buoy affect the force applied by the umbilical on the ROV, and consecutively the ROV displacement. The value of this strength can be evaluated as described in Viel (2022b, Section 5.5.2).
+7.3. Experimentation with an umbilical of 15 m at sea
+The shape of the umbilical was tested at sea with a cable of 15 m with (1) two ballasts, (2) one ballast and a buoy. A video of the first configuration is available at https://www.youtube.com/watch? v=BfcRRaSGlJA. Unfortunately, we did not have the equipment to measure the shape of the umbilical at sea and so compare it to the shape predicted by our model, but these tests valid the fact that the umbilical can keep a geometrical shape and the absence of self-entanglement with the cable itself. Measurement of the exact umbilical shape in a large pool with the motion capture system will be the subject of future experimentation. It is noteworthy that the use of the pulley allows the ballast and the buoy to move without abrasion on the umbilical.
+7.4. Limitations of the method
+This method has some limitations that are listed below.
+1. The umbilical must stay taut to keep the model valid. The elements allow keeping it stretched, but a too long cable will make a curve, reducing the accuracy of the model. This method is so made for short umbilicals of up to 50 m in length. However,
+(a) The length l0 is immobile if an anchor is used at this extremity (Assumption A5): it does not need to respect the Assumptions A1–A3, and so l0 takes all the cable deformation due to its length for a deep dive for example. The method can so be valid for the cable between A and R.
+(b) The method is suitable for configurations like a queue of ROVs, with several short lengths of umbilical to be kept stretched.
+2. The precision of the method strongly depends on the accuracy of the measurement of the angles. 3. The actions of the ballast(s)/buoy(s) on the cable increase the drag force of the ROV. 4. Too fast rotations or displacements of the ROV can bend the cable and so disturb the localization. However, only a few seconds of ROV standstill are required to obtain a correct estimate again. 5. Strong waves could disturb the measurement if they bend the cable. Section 7.2 describes a method to counterbalance the effect of waves and keep the cable taut. 6. The presence of obstacles on the seafloor can lead to collisions or entanglement of the cable, leading to a wrong localization by creating an additional angle in the umbilical shape. However,
+(a) if the obstacles are detected in advance, since the shape of the umbilical is known with the proposed model and the measured angles, the operator can avoid collisions. (b) in case of collision, the measurement will change quickly in contradiction with the control of the ROV direction, allowing to detect them and to try a maneuver to bypass them.
+(c) following the previous point, the proposed method could be added to another localization system like USBL to detect collision and prevent entanglement between an obstacle and the umbilical: if the two estimates of the position become suddenly distant, it means that the cable can be in collision with an obstacle.
+8. Conclusion
+This paper presents a method to estimate the position of an ROV by observing the shape of its umbilical. By equipping the umbilical with moving ballast and/or buoy, the cable takes a predictable shape with straight lines, simple to model. By measuring the angles at the ends of the cable and the depth of the ROV, the shape of the umbilical can be reconstructed from these straight line models and therefore the position of the ROV can be determined. Three mathematical models of the umbilical with different equipment are proposed to find the position of the ROV. The sliding ballast and buoy also allow avoiding entanglement of the cable with itself or with the surrounding obstacles, without motorization or TMS, easy to set up. The method was tested in the pool with a motion capture system named Qualisys to obtain the current position of the ROV. The umbilical angles have been measured with the Qualisys system and with real IMUs for comparison in a specific configuration. A position error of 10 cm for 3 m of umbilical was measured with the Qualisys system, and 25 cm with the IMUs, which makes the method suitable for operational applications. In future work, IMUs will be installed to check other configurations of umbilical with longer cables, to qualify the method as a localization system.
+CRediT authorship contribution statement
+Christophe Viel: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Resources, Data curation, Writing – original draft, Writing – review & editing, Visualization, Supervision , Project administration, Funding acquisition. Juliette Drupt: Conceptualization, Software, Validation, Formal analysis, Investigation, Resources, Data curation, Writing – original draft, Writing – review & editing, Visualization, Supervision , Project administration. Claire Dune: Conceptualization, Validation, Investigation, Resources, Data curation, Writing – original draft, Writing – review & editing, Supervision , Project administration. Vincent Hugel: Conceptualization, Validation, Investigation, Resources, Data curation, Writing – original draft, Writing – review & editing, Supervision , Project administration, Funding acquisition.
+Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+Data availability
+No data was used for the research described in the article.
+Acknowledgment
+We acknowledge support from the Centre National de la Recherche Scientifique (CNRS), France, Laboratoire des sciences et techniques de l’information, de la communication et de la connaissance (Lab-STICC), France, and the COnception de Systèmes Mécaniques et Robotiques (COSMER), France.
+
+
+Ocean Engineering 269 (2023) 113570
+11
+C. Viel et al.
+Appendix A. Proof for sliding element
+A.1. Calculation of l1x, l2x and l1y, l2y
+Let zB be the coordinate of the ballast/buoy B on the axis O⃗ z. Since zB can be evaluated in the planes (O, x, z) and (O, y, z), one has
+zB = l0 + sbl1x cos (α) = l0 + sbl1y cos (μ) (35)
+zB = z − sbl2x cos (β) = z − sbl2x cos (η) (36)
+Using (35)–(36), one gets
+l1x = l1y
+cos (μ)
+cos (α) (37)
+l2x = l2y
+cos (η)
+cos (β) . (38)
+Using (5) and (37), one gets
+l2
+1 = l2
+1x + sin (μ)2 l2
+1y
+l2
+1 = l2
+1x + sin (μ)2
+( cos (α) cos (μ)
+)2
+l2
+1x
+l2
+1 = (1 + tan (μ)2 cos (α)2) l2
+1x
+l2
+1x =
+l2
+1
+(1 + tan (μ)2 cos (α)2) . (39)
+In the same way, one can obtain using again (5) and (37)
+l2
+1 = l2
+1x + sin (μ)2 l2
+1y
+l2
+1 = l2
+1y
+( cos (μ) cos (α)
+)2
++ sin (μ)2 l2
+1y
+l2
+1y =
+l2
+1
+(
+sin (μ)2 +
+( cos(μ) cos(α)
+)2) . (40)
+The same calculation can be made for l2
+2x, l2
+2z using respectively (38)–(6).
+A.2. Calculation of l1 and l2
+Considering (4)
+z = l0 + sbl1x cos (α) − sbl2x cos (β)
+sb
+(z − l0
+) = l1x cos (α) − l2x cos (β) (41)
+since sb ∈ {−1, 1}. Introducing (8) and (10), one gets
+sb
+(z − l0
+) = l1 cos (α)
+√
+1 + tan (μ)2 cos (α)2 − l2 cos (β)
+√
+1 + tan (η)2 cos (β)2
+. (42)
+Setting a1 =
+√
+1 + tan (μ)2 cos (α)2 and a2 =
+√
+1 + tan (η)2 cos (β)2. Since L = l1 + l2, (42) becomes
+sb
+(z − l0
+) = L cos (α)
+a1
+− l2
+( cos (α)
+a1
++ cos (β)
+a2
+)
+l2 =
+L cos(α) a1
+− sb
+(z − l0
+)
+cos(α) a1
++ cos(β)
+a2
+(43)
+and so
+l1 = L −
+L cos(α) a1
+− sb
+(z − l0
+)
+cos(α) a1
++ cos(β)
+a2
+. (44)
+Lengths l1 and l2 can so be obtained if z, α, β, μ and η are known.
+Appendix B. Proof for two elements
+B.1. Calculation of l0x and l0y
+Let zM be the coordinate of the ballast M on the O⃗ z axis and zB the coordinate of the buoy B on the O⃗ z axis. Since zM and zB can be evaluated in the plans (O, x, z) and (O, y, z), one has
+zM = l0x cos (γ) = l0y cos (φ) (45)
+zB = l0x cos (γ) − l1x cos (α) = l0y cos (φ) − l1y cos (μ) (46)
+zB = z − l2x cos (β) = z − l2x cos (η) (47)
+From (45)–(47), one gets
+l0x = l0y
+cos (φ)
+cos (γ) (48)
+l1x = l1y
+cos (μ)
+cos (α) (49)
+l2x = l2y
+cos (η)
+cos (β) . (50)
+Note that (49)–(49) are identical to (37)–(38), so (5)–(11) are still valid. Considering now l0, using (19) and (48), one gets
+l2
+0 = l2
+0x + sin (φ)2 l2
+0y
+l2
+0 = l2
+1x + sin (φ)2
+( cos (γ) cos (φ)
+)2
+l2
+0x
+l2
+0 = (1 + tan (φ)2 cos (γ)2) l2
+0x
+l2
+0x =
+l2
+0
+(1 + tan (φ)2 cos (γ)2) . (51)
+In the same way, one can obtain using again (19) and (48)
+l2
+0 = l2
+0x + sin (φ)2 l2
+0y
+l2
+0 = l2
+0y
+( cos (φ) cos (γ)
+)2
++ sin (φ)2 l2
+0y
+l2
+0y =
+l2
+0
+(
+sin (φ)2 +
+( cos(φ) cos(γ )
+)2) . (52)
+B.2. Calculation of l0, l1 and l2
+Let us study (18). Since sb ∈ {−1, 1}, one has
+z = l0 cos (γ) + sbl1x cos (α) − sbl2x cos (β)
+sb
+(z − l0 cos (γ)) = l1x cos (α) − l2x cos (β) . (53)
+Introducing (8) and (10) in (53), one gets
+sb
+(z − l0 cos (γ)) = l1 cos (α)
+√
+1 + tan (μ)2 cos (α)2
+.
+− l2 cos (β)
+√
+1 + tan (η)2 cos (β)2
+. (54)
+Setting a1 =
+√
+1 + tan (μ)2 cos (α)2 and a2 =
+√
+1 + tan (η)2 cos (β)2. Since L = l1 + l2, (54) becomes
+sb
+(z − l0 cos (γ)) = L cos (α)
+a1
+− l2
+( cos (α)
+a1
++ cos (β)
+a2
+)
+l2 =
+L cos(α) a1
+− sb
+(z − l0 cos (γ))
+cos(α) a1
++ cos(β)
+a2
+. (55)
+Using L = l1 + l2 again, one obtains also
+l1 = L −
+L cos(α) a1
+− sb
+(z − l0 cos (γ))
+cos(α) a1
++ cos(β)
+a2
+. (56)
+
+
+Ocean Engineering 269 (2023) 113570
+12
+C. Viel et al.
+Lengths l1 and l2 can so be obtained if z, α, β, γ μ and η are known. Note that if γ = 0, i.e. the ballast M is an anchor that allows l0 to remain vertical, (56) becomes equal to (44). Considering now l0x and l0y, since l0 is known and constant, if γ and φ are known, l0x and l0y can be evaluated using (20) and (21).
+References
+Audric, M., 2004. Gaps, a new concept for usbl [global acoustic positioning system for ultra short base line positioning]. In: Proc. IEEE Techno-Ocean’04, Vol. 2. pp. 786–788. Awan, K. Mahmood, Shah, P.A., Iqbal, K., Gillani, S., Ahmad, W., Nam, Y., 2019. Underwater wireless sensor networks: A review of recent issues and challenges. Wirel. Commun. Mob. Comput. 1. Blintsov, O., 2017. Development of the mathematical modeling method for dynamics of the flexible tether as an element of the underwater complex. Eastern-Eur. J. Enterpr. Technol. 1 (7), 4–14. Buckham, B., Nahon, M., 1999. Dynamics simulation of low tension tethers. In: IEEE Conference Proceedings Oceans, Vol. 2. pp. 757–766. Christ, R.D., Wernli, Sr., R.L., 2011. The ROV Manual: A User Guide for Observation Class Remotely Operated Vehicles. Elsevier. Crandle, T., Cook, G., Celkis, E., 2017. Tradeoffs between umbilical and battery power in ROV performance. In: IEEE OCEANS 2017-Anchorage. pp. 1–6. Drupt, Juliette, Dune, Claire, Comport, Andrew I., Hugel, Vincent, 2022a. Validity of the catenary model for moving submarine cables with negative buoyancy. In: 3rd Workshop on RObotic MAnipulation of Deformable Objects: Challenges in Perception, Planning and Control for Soft Interaction (ROMADO-SI). Drupt, J., Dune, C., Comport, A.I., Seillier, S., Hugel, V., 2022b. Inertial-measurementbased catenary shape estimation of underwater cables for tethered robots. In: IEEE/RSJ International Conference on Intelligent Robots and Systems. IROS, IEEE/RSJ, Kyoto, Japan. Duncan, R.G., Froggatt, Mark E., Kreger, S.T, Seeley, R.J., Gifford, D.K., Sang, A.K., Wolfe, M.S., 2007. High-accuracy fiber-optic shape sensing. In: Sensor Systems and Networks, Vol. 6530. 65301S. Eidsvik, O.A., Schjølberg, I., 2016. Time domain modeling of rov umbilical using beam equations. IFAC 49 (23), 452–457. Eidsvik, O.A.N., Schjølberg, I., 2018. Finite element cable-model for remotely operated vehicles (ROVs) by application of beam theory. Ocean Eng. 163, 322–336. Fan, S., Liu, C., Li, B., Xu, Y., Xu, W., 2019. AUV docking based on USBL navigation and vision guidance. J. Mar. Sci. Technol. 24 (3), 673–685. Frank, J.E., Geiger, R., Kraige, D.R., Murali, A., 2013. Smart tether system for underwater navigation and cable shape measurement. US Patent 8, 437, 979, URL https://patents.google.com/patent/US8437979B2/en. Ganoni, O., Mukundan, R., Green, R., 2018. Visually realistic graphical simulation of underwater cable. Comput. Sci. Res. Not.. González, F., de la Prada, A., Luaces, A., González, M., 2017. Real-time simulation of cable pay-out and reel-in with towed fishing gears. Ocean Eng. 131, 295–307.
+Hong, Sung Min, Ha, Kyoung Nam, Kim, Joon-Young, 2020. Dynamics modeling and motion simulation of USV/UUV with linked underwater cable. J. Mar. Sci. Eng. 8 (5), 318. Karras, G.C., Kyriakopoulos, K.J., 2007. Localization of an underwater vehicle using an IMU and a laser-based vision system. In: Mediterranean Conference on Control & Automation. pp. 1–6. Karras, G.C., Panagou, D.J., Kyriakopoulos, K.J., 2006. Target-referenced localization of an underwater vehicle using a laser-based vision system. In: OCEANS. pp. 1–6. Kim, J., Yu, S.-C., 2016. Convolutional neural network-based real-time ROV detection using forward-looking sonar image. In: Proc IEEE/OES Autonomous Underwater Vehicles. pp. 396–400. Laranjeira, M., Dune, C., Hugel, V., 2017. Catenary-based visual servoing for tethered robots. In: IEEE International Conference on Robotics and Automation. pp. 732–738. Laranjeira, M., Dune, C., Hugel, V., 2019. Embedded visual detection and shape identification of underwater umbilical for vehicle positioning. In: OCEANS 2019-Marseille. pp. 1–9. Laranjeira, M., Dune, C., Hugel, V., 2020. Catenary-based visual servoing for tether shape control between underwater vehicles. Ocean Eng. 200, 107018. Lasbouygues, A., Louis, S., Ropars, B., Rossi, L., Jourde, H., Délas, H., Balordi, P., Bouchard, R., Dighouth, M., Dugrenot, M., et al., 2017. Robotic mapping of a karst aquifer. In: IFAC: International Federation of Automatic Control. Mandić, F., Rendulić, I., Mišković, N., Nađ, Ð., 2016. Underwater object tracking using sonar and USBL measurements. J. Sens. 1. Park, D., Jung, J., Kwak, K., Chung, W.K., Kim, J., 2017. 3D underwater localization using EM waves attenuation for UUV docking. In: Proc. IEEE Underwater Technology. UT, pp. 1–4. Park, D., Kwak, K., Kim, J., Chung, W.K., 2016. 3D underwater localization scheme using EM wave attenuation with a depth sensor. In: Proc. IEEE ICRA. pp. 2631–2636. Stuart, H., Wang, S., Khatib, O., Cutkosky, M.R., 2017. The ocean one hands: An adaptive design for robust marine manipulation. Int. J. Robot. Res. 36 (2), 150–166. Su, X., Ullah, I., Liu, X., Choi, D., 2020. A review of underwater localization techniques, algorithms, and challenges. J. Sens. 1. Such, M., Jimenez-Octavio, J.R., Carnicero, A., Lopez-Garcia, O., 2009. An approach based on the catenary equation to deal with static analysis of three dimensional cable structures. Eng. Struct. 31 (9), 2162–2170. Trslić, P., Weir, A., Riordan, J., Omerdic, E., Toal, D., Dooly, G., 2020. Vision-based localization system suited to resident underwater vehicles. Sensors 20 (2), 529. Viel, C., 2022a. Self-management of ROV umbilical using sliding buoys and stop. IEEE Robot. Autom. Lett. 7 (3), 8061–8068. Viel, C., 2022b. Self-management of the umbilical of a ROV for underwater exploration. Ocean Eng. 248, 110695. Wang, J., Bai, S., Englot, B., 2017. Underwater localization and 3D mapping of submerged structures with a single-beam scanning sonar. In: Proc. IEEE ICRA. pp. 4898–4905.

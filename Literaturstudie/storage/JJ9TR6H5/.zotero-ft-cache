@@ -1,0 +1,854 @@
+Contents lists available at ScienceDirect
+Ocean Engineering
+journal homepage: www.elsevier.com/locate/oceaneng
+Control of a ROV carrying an object
+Enrico Anderlinia,∗, Gordon G. Parkerb, Giles Thomasa
+a Department of Mechanical Engineering, Roberts Building, University College London, Torrington Place, London, WC1E 7JE, UK b Department of Mechanical Engineering-Engineering Mechanics, Michigan Technological University, 1400 Townsend Drive, Houghton, MI, 49931, USA
+ARTICLE INFO
+Keywords:
+Remotely operated vehicle (ROV) System identification Trajectory control PID control Sliding-mode control Model-predictive control (MPC)
+ABSTRACT
+Unoccupied Underwater Vehicles (UUVs) are growing in importance and capabilities. Here, the trajectory control of an UUV carrying an object is investigated, with the consequent changes in system dynamics. For the first time, an Adaptive Model Predictive Control (AMPC) scheme for UUVs is developed, which selects optimal actions at the start of every time step to minimise the trajectory tracking error and prevent excessive changes in the control action over a receding time horizon. Prediction error minimisation is used to identify the linear model of the UUV in real time. The performance of AMPC is compared with existing PID and sliding-mode control (SMC) strategies through simulations. The latter is improved to prevent integral wind-up. While SMC results in best tracking performance, it imposes a strong burden on the motors due to its bang-bang action selection. AMPC presents smoother changes in applied thrust, but higher tracking errors due to non-linear effects and inaccuracies in the on-line system identification process. PID presents best overall performance, but its behaviour is expected to degrade on an actual ROV application due to sensor noise. This study will contribute to the selection of a suitable control scheme for future UUVs performing maintenance tasks autonomously.
+1. Introduction
+Over the past twenty years, the capabilities and thus the importance of Unoccupied Underwater Vehicles (UUVs) have been rising. Their main roles include exploration and maintenance for the energy sector; exploration, intelligence gathering, mine countermeasure and underwater warfare for the defence sector and exploration and data gathering for the oceanographic sector. In general, it is possible to differentiate between Remotely Operated Vehicles (ROVs), i.e. machines connected to and powered by a mother ship through a tether and operated remotely by a human, and fully autonomous underwater vehicles (AUVs), whose range and capabilities are limited by the energy stored on-board (Fossen, 2011). Whereas AUVs tend to be streamlined with higher speed and range, ROVs tend to be slower and limited by the tether, but more manoeuvrable and with a larger number of thrusters. The reader can find reviews of AUVs in Allard et al. (2014) and Wynn et al. (2014) for military and commercial applications, respectively, and of ROVs in Capocci et al. (2017). ROVs present a more interesting platform for maintenance tasks, although they are dependent on a support ship and expert operators. Recent advances in machine learning and robotics can contribute towards a full automation of their operations. In this work, we make a step in this direction by developing strategies for the control of a single ROV carrying an object.
+Guidance systems for UUVs can be broadly subdivided into setpoint regulation, trajectory tracking and path following (Fossen, 2011). In setpoint regulation, the desired position and orientation of the UUV are set to be constant, e.g. for autopilots. In trajectory tracking, the UUV is set to follow a desired trajectory in time, which prescribes reference position and orientation at each time step. In path following, the UUV is to follow a desired path independent of time. Although path following guidance systems have been the subject of most studies, especially for AUVs, we will consider trajectory tracking in this article. The reason for this is that the framework for apprenticeship learning, i.e. where the ROV learns specific actions from the operator, is currently designed for trajectory control (Abbeel et al., 2010). Hence, trajectory control is likely to be necessary for the future automation of ROV operations. A summary of most strategies for the control of UUVs can be found in Fossen (2011). The simplest scheme is PID control, which has been used since the 1920s. Soylu et al. (2016) have applied this technique for very accurate trajectory control of a ROV. More recent methods for trajectory control include integrator backstepping and Sliding-Mode Control (SMC). Backstepping consists in the recursive construction of a control Lyapunov function and results in improved robustness as compared with PID. Similarly, SMC encompasses non-linear techniques to handle model uncertainties (Fossen, 2011). SMC for diving and steering control of UUVs is covered by Healey and Lienard (1993),
+https://doi.org/10.1016/j.oceaneng.2018.07.022 Received 20 March 2018; Received in revised form 20 June 2018; Accepted 8 July 2018
+∗ Corresponding author. E-mail addresses: e.anderlini@ucl.ac.uk (E. Anderlini), ggparker@mtu.edu (G.G. Parker), giles.thomas@ucl.ac.uk (G. Thomas).
+Ocean Engineering 165 (2018) 307–318
+Available online 25 July 2018 0029-8018/ © 2018 Published by Elsevier Ltd.
+T
+
+
+while Lyshevski (2001) applies it to trajectory tracking. A model-free version is proposed by Raygosa-Barahona et al. (2011) and later developed in García-Valdovinos et al. (2014). Alternatively, Model Predictive Control (MPC) uses an internal model of the system to create an optimal control solution at each time step during a receding time horizon. This technique, known as Model Predictive Control (MPC), can also incorporate a prediction component that uses information of forecast disturbance, e.g. due to current or wave effects. Molero et al. (2011) apply MPC to the trajectory control of a ROV, while Steenson et al. (2014) for the depth control of an AUV and Kapetanović et al. (2017) for the path-following control of an UUV. Here, we will apply PID, SMC and MPC to the trajectory-tracking problem of a ROV carrying an object. One of the main challenges in the analysed problem is the associated change in the dynamic system after the ROV picks up the object. This requires the control scheme to be adaptive. Caccia et al. (2000) and Pereira and Duncan (2000) have described practical methods for the experimental measurement of the dynamic parameters of a ROV and UUVs in general, respectively, assuming decoupled equations of motion. Methods based on the frequency-domain or machine-learning have been proposed by Banazadeh et al. (2017) and Wehbe et al. (2017), respectively. Nevertheless, these methods rely on prescribed manoeuvres and thus cannot be used in real-time. Smallwood and Whitcomb (2003) have investigated on-line system identification of a dynamically positioned ROV. Strategies for the on-line system identification of UUVs have been proposed by Sowerby et al. (2005), Karras et al. (2013) and Eng et al. (2016) using recursive least-squares scheme. Eng et al. (2016) in particular use on-line system identification to design a suitable gain-scheduled controller for an AUV. On-line system identification will be used here in conjunction with MPC to produce the first application of adaptive MPC of an UUV. Although the energy industry has clearly used ROVs for lifting objects during maintenance tasks, this work with an industry focus has not been published. Conversely, the aeronautical community has studied the control of quadcopters lifting objects on their own or collaboratively, as for instance analysed by Mellinger et al. (2011) and Mellinger et al. (2015). Hence, these papers have been taken for inspiration. In the next section, the modelling of ROV dynamics is covered. Then, PID, SMC and adaptive MPC for ROV control are treated. Afterwards, their performance is assessed by simulating a ROV picking up a sphere and tracking a desired trajectory.
+2. Modelling of ROV dynamics
+The book by Fossen (2011) contains a detailed description of the derivation of the equations of motion of a ROV. The equations of motion are expressed in inertial and body-fixed reference frames. The latter is attached to the vehicle and its motion is described relative to the inertial, or Earth-fixed, frame. A right-hand-rule frame is employed, with positive direction North, East and downwards, as shown in Fig. 1.
+2.1. Model of the vehicle
+As shown in Fig. 1, let us define the displacements of the ROV in 6 degrees of freedom (DOF) in the inertial reference frame and the velocity vector in the body-fixed frame, respectively, as
+η= x y z φ θ ψ
+[ ]T , (1a)
+ν= v ω = u v w p q r
+[ ] [ ].
+T T (1b)
+The body velocity in the inertial reference frame can be found as follows
+η=J ην
+ ̇ ( ) (2)
+using the transformation matrix for the generalised coordinates1
+=⎡
+⎣⎢
+⎤ ⎦⎥
+Jη Rη
+Tη
+() () 0
+0 () ,
+(3a)
+=
+⎡
+⎣
+⎢ ⎢
+−+ +− −
+⎤
+⎦
+⎥ ⎥
+Rη
+ψθ ψφθ φψ φψ φψθ θψ φψ φψθ φψθ ψφ θ θφ θφ
+()
+cc css cs ss ccs cs cc ss s cs s c s s cs cc
+,
+(3b)
+=
+⎡
+⎣
+⎢
+⎢−
+⎤
+⎦
+⎥ ⎥
+Tη
+φθ φθ φφ φθ φθ
+()
+1 s( )t( ) c( )t( ) 0 c( ) s( ) 0 s( )/c( ) c( )/c( )
+,
+(3c)
+where ∈ ×
+0 IR3 3 is a matrix of zeros, R the linear velocity transformation and T the angular velocity transformation matrix with c indicating cosine, s sine, t tangent functions and φ, θ and ψ being the Euler angles in (1a). Additionally, it is possible to include the effects of an external current represented by the velocity vector η ̇c in the inertial reference frame. If the current is assumed to be steady and irrotational, it is possible to obtain the relative velocity vector of the ROV in body-fixed coordinates as
+= =− −
+ν [v ω ] ν J (η) η ̇ .
+T
+r r r 1 c (4)
+Neglecting the effects due to waves, disturbances and the tether, the dynamics of a ROV can thus be expressed by the following system of ordinary differential equations:
+⎡ ⎣⎢
+⎤
+⎦⎥ = ⎡
+⎣⎢ − − − +
+⎤ ⎦⎥
+−
+η ν
+J ην M f η f ν f νν τ
+ ̇  ̇
+()
+( () ( ) (, ) ) ,
+1 h d r c r (5)
+where M = (M + M )
+B A is the combined mass matrix, with MB being the mass matrix of the rigid body in 6 DOF and MA the added-mass matrix, fh indicates the hydrostatic force vector, fd the damping force vector, fc the vector force representing the Coriolis and centripetal effects and τ the thrust vector. The mass matrix of the rigid body is given by
+=⎡
+⎣
+⎢
+−⎤
+⎦
+⎥
+M
+I Sr
+Sr I
+mm
+m
+()
+( ) , where
+b
+bb
+B
+g
+g (6a)
+I = I − mS (r ) and
+bb
+g 2 g (6b)
+r=x y z
+[]
+bT
+g g g g (6c)
+is the position of the centre of gravity of the ROV in the body-fixed reference frame, m its mass, Ib the inertia matrix about the origin of the body-fixed frame and Ig about the centre of gravity, ∈ ×
+I IR3 3 indicates
+Fig. 1. Reference systems and degrees of freedom of a ROV. The original CAD drawing was produced by BlueRobotics (2017).
+1 Note that quaternions should be used instead to prevent an singularity for =∘
+θ 90 . However, in this work the angle of pitch never reaches this value.
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+308
+
+
+the identity matrix and ∈ ×
+S IR3 3 the skew-symmetric matrix. The added mass matrix can be similarly subdivided into four equations of size ×
+IR3 3:
+=⎡
+⎣⎢
+⎤ ⎦⎥
+M MM
+M M.
+A
+A,1,1 A,1,2
+A,2,1 A,2,2 (7)
+The weight and buoyancy of the ROV are given by W = mg and B = ρ∇g, respectively, where ∇ is the volume displaced by the ROV, ρ the seawater density and g the gravitational acceleration. The position of the centre of buoyancy in the body-fixed reference frame is expressed as
+r=x y z
+[ ].
+bT
+b b b b (8)
+Then, the hydrostatic force vector is given by
+=
+⎡
+⎣
+⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢
+− − −
+− +−
+− +−
+− +−
+⎤
+⎦
+⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥
+f
+W Bθ B W θφ BW θφ y B yW θ φ z W z B θ φ
+zW zB θ xW xB θ φ
+x B x W θ φ y B yW θ
+( )s( ) ( )c( )s( ) ( )c( )c( ) ( )c( )c( ) ( )c( )s( )
+( )s( ) ( )c( )c( )
+( )c( )s( ) ( )s( )
+.
+h bg g b
+gb gb
+b g b g (9)
+Although fully non-linear models can result in greater accuracy (Wehbe et al., 2017), it is typical to model the damping force of ROVs with a linear and a quadratic term:
+f =Dν +Dν ⊙ ν ,
+d l r q r r (10)
+where ⊙ indicates element-wise multiplication, Dl the linear damping matrix and Dq the quadratic damping matrix. The Coriolis and centripetal force vector is expressed as
+f = C (ν)ν + C (ν )ν , where
+h B A r r (11a)
+=⎡
+⎣
+⎢
+−−
+−+ −
+⎤
+⎦
+⎥
+Cν
+Sv SωSr
+Sv Sr Sω SIω
+mm
+mm
+() 0 () ( ) ( )
+() ( ) ( ) ( ) ,
+b
+bb
+B
+g
+g (11b)
+=⎡
+⎣⎢
+−+ −+−+
+⎤ ⎦⎥
+C ν SM v M ω
+SM v M ω SM v M ω
+() 0 ( )
+( ) ( ). .
+Ar
+A,1,1 r A,1,2 r
+A,1,1 r A,1,2 r A,2,1 r A,2,2 r
+(11c)
+2.2. Model of the vehicle carrying an object
+When a ROV carries an object, its dynamics are affected. Here, the model focuses on the scenario when the ROV has already picked up the body. In particular, the object is assumed to be held fixed in place so that its position with respect of the ROV does not change, as shown in Fig. 2. This can be achieved through grippers and reflects realistic applications of the oil and gas, exploration and defence industries. As a result, the combination of the ROV and the object can be modelled as a new, single, rigid body, whose motions can be described by the same equations as in Secion 2.1. Let us consider here the case of a single ROV carrying a single object, as shown in Fig. 2. The variables relating to the ROV are labelled as 1, those relating to the object as 2 and those corresponding to the combined rigid body with no number. The displaced volume, mass and position of the centres of buoyancy and gravity of the total entity can be computed as
+∑
+∇= ∇
+=
+,
+i
+i 1
+2
+(12a)
+=∑
+=
+m m,
+i
+i 1
+2
+(12b)
+=∑ ∇
+∇
+=
+r r,
+b i i bi b
+1
+2 b
+,
+(12c)
+= ∑=
+r mr
+m.
+b i i bi g
+1
+2 g
+,
+(12d)
+If the centres of gravity and buoyancy of the object are vertically in line with those of the ROV, then no heel or trim angles will occur. The position of the origin of the body-fixed frame is unchanged after the object is picked up. Using the parallel-axis theorem, it is possible to compute the inertia matrix of each body i referenced to the origin of the body-fixed frame as
+I = I − m S (r )S (r ),
+i
+b i iT i
+b i
+b
+g, g, g, (13)
+where Ig,i is the inertia matrix of each body referenced to its centre of gravity. Hence, the inertia matrix of the whole assembly about the origin of the body-fixed reference frame is given by
+=∑
+=
+I I.
+b
+i
+i
+b
+1
+2
+(14)
+Whereas the rigid-body mass matrix of the combined body can be computed with (6a), the added mass and viscous damping matrices need to be estimated either experimentally or through numerical simulations for the composite system. Here cross-coupling effects between the two bodies are assumed to be small so that the new matrices are computed as the superposition of the respective matrices about the origin of the body-fixed frame for the ROV and object. Since the origin of the reference frame does not move, the added mass and viscous damping matrices of the ROV are unchanged and labelled as AA,1, Dl,1 and Dq,1, respectively. If the object can be modelled as a sphere, then its volume, mass, added mass and viscous damping about its own centre of mass in surge, sway and heave (no components in roll, pitch and yaw due to symmetry) are given by
+∇ = πρr
+4
+3,
+23
+(15a)
+m = πρ r
+4
+3,
+2 s3
+(15b)
+m = πρ r
+2
+3,
+A,2 s 3
+(15c)
+Fig. 2. Body-fixed frame and position of the centres of gravity and buoyancy of the ROV carrying an object. The original CAD drawing of the ROV was produced by BlueRobotics (2017).
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+309
+
+
+f = ρ⋅ ⋅πr = πρr
+1
+2 0.5 1
+2,
+D,2
+22
+(15d)
+respectively, where r is the radius of the sphere, ρs the density of its uniform material and C = 0.5
+D its drag coefficient. The viscous drag should contribute to the quadratic damping. However, since a ROV is likely to travel at slow speeds, it is possible to assume that D = 0
+q,2 and fD,2 to contribute to the linear damping instead. Thus, if the object is treated as a point mass, then the added-mass and viscous damping matrices in 6 DOF of the sphere about the origin of the body-fixed frame can be approximated respectively as
+=⎡
+⎣
+⎢
+−⎤
+⎦
+⎥
+A
+I Sr
+Sr I
+mm
+m mz
+()
+() ,
+b
+b
+A,2
+A,2 A,2 g,2
+A,2 g,2 A,2 g
+2 (16a)
+=⎡
+⎣
+⎢
+−⎤
+⎦
+⎥
+D
+I Sr
+Sr I
+ff
+f fz
+()
+() .
+b
+b
+l,2
+D,2 D,2 g,2
+D,2 g,2 D,2 g
+2 (16b)
+2.3. Linearised model
+For a standard, well-balanced ROV, the DOF of roll and pitch should be hydrostatically stable. This condition is maintained even if the ROV lifts an object denser than water under its centre of gravity, although permanent angles of heel or trim may occur. Here, the object is assumed to be lifted in line with the centres of gravity and buoyancy so that the equations of motions can be linearised about = ∘
+φ 0 and = ∘
+θ 0 . As shown in Fossen (2011), the resulting linearised model in state-space form in 4 DOF (surge, sway, heave and yaw) is given by
+x = Ax + Bτ + Ew
+ ̇ , where
+η (17a)
+x= x y z ψ x y z ψ
+[  ̇  ̇  ̇  ̇ ]T , (17b)
+=⎡
+⎣⎢ −
+⎤ ⎦⎥
+−
+AI
+MD
+0
+0,
+1 l (17c)
+= =⎡
+⎣⎢
+⎤ − ⎦⎥
+BE M
+0 1 , (17d)
+∈×
+I IR4 4, ∈ ×
+M IR4 4, ∈ ×
+D IR
+l 4 4, the disturbance w can be used to model ocean current or hydrostatic effects and τη is the thrust vector in the inertial frame. In particular, if there is no ocean current and the ROV is not neutrally buoyant (e.g. after lifting an object), then w can be set to a constant scalar value, say 1, and E = [0 0 (W − B) 0]T .
+2.4. Model of the thrusters
+In this work the case of a ROV with non-rotatable thrusters is considered. Hence, it is possible to express the thrust and torque vector in the 6 DOF as
+τ = Tft , (18)
+where the thrust in each propulsor is included in the vector ∈ ×
+f IRn
+t p 1, with np being the number of propulsors, and ∈ ×
+T IR6 np is the thrust allocation matrix. The thrust allocation matrix is a function of the position and orientation of the thrusters with respect to the origin of the body-fixed system of reference. Although the thrust in each rotor is a function also of the speed of advance in the water, here the thrust is assumed to be purely a function of the voltage into the thrusters V as in García-Valdovinos et al. (2014):
+f = f (V ),
+t (19)
+where the coefficients of the function f, which is usually polynomial, are obtained experimentally.
+3. Trajectory-tracking control of a ROV
+The aim of the control task analysed in this work is to obtain appropriate values for the thrust (or in fact voltage) in each thruster so that the ROV tracks a desired trajectory in space and time. Roll and pitch are assumed to be hydrostatically stable so that the ROV is controlled only in 4 DOF, since the system is underactuated. If the desired trajectory in the inertial reference frame is defined as ηt (t) (the time dependence shows that there is an entry for each time step), then the control error vector and its derivative can be expressed respectively as
+η = η − η,
+͠ t (20a)
+η =η −η
+ ̇  ̇  ̇.
+͠ t (20b)
+Fig. 3 shows the diagram of the control methodology applied in this paper. The controller uses η͠ and η͠ ̇ and returns a vector containing the desired voltages to each thruster, Vd, passing through a number of intermediate steps. The control scheme returns the required thrust in the inertial reference frame, τη,d, which is converted to the body-fixed frame as
+=−
+τd J 1τη,d. (21)
+The next step is to obtain the desired thrust in each vector, ft,d as
+=−
+f T τ.
+t,d 1 d (22)
+Fig. 3. Diagram of the ROV control framework.
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+310
+
+
+This step requires the thrust allocation matrix to be invertible, which is possible only for fully actuated systems. The voltage in each thruster is then obtained from the inverse of the function in (19). The values are passed through a saturation block to prevent damage to the motors. The diagram in Fig. 3 is completed by the trajectory generator, the thrusters model, which relies on (18) and (19), additional functions required to deal with the conversion between 6 and 4 DOF for the controller and the ROV platform or model. In this article, the ROV motions will be simulated as described in Secion 2, since the authors have no access to an actual system. However, the control framework can be easily modified for application to a real system, although additional state estimators will be required, likely in the form of Kalman filters. In the following sections, PID control, Model-Free High-Order Sliding Mode Control (MF-HOSMC) and MPC will be described for the control of a ROV picking up an object. All these methods can be interchangeably applied to the control scheme block in Fig. 3.
+3.1. PID control
+PID controllers have been used since the 1920s for the automated steering of ships and represent one of the most applied types of control systems (Fossen, 2011). The control action comprises of the sum of a proportional, an integral and a derivative term based on the error signal. The proportional term is used to correct the response of the system based on current performance, whereas the derivative term can be used to forecast future values. The integral action, which relies on past data, can be used to remove steady-state errors, e.g. due to ocean current forces or hydrostatics imbalances (if the ROV is not neutrally buoyant). Based on the trajectory-tracking error signal in (20a), the desired thrust in 4 DOF in the inertial reference frame can be obtained as (Fossen, 2011)
+∫
+τ = K η + K η (t′)dt′ + K η ̇
+͠͠ ͠
+η
+t
+,d p i 0 d (23)
+at every time step, where the gain matrices are diagonal.
+3.2. Model-free sliding mode control
+Sliding-mode control is a robust non-linear scheme. MF-HOSMC for UUVs was proposed by Raygosa-Barahona et al. (2011) and later developed in García-Valdovinos et al. (2014). The reader is referred to the latter for proof of stability and the derivation. Here, two changes are made to the existing MF-HOSMC method. Firstly, a term aimed at improving the transient response is removed, as it does not affect the stability of the control scheme. Secondly, a term is added to prevent wind-up of the controller response. The sliding mode or extended trajectory error is given by
+s=η +K η
+ ̇,
+͠͠
+p,sm (24a)
+∫
+=+ ′
+s s K sign(s)dt ,
+t
+r i,sm 0 (24b)
+where the gain matrices are positive definite and diagonal. The desired thrust vector in 4 DOF in the inertial reference frame is thus obtained as
+τ =K s,
+η,d τ r (25)
+where Kτ is also diagonal positive definite. Integral wind-up occurs mainly with PID controllers when the setpoint rises significantly (Fossen, 2011). This results in the error accumulating in the integral term, which continues to grow after an initial overshoot due to errors in other directions, so that the response can become unstable. MF-HOSMC can also suffer from this behaviour due to the integral term. In particular, the signum function can cause considerable error build-up in heave for the case when the UUV is not neutrally buoyant, which was not considered in García-Valdovinos et al.
+(2014). As a result, to prevent unstable behaviour in heave, (24b) has been modified as follows
+=∫ ′
+i sign(s)dt ,
+t
+0 (26a)
+=⎧
+⎨⎩
+≥
+s i− i < = ...
+i i jn
+min( , 1) if 0,
+max( , 1) if 0 for 1, , ,
+j
+jj
+jj
+i, p
+(26b)
+s =s+s.
+r i (26c)
+3.3. Adaptive model predictive control
+3.3.1. Model predictive control
+MPC consists in the computation of an optimal control action at every time step using an internal model of the ROV dynamics such that a cost function is minimised during a receding time horizon. The standard cost function (Bordons and Camacho, 2007) is
+J=J +J +J ,
+y u Δu (27)
+where each component is described hereafter:
+•
+Jy is the output reference cost function (Bordons and Camacho, 2007):
+∑∑
+= +− +
+==
+J (k k) {W [r (k i k) y (k i k)]} ,
+y j
+n
+i
+p
+ij
+yj j 11
+,2
+y
+(28)
+where k is the current time step, p the number of time steps in the prediction horizon, ny the number of plant output variables, r (k + i k) the reference output value evaluating i samples in the future, y (k + i k) the predicted output vector and W y a positive semi-definite matrix of tuning weights, which can be used to penalise output errors.
+•
+Ju is the input error cost function, relying on the difference between the control input action and its reference along the control horizon. In general, Ju is used when there are more input values than plant outputs (Bordons and Camacho, 2007). As this is not the case here, J =0
+u is employed.
+•
+JΔu is the control action cost function, which is used to penalise large changes in the control action along the control horizon with length c < p (Bordons and Camacho, 2007):
+∑∑
+= + − +−
+==
+−
+J (k k) {W [u (k i k) u (k i 1 k)]} ,
+u j
+n
+i
+c
+ij
+Δ uj j 11
+1
+,
+Δ2
+u
+(29)
+where nu is the number of input variables, u is the predicted vector of control actions over the control horizon and WΔu a positive semi-definite matrix of tuning weights, which can be used to penalise changes in the control action to prevent damage to the motors. One of the most powerful features of MPC is the ability to include constraints on the plant outputs, the input actions and the change in control actions (Bordons and Camacho, 2007). This is achieved by modifying the cost function in (27), but can result in an increased computational burden, which can make a real-time implementation of the control challenging. In this work, any constraints within MPC are not implemented because of the voltage saturation shown in Fig. 3. To predict the resulting plant outputs during the future time horizon, MPC relies on an internal plant model in state-space format. Although non-linear MPC is possible, linear MPC results in much less computational effort, thus enabling a real-time implementation (Bordons and Camacho, 2007). For this reason, the linearised model in Secion 2.3 will be used for ROV MPC, with y = Ix and u = τη. However, as is clear from this section, MPC works with discrete time steps. Hence, the continuous-time linear model in (17a) is discretised with a zeroorder hold (Franklin et al., 2008):
+x (k + 1) = A x (k) + B u (k) + E w (k),
+d d d (30a)
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+311
+
+
+y (k) = C x (k),
+d (30b)
+where = ∈ ×
+C I IR
+d 8 8.
+With this linear time-invariant model, it is possible to predict the future trajectories of the model as follows (Bordons and Camacho, 2007):
+=∑ ∑
+⎧
+⎨ ⎩
++⎡
+⎣
+⎢ ⎢
+⎛
+⎝
+⎜ − + +⎞ ⎠
+⎟
++ +⎤
+⎦
+⎥ ⎥
+⎫
+⎬ ⎭
+=
+− −
+=
+y C Ax A B u u
+Ew
+ik k k k j
+kh
+( ) ( ) ( 1) Δ ( )
+( ),
+i
+h
+i i
+j
+h
+dd
+0
+1
+d
+1d
+0
+d
+(31)
+This can be rewritten as
+⎡
+⎣
+⎢ ⎢
++ ⋮ +
+⎤
+⎦
+⎥ ⎥
+= + −+
+⎡
+⎣
+⎢ ⎢
+⋮
++−
+⎤
+⎦
+⎥ ⎥
++
+⎡
+⎣
+⎢ ⎢
+⋮ +
+⎤
+⎦
+⎥ ⎥
+y
+y
+Sx S u S
+u
+u
+H
+w
+w
+k
+kp
+kk
+k
+kp
+k
+kp
+Δ
+Δ
+( 1)
+()
+( ) ( 1)
+()
+( 1)
+()
+()
+,
+xu u
+w
+,1
+(32)
+where
+=
+⎡
+⎣
+⎢ ⎢ ⎢ ⎢
+⋮
+⎤
+⎦
+⎥ ⎥ ⎥ ⎥
+=
+⎡
+⎣
+⎢ ⎢ ⎢ ⎢
++ ⋮
+∑
+⎤
+⎦
+⎥ ⎥ ⎥ ⎥
+=
+−
+S
+CA CA
+CA
+S
+CB CB CAB
+CA B
+,,
+x
+p
+u
+h
+ph
+dd
+dd
+2
+dd
+,1
+dd
+dd d dd
+0
+1
+d d d (33a)
+=
+⎡
+⎣
+⎢ ⎢ ⎢ ⎢
+... +... ⋮ ⋮ ⋱⋮
+∑ ∑...
+⎤
+⎦
+⎥ ⎥ ⎥ ⎥
+=
+− =
+−
+S
+CB CB CAB CB
+CA B CA B CB
+00
+0,
+u
+h
+ph
+h
+ph
+dd
+dd d dd dd
+0
+1
+dd d 0
+2
+d d d d d (33b)
+=
+⎡
+⎣
+⎢ ⎢ ⎢ ⎢
+... ... ⋮ ⋮ ⋱⋮ ...
+⎤
+⎦
+⎥ ⎥ ⎥ ⎥
+−−
+H
+CE CAE CE
+CA E CA E
+00 0
+0
+.
+w
+pp
+dd
+d dd dd
+dd
+1d d d
+2 d (33c)
+Substituting (32) into (27) yields a quadratic problem, which can be solved through quadratic programming in real time (Bordons and Camacho, 2007). An implementation on an actual ROV requires an additional Kalman filter for the estimation of the states. However, since the controller is being tested in a numerical setting, this is not analysed within this article.
+3.3.2. On-line system identification
+The lifting of the object results in a change in the ROV hydrostatics, damping, inertia and added mass. Hence, the original model of the system dynamics is no longer accurate and the parameters of (30a) need to be updated using observed data. This process is known as on-line system identification. Due to the linear form of (30a), recursive least-squares estimation would seem most appropriate (Ljung, 1999) and has been used successfully by Eng et al. (2016) with a gain-scheduling control scheme. However, here on-line recursive least-squares estimation coupled with MPC has been found to result in unstable behaviour. This may be caused by the large number of unknown parameters. By using a zeroorder hold for discretising (17c-17d), both Ad and Bd end up with 32 unknowns each. Hence, a suboptimal combination of parameters may result in a better fit to the trajectory than the actual one due to the nonlinear effects, which are not accounted for in (30a). Since the suboptimal combination of parameters corresponds to an incorrect model, MPC is unable to select correct actions and this causes the unstable behaviour observed. Therefore, the adoption of an alternative approach has been preferred for the estimation of the parameters based on batch-mode system
+identification. This method provides superior robustness at the expense of a more sluggish response. The technique consists of identifying the parameters of Ad and Bd using a batch of data points of x and τη ordered in time. As a result, it is run in parallel with the controller at a specific time interval, say every 2.5–10 s. Since the method becomes more accurate as the number of data points increases, past data points are also used during following system identification steps. The data set is cleared whenever the ROV payload is deemed to have significantly changed. This can be determined by running an additional on-line recursive least-squares method and recognising an abrupt change in coefficients. The batch-mode system identification method relies on a prediction error minimisation (PEM) approach (Ljung, 1999), a robust technique with excellent asymptotic properties and applicable to a wide range of model parameterisations. Let us store all data points in a time series with N time steps
+Z = {u (1), y (1), u (2), y (2), ..., u (N ), y (N )}.
+N (34)
+The input vector u includes the entries for τη but also w (3 vectors assuming irrotational currents) and a vector with entries with value 1 to account for a hydrostatic force in heave (1 vector, which can also be included within w). Additionally, let us consider a state-space representation as the linear time invariant model describing the system. In particular, a continuous time system is considered as in Section 2.3 so that it is possible to reduce the number of parameters θ to 16 each for both matrices A and B in (17a), which are now expressed as A (θ) and B (θ), respectively. In the case of no external ocean currents, matrix E (θ) has a single entry (W − B) to account for hydrostatic forces in heave if the ROV is not neutrally buoyant. In linear PEM (Ljung, 2002), the assumption is that the data in ZN has been generated according to
+y (t) = G (q, θ)u (t) + H (q, θ)v (t), (35)
+where v is Gaussian white noise and q is the shift or lag operator. Hence, the vector of the difference between the measured and the predictive outputs of the model e can be expressed as (Ljung, 2002)
+=−
+−
+e (t) H (q, θ)[y (t) G (q, θ)u (t)].
+1 (36)
+The vector of parameters θ can then be computed by minimising the difference between the predicted and measured outputs
+∑
+=
+=
+θ argmin e (t) .
+θt
+N
+1
+2
+(37)
+The minimisation usually relies on the damped Gauss-Newton method (Ljung, 2002). Once matrices A (θ) and B (θ) are identified, they are discretised with a zero-order hold (Franklin et al., 2008) to produce Ad and Bd, respectively. The process is repeated whenever the system identification is called again with an updated or new data set ZN .
+3.3.3. Adaptive model predictive control summary
+The developed Adaptive Model Predictive Control (AMPC) method for ROVs can be seen in Fig. 4. While MPC has a time step of 0.1 s, system identification is run in parallel at a slower rate of 2.5 s (for this specific application). To increase the accuracy of the identified system, data can be collected to be stored in ZN at a quicker rate than 10 Hz; namely, every 0.01 s here. Although in this work a simulated system with no noise is used, in real applications the stored data will need to be filtered and possibly estimated. The MPC block receives three input vectors with entries for each time step in the next time horizon of length p. One of these is a vector of entries with value 1, which is required to account for possible imbalances in the hydrostatics during system identification (i.e. if the ROV is not neutrally buoyant).
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+312
+
+
+3.4. Simulation of a ROV lifting a body
+In the absence of access to an actual ROV system, here the control of a ROV picking up an object is modelled using simulations. The modelling framework can be seen in Fig. 3. Although not specifically designed for weight lifting, the Kaxan ROV described in GarcíaValdovinos et al. (2014) is selected, since the identified system is provided in that article.
+3.5. Model parameters
+The Kaxan is a small ROV with four thrusters, as shown in Fig. 5 for clarity. The reader is referred to García-Valdovinos et al. (2014) for a detailed description of the system. It can be seen that the ROV is underactuated in 6 DOF; however, control in 4 DOF is possible. For this platform, the following parameters, taken from GarcíaValdovinos et al. (2014), apply:
+=−
+r [0 0 0.1] m,
+bT
+b,1 (38a)
+r = [0 0 0] m,
+bT
+g,1 (38b)
+= = ⋅=⋅
+−−
+m 98.5 kg, ρ 1024 kg m , g 9.81 m s ,
+1 3 2 (38c)
+I = diag(1.32, 2.08, 2.32) kg⋅m ,
+g,1 2 (38d)
+M = diag(29,30,90,5.2, 7.2, 3.3) kg, kg⋅m, kg⋅m ,
+A,1 2 (38e)
+= ⋅ ⋅⋅ ⋅⋅
+−− −
+D diag(72,77,95,40,30,30) kg s , kg s m, kg s m ,
+l,1 1 1 1 2 (38f)
+D = 0,
+q,1 (38g)
+=
+⎡
+⎣
+⎢ ⎢ ⎢ ⎢ ⎢
+− −− −
+⎤
+⎦
+⎥ ⎥ ⎥ ⎥ ⎥
+T
+1 1 00 0 0 10 0 0 01 0 0 0.07 0 0.1 0.1 0 0.022 0.175 0.215 0.135 0
+,
+(38h)
+=⎧
+⎨⎩
++ −− =
++ −− =
+f VVV i
+VVV i
+0.6738 0.7566 0.3969 1.2410 for 1,2,
+0.7696 0.0352 1.2560 0.1574 for 3,4,
+i
+iii
+iii
+t,
+32
+3 2 (38i)
+=⎧
+⎨⎩
+−+ < V + ≥=
+ff
+f fi
+2.684 1.4730 for 0
+0.9795 0.2088 for 0 for 1,2,
+i
+ii
+ii
+t,
+0.2097 t,
+t,
+0.3427
+t, (38j)
+=⎧
+⎨⎩
+− −< V − ≥=
+ff
+f fi
+0.6473 0.4759 for 0
+1.003 0.0763 for 0 for 3,4.
+i
+ii
+ii
+t,
+0.4223 t,
+t,
+0.3495
+t, (38k)
+The formulae for f and f −1 have been obtained by fitting the thrustvoltage curves of the thrusters reported in García-Valdovinos et al. (2014). Additionally, the ROV is known to be neutrally buoyant so that W = B.
+The sphere is assumed to have the following parameters:
+r = r = [0 0 0.5] m,
+bb T
+b,2 g,2 (39a)
+= = ⋅−
+r 0.15 m, ρ 1415 kg m .
+s 3 (39b)
+The mass of the sphere has been selected so that the vertical thruster is able to counteract the difference between weight and buoyancy forces.
+3.6. Controller parameters
+For PID control, very high gains have been used to improve the controller response due to very small noise present in the simulation environment:
+K = diag(500,500,500,100),
+p (40a)
+K = diag(5,5,5,5),
+i (40b)
+K = diag(10,10,10,10).
+d (40c)
+However, note that in a realistic implementation on an actual ROV system, lower gains and filters would be needed to deal with noise and state estimation combining data from multiple sensors. For MF-HOSMC, the same controller gains as in García-Valdovinos et al. (2014) have been employed:
+K = I,
+p,sm (41a)
+Fig. 4. Diagram of AMPC for the ROV.
+Fig. 5. Thrusters' position of the Kaxan ROV. The figure is taken from GarcíaValdovinos et al. (2014).
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+313
+
+
+K = 0.1I,
+i,sm (41b)
+K = 500I,
+τ (41c)
+where ∈ ×
+I IR4 4.
+MPC is applied using the parameters in Secion 4.1 to pre-compute the matrices Ad, Bd and Ed. Similarly, these values are used to preinitialize AMPC for the first 2.5 s. In particular, with AMPC the batchmode system identification is run every 2.5 s. The MPC and AMPC schemes have a time-step of 0.1 s. In general, the selection of the length of the prediction and control horizons is a compromise: longer time horizons result in superior performance, but also much greater computational cost (Bordons and Camacho, 2007). For this reason, values of p = 25 and c = 10 have been chosen after preliminary studies, deeming longer time horizons difficult to be applicable in real-time. For both MPC and AMPC, W y is a matrix of 1 and WΔu of 0.1 so as to give greater importance to matching the desired displacement and velocity trajectories than to limiting the change in control actions. In general, it is possible to specify lower weights towards time steps further into the future, which are associated with higher levels of uncertainty (Bordons and Camacho, 2007). However, this has not been done here for simplicity. Additionally, for both MPC and AMPC the model parameters have been initialised according to the data in Secion 4.1.
+3.7. Trajectory-control tests
+In the simulations, the ROV is tasked with following a minimumsnap trajectory (Mellinger, 2012) in the absence of currents, which requires coordinated surge, sway, heave and yaw. The ROV then has to return to the original position, wait, pick up the sphere (at t = 35 s) and then repeat the whole trajectory once more. This is shown in the trajectory curve in Fig. 6. The time of t = 35 s is used to clear the data points stored for system identification when using AMPC. In fact, a recursive least-squares estimator is likely to be used on an actual system. The simulations are run in MATLAB/Simulink. The system in Fig. 3 is modelled with a combination of default blocks and C-coded S-functions for improved computational speed. While default MathWorks functions are used for PID, MPC and system identification to remove the need for additional verifications, MF-HOSMC has been implemented with a C-coded S-function. The equations of motion in Section 2 are discretised using a fourth-order Runge-Kutta scheme with a time step of 0.01 s.
+4. Results and discussion
+The response of the ROV under the different control conditions is shown in Fig. 6 in all 6 DOF. Fig. 7 highlights more clearly the difference between desired and actual displacement trajectories. The corresponding input actions that are required to obtain the desired response can be seen in Fig. 8 for each thruster. Note that MF-HOSMC with the anti-wind-up measure is labelled as MF-HOSMC-AW. The desired trajectory, shown in Fig. 6, is particularly challenging, since it requires concurrent motions in surge, sway, heave and yaw. Although the required accelerations to follow the trajectory are not excessive, the ROV experiences significant roll and pitch angles anyway, as clear from Fig. 6d and e. Nevertheless, the static forces in roll and pitch are sufficient to restore the ROV to its original orientation. This supports the validity of the simplification of the control problem to only 4 DOF. In addition, in Fig. 6d and e it is interesting to notice the lower roll and pitch angles experienced after the ROV picks up the sphere (i.e. for t > 35 s) whilst performing the same manoeuvre, which is likely to be caused by the increased damping and inertia associated with the new system configuration. As shown in Figs. 6 and 7 all analysed control schemes are able to
+follow the desired trajectory satisfactorily, with the exception of MFHOSMC, which becomes unstable in heave as the ROV with the sphere is requested to go back to the original position and orientation (for t > 50 s). In fact, for all controllers heave is the most difficult DOF to control due to the static downward force (along the positive z-direction because of the selected system of reference) because the sphere is denser than water. In particular, as can be seen in Fig. 8, all controllers apply the maximum thrust to the vertical thruster (thruster 4, which is assumed to be installed facing downwards from Fig. 5) for 55 s< t < 65 s in order to track the desired trajectory. This inability to apply more thrust corresponds to a fuller hump in Fig. 6c or a trough in Fig. 6c, as compared to the case of the ROV tracking the same trajectory without carrying the sphere (20 s< t < 30 s). In Table 1, the performance of the five analysed control schemes is quantified. The computational cost is expressed by the computational time of each simulation. However, note that for MPC and AMPC, the computational time is not representative due to the adopted implementation: whereas for the other controllers, coded S-functions have been used, for MPC and AMPC the MATLAB MPC toolbox has been exploited. This means that at every time step in Simulink, a MATLAB function is called, which calls the toolbox, thus requiring a compilation process. The problem is even worse for AMPC, where the model estimation is also run. A C-only implementation is likely to result in a computational cost two orders of magnitude lower. The accuracy of the control scheme is represented by the root mean square error (RMSE) of the actual and desired trajectories over the whole simulation duration. The energy expenditure associated with each control strategy is defined by the root mean square (RMS) value of the thrust in each actuator. The feasibility of the control scheme can be deduced by the RMS value of the derivative of the force in each thruster. Finally, the robustness is indicated by whether unstable behaviour was observed during the simulations. Comparing the individual controllers, the PID scheme produces the best performance. In Figs. 6 and 7, it tracks the desired trajectory accurately despite some struggling with the control of the ROV after the object is picked up and while returning to the original position and orientation while carrying the sphere. The integral term is particularly important in off-setting the steady state-error due to the system being no longer neutrally buoyant. Additionally, PID control presents the lowest associated computational cost as shown in Table 1. Although the adopted implementations (a mix of MATLAB, Simulink and C) cannot allow a direct meaningful comparison of the actual computational cost associated with each control strategy, PID is in general one to two orders of magnitude more efficient than MPC in standard applications (Bordons and Camacho, 2007). Nevertheless, the strong performance of PID control is biased by the absence of noise associated with these simulations, which enables the user to select very high gains for the proportional, integral and derivative terms. When controlling an actual ROV platform, some states (the velocities) are likely to be observed and the readings need to be filtered due to the presence of sensor noise. Furthermore, smaller gains are likely to be used to reduce the risk of instabilities if noise effects become significant. As a result, the performance of PID is expected to degrade somewhat in a practical implementation, although this is true for the other control schemes as well. Hence, further testing of the control strategies should be performed experimentally. Although García-Valdovinos et al. (2014) observed MF-HOSMC to perform well for ROV control even in the presence of ocean currents with changing direction and velocity, here it is found to become unstable for the control of heave when the ROV is no longer neutrally buoyant. In particular, this occurs in the region where the vertical thruster reaches its saturation limit. The addition of the anti-wind-up measure in (26b) is fundamental in restoring stability in heave control. In fact, MF-HOSMC with anti-wind-up results in the best overall trajectory tracking performance as indicated by smallest RMSE in Table 1, with negligible error with the exception of the case when the vertical
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+314
+
+
+thruster reaches the saturation limit in Figs. 6 and 7. However, from Fig. 8, it is clear that MF-HOSMC achieves trajectory control with a bang-bang type of behaviour, which can impose severe burden on the motors and is unlikely to be achievable in practice due to the inertia associated with the spinning rotors, which will cause a lag in their response. This is shown by the RMS of thrust derivative values, which are three orders of magnitude greater than for PID, MPC and AMPC. Hence, testing with an actual ROV system is required to assess the performance of this control type. Even though AMPC is able to track the desired trajectory reasonably well, it under-performs and presents the largest tracking errors after MF-HOSMC as clear from Table 1. On the one hand, part of this problem is caused by inaccuracies associated with the system identification process, as shown by a comparison with MPC in Figs. 6 and 7 and Table 1, particularly for surge, sway and yaw. On the other hand, the non-linear effects caused by the rolling and pitching of the ROV contribute to the tracking errors, since MPC relies on a linear model in state-space form. Thus, higher tracking errors are expected for stronger non-linear behaviour, e.g. as experienced in more aggressive manoeuvres where non-linear effects are more significant. Nevertheless, the controller performance is still satisfactory and the selected system
+identification procedure has enabled us to produce a control strategy that is truly adaptive to changes in system dynamics, whilst still being applicable to a real-time implementation. Furthermore, the inclusion of a penalty for large changes in the selected control actions within the cost function results in a well-behaved controller input in Fig. 8, although the constraints on the applicable thrust should be included within the MPC framework. Due to the simplicity of integration with a Kalman filter for state estimation, the performance of AMPC is expected to show only negligible change when applied to an actual ROV platform. It is true that the selected ROV platform is not designed for the lifting and carrying of heavy objects due to its thrust limitations. In fact, since the increases in added mass, inertia and damping associated with the sphere have been found to be of minor importance as compared with the changes in hydrostatics, an on-board adjustable ballast system may be more suitable for ROV designs that are to be used for carrying objects in maintenance tasks. However, by applying the proposed control schemes, even the analysed ROV system has been successfully used to lift and carry a heavy body. Therefore, this study represents an initial contribution to the development of fully autonomous underwater maintenance operations. Our aim is to extend this work to the
+Fig. 6. Displacement of the ROV in 6 DOF under trajectory control using different schemes.
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+315
+
+
+assessment of the analysed control strategies on a real ROV, so that a better understanding of the importance of non-linear effects and sensor noise can be established.
+5. Conclusions
+In this article, a control strategy has been developed for ROVs lifting objects based on AMPC and compared its performance for a trajectory tracking task in 4 DOF with that of PID and MF-HOSMC. The control strategy relies on MPC based on a linear model in state-space form for the selection of the thrust vector in the 4 DOF, that results in best tracking performance while minimising changes in applied thrust over a future, receding time horizon. On-line system identification based on PEM is run in parallel to MPC to update the model of the ROV dynamics using collected data. In addition, MF-HOSMC has been improved with a
+saturation block to prevent wind-up of the integral term. The selection of a control scheme depends on the requirements of interest. From numerical studies based on a model of an existing ROV taken from the literature (i.e. the Kaxan ROV described in GarcíaValdovinos et al. (2014)), the best tracking performance was shown by MF-HOSMC-AW, with the anti-wind-up measure proving fundamental in ensuring a robust behaviour. However, the small tracking errors come at the expense of very large changes in the actuators' input, which are not feasible in practice. Therefore, the best performance is in fact shown by the simple PID control, which has been found to produce the best compromise in the minimisation of the tracking error and changes in the thrusters’ input. Additionally, PID control also presents the smallest computational cost. Although this result may be considered disappointing, it is actually fortunate that a PID controller, which is readily available and has significant use in both research and
+Fig. 7. Difference in desired and actual displacement of the ROV in 6 DOF under trajectory control using different schemes.
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+316
+
+
+commercial applications, presents appropriate performance. The developed AMPC was able to track the desired trajectory reasonably with smooth changes in the thrusters’ input. However, its performance is affected both by the linearisation of the system
+dynamics and the system identification process. Its large computational cost is associated with the selected code implementation. Nevertheless, AMPC shows the desired adaptive behaviour. In fact, all systems have been found to be adaptive to changes in the system dynamics and can be successfully used to control ROVs carrying objects. From numerical studies based on a model of an existing ROV taken from the literature (i.e. the Kaxan ROV described in García-Valdovinos et al. (2014)), the simple PID control has been found to produce the best compromise in the minimisation of the tracking error and changes in the thrusters' input. The proposed anti-wind-up measure has been found to be very effective and MF-HOSMC resulted in the best tracking performance, although its bang-bang type of behaviour is expected to cause severe strains on the motors. AMPC was able to track the desired trajectory reasonably with smooth changes in the thrusters’ input. However, its performance is affected both by the linearisation of the system dynamics and the system identification process. Nevertheless, all systems have been found to be adaptive to changes in the system dynamics and can be successfully used to control ROVs carrying objects. From this study, it is clear that the analysed ROV is not designed for the transport of heavy objects. The design and analysis of adaptive controllers will be continued on a more suitable platform. Furthermore, the PID, MF-HOSMC-AW and AMPC algorithms will be applied to the control of a real ROV in an experimental study, since stronger nonlinear effects and sensor noise are expected to worsen the control performance, particularly for PID and MF-HOSMC. This work should contribute to the automation of UUVs and may be included in future studies on apprenticeship learning. The idea is to have UUVs learn how
+Fig. 8. Thrust in each propulsor to obtain the desired trajectory using difference control schemes.
+Table 1
+Computational time (tcomp), root mean square error (RMSE) between actual and desired trajectories, root mean square value (RMS) of the thrusters’ force and its time derivative over the whole simulation duration for the 5 types of analysed control schemes. An additional row reports whether unstable behaviour was observed during the simulations.
+PID MF-HOSMC MF-HOSMCAW
+MPC AMPC
+tcomp (s) 2.260 6.418 17.194 83.663 1527.367 RMSE x (m) 3.525 0.235 3.011 8.460 33.645 RMSE y (m) 3.630 1.231 2.449 8.037 25.176 RMSE z (m) 11.641 34.561 5.949 16.888 23.986 RMSE ψ (rad) 2.256 0.815 0.159 2.325 8.238 RMS ft,1 (kN) 1.461 4.982 5.658 1.450 1.646 RMS ft,2 (kN) 0.699 4.989 5.623 0.558 0.903 RMS ft,3 (kN) 0.945 4.660 3.186 0.815 1.377 RMS ft,4 (kN) 4.390 5.200 4.799 4.246 4.216 RMS dft,1/dt (N/s) 18.541 7575.622 10302.365 21.118 29.0315 RMS dft,2 /dt (N/s) 15.015 7869.253 10378.323 9.726 23.9145 RMS dft,3 /dt (N/s) 7.182 5200.265 5442.323 14.346 32.577 RMS dft,4 /dt (N/s) 28.167 3677.101 4769.186 48.529 47.212 Unstable? no yes no no no
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+317
+
+
+to perform maintenance tasks where they have to move objects. The results from this study are important in the selection of a suitable control scheme for these applications.
+Acknowledgements
+The authors would like to acknowledge the help and advice provided by Matthew Whorwood at UCL.
+References
+Abbeel, P., Coates, A., Ng, A.Y., 2010. Autonomous helicopter aerobatics through apprenticeship learning. Int. J. Robot Res. 29 (13), 1608–1639. Allard, Y., Shahbazian, E., Isenor, A., 2014. Unmanned Underwater Vehicle (UUV) Information Study, Technical Report. OODA Technologies Inc., Montreal. Banazadeh, A., Seif, M.S., Khodaei, M.J., Rezaie, M., 2017. Identification of the equivalent linear dynamics and controller design for an unmanned underwater vehicle. Ocean Eng. 139 (April), 152–168. BlueRobotics, 2017. BlueROV2. http://docs.bluerobotics.com/brov2/#3d-model. Bordons, C., Camacho, E.F., 2007. Model Predictive Control, second ed. Springer-Verlag. Caccia, M., Indiveri, G., Veruggio, G., 2000. Modeling and identification of open-frame variable configuration unmanned underwater vehicles. IEEE J. Ocean. Eng. 25 (2), 227–240. Capocci, R., Dooly, G., Omerdić, E., Coleman, J., Newe, T., Toal, D., 2017. InspectionClass remotely operated vehicles: a review. J. Mar. Sci. Eng. 5 (1), 13. Eng, Y.H., Teo, K.M., Chitre, M., Ng, K.M., 2016. Online system identification of an autonomous underwater vehicle via in-field experiments. IEEE J. Ocean. Eng. 41 (1), 5–17. Fossen, T.I., 2011. Handbook of Marine Craft Hydrodynamics and Motion Control, first ed. JohnWiley & Sons. Franklin, G.F., Powell, J.D., Emami-Naeini, A., 2008. Feedback Control of Dynamic Systems, sixth ed. edn. Pearson. García-Valdovinos, L.G., Salgado-Jiménez, T., Bandala-Sánchez, M., Nava-Balanzar, L., Hernández-Alvarado, R., Cruz-Ledesma, J.A., 2014. Modelling, design and robust control of a remotely operated underwater vehicle. Int. J. Adv. Rob. Syst. 11 (1). Healey, A., Lienard, D., 1993. Multivariable sliding mode control for autonomous diving and steering of unmanned underwater vehicles. Oceanic Engineering, IEEE Journal 18 (3), 327–339. Kapetanović, N., Bibuli, M., Mišković, N., Caccia, M., 2017. Real-time model predictive line following control for underactuated marine vehicles. IFAC-PapersOnLine 50 (1), 12374–12379. Karras, G.C., Bechlioulis, C.P., Leonetti, M., Palomeras, N., Kormushev, P., Kyriakopoulos, K.J., Caldwell, D.G., 2013. On-line identification of autonomous underwater vehicles
+through global derivative-free optimization. In: IEEE International Conference on Intelligent Robots and Systems pp. 3859–3864. Ljung, L., 1999. System Identification: Theory for the User, second ed. Prentice-Hall, Upper Saddle River, NJ. Ljung, L., 2002. Prediction error estimation methods. Circ. Syst. Signal Process. 21 (1), 11–21. Lyshevski, S., 2001. Autopilot design for highly maneuverable multipurpose underwater vehicles. In: Proceedings of the 2001 American Control Conference, vol. 1. pp. 131–136 (Cat. No.01CH37148). Mellinger, D., 2012. Trajectory generation and control for quadrotors. ProQuest Dissertations and Theses 3509215, 136. . Mellinger, D., Lindsey, Q., Shomin, M., Kumar, V., 2011. Design, modeling, estimation and control for aerial grasping and manipulation. In: IEEE International Conference on Intelligent Robots and Systems pp. 2668–2673. Mellinger, D., Shomin, M., Michael, N., Kumar, V., 2015. Cooperative Grasping and Transport Using Multiple Quadrotors.pdf, vol. 83. Springer Tracts in Advanced Robotics, pp. 545–558. Molero, A., Dunia, R., Cappelletto, J., Fernandez, G., 2011. Model predictive control of remotely operated underwater vehicles. In: IEEE Conference on Decision and Control and European Control Conference, pp. 2058–2063. Pereira, J., Duncan, A., 2000. System identification of underwater vehicles. In: Proceedings of the 2000 International Symposium on Underwater Technology, UT 2000 pp. 419–424. Raygosa-Barahona, R., Parra-Vega, V., Olguin-Diaz, E., Munoz-Ubando, L., 2011. A model-free backstepping with integral sliding mode control for underactuated ROVs. In: 2011 8th International Conference on Electrical Engineering, Computing Science and Automatic Control pp. 1–7. Smallwood, D.A., Whitcomb, L.L., 2003. Adaptive identification of dynamically positioned underwater robotic vehicles. IEEE Trans. Contr. Syst. Technol. 11 (4), 505–515. Sowerby, N., Omerdic, E., Roberts, G., 2005. System identification and fault accommodation for thruster propelled UUVs. Journal of Marine Engineering and Technology 4 (2), 41–50. Soylu, S., Proctor, A.A., Podhorodeski, R.P., Bradley, C., Buckham, B.J., 2016. Precise trajectory control for an inspection class ROV. Ocean Eng. 111, 508–523. Steenson, L.V., Wang, L., Phillips, A.B., Turnock, S.R., Furlong, M.E., Rogers, E., 2014. Experimentally Verified Depth Regulation for AUVs Using Constrained Model Predictive Control, vol. 19 IFAC. Wehbe, B., Hildebrandt, M., Kirchner, F., 2017. Experimental Evaluation of Various Machine Learning Regression Methods for Model Identification of Autonomous Underwater Vehicles’, (Ml). pp. 4885–4890. Wynn, R.B., Huvenne, V.A.I., Le Bas, T.P., Murton, B.J., Connelly, D.P., Bett, B.J., Ruhl, H.A., Morris, K.J., Peakall, J., Parsons, D.R., Sumner, E.J., Darby, S.E., Dorrell, R.M., Hunt, J.E., 2014. Autonomous Underwater Vehicles (AUVs): their past, present and future contributions to the advancement of marine geoscience. Mar. Geol. 352, 451–468.
+E. Anderlini et al. Ocean Engineering 165 (2018) 307–318
+318

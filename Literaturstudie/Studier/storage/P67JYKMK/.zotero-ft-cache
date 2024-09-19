@@ -1,0 +1,262 @@
+OTC 4182
+A Nonbuoyant ROV for Performing Heavy Subsea Work
+by Per J. Thingstad and Haakon D. Hveding, Myrens Verksted A/S
+COPYRIGHT 1982 OFFSHORE TECHNOLOGY CONFERENCE
+This paper was presented at the 14th Annual OTC in Houston, Texas, May 3-6, 1982. The material is subject
+to correction by the author. Permission to copy is restricted to an abstract of not more than 300 words.
+Abstract Construction A non-buoyant ROV for underwater use has been developed. It is heavy and powerful and is normally suspended in a wire from a crane. The operation of the ROV is from the deck and the control signals and power are fed through umbilical cable which is kept taut at all times. The ROV is equipped with 3 thrusters placed 1200 apart and operating in the horizontal plane.
+With the aid of a joystick, the operator can deflect the Spider with load, away from the vertical. The load and Spider may also be rotated. Working tools may be placed on this particular ROV.
+This ROV has had operational experience since 197~ and on one unit more than 8000 hrs operation was logged within a few years. Other applications of these non-buoyant ROVs will also be looked into.
+History
+When oil was found in the Norwegian sector of the North Sea, it became natural for Norwegian industry to look for products for this new oil industry.
+Myren, a mechanical workshop in Norway with about 320 employees and a member of the Kvrerner Group, the largest engineering group in Norway, was also interesting in getting involved in this new market. Realizing that diving would be a big market and that diving services are expensive and hazardous, it became obvious to Myren that tools to simplify the work on the bottom would be needed. These tools should preferably be operated from the surface. The idea was that these tools should take over simple and hazardous tasks in the first place and later on should be able to do more complicated work.
+Thus the development of Myrens' Spider started in 1976.
+199
+The first aim behind the design and construction of Spider was to provide a vehicle with the ability to position heavy loads on the ocean floor without the need of divers or manual submersibles, or simply to pick up objects. 'This was to be done by remote control from the surface with the aid of video cameras, sonar and other navigation equipment and a
+tool package suited to the task at hand. Figure 1 shows a Spider.
+The vehicle is suspended in a wire rope from a crane on the surface vessel, and its vertical position is controlled by the crane winch. The Spider shown is equipped with three thrusters acting in the horizonta plane. The thrusters are placed 120 deg. apart and the force vector produced from each thruster can be combined into a resulting force vector acting in any horizontal direction. The Spider will then move like a pendulum and the maximum radius will depend on available thrust and pendulum length. The thrusters may also produce symmetrical torque to rotate the Spider about its axis. Underneath the Spider are shown special hydraulically operated claws for setting down concrete blocks on the ocean floor.
+Design of the Spider
+Hydraulic
+In the early stages of the design much investigation was undertaken to determine in what way to power the unit. As for thrusters, very compact solutions can be obtained by using hydraulic motors driving a nozzle-type propeller. A higher efficiency may be obtained by using electric motors, but at the expense of size and neatness. Many schools of thought are involved in the electric/hydraulic discussion on sub sea propulsion; at Myren we tend to favour hydraulic drives for ratings less than, say, 5000 N per thruster. The Spider at present is equipped with thrusters giving 3500 N max. force.
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+One additional reason to favour a hydraulic drive system is the fact that tools and work equipment require hydraulic power in any case.
+The hydraulic power could have been fed to the unit through hoses from the surface, but due to the prohibitive pressure loss at hose lengths of several mndredmetres, the hydraulic pump is situated at the Spider and driven by an electric motor which in turn is fed with power through conductors in the umbilical cable. Figure 2 shows a diagram of the hydraulic system. The main components are:
+a) Electrohydraulic motor/pump. (1) The electric motor and hydraulic pump is an integrated unit and mounted in a container filled with hydraulic fluid. This fluid circulates around the motor to conduct the heat away from the motor and out to the hydraulic pipes, etc. which are cooled by the ambient seawater.
+The pump is of the axial piston swashplate type, fitted with a pressure regulator. Thus the pump displacement is varied to keep the system pressure constant.
+b) Manifolds and valve system. (4) Electrohydraulic servo- and on/off valves are used to control the thrusters and auxiliary functions. Some of the valves are connected to quick-disconnect couplings, and can be used to drive various interchangeable tools as required by a particular task.
+c) Hydraulic thrusters. (6)
+These consist of a hydraulic axial piston, fixed
+displacement motor connected directly to the propeller. The pitch of the propeller may be set to optimize the oilflow/differential pressure for a given situation. The thrust is controlled by varying the oilflow to the motors by the servo valves.
+d) Pressure compensator. (5) The hydraulic system must be able to run at varying depths, and must be well sealed to prevent ingress of seawater. Variations in oil volume due to temperature and variable volUme tools must be catered to. The pressure compensator is in principle a rubber bellows which is subject to the ambient seawater pressure plus an additional pressure. The additional pressure ensures that the oil is always at a higher pressure than the seawater such that any small leakage will result in oil loss instead of water ingress.
+The additional pressure is provided by a hydraulic piston that is connected to the main pressure line of the system. The area ratio of the piston to the bellows gives the overpressure with respect to the ambient.
+An additional spring-type compensator may be mounted to ensure a positive overpressure in caSE the main pressure is absent.
+200
+e) Hydraulic converter Many of the auxiliary functions may be performed by exposed tools that may be easily torn off or are subject to leakage. Therefore, some of the functions are powered by a secondary system separated from the main system by a converter. This consists of a hydraulic motor driving a pump. The two hydraulic systems (main and secondary) are quite separate. The secondary system is pressure compensated by a rubber membrane only.
+Electronics & Control System
+The exchange of information between the subsea Spider and the operator at the surface requires some remote
+control system. The electronics on the earliest I Spider was fairly simple, using two coaxial cables fO l
+telemetry and remote control and another coaxial cable for video transmission. A more effective system uses two coaxial cables for telemetry, two simultanous videosignals, a 'sonar system and additional acoustic systems. In fact, the two control systems developed for Myrens buoyant ROVs may easily be adapted and expanded to virtually any size required.
+Figure 3 shows the operator's panel. An X-Y type joystick controls the pendulum motion of the Spider. A separate control rotates the unit around its axis. The Spider is stablized against unwanted rotation by a rate-gyro or by a gyrocompass if such is in use. The panel also has controls for camera and lights. Controls for tools, etc. are easily fitted due to the modular construction of the console.
+Fig. 4 shows the cable winch container. This particular winch can take 350 metres of cable. The winch is driven hydraulically and the tension is adjusted
+such that the umbilical cable is held taut between the winch and the Spider. The umbilical cable is reinforced with kevlar fibres and has a breaking load" of about 30 tons. Thus the umbilical cable may be used for emergency recovery, should the suspension wire break. The winch also has a spooling gear.
+The cable has three power conductors, three coaxial cables and four conductors for auxiliary power. A protective ground screen covers all the conductors. Figure 5 shows a cross section of this umbilical.
+Umbilical termination has been done in various ways. The earliest designs relied on epoxy moldings to terminate the strength members of the cable. However the molding technique requires quite a long time for curing, and to permit a retermination in only 2-3 hours, the design had to be changed. Later designs rely on gasket seals, and the termination space is filled with oil and pressure-compensated.
+TECHNICAL SPECIFICATIONS
+The specifications below are for the Spiders built so far. The Spiders are, however, built up of modules, and power requirements, etc. may easily be altered according to need:
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+Submersible Vehicle: Instruments:
+Electronics:
+. Umbilical Handling System:
+Fig. 6 shows the horizontal moving capability of the Spider as a function of Spider weight with load, and distance from point of suspension.
+Onto the beam, a cart was fastened which would travel along the beam. On the cart was a hydraulically driven plunger to push it up against the wall of the
+buoy. One tape measure was fastened along the beam,
+and one was fastened to measure the position of the plunger.
+A level was placed on the beam to make sure it was horizontal. Rows of anodes fastened on the buoy were used for positioning the beam horizontally.
+2 pan and tilt vidicon TV cameras (one signal monitored at a time), 1 video tape recorder, 3 x 250 W light projectors, 1 gyrocompass, depth and height gauges.
+Figure 8 shows the beam fastened to the Spider. One can see the cart and the TV camera fastened on the top of it. This TV camera was used to read the position of the cart along the beam and the position of thE
+plunger. The camera on the pan & tilt unit was used to get an overall view of the working situation. Figure 9 shows the Spider on the way off the platform and down to the water.
+The proposed solution consisted of fastening a beam bent to the same radius as the buoy to a Spider. The Spider with the beam was suspended from a crane onboard the loading buoy (see figure 7). From the amount of cable payed out, one would know the depth of the Spider. The thrusters on the Spider were used to force the Spider up against the buoy, supporting the Spider on three points. The thrusters had no problem in keeping the Spider in a.stable position.
+The Spider was moved around the buoy to check all the desired positions, and some 3000 measurements were made.
+OPERATIONAL EXPERIENCE
+The first job for the Spider was successfully performed in the British sector of the North Sea in the fall of 1977. A loading buoy had been subjected to underpressure by accident, and the oil company and authorities were afraid the buoy might become deformed below water level.
+Two diving teams in the area were asked to check the buoy for deformations, but they had no method of doing so. Myren, hearing about the accident, proposed a way of discovering any deformations which was accepted.
+There were some doubts regarding the reliability of the measurements, so before the job was terminated Spider was taken back to the starting point to read some of the orginal measurements. The new measurements deviated less than 5 rnrn from the orginal measure ments. The operation took about one week to complete.
+When the Spider had arrived at the desired position, the cart, starting at one end, would measure the distance between the beam and the wall. The cart was moved a required distance along the beam and a new distance to the wall was read.
+2,3 m approx. 2 m approx. 3,5 tons approx.
+3 thrusters mounted in a 1200 array around the vehicle, each giving a bollard push/ pull of approx. 3500 N providing a 6500 N force in any direction.
+80 HP (electrical input at 440 V, 60 Hz) Electrohydraulic servovalves Rategyro or gyrocpmpass Additional valves and system according to requirements.
+250 m (or more if required) 47 rnm 2,47 kg per m 0,72 kg per m 30 tons (calculated) Braided Phillystran fibres 60 KW at 440 V on 3 x 26 sq. rnm conductors (Cu), auxiliary power on 4 x 2,5 sq.rnm. conductors plus 18 sq. rnm.
+ground conductor.
+3 coaxial calbes (RG-59) Phillystran mechanical, epoxy mold (Myren design). Two stage gasket seals, including individually sealed conductors.
+Pulse code modulation. 200 k/bit per sec. 2 coaxial cables. CMOS, LSI. Double Euro size circuit boards. Frame of 32 words, 8 bit each. Joystick and push-button. Heading, video-monitor, control lamps, continuous monitoring of hydraulic parameters, etc.
+Electrical:
+Umbilical:
+Signal transmission: Umbilical termination:
+Diameter: Height: Weight in air: Propulsion:
+Propulsion control: Rotation stability: Hydraulic functions:
+Propulsion power rating of vehicle:
+Circuitry:
+Length: Diameter: Weight in air: Weight in water: Breaking strength: Stress members: Power transmission:
+The system is mounted in an 8 ft. x 14 ft. container Motor starters, current, voltage, and frequency instruments. Rotary h.f. joint and slip ring assembly for umbilical. Constant tension, hydraulically operated drum for umbilical cable.
+The operator console is mounted in an 8 ft. x 10 ft. container. Multiplex system: Bit rate:
+Format: Control inputs: Displays:
+201
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+A Spider was sold to Stolt-Nielsen in Norway in 1979. As our operating experience shows, the Spider has It was used as part of a system to bury the gas crunk-- actually been used for entirely different applications line from Ekofisk to Emden, across Danish territory, and another possibilities are limited only by one’s with gravel. Figure 10 shows a picture of the total imagination. system. Let us look at two additional possible applications The ship, a 22 000-ton converted bulk carrier, for a Spider: carried gravel from shore to the field where the pipes were to be covered. From a moon pool in the 1. Underneath any platform, there is a need to carry center of the ship, the Spider was lowered with a out inspection, maintenance work, etc. Today, drop pipe attached to it. This drop pipe was fed this is mainly done from a vessel moving up to
+with gravel via conveyors and a hopper from the ship’: the platform, and divers or ROV’s operating from hold. The Spider was used to move the drop pipe to the vessel. the desired position. The gravel could then be
+discharged very efficiently for burying the pipe. Such vessels are expensive, and can operate close Instruments fastened to the bottom of the Spider to the platforms only when the weather is good. on hydraulically operated arms were used to check that the cover over the pipeline was adequate. If the platform deck was equipped with I-beams underneath, the work could be deployed from the Figure 11 shows the Spider used for this particular platforms along the I-beams. These I-beams could job. The drop pipe for the gravel passes through be used to deploy divers, ROV’s in general or a
+the center of the Spider with the components non-buoyant ROV in particular. placed around the drop pipe. More than 8000
+operating hours have been logged on this Spider. The Spider might work by itself doing cleaning,
+inspection, manipulative work, and perhaps retrieFigure 12 shows a Spider equipped with a special val of dropped items. It could, however, also
+frame for cleaning and inspecting concrete struc- assist divers in replacing items like anodes, and
+tures. Both brushes and water jets were used for divers might for instance use power from the Spide removing growth. A high pressure pump (200 bar) for operating hand tools etc. The advantages of was placed on the Spider for jetting purposes. using a Spider over existing methods are:
+- It is heavy, and therefore little influenced
+by the weather.
+The Spider was lowered from a special cart
+traveling on beams underneath the deck of the - It can operate more easily in the splash zone concrete platform. The thrusters were used to push
+the frame up against the wall to be cleaned and - In case of power failure, it will hang straight
+down ,
+inspected. A water jet, brush, video camera, and and may be winched straight up to the
+I-beam.
+still cameras were placed on a cart mounted on the frame. Once the Spider was in place, pushing the 2.
+frame up against the structure, the cart was moved A specially equipped Spider-type vehicle could be
+sideways and up and down for cleaning and inspecting used for servicing subsea completion systems.
+It could be deployed from a ahip, possibly using :
+the area of the frame. The cart could also move in heave compensator, and land on a rail system
+and out from the wall such that the distance could
+be optimized during cleaning, and so that the still provided on the subsea completion unit. Once it
+had landed, the wire lifting the Spider could be
+camera could take pictures that were in focus
+afterwards. slacked off so that the Spider would be independer
+of the supply vessel’s movements.
+The system works quite well. Brushing goes faster
+than water jetting, but water jetting gives a Special tools could be fittet onto the Spider
+(see for example Fig. 12) for replacing valves,
+cleaner surface. etc. However, here it is important that the
+Spider with tools and the subsea installation be
+OTHER POSSIBLE APPLICATIONS OF THE SPIDER custom-made for each other.
+Orginally, the Spider was intended to be used for General manipulators could be used for simple,
+positioning objects accurately on the ocean floor general purpose work.
+by remote control, or for picking them up by means of manipulatorarms placed under the Spider.
+mw
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+—..—. 
+.—— ===4
+.— 
+-. ..
+--1
+...—.—.-
+@...=,—_._—
+-- -———.
+..-
+..s
+-—~ —
+——.
+. —= .,
+—-==— =~ 
+e“
+CL- “—_=_. --:.
+.
+.4
+.
+.- - ~.
+-. “=!!5 ._?~:.= .. “ 
+— -’--==/--..===.-.--
+-..- .A._.
+~=—— ... —..s .: .. .. —=-a.-.—
+.> -_, _ . ... . _, +~ - ~=~ -–’~
+..__..— ._L.= .,._. ——Q -- :=V .’--+= -.—” -.—: - --- -“-———— .—— *
+..
+4
+e:=. ....+..- .—_~— — 
+,= ,=. ~—-.. =.. . . . . . . .
+
+—-—- . -.--—— .-._— : .— — —
+_-—.
+—“ —.
+Fig. 1 — Spider with lifting stool for saddle blocks
+.
+.
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+G)
+
++ MAIN + RETURN
++@ PRIM
+*
+Fig. 2 — Hydraulic diagram for Spider
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+Fig. 3 — Spider operators control panel
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+Umbilical
+Diameter: 47mm
+Weiaht in air: 7,47kg\m
+Weiclht in water: 0,72kq/m
+Breakina strenath: 29tons
+Fig. 5 — Umbilical crossection
+206
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+SPIDER FOOTPRINT
+Mdres
+WD= Water Depth in metres
+RAD= Footprint, radius of circle.
+W= Payload including weight of Spider
+RN)
+30 “‘
+28 “
+26 ‘
+24 “‘
+22 ‘
+20 s>
+18 ~‘
+16 “‘
+14 “‘
+12 ‘‘
+10“’
+8 .’
+6 ““
+Ii
+2 ““
+M@trlTcons
+5 10 15 20 25 3035 L04550W
+Fig. 6 — Spider footprint
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+-—–—------
+.---—.——— sea leve[
+k,
+“1.,
+‘..
+‘\‘* ‘%..\..
+- 109m ‘-..
+.1
+>,,
+.
+Fig. 7 — Spider working on a loading buoy
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+Fig. 8 — Spider with measurement tool
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+.
+,. . .
+.
+.
+Fig. 9 — Spider being deployed
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+Fig. 10 — Precision gravel dumping system
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+—.
+..—–
+Fig. 11 — Spider steering of gravel drop line
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+.
+Fig, 12 — Tool frame for cleaning and inspection fitted on Spider
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024
+
+
+Downloaded from http://onepetro.org/OTCONF/proceedings-pdf/82OTC/All-82OTC/OTC-4182-MS/2042953/otc-4182-ms.pdf/1 by Norwegian University of Science & Technology user on 15 August 2024

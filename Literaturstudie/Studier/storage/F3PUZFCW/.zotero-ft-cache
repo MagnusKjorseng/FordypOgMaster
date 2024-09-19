@@ -1,0 +1,845 @@
+Contents lists available at ScienceDirect
+Ocean Engineering
+journal homepage: www.elsevier.com/locate/oceaneng
+Finite element cable-model for Remotely Operated Vehicles (ROVs) by
+application of beam theory
+Ole Alexander Nørve Eidsvik∗, Ingrid Schjølberg
+Center for Autonomous Marine Operations and Systems, Department of Marine Technology, Norwegian University of Science and Technology, Trondheim, Norway
+ARTICLE INFO
+Keywords: ROV Cable dynamics Finite element Dynamic modeling Simulation
+ABSTRACT
+Increasing autonomy, efficiency and safety for Remotely Operated Vehicles (ROVs) is crucial for future subsea operations and requires accurate models for optimal control, operations and design. This involves precise modeling of the cable in conjunction with the ROV response. This paper presents a novel three-dimensional cable model for Remotely Operated Vehicles using Euler-Bernoulli beam theory. The presented model is implemented in Matlab and takes into account the most important effects related to the response of underwater cables and ROVs. Following beam theory bending stiffness is also included, making the model applicable for low tension scenarios. The presented model is modified to allow for compression of the cable. The resulting non-linear equations are discretized spatially by the Galerkin finite element method and solved temporally by the Newmark-β time integration scheme. The model is verified experimentally in ocean tank experiments on a real ROV system. A numerical example is presented and the results are compared to previous published results. Lastly, a sensitivity analysis for the hydrodynamic parameters is presented.
+1. Introduction
+Today most subsea operations are performed by Unmanned Underwater Vehicles (UUVs). These vehicles are typically divided into two groups, Autonomous Underwater Vehicles (AUVs) and Remotely Operated Vehicles (ROVs). ROVs are mostly used for inspection, maintenance and repair (IMR) due to their high payload and maneuvering capabilities, whilst AUVs are most often used for monitoring and mapping of the seabed due to their high speed and autonomous capabilities. AUVs tend to have onboard power supplies while ROVs are connected to a remote unit through a cable (tether). ROV systems usually consist of a supporting ship, a cable and a ROV equipped with the tools relevant for the specific mission. The tether connecting the ROV to the ship/controller is a power and signal cable. The tether imposes additional forces on the ROV. Cable drag, inertia and stiffness forces are transferred to the ROV and can in some cases dominate the overall response of the ROV (Eidsvik and Schjølberg, 2016). For deep and ultra deep waters a Tether Management System (TMS) is applied to reduce these loads, but the cable will still have a large impact on the ROV response (Quan et al., 2015). Today these forces are mostly counteracted by human operators and the skills of the operator is therefore crucial for the mission success rate. In the future, as operations become more autonomous, these forces must be counteracted by
+the control systems rather than a human operator. Accurate models of these forces is therefore crucial in the move towards autonomy. Estimation of the response of the ROV is in addition important to ensure safe, efficient and accurate underwater operations. Estimation of the response to counteract the environmental loads can greatly increase efficiency and safety of an operation. In addition, predicting the response of a ROV system can be extremely beneficial during mission planning, controller design or ROV simulations. Estimating the response of the ROV-cable system can be performed by continuous or discrete models. Continuous models have the advantage of being able to accurately estimate natural frequencies, transfer functions and harmonics of tethered systems very efficiently and have been utilized extensively in the investigation of towed underwater cables (Hover et al. (1994), Bliek (1984), Driscoll et al. (2000b)). There are however, some critical disadvantages for continuous models when it comes to modeling cable responses for ROV systems. Most prominently, ROV cables often experience low or no tension and continuous models are not valid for slack cables (Triantafyllou and Triantafyllou, 1991). Linearization of the nonlinear drag forces is also required in the continuous models. Given that the linearized force term deviates substantially from the quadratic force given a random drag force (Naess and Yim, 1996), applicability of the models is limited. Modeling variations in hydrodynamic forces and
+https://doi.org/10.1016/j.oceaneng.2018.06.012 Received 12 January 2018; Received in revised form 15 May 2018; Accepted 4 June 2018
+∗ Corresponding author. E-mail address: ole.a.eidsvik@ntnu.no (O.A. Nørve Eidsvik).
+Ocean Engineering 163 (2018) 322–336
+Available online 13 June 2018 0029-8018/ © 2018 Elsevier Ltd. All rights reserved.
+T
+
+
+cable properties over the length of the cable is a drawback, as it can be difficult (if not impossible) to model this correctly using continuous models (Driscoll et al., 2000a). The aforementioned drawbacks are avoided using discrete models. Discrete models have the disadvantages of being computationally demanding and introducing numerical errors, but recent years' advances in computational power have made discrete models very fast and accurate. Discrete models have been investigated and tested extensively in previous work, but most models focus on towed vehicles or TMS where relative high tensions are assumed. Driscoll et al. (2000a) suggested a 1 dimensional lumped-mass discrete model of a deep-sea ROV-system (TMS). The model was able to estimate the tension and vertical motion of the TMS. In addition the model was able to predict the snap loads and capture the corresponding nonlinear characteristics, but was limited to 1 degree of freedom and bending forces were not included. Buckham et al. (Buckham and Nahon (1999), Buckham et al. (2000), Buckham et al. (2003b)) presented a three-dimensional lumped mass model that took into account bending effects following the approach presented by Burgess (1992). This model was verified experimentally by comparing the dynamic response of the cable and showed the importance of including bending stiffness for low tension tethers. The model was however, not verified in a real scenario where the ends of the cable can translate in all three degrees of freedom. Buckham et al. (2003a) and Lambert et al. (2003) furthermore proposed a lumped mass model for towed underwater vehicles where bending forces were neglected as they were assumed to be insignificant for a towed cable. The model was verified using results from real sea trials and showed good agreement for most variables (velocity, tension and thrust). Buckham et al. (2004) furthermore proposed a new model that took into account bending effects using cubic spline curves. The model has an advantage when it comes to computational efficiency due to the low number of variables used when calculating the response (the model was however not verified against other experiments or sea trials). Fang et al. (2007) proposed a complete ROV model including cable effects. The model was verified experimentally and the ROV response showed good correspondence between simulated and experimental results. The presented model assumed in-extensible cables limited to positive tension forces. Limitations regarding the operational domain and dimensions of the ROV system is therefore of concern. Fang et al. (2013) furthermore presented a finite element cable model using the cubic spline curve as proposed by Buckham et al. (2004). The cubic spline model was able to correctly simulate the steady state deflections when compared to experimental results obtained in Zhu et al. (2002). Quan et al. (2015) proposed a geometrically exact formulation for three-dimensional static and dynamic analyses of deep-water ROV systems. This model has the major advantage of including geometric nonlinearities due to large displacements, which is often neglected in cable modeling. The model was validated against measurements taken from a real deep-water ROV-system. Although only 1 degree of freedom was considered (heave), the model was able to accurately calculate the response of the TMS when compared to the experimental results. As the model was not tested on a ROV system without a TMS it is difficult to determine the accuracy for low tension cables. Eidsvik and Schjølberg (2016) proposed a finite element model using Euler-Bernoulli beam theory for deep-water ROV systems. The model was applied to a real ROV system showing the importance of including cable effects and the relative importance of incoming current velocities when modeling ROV-systems. The benefit of this model is the inclusion of bending stiffness, the novelty of the modeling and the ability to run many types of ROV scenarios such as small/large cable tensions, ROV systems with or without TMS and complex ROV maneuvers. Eidsvik and Schjølberg (2017) later applied the model to a TMS and compared the model against results obtained from sea trials. The model showed very good results with regards to the horizontal response of the TMS. The above mentioned work typically has limitations when it comes
+to the range of applicability. The most prominent concern are the models that require the presence of positive tension in the cable. For many ROV operations this may not be the case. As shown by Buckham et al. (2000), models that neglect bending forces can for low tension scenarios neglect important dynamic effects of the cable due to the large relative importance of the bending forces in low tension scenarios (bending forces may have the same order of magnitude as the axial forces). The cubic spline methods shows great potential, but experimental validation on real systems are still needed to verify functionality. This paper extends the work presented in Eidsvik and Schjølberg (2016) to mathematically model and simulate the dynamic response of ROV-systems. The Euler-Bernoulli beam theory grants good results for cases when the cable has limited curvature and should retain stability also when the tension is small. The novelty of implementing beam theory is an important benefit of the presented model. An algorithm for handling the buckling scenario (negative tension) is also introduced to extend the applicability of the model. The model is hence able to simulate the dynamic response of a ROV-system for a wide range of ROVsystems, maneuvers and environmental conditions. The model is verified against experimental data and hydrodynamic parameter sensitivity is tested. The scientific contributions of this paper can hence be divided into four main contributions:
+- Development and implementation of a novel finite element ROV and cable model for simulating the dynamic response of the ROV-system for a wide range of operations. - Development of an experimental test procedure for ROV-cable systems. - Verification of the presented model by experimental data. - A sensitivity analysis of the hydrodynamic parameters of the ROVcables.
+The article is organized as follows: In Sec. 2 the mathematical modeling of the complete ROV-cable system is presented, followed by a presentation of the experimental procedure in Sec. 3. The results from the experimental tests and numerical simulations are presented in Sec. 4, followed by a brief discussion on the obtained results in Sec. 5. Lastly, concluding remarks and suggestions for further work are presented in Sec. 6.
+2. Modeling
+This section presents the mathematical formulation for the ROVcable system presented in this paper. The kinematic and dynamic modeling is presented along with the structure of the numerical solver used in this work.
+2.1. Kinematics
+A number of reference frames are introduced in this section, as illustrated in Fig. 1. An inertial reference frame is defined as being fixed relative to the earth and the origin is set at the surface. The Z-axis is pointing vertically down and the X and Y-axes are coinciding with north and east respectively. The cable-system is assumed to operate in a local reference frame, with approximate constant latitude and longitude. This is usually referred to as flat earth navigation and Newton's law still applies (Fossen, 2011). Moreover, a set of local reference frames are fixed relative to the orientation of each finite element of the cable, hence N cable-element reference frames are created. Combined with the two local frames of the ROV and surface ship this adds up to a total of N +2 local reference frames. The orientation of the ith local frame is defined by a (φ,θ,ψ) Euler angle set following SNAME notation (SNAME, 1950), where φ, θ, ψ are the rotations around X , Y and Z axes respectively. The use of Euler angles introduces singularities in the angular transformation matrix. For the cable, singular points are
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+323
+
+
+avoided since the torsional degree of freedom is neglected, hence there are only two angular rotations in the local reference frames. The ROV will most likely not experience pitch-angles of ± 90 deg due to the relative large hydrostatic restoring in roll and pitch (unless for extreme cases). For Underwater Flight Vehicles, which have very limited hydrostatic restoring, 90 deg rotations around the horizontal axes can easily occur and must be accounted for. The singularity in the angular transformation can in these cases be avoided by introducing a new Euler angle representation with different singularities and the singular points can be avoided by switching between them. The orthogonal transformation from the ith local frame to the inertial frame becomes:
+=
+⎡
+⎣
+⎢ ⎢
+−+ + + −+ −
+⎤
+⎦
+⎥ ⎥
+cψcθ sψcφ cψsθsφ sψsφ cψcφsθ sin ψ c θ c ψ c φ s φ s θ s ψ c ψ s φ s θ s ψ c φ sθ cθsφ cθcφ
+R
+( ) () ( ) () ( )()() ( )() ( ) ()() ( ) () ( ) () ()()( ) ( )() ()( ) () () ()() () ()
+i
+gb
+(1)
+2.2. Equations of motion
+To create a numerical model for a cable which includes bending, axial and inertial forces, a set of dynamic equations of motion are developed. Euler-Bernoulli beam theory has been extensively utilized in structural problems and has proven to give good results in cases where the beam cross sections do not deform significantly. It is assumed that deep sea umbilical cables usually have a significant length to width ratio with a limited curvature due to the large vertical distance. The Euler-Bernoulli beam equations therefore represents the dynamics of the cable with satisfactory accuracy, as shown in Eidsvik and Schjølberg (2016). The governing equations in the local frame can be written:
+−∂
+∂+∂
+EA u ∂ =
+x Mu
+t F (x)
+x
+2
+2
+2
+2 (2)
+⎜⎟
+∂ ∂
+⎛ ⎝
+∂ ∂
+⎞ ⎠
+++ ∂
+∂=
+x EI v
+x M C Aρ v
+( ) t F (x)
+z ay
+2
+2
+2
+2
+2
+2 (3)
+⎜⎟
+∂ ∂
+⎛ ⎝
+∂ ∂
+⎞ ⎠
+++ ∂
+∂=
+x EI w
+x M C Aρ w
+( ) t F (x)
+y az
+2
+2
+2
+2
+2
+2 (4)
+where F (x)
+n is the external force in n-direction as a function of the longitudinal position x. E is the Young's module of the cable, (u,v,w) are the deflections in the x,y and z-direction respectively, A is the cross section area, I is the 2nd moment of inertia, Ca is the added mass coefficient of a circular cylinder (Morison et al., 1950), ρ is the density of water and M is the mass of the cable per unit length. The longitudinal added mass (hydrodynamic mass) has been omitted from Eq. (2) as it is orders of magnitude smaller than the transverse added mass for length to width ratios applicable to a deep-sea ROV cable (length to width ratios typically above 104). For large length to width ratios the flexural moments of the cable become very limited and the inclusion of the these moments can be argued as they will have a negligible effect on the overall response. However, for the case of small or zero tension forces the flexural moments can become of importance as observed in
+Buckham et al. (Buckham and Nahon (1999), Buckham et al. (2000), Buckham et al. (2003b)). The bending stiffness is important for low tension cases not because the curvatures are exceptionally large, but rather due to a lack of other forces (Hover, 1997). Low or zero tension may be restricted to a finite area or may span the entire length of the cable. The equations of motion for perfectly flexible cables become singular when the tension vanishes (Chen et al., 2014). This singular behavior is avoided by the inclusion of bending stiffness (Burgess, 1993). For small and medium sized ROV systems, cables having a more or less neutral submerged weight are often used, hence low or zero tension scenarios are not unrealistic. In these low tension scenarios the cable has very little impact on the ROV response, however, it is still important to model the response of the cable correctly in these scenarios. This because the response at a given time instance will affect the response at a later time. For cables with small length to width ratios the flexural moments become more important. Due to limitations in testing facilities, smaller length to width ratios might be used in experimental testing and verification of ROV-cables. In these cases bending stiffness should be included as the flexural moments in these cases may become significant. It is practical to write Eqs. (2)–(4) in the weak form as the weak form creates the basis for the finite element approach:
+∫
+−⎡ ⎣
+∂ ∂
+⎤ ⎦
++⎡
+⎣⎢
+∂
+∂ +∂
+∂
+∂
+∂− ⎤
+EA u ⎦⎥ =
+xg M u
+t g EA g
+x
+u
+x F (x)g dx 0
+LL
+x
+00
+2
+2 (5)
+∫
+⎡ ⎣⎢
+∂ ∂
+⎤
+⎦⎥ − ⎡
+⎣⎢
+∂ ∂
+∂ ∂
+⎤
+⎦⎥ + ⎡
+⎣⎢
+∂ ∂
+∂
+∂+ + ∂
+∂− ⎤
+EI v ⎦⎥ =
+x g EI v
+x
+g
+x EI v
+x
+g
+x M C Aρ v
+( ) t g F (x)g dx 0
+z
+L z
+LL z ay
+3
+3 0
+2
+2
+00
+2 2
+2 2
+2 2
+(6)
+∫
+⎡ ⎣⎢
+∂ ∂
+⎤
+⎦⎥ − ⎡
+⎣⎢
+∂ ∂
+∂ ∂
+⎤
+⎦⎥ + ⎡
+⎣⎢
+∂ ∂
+∂
+∂+ + ∂
+∂− ⎤
+EI w ⎦⎥ =
+x g EI w
+x
+g
+x EI w
+x
+g
+x M C Aρ w
+( ) t g F (x)g dx 0
+y
+L y
+LL y az
+3
+3 0
+2
+2
+00
+2 2
+2 2
+2 2
+(7)
+where g (x) is the weight function and L is the cable length. The ROV is modeled as a rigid body in 6 degrees of freedom. The governing equations in the local body fixed reference frame for the ROV in 6 DOF can be found in Fossen (2011). For the sensitivity analysis and experimental verification performed in this work, the dynamic equations of motion for the ROV are not used as the accuracy of the cable modeling is of interest rather than the accuracy of the ROV model. The ROV response is in these cases treated as a predetermined input.
+2.3. External forces
+The external forces on the cable consists of added mass and drag forces combined with hydrostatic buoyancy forces. Wave-induced forces can generally be neglected as the water particle velocity in waves die out with a factor of ekz in deep waters, where k is the wave number and z is the vertical position relative to the mean surface. The waveinduced forces will therefore only affect a small portion of the cable. The wave forces will, however, have a large influence on the response of the surface ship and will therefore be included in the boundary conditions of the cable. The external forces ( fn) for a given cable cross section can be written as:
+=∂
+∂+
+d
+dx f x ρC A V
+( ) t 1 ρC D V V
+2
+n an
+n
+, D,n n n (8)
+where ρ is the density of sea water, Ca,n is the added mass coefficient in the local n-direction, Vn is the relative fluid velocity in the local n-direction, D is the diameter of the cable, A is the area of the cable cross section and CD,n is the drag coefficient in the n-direction. This equation is known as the Morison equation (Morison et al., 1950). The equation consists of two coefficients in each degree of freedom Ca and CD, which are often estimated analytically, experimentally or numerically. Since the cable has a dominating dimension (longitudinal) much larger than the two others (transverse) strip theory is valid. The first term in Eq. (8)
+Fig. 1. Reference frames, Inertial (NED) and for element i.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+324
+
+
+(inertia term) was already included on the left side in the governing equations as can be seen in Eqs. (3) and (4). The coefficients for circular cylinders are very well studied and accurate estimates are available in literature, however, both the added mass and drag coefficients vary with the flow conditions and can in many cases not be treated as constants. The added mass coefficients are highly affected by the KC-number in an oscillatory flow. Oscillatory flow conditions might occur in the presence of waves or when the cable experiences vortex induced vibration. Likewise the drag coefficient is affected by KC-number, upstream flow conditions and inflow velocity. The Keulegan-Carpenter (KC) number is a dimensionless quantity describing the relative importance of the drag forces over the inertia forces and is defined as:
+K = VT
+L
+C (9)
+where V is the amplitude of the flow velocity oscillation, T is the period of oscillation and L is the diameter of the cylinder (Faltinsen, 1999). Some assumptions can be made when defining these coefficients to greatly reduce the problem of estimating the numerical values. The following assumptions are therefore applied:
+Assumption 2.1. The oscillatory dependence of drag and added mass coefficients can be neglected based on the facts that waves will only affect a small part of the cable and the vortex shedding frequency will be much larger than the natural frequency for relevant cable dimensions.
+Assumption 2.2. The transverse velocity component will be dominating since the cable is positioned approximately vertical. The interaction between the transverse and longitudinal velocity components can therefore be neglected due to the large relative inflow angle. Cross flow principle is therefore valid.
+Based on Assumption 2.1 and 2.2 the added mass forces can be represented by a single constant. Furthermore, the drag forces can be represented by a drag coefficient only dependent on the inflow velocity in both the transverse and the longitudinal directions. The drag term in Eq. (8) can for the translatory degrees of freedom be written as:
+=
+d
+dx f (x) 1 ρC πD u u
+2  ̇ ̇
+x t r r (10)
+=
+d
+dx f (x) 1 ρC D v v
+2  ̇ ̇
+y D r r (11)
+=
+d
+dx f (x) 1 ρC D w w
+2  ̇ ̇
+z D r r (12)
+where Ct is the tangential drag coefficient of a flat plate, CD is the normal drag coefficient of a circular cylinder. [u,v,w] is the cable deflection along x,y and z-axes respectively and [u ̇ r, v ̇r, w ̇ r] is the relative inflow velocity along x,y and z-axes respectively. I. e:
+[u ̇ , v ̇ , w ̇ ] = [u ̇ , v ̇, w ̇ ] − [u ̇ , v ̇ , w ̇ ]
+r r r c c c (13)
+where [u ̇ , v ̇, w ̇ ] is the translational velocity of the cable and [u ̇ , v ̇ , w ̇ ]
+c c c is
+the current velocity. The hydrostatic buoyancy and gravity forces (bZ) can be can be written in the inertial reference frame as:
+b = (M − ρA)gL
+Z (14)
+where M is the mass of a unit length of the cable, ρ is the density of water, A is the cross section area, g is the constant of gravity and L is the complete submerged length of the cable (for many ROV systems the cable is designed close to neutrally buoyant to remove the negative buoyancy force). The rigid body motion of the ROV is the boundary condition for the cable which means the cable response is calculated based on the ROV position. Likewise the ROV response is calculated based on the cable
+tension, hence a cross coupling between the two dynamic systems is created. The tension forces in the cable are hence added as external forces acting on the ROV:
+F =R T
+ROV N
+ROV c (15)
+where RN
+ROV is the rotation matrix from the last element to the ROV and Tc is the tension force in the last cable element.
+2.4. Boundary conditions
+To solve the governing equations for the cable (Eqs. (5)–(7)) a complete set of both boundary and initial conditions must be determined. The response of the cable ends are given by the connections to the surface-ship and the ROV (see Fig. 1), denoted top and bottom ends. For a beam element in three-dimensional space a total of six boundary conditions must be determined at each end (three deflections and three rotations). This number is reduced to five by neglecting the torsional rotation (rotation around the local x-axis). The torsional degree of freedom is neglected based on the following assumption:
+Assumption 2.3. The top and bottom ends of the cable are assumed to rotate freely, independent of the surface ship and ROV motions. As no external forces acts in the torsional degree of freedom it is therefore reasonable to omit it. The remaining 10 boundary conditions are determined as follows:
+- The translational positions of the two cable ends are assumed to be equal to the position of the surface ship and the ROV. - The curvature of the cable at the ends are assumed to be zero
+The curvature at the top and bottom end of the cable is assumed to be zero as ROVs are usually installed with a small wire or rotating mechanism connecting the ROV and the cable to absorb the tension forces. This is done to minimize the cable loads acting on the connection between the cable and the ROV. The wire is only able to absorb tension forces and provides minimal flexural moment. The configuration on the top end can vary based on equipment and operation. Often a crane or winch is used to hold the ROV cable during operations. The resistance to bending at the top end can therefore depend on the equipment used, but it is reasonable to assume that a simple support (zero curvature) at the top end should be sufficient as the flexural moment should in any case be negligible. The top and bottom boundary conditions are:
+== =
+== == =
+==
+∂ ∂
+∂ ∂
+∂ ∂
+∂ ∂
+uu vv ww
+uu vv ww
+00
+00
+Ship Ship Ship
+v x
+w x
+L ROV L ROV L ROV v x
+w x
+00 0
+LL
+20 2
+20 2
+2 2
+2
+2 (16)
+where [u , v , w
+0 0 0] are the deflections of the top end, [u , v , w
+L L L] are the deflections of the bottom end of the cable, [u , v , w
+Ship Ship Ship] is the po
+sition of the ship and [u , v , w
+ROV ROV ROV ] is the position of the ROV.
+2.5. Finite element discretization
+This section presents the finite element discretization of the governing equations (Eqs. (5)–(7)) that creates the basis for the developed simulation tool, which is implemented in Matlab®. Firstly, the threedimensional beam elements are presented. The Galerkin approach is then used to equate the weight function in the weak formulation, followed by a presentation of the element stiffness and mass matrices respectively. The proportional damping is introduced. Also, the external forces on each element are calculated followed lastly by the presentation of the discrete equations based on the preceding modeling. This section contains a large number of notations and some general notation rules are used to make the equations more understandable.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+325
+
+
+The notation used in this section is as follows:
+- Superscript i denotes element number i - Subscript i denotes node number i - Bold capital letters denote matrix.
+It is assumed the cable is divided into a finite number of equal length elements, as indicated in Fig. 2. Each element has 5 degrees of freedom which results in 10 unknown states (6 deflections and 4 rotations). The deflections are denoted u,v and w for the x,y and z directions respectively and the rotations are denoted θy and θz for rotations about the y and z axes respectively. Eqs. (5)–(7) are written elementwise:
+∫⎡
+⎣⎢
+∂
+∂+∂
+∂
+∂
+∂− ⎤
+M u ⎦⎥ =
+t g EA g
+x
+u
+x F (x)g dx 0
+l
+x
+0
+2
+2 (17)
+∫⎡
+⎣⎢
+∂ ∂
+∂
+∂+ + ∂
+∂− ⎤
+EI v ⎦⎥ =
+x
+g
+x M C Aρ v
+( ) t g F (x)g dx 0
+l
+z ay
+0
+2
+2
+2
+2
+2
+2 (18)
+∫⎡
+⎣⎢
+∂ ∂
+∂
+∂+ + ∂
+∂− ⎤
+EI w ⎦⎥ =
+x
+g
+x M C Aρ w
+( ) t g F (x)g dx 0
+l
+y az
+0
+2
+2
+2
+2
+2
+2 (19)
+where l is the element length. Following the Galerkin method a set of suitable shape functions are found (Hughes, 2000). That is, the weight function g (x) is substituted with the approximating functions Ni. It is necessary to assure compatibility between adjacent elements with respect to deflections and slopes, hence the approximating functions must be chosen such that the functions and their derivatives are continuous
+at the element ends. The approximation for the total displacement U∼(x) for each element can be written as a superposition of the nodal displacements by combining Eq. 17–19
+= + + ++ +
++ ++ +
+∼x N x u N x u N x v w N x θ θ
+Nx v w Nx θ θ
+U( ) ( ) ( ) ( )( ) ( )( )
+( )( ) ( )( )
+yz
+yz
+11 22 3 1 1 4 1 1
+5 2 2 6 2 2 (20)
+where N are the 6 shape functions following the Galerkin FEM. Here N1 and N2 are linear as Eq. (17) contains a first order derivative.
+N= −x =
+lNx
+l
+1,
+1 2 (21)
+N3 to N6 are the shape functions of Eqs. (18) and (19) which is of third order.
+= −⎛
+⎝
+⎞
+⎠+ ⎛
+⎝
+⎞
+⎠ =⎛
+⎝− ⎞
+⎠
+=⎛
+⎝
+⎞
+⎠− ⎛
+⎝
+⎞
+⎠ =⎡
+⎣⎢ ⎛
+⎝
+⎞
+⎠− ⎤
+⎦⎥
+Nx
+l
+x
+l Nx x
+l
+Nx
+l
+x
+l N xx
+l
+x l
+13 2 , 1 ,
+3 2,
+3
+23
+4
+2
+5
+23
+6
+2
+(22)
+Eqs. (18) and (19) have identical shapes, but are orthogonal to each other. The corresponding shape functions are therefore identical. Obtaining the discretizised form of Eq. (6) therefore yields the discretized form of Eq. (7) as well. Note that the shape functions N1 to N6 satisfies the continuity requirement of the deflections and the slopes at the element ends (x = 0 and x = l). Eq. (20) can be written in a more compact form:
+=
+U∼(x) N(x)r (23)
+where N is the matrix of shape functions and r is the vector of nodal
+displacements defined as:
+r = [u , v , w , θ , θ , u , v , w , θ , θ ]'
+1 1 1 y1 z1 2 2 2 y2 z2 (24)
+The stiffness matrix for the beam elements can be calculated from Eq. 17–19 using the presented shape functions. This derivation can be found in standard finite element literature (Cook et al. (1989)) and the derivation will hence not be presented in this work. The three equations produces three stiffness matrices (as mentioned earlier (6) and (7) produces the same result as they have identical shapes, but are orthogonal):
+⎡ ⎣⎢
+− −
+⎤ ⎦⎥
+⎡
+⎣
+⎢ ⎢ ⎢
+− −
+−− − −
+⎤
+⎦
+⎥ ⎥ ⎥
+⎡
+⎣
+⎢ ⎢ ⎢
+− −
+−− − −
+⎤
+⎦
+⎥ ⎥ ⎥
+Eq EA
+l Eq EI
+l
+ll l l ll ll l l ll
+Eq EI
+l
+ll l l ll ll l l ll
+. (5): 1 1
+1 1 , . (6):
+12 6 12 6 6 4 62 12 6 12 6 6 2 64
+,
+. (7):
+12 6 12 6 6 4 62 12 6 12 6 6 2 64
+z
+y
+3
+22
+2
+22
+3
+22
+2
+22
+where EA
+l is the axial stiffness, EI is the flexural rigidity and l is the element length. By superimposing these matrices according to Eq. (20) the element stiffness matrix can be written as:
+=
+⎡
+⎣
+⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢
+−
+−
+−
+−
+−
+−
+−− −
+−− −
+−
+−
+⎤
+⎦
+⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥
+K
+0 0 00 0 0 00
+0 12 0 0 6 0 12 0 0 6
+0 0 12 6 0 0 0 12 6 0
+0 06 4 00 0 62 0
+06 0 04 0 6 0 02
+0 0 00 0 0 00
+0 12 0 0 6 0 12 0 0 6
+0 0 12 6 0 0 0 12 6 0
+0 06 2 00 0 64 0
+06 0 02 0 6 0 04
+e
+EA l
+EA l EIz l
+EIz l
+EIz l
+EIz l EIy l
+EIy l
+EIy l
+EIy
+l EIy l
+EIy l
+EIy l
+EIy l EIz l
+EIz l
+EIz l
+EIz l EA l
+EA l EIz l
+EIz l
+EIz l
+EIz l EIy l
+EIy l
+EIy l
+EIy
+l EIy l
+EIy l
+EIy l
+EIy l EIz l
+EIz l
+EIz l
+EIz l
+3 23 2
+3 2 32
+22
+22
+3 23 2
+32 3 2
+22
+22
+where Iy and Iz are the 2nd moments of inertia with respect to the y and z axes respectively (Iy and Iz are identical for a body with radial symmetry) and l is the element length. In the matrix representation Kmn is the stiffness force in m-DOF due to a deflection in n-DOF. Hence by multiplying the stiffness matrix (Ke) with the deflection vector (r) the stiffness forces of each element are found. The mass matrix for the beam elements is generated using particle lumping rather than using the Galerkin approach as was done with the stiffness matrix. By lumped mass it is meant that the mass terms in Eq. 17–19 are split between each element boundary i.e. at x = 0 and x = l. Half the mass is therefore applied to each node of the element. By this approach the mass matrix becomes diagonal as no coupling between the different degrees of freedom occur. Other methods such as consistent or combination mass matrices would not result in a diagonal mass matrix. Due to the fact that for each time step the mass matrix must be inverted, a diagonal matrix is desirable to greatly reduce the computation time. It has been proven in literature that lumped mass approximation is consistent with the dynamics of an actual highly flexible cable (Huang, 1994), and a lumped mass approach has accuracy equivalent to that of more complex methods (Kamman and Huston, 1999). Zhu et al. (2008) also showed that the lumped mass parameter model is an effective tool to simulate nonlinear coupled movement of a multi-body systems such as ROV cages. For the lumped mass matrix to be nonsingular, rotary inertia must be included and this is done by including the term me αl2. The element mass matrix can then be written as vector of diagonal elements:
+Fig. 2. Sketch of two-node beam element in three-dimensional space. (u,v,w) are translational deflections and (θy, θz) are rotational deflections.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+326
+
+
+=⎡ ⎣
+++
+++ ⎤
+⎦
+l m m ρC A m ρC A m αl m αl m
+m ρC A m ρC A m αl m αl
+M2 2 2 2
+22
+e ee a e a
+ee
+e
+ea ea ee
+D
+where me is the mass pr. unit length (the added mass is included for transverse translations, but neglected for rotational and longitudinal degrees of freedom). The added mass coefficient (Ca) for a circular cylinder can be found analytically and is exactly 1 (for non-oscillating flow). The factor α should ideally be negative or zero since the trans
+lational end node masses m
+2
+e greatly overestimates the angular momentum of the element. However, under the requirement of positive elements in the mass matrix α is determined ad hoc by calculating the associated mass moment of inertia of a slender bar with length l
+2:
+= →=
+( )( )
+Iα
+3
+1 24
+bar
+ml 22
+2
+(25)
+The damping of the cable is mainly governed by the hydrodynamic drag forces. This because the drag force is given by the current relative velocity and will therefore act either as a damping force or as a driving force. However, it is desirable to include some form of structural damping of the cable to ensure numerical stability. In this work linear proportional damping is used. The main reason for this choice is that the damping model has been utilized extensively in engineering and it's easy to incorporate as it is calculated from the already obtained stiffness and mass matrices. The proportional damping for each element can hence be written as (Hughes, 2000):
+C =αK +αM
+ee e
+1 2 (26)
+where Ce is the proportional damping matrix for an element, α1 and α2 are the stiffness and mass proportional damping coefficients respectively. Usually chosen to be in the range of 0–5 % depending on the natural frequencies. For marine structures that undergo large rigid body motions the mass proportional damping term is usually neglected as it would give damping to the rigid body motions which is undesirable (DNV, 2010). As ROV-cables in many cases undergo large rigid body motions the mass term should be zero (α = 0
+2 ).
+The hydrodynamic drag forces on the cable are discretized by writing Eq. 10–12 as sums of the mean drag force of each element.
+f = ρC πD u u l f = ρC D v v l f = ρC D w w l
+1
+2  ̇ ̇ 1
+2  ̇ ̇ 1
+2  ̇ ̇
+x
+i tr
+i r
+ii
+y
+i Dr
+i r
+ii
+z
+i Dr
+i r
+ii
+(27)
+where u ̇ r
+i, v ̇r
+i and w ̇ r
+i are the current relative element velocity components of element i expressed in the local reference frame, li is the length of element i and fn
+i is the hydrodynamic force on element i in the local n-DOF. The current relative element velocity components are estimated by taking the average of the two nodal velocities at each element end. The element drag force vector is then calculated by lumping the drag force of each element at the ends. A disadvantage of this model is the fact that an element simply rotating in resting fluid will experience a zero average velocity of the end nodes and the resulting drag force will become zero. The buoyancy force is discretized in the same manner and it is expressed in the inertial reference frame:
+b = (m − ρA)gl
+Z
+i e
+i i (28)
+where bZ
+i is the buoyancy force on element i in the inertial frame and me
+i
+is the mass of element i. The element buoyancy force vector is also calculated by lumping the element force between the two element nodes.
+2.6. Global matrix assembly
+In the previous section all the internal and external element matrices for the cable were calculated. By assembling the element matrices
+the global system of equations can be calculated following the finite element approach. By superposing entries from coincident nodes the global matrices can be found. That is:
+∑∑∑ ∑ ∑
+=== = = === = =
+NNN N N K K, M M, C C, F F , B B
+ij
+g
+e
+iej ij
+g
+e
+iej ij
+g
+e
+iej D ij
+g
+e
+eD ij ij
+g
+e
+iej 111
+, 1
+,
+1 (29)
+The complete matrix system for the global system of equations can then be written:
+R M R r = −R K R r − R C R r + R F + B
+ ̈ ̇
+gb g gb
+T gb g gb
+T gb g gb
+T gb D
+g g (30)
+where Mg is the global mass matrix expressed in the local reference frames, r ̈ is the vector of nodal accelerations, Kg is the global stiffness matrix expressed in the local reference frames, Rgb is the global transformation matrix, Rgb
+T is the transformed global transformation matrix, Cg is the global structural damping matrix expressed in the local reference frames, FD
+g is the global hydrodynamic drag force vector expressed in the local reference frames and Bg is the global buoyancy force vector expressed in the inertial reference frame.
+2.7. Floating frame of reference formulation
+The global assembly presented in the previous section grants the deflection for an elastic beam using linear finite elements. As the ROV, i.e. the bottom end of the cable is able to move, the equilibrium position of the cable therefore varies in time. Therefore a nonlinear model must be used to calculate the stiffness forces given the new equilibrium position. This is done by introducing a floating frame of reference (FFR) formulation. Using a FFR-formulation the displacement vector (r) can be rewritten as the sum of the elastic displacement and the rigid body displacement of the undeformed cable:
+r = r0 + relastic (31)
+where r0 and relastic are the rigid body and elastic displacements of the cable respectively. Eq. (31) can be rewritten in a more convenient form:
+r =r−r
+elastic 0 (32)
+For the scenarios presented in this work the surface ship is assumed to be stationary during ROV operations, hence the top end of the cable is assumed fixed (the undeformed cable (r0) will therefore only rotate about the top end). The elastic deflection relastic is used to calculate the tension forces on the ROV. The elastic tension forces will in turn produce a given response of the ROV. The response of the ROV is used to calculate the rigid body deflection r0. r0 is calculated by assuming a straight cable (undeformed) going from the top end through the connection-point of the ROV having a length equal the undeformed length of the cable. By inserting the expression for relastic from Eq. (32) into the stiffness-term in Eq. (30), the system of equations for the dynamic response of the cable can be found:
+R M R r = −R K R r − r − R C R r + R F + B
+ ̈ ()  ̇
+gb g gb
+T gb g gb
+T gb g gb
+T gb D
+gg
+0 (33)
+2.8. Initial conditions
+The initial conditions of the cable depend on the given scenario and must be determined accordingly. For simplicity the cable is assumed to be positioned strictly vertical. Following the finite element approach this translates to positioning all nodal points of the cable vertically. The initial conditions for each cable node-i hence become (in the local reference frame):
+u = 0 v = 0 w = 0 for i = 1: N + 1
+i i i (34)
+2.9. Hydrodynamic parameters
+The hydrodynamic parameters related to the cable are the three coefficients Ct, CD and Ca (Eqs. (5)–(7)). These are the tangential and
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+327
+
+
+normal drag coefficients and the added mass coefficient respectively. As the cable is assumed to be a circular cylinder operating in a turbulent flow regime the drag coefficients can be determined based on experimental data for circular cylinders and application of the cross flow principle. The tangential drag coefficient is estimated using the approximate estimates for a smooth flat plate in turbulent flow conditions
+(Schlichting, 1979). For the region of relevant Reynolds numbers (UL )
+ν
+an approximate value of C = 0.02
+t is used. The normal drag coefficient is more important as the normal drag force will dominate the hydrodynamic loads due to the vertical orientation of the cable. The normal drag coefficient CD is given as a function of the normal inflow velocity of each cable element rather than a constant value. The Reynolds dependent drag coefficients for a circular cylinder are taken from Table 10.18 in Blevins (2003). As stated in sec. 2.5, the normal added mass coefficient Ca can be calculated analytically and is exactly 1 (tangential added mass is neglected since it is orders of magnitude smaller than the normal coefficient for relevant cable length to width ratios).
+2.10. Compression
+In real ROV operations, compression of the cable due to vertical ROV motion is a likely scenario. The numerical solver should therefore be able to calculate the response when the cable is subjected to compression forces. Due to the large length to width ratio of the cable, the static buckling load (compression load) is approximately zero. The critical buckling load for a slender beam can be written as (Timoshenko and Gere, 1989):
+P = π EI ≈
+L0
+crit
+2
+2 (35)
+where Pcrit is the critical buckling load (i.e. that maximum compression load before the beam will buckle), EI is the flexural rigidity and L is the length of the cable. Hence, when the ROV produces a load on the cable in the positive vertical direction the cable will buckle. The buckling is modeled by introducing a new equilibrium position, i.e. undeformed position vector when calculating the stiffness forces. By equilibrium position vector is meant the position vector where the stiffness forces are zero. This new equilibrium position is denoted rˆ0 and will satisfy four main requirements:
+•
+The element lengths and overall length of the cable is conserved.
+•
+The vertical position of the top and bottom nodes are equal to the
+vertical position of the surface ship and the ROV respectively.
+•
+The cable will buckle in the same direction as already existing de
+flections.
+•
+The vertical translation of the new rˆ0 -nodes will be reduced linearly from the bottom end to the top end.
+A generic algorithm for calculating the rˆ0 terms for node i can based on these requirements be found (note that subscript denotes node number and superscript denotes element number):
+= + ⋅−
+zz z i
+n
+ˆ Δ ( 1)
+i i rov (36a)
+=+ − −⋅ ⋅
+++
+x x x z z tan α cos β
+ˆ ˆ (ˆ ˆ ) ( ) ( )
+iii i i i i
+1 1 (36b)
+=+ − −⋅ ⋅
+++
+y y y z z tan α sin β
+ˆ ˆ (ˆ ˆ ) ( ) ( )
+iii i i i i
+1 1 (36c)
+=⎛ ⎝
+− −⎞ ⎠
+⋅
++
+α acos z z
+l sign θ
+(ˆ ˆ ) ( )
+i ii i
+i
+1
+(36d)
+where xˆi, yˆi, zˆi is the buckled position (rˆ0) of node i, xi, yi, zi is the original position (r0) of node i, Δzrov is the vertical position of the ROV relative to r0, n is the number of elements, αi is the angle between r0 and rˆ0 of element i, βi is the angle between inertial reference frame x-axis and the horizontal orientation of element i, θi is the relative angle between r and r0 of element i and l is the initial element length. Note that the equations are given in the inertial reference frame, hence z is the vertical axis and xy is the horizontal plane. In Fig. 3 a sketch of a buckling scenario displaying the quantities used in Eqs. (36a) and (36d) is shown. Fig. 3a shows the scenario for the entire cable while the same scenario is shown for only the last two cable elements in Fig. 3b.
+2.11. Numerical solver
+The dynamic problems given in Eq. (33) are solved in the spatial domain by inverting the mass matrix. To solve the equations in the time domain, direct time integration using the Newmark-β method is performed. The Newmark-β method is an implicit method where stability limits depend on the parameters used. The Newmark-β integral equations can be written as (Huebner et al., 2001):
+=+ − +
+=+ + − +
+++
+++
+()
+λ T λT
+T β T βT
+rr r r
+r rr r r
+ ̇  ̇ (1 )  ̈  ̈
+ ̇  ̈ ̈
+tt t t
+t tt t t
+11
+1
+1 2
+2 2 1 (37)
+where rt is the displacement vector of the previous time-step, λ and β
+Fig. 3. Buckled nodal positions used for calculating restoring forces.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+328
+
+
+are free parameters and T is the time increment. Setting β to 0.25 gives the trapezoidal method of integration which is unconditionally stable. λ is set to 0.5 which gives no artificial damping. This might become problematic as high frequency noise can be beneficial to remove. However, introducing artificial damping will damp the solution and is not introduced. The following sequence of calculations produces the next state of the coupled system (position, velocity and acceleration of time step t +1):
+1. Transformation matrix Rgb from local reference frames to the inertial reference frame. 2. Global matrices Mg, Kg, Cg, Bg and FD are calculated and transformed to the inertial reference frame. 3. Eq. (30) are solved with respect to the cable acceleration r ̈. 4. Nodal velocities (r ̇ ) and positions (r) are calculated from Eq. (37). 5. Eq. (15) is used to calculate the ROV tension forces. 6. Drag, thrust inputs and hydrostatic restoring are calculated using ROV position and velocity from previous time step. 7. The ROV acceleration is calculated. 8. ROV position and velocity is calculated using Eq. (37). 9. Surface ship and ROV position is used as boundary conditions in the next iteration step, where surface ship position is taken as a predetermined input.
+The flowchart of the solver is shown in Fig. 4.
+3. Experimental validation
+This section describes the experimental setup employed for the validation of the presented cable model. The experiment was performed in LabOceano located at Universidade Federal do Rio de Janeiro (UFRJ), Brazil. The tank dimensions are 30 m wide, 45 m long and 15 m deep. The tank also includes a 5 m wide pit with an additional depth of 10 m.
+3.1. Experimental setup
+The experimental setup consisted of the following components:
+- BlueROV 2, remotely operated vehicle with tether, produced by BlueRobotics. - Neutrally buoyant tether with diameter of 7.6 mm - Qualisys motion capture system with a total of 6 cameras mounted vertically from 9 to 15 m water depth. - Acoustic underwater positioning system from WaterLinked AS. - Tension load cell, produced by Hottinger Baldwin Messtechnik GmbH.
+The key parameters of the BlueROV 2 is shown in Table 1. The mass of the ROV is approximately 10 kg and it is neutrally buoyant in water. The Qualisys system requires that minimum two cameras have vision on a marker to determine its position. The maximum domain possible to cover with 6 cameras is therefore limited. The approximate domain where the Qualisys system is able to properly find a marker in space is a vertical cylinder 12 m high and a diameter of 7 m. The cable is marked with retro-reflective markers about every 1 m, as shown in Fig. 5. The position of the ROV is recorded using the Waterlinked underwater positioning system utilizing 4 transponders mounted on the ROV in addition to the Qualisys positioning. This is done simply to have redundancy in the ROV positioning. The tension load cell is positioned on the intersection between the ROV and the cable and all forces applied to the ROV from the cable will therefore be registered by the load cell. The load cell is furthermore synchronized with the Qualisys positioning system and both run at 60 Hz. The 4 transponders and the load cell each require one cable to transfer the signals. These additional cables are twisted around the ROV tether which change the characteristics of the tether quite significantly, most prominently the weight and diameter of the cable, but also the flexural rigidity and drag coefficients. The axial stiffness is not expected to be affected much by the additional cables. This is because the two cable ends are only connected using the ROV tether and the tether is able to translate in the axial direction with very
+Fig. 4. Flowchart of simulation program. Color code: green = external inputs, blue = cable related routines, yellow = ROV related routines and red = while loops. Dashed lines symbolize data-flow from previous time-step. (For interpretation of the references to colour in this figure legend, the reader is referred to the Web version of this article.)
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+329
+
+
+limited resistance from the other cables. The cable specifications for the experimental setup are shown in Table 2. The test setup is shown in Fig. 5.
+3.2. Test procedure
+The experiments are performed at constant water depth and the depth of the ROV is automatically controlled using a pressure sensor and a PD-controller. The depth is kept approximately constant to simulate a vertical tether and also to ease the localization of the reflective markers. The surge, sway and yaw degrees of freedom are controlled using a joystick. Note that BlueROV 2 does not have actuation in roll and pitch. The experiments are divided into two different cases of ROV motion: Experiment 1:
+- Straight line back and forth.
+Experiment 2:
+- Straight line sideways.
+For each experiment time series of the load cell force, cable position and ROV position are recorded at 60 Hz. The experiments are run for approximately 5 min and the ROV is kept at rest for 5 min between each experiment to allow the cable to untwine. It should be noted that the position of each Qualisys marker is not recorded for all time steps, as
+the position of the markers tend to fall in and out of sight of the Qualisys cameras. This problem is occurring more frequently near the edges of the domain covered by the cameras. The position, velocity and acceleration for the markers are therefore interpolated to create continuous inputs to the simulations. Thus some errors are present in the input signals.
+4. Results
+This section presents the experimental and simulated numerical results from of the trials conducted at LabOceano. Two experiments were performed and compared with the results from simulations of same motion. In Sec. 4.2 a verification test against already published results is presented before a sensitivity analysis is performed on the most important hydrodynamic parameters of the cable in Sec. 4.3.
+4.1. Experimental verification
+4.1.1. Experiment 1
+The first experiment was performed simply by driving the ROV forwards and backwards on constant depth. The path of the ROV recorded by the Qualisys motion capture system can be seen in Fig. 6a and the recorded tension force obtained from the load cell for the same experiment can be seen in Fig. 6b. The recorded cable position is shown for 7 different time instances in Fig. 6c and d. The simulations are performed using the recorded ROV-position (Fig. 6a) as a predetermined input. The response of the ROV is hence not simulated. This is done to remove uncertainties in the ROV modeling from the experiment (in addition no thruster data was recorded, hence simulating the ROV response would not have been possible). The simulated results for Experiment 1 is shown in Fig. 7. From Fig. 7a it can clearly be seen that the simulator is able to predict the bottom tension in the cable with fairly good accuracy. The root-meansquare deviation (RMSD) between the simulated and experimental tension force is 7.21 N. The simulated tension is overpredicted during peaks. The reason for the overprediction is most likely due to the fact that the interconnection between the ROV and the load cell had an initial slack, hence the ROV was able to move about 2 cm before the load cell was exposed to tension forces. This initial slack was not accounted for in the simulations due to the complexity in modeling it. The
+Table 1
+BlueROV 2 Blue-Robotics (2017).
+Parameter Value
+Width 457 mm Length 338 mm Height 254 mm Mass 10 kg Weight in Water 0 N Depth Rating 100 m Tether Diameter 7.6 mm Tether submerged Weight 0 N/m
+Fig. 5. The Experimental setup with ROV, cameras and transponders.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+330
+
+
+deflections are predicted accurately (Fig. 7c and d) for the case where the tension of the cable is significant, i.e. at T = 175 s. For the case where the tension is low (T = 30 s) the deflection is poorly estimated. The nature of a slack cable is chaotic and is therefore difficult to reproduce in the dynamic simulations. Since the cable in addition had an initial slack, the low-tension scenario becomes almost impossible to reproduce in the simulation.
+4.1.2. Experiment 2
+The second experiment was performed similarly to the first experiment, but now the horizontal motion of the ROV is mainly in the Ydirection. The ROV path recorded by the Qualisys motion capture system for this experiment can be seen in Fig. 8a and the tension force obtained from the load cell is shown in Fig. 8b. The recorded cable deflection for 7 different time instances is shown in Fig. 8c and d for X and Y direction respectively. The simulated results for experiment 2 is shown in Fig. 9. From Fig. 9a it can clearly be seen that the simulator is able to predict the bottom tension of the cable with fairly good accuracy. The RMSD is 7.26 N which is significant when taking into account the small tension force. The simulated tension force is however still in the correct range and taking into account the large uncertainties in the experimental procedure a RMSD of 7.26 N is acceptable. The simulated tension is again slightly overpredicted as it was in experiment 1. This is also most likely due to an initial slack in the cable which was not accounted for in the simulations. The deflections are also predicted accurately (Fig. 9c and d). Again it can be noticed that during the low tension case
+(T = 53 s) the deflection is poorly estimated with a difference of about 0.5 m, but for the tension case (T = 289 s the accuracy is better. This coincides good with the observations made in experiment 1. Some additional differences between the simulated and experimental deflections can be observed in Fig. 9c and d, especially the deflections in the X-direction. After 53 s it seems as if the stiffness of the simulated cable is too large compared to the experimental measurement, whilst at 113 s the simulated cable looks as if the stiffness is too small. This inconsistency most likely comes as a result of the interpolation of the cable measurements. The raw-data plot from experiment 2 can be seen in Fig. 10 and it clearly shows that jumps in the position measurements occur. This happens when the Qualisys Automatic Identification of Markers (AIM) model is unable to separate two markers or is unable to detect one or more markers. This tendency is more prominent for the markers closer to the ROV (1 and 2) than for the markers higher up on the cable (4 and 5). The reason for this is that the markers closer to the ROV experiences larger motions than the markers higher up on the cable which makes them harder for Qualisys to follow and identify. The uncertainty in the experimental cable deflection is therefore big and should be taken into account when evaluating the results.
+4.2. Comparison with published results
+A numerical comparison with the results from the static deflection analysis performed in Quan et al. (2015) is done for the tether management system described in the reference using 3000 and 5000 m cable lengths. The simulations yield a root-mean-square deviation of 4.67 m at 3000 m cable length and 0.79 m at 5000 m cable length. Which is about 0.16% and 0.016% of the cable length. The static horizontal deflection from the proposed model is therefore very similar to the model presented by Quan et al. (2015). The results from the static deflection simulations are shown in Fig. 11.
+4.3. Sensitivity analysis
+The sensitivity analysis of the hydrodynamic parameters is performed by varying one parameter while keeping all other variables fixed. The parameters varied are the transverse added mass and
+Table 2
+Experimental setup specifications.
+Parameter Value
+External Cable Diameter 17 mm Cable Length 14 m Cable Young's Module 0.16 GPa Mass pr. unit length 0.533 kg Cable Weight in Water 3 N/m Number of Qualisys markers 6 Number of Qualisys Cameras 6
+Fig. 6. Experimental results from Experiment 1. where the ROV follows a forwards and backwards horizontal path.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+331
+
+
+transverse drag coefficients. The tests are performed by giving the ROV a desired path. The response of the ROV is taken as a predetermined input since identical ROV response for all cases is needed to compare the results. The ROV response is therefore kept identical to the desired path for all cases. In this study the ROV system used is the BlueROV. The elasticity module of the cable is set to 1 GPa and no environmental forces are applied in this study. The desired ROV path is shown in Fig. 12.
+4.3.1. added mass
+The added mass analysis is performed using the Reynolds dependent drag coefficient as discussed in Sec. 2.3. The results from the sensitivity analysis is shown in Fig. 13a. It can be seen that the added mass coefficient has no impact on the bottom tension. The importance of modeling the added mass coefficient correctly is therefore limited. However large oscillations in the tension can be seen for the smallest added mass coefficients. This is numerical instability which comes as a
+Fig. 7. Experiment 1 (forward-backward): Simulated and experimental results.
+Fig. 8. Experimental results from experiment 2. where the ROV follows a sideways horizontal path.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+332
+
+
+result of having less inertia forces on the cable. The added mass can therefore remove numerical instabilities if required. Note that all simulations were performed using the same step sizes to ensure comparability. The oscillations could therefore have been removed by decreasing the step size for the smallest added mass coefficients. In Fig. 13b it can be noticed that doubling the added mass coefficient results in only 0.2% peak-tension increase which is negligible. The prescribed ROV path contains very limited accelerations, hence it is not surprising that the sensitivity of the added mass coefficient is small. For a ROV response with larger accelerations the sensitivity of the added mass coefficient would be larger.
+4.3.2. Drag
+The results from the sensitivity analysis performed on the drag coefficient is shown in Fig. 14. From Fig. 14a it can be seen that the drag coefficient has (similarly to the added mass) very limited effect on the cable forces transferred to the ROV. In the performed simulation a horizontal peak velocity of 0.64 m/s is accomplished during the initial phase (0–40 s), which is about 50% of the top speed of the BlueROV 2. Yet, the difference between a drag coefficient of 0.5 and 2 results in a cable peak tension increase of only 8.5% on the ROV. The difference between the Reynolds dependent drag coefficient and the typical drag coefficient of C = 1
+D is also negligible (about 0.2%). Hence the drag force can easily be represented by a single constant rather than using
+Fig. 9. Experiment 2 (sideways): Simulated and experimental results.
+Fig. 10. XY raw-data position measurement for experiment 2. Marker 1 is on the ROV.
+Fig. 11. Static horizontal deflection for ROV-TMS with 3000 and 5000 m cable length for different current velocities.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+333
+
+
+more complex methods. The reason for this is that during the simulations the cable experiences a limited range of Reynolds numbers and in this range the Reynolds dependent drag coefficient is close to 1. For larger cables or larger range of relative velocities, the difference between a Reynolds dependent drag coefficient and a constant drag coefficient could be more prominent.
+5. Discussion
+The overall goal of the experiments were to verify the mathematical cable model implemented in Matlab. In the following the obtained results are discussed.
+5.1. Experimental validation
+Comparing the experimental results with the numerical simulations some important characteristics were observed. The cable tensions measured at the ROV-end during the experiment were similar in magnitude to the numerical simulations with a root-mean-square deviation of about 7 N. The tension peaks were also similar, although the numerical simulations gave higher tension peaks than the experimental results. The difference in tension peaks was explained as initial slack in the cable, but a number of other possible error sources are present (in addition to potential errors in the modeling). Most of these error sources result from experimental measurement errors. Due to the small scale of the experiment, the measured cable tension is of small magnitude, hence the accuracy of the load cell may impact the results significantly. The load cell was calibrated and the drift over time was found to be minimal. The accuracy of the load cell is however unknown and could therefore affect the results. The Qualisys motion capture system was not always able to distinguish between the markers, hence the ROV and cable response had many jumps in the recorded data. Most of these jumps were removed by smoothing the data and removing outliers, but removing all inconsistencies was not possible. It is therefore expected to be some differences between the load cell measurements which is a scalar value and the three-dimensional cable and ROV position recorded by Qualisys. This error can most likely explain why som tension peaks are underpredicted or not present at all in the experimental results (compared to the numerical simulations). Other possible sources of error are the cable properties. The module of elasticity of 0.16 GPa was used based on the experimental results obtained by Buckham et al. (2000). The cable applied in this
+experiment could deviate from the cable used in the reference, but the module of elasticity should be in the correct range. The cable tension measured is directly linked to the module of elasticity. The module can therefore be modified to obtain better correspondence between the experimental results and the numerical simulations. The cable used in the experiment was in addition not completely circular since it was constructed by one center cable and four surrounding transponder cable. The hydrodynamic drag coefficient in the experiment would therefore be different than the assumed cylinder drag coefficient. However, as observed in Sec. 4.3 this would not result in any noticeable difference in the cable tension and could therefore be ignored. For the cable deflections a better agreement between the simulated and the experimental data were observed when the cable was subjected to tension forces. This was not surprising as in the low tension scenario the cable response becomes chaotic and difficult to replicate in a dynamic simulation.
+5.2. Published results
+When comparing the steady horizontal deflection of a TMS-ROV system with the results obtained in Quan et al. (2015) using a geometrical exact formulation, it was observed that the deflections corresponded very well. The root-mean-square deviation between the presented model and Quan et al. (2015) was only 4.67 m and 0.79 m for the 3000 m and 5000 m scenarios respectively, which showed that the presented model was able to simulate the horizontal steady state TMSROV response with good accuracy. As a TMS-ROV system is the ideal system to model using beam equations, this was expected. The large tension in the cable significantly reduces the curvature and the beam equations will therefore perform well as the key assumption in beam theory is satisfied. This confirms the findings obtained in Eidsvik and Schjølberg (2017) where the presented model was used to simulate the dynamic response of a TMS.
+5.3. Sensitivity analysis
+The sensitivity analysis performed in Sec. 4.3 yielded interesting results. The cable tension acting on the ROV did not vary with the added mass of the cable. The accelerations of the cable were very limited due to the path of the ROV and it can therefore be expected that in cases where the ROV has larger accelerations the sensitivity of the added mass coefficient becomes more prominent. One interesting observation made in Fig. 13b is that increasing the added mass actually
+Fig. 12. ROV reference motion for sensitivity analysis of hydrodynamic parameters.
+Fig. 13. Added Mass coefficient sensitivity results.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+334
+
+
+reduced the tension peaks slightly. This observation most likely comes from numerical instabilities in the simulations. A higher added mass will increase the inertia of the cable and hence reduce the oscillations of the cable. This can also be noticed in Fig. 13a where C = 0.8
+a and C = 0.5
+a shows instabilities due to small amount of inertia resulting from the small added mass coefficient. These oscillations could have been removed by reducing the step size or increasing the proportional damping, but was not done to keep all variables in the simulations identical. For the effect of the drag coefficient the results were more as expected. The drag coefficient did for the presented scenario affect the peak tension as well as the overall tension acting on the ROV. However the effect was also here limited. A doubling of the drag coefficient only resulted in a peak tension increase of 7% which is less then expected. This shows that for the maneuver performed in the sensitivity analysis, the cable stiffness was the most important parameter since the hydrodynamic parameters were of small importance and the cable mass was identical to the added mass. Using a cable with smaller module of elasticity (less than 1 GPa) could therefore give a higher relative importance of the hydrodynamic parameters. To conclude the discussion it can be said that for the presented ROV system and maneuver performed the hydrodynamic parameters have little effect on the ROV response. A more extensive sensitivity analysis could be performed where different ROV systems and maneuvers are investigated. This can produce more general results which will be interesting for further research.
+6. Conclusions
+A novel three-dimensional ROV-cable model is presented. The cable is represented using Euler-Bernoulli beam theory, which is modified to allow for compression of the cable. The spacial discretization is performed using linear finite element theory combined with a floating frame of reference formulation and the resulting discrete equations are solved using the Newmark-β time integration scheme. The model is verified experimentally and the calculated deflections and tension forces show good agreement with the experimental results. Some differences between the simulated and experimental results are present, but taking into account the relative large uncertainties present in the small scale experiment performed, a major part of this difference can be attributed to experimental measurement errors. The model is able to estimate the tension forces in the cable accurately with an approximate root-mean-square deviation of 7 N. Tuning of the parameters such as elasticity modulus, hydrodynamic parameters or rigid body parameters could perhaps be performed to achieve better accuracy, but this was not done as the experiments were meant to verify the accuracy of the presented model and not modify it. Verification of the modeling is performed by using published results for the steady state horizontal deflections of a tether management system. The presented model is able to estimate the horizontal deflection with good accuracy when compared with the reference having a root-mean-square deviation (RMSD) of less than 4.7 m when using a
+3000 m long cable and less than 1 m when using a 5000 m long cable. A sensitivity analysis is performed on the hydrodynamic parameters and shows that for the presented scenario these parameters have little effect on the cable tension applied to the ROV. Hence using advanced methods for accurately estimating these coefficients based on KeuleganCarpenter (KC) and Reynolds numbers (Re) would not be beneficial. The sensitivity analysis is however, only performed on a single ROVsystem, performing a single maneuver. Hence drawing any general conclusions is difficult. For the tested case however, it can be concluded that the sensitivity of the hydrodynamic parameters of the cable is small. The presented model is able to estimate the response and tension forces of the cable used in a ROV-system with good accuracy. It is one of only a few models verified experimentally and the functionality for real ROV operations is therefore verified. The model can therefore be used in numerical tools such as simulators and operator/mission training. Utilization of the model in ROV design is also an important benefit. Cable forces can dominate the overall response of a ROV system, including these forces in the design stage can help optimize the ROV design with regards to e.g. maximum working depth, required thrust, minimum required hydrostatic restoring, etc. Another possible use of the model is state estimation. For deep water operations loss of acoustic positioning can frequently occur, being able to estimate the response of the ROV during this time can be crucial. The model therefore presents a useful and versatile tool with applications to many different areas.
+Acknowledgment
+This work has been carried out at the Center for Autonomous Marine Operations and Systems (AMOS) at the Norwegian University of Science and Technology and LabOceano at the Universidade Federal do Rio de Janeiro (UFRJ) in collaboration with Paulo de Tarso (UFRJ) and Fábio Quintana (UFRJ). The Norwegian Research Council is acknowledged as the main sponsor of NTNU AMOS through the Centres of Excellence funding scheme, Project number 223254.
+References
+Blevins, R.D., 2003. Applied Fluid Dynamics Handbook, 1st. edition. Krieger Publishing Company, Malabar, Florida. Bliek, A., 1984. Dynamic Analysis of Single Span Cables. Ph.D. dissertation. Massachusetts Institute of Technology. Blue-Robotics, 2017. BlueROV2 Datasheet. available at: https://bluerobotics.com/ downloads/bluerov2.pdf Accesed October 25.2017. Buckham, B.J., Nahon, M., 1999. Dynamics simulation of low tension tethers. In: OCEANS ’99 MTS/IEEE. Riding the Crest into the 21st Century. vol. 2. pp. 757–766. Buckham, B.J., Nahon, M., Côtè, G., 2000. Validation of a finite element model for slack rov tethers. In: OCEANS 2000 MTS/IEEE Conference and Exhibition. Conference Proceedings. vol. 2. pp. 1129–1136. Buckham, B.J., Driscoll, F.R., Radanovic, B., Nahon, M., 2003a. Three dimensional dynamics simulation of slack tether motion in an rov system. In: Proc. 13th Int. Offshore Polar Engineering Conf. (ISOPE), Honolulu, Hawaii,USA, pp. 127–134. Buckham, B.J., Nahon, M., Zhao, X., Lambert, C., 2003b. Dynamics and control of a towed underwater vehicle system, part i: model development. IEEE J. Ocean. Eng. 30 (4), 453–470. Buckham, B.J., Driscoll, F.R., Nahon, M., 2004. Development of a finite element cable model for use in low-tension dynamics simulation. J. Appl. Mech. 71 (4), 476–485.
+Fig. 14. Drag coefficient sensitivity results.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+335
+
+
+Burgess, J.J., 1992. Equations of motion of a submerged cable with bending stiffness. In: ASME 1992 11th International Conference on Ocean, Offshore and Arctic Engineering. 1A. pp. 283–290. Burgess, J.J., 1993. Bending stiffness in a simulation of undersea cable deployment. Int. J. Offshore Polar Eng. 3 (3), 197–204. Chen, B., Su, F., Huo, C.F., Zhang, R.B., Yao, B.H., Lian, L., 2014. Numerical investigation of the dynamics for low tension marine cables. J. Shanghai Jiaot. Univ. 20 (3). Cook, R.D., Malkus, D.S., Plesha, M.E., 1989. Concepts and Applications of Finite Element Analysis, 3rd. edition. John Wiley & sons, New York, USA. DNV, 2010. Offshore Standard DNV-os-f201: Dynamic Risers. Driscoll, F.R., Lueck, R.G., Nahon, M., 2000a. Development and validation of a lumpedmass dynamics model of a deep-sea rov system. Appl. Ocean Res. 22 (3), 169–182. Driscoll, F.R., Lueck, R.G., Nahon, M., 2000b. The motion of a deep-sea remotely operated vehicle system: Part 1: motion observations. IEEE J. Ocean. Eng. 27 (1), 29–56. Eidsvik, O.A., Schjølberg, I., 2016. Time domain modeling of rov umbilical using beam equations. IFAC-PapersOnLine 49 (23), 452–457. Eidsvik, O.A., Schjølberg, I., 2017. State estimation of deep-water tether management system. In: ASME 2017 36th International Conference on Ocean, Offshore and Arctic Engineering. 7A. Faltinsen, O.M., 1999. Sea Loads on Ships and Offshore Structures, 6th. edition. Cambridge University Press. Fang, M.C., Hou, C.S., Luo, J.H., 2007. On the motions of the underwater remotely operated vehicle with the umbilical cable effect. IEEE J. Ocean. Eng. 34 (8–9), 1275–1289. Fang, Z.F., He, Q.S., Xiang, B.F., Xiao, H.P., He, K.D., Du, Y.X., 2013. A finite element cable model and its applications based on the cubic spline curve. China Ocean Eng. 27 (5), 683–692. Fossen, T.I., 2011. Handbook of Marine Craft Hydrodynamics and Motion Control, 1st. edition. John Wiley & sons, West Sussex, England. Hover, F.S., 1997. Simulation of stiff massless tethers. Ocean Eng. 24 (8), 765–783. Hover, F.S., Grosenbaugh, M.A., Triatafyllou, M.S., 1994. Calculation of dynamic motions and tensions in towed underwater cables. IEEE J. Ocean. Eng. 19 (3), 449–457.
+Huang, S., 1994. Dynamic analysis of three-dimensional marine cables. IEEE J. Ocean. Eng. 21 (6). Huebner, K.H., Dewhirst, D.L., Smith, D.E., Byrom, T.G., 2001. The Finite Element Method for Engineers, 4th. edition. John Wiley & sons, New York, USA. Hughes, T.J., 2000. Finite Element Method - Linear Static and Dynamic Finite Element Analysis. Dover Pulbications. Kamman, J.W., Huston, R.L., 1999. Modeling of variable length towed and tethered cable systems. J. Guid. Contr. Dynam. 22 (4), 602–608. Lambert, C., Nahon, M., Buckham, B.J., Seto, M., 2003. Dynamics and control of towed underwater vehicle system, part ii: model validation and turn maneuver optimization. IEEE J. Ocean. Eng. 30 (4), 471–485. Morison, J.R., O'Brien, M.P., Johnson, J.W., Schaaf, S.A., 1950. The force exerted by surface waves on piles. In: Petroleum Transactions AIME. vol. 189. pp. 149–154. Naess, A., Yim, S.C.S., 1996. Stochastic response of offshore structures excited by drag forces. J. Eng. Mech. 122 (5), 442–448. Quan, W.C., Zhang, Z.Y., Zhang, A.Q., Zhang, Q.F., Tian, Y., 2015. A geometrically exact formulation for three-dimensional numerical simulation of the umbilical cable in a deep-sea rov system. China Ocean Eng. 29 (2), 223–240. Schlichting, H., 1979. Boundary-layer Theory, 7th. edition. McGraw-Hill, New York. SNAME, 1950. Nomenclature for Treating the Motion of a Submerged Body through a Fluid. Technical Report Bulletin 1-5. Society of Naval Architects and Marine Engineers, New York, USA. Timoshenko, S.P., Gere, J.M., 1989. Theory of Elastic Stability, 2nd. edition. Dover Publications Inc, Mineola, New York. Triantafyllou, M.S., Triantafyllou, G.S., 1991. The paradox of the hanging string: an explanation using singular perturbations. J. Sound Vib. 148 (2), 343–351. Zhu, K.Q., Li, D.G., Li, W.Y., 2002. Lumped-parameter analysis method for time-domain of ocean cable-body systems (in Chinese). Ocean Eng. 28 (2), 95–99. Zhu, K.Q., Zhu, H.Y., Zhang, Y.S., Miao, G.P., 2008. A multi-body space-coupled motion simulation for a deep-sea tethered remotely operated vehicle. J. Hydrodyn. 20 (2), 210–215.
+O.A. Nørve Eidsvik, I. Schjølberg Ocean Engineering 163 (2018) 322–336
+336
