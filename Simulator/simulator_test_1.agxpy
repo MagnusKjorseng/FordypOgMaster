@@ -1,0 +1,51 @@
+''' First attempt at a simulator for the project
+This will be a living document. Might become deprecated after I've learned more about AGX.
+'''
+
+import agx
+import agxPython
+import agxCollide
+import agxOSG
+import agxIO
+
+import sys
+
+
+def buildScene1(sim, app):
+    #starting with a floor that a box can land on
+    floorGeometry = agxCollide.Geometry(agxCollide.Plane())
+    sim.add(floorGeometry)
+    
+    #make a box, this will evolve into a hull later (possibly)
+    rb1 = agx.RigidBody()
+    rb1.add(agxCollide.Geometry(agxCollide.Box(1,1,1)))
+    rb1.setPosition(0,0,3)
+    sim.add(rb1)
+
+def buildScene():
+    sim = agxPython.getContext().environment.getSimulation()
+    app = agxPython.getContext().environment.getApplication()
+    buildScene1(sim,app)
+    
+    eye = agx.Vec3(7.50627, -16.8831, 6.03734)
+    center = agx.Vec3(7.17153, -15.9728, 5.79397)
+    up = agx.Vec3(-0.0839897, 0.228412, 0.969935)  
+
+    app.setCameraHome(eye, center, up)
+    app.setEnableDebugRenderer(True)    
+    
+def main(args):
+    app = agxOSG.ExampleApplication()
+    
+    argParser = agxIO.ArgumentParser([sys.executable] + args)
+    
+    app.addScene(argParser.getArgumentName(1), "buildScene", ord('1'), True)
+    
+    if app.init(argParser):
+        app.run()
+    else:
+        print("An error occurred while initializing ExampleApplication.")
+
+if agxPython.getContext() is None:
+    init = agx.AutoInit()
+    main(sys.argv)
