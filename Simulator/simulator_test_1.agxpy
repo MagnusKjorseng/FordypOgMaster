@@ -38,7 +38,7 @@ class StillWaterWrapper(agxModel.WaterWrapper):
 def build_bouyancy_scene(sim, app):
     #Make the water geometry a 10x10x200m box
     water_geometry = agxCollide.Geometry(agxCollide.Box(10,10,200))
-    position = agx.Vec3(0,0,-100)
+    position = agx.Vec3(0,0,-200)
     water_geometry.setPosition(position)
     
     #make new material to change the density to that of seawater, 1025kg/m^3
