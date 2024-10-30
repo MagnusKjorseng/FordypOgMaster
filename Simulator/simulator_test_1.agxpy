@@ -19,6 +19,7 @@ from agxPythonModules.utils.environment import simulation, application, root, in
 shipDensity = 600 #kg/m^3, average density over the entire object
 
 class WaveWaterWrapper(agxModel.WaterWrapper):
+    #Shamelessly stolen from the hydrodynamics tutorial for AGX
     def __init__(self):
         super().__init__()
 
@@ -27,10 +28,17 @@ class WaveWaterWrapper(agxModel.WaterWrapper):
             0.25 * math.cos(0.6 * worldPoint.y() + 0.3 * worldPoint.x() + 1.45 * t)
         return worldPoint.z() - surface_level
 
+class StillWaterWrapper(agxModel.WaterWrapper):
+    def __init__(self):
+        super().__init__()
+        
+    def findHeightFromSurface(self, worldPoint, upVector, t):
+        return worldPoint.z()
+
 def build_bouyancy_scene(sim, app):
-    #Make the water geometry a 100x100x20m box
-    water_geometry = agxCollide.Geometry(agxCollide.Box(100,100,20))
-    position = agx.Vec3(0,0,0)
+    #Make the water geometry a 10x10x200m box
+    water_geometry = agxCollide.Geometry(agxCollide.Box(10,10,200))
+    position = agx.Vec3(0,0,-100)
     water_geometry.setPosition(position)
     
     #make new material to change the density to that of seawater, 1025kg/m^3
@@ -41,17 +49,19 @@ def build_bouyancy_scene(sim, app):
     #Create a wind and water controller
     controller = agxModel.WindAndWaterController()
     controller.addWater(water_geometry)
-    controller.setWaterWrapper(water_geometry, WaveWaterWrapper())
+    controller.setWaterWrapper(water_geometry, StillWaterWrapper())
+    #controller.setWaterWrapper(water_geometry, WaveWaterWrapper())
     
     sim.add(controller)
     sim.add(water_geometry)
     
-    auv_hull = agx.RigidBody()
-    auv_hull.add(agxCollide.Geometry(agxCollide.Box(3,2,1)))
-    auv_hull.setPosition(0,0,0)
     auv_material = agx.Material("shipMaterial")
     auv_material.getBulkMaterial().setDensity(shipDensity)
-    #auv_hull.setMaterial(auv_material)
+    
+    auv_trimesh = agxUtil.createTrimesh("./usv.obj", agxCollide.Trimesh.REMOVE_DUPLICATE_VERTICES)
+    auv_geometry = agxCollide.Geometry(auv_trimesh)
+    auv_hull = agx.RigidBody(auv_geometry)
+    agxUtil.setBodyMaterial(auv_hull, auv_material)
     
     sim.add(auv_hull)
     
