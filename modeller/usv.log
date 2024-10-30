@@ -1,0 +1,23 @@
+
+          NX-OBJ Export
+
+File to export: E:\Documents\GitHub\FordypOgMaster\modeller\usv.prt
+
+INFO: Options
+INFO: -------
+INFO: Export Units.......: meters
+INFO: Chordal Tolerance..: 0.000080 meters
+INFO: Angular Tolerance..: 18.000000 degrees
+INFO: Flatten Assembly...: on
+INFO: 
+INFO:       Summary of Obj Entities
+INFO: 
+INFO: Entity Type                                                   Count
+INFO: -----------                                                   ------
+INFO: Node Count ...........................................:   2
+INFO: Geometry Count........................................:   1
+INFO: Texture Count.........................................:   0
+INFO: Material Count........................................:   1
+
+Export Successful!
+Output file : E:\Documents\GitHub\FordypOgMaster\modeller\usv.obj
