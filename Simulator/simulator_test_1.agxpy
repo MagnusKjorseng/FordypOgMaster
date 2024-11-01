@@ -10,13 +10,15 @@ import agxUtil
 import agxOSG
 import agxIO
 import agxSDK
+import agxWire
 
 import math
 
 import sys
 from agxPythonModules.utils.environment import simulation, application, root, init_app
 
-shipDensity = 600 #kg/m^3, average density over the entire object
+auvDensity = 600 #kg/m^3, average density over the entire object
+rovDensity = 2000
 
 class WaveWaterWrapper(agxModel.WaterWrapper):
     #Shamelessly stolen from the hydrodynamics tutorial for AGX
@@ -55,15 +57,45 @@ def build_bouyancy_scene(sim, app):
     sim.add(controller)
     sim.add(water_geometry)
     
-    auv_material = agx.Material("shipMaterial")
-    auv_material.getBulkMaterial().setDensity(shipDensity)
     
+    '''
+    Create and add the AUV
+    '''
+    auv_material = agx.Material("auvMaterial")
+    auv_material.getBulkMaterial().setDensity(auvDensity)
+    
+    #The .obj file here is something I've just thrown together. It can be improved and changed for higher accuracy later
     auv_trimesh = agxUtil.createTrimesh("./usv.obj", agxCollide.Trimesh.REMOVE_DUPLICATE_VERTICES)
     auv_geometry = agxCollide.Geometry(auv_trimesh)
     auv_hull = agx.RigidBody(auv_geometry)
     agxUtil.setBodyMaterial(auv_hull, auv_material)
     
     sim.add(auv_hull)
+    
+    '''
+    Make and add the ROV
+    '''
+    #currently unused but useful for later
+    rov_material = agx.Material("rovMaterial")
+    rov_material.getBulkMaterial().setDensity(rovDensity)
+    
+    #dimensions in xyz, in meters
+    rov_dims = agx.Vec3(0.45, 0.575, 0.254) 
+    
+    rov_body = agx.RigidBody()
+    rov_body.add(agxCollide.Geometry(agxCollide.Box(rov_dims)))
+    rov_body.setPosition(0,0,-20)
+    
+    agxUtil.setBodyMaterial(rov_body, rov_material)
+    
+    
+    rov_volume = rov_dims[0]*rov_dims[1]*rov_dims[2]
+    rov_mass = rovDensity * rov_volume
+    #rov_body.getMassProperties().setMass(rov_mass)
+    
+    print(rov_volume)
+    print(rov_mass)
+    sim.add(rov_body)
     
     
 '''
