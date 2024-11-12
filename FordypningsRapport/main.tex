@@ -1,9 +1,10 @@
-\documentclass[a4paper, 12pt, openany]{book} %chose the paper size and font size. Openany ensures that all all chapters and similar may begin at any page, not only odd pages. For the introductory pages and appendices we want openany, but for chapter pages in the main content we want chapters to begin only on odd pages (right hand side). The book class ensures that the margins are automatically adjusted such that left hand pages are slightly moved to the left and vice versa at the right, which makes the thesis very readable and good looking when printed in bound book format.
+\documentclass[a4paper, 12pt]{report}
+%\documentclass[a4paper, 12pt, openany]{book} %chose the paper size and font size. Openany ensures that all all chapters and similar may begin at any page, not only odd pages. For the introductory pages and appendices we want openany, but for chapter pages in the main content we want chapters to begin only on odd pages (right hand side). The book class ensures that the margins are automatically adjusted such that left hand pages are slightly moved to the left and vice versa at the right, which makes the thesis very readable and good looking when printed in bound book format.
 \usepackage[utf8]{inputenc} %to manage special characters
 \usepackage[T1]{fontenc} %to manage special characters
 \usepackage[Bjarne]{fncychap} %fancy chapter style (many more available, like Sonny or Lenny etc.)
 \usepackage{fancyhdr} %to customize the headers
-\usepackage[lmargin=1.5in, rmargin=1in, tmargin=1in, bmargin=1in]{geometry} %sets the margins for the pages
+\usepackage[lmargin=1in, rmargin=1in, tmargin=1in, bmargin=1in]{geometry} %sets the margins for the pages
 \setcounter{tocdepth}{2} %table of contents number depth for subsections (2 = x.x.x)
 \setcounter{secnumdepth}{4} %numbering depth for headers for subsections in the text(4 = x.x.x.x)
 \usepackage{url} %to include urls
@@ -20,12 +21,13 @@
 \counterwithin{figure}{section} %change counter for figures within sections (also possible to choose for each chapter
 \counterwithin{table}{section} %change counter for tables within sections
 \usepackage{color, xcolor} %edit e.g. text colors
+%\usepackage{tgtermes}
 
 \usepackage[backend = biber,
             style = numeric,
             date = long,     % Long: 24th Mar. 1997 | Short: 24/03/1997
             sorting = none,
-            maxcitenames = 3,   % max names to include before et. al.
+            maxcitenames = 2,   % max names to include before et. al.
             ]{biblatex} %customize the look of your citations and bibliography
 \addbibresource{bibliography.bib} %declare the bibliography resource
 \usepackage{comment} %to be able to comment out sections in the .tex files
@@ -49,7 +51,7 @@
 %the title page should be an odd page (right hand side)
 
 \begin{titlepage}
-\newgeometry{left=1.6in, right=2in}
+\newgeometry{left=2in, right=2in}
 \vspace*{1.5cm}
 
 \noindent  \textcolor{gray}{\large Magnus Renaa Kjørseng} \\
@@ -78,7 +80,7 @@ Department of Ocean Operations and Civil Engineering \\
 \end{figure}
 \end{titlepage}
 \restoregeometry
-\myemptypage %empty page such that the abstract starts at the first right hand side after the title page
+%\myemptypage %empty page such that the abstract starts at the first right hand side after the title page
 %\end{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
