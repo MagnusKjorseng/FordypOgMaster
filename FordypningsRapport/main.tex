@@ -52,26 +52,26 @@
 \newgeometry{left=1.6in, right=2in}
 \vspace*{1.5cm}
 
-\noindent  \textcolor{gray}{\large Nina Salvesen} \\
+\noindent  \textcolor{gray}{\large Magnus Renaa Kjørseng} \\
 \vspace{1cm}
 
-\noindent \textbf{\Large The title of your master's thesis should be written here} \\
+\noindent \textbf{\Large Simulation of a hanging ROV for seabed plastic pickup} \\
 \vspace{0.5cm}
 
-\noindent {\large Any undertitle is written here} \\
+%\noindent {\large Any undertitle is written here} \\
 
 
 
 \vspace{7cm}
-\noindent Master's thesis in Physics and Mathematics \\
-Supervisor: Supervisor Name \\
-Co-supervisor: Co-supervisor Name \\
-June 2022 \\
+\noindent Specialization Project Report, IP502122 \\
+Supervisor: Øivind Kåre Kjerstad \\
+%Co-supervisor: Co-supervisor Name \\
+December 2024 \\
 
 \vspace{0.2cm}
 \noindent Norwegian University of Science and Technology \\
-Faculty of Natural Sciences \\
-Department of Physics \\
+Faculty of Engineering \\
+Department of Ocean Operations and Civil Engineering \\
 
 \begin{figure}[h]
     \includegraphics[width=0.28\textwidth]{Figures/ntnu_basic.png}
@@ -89,25 +89,25 @@ Department of Physics \\
 \addcontentsline{toc}{chapter}{\protect\numberline{}Abstract} %add the chapter to the table of contents, this is not automatically added when creating unnumbered chapters (*). Add it in a chapter style, and keep all chapters on the same numberline indent regardless of number or not on the chapter
 \input{Chapters/00Abstract} %insert the chapter text from the files
 
-\chapter*{Preface}
-\addcontentsline{toc}{chapter}{\protect\numberline{}Preface} 
-\input{Chapters/01Preface}
+%\chapter*{Preface}
+%\addcontentsline{toc}{chapter}{\protect\numberline{}Preface} 
+%\input{Chapters/01Preface}
 
 \tableofcontents
-\addcontentsline{toc}{chapter}{\protect\numberline{}Contents}
+%\addcontentsline{toc}{chapter}{\protect\numberline{}Contents}
 
 %add to table of contents list of figures and tables, and insert list of figures and tables
-\addcontentsline{toc}{chapter}{\protect\numberline{}\listfigurename}
-\listoffigures
-\addcontentsline{toc}{chapter}{\protect\numberline{}\listtablename}
-\listoftables
+%\addcontentsline{toc}{chapter}{\protect\numberline{}\listfigurename}
+%\listoffigures
+%\addcontentsline{toc}{chapter}{\protect\numberline{}\listtablename}
+%\listoftables
 
 
-\chapter*{Abbreviations}
-\addcontentsline{toc}{chapter}{\protect\numberline{}Abbreviations}
-\input{Chapters/02Abbreviations}
-\newpage
-\myemptypage
+%\chapter*{Abbreviations}
+%\addcontentsline{toc}{chapter}{\protect\numberline{}Abbreviations}
+%\input{Chapters/02Abbreviations}
+%\newpage
+%\myemptypage
 %add an empty non-counted page by the command below in order to get the first chapter on the left hand side, if needed (check your page number so that the first chapter is on an odd page)
 
 
@@ -117,8 +117,8 @@ Department of Physics \\
 \pagestyle{fancy} %set customized page style for header
 \fancyhf{} %clear header and footer fields
 \renewcommand{\headrulewidth}{0pt} %set to no rule
-\fancyhead[LE, RO]{\thepage} %set the page number at left for even, right for odd pages
-\fancyhead[RE, LO]{\leftmark} %set the chapter name at right for even, left for odd pages
+%\fancyhead[LE, RO]{\thepage} %set the page number at left for even, right for odd pages
+%\fancyhead[RE, LO]{\leftmark} %set the chapter name at right for even, left for odd pages
 %is is possible to design the header with the chapter as you wish, e.q. only the chapter or only the name, all lowercase instead etc.
 %you could also design the footer if you wish, for example:
 %\fancyfoot[LE, RO]{\thepage}
@@ -131,51 +131,51 @@ Department of Physics \\
 \pagenumbering{arabic}
 \chapter{Introduction}
 \input{Chapters/03Introduction}
-\cleardoublepage
+%\cleardoublepage
 %the cleardoublepage command ensures that the next text page is on the right-hand side (odd page) and produces a blank page if necessary to achieve that, as all chapters should begin on the right hand side
 
 
 \chapter{Theory}
 \input{Chapters/04Theory}
-\cleardoublepage
+%\cleardoublepage
 
 
 \chapter{Methods}
 \input{Chapters/05Method}
-\cleardoublepage
+%\cleardoublepage
 
 
 \chapter{Results}
 \input{Chapters/05Results}
-\cleardoublepage
+%\cleardoublepage
 
 
 \chapter{Discussion}
 \input{Chapters/06Discussion}
-\cleardoublepage
+%\cleardoublepage
 
 
 \chapter{Conclusions}
 \input{Chapters/07Conclusion}
-\cleardoublepage
+%\cleardoublepage
 
 
 \addcontentsline{toc}{chapter}{\protect\numberline{}References}
 \printbibliography[title={References}] %you may change the title in the toc here if you want
-\cleardoublepage
+%\cleardoublepage
 
 
-\chapter*{\LARGE \textbf{Appendices}}
+%\chapter*{\LARGE \textbf{Appendices}}
 \fancyhf{} %clear the header, it should be empty for the appendices
 \renewcommand{\headrulewidth}{0pt} %no rule
 \fancyfoot[C]{\thepage} %set the page numbers in the center of the footer instead 
 
 %it is possible to set a different page numbering style for the appendix, but I personally just continued with the same page numbering as the main content as I find that more tidy
 %\pagenumbering{roman}
-%\setcounter{page}{1}
-\addcontentsline{toc}{chapter}{\protect\numberline{}Appendices:}
-\appendix
-\input{Chapters/08Appendix}
+%\setcounter{page}{1}%
+%\addcontentsline{toc}{chapter}{\protect\numberline{}Appendices:}
+%\appendix
+%\input{Chapters/08Appendix}
 
 
 \end{document}
