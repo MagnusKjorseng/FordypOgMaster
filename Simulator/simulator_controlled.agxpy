@@ -1,0 +1,164 @@
+''' First attempt at a simulator for the project
+This will be a living document. Might become deprecated after I've learned more about AGX.
+'''
+
+import agx
+import agxPython
+import agxCollide
+import agxModel
+import agxUtil
+import agxOSG
+import agxIO
+import agxSDK
+import agxWire
+import agxROS2
+
+import sys
+from agxPythonModules.utils.environment import simulation, application, root, init_app
+
+import Usv
+import waterwrappers
+
+usvDensity = 600 #kg/m^3, average density over the entire object
+rovDensity = 2000
+
+
+def build_control_scene(sim, app):
+    #Make the water geometry a 10x10x200m box
+    water_geometry = agxCollide.Geometry(agxCollide.Box(10,10,50))
+    position = agx.Vec3(0,0,-50)
+    water_geometry.setPosition(position)
+    
+    #make new material to change the density to that of seawater, 1025kg/m^3
+    sea_water_material = agx.Material("waterMaterial")
+    sea_water_material.getBulkMaterial().setDensity(1025)
+    water_geometry.setMaterial(sea_water_material)
+    
+    #Create a wind and water controller
+    controller = agxModel.WindAndWaterController()
+    controller.addWater(water_geometry)
+    
+    controller.setWaterWrapper(water_geometry, waterwrappers.StillWaterWrapper())
+    #controller.setWaterWrapper(water_geometry, WaveWaterWrapper())
+    
+    sim.add(controller)
+    sim.add(water_geometry)
+    
+    
+    '''
+    Create and add the USV
+    '''
+    usv = Usv.Usv()
+    usv.build("usv.obj", usvDensity)
+    sim.add(usv.ship)
+    
+    '''
+    Make and add the ROV
+    '''
+    rov_material = agx.Material("rovMaterial")
+    rov_material.getBulkMaterial().setDensity(rovDensity)
+    
+    #rov size in xyz, in meters
+    rov_dims = agx.Vec3(0.575, 0.45, 0.254) 
+    
+    rov_body = agx.RigidBody()
+    rov_body.add(agxCollide.Geometry(agxCollide.Box(rov_dims)))
+    rov_body.setPosition(0,0,-20)
+    
+    agxUtil.setBodyMaterial(rov_body, rov_material)
+    
+    sim.add(rov_body)
+    
+
+    
+    return controller, water_geometry, usv, rov_body
+    
+
+########################################
+# Listener that listens for keyboard events
+########################################
+class KeyboardListener(agxSDK.GuiEventListener):
+    def __init__(self, body):
+        super().__init__(agxSDK.GuiEventListener.KEYBOARD)
+        self.body = body
+        self.root = agxPython.getContext().environment.getSceneRoot()
+        app = agxPython.getContext().environment.getApplication()
+        self.decorator = app.getSceneDecorator()
+        print("Keyboardlistener initialized")
+
+    # Function called whenever a key is pressed/released on the keyboard
+    # keydown: True when key is pressed, False when key is released
+    # This function must return True if the keyboard event has been handled
+    # or False if the event should be passed on to the context
+    def keyboard(self, key, x, y, alt, keydown):
+        multiplier = 1
+        force = agx.Vec3(10e4,0,0)
+        # If a key is pressed DOWN and it's the down-button
+        if keydown and key == agxSDK.GuiEventListener.KEY_Down:
+            # Decrease radius
+            print("down")
+            multiplier = 0.99
+        # If a key is pressed DOWN and it's the up-button
+        elif keydown and key == agxSDK.GuiEventListener.KEY_Up:
+            # Increase radius
+            print("up")
+            self.body.add_force(force)
+        # Ignore all other keyboard events
+        else:
+            return False
+
+        return True
+
+
+def buildScene():
+    sim = agxPython.getContext().environment.getSimulation()
+    app = agxPython.getContext().environment.getApplication()
+    
+    water_cont, water_geo, usv, rov = build_control_scene(sim,app)
+    
+    '''
+    Make the wire between the AUV and ROV
+    '''
+    #TODO: make a winch
+    wireRadius = 0.01 #assumed amount, can be changed for known materials
+    wireResolution = 2 #resolution in number per unit length
+    wireMaterial = agx.Material("WireMaterial")
+    wireMaterial.getWireMaterial().setYoungsModulusBend(1e9)
+    
+    wire = agxWire.Wire(wireRadius, wireResolution)
+    wire.setMaterial(wireMaterial)
+    
+    wireLength = 20 #TODO change this to make the wire actually usable for different lengths
+    
+    usv_node = agxWire.BodyFixedNode(usv.hull, agx.Vec3(1.3,0,0))
+    rov_node = agxWire.BodyFixedNode(rov, agx.Vec3(0,0,0.129))
+    wire.add(usv_node)
+    wire.add(rov_node)
+    sim.add(wire)
+    
+    eye = agx.Vec3(50,0,30)
+    center = agx.Vec3(1.5, 0, -5)
+    up = agx.Vec3(0,0,1)  
+
+    app.setCameraHome(eye, center, up)
+    app.setEnableDebugRenderer(True)    
+    
+    listener = KeyboardListener(usv)
+    sim.add(listener)
+  
+def main(args):
+    app = agxOSG.ExampleApplication()
+    
+    argParser = agxIO.ArgumentParser([sys.executable] + args)
+    
+    app.addScene(argParser.getArgumentName(1), "buildScene", ord('1'), True)
+    
+    if app.init(argParser):
+        app.run()
+        autoStepping=True
+    else:
+        print("An error occurred while initializing ExampleApplication.")
+
+if agxPython.getContext() is None:
+    init = agx.AutoInit()
+    main(sys.argv)
