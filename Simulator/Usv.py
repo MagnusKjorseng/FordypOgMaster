@@ -27,5 +27,13 @@ class Usv(agxSDK.StepEventListener):
         self.ship.add(self.hull)
     
     
-    def add_force(self, force, position=agx.Vec3(1.4,0,0)):
-        self.hull.addForceAtLocalCmPosition(force, position)
+    def add_force(self, vector, position=None):
+        if position is None:
+            position = self.hull.getCmPosition()
+        
+        #Translates force from local frame vector into global force.
+        frame = self.hull.getFrame()
+        force = frame.transformVectorToWorld(vector)
+        
+        
+        self.hull.addForce(force)

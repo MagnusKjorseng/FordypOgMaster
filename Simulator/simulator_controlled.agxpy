@@ -91,13 +91,12 @@ class KeyboardListener(agxSDK.GuiEventListener):
     # This function must return True if the keyboard event has been handled
     # or False if the event should be passed on to the context
     def keyboard(self, key, x, y, alt, keydown):
-        multiplier = 1
-        force = agx.Vec3(10e4,0,0)
+        force = agx.Vec3(5e4,0,0)
         # If a key is pressed DOWN and it's the down-button
         if keydown and key == agxSDK.GuiEventListener.KEY_Down:
             # Decrease radius
             print("down")
-            multiplier = 0.99
+            self.body.add_force(-force)
         # If a key is pressed DOWN and it's the up-button
         elif keydown and key == agxSDK.GuiEventListener.KEY_Up:
             # Increase radius
