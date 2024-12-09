@@ -1,23 +1,40 @@
 
 % The subsections written are only suggestions, to display how sections and subsections may look for your thesis
 
+\section{About this report}
+This report is a summary of work done in the course IP502122 - Specialization Project, undertaken in the autumn of 2024 at NTNU in Ålesund as a part of my master's degree in Product and Systems Engineering. The specialization project is intended as an introduction and "head start" on my master's thesis next semester. As such, the work done here is used in large part as a jumping off point for later.
+
+\section{Marine plastic pollution}
+Plastic pollution in the oceans has been widely documented. The amount of plastic currently in the ocean is uncertain, however. Jambeck et al.\cite{jambeck_plastic_2015} estimates that in 2010, somewhere between 4.8 and 12.7 million metric tons(MT) of plastic ended up in the ocean. According to the World Economic Forum\cite{wef}, there is between 75 and 199 million MT currently in the ocean. Around two thirds of all plastics that end up in the ocean are heavier than seawater \cite{isobe_fate_2022} meaning that they sink and either drift in the pelagic zone or end up on the seafloor as litter. Removing litter and plastic pollution on a large scale is difficult, removing it under many meters of ocean makes it much more difficult. 
+
+It is undesirable to have plastic waste in the oceans. This is because of the health effects the plastics have on marine and terrestrial life. Two points are especially of note: microplastics and leeching. Microplastics are plastic particles smaller than 5mm. Leeching on the other hand, is the plastics' chemical interaction with the seawater surrounding them, leeching harmful chemicals into the water. \textbf{TODO: kilder for mikroplast og leeching skadelighet} For both of these issues, the best solution is to remove the litter. This is because plastics' general longevity. For example, Oluwoye et al. \cite{oluwoye_degradation_2023} found that polyethylene, commonly used as a coating for subsea structures, would take about 800 years to degrade on the ocean floor. Polyethylene is also used in many consumer- and industrially facing applications, for instance in plastic cannisters for liquids, boxes and crates for fishing or other industrial practices, or as plastic bags. 
+
 \section{The Plan Sea Project}
-\begin{itemize}
-\item Seafloor litter
-\item little study on how to deal with it
-\item harmful to humans and the environment
-\item need a solution
-\end{itemize}
+The desire to deal with sub-surface marine plastic waste, i.e. litter both in the pelagic zone and on the seabed, was what sparked the Plan Sea project. Plan Sea is a student driven project at NTNU in Ålesund with the goal of finding, developing and testing a potential solution for removing sub-surface plastics. The project is at time of writing still in its early phases and ongoing. 
+
+Since this is not a report focused on the Plan Sea project, the proposed solution arrived at in Plan Sea will not be discussed in detail. However, because of the relationship between this project and Plan Sea, it is necessary to describe the solution at a surface level. 
 
 \subsection{The proposed solution}
-\begin{itemize}
-\item Surface vessel with ROV gripper
-\item basket solution
-\item operational criteria (weather etc.)
-\item possible future expansion
-\item The need for control systems
-\end{itemize}
+The solution arrived at which is currently under development is an ROV-based solution with an unmanned surface vessel attached. The ROV has a gripper attached and will navigate to find litter, grab it and pick it up. The surface vessel exists to provide the ROV with a greater lifting capacity. If the ROV was to lift purely under its own force, as is traditional for ROVs, the total amount of lifting force available would be limited by the vertical thrust available on the ROV. This would mean that either the ROV would have to have a very large amount of vertical thrust available relative to its size, or that the total lifting capacity would be very small. By connecting the ROV to the surface vessel with a winch and a lifting cable, it is possible to use the ROV to do fine-navigation to find and attach to litter, and then use the lifting force of a winch and the total buoyancy of the surface vessel for lifting heavier objects. 
+
+Using this solution allows for completely ignoring the buoyancy of the ROV, unlike traditional ROVs. Traditional ROVs are generally designed to be neutrally buoyant, meaning that they neither sink nor float, but keep their vertical position in water once placed there. Since the Plan Sea ROV will be attached to a cable to the surface vessel at all times, it can instead hang from the cable. This means that it's possible to attach larger grippers, more battery capacity, more detection/lighting/navigation equipment, and otherwise allows for pretty much whatever is desired to be done to the ROV. However, having a non-buoyant ROV does come with some drawbacks.
+
+One drawback of this solution is that it will switch between two operating modes, searching/grabbing and lifting, increasing the complexity of the system. Another drawback is that as the ROV is hanging from the cable, it creates a coupled system consisting of the surface vessel and the ROV, and necessitates the two moving together as one unit. 
+
+This project is focusing on how to control the two units as one. 
 
 \section{Control systems}
+A control system commands and regulates the behaviour of other systems automatically. For this project in particular, the control system will be in charge of maintaining and changing positions of the surface vessel and the ROV. 
+
 \subsection{Considerations because of a coupled system}
+In the marine sector, dynamic positioning (DP) is commonly used. DP allows for a vessel to maintain a position or a course automatically despite external effects. This is used for example for offshore supply vessels which need to stay stationary relative to an anchored platform to allow loading and offloading of supplies. DP is also used for applications such as laying subsea fiberoptic cables, where maintaining correct speed and course is important to avoid damaging the cables. For the Plan Sea project too, a DP system is necessary because it consists of vessels that need to maintain specific positions at sea with wind, wave and current forces affecting the vessels
+
+Normally a DP system only considers one vessel, however for the Plan Sea project it has to be more comprehensive than that because the two vessels are coupled. 
+
 \subsection{The need for rapid prototyping}
+Rapid prototyping is a concept used increasingly as time goes on. The point of rapid prototyping is to create some simulated environment in which you can test and iterate on a solution until it is acceptable, before putting materials and resources into building and implementing the solution in the real world. 
+
+For my purposes, rapid prototyping will allow me to experiment with control system tuning and variables without having to deploy the full-scale vessel every time. Ideally, the solution arrived at in the prototyping stage will be directly applicable to the full-scale version, which allows for rapid deployment and only some interfacing issues to solve in the field, rather than larger issues. \textbf{TODO: Omformuler det her}
+
+\section{Statement of intent}
+The stated intent of the project this report is for is to create a simulation of the coupled system consisting of the surface vessel and a subsurface non-buoyant ROV. This simulation should be controllable and configurable to allow it to as best as possible match the real-world vessels. Ideally the controllers used in the simulation should be directly transferable and applicable to the real-world implementation.

@@ -3,12 +3,13 @@ import agx
 import agxSDK
 import agxUtil
 import agxCollide
+import agxModel
 
-class Usv(agxSDK.StepEventListener):
+import Vessel
+
+class Usv(Vessel.Vessel):
     def __init__(self):
-        super().__init__()
-        
-        self.hull = agx.RigidBody("usv_hull")
+        super().__init__("usv_hull")
         
         self.ship = agxSDK.Assembly()
         
@@ -27,13 +28,4 @@ class Usv(agxSDK.StepEventListener):
         self.ship.add(self.hull)
     
     
-    def add_force(self, vector, position=None):
-        if position is None:
-            position = self.hull.getCmPosition()
-        
-        #Translates force from local frame vector into global force.
-        frame = self.hull.getFrame()
-        force = frame.transformVectorToWorld(vector)
-        
-        
-        self.hull.addForce(force)
+    

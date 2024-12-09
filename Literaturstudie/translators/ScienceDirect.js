@@ -1,15 +1,15 @@
 {
 	"translatorID": "b6d0a7a-d076-48ae-b2f0-b6de28b194e",
+	"translatorType": 4,
 	"label": "ScienceDirect",
 	"creator": "Michael Berkowitz and Aurimas Vinckevicius",
 	"target": "^https?://[^/]*science-?direct\\.com[^/]*/((science/)?(article/|(journal|bookseries|book|handbook)/\\d)|search[?/]|journal/[^/]+/vol)",
 	"minVersion": "3.0",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
 	"inRepository": true,
-	"translatorType": 4,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2024-06-13 19:43:00"
+	"lastUpdated": "2024-10-03 14:35:00"
 }
 
 function detectWeb(doc, url) {
@@ -134,7 +134,7 @@ async function getPDFLink(doc) {
 			let md5 = urlMetadata.queryParams.md5;
 			let pid = urlMetadata.queryParams.pid;
 			if (path && pdfExtension && pii && md5 && pid){
-				pdfURL = `/${path}/${pii}${pdfExtension}?md5=${md5}&pid=${pid}&isDTMRedir=Y`;
+				pdfURL = `/${path}/${pii}${pdfExtension}?md5=${md5}&pid=${pid}`;
 				Zotero.debug("Created PDF URL from JSON data: " + pdfURL);
 				return pdfURL;
 			}
@@ -153,7 +153,7 @@ async function getPDFLink(doc) {
 	// enough to get us through even without those parameters.
 	pdfURL = attr(doc, 'link[rel="canonical"]', 'href');
 	if (pdfURL) {
-		pdfURL = pdfURL + '/pdfft?isDTMRedir=true&download=true';
+		pdfURL = pdfURL + '/pdfft?download=true';
 		Zotero.debug("Trying to construct PDF URL from canonical link: " + pdfURL);
 		return pdfURL;
 	}

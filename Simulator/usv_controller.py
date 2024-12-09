@@ -1,27 +1,50 @@
-import agxROS2
 import agx
+import agxSDK
 
-class UsvController:
-    def __init__(self):
+class UsvController(agxSDK.StepEventListener):
+    def __init__(self, Kp, Ki, Kd, vessel, authority=5e4, target = agx.Vec3(0,0,0)):
         super().__init__()
-        self.qos = agxROS2.QOS()
-        self.qos.historyDepth = 1  # We don't want to apply any old message data.
-        self.ros_subscriber = agxROS2.SubscriberStdMsgsFloat32("usv_position", self.qos)
-        self.position_received = agxROS2.StdMsgsFloat32()
         
-        #self.ros_publisher = agxROS2.PublisherMsgsFloat32("usv_action_force", self.qos)
+        self.kp = Kp
+        self.ki = Ki
+        self.kd = Kd
+        self.last = None
+        self.sum = agx.Vec3(0,0,0)
+        self.steps = 0
         
-        #self.desired_position = agx.Vec3(10,10,0)
-    
-    def listen(self):
-        print("Listening...")
-        while True:
-            if self.ros_subscriber.receiveMessage(self.position_received):
-                print(self.position_received.data)
+        self.vessel = vessel
+        
+        self.authority = authority
+        
+        self.target = target
+        
+    def pre(self, t):
+        self.steps += 1 
+        frame = self.vessel.hull.getFrame()
+        pos = frame.getTranslate()
+        if self.last is None: 
+            self.last = pos
+            return        
 
-def main():
-    controller = UsvController()
-    controller.listen()
-    
-if __name__ == "__main__":
-    main()
+        error = self.target - self.last
+        print(error)
+        self.sum += error 
+        difference = pos - self.last
+        controlled = self.kp * error + self.ki * self.sum + self.kd * difference
+        
+        #Check that the controlled variable is not outside authority
+        controlled = self.clamp(controlled, self.authority)
+        controlled[2] = 0 #no force in Z-direction
+        
+        self.vessel.add_force(controlled)
+        
+        self.last = pos
+        
+    #Clamps variable to the range 
+    #-clamp < variable < clamp
+    def clamp(self, variable, clamp):
+        if variable.length() > clamp:
+            vec = variable.normal()
+            return vec * clamp
+        else:
+            return variable

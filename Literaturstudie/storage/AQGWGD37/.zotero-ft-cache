@@ -1,0 +1,529 @@
+Skip to main content
+Skip to article
+View PDF
+Science of The Total Environment
+Volume 825, 15 June 2022, 153935
+The fate of missing ocean plastics: Are they just a marine environmental problem?
+Author links open overlay panel
+Atsuhiko Isobe a
+,
+Shinsuke Iwasaki b
+Show more
+Share
+Cite
+https://doi.org/10.1016/j.scitotenv.2022.153935
+Get rights and content
+Under a Creative Commons license
+open access
+Highlights
+•
+A budget for ocean plastic mass was estimated using numerical particle tracking and linear mass-balance models.
+•
+Two models were validated using a worldwide ocean plastic dataset.
+•
+66.7% of ocean plastics are unmonitorable under current observation frameworks.
+•
+516.9 MMT of the mismanaged plastic have been lost on land.
+Abstract
+The fate of mismanaged plastic waste released into oceans (ocean plastics) remains a topic of debate, where the mass imbalance between the leakage and abundance in the world's oceans appears paradoxical. In the present study, a budget for ocean plastic mass was estimated based on a combination of numerical particle tracking and linear mass-balance models, both validated using a worldwide ocean plastic dataset. Integrating the time series of worldwide macroplastic emission from both rivers and the fisheries industry over the period 1961–2017 yielded a total mass of 25.3 million metric tonnes (MMT). Macro- and microplastics currently floating in the oceans, and microplastics on beaches, each account for 3–4% of the ocean plastics emitted worldwide to date. Overall, 23.4% of ocean plastics were macroplastics on beaches. Meanwhile, 66.7% of ocean plastics were heavier than seawater or microplastics removed from the upper ocean and beaches, which are difficult to monitor under current observation frameworks adopted worldwide. However, the present study on ocean plastics suggested that the whole ocean plastics accounted for only 4.7% of mismanaged plastic waste (542.2 MMT) generated between the 1960s and today.
+Graphical abstract
+Download: Download high-res image (133KB)
+Download: Download full-size image
+Previous
+Next
+Keywords
+Ocean macroplasticsOcean microplasticsParticle tracking modelPlastic mass balance
+1. Introduction
+The mass imbalance between the generation of ocean plastic debris (ocean plastics) and abundance observed in the world's oceans appears paradoxical. Plastic products discarded or incinerated between the 1950s and today amount to approximately 5700 million metric tonnes (MMT) (Geyer et al., 2017), where 31.9 MMT of mismanaged plastic waste is currently released into the natural environment each year (Jambeck et al., 2015). Of this mismanaged waste, 1.15–2.41 MMT/year (Lebreton et al., 2017) or 0.41–4.0 (Schmidt et al., 2017) MMT/year is carried into the world's oceans via rivers. In addition, ocean-based plastics, derived primarily from the fisheries industry, account for approximately 20% of ocean plastics (Morales-Caselles et al., 2021). The longevity of these ocean plastics is estimated to be from hundreds to thousands of years (Barnes et al., 2009), although the period may become shorter due to remineralization by bacteria (e.g., Yuan et al., 2020). Historic data on the generation of mismanaged plastic waste suggest that 25.3 MMT of ocean plastics have accumulated in the world's oceans (shown later in the subsection 2.4). Meanwhile, based on observations combined with numerical modeling, the total mass of floating ocean plastics from microplastics (<5 mm in size) to large plastic debris (>200 mm) was estimated at approximately 0.25 MMT, which is much smaller than expected (Eriksen et al., 2014). In the present study, the term ‘ocean plastics’ includes all plastic debris irrespective of size, while for simplicity ‘macroplastics’ represents all plastic debris larger than 5 mm in size. Subsequent studies based on mass-balance models have noted surprisingly low abundance of floating ocean plastics, accounting for less than 1% of historically accumulated ocean plastics (Koelmans et al., 2017; Lebreton et al., 2019).
+Assessment of the actual budget of ocean plastics is clearly needed, as precise quantification of total ocean plastics, including those on beaches and the seafloor, and mismanaged plastic waste released into the oceans is not a straightforward task. Approximately half of plastic products (assumed to be a similar proportion to that of mismanaged plastic waste) are made from plastics heavier than seawater, such as polyethylene terephthalate (PET) and polyvinyl chloride (PVC) (Andrady and Neal, 2009), which are difficult to quantify after they sink to the seafloor. Quantifying beach plastic litter worldwide through field surveys is also complicated, as plastic debris littered on inaccessible beaches might be excluded from estimates unless observations are taken from an airplane (Kataoka et al., 2018) or drone (Kako et al., 2020). Moreover, the abundance of beach litter varies rapidly, by an order of magnitude, with meteorological disturbance (Kako et al., 2010; Kako et al., 2018). Quantifying floating macroplastics worldwide solely through visual surveys from vessels is also unpractical, and satellite observations are incapable of monitoring plastic debris at the present time (Martínez-Vicente et al., 2019). Moreover, macroplastics tend to be trapped in nearshore areas; therefore land-based plastic debris is released into the open oceans predominantly as small plastic fragments (Morales-Caselles et al., 2021), which are easily overlooked in visual surveys. Surface net tows have been widely employed to collect microplastics floating in the upper ocean, from the sea surface down to approximately 1 m in depth. However, a non-negligible fraction of microplastics migrates into subsurface layers due to Langmuir circulation (Van Sebille et al., 2020), absorption into settling detritus (Katija et al., 2017) and/or aggregation (Long et al., 2015; Zhao et al., 2018; Porter et al., 2018; Michels et al., 2018), and settling due to increased density after biofouling (Kaiser et al., 2017). Furthermore, approximately 60% of microplastics smaller than 1 mm are missed in surveys based on towing surface nets with a mesh opening of approximately 0.3 mm, which are commonly employed in field surveys (Tokai et al., 2021). There is currently no method for quantifying terrestrial plastic debris released from waste-management systems other than literature surveys under assumptions that are not easily justified (Jambeck et al., 2015). Hence, estimates of mismanaged plastic waste cannot avoid uncertainty.
+To reveal the fate of ‘missing ocean plastics’ and mass budget of ocean plastics, the present study adopted a combination of a numerical particle tracking model (PTM) and a linear mass-balance model, which were validated using datasets pertaining to the abundance of plastic beach litter reported worldwide to date and microplastics in the world's upper oceans. In addition to the fate of missing ocean plastics, a large gap between mass of ocean plastics and mismanaged plastic waste generated on land is quantitatively confirmed in the present study. It is likely that the discarded plastics have spread worldwide, as plastics debris were found ubiquitously from deep-sea environment (Nakajima et al., 2021; Esposito et al., 2022) to high-mountain lakes (Pastorino et al., 2021). Much of the planet may be polluted by discarded plastics harmful to both animal and human health (e.g., Kurniawan et al., 2021), although there is a debate about the plastic toxicity by human exposure (Mohamed Nor et al., 2021).
+2. Methods
+2.1. Outline of the numerical model approach
+The PTM was set on a two-dimensional horizontal plane representing the upper ocean, as model validation was not practical for subsurface layers, where ocean plastic abundance has rarely been reported. The model domain was the world's oceans, excluding latitudes higher than 80° in the Northern and Southern Hemispheres. Particles moving beyond 80° latitude never returned to the model domain because the polar regions act as an oceanic sink of floating plastics, which are carried by the poleward ocean circulation (Cózar et al., 2017; Isobe et al., 2017) and become trapped into sea ice (Obbard et al., 2014; Peeken et al., 2018). Both the global plastic waste generation and disposal were mostly negligible in the 1950s in comparison with those in the following years (Geyer et al., 2017; their Fig. 3). Thereby, the computation began with the assumption of plastic-free oceans and beaches on 1 January 1961 and continued to the end of 2017 (57 years).
+The PTM categorised ocean plastics into (1) macroplastics floating in the ocean, (2) macroplastics washed ashore on beaches, (3) microplastics in the ocean, (4) microplastics washed ashore on beaches, (5) plastic fragments with greater density than seawater (hereinafter, heavy plastics), and (6) microplastics removed from beaches and upper oceans (Fig. 1). The modelled particles in category (1), representing 10 t of macroplastics per each particle (hereinafter, macroplastic particles), were applied to the modelled ocean in accordance with an estimate of ocean plastic emissions (see subsection 2.4), and thereafter shifted to particles in other categories while conserving their original mass. A macroplastic particle (categories 1 and 2) was fragmented into 100 particles representing microplastics (categories 3, 4, and 5): a single particle represented 0.1 t of microplastics (microplastic particles). A single macroplastic particle represented a group of discarded plastic products (10 t in total) made from either a single polymer or multiple polymers. In accordance with the actual production rate of plastic polymers (Andrady and Neal, 2009), positions of 50 microplastic particles lighter than seawater (categories 3 and 4, comprised of polyethylene [PE] and polypropylene [PP]) were updated in the computation, while another 50 particles remained in the grid cells where fragmentation occurred, as heavy plastics (5) were assumed to sink to the seafloor immediately after fragmentation due to loss of buoyant shapes (e.g., capped bottles and buoys). We incorporated the removal of microplastic particles (6) from the model domain representing the upper ocean and beaches to represent oceanic sinks [e.g., settling into deep layers, fragmentation into microplastics sufficiently small to pass through the mesh opening (Tokai et al., 2021), absorption into sandy beaches (Turra et al., 2014) and sea ices (Obbard et al., 2014; Peeken et al., 2018)] and removal to other unknown sinks in the natural environment.
+Download: Download high-res image (454KB)
+Download: Download full-size image
+
+Fig. 1. Ocean plastics reproduced in particle tracking and linear models including emission, transportation, and transition processes. The categories of ocean plastics are indicated by numbers, including macroplastics floating in the sea (1), those washed ashore on beaches (2), microplastics floating in the sea (3), those washed ashore on beaches (4), ocean plastic fragments that are heavier than seawater (5), and microplastics removed from the upper oceans and beaches (6). Transition processes and their timescales (τ1 – τ6) are indicated by arrows between categories of ocean plastics.
+
+The transitions of particles among categories in the model occurred on predetermined timescales (Fig. 1; see subsection 2.6). Macroplastic particles in the oceans (1 in Fig. 1) drifted ashore onto beaches (2) when they had persisted in grid cells neighbouring beaches for a timescale of τ1. Meanwhile, macroplastic particles on beaches re-drifted into oceans over a timescale of τ2. Microplastic particles were exchanged between oceans (3) and beaches (4) in the same manner as macroplastic particles, but followed timescales of τ3 and τ4, respectively. These four timescales were determined based on field experiments (Kataoka et al., 2013; Hinata et al., 2017). Choosing timescales appropriate for the fragmentation from macroplastics to microplastics (τ5), and for removal of microplastics (τ6) is difficult due to limited availability of information about these processes in nature. Therefore, the values used for these timescales were somewhat arbitrary, but were within the acceptable range of 1–10 years suggested in previous studies (Song et al., 2017; Isobe et al., 2019). It is regarded that the timescale taken for removal of microplastics from the upper ocean was determined by a combination of the above-mentioned ocean sinks and resurfacing processes such as bacterial remineralization of biofouling and vertical mixing. Infinite combinations of the timescales were possible; therefore, time-consuming PTMs with different timescales were approximated using a light-load linear model of ocean plastic masses in various categories to identify timescales that efficiently reproduce observations.
+2.2. Observation data for plastic litter on beaches with a fractal structure
+Abundance data for beach plastic litter (macroplastics) recorded through field surveys were collected from the literature for comparison with the abundance data for macroplastic particles on beaches. We selected 32 surveys from 22 studies that described their survey dates/periods, locations, and plastic masses per unit of alongshore length, from 1983 to 2014 worldwide (Supplementary Table 1). Regarding the survey dates, we considered the surveys to have been conducted at the midperiod of the given period if abundance data were averaged over time. When macroplastic masses on multiple beaches were provided in a single article, the masses on these beaches were averaged to diminish local effects. When abundance was quantified as mass per unit area, the data were converted to mass per unit alongshore length through multiplication with a cross-shore beach width of 10 m. The beach width was selected arbitrarily, where 1 m is likely to be too short and 100 m is likely too long. The abundance of macroplastic particles on beaches was estimated in term of mass per unit alongshore length, as observed on actual beaches.
+Notably, alongshore length cannot be determined uniquely on beaches, as coastlines have a fractal structure in which the measured length depends on the length scale (also known as the step length) used to measure the coastline. The empirical relationship of alongshore lengths measured in beach surveys (Lb) to those in numerical models (Lm) is as follows (Husain et al., 2021):
+(1)
+LbLm=rbrm1−D,
+where rb and rm denote the step lengths used to measure alongshore lengths in beach surveys and numerical models, respectively; and D represents the fractal dimension of coastlines, typically ranging from 1.02 to 1.52 (Husain et al., 2021). The order of magnitude for rb is 100 m, adopted from the alongshore widths reported in beach-litter survey guidelines (Galgani et al., 2013; Masura et al., 2015; GESAMP, 2019). Meanwhile, the step length associated with numerical modeling can be specified by the grid spacing and is on the order of 10 km (approximately 1/12°; see Supplementary Information S1). Therefore, Lb could be scaled as (1.1–11.0) × Lm. We divided the modelled macroplastic masses by 1.1 and 11.0, providing upper and lower limits comparable with the observed mass per unit alongshore length.
+2.3. Observed data for microplastics in the upper ocean
+Masses of microplastic particles per unit area were compared with a publicly available microplastic dataset, where wind and wave conditions during each surface net tow were standardized to reduce the dependence of vertical mixing on the surface microplastic abundance (Isobe et al., 2021; Supplementary Information S2). For this dataset, particle counts obtained from surface net tows were converted into masses in two different ways, because the relationship between particle count and mass depends on the size distribution, which varies both temporally and spatially. One conversion formula was based on microplastics collected in the western North Pacific (Isobe et al., 2021) where the abundance of mismanaged plastic waste originating from surrounding countries is highest in the world (Jambeck et al., 2015). These masses were provided as Level-2w1 data in the dataset (Isobe et al., 2021). The alterative conversion formula was reported by Cózar et al. (2014) and Cózar et al. (2015) for microplastics collected in their worldwide circumnavigation cruise except for the western North Pacific, and cruises in Mediterranean Sea, respectively. These masses were Level-2w2 data in the microplastic dataset (Isobe et al., 2021).
+2.4. Emission of macroplastics
+In the PTM, macroplastic particles were released from rivers into oceans in accordance with plastic-debris emission data for 2010 of Lebreton et al. (2017) (their ‘midpoint mass input estimate’). In total, 114 rivers, accounting for approximately 90% of the total mass of macroplastics discharged from rivers worldwide, were selected for the PTM experiments (Fig. 2a). Macroplastic emission was assessed for the entire model period of 1961–2017. Emissions from 1961 to 2010 were proportional to the gross domestic product (GDP) of each river mouth country, while emissions from 2010 to 2017 were proportional to 15-year predictions of mismanaged plastic waste generation (Jambeck et al., 2015; Fig. 2b).
+Download: Download high-res image (645KB)
+Download: Download full-size image
+
+Fig. 2. Emissions of macroplastic particles in the PTM. The mass of macroplastics released from rivers in 2010 is represented by blue circles with diameters reflecting magnitude, as indicated at the top of panel a. Fisheries-derived macroplastic mass per year is indicated by colour in each box of 10 degrees latitude and longitude in panel a. Panel b shows the global time series of these masses.
+
+Fishery-based macroplastics reportedly account for approximately 25% (mass), 20% (number), and 10% (number) of macroplastics on beaches in Japan (Nakashima et al., 2011), Australia (Slavin et al., 2012), and the United States (Hardesty et al., 2017), respectively. In addition, it was recently estimated that 22% (number) of macroplastics found in various aquatic environments arose from marine sources, mainly the fisheries industry (Morales-Caselles et al., 2021). In accordance with these ratios, the present study added oft-quoted 20% of river plastic emissions worldwide being fishery-based macroplastics. The time series of fishery-based emissions into the world's oceans was proportional to that of riverine plastic emissions integrated over 114 rivers (Fig. 2b). Fishery-based emissions were divided into boxes of 10-degree latitude × 10-degree longitude in proportion to fishing effort (i.e., the time spent fishing) averaged over the period 2012–2016 (Kroodsma et al., 2018; Fig. 2a). The 10-degree boxes were sufficient for representing regions with intense fishing effort (e.g., North Sea, west of Africa, and equatorial Pacific Ocean; Fig. 2a).
+Macroplastic particles originating from both rivers and the fisheries industry were released into the ocean domain at the beginning of each month from 1961 to 2017 (the satellite-derived wind data were currently available until 2017; Supplementary S1). Annual emissions were divided by 12 to obtain monthly emissions. Integrating the time series of worldwide macroplastic emission over the entire period 1961–2017 yielded a total mass of 25.3 MMT.
+2.5. Particle tracking model
+A PTM using transport velocities, defined as the sum of surface ocean currents, windage, and Stokes drift (Supplementary Information S1), was established with the transition of particles between categories. The mass per particle representing 10 (0.1) tonnes of macroplastics (microplastics) was determined to reproduce observed concentrations of microplastic mass by a single particle; a single microplastic particle in a box covering one degree latitude and longitude was converted to a concentration of approximately 10 g km−2, which aligns with the lowest order of microplastic surface concentrations observed in the open ocean (Cózar et al., 2014; Isobe et al., 2021).
+The horizontal positions of the modelled particles, X = (x, y), were updated at a time increment (Δt) of 360 s, as follows:
+(2)
+Xt+Δt=Xt+UΔt+12U∙∇HU+∂U∂tΔt2+R2KhΔtij+θ,
+where U [= (u, v)], Kh, i, and j are transport velocity vectors linearly interpolated to the particle positions, horizontal diffusivity, and unit vectors in the zonal (x) and meridional (y) directions, respectively (Isobe et al., 2009). Here, R represents a random number generated at each time step, with an average value and standard deviation of 0.0 and 1.0, respectively. The horizontal diffusivity was calculated as 0.01× (Δx)4/3, where Δx denotes an average distance of 1/12° (grid spacing of the surface ocean currents) in longitude and latitude. θ in Eq. (2) represents the transition processes incorporated into the PTM.
+2.6. Transition timescales and processes
+To incorporate the transition processes into the model, modelled particles within a category were assumed to transition into other categories over a timescale of τ. For the sake of simplifying the model algorithm, a transition timescale (τ*) was assigned to each particle at its generation using a probability density function expressed by an exponential random number, e−τ⁎/τ.
+Macroplastic particles on beaches may return to the ocean via re-drifting (i.e., backwashing) over a timescale deduced from a mark-recapture experiment, wherein 509 plastic buoys identified individually by markings were traced over 20 months on a beach in Japan. The averaged residence time (Takeoka, 1984) of macroplastics was estimated as 209 days in the experiment (Kataoka et al., 2013). This estimate was dependent on beach properties such as inclination and cross-shore width. The order of magnitude of the results is reasonable, as an average residence time of 104 days was computed using the results of a similar experiment conducted on a Caribbean beach (Kataoka et al., 2013). Meanwhile, a one-year mark-recapture experiment, wherein 175,000 small wooden pieces with densities adjusted to match plastics through paint application were dispersed on a beach, estimated a range of average residence times of 8–51 days for PE and PP microplastics on the beach (Hinata et al., 2017). In the present model, re-drifting timescales of 200 and 30 days were selected for macroplastic and microplastic particles on beaches, respectively (τ2 and τ4 in Fig. 1). The time elapsed since drifting ashore was recorded for each particle on beaches. The particle re-drifted into the nearest ocean grid cell when the elapsed time exceeded the re-drifting timescale assigned to the particle.
+Timescales over which ocean plastics drift ashore onto beaches were computed based on the re-drifting timescales. This computation was justified by the assumption that an equilibrium state is reached between ocean plastics drifting ashore and re-drifting over timescales much shorter than the prominent variations of offshore ocean plastic abundance (Hinata et al., 2020; Supplementary Information S3). We assumed that macroplastic particles in grid cells (1/12° of surface ocean currents) adjacent to beaches drift ashore onto beach grid cells over a timescale of 1.0 day (τ1). Likewise, the timescale for microplastics drifting ashore was set to 10 days (τ3). The elapsed time (t) was determined for each particle remaining in grid cells adjacent to beaches, while the elapsed time was initialised (t = 0) when the particle moved to an offshore grid cell. The particles within grid cells moved onto the nearest beach when the elapsed time exceeded the drifting ashore timescale assigned to each particle.
+No firm data are available on the timescales over which macroplastics become fragmented into microplastics (τ5); therefore, timescales of 1–10 years were assigned to the PTM to reproduce ocean plastic behavior. The shortest timescale was determined arbitrarily, but is likely reasonable in light of an experiment, wherein PE and PP pellets were hardly fragmentized after 2-month (0.7 year in the reality) ultraviolet exposure followed by mechanical abrasion (Song et al., 2017). Thus, a period of a few months was too rapid for fragmentation to proceed sufficiently on beaches. Likewise, timescales longer than decades were slow to generate microplastics, as they spread throughout world's oceans over that period, including to remote polar regions (Isobe et al., 2017; Cózar et al., 2017), despite commercial plastic production (and thus the generation of mismanaged plastic waste) beginning approximately 70 years ago. A fragmentation timescale was assigned to each particle corresponding to an exponential random number with an e-folding scale of τ5 and, thus, some macroplastic particles fragmented immediately after generation due to being assigned fragmentation timescales close to zero. This instantaneous fragmentation could be regarded as reflecting plastic debris containing land-based microplastics being released into the oceans. The time elapsed since drifting ashore was recorded for each macroplastic particle on beaches. The elapsed time of the particles was preserved after re-drifting into oceans, and continued after drifting ashore onto beaches. When the elapsed time exceeded the fragmentation timescale assigned to each macroplastic particle, the particle (representing 10 t of macroplastics) on a beach was fragmented into 100 microplastic particles (0.1 t each). Overall, 50% of microplastic particles generated through fragmentation were released into the ocean grid cell nearest the beach, while the other half of the microplastic particles were assumed to be heavier than seawater; updating of their positions according to transport within the ocean was terminated at the beach where fragmentation occurred.
+Macroplastics are degraded and thereafter fragmented, even in the ocean (Ter Halle et al., 2016), although the fragmentation rate is likely much slower than on beaches due to fewer physical impacts. The time elapsed in oceans was added to the time elapsed on beaches for each macroplastic particle, although for simplicity the ‘sequential time addition’ was reduced to one-tenth (10%) of the time increment of the PTM: see Fig. 2 in Andrady (2011) where the tensile extensibility of plastics exposed to air for one year diminished to less than one tenth, which was approximately 10% of plastics in seawater. If either 5% (halved) or 20% (doubled) was chosen for the reduction of the sequential time addition, the mass budget of ocean plastics was mostly unchanged in the model (not shown). Fragmentation occurred in oceans when the elapsed time exceeded the transition time, in the same manner as fragmentation on beaches. Macroplastic particles in the oceans were transformed to 50 microplastic particles, while the other half, representing heavy plastics, remained in the grid cell where fragmentation occurred to represent settling to the seafloor.
+Available data on the transition timescale for microplastic removal from the model domain (τ6) are limited; therefore, timescales 1–10 years were used to reproduce various oceanic sinks and fragmentation into microplastics sufficiently small to pass through the mesh opening (Fig. 1). The range of timescales was determined arbitrarily but was reasonable, as the microplastic abundance in the Pacific Ocean was reproduced well using a numerical model with a removal timescale of 3 years (Isobe et al., 2019). Thus, the order of months (decades) was likely too short (long) to accurately reproduce the removal processes, although the relative importance of oceanic sinks in the processes remains unclear. The time elapsed since generation was recorded for each microplastic particle, irrespective of whether the particle was located in the oceanic or beach domain. When the elapsed time exceeded the removal timescale assigned to each microplastic particle, the particle was removed from the model.
+In total, 10 experiments with different combinations of fragmentation (τ5) and removal (τ6) timescales were conducted to examine the sensitivity of the timescales to the mass budget of ocean plastics (Table 1). In addition, four sensitivity experiments were conducted with the linear model using doubled and halved re-drifting timescales (τ2 and τ4), as we have currently no way of knowing how these timescales determined by a few experiments are representative for the rest of the ocean.
+
+Table 1. Combinations of predetermined transition timescales (years) in the PTM. τ1 (1 day), τ2 (200 days), τ3 (10 days), and τ4 (30 days) were invariant during these computations.
+
+τ5	1	2	3	3	3	6	6	9	9	10
+τ6	3	6	1	3	10	3	6	3	6	2
+2.7. Linear model analysis
+To sharply reduce the computation time, the results of the PTM experiments were reduced to linear combinations of particle masses integrated over the model domain in four categories, namely macroplastics in the ocean, macroplastics on beaches, and microplastics in both domains (i.e., 1–4 in Fig. 1). This simplification was applied because multiple combinations of transition timescales must be examined to reasonably model the ocean plastic abundance, while a brute-force experiment using a PTM with several tens of millions of particles would be an uneconomic method of identifying the most appropriate combination. A linear combination of different categories is justified due to the lack of interactions between particles, such as collisions and aggregations.
+The linear combinations of particle masses in the four categories are represented as follows:
+(3)
+dMdt=−αMM+βMM′−0.1γM+Q,
+(4)
+dM′dt=αMM−βMM′−γM′,
+(5)
+dmdt=−αmm+βmm′−δm+q,
+(6)
+dm′dt=αmm−βmm′−δm′,
+(7)
+q=γ0.1M+M′/2,
+where M, M', m, and m' represent the masses of macroplastic particles in oceans, those on beaches, the masses of microplastic particles in oceans, and those on beaches, respectively; these were all spatially integrated across the entire PTM domain. The coefficients α, β, γ, and δ denote the rates (reciprocals of the timescales) of drifting ashore, re-drifting, fragmentation, and removal, respectively, while the subscripts M and m represent the rates for macroplastics and microplastics, respectively. Q in Eq. (3) denotes worldwide macroplastic emission (Fig. 2b). Meanwhile, q in Eq. (5) is the rate of microplastic generation due to the fragmentation of macroplastics. Eq. (7) states that half of the macroplastics were heavy plastics (5 in Fig. 1); therefore, half of q was excluded from the microplastics floating in oceans.
+Substituting the tendencies and masses of modelled particles into Eqs. (3), (4), (5), (6), (7) yields the rates of transition processes for the linear combinations. Both re-drifting and removal of particles in the PTM occurred at a constant rate, regardless of where the particles were located; therefore, these rates could be reciprocals of the timescales predetermined for the transition processes (i.e., β−1 is nearly identical to τ2 or τ4, and δ−1 is τ6). However, the rate of drifting ashore (α) is unlikely to be the reciprocal of the predetermined timescale (τ1 or τ3), as both macroplastic and microplastic particles drifted ashore only if they were located in ocean grid cells adjacent to beaches. Therefore, the timescales (rates) of drifting ashore in the linear model are likely to be much longer (smaller) than the corresponding predetermined values. In the PTM, macroplastics were fragmented tenfold faster on beaches than in oceans. Thus, the rate of fragmentation in the linear model likely depends on the abundance ratio of ocean and beach macroplastics in the PTM. Combining Eqs. (3), (4) gives the rate of fragmentation (γ), as follows:
+(8)
+γ=Q−dMdt−dM′dt/0.1M+M′¯,
+where the overbar denotes a temporal average over the computation period excluding the first 10 years, during which macroplastic particles were too sparse to obtain a statistically significant estimate. The rate of drifting ashore (α) was computed in the same manner as Eq. (8). Average rates and coefficient of variation (COV; standard deviation/average) were obtained through fitting to the 10 PTM cases.
+The fate of ocean plastics was evaluated using a linear model with all possible combinations of transition timescales used for reproducing the observed ocean-plastic abundance. The computation began with a plastic-free domain on 1 January 1961 and continued until the end of 2017, as in the PTM experiments. The masses of ocean plastics in four categories were computed until the end of 2017. In addition, the mass of heavy plastics was computed by integrating Eq. (7) over the computation period. Likewise, the mass of removed microplastics was computed by integrating δ (m + m') into Eqs. (5), (6) over the computation period.
+3. Results
+3.1. Abundance of modelled ocean plastics
+A PTM experiment with fragmentation and removal timescales of 3 years exemplified the overall macroplastic and microplastic distributions, which appear consistent with the generation processes of macroplastics and ocean circulation in subtropical gyres. The abundance of ocean plastics (Fig. 3a–d) was smaller than the total mass discarded historically since 1961, due to the transition to heavy plastics after fragmentation (Fig. 3e) and removal of microplastics from the model domain (Fig. 3f). The locations of heavy plastics can be regarded as ‘footprints’ of fragmentation. Fragmentation was accelerated on beaches in the present model; therefore, heavy plastics were more abundant along coasts than in the open oceans. Notably, dense concentrations of heavy plastics occurred around the East and Southeast Asian coasts (Fig. 3e), which acted as the dominant generators of microplastics in both Pacific and Indian Oceans (Fig. 3b). Microplastic particles were removed regardless of whether they occurred in the ocean or beach domain. Thus, removed microplastic particles (Fig. 3f) were distributed in a similar pattern to ocean and beach microplastic particles (Fig. 3b).
+Download: Download high-res image (2MB)
+Download: Download full-size image
+
+Fig. 3. Ocean plastic abundance computed in the PTM with fragmentation and removal timescales of 3 years. Mass per unit area is shown in each box of one degree latitude and longitude by colour. Panels a–f represent macroplastic particles in the sea (1 in Fig. 1), microplastic particles in the sea (3), macroplastic particles on beaches (2), microplastic particles on beaches (4), heavy plastics (5), and removed microplastics (6), respectively. Average masses in 2017 are shown in panels a–d, while the masses at the end of 2017 are shown in panels e and f.
+
+3.2. Comparison between observed and modelled abundances of ocean plastics
+Macroplastic abundance on beaches in the PTM was compared with observations. Rather than using precise figures, the comparisons were based on orders of magnitude. This method was used because, in contrast to microplastics with more than 8000 standardized data under diverse wind and wave conditions (Supplementary Information S2), the actual abundance of beach litter varies sharply in both space and time, especially over the sub-weekly timescales associated with meteorological disturbances (Kako et al., 2010; Kako et al., 2018). However, the present PTM excluded sub-weekly disturbances, as both winds and ocean currents were averaged monthly. A total of 32 field surveys conducted from 1983 to 2014 worldwide, without spatiotemporal bias (data existed continuously from the 1990s to the present, and in all continents except Antarctica), were selected for comparison (Fig. 4a and Supplementary Table 1). The abundance of beach plastic litter observed in the 20th century except three stations ranged from 1 to 102 g m−1, and the abundances at 10 of 14 stations increased to more than 10 g m−1 in the 21st century (Fig. 4b). The PTM also demonstrated an increase of macroplastic abundance in the 21st century, for all fragmentation timescales from 1 to 9 years (Fig. 4b–f). The orders of macroplastic abundance computed using the PTM ranged between 1 and 102 (10 and 105) g m−1 in the 20th (21st) century. The abundance of beach plastic litter fell mostly within these ranges, as shown by the dashed outlines except the experiment with the fragmentation scale of 1 year. Rapid fragmentation with a timescale of 1 year resulted in underestimation of macroplastic abundance in the 20th century (Fig. 4b).
+Download: Download high-res image (893KB)
+Download: Download full-size image
+
+Fig. 4. Comparison of mass per unit alongshore length between beach plastic litter reported in the literature and macroplastic particles on beaches in the PTM. Periods and locations of plastic-litter observations are illustrated in panel a. Panels b–e denote the mass of beach plastic litter (dots) and macroplastic particles in the PTMs (bars) with fragmentation timescales of 1, 3, 6, and 9 years, respectively. The mass of macroplastic particles was computed within the range of the bars due to the fractal structure of actual beaches (subsection 2.2). White, black, and grey dots indicate observed masses above, within, and below the bar ranges of modelled masses, respectively. The dashed outlines are drawn for ease of interpretation.
+
+Model computation with both fragmentation and removal timescales of 3 years demonstrated results consistent with the observed worldwide microplastic distribution (Fig. 5a and b). Microplastics were abundant in both observations and the model, especially in East Asian seas (wNP box in Fig. 5b) and the eastern North Pacific Ocean (eNP). The dense concentrations of microplastics in the subtropical gyres of the North Atlantic Ocean (NA), South Atlantic Ocean (SA), and eastern Indian Ocean (eIO) were all reproduced by the model. The mass of microplastic particles per unit area was similar to the upper and lower limits defined by Level-2 W1 and 2 W2 data from a microplastic dataset for the world's upper oceans (Fig. 5c; Isobe et al., 2021). The microplastic abundance was greatest in the wNP, followed by eNP and eIO, in both the observations and model results. In addition, the model well-reproduced the approximately 1–2 orders of magnitude lower microplastic abundance of the Atlantic Ocean than the North Pacific Ocean, as well as the southward increase in microplastic abundance in the Atlantic Ocean (Fig. 5c). However, the magnitude of microplastic abundance depended on the removal timescale. The microplastic mass averaged across all boxes ranged between 0.2 and 3 kg/km2 in the observations, while the modelled mass increased from 1 to 10 kg/km2 when the removal timescale was lengthened from 1 to 10 years (Fig. 5d).
+Download: Download high-res image (723KB)
+Download: Download full-size image
+
+Fig. 5. Comparison between microplastic masses obtained from a global microplastic dataset and the PTM, with fragmentation and removal timescales of 3 years. Microplastic mass per unit area in the dataset is plotted as coloured dots in panel a. Panel b shows the PTM results in the same manner. The abundance averaged over the boxes in the western North Pacific Ocean and East Asian seas (wNP), eastern North Pacific Ocean (eNP), eastern Indian Ocean (eIO), North Atlantic Ocean (NA), and South Atlantic Ocean (SA) shown in panel b are plotted in panel c as bars. The upper and lower ends of observed abundance (grey bars) represent the Level-2w1 and Level-2w2 data in the dataset. The dashed lines in the grey bar denote the average of these two data types. The black bars and lines show the average and standard deviation, respectively, computed within each box by the PTM. Panel d shows the abundance averaged across the five boxes in the same manner as panel c. The average and standard deviations obtained from the PTMs with removal timescales of 1, 3, and 10 years are shown in panel d.
+
+3.3. Linear combinations of modelled ocean plastics
+The averaged transition timescales (τ1ℓ ~ τ6ℓ) for the linear models approximating to each PTM case were compared with the predetermined timescales of the PTMs (Fig. S1). As expected, the removal timescales were nearly identical to their pre-set values in the PTM: the ratio of τ6ℓ/τ6 was close to 1, with a COV of 0.05, which was the smallest among all transition timescales (Fig. S1a). Likewise, the ratios of the re-drifting timescales to their predetermined values in the PTMs (τ2ℓ/τ2, τ4ℓ/τ4) were nearly 1 for both macro- and microplastics. Therefore, we hereinafter set the ratios of these three timescales to 1 for computation over other timescales. The ratios of the drifting-ashore timescales between the linear models and PTMs were 19.8 (τ1ℓ/τ1) and 2.3 (τ3ℓ/τ3) for macroplastics and microplastics, respectively. Notably, fragmentation timescale averaged across the linear models was shortened to 55% (τ5ℓ/τ5 × 100) of the predetermined value in the PTMs. Fragmentation of macroplastics across the entire model domain proceeded more rapidly than was predetermined for each particle. In addition, the COV of the fragmentation timescale was approximately threefold greater than those of other timescales (Fig. S1a).
+The large COV of the fragmentation timescale resulted from non-linearity in the application of PTM results to a linear combination of ocean plastics. The dependence of the ratio (τ5ℓ/τ5) on the timescale predetermined in the PTM (τ5) was apparent in the scatterplot (Fig. S1b). Linear regression analysis suggested a quadratic relationship of τ5ℓ = 0.041τ52 + 0.34τ5, with a correlation coefficient of 0.77 in the range of 1 < τ5 < 10 years.
+A significant correlation between the linear model and PTM enhances confidence in use of the linear model to evaluate the fate of ocean plastics worldwide in lieu of the time-consuming integration of PTMs (Fig. S2). Macro- and microplastic masses were computed from 1961 to 2017 using the linear model with average ratio values for drifting ashore timescales (Fig. S1a; i.e., reciprocal of rates in Eqs. (3), (4), (5), (6)). The fragmentation timescale (τ5ℓ) was replaced with the quadratic formula given above. The masses integrated across the entire PTM domain increased from zero at the beginning of the computation period to 6.0 MMT in 2017, consistent with the linear model. The correlation coefficient, slope, and root-mean-square error of the scatter plot were 0.99, 1.02, and 0.11 MMT, respectively.
+4. Discussion
+4.1. Processes determining transition timescales in the linear model
+In contrast to the re-drifting and removal timescales, drifting-ashore in the linear model had longer timescales than in the PTM (see τ1 and τ3 in Fig. S1a). Substituting the predetermined timescales for macroplastic and microplastic particles (τ1 = 1 day, τ3 = 10 days) into the ratios (τℓ/τ), as shown in Fig. S1a, yields values of approximately 20 days (τ1ℓ = 19.8 days, τ3ℓ = 22.9 days). Timescales longer than the predetermined values for each particle are plausible, as particles in the PTM could drift ashore only from grid cells adjacent to beaches, whereas the drifting-ashore timescales in the linear model were computed using particle mass across the entire domain, including offshore grid cells. The similar timescales for macroplastic and microplastic particles suggested that nearshore processes over the timescales of τ1 and τ3 were minor contributions to drift ashore for ocean plastics in the world's oceans overall, and that the timescales were instead governed by the surface ocean currents and Stokes drift, which contributed to both macro- and microplastic transport.
+The fragmentation timescale estimated using the linear model was 55% of the value assigned to macroplastic particles in the PTM (τ5 in Fig. S1a). Nonetheless, this rapid fragmentation was reasonable in light of the material exchange and transport concept used herein, which is a classic model in oceanography (Takeoka, 1984). Consider two reservoirs with a material input of Q from the inlet in each domain (Fig. S3): Q is measured as mass per unit time in this thought experiment. Materials entering the reservoir leave through the sidewall along the perimeter. A steady state with a constant Q is considered for simplicity, such that the quantity of material leaving the reservoir must be equal to Q. In strict terms, the ocean plastic input was not constant in both the reality and PTM. However, the conceptual model in the steady state could approximate the situation that the transition timescales (τ1–6) are much shorter than the timescale (several tens of years) taken for the ocean plastic input to increase worldwide in the past. Hereinafter, the ‘age’ of each material is defined as the time elapsed since it entered a domain, while the ‘residence time’ is defined as the time required for each material to leave the domain (Fig. S3). According to Takeoka (1984), the average residence time of materials at the inlet of a domain is equal to the average age of materials at the outlet. These two timescales are also referred to as the average transit time (or turnover time) of materials in the domain. The average transit time is computed by dividing the total mass of materials in the domain by their input rate (Takeoka, 1984).
+Reservoir 1 modelled a case in which microplastics were removed from anywhere across the entire PTM domain, and both macroplastic and microplastic particles could re-drift into the oceans from any beaches in the domain. For reservoir 1, materials in the reservoir are well mixed and leave the reservoir through the sidewall at a constant rate of ω. As described by Eqs. (3), (4), (5), (6), the total mass of materials in the reservoir (W) is governed by the equation Wt = − ω W + Q, where the subscript t represents a time derivative. At steady state, the timescale ω−1 is equal to W/Q, which can be regarded as the average transit time, in accordance with the definition above. The average transit time is identical to the average residence time of materials at the inlet, which is analogous to the timescale predetermined for each particle in the PTM. Therefore, both the removal and re-drifting timescales in Eqs. (3), (4), (5), (6) of the linear model were similar to those predetermined in the PTM.
+Reservoir 2 modelled a case in which macroplastics were degraded and fragmented into microplastics mostly on beaches in the PTM. For simplicity in this thought experiment, we further simplified the condition so that neither degradation nor fragmentation occur in the ocean, represented by domain a in Fig. S3. These transitions therefore occur only on the beach (domain b). Materials entering reservoir 2 reach domain b through domain a, representing macroplastic particles being released into oceans and subsequently washed ashore on beaches. Materials leave reservoir 2 only through the sidewall along domain b, representing macroplastics being fragmented into microplastics only on beaches. Thus, the outlet of domain b is regarded as the outlet for all of reservoir 2. Meanwhile, a portion of the materials in domain b returns to domain a, representing the re-drifting of some macroplastics into oceans in the PTM. To represent the absence of degradation and fragmentation in the oceans, it is assumed that the age (i.e., residence time) of each material is preserved in domain a until it enters or re-enters domain b. The average residence time may be shorter for materials entering domain b than that the inlet, because the materials entering domain b include re-entering ‘old’ materials with residence times that had been diminished during their previous time in domain b. Therefore, the average transit time in reservoir 2 (ω−1), which is identical to the average age (residence time) of the materials leaving (entering) domain b, becomes shorter than the value predetermined at the inlet. Likewise, the fragmentation timescale computed in the linear model was shorter than the predetermined timescale in the PTM.
+When the residence time predetermined at the inlet is shortened, the average residence time diminishes more rapidly for materials entering domain b than at the inlet. This difference arises because materials entering domain b include old materials with shorter residence times than those at the inlet. In fact, the fragmentation time estimated in the linear model, which was regarded as the average transit time in the reservoir (ω−1), decreased more rapidly than a linear manner as the predetermined fragmentation time in the PTM decreased (τ5ℓ ∝ τ52; Fig. S1b).
+4.2. Fate of ocean plastics and mismanaged terrestrial plastics
+The linear model has an advantage over PTMs including its lower computational load for assessing ocean plastic mass worldwide; therefore, computations over a wide range of transition timescales were used for comparison of the microplastic abundance with observed values in the wNP, eNP, eIO, NA, and SA (Fig. 5b). The observed masses per unit area in the Level- 2w1 and 2w2 datasets differed by an order of magnitude (Fig. 5c and d), and these two datasets were therefore averaged to obtain a plausible estimate. The linear model provided microplastic mass integrated across the world's oceans; this was reduced through multiplication by a factor of 0.59, in accordance with microplastic mass loaded within the boxes in the figure as a percentage (59 ± 3.6%) of the mass in the entire ocean for 10 PTM cases. The mass obtained from the linear model was averaged over the period of 2000–2017 to match the observation period of the microplastic dataset (Isobe et al., 2021).
+The mass ratios between the observations and linear model results, based on fragmentation and removal timescales from 0.1 to 100 years, demonstrated that the linear model (and hence, the PTM) could reproduce the observed masses under plausible transition timescales, with a ratio of 1.0 within the box for timescales of 1–10 years for both transitions (Fig. 6). Removal timescales of a couple of years are consistent with the values deduced for the Pacific Ocean in a previous study (Isobe et al., 2019). In contrast to removal timescales, the dependence of microplastic abundance on fragmentation timescales from 1 to 10 years appears to be insignificant. The fragmentation timescale for all macroplastics (τ5ℓ) depended on the timescale assigned to the PTM (τ5) in a quadratic manner (Fig. S1b); therefore, the abundance of microplastics generated from macroplastics decreased rapidly as the fragmentation timescale in the PTM became longer than 10 years (Fig. 6). Without a reliable emission rate of macroplastics, models with plausible transition timescales could not reasonably reproduce the observed abundance of ocean plastics. Therefore, macroplastic emissions from rivers and fisheries were considered to be appropriately evaluated.
+Download: Download high-res image (199KB)
+Download: Download full-size image
+
+Fig. 6. Ratios of microplastic mass between observations and linear models with different combinations of fragmentation and removal timescales. The mass from each linear model was divided by the observed mass across the five boxes shown in Fig. 5b. For ease of reference, positions of the transition timescales in the PTM are shown as red dots in the box drawn from 1 to 10 years. Masses and standard deviations of ocean plastics in the linear model (Fig. 7) were computed at the blue dots along the contour curve representing 1.0.
+
+Averaging along the contour curve of 1.0 (specifically, the 91 blue dots in Fig. 6) enables the fate of ocean plastics in each category to be determined for all possible combinations of transition timescales. The average and standard deviation mass for each ocean plastic category in the linear models with timescales along the contour line were computed at the end of 2017 (Fig. 7a). In the present models, 25.3 MMT of macroplastics was released into the world's oceans from 1961 to 2017. Among all types of ocean plastics worldwide, the most abundant is heavy plastics (9.3 ± 1.6 MMT; 36.9%), which remains in locations where fragmentation occurred, followed by microplastics removed from the upper oceans and beaches (29.8%). The present study suggested that 7.5 ± 1.7 MMT of the microplastics removed historically have since accumulated in the world's oceans and on beaches. Macroplastics on beaches are the third largest component of ocean plastics (5.9 ± 3.0 MMT; 23.4%), with macroplastics floating in oceans (0.7 ± 0.3 MMT; 2.8%) being approximately one-tenth as abundant as those on beaches. Likewise, microplastics in the oceans (0.8 ± 0.03 MMT) and on beaches (1.0 ± 0.04 MMT) each account for 3–4% of total ocean plastics. In the 10 PTM cases, neither the macroplastics nor microplastics moving into polar regions beyond 80° north or south exceeded 0.1% of total ocean plastics (not shown in Fig. 7a). The linear model experiments with doubled and halved timescales of τ2 and τ4 demonstrated that the mass percentages of each ocean plastic category are robust against changes in these re-drifting timescales of ocean plastics (Fig. S4).
+Download: Download high-res image (416KB)
+Download: Download full-size image
+
+Fig. 7. Ocean-plastic mass averaged over the linear models with transition timescales along the contour curve of 1.0 in Fig. 6. Panel a represents the averaged mass (MMT), standard deviation (MMT), and percentage (in parentheses) for six ocean plastic categories at the end of 2017. The total mass of macroplastics released over the entire period is shown at the centre of the pie chart. The total mass (MMT) and percentages of ocean and terrestrial plastics generated from 1961 to 2017 are shown in panel b; the total mass of mismanaged plastic waste is given at the centre of the pie chart.
+
+Notably, ocean plastics from both rivers and fisheries (25.3 MMT) account for only 4.7% of the total mismanaged plastic waste generated worldwide to date (542.2 MMT; Fig. 7b). A time series of mismanaged plastic waste over the period 1961–2017 was created from the 2010 estimate (Jambeck et al., 2015), assuming that the time series data are proportional to macroplastic emissions in the present PTM (Fig. 2b). The models with macroplastic emissions could reproduce ocean plastic abundance worldwide; therefore, the assumed time series of mismanaged plastic waste in the present study is likely reasonable. The resultant estimate of 542.2 MMT accounts for 9.5% of the total plastic waste generated between 1950 and the present, irrespective of its managed or mismanaged (5700 MMT; Geyer et al., 2017). Nonetheless, this estimate might be conservative because a single-year estimate for 2010 indicates that the percentage has increased to approximately 30% of worldwide plastic waste generation (Jambeck et al., 2015).
+These data prompt the question of where the remaining mismanaged plastic waste (> 516.9 MMT; >95.3%) has gone. One possible fate of these missing plastics, which are undecomposable in nature, is trapping in terrestrial soils, waters such as rivers and lakes, and the biosphere. A portion of these ‘terrestrial plastics’ can be fragmented into microplastics on land and then transported to the ocean via the street runoff and rivers (Zhao et al., 2014; Kataoka et al., 2019; Sugiura et al., 2021). Land-based microplastics that are fragmented into particles much smaller than 0.3 mm on land have generally been overlooked in existing ocean plastic observations. In addition, some of these small land-based microplastics may reach the world's oceans via atmospheric deposition as dust in the air (Allen et al., 2019). Therefore, the abundance of microplastics in the upper oceans is potentially much greater than current observations suggest due to the presence of small land-based microplastics and small ocean-based fragments categorised as removed microplastics in the present study.
+5. Conclusions
+The worldwide spread of ocean plastics was reproduced using a PTM, the results of which were thereafter approximated using a linear combination model to compute the averages and standard deviations of ocean plastic masses in six categories with transient timescales (which are reasonable under real conditions). Specifically, beaches can be regarded as a significant storage site for ocean plastics. However, 66.7% of ocean plastics are unmonitorable under current observation frameworks (Galgani et al., 2013; Masura et al., 2015; GESAMP, 2019; Michida et al., 2019), which are incapable of quantifying heavy plastics and removed microplastics. Assessment of the fate and risks of these missing ocean plastics is urgently needed in marine environmental studies.
+Meanwhile, >95.3% (> 516.9 MMT) of the missing plastic waste that has been mismanaged to date is on land, which can thus be regarded as the most significant pool of plastic debris storage in the earth environment. Recently, plastic debris has gained attention as a marine environmental problem; buoyant and visibly coloured plastics are apparent, especially along ocean accumulation zones such as beaches and oceanic fronts. However, the present study of ocean plastics demonstrated that, even if missing ocean plastics are included in the budget, ocean plastics account for <4.7% of the plastic waste that has been mismanaged to date. The fate and risk of missing plastics on land are open questions in the environmental sciences and should be assessed in various terrestrial sectors, including the atmosphere, soils, water bodies, and the biosphere.
+CRediT authorship contribution statement
+Atsuhiko Isobe: Conceptualization, Data curation, Formal analysis, Funding acquisition, Investigation, Methodology, Project administration, Supervision, Validation, Visualization, Writing – original draft, Writing – review & editing. Shinsuke Iwasaki: Resources, Software, Writing – review & editing.
+Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+Acknowledgments
+This research was supported by the Environmental Research and Technology Development Fund (JPMEERF18S20201) of the Ministry of the Environment, Japan, SATREPS of Japan International Cooperation Agency and Japan Science and Technology Agency, STAND of Japan Science and Technology Agency, and JSPS KAKENHI Grant Number JP21H05058 and JP19K12363.
+Appendix A. Supplementary data
+Download: Download Word document (962KB)
+
+Supplementary material
+
+References
+Allen et al., 2019
+S. Allen, D. Allen, V.R. Phoenix, G.L. Roux, P.J. Jiménez, A. Simonneau, S. Binet, D. Galop
+Atmospheric transport and deposition of microplastics in a remote mountain catchment
+Nat. Geosci., 12 (2019), pp. 339-344
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Andrady, 2011
+A.L. Andrady
+Microplastics in the marine environment
+Mar. Pollut. Bull., 62 (2011), pp. 1596-1605
+View PDF
+View articleView in ScopusGoogle Scholar
+Andrady and Neal, 2009
+L.A. Andrady, M.A. Neal
+Applications and social benefits of plastics
+Philos. Trans. R. Soc. B, 364 (2009), pp. 1977-1984
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Barnes et al., 2009
+D.K.A. Barnes, F. Galgani, R.C. Thompson, M. Barlaz
+Accumulation and fragmentation of plastic debris in global environments
+Philos. Trans. R. Soc. B, 364 (2009), pp. 1985-1998
+View at publisher
+CrossrefGoogle Scholar
+Cózar et al., 2014
+A. Cózar, F. Echevarría, J.I. González-Gordillo, X. Irigoien, B. Úbeda, S. Hernández-León, Á.T. Palma, S. Navarro, J. García-de-Lomas, A. Ruiz, M.L. Fernández-de-Puelles, C.M. Duarte
+Plastic debris in the open ocean
+Proc. Natl. Acad. Sci., 111 (2014), pp. 10239-10244
+View at publisherCrossrefView in ScopusGoogle Scholar
+Cózar et al., 2015
+A. Cózar, M. Sanz-Martín, E. Martí, J.I. González-Gordillo, B. Ubeda, J.Á. Gálvez, X. Irigoien, C.M. Duarte
+Plastic accumulation in the Mediterranean Sea
+PLoS ONE, 10 (4) (2015), Article e0121762
+View at publisherCrossrefView in ScopusGoogle Scholar
+Cózar et al., 2017
+A. Cózar, E. Martí, C.M. Duarte, J. García-de-Lomas, E. van Sebille, T.J. Ballatore, V.M. Eguíluz, J.I. González-Gordillo, M.L. Pedrotti, F. Echevarría, R. Troublè, X. Irigoien
+The Arctic Ocean as a dead end for floating plastics in the North Atlantic branch of the thermohaline circulation
+Sci. Adv., 3 (2017), Article e1600582
+View in ScopusGoogle Scholar
+Eriksen et al., 2014
+M. Eriksen, L.C.M. Lebreton, H.S. Carson, M. Thiel, C.J. Moore, J.C. Borerro, F. Galgani, P.G. Ryan, J. Reisser
+Plastic pollution in the world’s oceans: more than 5 trillion plastic pieces weighing over 250,000 tons afloat at sea
+PLOS ONE, 9 (2014), Article e111913
+View at publisherCrossrefView in ScopusGoogle Scholar
+Esposito et al., 2022
+G. Esposito, M. Prearo, M. Renzi, S. Anselmi, A. Cesarani, D. Barcelò, A. Dondo, P. Pastorino
+Occurrence of microplastics in the gastrointestinal tract of benthic by–catches from an eastern Mediterranean deep–sea environment
+Mar. Pollut. Bull., 174 (2022), Article 113231
+View PDF
+View articleView in ScopusGoogle Scholar
+Galgani et al., 2013
+F. Galgani, G. Hanke, S. Werner, L. Oosterbaan, P. Nilsson, D. Fleet, S. Kinsey, R.C. Thompson, J. van Franeker, T. Vlachogianni, M. Scoullos, J.M. Veiga, A. Palatinus, M. Matiddi, T. Maes, S. Korpinen, A. Budziak, H. Leslie, J. Gago, G. Liebezeit
+Guidance on monitoring of marine litter in European Seas
+European Commission (2013)
+https://mcc.jrc.ec.europa.eu/documents/201702074014.pdf
+Google Scholar
+GESAMP, 2019
+GESAMP
+Guidelines or the monitoring and assessment of plastic litter and microplastics in the ocean
+P.J. Kershaw, A. Turra, F. Galgani (Eds.), Rep. Stud. GESAMP 99, IMO/FAO/UNESCO-IOC/UNIDO/WMO/IAEA/UN/UNEP/UNDP/ISA Joint Group of Experts on the Scientific Aspects of Marine Environmental Protection (2019)
+Google Scholar
+Geyer et al., 2017
+R. Geyer, J.R. Jambeck, K.L. Law
+Production, use, and fate of all plastics ever made
+Sci. Adv., 3 (2017), Article e1700782
+View in ScopusGoogle Scholar
+Hardesty et al., 2017
+B.D. Hardesty, C. Wilcox, Q. Schuyler, T.J. Lawson, K. Opie
+Developing a Baseline Estimate of Amounts, Types, Sources and Distribution of Coastal Litter – An Analysis of US Marine Debris Data. Version 1.2. CSIRO: EP167399
+(2017)
+Google Scholar
+Hinata et al., 2017
+H. Hinata, K. Mori, K. Ohno, Y. Miyao, T. Kataoka
+An estimation of the average residence times and onshore-offshore diffusivities of beached microplastics based on the population decay of tagged meso- and macrolitter
+Mar. Pollut. Bull., 122 (2017), pp. 17-26
+View PDF
+View articleView in ScopusGoogle Scholar
+Hinata et al., 2020
+H. Hinata, N. Sagawa, T. Kataoka, H. Takeoka
+Numerical modeling of the beach process of marine plastics: a probabilistic and diagnostic approach with a particle tracking method
+Mar. Pollut. Bull., 152 (2020), Article 110910
+View PDF
+View articleView in ScopusGoogle Scholar
+Husain et al., 2021
+A. Husain, J. Reddy, D. BVisht, M. Sajid
+Fractal dimension of coastline of Australia
+Sci. Rep., 11 (2021), p. 6304
+View in ScopusGoogle Scholar
+Isobe et al., 2009
+A. Isobe, S. Kako, P.-H. Chang, T. Matsuno
+Two-way particle tracking model for specifying sources of drifting objects: application to the East China Sea shelf
+J. Atmos. Ocean. Technol., 26 (2009), pp. 1672-1682
+View in ScopusGoogle Scholar
+Isobe et al., 2017
+A. Isobe, K. Uchiyama-Matsumoto, K. Uchida, T. Tokai
+Microplastics in the Southern Ocean
+Mar. Pollut. Bull., 114 (2017), pp. 623-626
+View PDF
+View articleView in ScopusGoogle Scholar
+Isobe et al., 2019
+A. Isobe, S. Iwasaki, K. Uchida, T. Tokai
+Abundance of non-conservative microplastics in the upper ocean from 1957 to 2066
+Nat. Comm., 10 (2019), p. 417
+View in ScopusGoogle Scholar
+Isobe et al., 2021
+A. Isobe, T. Azuma, M.R. Cordova, A. Cózar, F. Galgani, R. Hagita, L.D. Kanhai, K. Imai, S. Iwasaki, S. Kako, N. Kozlovskii, A.M. Lusher, S.A. Mason, Y. Michida, T. Mituhasi, Y. Morii, T. Mukai, A. Popova, K. Shimizu, T. Tokai, K. Uchida, M. Yagi, W. Zhang
+A multilevel dataset of microplastic abundance in the world’s upper ocean and the laurentian Great Lakes
+Micropl. Nanopl., 1 (2021), p. 16
+Google Scholar
+Jambeck et al., 2015
+J.R. Jambeck, R. Geyer, C. Wilcox, T.R. Siegler, M. Perryman, A. Andrady, R. Narayan, K.L. Law
+Plastic waste inputs from land into the ocean
+Science, 347 (2015), pp. 768-771
+View at publisher
+CrossrefGoogle Scholar
+Kaiser et al., 2017
+D. Kaiser, N. Kowalski, J.J. Waniek
+Effects of biofouling on the sinking behavior of microplastics
+Environ. Res. Lett., 12 (2017), Article 124003
+View at publisherCrossrefView in ScopusGoogle Scholar
+Kako et al., 2010
+S. Kako, A. Isobe, S. Magome
+Sequential monitoring of beach litter using webcams
+Mar. Pollut. Bull., 60 (2010), pp. 775-779
+View PDF
+View articleView in ScopusGoogle Scholar
+Kako et al., 2018
+S. Kako, A. Isobe, T. Kataoka, K. Yufu, S. Sugizono, C. Plybon, T.A. Murphy
+Sequential webcam monitoring and modeling of marine debris abundance
+Mar. Pollut. Bull., 132 (2018), pp. 33-43
+View PDF
+View articleView in ScopusGoogle Scholar
+Kako et al., 2020
+S. Kako, S. Morita, T. Taneda
+Estimation of plastic marine debris volumes on beaches using unmanned aerial vehicles and image processing based on deep learning
+Mar. Pollut. Bull., 155 (2020), Article 111127
+View PDF
+View articleView in ScopusGoogle Scholar
+Kataoka et al., 2013
+S. Kataoka, H. Hinata, S. Kato
+Analysis of a beach as a time-invariant linear input/output system of marine litter
+Mar. Pollut. Bull., 7 (2013), pp. 266-273
+View in ScopusGoogle Scholar
+Kataoka et al., 2018
+T. Kataoka, C.C. Murray, A. Isobe
+Quantification of marine macro-debris abundance around Vancouver Island Canada, based on archive aerial photographs processed by projective transformation
+Mar. Pollut. Bull., 132 (2018), pp. 44-51
+View PDF
+View articleView in ScopusGoogle Scholar
+Kataoka et al., 2019
+T. Kataoka, Y. Nihei, K. Kudou, H. Hinata
+Assessment of the sources and inflow processes of microplastics in the river environments of Japan
+Environ. Pollut., 244 (2019), pp. 958-965
+View PDF
+View articleView in ScopusGoogle Scholar
+Katija et al., 2017
+K. Katija, C.A. Choy, R.E. Sherlock, A.D. Sherman, B.H. Robison
+From the surface to the seafloor: how giant larvaceans transport microplastics into the deep sea
+Sci. Adv., 3 (2017), Article e1700715
+Google Scholar
+Koelmans et al., 2017
+A.A. Koelmans, M. Kooi, K.L. Law, E. Van Sebille
+All is not lost: deriving a top-down mass budget of plastic at sea
+Environ. Res. Lett., 12 (2017), Article 114028
+View at publisherCrossrefView in ScopusGoogle Scholar
+Kroodsma et al., 2018
+D.A. Kroodsma, J. Mayorga, T. Hochberg, N.A. Miller, K. Boerder, F. Ferretti, A. Wilson, B. Bergman, T.D. White, B.A. Block, P. Woods, B. Sullivan, C. Costello, B. Worm
+Tracking the global footprint of fisheries
+Science, 359 (2018), pp. 904-908
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Kurniawan et al., 2021
+S.B. Kurniawan, N.S.M. Said, N.F. Imron, S.R.S. Abdullah
+Microplastic pollution in the environment: insights into emerging sources and potential threats
+Environ. Technol. Innov., 23 (2021), Article 101790
+View PDF
+View articleView in ScopusGoogle Scholar
+Lebreton et al., 2017
+L.C.M. Lebreton, J. Van der Zwet, J.-W. Damsteeg, B. Slat, A. Andrady, J. Reisser
+River plastic emissions to the world’s oceans
+Nat. Comm., 8 (2017), p. 15611
+View in ScopusGoogle Scholar
+Lebreton et al., 2019
+L. Lebreton, M. Egger, B. Slat
+A global mass budget for positively buoyant macroplastic debris in the ocean
+Sci. Rep., 9 (2019), p. 12922
+View in ScopusGoogle Scholar
+Long et al., 2015
+M. Long, B. Moriceau, M. Gallinari, C. Lambert, A. Huvet, J. Raffray, P. Soudant
+Interactions between microplastics and phytoplankton aggregates: Impact on their respective fates
+Mar. Chem., 175 (2015), pp. 39-46
+View PDF
+View articleView in ScopusGoogle Scholar
+Martínez-Vicente et al., 2019
+V. Martínez-Vicente, J.R. Clark, P. Corradi, S. Aliani, M. Arias, M. Bochow, G. Bonnery, M. Cole, A. Cózar, R. Donnelly, F. Echevarría, F. Galgani, S.P. Garaba, L. Goddijn-Murphy, L. Lebreton, H.A. Leslie, P.K. Lindeque, N. Maximenko, F.-R. Martin-Lauzer, D. Moller, P. Murphy, L. Palombi, V. Raimondi, J. Reisser, L. Romero, S.G.H. Simis, S. Sterckx, R.C. Thompson, K.N. Topouzelis, E. Van Sebille, J.M. Veiga, A.D. Vethaaket
+Measuring marine plastic debris from space: initial assessment of observation requirements
+Remote Sens., 11 (2019), p. 2443
+View at publisherCrossrefView in ScopusGoogle Scholar
+Masura et al., 2015
+J. Masura, J. Barker, G. Foster, C. Arthur, C. Herring
+Laboratory methods for the analysis of microplastics in the marine environment: recommendations for quantifying synthetic particles in waters and sediments
+technical editor
+NOAA Technical Memorandum NOS-OR&R-48 (2015)
+Google Scholar
+Michels et al., 2018
+J. Michels, A. Stippkugel, M. Lenz, K. Wirtz, A. Engel
+Rapid aggregation of biofilm-covered microplastics with marine biogenic particles
+Proc. R. Soc. B, 285 (2018), p. 20181203
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Michida et al., 2019
+Y. Michida, S. Chavanich, C.A. Cózar, P. Hagmann, H. Hinata, A. Isobe, P. Kershaw, N. Kozlovskii, D. Li, A.L. Lusher, E. Martí, S.A. Mason, J. Mu, H. Saito, W.J. Shim, A.D. Syakti, H. Takada, R. Thompson, T. Tokai, K. Uchida, K. Vasilenko, J. Wang
+Guidelines for harmonizing ocean surface microplastic monitoring methods
+Ministry of the Environment, Japan (2019)
+https://www.env.go.jp/en/water/marine_litter/guidelines/guidelines.pdf
+Google Scholar
+Mohamed Nor et al., 2021
+N.H. Mohamed Nor, M. Kooi, N.J. Diepens, A.A. Koelmans
+Lifetime accumulation of microplastics in children and adults
+Environ. Sci. Technol., 55 (2021), pp. 5084-5096
+View at publisherCrossrefView in ScopusGoogle Scholar
+Morales-Caselles et al., 2021
+C. Morales-Caselles, J. Viejo, E. Martí, D. González, H. Pragnell-Raasch, J.I. González-Gordillo, E. Montero, G.M. Arroyo, G. Hanke, V. Salvo, O.C. Basurko, N. Mallos, L. Lebreton, F. Echevarría, T. Van Emmerik, C.M. Duarte, J.A. Gálvez, E. Van Sebille, F. Galgani, C.M. García, P.S. Ross, A. Bartual, C. Ioakeimidis, G. Markalain, A. Isobe, A. Cózar
+An inshore-offshore sorting system revealed from global classification of ocean litter
+Nat. Sustain. (2021), 10.1038/s41893-021-00720-8
+View at publisher
+Google Scholar
+Nakajima et al., 2021
+R. Nakajima, M. Tsuchiya, A. Yabuki, S. Masuda, T. Kitahashi, Y. Nagano, T. Ikuta, N. Isobe, H. Nakata, H. Ritchie, K. Oguri, S. Osafune, K. Kawamura, M. Suzukawa, T. Yamauchi, K. Iijima, T. Yoshida, S. Chiba, K. Fujikura
+Massive occurrence of benthic plastic debris at the abyssal seafloor beneath the kuroshio extension, the north West Pacific
+Mar. Pollut. Bull., 166 (2021), Article 112188
+View PDF
+View articleView in ScopusGoogle Scholar
+Nakashima et al., 2011
+E. Nakashima, A. Isobe, S. Magome, S. Kako, N. Deki
+Using aerial photography and in situ measurements to estimate the quantity of macro-litter on beaches
+Mar. Pollut. Bull., 62 (2011), pp. 762-769
+View PDF
+View articleView in ScopusGoogle Scholar
+Obbard et al., 2014
+R.W. Obbard, S. Sadri, Y.Q. Wong, A.A. Khitun, I. Baker, R.C. Thompson
+Global warming releases microplastic legacy frozen in Arctic Sea ice
+Earth’s Future, 2 (2014), pp. 315-320
+Google Scholar
+Pastorino et al., 2021
+P. Pastorino, E. Pizzul, M. Bertoli, S. Anselmi, M. Kusce, V. Menconi, M. Prearo, M. Renzi
+First insights into plastic and microplastic occurrence in biotic and abiotic compartments, and snow from a high-mountain lake (Carnic Alps)
+Chemosphere, 265 (2021), Article 129121
+View PDF
+View articleView in ScopusGoogle Scholar
+Peeken et al., 2018
+I. Peeken, S. Primpke, B. Beyer, J. Gütermann, C. Katlein, T. Krumpen, M. Bergmann, L. Hehemann, G. Gerdts
+Arctic Sea ice is an important temporal sink and means of transport for microplastic
+Nat. Commun., 9 (2018), p. 1505
+View in ScopusGoogle Scholar
+Porter et al., 2018
+A. Porter, B.P. Lyons, T.S. Galloway, C. Lewis
+Role of marine snows in microplastic fate and bioavailability
+Environ. Sci. Technol., 52 (2018), pp. 7111-7119
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Schmidt et al., 2017
+C. Schmidt, T. Krauth, S. Wagner
+Export of plastic debris by rivers into the sea
+Environ. Sci. Technol., 51 (2017), pp. 12246-12253
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Slavin et al., 2012
+C. Slavin, A. Grage, M.L. Campbell
+Linking social drivers of marine debris with actual marine debris on beaches
+Mar. Pollut. Bull., 64 (2012), pp. 1580-1588
+View PDF
+View articleView in ScopusGoogle Scholar
+Song et al., 2017
+Y.K. Song, S.H. Hong, M. Jang, G.M. Han, S.W. Jung, W.J. Shim
+Combined effects of UV exposure duration and mechanical abrasion on microplastic fragmentation by polymer type
+Environ. Sci. Technol., 51 (2017), pp. 4368-4376
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Sugiura et al., 2021
+M. Sugiura, H. Takada, N. Takada, K. Mizukawa, S. Tsuyuki, H. Furumai
+Microplastics in urban wastewater and estuarine water: importance of street runoff
+Environ. Monit. Contam. Res., 1 (2021), pp. 54-65
+View at publisherCrossrefGoogle Scholar
+Takeoka, 1984
+H. Takeoka
+Fundamental concepts of exchange and transport time scale in a coastal sea
+Cont. Shelf Res., 3 (1984), pp. 311-326
+View PDF
+View articleView in ScopusGoogle Scholar
+Ter Halle et al., 2016
+A. Ter Halle, L. Ladirat, X. Gendre, D. Goudouneche, C. Pusineri, C. Routaboul, C. Tenailleau, B. Duployer, E. Perez
+Understanding the fragmentation pattern of marine plastic debris
+Environ Sci. Technol., 50 (2016), pp. 5668-5675
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Tokai et al., 2021
+T. Tokai, K. Uchida, M. Kuroda, A. Isobe
+Mesh selectivity of neuston nets for microplastics
+Mar. Pollut. Bull., 165 (2021), Article 112111
+View PDF
+View articleView in ScopusGoogle Scholar
+Turra et al., 2014
+A. Turra, A.B. Manzano, R.J.S. Dias, M.M. Mahiques, L. Barbosa, D. Balthazar-Silva, F.T. Moreira
+Three-dimensional distribution of plastic pellets in sandy beaches: shifting paradigms
+Sci. Rep., 4 (2014), p. 4435
+View in ScopusGoogle Scholar
+Van Sebille et al., 2020
+E. Van Sebille, S. Aliani, K.L. Law, N. Maximenko, J.M. Alsina, A. Bagaev, M. Bergmann, B. Chapron, I. Chubarenko, A. Cózar, P. Delandmeter, M. Egger, B. Fox-Kemper, S.P. Garaba, L. Goddijn-Murphy, B.D. Hardesty, M.J. Hoffman, A. Isobe, C.E. Jongedijk, M.L.A. Kaandorp, L. Khatmullina, A.A. Koelmans, T. Kukulka, C. Laufkötter, L. Lebreton, D. Lobelle, C. Maes, V. Martinez-Vicente, M.A.M. Maqueda, M. Poulain-Zarcos, E. Rodríguez, P.G. Ryan, A.L. Shanks, W. Shim, G. Suaria, M. Thiel, T.S. Van den Bremer, D. Wichmann
+The physical oceanography of the transport of floating marine debris
+Environ. Res. Lett., 15 (2020), Article 023003
+View at publisherCrossrefView in ScopusGoogle Scholar
+Yuan et al., 2020
+J. Yuan, J. Ma, Y. Sun, T. Zhou, Y. Zhao, F. Yu
+Microbial degradation and other environmental aspects of microplastics/plastics
+Sci. Total Environ., 715 (2020), Article 136968
+View PDF
+View articleView in ScopusGoogle Scholar
+Zhao et al., 2014
+S. Zhao, L. Zhu, T. Wang, D. Li
+Suspended microplastics in the surface water of the Yangtze Estuary System, China: first observations on occurrence, distribution
+Mar. Pollut. Bull., 86 (2014), pp. 562-568
+View PDF
+View articleView in ScopusGoogle Scholar
+Zhao et al., 2018
+S. Zhao, J.E. Ward, M. Danley, T.J. Mincer
+Field-based evidence for microplastic in marine aggregates and mussels: implications for trophic transfer
+Environ. Sci. Technol., 52 (2018), pp. 11038-11048
+CrossrefView in ScopusGoogle Scholar
+Cited by (62)
+Role of mangrove forest in interception of microplastics (MPs): Challenges, progress, and prospects
+2023, Journal of Hazardous Materials
+Show abstract
+Contamination of sea surface water offshore the Tokai region and Tokyo Bay in Japan by small microplastics
+2022, Marine Pollution Bulletin
+Show abstract
+Microplastics in urban runoff: Global occurrence and fate
+2022, Water Research
+Citation Excerpt :
+
+A recent study about MPs in Mediterranean Sea found that mean abundance of MPs in marine sediments (32.4 items/kg) was much higher than in sandy beaches (10.7 items/kg) (Exposito et al., 2021). Additionally, a novel study reported that at least 66.7% of plastics in ocean are difficult to monitor under the observation framework currently adopted worldwide (Isobe and Iwasaki, 2022). Therefore, it is very important to investigated the flux of MPs in runoff conveyed to ocean, thus better monitoring the accumulation of marine MPs.
+
+Show abstract
+Global mass of buoyant marine plastics dominated by large long-lived debris
+2023, Nature Geoscience
+A growing plastic smog, now estimated to be over 170 trillion plastic particles afloat in the world’s oceans—Urgent solutions required
+2023, PLoS ONE
+Microbial Enzyme Biotechnology to Reach Plastic Waste Circularity: Current Status, Problems and Perspectives
+2023, International Journal of Molecular Sciences
+View all citing articles on Scopus
+© 2022 The Author(s). Published by Elsevier B.V.
+About ScienceDirect
+Remote access
+Shopping cart
+Advertise
+Contact and support
+Terms and conditions
+Privacy policy
+
+Cookies are used by this site.Cookie Settings
+
+All content on this site: Copyright © 2024 Elsevier B.V., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the Creative Commons licensing terms apply.

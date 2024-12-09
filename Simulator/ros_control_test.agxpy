@@ -19,7 +19,7 @@ import sys
 from agxPythonModules.utils.environment import simulation, application, root, init_app
 
 usvDensity = 600 #kg/m^3, average density over the entire object
-rovDensity = 2000
+rovDensity = 3000
 
 class WaveWaterWrapper(agxModel.WaterWrapper):
     #Shamelessly stolen from the hydrodynamics tutorial for AGX

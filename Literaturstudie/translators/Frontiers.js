@@ -1,15 +1,15 @@
 {
 	"translatorID": "cb9e794e-7a65-47cd-90f6-58cdd191e8b0",
+	"translatorType": 4,
 	"label": "Frontiers",
 	"creator": "Abe Jellinek",
 	"target": "^https?://[^./]+\\.frontiersin\\.org/",
 	"minVersion": "5.0",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
 	"inRepository": true,
-	"translatorType": 4,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2023-09-27 07:21:09"
+	"lastUpdated": "2024-10-24 15:20:00"
 }
 
 /*
@@ -221,7 +221,7 @@ function finalizeItem(item, doi, supplements) {
 }
 
 function getDOI(url) {
-	let m = url.match(/https:\/\/[^/]+\.frontiersin\.org\/articles?\/(10\.\d{4,}\/[^/]+)/);
+	let m = url.match(/https:\/\/[^/]+\.frontiersin\.org\/(?:journals\/[^/]+\/)?articles?\/(10\.\d{4,}\/[^/]+)/);
 	return m && m[1];
 }
 

@@ -1,0 +1,1576 @@
+Skip to main content
+Skip to article
+View PDF
+Download full issue
+Science of The Total Environment
+Volume 904, 15 December 2023, 166719
+Degradation and lifetime prediction of plastics in subsea and offshore infrastructures
+Author links open overlay panel
+Ibukun Oluwoye a f
+,
+Laura L. Machuca a
+,
+Stuart Higgins b
+,
+Sangwon Suh c
+, Tamara S. Galloway d,
+Peter Halley e
+, Shuhei Tanaka f,
+Mariano Iannuzzi a
+Show more
+Share
+Cite
+https://doi.org/10.1016/j.scitotenv.2023.166719
+Get rights and content
+Under a Creative Commons license
+open access
+Highlights
+•
+100,000 s of metric tonnes of plastics are used in offshore infrastructures worldwide.
+•
+Current literature on polymer degradation is limited to sea-surface environments.
+•
+Mathematical kinetic modelling can enable the estimation of subsea degradation rate.
+•
+Such modelling can account for the effect of depth-corrected water parameters.
+Abstract
+Engineering and civil developments have relied on synthetic polymers and plastics (including polyethylene, polypropylene, polyamide, etc.) for decades, especially where their durability protects engineering structures against corrosion and other environmental stimuli. Offshore oil and gas infrastructure and renewable energy platforms are typical examples, where these plastics (100,000 s of metric tonnes worldwide) are used primarily as functional material to protect metallic flowlines and subsea equipment against seawater corrosion. Despite this, the current literature on polymers is limited to sea-surface environments, and a model for subsea degradation of plastics is needed. In this review, we collate relevant studies on the degradation of plastics and synthetic polymers in marine environments to gain insight into the fate of these materials when left in subsea conditions. We present a new mathematical model that accounts for various physicochemical changes in the oceanic environment as a function of depth to predict the lifespan of synthetic plastics and the possible formation of plastic debris, e.g., microplastics. We found that the degradation rate of the plastics decreases significantly as a function of water depth and can be estimated quantitatively by the mathematical model that accounts for the effect (and sensitivity) of geographical location, temperature, light intensity, hydrostatic pressure, and marine sediments. For instance, it takes a subsea polyethylene coating about 800 years to degrade on ocean floor (as opposed to <400 years in shallow coastal waters), generating 1000s of particles per g of degradation under certain conditions. Our results demonstrate how suspended sediments in the water column are likely to compensate for the decreasing depth-corrected degradation rates, resulting in surface abrasion and the formation of plastic debris such as microplastics. This review, and the complementing data, will be significant for the environmental impact assessment of plastics in subsea infrastructures. Moreover, as these infrastructures reach the end of their service life, the management of the plastic components becomes of great interest to environmental regulators, industry, and the community, considering the known sizeable impacts of plastics on global biogeochemical cycles.
+Graphical abstract
+Download: Download high-res image (235KB)
+Download: Download full-size image
+Previous
+Next
+Keywords
+Offshore energy infrastructurePlasticsCoatingsUnderwater cablesFlowlinesContaminantsMicroplasticsDecommissioning
+1. Background
+Synthetic polymers and plastics (including polyethylene, polypropylene, polyamide, etc.) remain widely deployed in many applications, including packaging, insulation and civil infrastructure (Barnes et al., 2009; Geyer et al., 2017; Zheng and Suh, 2019). While environmental drivers within communities advocate reduction in the use of plastics, or at least favour biodegradable polymers, some key application areas will continue to rely on plastics for polymeric protective coatings, insulation purposes, and multiple structural functions. Offshore energy, and oil and gas production is a crucial field where biodegradable polymers cannot replace environmentally resistant synthetic polymers, which are used, e.g., for external corrosion resistance, as well as thermal insulation of subsea infrastructure. The former, for example, is used in combination with cathodic protection to prevent seawater corrosion of e.g., subsea pipelines and cables.
+Regardless of the source, plastics entering the ocean are associated with various environmental concerns such as the release of toxic additives and, in some cases, breakdown products, as well as micro- and nano-fragments that can be ingested, as well as macro-fragments that can lead to entanglement etc. Numerous stakeholders and policymakers oppose the leakage of plastics and associated debris into the ocean, due to the direct and flow-on effects in the marine ecosystem (Jambeck et al., 2015; Law, 2017). The issue is exacerbated by the relatively high durability and persistence of commodity polymeric materials in the environment (Corcoran et al., 2009; Eriksen et al., 2014; Gerritse et al., 2020), and the detrimental formation of microplastics (Cole et al., 2011; Galloway et al., 2017; Nelms et al., 2018) (i.e., polymeric fragments <5 mm in size), which are potential carriers of persistent organic pollutants (POPs), e.g. polychlorinated biphenyls (PCBs), polybrominated diphenyl ethers (PBDEs), perfluorooctanoic acid (PFOA), and perfluorooctanesulfonic acid (PFOS) and polycyclic aromatic hydrocarbons (PAHs) (do Sul and Costa, 2014) that end up in the food web (Garvey et al., 2020; Lamb et al., 2018; Lebreton et al., 2019). Further environmental assessment is crucial to evaluate the influence of the non-metallic materials employed in subsea oil and gas infrastructure on the marine ecosystem (flora and fauna), especially during the decommissioning of such facilities. This requires an accurate understanding of the degradation rate and fates of the non-metallic materials, when considering decommissioning options.
+The fate of plastics in subsea and offshore infrastructure will rely on the operational, and physical, photochemical and biological drivers that vary with depth in the marine environment (Andrady, 2015; Chamas et al., 2020). The current literature on degradation of commodity plastics is limited to surface environments (Chamas et al., 2020; Min et al., 2020), requiring new methodological development to extend the ambient-measured degradation rates to subsea conditions. The development of a suitable model, incorporating a thorough literature review and accounting for all the essential environmental factors, is necessary to describe the mechanism, and predict the degradation of plastics in subsea infrastructures. Therefore, this paper presents:
+(i)
+A review of the current situation and fate of plastics used in subsea and offshore applications, including energy infrastructure, underwater power cables, submarine communication cables, and hydrocarbon pipelines.
+(ii)
+An assessment of degradation mechanisms in subsea environments, highlighting the need for depth-specific degradation rates of plastics and consideration of essential physicochemical factors that influence the degradation of plastics in marine environments and how such factors affect the degradation pathways.
+(iii)
+A newly developed mathematical model that accounts for the physicochemical changes in the oceanic environment as a function of depth to predict the lifespan of synthetic plastics and the possible formation of microplastics. Using the infrastructure in Australian waters as a case study, the paper provides a systematic approach to estimate the possible degradation rates and lifetime of the plastics compared to an original field data.
+2. Summary of plastics in subsea applications
+Speciality polymers and plastics, including those used in engineering and for functional purposes, have found diverse applications in offshore infrastructure. Hundreds of thousands of kilometres of rigid and flexible flowlines and umbilicals, enough to circle the earth a few times (Kaiser, 2018, Kaiser, 2019), lie undersea worldwide and contain considerable amounts of plastics (100,000 s of metric tonnes based on conservative approximation, depending on the polymer, coating thickness, and application – see Supplementary Material) that have reached or will soon be nearing the end of their service-life. This issue is of great interest to environmental regulators, industry, and community, considering the sizable impacts of plastics on global biogeochemical cycles. There are over 12,000 offshore installations globally (Ars and Rios, 2017) across the continental shelves of about 53 countries (Parente et al., 2006), with varying environmental impact (Cordes et al., 2016; Punzo et al., 2017), primarily being managed by the energy, oil and gas, maritime, and civil sectors. The plastic components of offshore infrastructure can be categorised based on the intended functions such as: (i) thermal insulating material, e.g., polyurethane foam (PUF); (ii) electrical insulating materials, to avoid current leakages in subsea cables, e.g., polyvinyl chloride (PVC), cross-linked polyethylene (XLPE), and silicone rubbers; (iii) coatings, providing external corrosion protection, e.g., fusion bonded black polyethylene (FBBP), high build epoxy (HBE), high-density polyethylene (HDPE), coal tar enamel (CTE), solid polyurethane, and fusion-bonded epoxy (FBE); and (iv) sheath, inner protective layers, and filling material in flexible flowlines and umbilicals, e.g., polyamide 11, XLPE pressure sheath and HDPE sheaths.
+Moreover, Fig. 1 categorises the primary plastics based on their chemical structure, namely, the backbone composition, whether that be polyolefinic (with a CC backbone) or comprised of a heteroatom framework. These plastics also serve as protective coating materials for other offshore infrastructure, e.g., offshore energy (wind) farm structures and maritime vessels.
+Download: Download high-res image (460KB)
+Download: Download full-size image
+
+Fig. 1. Categories of primary plastics and synthetic polymers employed in coatings and insulation applications in offshore infrastructure. The symbols R1U and R2U denotes isocyanate and polyol fragments in polyurethane, respectively. The Ra in polyamides varies depending on the composition – however, the aliphatic (CH2)10 main chain (Nylon 11) is used in subsea applications.
+
+Biological and ecological evidence has demonstrated that offshore infrastructure provides habitats for sessile organisms, resulting in the formation of artificial reefs for marine species (Scarborough-Bull, 1989) This process of converting decommissioned oil and gas platforms into artificial reefs has been popularly termed as “rigs-to-reefs”, with regulatory support (e.g., in the U.S.) provided that the subsea structure is beneficial and advantageous to the marine environment. The Rigs-to-Reefs program has been tagged as successful, in the Gulf of Mexico and a few additional countries, for platforms that are primarily made of steel components (Bull and Love, 2019; van Elden et al., 2019). However, in some parts of the world, the platforms and pipelines contain a considerable amount of plastics, reinforcing the need to assess the lifetime and fate of the polymeric components in offshore waters.
+In this review, we present an example of Australian offshore waters, constituting both the tropical and mid-latitude ocean climates. Most of the offshore infrastructures at these locations were commissioned between 1965 (e.g., in the Bass Strait) and the 1980s, and are nearing their end of service life. Bass Strait (near Tasman Sea, Pacific Ocean) accommodates 22 platforms, over 2000 km of pipelines and umbilicals and 6 risers and dynamic umbilicals within the depth ranging from shore to 95 m, with one subsea development reaching ~400 m. For the Northwest region (in the Indian Ocean), water depths typically range from 5 m to 1500 m, housing 35 platforms, 11 floating facilities and >6000 km pipeline umbilicals and flexible risers. Whilst Australian waters have been used as a case study herein, the results are universally applicable. Focusing on plastic components, the methodology compiled in the following sections can be adapted to any specific location in the global marine system, while sourcing the relevant data (i.e., oceanography, meteorology, and biology information) from the local database. The prime objective of this study was to develop a model based on a review of the current literature and use this knowledge to estimate the degradation and lifetime of synthetic polymers in offshore conditions. We catalogued and categorised a number of resources of representative studies into thematic sections below.
+3. Degradation of plastics in subsea environments
+3.1. General understanding and need for depth-corrected degradation rates
+In marine environments, we know that synthetic polymers and plastics can concurrently undergo (i) photochemical degradation due to the photon energy of light and UV radiation, (ii) thermal degradation caused by elevated marine temperature and dissolved oxygen, (iii) hydrolytic degradation due to water and hydrostatic pressure (Gewert et al., 2015; Min et al., 2020; Oliveira et al., 2020), (iv) biological degradation attributed to microbial and enzymatic activities (De Tender et al., 2017; Krasowska et al., 2015; Nigam, 2013), and (v) mechanical fragmentation because of the physical impact of turbulence induced by waves and currents, and marine sediments (Gerritse et al., 2020; Gewert et al., 2015; Min et al., 2020; Seyvet and Navard, 2000). However, while the majority of research and cross-sector studies (Chamas et al., 2020; Gewert et al., 2015; Wayman and Niemann, 2021) have focused on plastics on the surface of the ocean, very little is known, quantitatively, on how these materials will transform subsea (i.e., below the sea surface) considering the changes in the physicochemical parameters of the stratified layers of the ocean. In other words, to quantify the degradation of plastics below the sea surface, it is necessary to understand the subsea conditions and how they impact plastic degradation. Therefore, in the subsection below, we describe the importance and changes in the key physicochemical factors.
+3.2. Estimation of essential physicochemical factors in the marine depth
+Besides chemical composition, molecular weight, hydrophilicity, and additive contents of the plastics (Singh and Sharma, 2008), the following physical, chemical, and biological parameters in offshore waters will contribute to their degradation. Unlike floating plastics, one must consider the stratification of the ocean because marine infrastructures often penetrate deep-sea depths (up to 2000 m below sea level). As shown below, location-specific data can be sourced from open databases such as the National Oceanic and Atmospheric Administration (NOAA – WOD data) and the Open Access to Ocean Data (i.e., IMOS – Argo Australia Profiles). Subsequently, we fit the data into regression models to obtain the depth-profile relations.
+3.2.1. Temperature variation
+Playing a vital role in reaction kinetics and enzymatic activities (Scott, 2006), the variation of temperature with water depth is a key parameter controlling the degradation of polymers, depending on the latitude, season, and oceanic turbulence (mixing). Fig. 2 describes the temperature profile of Australia offshore waters (NOAA, n.d.) at a selected depth, as well as the scatter plot of the temperatures acquired from various float stations (AODN) typifying the mid-latitude and tropical oceans.
+Download: Download high-res image (581KB)
+Download: Download full-size image
+
+Fig. 2. Variation of temperature (statistical mean from 2005 to 2012) (AODN, n.d.; NOAA, n.d.), solar intensity (Sverdrup et al., 1942; Wright, 1995), and suspended sands in offshore water column. Tz is the temperature (°C) at a distance z from the surface, y0 denotes a constant (e.g., 3.07462 for Northwest region, and 1.86693 for Bass Strait region); e is the natural log; A represents a constant (e.g., 26.14008 for North-west region, and 19.69527 for Bass Strait region); r corresponds to the decay factor (e.g., 0.00307 for North-west region, and 0.002 for Bass Strait region). Iz is the light intensity at a distance z from the surface; I0 denotes light intensity at the surface depending on the type of water and location, e.g., 1000 W/m2; e represents the natural log; k is the light attenuation coefficient, amounting to 0.023 m−1 and 0.056 m−1 for oceanic and coastal waters, respectively. See text below for information on suspended sands.
+
+3.2.2. Solar irradiance
+Solar radiation within the ultraviolet and visible light regions initiates the photo-oxidation of organic substrates, including polymers (Andrady, 2015; Day and Wiles, 1972; Gewert et al., 2015; Mohammadian et al., 1991). The literature provides a detailed account of the percent drop (relative to surface intensity) of solar irradiance in the ocean (Strickland, 1958). As depicted in the Fig. 2, regions can be portioned into the euphotic zone (i.e., the upper 200 m part of the ocean that receives bright and clear sunlight), the dysphotic zone (i.e., water layer beneath the euphotic zone, extending to about 800 m with a significant drop in light intensity), and the aphotic zone (i.e., the water layer below 1000 m where there is no visible sunlight). The UV-A (320–400 nm) radiation can reach the depth of 70 m, while the light penetrating beyond the euphotic zone is the blue-green (450–550 nm) radiation (Lee et al., 2013).
+3.2.3. Pressure changes
+Hydrostatic pressure can easily be estimated from the products of ocean density, acceleration due to gravity and water depth. While the impact on photo and thermal degradation of the plastics is expected to be minimal (due to the lack of direct gas-phase, reversible, and precipitation reactions) (Vyazovkin et al., 2011), hydrostatic pressure will influence hydrolytic and enzymatic degradation reaction pathways (Asano and Le Noble, 1978; Drljaca et al., 1998; Van Eldik et al., 1989). Furthermore, the impact of pressure can manifest in the thermodynamic constants, especially for the solubility of ion products of water, such as the (bi)carbonate system in the ocean, and on the dissociation constants of acids (Stumm and Morgan, 2012). Effects of pressure can also be seen through solubility thermodynamics (Helmke and Weyland, 1986) of the degradation products, e.g., CO2, resulting in the local acidification of the offshore waters. The effect of local CO2/carbonate dissolution (e.g., upsets the carbonate buffer system) from the degradation of polymers can have an impact on the marine ecology (Board and Council NR, 2010; Kleypas et al., 1999; Orr et al., 2005; Sabine et al., 2004; Turley et al., 2010) and, therefore, should be considered in future studies, e.g., by a model that couples the rate of CO2 formation (which is a fraction of the total rate of polymer degradation, as shown in subsequent sections), its interaction with other chemical, mineralogical and biological species, and the hydrostatic pressure effect on the dissolution thermodynamics and acidification.
+3.2.4. Changes in chemical composition
+The ocean can also be stratified based on the changes in chemical composition, i.e., the chemocline. Changes in salinity, pH, and dissolved oxygen and other gases dictate the chemical nature of water column (Sverdrup et al., 1942). Although these parameters could be impacted by the bathymetry of the offshore (Wright, 1995), their variations in depth will likely have a trivial impact on the degradation of subsea plastic structures. For instance, the dissolved oxygen varies from approximately 3 mL/L to 8 mL/L of ocean water up to the depth of 4000 m (AODN, n.d.; Wright, 1995). The ocean O2 concentration is normally higher on the surface and decreases with depth down to the oxygen minimum layer, where the O2 concentration begins to show an increasing trend with further depth. Relatively to the plastics, the concentration of oxygen is in excess (due to the constant flowing of the water) resulting in pseudo-first-order degradation kinetics. Moreover, the degradation of some plastics, e.g., polyurethane, follows hydrolysis-initiated reactions by water. Wherever possible, the data should be sourced from experiments conducted using typical ocean/seawater, to account for implicit effects of dissolved ions and oxygen.
+The photosensitising property of aquatic systems represents another factor. The light excitation of complex molecules of dissolved organic matters (DOM, e.g., riboflavin and pteridine derivatives, chlorophyll derivatives, fulvic acids, etc.) in the ocean can generate reactive oxygen species (ROS) that are particularly known to initiate the degradation of organic molecules (Al-Nu'airat et al., 2017; Momzikoff et al., 1983); however, data is not available for synthetic polymers and plastics. Typical examples of ROS include singlet delta oxygen (O21Δg), hydroxyl radical (OH), superoxide anion (O2•−), and hydrogen peroxide (H2O2), with marine concentrations well documented in the literature (Al-Nu'airat et al., 2021). Momzikoff investigated the photosensitising efficiencies (PSE) of samples of seawater (Momzikoff et al., 1983); based on the regression function computed by the author, the effect of ROS remains strongly active down to the depth of 500 m and mildly beyond. This is reasonably expected as the formation of ROS relies on light penetration. Therefore, kinetic corrections based on irradiation attenuation may also account for the variations in photosensitising efficiencies. However, further studies are required to determine the effect of ROS on the degradation of large polymers in marine environments.
+3.2.5. Microbial composition
+Microorganisms contribute to the degradation and biofouling of polymers. The process may include fungal, bacterial, and enzymatic degradation (Krasowska et al., 2015). The generic aerobic biotic activity in plastics involves the secretion of extracellular enzymes that adhere to the polymer surface, leading to surface degradation (via erosion and mineralisation). Therefore, microbial enzymes often act as biocatalysts in degradation reactions (Church, 2009; Helmke and Weyland, 1986; Hochachka, 1971; Nigam, 2013). Although the microbes and enzymes that are capable of degrading commodity plastics are sparse and specialised, reports have shown that biodiversity contributes to the degradation (slow) of plastics in the marine environment. A direct approach is to identify the microorganisms inhabiting the sites and account for their respective effects on degradation rates based on the available published data. For instance, the marine pelagic microbiota (up to a depth of 100 m) identified by the Australian Marine Microbial Biodiversity Initiative (AODN, n.d.; Brown et al., 2018) revealed the presence of polymer-degrading bacteria (Alphaproteobacteria and Cyanobacteria) in offshore waters. Research studies have also postulated that climate changes could pave the way to the adaptation and evolution of highly active enzymes (Cavicchioli et al., 2019; Danso et al., 2019).
+3.2.6. Abrasive erosion
+Abrasive wear (or mechanical erosion) occurs due to turbulence generated by ocean currents, waves, winds, and residues of suspended particles in the ocean. This factor contributes significantly to the fragmentation of plastics by breaking the larger plastics into smaller pieces of micro- and nano-plastics (i.e., MP, with sizes <5 mm, and NP, with sizes below 0.1 μm). Subsequent degradation of the nano or microplastics will then follow other pathways (see sections below). The fragmentation due to stresses from water (Julienne et al., 2019) can be accounted for by considering degradation data acquired from a flowing marine system. Moreover, waves have trivial impacts on plastic residing at depths below the wavelength. Despite confirming the natural occurrence of abrasion of plastics due to oceanic particles (residues of suspended particles, mainly sand and slits) (Cooper and Corcoran, 2010; Singh and Sharma, 2008; Song et al., 2017), the literature lacks information on how to model and estimate the abrasive fragmentation of plastics in the natural marine environment. Where such data is unavailable, reasonable postulations can be made based on the paradigmatic principles of abrasive wear. Here, we develop an approach to estimate the rate of abrasion of polymers in a water column due to the combined effect of currents and suspended marine particles. According to the theory of abrasion, the steady-state erosion (abrasion) rate can be ascertained from the dimensionless wear coefficient (kw) (Arjula and Harsha, 2006; Arjula et al., 2008), the density of the material being eroded (i.e., plastics), the impact velocity (v2) of the particles (i.e., sediment loads), and the hardness of the material surface (H, Pa) (Hutchings and Shipway, 2017; Sundararajan et al., 1990). In the Equations below, the erosion rate has been defined as the ratio of mass loss suffered by eroding material to the mass of erodent (Em, g/g) or in terms of volume lost per unit mass of erodent (Ev, m3/kg). Since most of the kw values in the literature were measured under air-borne conditions and high impact velocity, projecting the data to marine environments (i.e., water-borne sands and low impact velocity) may result in some level of uncertainty. The impact function
+fθ
+, accounting for the angle at which the erodent hits the surface, is sometimes assumed to be unity for simplicity, but
+fθ=sin2θ
+ results in better accuracy. The term sand erosion can describe processes involving solid particles to up to approximately 1000 μm in size (Tilly, 1969).
+(1)
+Em=kwρv22Hfθ
+The sediment grains can be assumed to travel at the same velocity as the water, i.e., depthwise tidal velocity
+vz
+, where the total depth below the surface is d (m), and the height above the seabed is zs (m),
+v0
+ represents the combined current velocity at the surface (e.g., 0.5–3 m/s) with power law of the 1/7th order (i.e., α = 7) as illustrated in Eq. (2a) (Fang and Duan, 2014; Peterson and Hennessey, 1978). Alternatively,
+vz
+ (m/s) can also be calculated as a function of zs from the velocity of the tidal current
+vct0
+ (m/s) and the velocity of the wind current
+vcw0
+ (m/s) at the surface (Eq. 2b) (Fang and Duan, 2014).
+(2a)
+vz=v0zsd1α
+(2b)
+vz=vct0zsd1α+vcw0zsd
+It is important to express the steady-state abrasion rate in the same unit as the chemical degradation rate (e.g., in mass per unit time). Such transformation requires specific information regarding the amounts of sediment loads and the volumetric flow rate of the water, preferably based on depth dependencies. The abrasion rate,
+Emr
+ in mass per unit time (g/s), of a stationary material being eroded by sediment loads in flowing offshore water then becomes:
+(3)
+dmrdt=Emr=EmCzQ=EmCzvz∙SA
+where
+Cz
+ denotes the depthwise concentration of sediments (g/m3, see Fig. 2), and
+Q
+ defines the volumetric flow of water in direct contact with the plastic surface (m3/s) – approximated as the surface integral of the
+vz
+ (i.e., depthwise tidal velocity) with respect to the area, approximated as the dot product of the
+vz
+ and the surface area (SA) of eroding material. The necessary theories for estimating the sediment concentration and transport phenomenon have been documented in the application book by Soulsby (Soulsby, 1997). For the deep-water application, we limit this to sediment under the effect of current. In a sand suspension, the settling of the grains towards the bed counterbalances the diffusion of the sands upwards due to turbulent water motion based on the following governing equation:
+(4)
+wsC=−KsdCdz
+where ws corresponds to the settling velocity of sediment grains, C the volume concentration of sediment at height zs above the bed, and Ks the eddy diffusivity of sediment. Assuming the eddy diffusivity increases linearly with height, then the corresponding concentration obeys a power-law profile:
+(5)
+Cz=Cazsza−b;b=wsκu∗
+where
+Ca
+ denotes the sediment reference concentration (volume/volume) at height
+za
+,
+b
+ is the Rouse number, or suspension parameter,
+κ
+ represents the von Karman's constant = 0.40, and
+u∗
+ refers to the total friction velocity or total skin friction of the sediment.
+The geology of the seabed is very complex. For example, b = 0.811, za = 1.30 × 10−3 m, and Ca = 6.81 × 10−3 (×2650, the density of sediment particles, conversion factor to kg/m3) (Soulsby, 1997) based on the shearing of a rippled bedload with 50 % weight distribution of d50 = 0.20 mm (i.e., fine to medium sand, needed to calculate the grain settling velocity) and depth-average flow velocity of 1 m/s (needed to calculate the drag coefficient and the total skin factor). These parameters are location-specific, and the most appropriate values should be considered for a particular offshore or ocean environment. The concentration of suspended sediments can also be used directly from the measured data, or estimated from a correlation of relevant turbidity information, e.g., as reported by Cooper et al. (Cooper et al., 2017). It is worth noting that Eq. 5 yields concentration values that are well comparable to those measured from depth-specific shallow marine systems (Bainbridge et al., 2009; Cooper et al., 2017). To be best of our knowledge, field measurements for the vertical distribution of suspended minerals concentration with depths in deep offshore environments do not exist. However, the values of suspended sand concentrations of deep oceanic waters in Fig. 2 (computed by Eq. 5) are comparable to the corresponding values at (i) near-bottom of an approximately 1450 m deep-sea bed; 6.62 g/m3 at current velocity of 0.15 m/s, (Wang et al., 2022a) and (ii) surface of deep regions of the global ocean; approximately 0.2 g/m3 (Wei et al., 2021). Even if the numerical values of abrasion rate are small, the effects could be significant considering the large degradation time scale and the relatively low hardness of the plastic materials. Future experimental plans should investigate further the abrasive wear of materials in marine systems. If we define specific surface abrasion rate;
+kSSE=EmCzvz/ρ
+, where
+ρ
+ is the density of the polymer material, then:
+(6)
+dmrdt=Emr=kSSE∙ρ∙SA
+3.2.7. Service conditions
+In addition to the essential parameters listed above, the service conditions, including working temperature, static loads (inducing local strains) and protection mechanisms such as cathodic protection (CP), may influence the degradation of plastic components in offshore infrastructures. CP, for instance, results in the build-up of calcareous deposits and coating degradation (Rousseau et al., 2010). Such deposits are formed on bare metal components due to the alkalinity produced on cathodically protected surfaces in the presence of calcium and magnesium salts (e.g., carbonates) (Rousseau et al., 2010). The effect of CP on plastic coatings should be minimal as very little deposition of calcareous materials is expected on plastics coatings (Zhang et al., 2020). However, the presence of holiday defects (e.g., pinholes) on the polymer coating can result in cathodic disbondment (CD), i.e., delamination of polymer coating from the metallic substrate.
+Various mechanisms have been proposed for CD, including the dissolution/reduction of the oxide layer in the steel-polymer interface (Harun et al., 2005; Leidheiser et al., 1983; Love et al., 2007; Watts and Castle, 1984), mechanical lifting of the coating by H2 gas generated in the interface (Mahdavi et al., 2017), aqueous displacements of the coating (Koehler, 1984), and enhanced degradation on polymer coating (Dickie, 1994; Dickie et al., 1981; Hammond et al., 1981; Harun et al., 2005; Sørensen et al., 2010). The degree of CD is influenced by the negative potentials achieved by Al-Zn-In sacrificial anodes (i.e., the industry standard CP choice), which accelerates electrochemical reactions and production of hydroxyl ions (OH−), H2 gas, and reactive oxygen species, i.e., short-lived oxygen-containing radicals such as superoxide (•O−2), peroxide (H2O2) and hydroxyl radical (•OH). Based on their high reactivity, it is more probable that the free radicals are responsible for the detachment of the polymer coating from the steel pipe (Leng et al., 1998; Maile et al., 2000; Nakache et al., 2011; Sørensen et al., 2010; Wroblowa, 1992). The rate of growth of disbondment areas can be used to estimate the exposed surface area when calculating the lifetime of the polymer. However, the relatively large thickness of the coating material on the flowlines, ranging from about 6 mm to 77 mm (including umbilicals), can hinder the formation of pinholes that penetrate deep into the metal substrate. Moreover, the routine repairs during service inspection could have resolved most of the disbondment areas before decommissioning.
+The presence of biofouling (marine growth consisting of algae and other marine biota, including encrusting organisms (Andrady, 2015; Lobelle and Cunliffe, 2011)) can contribute to embrittlement and degradation through mechanical and enzymatic activities of biofoulants (Lobelle and Cunliffe, 2011) and may accelerate the degradation process. Another factor may involve the interference of metallic corrosion as ions from corroding metal that may scavenge/promote radical species in polymer degradation. There are no precise literature data in this regard. Therefore, future experiments should investigate the effect of proximity of corroding metal, e.g., on the formation of persistent free radicals and promotion (or inhibition) of plastic's degradation rate.
+4. Degradation pathways and chemical, and biological effects
+Here we describe the “degradation” of plastic as the loss in mass per unit time, especially for lifetime predictions. The international standards define polymer degradation as a deleterious change in the chemical structure, physical properties, or appearance of a polymer, which may result from the chemical cleavage of the macromolecule forming a polymeric item, regardless of the mechanism of chain cleavage (ASTM. ASTM International, 2011; BSI, 2006). While this kind of definition remains helpful in understanding the chemical, structural and mechanical changes (e.g., property failure) in a polymer, the rate obtained may not necessarily imply direct mass loss. Proper numerical and empirical rate transformations should be used to convert such rate expressions into mass-loss per unit time. The mode of chemical degradation of plastics under ambient marine conditions can follow integrated pathways (Grassie and Scott, 1988; Singh and Sharma, 2008), involving either oxidation (photo and thermal oxidation by dissolved oxygen) or hydrolysis (from marine H2O), both of which can be accelerated by microbial activities, heat, light, or their respective combinations (Lucas et al., 2008). The following subsections summarise the degradation mechanisms of selected commercial plastics being used in subsea applications, highlighting how the marine ambient factors influence the degradation pathways. Refer to the Supplementary Material for the mechanistic pathways of degradation of polyethylene, polypropylene, polyurethane, polyamide, and epoxy, indicating series of photothermal and hydrolytic steps.
+4.1. Polyethylene and polypropylene
+Polyethylene (PE) is considered an inert synthetic polymer due to its extremely slow degradation rate in the natural environment. Hence, PE serves as the most common coating material in offshore applications, e.g., as an external sheath of flexible flowlines. The inertness of PE stems from the C − C single bond backbone that is resistant to hydrolysis and photo-oxidative attacks due to lack of UV − visible chromophores. Mechanical shear, structural defects, and the presence of production impurities such as catalysts for synthesis, trace unsaturated (C=C) bonds, peroxides, carbonyl and hydroperoxides can influence the initiation of photo-oxidative pathways (Grassie and Scott, 1988; Oluwoye et al., 2016; Oluwoye et al., 2015; Rabek, 1994). Low-density polyethylene (LDPE) having a relatively higher frequency of reactive branch sites degrades faster than the analogous high-density polyethylene (HDPE) (Craig et al., 2005). The initiation reaction is solely limited to photo, thermal, or mechanical stimuli, with the addition of oxygen and molecular transfer of hydrogen atoms being the propagation and auto acceleration steps, respectively, for the formation of the primary oxidation products. The presence of free chlorine and hydroxyl radical can accelerate the initiation reaction (Colin et al., 2003; Gardette et al., 2013; Khelidj et al., 2006; Mitroka et al., 2013; Oluwoye et al., 2015; Tidjani, 2000).
+Considering a marine medium with temperatures below 30 °C (i.e., much <100 °C), the photolytic reactions remain the most critical initiation channel (Chamas et al., 2020; Gardette et al., 2013). Lifetime prediction in marine environments should rely on initial rate data acquired under identical temperatures, requiring no (or minor) temperature-extrapolation (e.g., to 16 °C) due to the depth variations. Likewise, the service temperature impacts the degradation rate of plastics, even during the after-service-life period. This is because moderate heating, in the presence of oxygen, enhances rates of polyolefin oxidative degradation significantly, as it increases the hydrophilicity due to the incorporation of oxygen-containing functional groups that facilitate surface attachment of microorganisms. A previous study has shown that thermal pre-treatment of PE at 80 °C for ten days increases the marine bacterial colonisation 4 to 7 times compared to no thermal treatment. The same study recorded higher mass losses for thermally pre-treated LDPE and HDPE (17 % and 5.5 %, respectively), compared to the untreated materials (10 % and 1 %, respectively) over the same time period (Sudhakar et al., 2008). At any given temperature and water content, the rate of weathering and degradation increases with increasing solar radiation UV flux (Singh and Sharma, 2008). The UV–visible light spectrum of 300 nm – 500 nm carries enough energies, equivalent to 400 kJ/mol – 240 kJ/mol, to break various bonds in the PE structure. Bond dissociation enthalpies for CH and CC in polyethylene amount to about 410 kJ/mol and 350 kJ/mol, respectively, depending on the chemical identity of adjacent functional groups (Luo, 2002; Oluwoye et al., 2016), presence of radical sites (Morcillo, 2019; Oluwoye et al., 2021; Sivaguru et al., 2019) and ionic interactions (Xu et al., 2019). Furthermore, the effect of microorganisms is important under biotic conditions present in water, mainly in the form of surface erosion by extracellular enzymes and rarely by intercellular activities. Extracellular depolymerases unzip complex polymers into simple units like monomers and dimers that are further used by the microbes as energy and carbon sources. Many scientific papers have identified some microbes (including bacterial and fungi that are not naturally abundant) specially isolated to target effective and rapid degradation of PE (Austin et al., 2018; Bardají et al., 2020; da Luz, 2019; Gajendiran et al., 2016; Ghatge et al., 2020; Kathiresan, 2003; Kumar Sen and Raut, 2015; Novotný et al., 2015; Restrepo-Flórez et al., 2014; Sangale et al., 2019; Santo et al., 2013; Shah et al., 2008; Sowmya et al., 2015; Wayman and Niemann, 2021; Yoon et al., 2012) (Albertsson et al., 1987; Arutchelvi et al., 2008; Bardají et al., 2020; Gerritse et al., 2020; Sangale et al., 2012).
+The degradation mechanisms of polypropylene (PP) appear similar to that of PE (Carlsson and Wiles, 1976a; Carlsson and Wiles, 1976b; Gewert et al., 2015). However, PP has relatively lower stability than PE due to the presence of tertiary carbons (refer to Fig. 1) that are more prone to abiotic degradation than secondary carbons in PE. The initiation stems from the formation of PP radical due to hydrogen abstraction/dissociation and trace impurities. The radical reacts with oxygen, yielding random chain scission, cross-linking, and predominately forming lower molecular weight fragments (Peterson et al., 2001; Shyichuk et al., 2001). Although the tertiary carbons promote abiotic degradation of PP, they decrease the susceptibility of the polymer to microbial (biotic) degradation (Gauthier, 1997) due to the interaction of surface energy. This is logical because the relative abundance of 16S rRNA genes of biofilm on PP differs compared to PE (Danso et al., 2019). Therefore, PP degrades relatively slower in natural seawater as compared to PE (Artham et al., 2009; Gerritse et al., 2020).
+4.2. Polyurethane
+Polyurethane (PU) is mainly used as insulating material in rigid pipe. Unlike PE and PP, PU can undergo hydrolysis and degradation of PU is much faster in seawater. To undergo splitting by H2O, the polymer must have functional groups containing hydrolysable covalent bonds, e.g., ester, ether, anhydride, amide, carbamide (urea), ester amide (urethane) etc. (Lucas et al., 2008), as in PU (Dutta, 2018; He et al., 2001). Factors including temperature, pH, and water activity can affect the rate of hydrolysis which proceeds via ester linkages and polar groups in the side chain of PU. Urethane and urea bonds can also undergo hydrolytic cleavage, but at relatively slower rates (Lamba et al., 1997). The presence of ions (e.g., in seawater) can promote hydrolytic degradation of PU due to the increased bond polarity and the creation of acidic conditions. Moreover, since acid conditions accelerate hydrolysis, the formation of carboxylic acid makes the degradation of PU in seawater autocatalytic (Gewert et al., 2015). Parallel to hydrolysis, alternative abiotic solar radiation (or heat) can induce oxidative degradation through radical reaction pathways (Delebecq et al., 2013; Gewert et al., 2015; He et al., 2001; Newman and Forciniti, 2001).
+4.3. Polyamide
+Polyamides (PA) are a group of polymers with repeated amide linkages, used as outer sheath, insulation or pressure sheath in flexible pipes and umbilicals. The most relevant PA in marine applications is polyamide 11 (PA 11), otherwise known as nylon 11 or Rilsan (Wypych, 2016). Although PA 11 is an example of a bioplastic being produced from a renewable raw material (i.e., 11-aminoundecanoic acid), it can resist biodegradation. Similar to PU, PA 11 is very sensitive to water (hydrolysis) (Meyer et al., 2002), and the rate of degradation should be comparable to that of PU (Min et al., 2020). Previous studies monitored the hydrolytic and oxidative degradation of PA 11 by recording the change in molecular weight with time at fairly high temperatures between 90 °C to 110 °C (Jacques et al., 2002; Mazan et al., 2015a; Mazan et al., 2015b; Merdas et al., 2003; Meyer et al., 2002; Okamba-Diogo et al., 2016). This kind of molecular weight model can be adjusted into hydrolytic representations by using appropriate mathematical transformations (Laycock et al., 2017; Meyer et al., 2002).
+While natural polyamides such as proteins and natural silk can easily undergo enzymatic degradation, there is no microorganism known to fully degraded high molecular weight PA (Danso et al., 2019). Studies have identified bacteria acting on the short-chain oligomers of PA. This includes hydrolases and aminotransferases of Flavobacterium sp. (recently named Arthrobacter sp.) strain KI72 grown in the wastewater system of nylon factories (Takehara et al., 2017; Tosa and Chibata, 1965). While no data exist for PA 11; the literature records three main enzymes essential for the hydrolysis of linear and cyclic 6-aminohexanoate (from PA 6.6 or nylon 6.6) oligomers (Kinoshita et al., 1977; Kinoshita et al., 1981; Nagai et al., 2013; Negoro et al., 2005; Negoro et al., 2007; Ohki et al., 2005; Takehara et al., 2018; Yasuhira et al., 2007; Yasuhira et al., 2006). Manganese-dependent peroxidase (an enzyme originated from rot fungus) appears to be the only enzyme that has so far been reported to act on high-molecular-weight nylon fibres (Deguchi et al., 1998). Species of Pseudomonas, such as P. aeruginosa and evolved strain PAO1 are able to degrade 6-aminohexanoate-dimers by using it as a sole carbon and nitrogen source (Kanagawa et al., 1993; Prijambada et al., 1995; Tosa and Chibata, 1965). In marine environments, Bacillus cereus, Bacillus sphaericus, Vibrio furnissii, and Brevundimonas vesicularis have been reported to degrade nylon 6 with a significant mass loss over a period of three months (Sudhakar et al., 2007).
+4.4. Epoxy thermosets
+Epoxy polymers are complex admixture containing the resin and the cure that represents a functional blend of hardener and other components such as plasticiser, preservative, and chain-terminating agent. Epoxies are used primary as a coating material in rigid infrastructures. Although the resin, on its own, can be polymerised to a reasonable extent, the application of hardeners improves the chemical resistance and material properties of epoxy polymers (Powers, 2009). Epoxy resins acquire their name from the presence of epoxide functional group in their respective structures. Most marine applications usually rely on diglycidyl ether of bisphenol A (DGEBA) and other phenolic analogues as the primary epoxy resin, and aliphatic amines and polyamides as the curing agents (i.e., hardener) (Grassie et al., 1985; Pham and Marks, n.d.; Zargarnezhad et al., 2021). Other common hardeners include cycloaliphatic amines, aromatic amines, amidoamines, and anhydrides (Capiel et al., 2018; Pham and Marks, n.d.). The use of amines results in an epoxy polymer having very low glass transition temperature (Tg) as compared to anhydride curing agent, favouring application in ambient environments.
+The structure of epoxy polymers allows for deterioration by hydrolysis, as well as photo/thermal stimuli. As illustrated in the Supplementary Material, the photo-thermal degradation pathway can be initiated both in the resin and the hardener (Grassie et al., 1986; Mailhot et al., 2005a; Mailhot et al., 2005b; Morsch et al., 2020), leading to fragmentation of the cross-linked structure and the formation of low-molecular-weight species. Hydrolysis, on the other hand, depends on the hydrophilic groups, mainly secondary hydroxyl and amide ends. Most works have focused on water uptake and depreciation of the mechanical properties of the material rather than surface erosion (Capiel et al., 2018; El Yagoubi et al., 2015). The mechanism involves migration of water unto the surface, resulting in swelling (due to disruption of the hydrogen bonding within the matrix) and subsequent degradation of the molecule (Capiel et al., 2018; Powers, 2009) into products including acids. The effect of acid has been reported to increase the degradation rate of an epoxy polymer (Lim et al., 2019). Moreover, seawater should facilitate the formation of inorganic salts within the polymer matrix (Lim et al., 2019; Rudawska, 2020). There are only a few studies on microbial degradation of an epoxy polymer in natural environments despite its widespread applications in protective paints (Bravery, 1988; Kurowski et al., 2017; Pandey and Kiran, 2020), adhesives, composites, and vanish coatings. The most common isolated bacteria from surfaces coated with epoxy belong to phylum Firmicutes, Proteobacteria, Pseudomonas, and Actinobacteria (Kurowski et al., 2017; Pangallo et al., 2015). The presence of Pseudomonas putida (Wang et al., 2016) and Bacillus flexus (Deng et al., 2019) in seawater has been demonstrated to degrade epoxy polymers, with a mechanism centring on the microbial attack of the hydroxyl to form biodegradable carbonyl groups (Wang et al., 2016). Other research works involved bacteria isolated from soil (Breister et al., 2020; Eliaz et al., 2018), bacterial activities during soil burial degradation (Dutta et al., 2010), and degradation due to mixed culture of fungi (Gu et al., 1997) and black yeast fungi (Pangallo et al., 2015).
+5. Implementing a model for depth-corrected degradation rate
+As earlier explained, the major information gap in the literature is the lack of data on the degradation rate of plastics below the sea surface. Most experimental and environmental simulations are based on conditions typical of ocean surface. However, a holistic model for predicting the degradation rate (and lifetime) of plastics in subsea offshore conditions can be developed by incorporating both the essential physicochemical factors in the marine depths, and the mechanistic details of polymer degradation. As shown in Fig. 3, these physicochemical factors include temperature and solar irradiance that are expected to decrease with depth, hydrostatic pressure and sand sediments that increase as a function of marine depth, as well as dissolved oxygen, and microbial activities. A systematic method for estimating the essential physicochemical factors is discussed in detail in Section 3, with a particular focus on their role in the kinetics of polymer degradation. For synthetic polymers in marine applications, the choice of surface degradation approach remains valid, considering that (i) the diffusion coefficient (D) of the degradation agents (i.e., water, dissolved O2, and ions) into the plastic is relatively slow compared to the reaction rate constant (k), and (ii) the material thickness is greater than the critical sample thickness (Lcrit, see Fig. 3) (Burkersroda et al., 2002; Laycock et al., 2017). This notion can be reasonably reinforced by the fact that the plastics have been initially designed to withstand degradation in marine conditions, as well as the large molecular size of the microbial enzymes, restricting their diffusion into the bulk structure of the polymer. Moreover, a recent investigation of polymer hydrophilicity and other structural descriptors confirms the concept of surface erosion (rather than bulk erosion) of synthetic polymers (Le Saux et al., 2014; Min et al., 2020). Weathering and abrasive wear also proceed along the surface for this class of polymers. Supporting the effect of surface area, many studies have substantiated the fast decay of small (less than a millimetre) plastic fragments in the ocean as compared to the larger pieces (Cózar et al., 2014; Eriksen et al., 2014; Kooi et al., 2017).
+Download: Download high-res image (420KB)
+Download: Download full-size image
+
+Fig. 3. (a) Illustration of surface and bulk erosion phenomena. Critical thickness required for bulk degradation Lcrit = (D/k)1/2, D is the diffusion coefficient. The specific surface degradation rate (kss) is defined as the volume of material lost by removal of a layer of thickness Δxp in a specified time. Adapted from (Chamas et al., 2020; Laycock et al., 2017) (b) Transient degradation history for surface-degrading synthetic polymers in the ocean includes abiotic photolysis, thermolysis, and hydrolysis, and biotic activities. The significant non-dependent variable includes water depth, distance x from the exposed surface, and time. The symbols MP and SA denote microplastic and surface area, respectively. The characters k(T), f(α), and h(p) are rate functions that depend on temperature, reaction conversion, and pressure in that order.
+
+The rate of degradation of a polymer, rs, can be described by the differential mass loss per unit time, proportional to the surface area SA (unit, m2) and the rate constant ks (unit, kg/s·m2) in Eq. 7 (Chamas et al., 2020; Hopfenberg Hopfenberg, 1976; Min et al., 2020). Eq. 7 demonstrates that the degradation rate of plastics depends on both the intrinsic properties of the material, the environmental conditions (e.g., in the ocean), and the extrinsic properties such as the size and shape of the material (Chamas et al., 2020). The term ks denotes the surface degradation rate constant (kg/s·m2).
+(7)
+rs=−dmdt=ks∙SA
+Accordingly, the specific surface degradation rate (kss, or vx in Fig. 3; unit, m/s) can be defined as the speed at which the degradation front moves along the material's thickness, obtained by dividing ks by the density (ρ, kg/m3).
+(8)
+−dmdt=kssρSA
+The specific surface degradation rate (kss) is identical to the burning regression rate of solid-fuel in fire science and propellant literature (Hurley et al., 2015; Shimpi and Krier, 1975). kss represents the perpendicular depth of plastic degraded per unit time (see dxp/dt in Fig. 3) and is different from the conventional chemical reaction rate k at which reactants convert into products.
+5.1. Method for correcting the specific surface degradation rate (kss) for depth
+The specific surface degradation rate (kss, in Eq. 8) is an experimentally measured value under ambient laboratory conditions or in marine-surface environments. Appropriate correction factors are necessary for subsea scenarios. These correction factors (or functions) can take identical forms to those being used for the chemical reaction rate constant k. Although kss and k are different, an appropriate arrangement of their expression (Eqs. (9), (10), (11)) shows that the method for correcting them (e.g., for temperature, pressure, and photo-solar intensity) should be the same. If the extent of mass conversion α, sometimes referred to as fractional mass loss in solid degradation kinetics, is defined in terms of initial mass
+mi
+, instantaneous mass
+mt
+, and final mass
+mf
+:
+(9)
+α=mi−mtmi−mf
+Then, Eq. 8 is equal by definition to the rate of the extent of mass conversion according to:
+(10)
+≝
+−dmdt=kssρSA≝mi−mfdαdt=m0dαdt
+Therefore,
+(11)
+kss=dxdt=m0ρ∙1SA∙dαdt=V01SA∙dαdt
+Eq. 11 resembles the classical form of regression rate – fractional mass loss relationship (Shimpi and Krier, 1975), noting that the surface area is a function of x as earlier discussed. Furthermore, the rate of the extent of mass conversion can be parameterised in terms of essential variables: the temperature T, the extent of conversion α, the pressure P, etc., (Vyazovkin et al., 2011) as follows:
+(12)
+dαdt=kThP∙∙∙fα
+Eq. 12 implies that constants (such as k, h, etc.) measured for
+dαdt
+ at a particular condition can be corrected for other conditions with proper factors (or functions). These functions can also be translated directly into the specific surface degradation rate constant kss based on the straightforward relation of kss with
+dαdt
+in Eq. 11.
+Therefore, we define the depth-corrected specific surface degradation rate
+kss′
+ as:
+(13)
+⟦⟧
+kss′=kss∙θT−Tsur∙expVaRPsurTsur−PT∙1+tanhIIk/2∙γ+kSSE
+where:
+•
+the temperature correction relies on the modified Arrhenius function (MAF), known to be accurate at low temperatures (below 30 °C), where T and Tsur denote the temperature at the required depth, and the marine surface (or experimental) temperature in Kelvin, respectively. The value of T, at a specific water depth of interest, can be calculated from the exponential depth decay in Fig. 2. We set the constant 
+θ
+ to a value of 1.06 as determined by the International Water Association (Kadlec et al., 2000). To avoid the errors due to Arrhenius extrapolation, we limit our work to data collected from experiments conducted at near-ambient temperature.
+•
+the pressure correction stems from the effect of hydrostatic pressure on the hydrolysis and microbial reactions (Serment-Moreno et al., 2015; Stapelfeldt et al., 1996; Torres et al., 2009). The terms Va, R, Psur, and P represent the activation volume, gas constant (J/K·mol), marine surface (or experimental) pressure (MPa), and the pressure at the required water depth (MPa), in that order, while T and Tsur remain as defined above. The activation volume has been defined as the excess of the partial molar volume of the transition state over the partial molar volume of the initial species (Luft et al., 2001; Van Eldik et al., 1989). A Va < 0 will increase the reaction rate, while Va = 0 and Va > 0 will have a neutral effect and decrease the reaction rate, respectively. We employed a Va value of −40 cm3/mol that is an average of typical hydrolysis and enzymatic set of reactions (Asano and Le Noble, 1978; Heiber et al., 1990; Lohmüller et al., 1978; Morild, 1981).
+•
+the light intensity correction takes on the form of hyperbolic tangent function that mimics the physical aspects of subsea light attenuation. By setting the characteristic light intensity Ik to 130 W/m2, the light-dependent rate increases linearly at low light intensities. However, as light intensity increases further, the rate levels out as it becomes limited by other factors. Another physical aspect of setting Ik to 130 W/m2 is that it constrains the rate of photoreactions to remain constant up to 50 m depth (i.e., the UV cut-off depth), and then decreases rapidly down to 200 m (i.e., the euphotic zone, see Fig. 2), before levelling near zero at lower depths (i.e., the dysphotic zone). Moreover, the symbol I denotes the depth-specific solar total irradiance, expressed in exponential depth decay function in Fig. 2. Additionally, this model (i.e., the (1 + tanh-function)/2) assumes that only 50 % of the functional groups is directly influenced by solar radiation (see Section 4 that describes the mechanism of degradation of the selected polymers in marine conditions).
+Noting that
+kSSE
+ adds in the mass-loss due to sand abrasion (refer to Section 3), Eq. 13 provides the correction based on the identified essential depth-controlled parameters. For instance, the appropriate temperature, hydrostatic pressure, and solar intensity at a particular depth can be estimated from the appropriate equations, respectively, and inserted into Eq. 13 to obtain the depth-corrected surface degradation rate
+kss′
+. The term
+γ
+ represents a multiplying factor that accounts for the bulk transient (irreversible) thermal treatment due to service conditions. We have discussed in Section 4 that in the presence of oxygen, moderate thermal pre-treatment enhances the rates of oxidative degradation significantly, e.g., by increasing the polymer hydrophilicity due to incorporation of oxygen-containing functional groups (Chamas et al., 2020). The value of
+γ
+ is unity during the service period and changes accordingly for different polymers during the decommissioning phase.
+5.2. Depth-corrected degradation rate constant
+Fig. 4 illustrates the model validation based on degradation rates of flexible flowlines retrieved from the field (i.e., Northwest region of Australia) after ~25 years in subsea service, and exemplifies the depth-corrected degradation rate
+kss′
+ (e.g., for HDPE and PA), illustrating how the degradation rate changes with water depth. The details of the validation strategy are shown in Fig. S5, validating both the chemical (solar irradiation, temperature, and pressure) and mechanical degradation pathways; for example, the degradation rate was higher near the seabed as predicted by the model. Generally, the degradation rate decreases with depth mainly due to decreasing temperature, and solar irradiance. The figure also shows that the degradation rate may increase slightly in the lower depths because of the surface abrasion by sand sediments in the lower depths of the water column. However, the presence of biofouling could limit the sand abrasion, especially within the mild-degradation zone. Macrofoulants such as barnacles, hydroids, bryozoans, and small marine animals can effectively cover pipelines and infrastructure at shallow water depths. Therefore, the tolerance thresholds in Fig. 4 represent degradation rate calculated with and without sand abrasion. In other words, the lower limit of the curve corresponds to degradation rate without the effect of sand abrasion, while the upper limit signifies the degradation rates that includes the effect of abrasion; and the coloured centre line is the average of the two conditions (i.e., with and without abrasion). The Supplementary Material assembles the ambient surface degradation rate constants of the selected polymers (experimental data acquired under simulated marine conditions at the surface of the marine environment), calculated mechanical surface abrasion rate constants, and corresponding depth-corrected values.
+Download: Download high-res image (989KB)
+Download: Download full-size image
+
+Fig. 4. Validation of modelling result based on field data, and variations in the depth-corrected surface degradation rate of HDPE and PA in oceanic Northwest (a), coastal Northwest (b), and coastal Bass-strait waters. The upper and the lower limits represent rates calculated with and without abrasion due to sand sediments, respectively. The combined current velocity at the surface of the offshore waters is taken to be 1.54 m/s. The normalised global sensitivity indices show the relative contribution of the temperature correction factor (Tcorr), pressure correction factor (Pcorr), light intensity correction factor (Icorr) and sediment abrasion to the overall uncertainty of each plot. Refer to the Supplementary Material for the complied literature rates, and calculated rate variations for the other synthetic polymers and plastics.
+
+We performed sensitivity analysis to explore how the model inputs (i.e., the essential parameters) contribute to the output uncertainties of our model. By using the global sensitivity indices for nonlinear mathematical modelling, Fig. 4 also illustrates that the relative impacts of each variable change at different depths or stratified zones. Each of the synthetic polymers has a different rate of degradation and responds differently to the effect of water depth and associated physicochemical parameter. HDPE (and PP, and EP – see Supplementary Material) have the lowest degradation rate, and are most likely to be impacted by sand abrasion. However, sand abrasion has a relatively low impact on hydrolysable synthetic polymers such as PA and PU. Both PA and PU have relatively high degradation rates in marine conditions due to the presence of hydrolysable chemical bonds. The result of these computations confirmed that sand abrasion, as currently estimated in the model, represents a significant source of uncertainty for some polymers (i.e., HDPE, and PP and EP as shown in the Supplementary Material), especially at oceanic depths near the seabed due to higher concentration of buoyant sand sediments. Therefore, further studies are needed to investigate the influence of transport of marine sediments on abrasive wear of polymer surfaces during decommissioning. Such work should also evaluate the degradation products and quantify the formation of microplastics and nanoplastics.
+6. Lifespan assessment of plastics in subsea environments
+6.1. Predicting the lifespan
+Chamas et al. have recently assembled the differential equations and the algebraic solutions for predicting the lifespan of plastics based on the surface degradation rate
+kss
+. The authors defined the algebraic solutions in terms of mass as a function of time (mt) and the total degradation time (td) for a plate, shrinking sphere, and shrinking cylinder, respectively (Chamas et al., 2020), noting that the surface area functions may also be translated in diameter (or radius) instead of mass in the differential equations. However, for subsea applications, the degradation rate
+kss
+ should be replaced by the depth-corrected degradation rates
+kss′
+ and the best geometrical representation should be adopted. For instance, the best representation for submarine pipeline coatings will assume a different formula suitable for an annular cylinder, and the limits of integration can account for multiple layers of coatings. Considering an annular cylinder (Fig. 5a) having a large aspect ratio (i.e., radius r ≪ height h) and degrading from the external surface, the solution to the differential equation for the shrinking external radius (r2) can be formulated as in Eqs. (14), (15), (16), where r1 is a constant value (e.g., the external radius of the steel component of a pipe being protected by the polymer coating – this also equals to the internal radius of the polymer coating layer).
+(14)
+−dmdt=kss′ρSA=2kss′πρh12m+πρhr1212
+(15)
+mt=m0+πρhr1212−kss′πρh12t2−πρhr12
+(16)
+td=1kss′m0πρh+r1212−r1=1kss′V0πh+r1212−r1
+Download: Download high-res image (218KB)
+Download: Download full-size image
+
+Fig. 5. (a) Geometric representation (annular cylinder) of surface erosion of a single-layer synthetic polymer coating and (b) multi-layer coating system (b). The specific depth-corrected degradation rate (
+kss′
+) is defined as the volume of material lost by removal of a layer of thickness in a specified time (i.e.,
+kss
+) corrected based on the physicochemical changes in marine depth.
+
+The ordinary differential equation (ODE) in Eq. 14 can be modified to account for the different exposure conditions on the time domain. For instance, if a plastic experienced a relatively harsh condition (e.g., the relatively higher temperature during service period) before being subjected to an ambient marine environment (e.g., during decommissioning), the piecewise ODE Eq. 17 can capture the timelines provided that the
+kss′
+ values are properly adjusted for the period 1 (t1, service life) and period 2 (decommissioning period), respectively. Furthermore, a multilayer coating system (depicted in Fig. 5b) requires an accurate arrangement of the piecewise time function. Eq. 17 illustrates how to compute the total mass loss of a system having infinite layers of synthetic polymer coatings. It is evident in Eq. 17 that the service-life period will only influence the mass-loss of the topmost polymer layer (i.e., t1 < < td of the topmost layer). However, as discussed earlier, the
+kss′
+ of the inner layers must also be corrected for any bulk alterations (e.g., high-temperature exposures) during the service life of the coatings. The term
+tdn
+ can be calculated from Eq. 16. These mathematical expressions do not account for material inhomogeneity and lateral changes in surface area due to gaps (e.g., from air bubbles during injection moulding), crevasse, pitting and cracks within the cross-section of the synthetic polymers. These features will increase the surface area and hence the degradation rate and can also contribute to surface ablations and abrasive erosion (Chamas et al., 2020). Another assumption is that the degradation is unidirectional. This is valid until disbonding occurs as the adhesion between the coatings and the steel pipe begins to fail, then surface degradation (mass-loss) will occur from the internal radius of the coating.
+(17)
+−dmdt=ft1′=2kssnt1′πρnt1h12mn+πρnt1hrn212,t≤t1
+
+fdn′=ft1′+2kssn′πρnh12mn+πρnhrn212,t1<t<tdn
+∙
+∙
+∙
+fd2′=fdn′+…+2kss2′πρ2h12m2+πρ2hr2212,td2+1<t<td2
+fd1′=fd2′+2kss1′πρ1h12m1+πρ1hr1212,td2<t<td1
+
+6.2. Evolution and degradation of polymer debris (microplastics)
+In addition to the produced CO2 (carbonate), and dissolve organic carbon (DOC, e.g., carboxylic acids, ketones, esters, etc. – See Section 4 and Supplementary Material) and nitrogen (DON), polymer debris (e.g., microplastics and nanoplastics) in the marine environment form from both shearing (i.e., abrasive wear) and chemical degradation pathways, which are coupled under realistic conditions. As photo- and thermo-chemical degradation (weathering) proceeds in time, the mechanical properties of the plastic deteriorates from the surface, allowing for a faster rate of abrasive wear (Andrady, 2011; Gerritse et al., 2020; Song et al., 2017; Ter Halle et al., 2016). Similarly, chemical degradation unzips the synthetic polymer into low molecular weight fragments, contributing to the fragmentation of the plastics along the surface cracks and fissures (Andrady, 2011; Costa and Barletta, 2015; Ivar do Sul and Costa, 2014; Wang et al., 2021).
+While there has been an attempt to detect the onset of microplastic generation in marine systems (Kalogerakis et al., 2017), and the role of water in fragmentation of plastics (Julienne et al., 2019), there exists no information in the literature on the mass balance of plastics' degradation into chemical products and fragmentation debris. In other words, there is no information on the number of microplastics generated per unit mass of the parent plastic's degradation in the ocean. Gerritse et al., while investigating the fragmentation of plastics in a microcosm experiment, reported that microplastic generation was responsible for portions of the detected gravimetric weight loss (Gerritse et al., 2020). More data are required to estimates the amount of microplastics generated from plastic degradation in the ocean. It can be assumed that the fraction of microplastics in the initial degradation products can be estimated based on the ratio of total degradation rate to rate of abrasion (i.e.,
+kSSE/kss′
+). This kind of approximation will be influenced by the type of plastic, discontinuities in the form of voids and cracks in the structure of the plastics, and the environmental degradation factors (discussed in Section 3).
+Microplastics are not readily degradable in marine systems, unless they are comprised of inherently biodegradable polymers. As shown in Eqs. 18, the rate of formation of polymer debris is calculated from the ratio of abrasion rate to the total surface degradation at a specific condition. This is an assumption that excludes fragmentation due to photo-chemical degradation. Moreover, the rate of degradation of the microplastics (expressed in the second term in the RHS of Eqs. 18) relies on the first-order reaction kinetics fitting of photochemical dissolution of buoyant microplastics (Wayman and Niemann, 2021; Zhu et al., 2020).
+(18)
+−dmpdt=φdmdt+kpmp
+where
+φ
+ represents the ratio of abrasion rate to overall surface degradation rate (i.e.,
+kSSE/kss′
+),
+kp
+ denotes the corrected degradation rates of microplastics, and
+mp
+ corresponds to the mass of polymer debris (i.e., microplastics).
+dmdt
+ is computed in the form of piecewise differential function (e.g., Eq. 17). Once formed, the residence time of small-size polymer debris in the water column is a crucial factor (Nguyen et al., 2020; Van Sebille et al., 2020; Wang et al., 2022b), however research has shown that the debris are likely to oscillate within the water column due to buoyancy and settling (Choy et al., 2019). Therefore, to correct degradation rate of the debris
+kp
+, we adapted Eq. 13, excluding the abrasion correction factor, and taking the depth as the average of the total water column. The Supplementary Material lists the experimental values for microplastics degradation rates and the correction methodology.
+6.3. Long-term exposure prediction and fate of polymer debris
+The lifetime and fate of the plastics in marine depths can be predicted by coupling the essential physicochemical equations with the system of ODEs listed above. Fig. 6, Fig. 7 illustrate the predicted geometry-dependent long-term degradation profile of synthetic polymer inventories in offshore application, using the upper limit of the depth-corrected surface degradation rates in Figs. 4. The Python code in the Supplementary Material can solve the coupled systems of ordinary differential equations (ODE) for different scenarios, i.e., different types of water depths, locations, service life, and synthetic polymer geometries. It takes approximately 400 years to completely degrade HDPE (6 mm thickness on 1 m long, 150 mm OD pipe) into CO2, dissolved organics, and polymer debris in near coastal conditions. However, the polymer debris (i.e., microplastics) will persist for another approximately 200 years. A similar HDPE material will take approximately 800 years in oceanic-bed conditions due to low temperature and near-zero solar radiation. In Fig. 6, Fig. 7, the debris are experiencing natural degradation concurrently as they are being formed (Eq. 18); hence, the polymer debris plot signifies the residual concentrations in the water, in addition to other organics chemical products. To the best of our knowledge, there are no quantitative data (i.e., mass percent of degradation) of the dissolved organic compounds in natural marine conditions. However, a very recent study shows that the leachable chemical products can reach 1400 species from high-density polyethylene, and 7000 species from polypropylene (Zimmermann et al., 2021).
+Download: Download high-res image (738KB)
+Download: Download full-size image
+
+Fig. 6. Degradation profiles of synthetic polymer coatings on a 1 m rigid pipe near the bed of coastal and oceanic waters, using the upper limit of the depth-corrected surface degradation rates, e.g., in Fig. 4. SL refers to service life. The polymer debris are generated per unit meter of the flowlines.
+
+Download: Download high-res image (843KB)
+Download: Download full-size image
+
+Fig. 7. Degradation profiles of synthetic polymer coatings and inner sheath on a 1 m flexible flowline near the bed of coastal and oceanic waters, using the upper limit of the depth-corrected surface degradation rates, e.g., in Fig. 4. The polymer debris are generated per unit meter of the flowlines. The dashed line represents the serial degradation of the second layer of the outer sheath (i.e., PE in this case).
+
+This prediction assumes the depth corrected specific surface degradation rate
+kss′
+ to be constant; however, its value may change over a very long period. As shown in Fig. 6, Fig. 7, the total amount of plastic debris from the HDPE (and PP) coating material can reach >1000 g per meter of the flowline. This will result in thousands of particles per g of HDPE (or PP) coatings, considering a particle mean diameter of about 500 μm. From an environmental point of view, microplastics may have adverse effects on marine biota, and migration of microorganisms depending on the local environment and concentration gradients (Naik et al., 2019; Troost et al., 2018; Wang et al., 2021; Wayman and Niemann, 2021).
+Calculating the half-life, i.e., the time in which the material loses 50 % of its original mass, is known to yield a somewhat accurate result, mainly because the subsequent half-lives may be very different from the first half-life, depending on the rate law (Chamas et al., 2020). Here, although the solution of the mass-loss differential equation is non-linear, the relative ratio of the pipe's diameter to the thickness of the coating makes the solution appear linear. Hence, the linear extrapolation of the half-life is valid in this case. These results should be interpreted carefully because the degradation mechanism may change after many years of exposure. There is currently no information to account for such mechanistic changes but the use of a unidirectional surface degradation (Min et al., 2020) model should reduce the errors in describing the rates of complex phenomena involved in synthetic polymer degradation.
+7. Summary and future perspectives of critical information
+The amount of plastic-ladened infrastructure subsea in offshore operations is considerable. Decisions regarding decommissioning requires an appropriate measure of the degradation and lifetime of the environmentally persistent plastic components, especially considering there could be 100,000 s of metric tonnes of plastic in the ocean depths from these sources alone. The current estimates of the plastics in the ocean (Eriksen et al., 2014; Geyer et al., 2017; Jambeck et al., 2015) do not capture these values explicitly; therefore, it is challenging to make a relative comparison to global mass budget of marine plastics. We have described a methodological approach of correcting polymer degradation rates for depth to estimate their respective lifetime and formation of debris such as microplastics. Whilst we have used Australian waters as a case study, the results are universally applicable. To the best of our knowledge, this is the first degradation model that implicitly accounts for essential factors in water depths. While essential parameters such as attenuated temperature and solar irradiance decrease the degradation rate with depth, the increasing hydrostatic pressure and sands in the water column have the opposite effect. Materials buried under the seabed are likely to degrade at relatively lower rates (see the lower limits of Figs. 4 and S6–S8) due to negligible marine sand abrasion. Adding to the volume of subsea microplastics (Kane et al., 2020), the environmental impact of the polymer debris (and other degradation products) should be explored.
+Furthermore, we have employed reasonable postulations based on the principles of abrasive wear to develop an approach to estimate the rate of abrasion of synthetic polymers due to marine particles. However, most of the wear coefficients in the literature were measured under air-borne sand conditions and high impact velocity. Projecting such data to water-borne sands and low impact velocity may result in some level of overestimation. We recommend further representative tests to measure the abrasion of the selected synthetic polymers and correlate this with the conditions in marine environments. A marine campaign is also needed to experimentally measure the rate of degradation of the plastics at varying depths. Such data are currently not available but will be highly instrumental in validating the depth-controlled kinetic model.
+For the case of materials buried under the seabed, there is currently no information in the literature on the degradation of plastics embedded below the seabed. It can be argued that components buried under the seabed are likely to encounter degradation rates similar to those recorded for terrestrial underground degradation, and may be influenced by the bathymetry, and the existence of benthic organisms. However, practically, the degradation rate of the synthetic polymer will be influenced by the geochemistry of the mudline and the poroelastic nature of the seabed. There is currently no information in the literature quantifying the effects of mudline geochemistry and poroelasticity of seabed on the degradation of synthetic polymers. However, the degradation rate of the synthetic polymer coatings in this scenario can be assumed to be between the degradation rates on the seabed with and without abrasion (if the sand below the seabed is relatively stable) based on the fact that (i) like underwater buried condition, the material located on the seabed is already experiencing a near-zero light intensity (see Section 3), (ii) the temperature at a few metres below the seabed can be represented by the bulk water temperature at the seabed, (iii) due to the poroelastic nature of the seabed, water can diffuse to a considerable depth (e.g., >20 m) below the (porous) seabed (Lee and Lan, 2002; Lee et al., 2002). In fact, beyond the porous seabed depth, the so-called rigid impermeable bottom are also made of porous materials (Lee et al., 2002); therefore, all the hydrolytic (and consequential biotic) degradation channels are likely to persist in underwater buried conditions. In such a scenario, the impact of sand abrasion becomes negligible; therefore, the lower limits of the degradation rates in Fig. 4 (and Figs. S6–S8) can be used. However, there may be other potential degradation mechanisms at play.
+CRediT authorship contribution statement
+I·O, LLM: Data curation, analysis, and original draft preparation. All authors: Methodology, validation, writing, reviewing, and editing.
+Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+Acknowledgements
+The work at Curtin University has been supported by the Australian National Decommissioning Research Initiative (NDRI) within National Energy Resources Australia (NERA). Ibukun Oluwoye acknowledges the financial support from the Japan Society for the Promotion of Science (JSPS), under the FY2022 JSPS Postdoctoral Fellowship for Research in Japan (Standard, P22735). We are grateful to Professor Bronwyn Laycock of The University of Queensland for exceptionally valuable comments to improve this paper.
+Appendix A. Supplementary data
+Download all supplementary files
+What’s this?
+Download: Download Word document (1MB)
+
+Supplementary Material. Quantification of plastics in subsea flexible flowlines and umbilical cables; compiled literature data on degradation of the selected plastics in marine environments; literature data on degradation of microplastics; mechanistic pathways for degradation of selected plastics and synthetic polymers; model validation approach; computed depth-corrected degradation rates.
+
+Download: Download zip file (5KB)
+
+Supplementary Python Code. Python code for solving the degradation model.
+
+Data availability
+Data is provided in the supplementary material.
+References
+Albertsson et al., 1987
+A.-C. Albertsson, S.O. Andersson, S. Karlsson
+The mechanism of biodegradation of polyethylene
+Polym. Degrad. Stab., 18 (1987), pp. 73-87
+View PDF
+View articleView in ScopusGoogle Scholar
+Al-Nu'airat et al., 2017
+J. Al-Nu’airat, M. Altarawneh, X. Gao, P.R. Westmoreland, B.Z. Dlugogorski
+Reaction of aniline with singlet oxygen (O21Δg)
+J. Phys. Chem. A, 121 (2017), pp. 3199-3206
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Al-Nu'airat et al., 2021
+J. Al-Nu’airat, I. Oluwoye, N. Zeinali, M. Altarawneh, B.Z. Dlugogorski
+Review of chemical reactivity of singlet oxygen with organic fuels and contaminants
+Chem. Rec., 21 (2021), pp. 315-342
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Andrady, 2011
+A.L. Andrady
+Microplastics in the marine environment
+Mar. Pollut. Bull., 62 (2011), pp. 1596-1605
+View PDF
+View articleView in ScopusGoogle Scholar
+Andrady, 2015
+A.L. Andrady
+Persistence of Plastic Litter in the Oceans
+Cham, Marine anthropogenic litter. Springer (2015), pp. 57-72
+View at publisher
+CrossrefGoogle Scholar
+AODN, n.d.
+AODN (n.d.). https://portal.aodn.org.au/search.
+Google Scholar
+Arjula and Harsha, 2006
+S. Arjula, A.P. Harsha
+Study of erosion efficiency of polymers and polymer composites
+Polym. Test., 25 (2006), pp. 188-196
+View PDF
+View articleView in ScopusGoogle Scholar
+Arjula et al., 2008
+S. Arjula, A.P. Harsha, M.K. Ghosh
+Solid-particle erosion behavior of high-performance thermoplastic polymers
+J. Mater. Sci., 43 (2008), pp. 1757-1768
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Ars and Rios, 2017
+F. Ars, R. Rios
+Decommissioning: a call for a new approach
+Paper presented at the Offshore Technology Conference, Houston, Texas, USA, May 2017 (2017), 10.4043/27717-MS
+View at publisherGoogle Scholar
+Artham et al., 2009
+T. Artham, M. Sudhakar, R. Venkatesan, C. Madhavan Nair, K.V.G.K. Murty, M. Doble
+Biofouling and stability of synthetic polymers in sea water
+Int. Biodeterior. Biodegradation, 63 (2009), pp. 884-890
+View PDF
+View articleView in ScopusGoogle Scholar
+Arutchelvi et al., 2008
+J. Arutchelvi, M. Sudhakar, A. Arkatkar, M. Doble, S. Bhaduri, P.V. Uppara
+Biodegradation of Polyethylene and Polypropylene
+(2008)
+Google Scholar
+Asano and Le Noble, 1978
+T. Asano, W. Le Noble
+Activation and reaction volumes in solution
+Chem. Rev., 78 (1978), pp. 407-489
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+ASTM. ASTM International, 2011
+ASTM. ASTM International
+ASTM D883–11; Standard Terminology Relating to Plastics
+ASTM International West, Conshohocken, PA (2011)
+Google Scholar
+Austin et al., 2018
+H.P. Austin, M.D. Allen, B.S. Donohoe, N.A. Rorrer, F.L. Kearns, R.L. Silveira, et al.
+Characterization and engineering of a plastic-degrading aromatic polyesterase
+Proc. Natl. Acad. Sci., 115 (2018), pp. E4350-E4357
+View in ScopusGoogle Scholar
+Bainbridge et al., 2009
+Z.T. Bainbridge, J.E. Brodie, J.W. Faithful, D.A. Sydes, S.E. Lewis
+Identifying the land-based sources of suspended sediments, nutrients and pesticides discharged to the great barrier reef from the TullyMurray Basin, Queensland, Australia
+Marine and Freshwater Research, 60 (2009), pp. 1081-1090
+View in ScopusGoogle Scholar
+Bardají et al., 2020
+D.K.R. Bardají, J.A.S. Moretto, J.P.R. Furlan, E.G. Stehling
+A mini-review: current advances in polyethylene biodegradation
+World J. Microbiol. Biotechnol., 36 (2020), pp. 1-10
+Google Scholar
+Barnes et al., 2009
+D.K. Barnes, F. Galgani, R.C. Thompson, M. Barlaz
+Accumulation and fragmentation of plastic debris in global environments
+Philos. Trans. R. Soc. B, 364 (2009), pp. 1985-1998
+View at publisher
+CrossrefGoogle Scholar
+Board OS, 2010
+Board OS, Council NR. Ocean Acidification: A National Strategy to Meet the Challenges of a Changing Ocean: National Academies Press, 2010.
+Google Scholar
+Bravery, 1988
+A.F. Bravery
+Biodeterioration of paint—A state-of-the-art comment
+D.R. Houghton, R.N. Smith, H.O.W. Eggins (Eds.), Biodeterioration 7, Springer, Netherlands, Dordrecht (1988), pp. 466-485
+View at publisherCrossrefGoogle Scholar
+Breister et al., 2020
+A.M. Breister, M.A. Imam, Z. Zhou, M.A. Ahsan, J.C. Noveron, K. Anantharaman, et al.
+Soil microbiomes mediate degradation of vinyl ester-based polymer composites
+Commun. Mater., 1 (2020), pp. 1-15
+Google Scholar
+Brown et al., 2018
+M.V. Brown, J. Van De Kamp, M. Ostrowski, J.R. Seymour, T. Ingleton, L.F. Messer, et al.
+Systematic, continental scale temporal monitoring of marine pelagic microbiota by the Australian marine microbial biodiversity initiative
+Sci. Data, 5 (2018), pp. 1-10
+Google Scholar
+BSI, 2006
+BSI. British Standards Institution. PD CEN/TR 15351; Plastics. Guide for vocabulary in the field of degradable and biodegradable polymers and plastic items, 2006.
+Google Scholar
+Bull and Love, 2019
+A.S. Bull, M.S. Love
+Worldwide oil and gas platform decommissioning: a review of practices and reefing options
+Ocean Coast. Manag., 168 (2019), pp. 274-306
+View PDF
+View articleView in ScopusGoogle Scholar
+Burkersroda et al., 2002
+F.V. Burkersroda, L. Schedl, A. Göpferich
+Why degradable polymers undergo surface erosion or bulk erosion
+Biomaterials, 23 (2002), pp. 4221-4231
+View PDF
+View articleView in ScopusGoogle Scholar
+Capiel et al., 2018
+G. Capiel, J. Uicich, D. Fasce, P.E. Montemartini
+Diffusion and hydrolysis effects during water aging on an epoxy-anhydride system
+Polym. Degrad. Stab., 153 (2018), pp. 165-171
+View PDF
+View articleView in ScopusGoogle Scholar
+Carlsson and Wiles, 1976a
+D. Carlsson, D. Wiles
+The photooxidative degradation of polypropylene. Part I. Photooxidation and photoinitiation processes. Journal of macromolecular science—reviews in macromolecular
+Chemistry, 14 (1976), pp. 65-106
+View at publisherCrossrefView in ScopusGoogle Scholar
+Carlsson and Wiles, 1976b
+D. Carlsson, D. Wiles
+The photooxidative degradation of polypropylene. Part II. Photostabilization mechanisms
+J. Macromol. Sci. Rev. Macromol. Chem., 14 (1976), pp. 155-192
+View at publisherCrossrefView in ScopusGoogle Scholar
+Cavicchioli et al., 2019
+R. Cavicchioli, W.J. Ripple, K.N. Timmis, F. Azam, L.R. Bakken, M. Baylis, et al.
+Scientists’ warning to humanity: microorganisms and climate change
+Nat. Rev. Microbiol., 17 (2019), pp. 569-586
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Chamas et al., 2020
+A. Chamas, H. Moon, J. Zheng, Y. Qiu, T. Tabassum, J.H. Jang, et al.
+Degradation rates of plastics in the environment
+ACS Sustain. Chem. Eng., 8 (2020), pp. 3494-3511
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Choy et al., 2019
+C.A. Choy, B.H. Robison, T.O. Gagne, B. Erwin, E. Firl, R.U. Halden, et al.
+The vertical distribution and biological transport of marine microplastics across the epipelagic and mesopelagic water column
+Sci. Rep., 9 (2019), p. 7843
+View in ScopusGoogle Scholar
+Church, 2009
+M.J. Church
+The trophic tapestry of the sea
+Proc. Natl. Acad. Sci., 106 (2009), pp. 15519-15520
+View at publisherCrossrefView in ScopusGoogle Scholar
+Cole et al., 2011
+M. Cole, P. Lindeque, C. Halsband, T.S. Galloway
+Microplastics as contaminants in the marine environment: a review
+Mar. Pollut. Bull., 62 (2011), pp. 2588-2597
+View PDF
+View articleView in ScopusGoogle Scholar
+Colin et al., 2003
+X. Colin, B. Fayolle, L. Audouin, J. Verdu
+About a quasi-universal character of unstabilised polyethylene thermal oxidation kinetics
+Polym. Degrad. Stab., 80 (2003), pp. 67-74
+View PDF
+View articleView in ScopusGoogle Scholar
+Cooper and Corcoran, 2010
+D.A. Cooper, P.L. Corcoran
+Effects of mechanical and chemical processes on the degradation of plastic beach debris on the island of Kauai, Hawaii
+Mar. Pollut. Bull., 60 (2010), pp. 650-654
+View PDF
+View articleView in ScopusGoogle Scholar
+Cooper et al., 2017
+M. Cooper, S.E. Lewis, S.G. Smithers
+Spatial and temporal dynamics of suspended sediment causing persistent turbidity in a large reservoir: Lake Dalrymple, Queensland, Australia
+Mar. Freshw. Res., 68 (2017), pp. 1377-1390
+View in ScopusGoogle Scholar
+Corcoran et al., 2009
+P.L. Corcoran, M.C. Biesinger, M. Grifi
+Plastics and beaches: a degrading relationship
+Mar. Pollut. Bull., 58 (2009), pp. 80-84
+View PDF
+View articleView in ScopusGoogle Scholar
+Cordes et al., 2016
+E.E. Cordes, D.O. Jones, T.A. Schlacher, D.J. Amon, A.F. Bernardino, S. Brooke, et al.
+Environmental impacts of the deep-water oil and gas industry: a review to guide management strategies
+Front. Environ. Sci., 4 (2016), p. 58
+View in ScopusGoogle Scholar
+Costa and Barletta, 2015
+M.F. Costa, M. Barletta
+Microplastics in coastal and marine environments of the western tropical and sub-tropical Atlantic Ocean
+Environ. Sci. Process. Impacts, 17 (2015), pp. 1868-1879
+View in ScopusGoogle Scholar
+Cózar et al., 2014
+A. Cózar, F. Echevarría, J.I. González-Gordillo, X. Irigoien, B. Úbeda, S. Hernández-León, et al.
+Plastic debris in the open ocean
+Proc. Natl. Acad. Sci., 111 (2014), pp. 10239-10244
+View at publisherCrossrefView in ScopusGoogle Scholar
+Craig et al., 2005
+I. Craig, J. White, A. Shyichuk, I. Syrotynska
+Photo-induced scission and crosslinking in LDPE, LLDPE, and HDPE
+Polym. Eng. Sci., 45 (2005), pp. 579-587
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Danso et al., 2019
+D. Danso, J. Chow, W.R. Streit
+Plastics: environmental and biotechnological perspectives on microbial degradation
+Appl. Environ. Microbiol., 85 (2019)
+e01095-19
+Google Scholar
+Day and Wiles, 1972
+M. Day, D. Wiles
+Photochemical degradation of poly (ethylene terephthalate). II. Effect of wavelength and environment on the decomposition process
+J. Appl. Polym. Sci., 16 (1972), pp. 191-202
+View in ScopusGoogle Scholar
+De Tender et al., 2017
+C. De Tender, L.I. Devriese, A. Haegeman, S. Maes, Vangeyte Jr, A. Cattrijsse, et al.
+Temporal dynamics of bacterial and fungal colonization on plastic debris in the North Sea
+Environ. Sci. Technol., 51 (2017), pp. 7350-7360
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Deguchi et al., 1998
+T. Deguchi, Y. Kitaoka, M. Kakezawa, T. Nishida
+Purification and characterization of a nylon-degrading enzyme
+Appl. Environ. Microbiol., 64 (1998), pp. 1366-1371
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Delebecq et al., 2013
+E. Delebecq, J.-P. Pascault, B. Boutevin, F. Ganachaud
+On the versatility of urethane/urea bonds: reversibility, blocked isocyanate, and non-isocyanate polyurethane
+Chem. Rev., 113 (2013), pp. 80-118
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Deng et al., 2019
+S. Deng, J. Wu, Y. Li, G. Wang, K. Chai, A. Yu, et al.
+Effect of Bacillus flexus on the degradation of epoxy resin varnish coating in seawater
+Int. J. Electrochem. Sci., 14 (2019), pp. 315-328
+View PDF
+View articleCrossrefView in ScopusGoogle Scholar
+Dickie, 1994
+R.A. Dickie
+Paint adhesion, corrosion protection, and interfacial chemistry
+Prog. Org. Coat., 25 (1994), pp. 3-22
+View PDF
+View articleView in ScopusGoogle Scholar
+Dickie et al., 1981
+R.A. Dickie, J.S. Hammond, J.W. Holubka
+Interfacial chemistry of the corrosion of polybutadiene-coated steel
+Ind. Eng. Chem. Prod. Res. Dev., 20 (1981), pp. 339-343
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Drljaca et al., 1998
+A. Drljaca, C. Hubbard, R. Van Eldik, T. Asano, M. Basilevsky, W. Le Noble
+Activation and reaction volumes in solution. 3
+Chem. Rev., 98 (1998), pp. 2167-2290
+Google Scholar
+Dutta, 2018
+A.S. Dutta
+2 - polyurethane foam chemistry
+S. Thomas, A.V. Rane, K.V.K.A. Kanny, M.G. Thomas (Eds.), Recycling of Polyurethane Foams, William Andrew Publishing (2018), pp. 17-27
+View PDF
+View articleView in ScopusGoogle Scholar
+Dutta et al., 2010
+S. Dutta, N. Karak, J.P. Saikia, B.K. Konwar
+Biodegradation of epoxy and MF modified polyurethane films derived from a sustainable resource
+J. Polym. Environ., 18 (2010), pp. 167-176
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+El Yagoubi et al., 2015
+J. El Yagoubi, G. Lubineau, A. Traidia, J. Verdu
+Monitoring and simulations of hydrolysis in epoxy matrix composites during hygrothermal aging
+Compos. A: Appl. Sci. Manuf., 68 (2015), pp. 184-192
+View PDF
+View articleView in ScopusGoogle Scholar
+van Elden et al., 2019
+S. van Elden, J.J. Meeuwig, R.J. Hobbs
+Hemmi JM
+A global perspective. Frontiers in Marine Science, Offshore oil and gas platforms as novel ecosystems (2019), p. 6
+Google Scholar
+Eliaz et al., 2018
+N. Eliaz, E.Z. Ron, M. Gozin, S. Younger, D. Biran, N. Tal
+Microbial degradation of epoxy. Materials, 11 (2018), p. 2123
+View at publisherCrossrefView in ScopusGoogle Scholar
+Eriksen et al., 2014
+M. Eriksen, L.C. Lebreton, H.S. Carson, M. Thiel, C.J. Moore, J.C. Borerro, et al.
+Plastic pollution in the world’s oceans: more than 5 trillion plastic pieces weighing over 250,000 tons afloat at sea
+PLoS One, 9 (2014), Article e111913
+View at publisherCrossrefView in ScopusGoogle Scholar
+Fang and Duan, 2014
+H. Fang, M. Duan
+Chapter 1 - The environment and environmental load of offshore oil engineering
+H. Fang, M. Duan (Eds.), Offshore Operation Facilities, Gulf Professional Publishing, Boston (2014), pp. 1-140
+View PDF
+View articleView in ScopusGoogle Scholar
+Gajendiran et al., 2016
+A. Gajendiran, S. Krishnamoorthy, J. Abraham
+Microbial degradation of low-density polyethylene (LDPE) by Aspergillus clavatus strain JASK1 isolated from landfill soil
+3 Biotech, 6 (2016), p. 52
+Google Scholar
+Galloway et al., 2017
+T.S. Galloway, M. Cole, C. Lewis
+Interactions of microplastic debris throughout the marine ecosystem
+Nature Ecology & Evolution, 1 (2017), p. 0116
+View in ScopusGoogle Scholar
+Gardette et al., 2013
+M. Gardette, A. Perthue, J.-L. Gardette, T. Janecska, E. Földes, B. Pukánszky, et al.
+Photo- and thermal-oxidation of polyethylene: comparison of mechanisms and influence of unsaturation content
+Polym. Degrad. Stab., 98 (2013), pp. 2383-2390
+View PDF
+View articleView in ScopusGoogle Scholar
+Garvey et al., 2020
+C.J. Garvey, M. Impéror-Clerc, S. Rouzière, G. Gouadec, O. Boyron, L. Rowenczyk, et al.
+Molecular-scale understanding of the embrittlement in polyethylene ocean debris
+Environ. Sci. Technol., 54 (2020), pp. 11173-11181
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Gauthier, 1997
+J. Gauthier
+Biotechnology in the Sustainable Environment. Biotechnology in the Sustainable Environment
+Springer (1997), pp. 379-384
+View at publisherCrossrefGoogle Scholar
+Gerritse et al., 2020
+J. Gerritse, H.A. Leslie, A. Caroline, L.I. Devriese, A.D. Vethaak
+Fragmentation of plastic objects in a laboratory seawater microcosm
+Sci. Rep., 10 (2020), pp. 1-16
+Google Scholar
+Gewert et al., 2015
+B. Gewert, M.M. Plassmann, M. MacLeod
+Pathways for degradation of plastic polymers floating in the marine environment
+Environ Sci Process Impacts, 17 (2015), pp. 1513-1521
+View in ScopusGoogle Scholar
+Geyer et al., 2017
+R. Geyer, J.R. Jambeck, K.L. Law
+Production, use, and fate of all plastics ever made
+Sci. Adv., 3 (2017), Article e1700782
+View in ScopusGoogle Scholar
+Ghatge et al., 2020
+S. Ghatge, Y. Yang, J.-H. Ahn, H.-G. Hur
+Biodegradation of polyethylene: a brief review
+Applied Biological Chemistry, 63 (2020), pp. 1-14
+View at publisherCrossrefGoogle Scholar
+Grassie and Scott, 1988
+N. Grassie, G. Scott
+Polymer Degradation and Stabilisation
+CUP Archive (1988)
+Google Scholar
+Grassie et al., 1985
+N. Grassie, M.I. Guy, N.H. Tennent
+Degradation of epoxy polymers: part 1—products of thermal degradation of bisphenol-a diglycidyl ether
+Polym. Degrad. Stab., 12 (1985), pp. 65-91
+View PDF
+View articleView in ScopusGoogle Scholar
+Grassie et al., 1986
+N. Grassie, M.I. Guy, N.H. Tennent
+Degradation of epoxy polymers. Part 5—photo-degradation of bisphenol-a diglycidyl ether cured with ethylene diamine
+Polym. Degrad. Stab., 14 (1986), pp. 209-216
+View PDF
+View articleView in ScopusGoogle Scholar
+Gu et al., 1997
+J.D. Gu, C. Lu, K. Thorp, A. Crasto, R. Mitchell
+Fiber-reinforced polymeric composites are susceptible to microbial degradation
+J. Ind. Microbiol. Biotechnol., 18 (1997), pp. 364-369
+View in ScopusGoogle Scholar
+Hammond et al., 1981
+J.S. Hammond, J.W. Holubka, J.E. deVries, R.A. Dickie
+The application of x-ray photo-electron spectroscopy to a study of interfacial composition in corrosion-induced paint de-adhesion
+Corros. Sci., 21 (1981), pp. 239-253
+View PDF
+View articleGoogle Scholar
+Harun et al., 2005
+M.K. Harun, J. Marsh, S.B. Lyon
+The effect of surface modification on the cathodic disbondment rate of epoxy and alkyd coatings
+Progress in Organic Coatings, 54 (2005), pp. 317-321
+View PDF
+View articleView in ScopusGoogle Scholar
+He et al., 2001
+Y. He, J.P. Yuan, H. Cao, R. Zhang, Y.C. Jean, T.C. Sandreczki
+Characterization of photo-degradation of a polyurethane coating system by electron spin resonance
+Progress in Organic Coatings, 42 (2001), pp. 75-81
+View PDF
+View articleView in ScopusGoogle Scholar
+Heiber et al., 1990
+I. Heiber, W. Knoche, C. Balny
+Pressure dependence of the reversible hydrolysis of thiazolium salts
+High Pressure Res., 6 (1990), pp. 77-83
+View at publisherCrossrefView in ScopusGoogle Scholar
+Helmke and Weyland, 1986
+E. Helmke, H. Weyland
+Effect of hydrostatic pressure and temperature on the activity and synthesis of chitinases of Antarctic Ocean bacteria
+Mar. Biol., 91 (1986), pp. 1-7
+View in ScopusGoogle Scholar
+Hochachka, 1971
+P.W. Hochachka
+Enzyme mechanisms in temperature and pressure adaptation of off-shore benthic organisms: The basic problem
+Am. Zool., 11 (1971), pp. 425-435
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Hopfenberg, 1976
+H.B. Hopfenberg
+Controlled release from erodible slabs, cylinders, and spheres. Controlled release polymeric formulations. 33
+Am. Chem. Soc. (1976), pp. 26-32
+View at publisherCrossrefGoogle Scholar
+Hurley et al., 2015
+M.J. Hurley, D.T. Gottuk, J.R. Hall Jr., K. Harada, E.D. Kuligowski, M. Puchovsky, et al.
+SFPE Handbook of Fire Protection Engineering
+Springer (2015)
+Google Scholar
+Hutchings and Shipway, 2017
+I. Hutchings, P. Shipway
+Tribology: Friction and Wear of Engineering
+Elsevier Science, Materials (2017)
+Google Scholar
+Ivar do Sul and Costa, 2014
+J.A. Ivar do Sul, M.F. Costa
+The present and future of microplastic pollution in the marine environment
+Environ. Pollut., 185 (2014), pp. 352-364
+View PDF
+View articleView in ScopusGoogle Scholar
+Jacques et al., 2002
+B. Jacques, M. Werth, I. Merdas, F. Thominette, J. Verdu
+Hydrolytic ageing of polyamide 11. 1. Hydrolysis kinetics in water
+Polymer, 43 (2002), pp. 6439-6447
+View PDF
+View articleView in ScopusGoogle Scholar
+Jambeck et al., 2015
+J.R. Jambeck, R. Geyer, C. Wilcox, T.R. Siegler, M. Perryman, A. Andrady, et al.
+Plastic waste inputs from land into the ocean
+Science, 347 (2015), pp. 768-771
+View at publisher
+CrossrefGoogle Scholar
+Julienne et al., 2019
+F. Julienne, N. Delorme, F. Lagarde
+From macroplastics to microplastics: role of water in the fragmentation of polyethylene
+Chemosphere, 236 (2019), Article 124409
+View PDF
+View articleView in ScopusGoogle Scholar
+Kadlec et al., 2000
+R. Kadlec, R. Knight, J. Vymazal, H. Brix, P. Cooper, R. Haberl
+Constructed Wetlands for Pollution Control: Processes, Performance, Design and Operation: IWA Publishing
+(2000)
+Google Scholar
+Kaiser, 2018
+M.J. Kaiser
+The global offshore pipeline construction service market 2017 – part I
+Ships and Offshore Structures, 13 (2018), pp. 65-95
+View at publisherCrossrefView in ScopusGoogle Scholar
+Kaiser, 2019
+Kaiser MJ NS. The offshore pipeline construction industry and activity modeling in the US Gulf of Mexico. New Orleans (LA): US Dept. of the Interior, Bureau of Ocean Energy Management, Gulf of Mexico OCS Region. OCS Study BOEM 2019-070. Agreement No.: M14AC00024. 417 p, 2019.
+Google Scholar
+Kalogerakis et al., 2017
+N. Kalogerakis, K. Karkanorachaki, G. Kalogerakis, E.I. Triantafyllidi, A.D. Gotsis, P. Partsinevelos, et al.
+Microplastics generation: onset of fragmentation of polyethylene films in marine environment mesocosms
+Front. Mar. Sci., 4 (2017), p. 84
+View in ScopusGoogle Scholar
+Kanagawa et al., 1993
+K. Kanagawa, M. Oishi, S. Negoro, I. Urabe, H. Okada
+Characterization of the 6-aminohexanoate-dimer hydrolase from pseudomonas sp. NK87
+Microbiology, 139 (1993), pp. 787-795
+View at publisherCrossrefView in ScopusGoogle Scholar
+Kane et al., 2020
+I.A. Kane, M.A. Clare, E. Miramontes, R. Wogelius, J.J. Rothwell, P. Garreau, et al.
+Seafloor microplastic hotspots controlled by deep-sea circulation
+Science, 368 (2020), pp. 1140-1145
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Kathiresan, 2003
+K. Kathiresan
+Polythene and plastics-degrading microbes from the mangrove soil
+Revista de biologia tropical, 51 (2003), pp. 629-633
+View in ScopusGoogle Scholar
+Khelidj et al., 2006
+N. Khelidj, X. Colin, L. Audouin, J. Verdu, C. Monchy-Leroy, V. Prunier
+Oxidation of polyethylene under irradiation at low temperature and low dose rate. Part II. Low temperature thermal oxidation
+Polym. Degrad. Stab., 91 (2006), pp. 1598-1605
+View PDF
+View articleView in ScopusGoogle Scholar
+Kinoshita et al., 1977
+S. Kinoshita, S. Negoro, M. Muramatsu, V. Bisaria, S. Sawada, H. Okada
+6-Aminohexanoic acid cyclic dimer hydrolase. A new cyclic amide hydrolase produced by Acromobacter guttatus KI72
+Eur. J. Biochem., 80 (1977), pp. 489-495
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Kinoshita et al., 1981
+S. Kinoshita, T. Terada, T. Taniguchi, Y. Takene, S. Masuda, N. Matsunaga, et al.
+Purification and characterization of 6-Aminohexanoic-acid-oligomer hydrolase of Flavobacterium sp. KI72
+Eur. J. Biochem., 116 (1981), pp. 547-551
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Kleypas et al., 1999
+J.A. Kleypas, R.W. Buddemeier, D. Archer, J.-P. Gattuso, C. Langdon, B.N. Opdyke
+Geochemical consequences of increased atmospheric carbon dioxide on coral reefs
+science, 284 (1999), pp. 118-120
+View in ScopusGoogle Scholar
+Koehler, 1984
+E.L. Koehler
+Technical note: The mechanism of Cathodic Disbondment of protective organic coatings—aqueous displacement at elevated pH
+Corrosion, 40 (1984), pp. 5-8
+View at publisherCrossrefView in ScopusGoogle Scholar
+Kooi et al., 2017
+M. Kooi, Nes EHv, M. Scheffer, A.A. Koelmans
+Ups and downs in the ocean: effects of biofouling on vertical transport of microplastics
+Environ. Sci. Technol., 51 (2017), pp. 7963-7971
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Krasowska et al., 2015
+K. Krasowska, A. Heimowska, M. Rutkowska
+Environmental Degradability of Polyurethanes
+Synthesis and Applications, Thermoplastic Elastomers (2015), p. 75
+Google Scholar
+Kumar Sen and Raut, 2015
+S. Kumar Sen, S. Raut
+Microbial degradation of low density polyethylene (LDPE): a review
+Journal of Environmental Chemical Engineering, 3 (2015), pp. 462-473
+View PDF
+View articleView in ScopusGoogle Scholar
+Kurowski et al., 2017
+G. Kurowski, O. Vogt, J. Ogonowski
+Paint-degrading microorganisms
+Technical transactions (2017), p. 12
+Google Scholar
+Lamb et al., 2018
+J.B. Lamb, B.L. Willis, E.A. Fiorenza, C.S. Couch, R. Howard, D.N. Rader, et al.
+Plastic waste associated with disease on coral reefs
+Science, 359 (2018), pp. 460-462
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Lamba et al., 1997
+N.M.K. Lamba, K.A. Woodhouse, S.L. Cooper
+Polyurethanes in Biomedical Applications
+Taylor & Francis (1997)
+Google Scholar
+Law, 2017
+K.L. Law
+Plastics in the marine environment
+Annu. Rev. Mar. Sci., 9 (2017), pp. 205-229
+View at publisherCrossrefView in ScopusGoogle Scholar
+Laycock et al., 2017
+B. Laycock, M. Nikolić, J.M. Colwell, E. Gauthier, P. Halley, S. Bottle, et al.
+Lifetime prediction of biodegradable polymers
+Prog. Polym. Sci., 71 (2017), pp. 144-189
+View PDF
+View articleView in ScopusGoogle Scholar
+Le Saux et al., 2014
+V. Le Saux, P.Y. Le Gac, Y. Marco, S. Calloch
+Limits in the validity of Arrhenius predictions for field ageing of a silica filled polychloroprene in a marine environment
+Polym. Degrad. Stab., 99 (2014), pp. 254-261
+View PDF
+View articleView in ScopusGoogle Scholar
+Lebreton et al., 2019
+L. Lebreton, M. Egger, B. Slat
+A global mass budget for positively buoyant macroplastic debris in the ocean
+Sci. Rep., 9 (2019), pp. 1-10
+View in ScopusGoogle Scholar
+Lee and Lan, 2002
+J.-F. Lee, Y.-J. Lan
+On waves propagating over poro-elastic seabed
+Ocean Eng., 29 (2002), pp. 931-946
+View PDF
+View articleView in ScopusGoogle Scholar
+Lee et al., 2002
+T.L. Lee, C.P. Tsai, D.S. Jeng
+Ocean waves propagating over a coulomb-damped poroelastic seabed of finite thickness: an analytical solution
+Comput. Geotech., 29 (2002), pp. 119-149
+View PDF
+View articleView in ScopusGoogle Scholar
+Lee et al., 2013
+Z. Lee, C. Hu, S. Shang, K. Du, M. Lewis, R. Arnone, et al.
+Penetration of UV-visible solar radiation in the global oceans: insights from ocean color remote sensing
+Journal of Geophysical Research: Oceans, 118 (2013), pp. 4241-4255
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Leidheiser et al., 1983
+H. Leidheiser, W. Wang, L. Igetoft
+The mechanism for the cathodic delamination of organic coatings from a metal surface
+Progress in Organic Coatings, 11 (1983), pp. 19-40
+View PDF
+View articleView in ScopusGoogle Scholar
+Leng et al., 1998
+A. Leng, H. Streckel, K. Hofmann, M. Stratmann
+The delamination of polymeric coatings from steel part 3: effect of the oxygen partial pressure on the delamination reaction and current distribution at the metal/polymer interface
+Corros. Sci., 41 (1998), pp. 599-620
+View PDF
+View articleView in ScopusGoogle Scholar
+Lim et al., 2019
+J.S.K. Lim, C.L. Gan, X.M. Hu
+Unraveling the mechanistic origins of epoxy degradation in acids
+ACS omega, 4 (2019), pp. 10799-10808
+View at publisherCrossrefView in ScopusGoogle Scholar
+Lobelle and Cunliffe, 2011
+D. Lobelle, M. Cunliffe
+Early microbial biofilm formation on marine plastic debris
+Mar. Pollut. Bull., 62 (2011), pp. 197-200
+View PDF
+View articleView in ScopusGoogle Scholar
+Lohmüller et al., 1978
+R. Lohmüller, D. Macdonald, M. Mackinnon, J. Hyne
+The volume of activation for benzyl chloride hydrolysis and its pressure dependence
+Can. J. Chem., 56 (1978), pp. 1739-1745
+View at publisherCrossrefGoogle Scholar
+Love et al., 2007
+C.T. Love, G. Xian, V.M. Karbhari
+Cathodic disbondment resistance with reactive ethylene terpolymer blends
+Progress in Organic Coatings, 60 (2007), pp. 287-296
+View PDF
+View articleView in ScopusGoogle Scholar
+Lucas et al., 2008
+N. Lucas, C. Bienaime, C. Belloy, M. Queneudec, F. Silvestre, J.-E. Nava-Saucedo
+Polymer biodegradation: mechanisms and estimation techniques – a review
+Chemosphere, 73 (2008), pp. 429-442
+View PDF
+View articleView in ScopusGoogle Scholar
+Luft et al., 2001
+G. Luft, F. Recasens, E. Velo
+Chapter 3 - kinetic properties at high pressure
+A. Bertucco, G. Vetter (Eds.), Industrial Chemistry Library. 9, Elsevier (2001), pp. 65-140
+View PDF
+View articleView in ScopusGoogle Scholar
+Luo, 2002
+Luo Y-R. Handbook of Bond Dissociation Energies in Organic Compounds: CRC press, 2002.
+Google Scholar
+da Luz, 2019
+J.M.R. da Luz
+da Silva MdCS, dos Santos LF
+Kasuya MCM. Plastics Polymers Degradation by Fungi. Microorganisms, IntechOpen (2019)
+Google Scholar
+Mahdavi et al., 2017
+F. Mahdavi, M. Forsyth, M.Y.J. Tan
+Understanding the effects of applied cathodic protection potential and environmental conditions on the rate of cathodic disbondment of coatings by means of local electrochemical measurements on a multi-electrode array
+Progress in Organic Coatings, 103 (2017), pp. 83-92
+View PDF
+View articleView in ScopusGoogle Scholar
+Maile et al., 2000
+F. Maile, T. Schauer, C. Eisenbach
+Evaluation of the delamination of coatings with scanning reference electrode technique
+Progress in organic coatings, 38 (2000), pp. 117-120
+View PDF
+View articleView in ScopusGoogle Scholar
+Mailhot et al., 2005a
+B. Mailhot, S. Morlat-Thérias, P.O. Bussière, J.L. Gardette
+Study of the degradation of an epoxy/amine resin, 2
+Macromol. Chem. Phys., 206 (2005), pp. 585-591
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Mailhot et al., 2005b
+B. Mailhot, S. Morlat-Thérias, M. Ouahioune, J.L. Gardette
+Study of the degradation of an epoxy/amine resin, 1
+Macromol. Chem. Phys., 206 (2005), pp. 575-584
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Mazan et al., 2015a
+T. Mazan, R. Berggren, J.K. Jørgensen, A. Echtermeyer
+Aging of polyamide 11. Part 1: evaluating degradation by thermal, mechanical, and viscometric analysis
+J. Appl. Polym. Sci. (2015), p. 132
+Google Scholar
+Mazan et al., 2015b
+T. Mazan, J.K. Jørgensen, A. Echtermeyer
+Aging of polyamide 11. Part 2: general multiscale model of the hydrolytic degradation applied to predict the morphology evolution
+J. Appl. Polym. Sci. (2015), p. 132
+Google Scholar
+Merdas et al., 2003
+I. Merdas, F. Thominette, J. Verdu
+Hydrolytic ageing of polyamide 11—effect of carbon dioxide on polyamide 11 hydrolysis
+Polym. Degrad. Stab., 79 (2003), pp. 419-425
+View PDF
+View articleView in ScopusGoogle Scholar
+Meyer et al., 2002
+A. Meyer, N. Jones, Y. Lin, D. Kranbuehl
+Characterizing and modeling the hydrolysis of polyamide-11 in a pH 7 water environment
+Macromolecules, 35 (2002), pp. 2784-2798
+View in ScopusGoogle Scholar
+Min et al., 2020
+K. Min, J.D. Cuiffi, R.T. Mathers
+Ranking environmental degradation trends of plastic marine debris based on physical properties and molecular structure
+Nat. Commun., 11 (2020), p. 727
+View in ScopusGoogle Scholar
+Mitroka et al., 2013
+S.M. Mitroka, T.D. Smiley, J.M. Tanko, A.M. Dietrich
+Reaction mechanism for oxidation and degradation of high density polyethylene in chlorinated water
+Polym. Degrad. Stab., 98 (2013), pp. 1369-1377
+View PDF
+View articleView in ScopusGoogle Scholar
+Mohammadian et al., 1991
+M. Mohammadian, N. Allen, M. Edge, K. Jones
+Environmental degradation of poly (ethylene terephthalate)
+Text. Res. J., 61 (1991), pp. 690-696
+View at publisherCrossrefView in ScopusGoogle Scholar
+Momzikoff et al., 1983
+A. Momzikoff, R. Santus, M. Giraud
+A study of the photosensitizing properties of seawater
+Mar. Chem., 12 (1983), pp. 1-14
+View PDF
+View articleView in ScopusGoogle Scholar
+Morcillo, 2019
+S.P. Morcillo
+Radical-promoted C− C bond cleavage: a deconstructive approach for selective functionalization
+Angew. Chem. Int. Ed., 58 (2019), pp. 14044-14054
+View at publisherCrossrefView in ScopusGoogle Scholar
+Morild, 1981
+E. Morild
+The theory of pressure effects on enzymes
+C.B. Anfinsen, J.T. Edsall, F.M. Richards (Eds.), Advances in Protein Chemistry, Academic Press (1981), pp. 93-166
+34
+View PDF
+View articleView in ScopusGoogle Scholar
+Morsch et al., 2020
+S. Morsch, Y. Liu, S.B. Lyon, S.R. Gibbon, B. Gabriele, M. Malanin, et al.
+Examining the early stages of thermal oxidative degradation in epoxy-amine resins
+Polym. Degrad. Stab., 176 (2020), Article 109147
+View PDF
+View articleView in ScopusGoogle Scholar
+Nagai et al., 2013
+K. Nagai, K. Yasuhira, Y. Tanaka, D.-i. Kato, M. Takeo, Y. Higuchi, et al.
+Crystallization and X-ray diffraction analysis of nylon hydrolase (NylC) from Arthrobacter sp. KI72. Acta Crystallographica section F: structural biology and crystallization
+Communications, 69 (2013), pp. 1151-1154
+View in ScopusGoogle Scholar
+Naik et al., 2019
+R.K. Naik, M.M. Naik, P.M. D’Costa, F. Shaikh
+Microplastics in ballast water as an emerging source and vector for harmful chemicals, antibiotics, metals, bacterial pathogens and HAB species: a potential risk to the marine environment and human health
+Mar. Pollut. Bull., 149 (2019), Article 110525
+View PDF
+View articleView in ScopusGoogle Scholar
+Nakache et al., 2011
+M. Nakache, E. Aragon, L. Belec, F.-X. Perrin, G. Roux, P.-Y. Le Gac
+Degradation of rubber to metals bonds during its cathodic delamination, validation of an artificial ageing test
+Progress in Organic Coatings, 72 (2011), pp. 279-286
+View PDF
+View articleView in ScopusGoogle Scholar
+Negoro et al., 2005
+S. Negoro, T. Ohki, N. Shibata, N. Mizuno, Y. Wakitani, J. Tsurukame, et al.
+X-ray crystallographic analysis of 6-aminohexanoate-dimer hydrolase: molecular basis for the birth of a nylon oligomer-degrading enzyme
+J. Biol. Chem., 280 (2005), pp. 39644-39652
+View PDF
+View articleView in ScopusGoogle Scholar
+Negoro et al., 2007
+S. Negoro, T. Ohki, N. Shibata, K. Sasa, H. Hayashi, H. Nakano, et al.
+Nylon-oligomer degrading enzyme/substrate complex: catalytic mechanism of 6-aminohexanoate-dimer hydrolase
+J. Mol. Biol., 370 (2007), pp. 142-156
+View PDF
+View articleView in ScopusGoogle Scholar
+Nelms et al., 2018
+S.E. Nelms, T.S. Galloway, B.J. Godley, D.S. Jarvis, P.K. Lindeque
+Investigating microplastic trophic transfer in marine top predators
+Environ. Pollut., 238 (2018), pp. 999-1007
+View PDF
+View articleGoogle Scholar
+Newman and Forciniti, 2001
+C.R. Newman, D. Forciniti
+Modeling the ultraviolet photodegradation of rigid polyurethane foams
+Ind. Eng. Chem. Res., 40 (2001), pp. 3346-3352
+View in ScopusGoogle Scholar
+Nguyen et al., 2020
+T.H. Nguyen, F.H.M. Tang, F. Maggi
+Sinking of microbial-associated microplastics in natural waters
+PLoS One, 15 (2020), Article e0228209
+View at publisherCrossrefView in ScopusGoogle Scholar
+Nigam, 2013
+P.S. Nigam
+Microbial enzymes with special characteristics for biotechnological applications
+Biomolecules, 3 (2013), pp. 597-611
+View at publisherCrossrefView in ScopusGoogle Scholar
+NOAA, n.d.
+NOAA (n.d.). https://www.nodc.noaa.gov/OC5/woa13fv2/.
+Google Scholar
+Novotný et al., 2015
+Č. Novotný, P. Erbanová, H. Sezimová, K. Malachová, Z. Rybková, L. Malinová, et al.
+Biodegradation of aromatic-aliphatic copolyesters and polyesteramides by esterase activity-producing microorganisms
+Int. Biodeterior. Biodegradation, 97 (2015), pp. 25-30
+View PDF
+View articleView in ScopusGoogle Scholar
+Ohki et al., 2005
+T. Ohki, N. Mizuno, N. Shibata, M. Takeo, S. Negoro, Y. Higuchi
+Crystallization and X-ray diffraction analysis of 6-aminohexanoate-dimer hydrolase from Arthrobacter sp. KI72. Acta Crystallographica section F: structural biology and crystallization
+Communications, 61 (2005), pp. 928-930
+View in ScopusGoogle Scholar
+Okamba-Diogo et al., 2016
+O. Okamba-Diogo, E. Richaud, J. Verdu, F. Fernagut, J. Guilment, B. Fayolle
+Investigation of polyamide 11 embrittlement during oxidative degradation
+Polymer, 82 (2016), pp. 49-56
+View PDF
+View articleView in ScopusGoogle Scholar
+Oliveira et al., 2020
+J. Oliveira, A. Belchior, V.D. da Silva, A. Rotter, Ž. Petrovski, P.L. Almeida, et al.
+Marine environmental plastic pollution: mitigation by microorganism degradation and recycling valorization. Frontiers in marine
+Science (2020), p. 1007
+Google Scholar
+Oluwoye et al., 2015
+I. Oluwoye, M. Altarawneh, J. Gore, B.Z. Dlugogorski
+Oxidation of crystalline polyethylene
+Combustion and Flame, 162 (2015), pp. 3681-3690
+View PDF
+View articleView in ScopusGoogle Scholar
+Oluwoye et al., 2016
+I. Oluwoye, M. Altarawneh, J. Gore, H. Bockhorn, B.Z. Dlugogorski
+Oxidation of polyethylene under corrosive NOx atmosphere
+J. Phys. Chem. C, 120 (2016), pp. 3766-3775
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Oluwoye et al., 2021
+I. Oluwoye, Z. Zeng, S. Mosallanejad, M. Altarawneh, J. Gore, B.Z. Dlugogorski
+Controlling NOx emission from boilers using waste polyethylene as reburning fuel
+Chem. Eng. J., 411 (2021), Article 128427
+View PDF
+View articleView in ScopusGoogle Scholar
+Orr et al., 2005
+J.C. Orr, V.J. Fabry, O. Aumont, L. Bopp, S.C. Doney, R.A. Feely, et al.
+Anthropogenic Ocean acidification over the twenty-first century and its impact on calcifying organisms
+Nature, 437 (2005), pp. 681-686
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Pandey and Kiran, 2020
+P. Pandey, U. Kiran
+Degradation of paints and its microbial effect on health and environment
+Journal of Critical Reviews, 7 (2020), pp. 4879-4884
+Google Scholar
+Pangallo et al., 2015
+D. Pangallo, M. Bučková, L. Kraková, A. Puškárová, N. Šaková, T. Grivalský, et al.
+Biodeterioration of epoxy resin: a microbial survey through culture-independent and culture-dependent approaches
+Environ. Microbiol., 17 (2015), pp. 462-479
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Parente et al., 2006
+V. Parente, D. Ferreira, E.M. dos Santos, E. Luczynski
+Offshore decommissioning issues: deductibility and transferability
+Energy Policy, 34 (2006), pp. 1992-2001
+View PDF
+View articleView in ScopusGoogle Scholar
+Peterson and Hennessey, 1978
+E.W. Peterson, J.P. Hennessey
+On the use of power laws for estimates of wind power potential
+J. Appl. Meteorol. Climatol., 17 (1978), pp. 390-394
+View in ScopusGoogle Scholar
+Peterson et al., 2001
+J.D. Peterson, S. Vyazovkin, C.A. Wight
+Kinetics of the thermal and thermo-oxidative degradation of polystyrene, polyethylene and poly (propylene)
+Macromol. Chem. Phys., 202 (2001), pp. 775-784
+View in ScopusGoogle Scholar
+Pham and Marks, n.d.
+Pham HQ, Marks MJ. Epoxy resins. Ullmann's Encyclopedia of Industrial Chemistry.
+Google Scholar
+Powers, 2009
+D.A. Powers
+Interaction of Water with Epoxy
+Sandia Report SAND2009-4405,. Albuquerque, New Mexico
+(2009)
+Google Scholar
+Prijambada et al., 1995
+I.D. Prijambada, S. Negoro, T. Yomo, I. Urabe
+Emergence of nylon oligomer degradation enzymes in Pseudomonas aeruginosa PAO through experimental evolution
+Appl. Environ. Microbiol., 61 (1995), pp. 2020-2022
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Punzo et al., 2017
+E. Punzo, A. Gomiero, A. Tassetti, P. Strafella, A. Santelli, V. Salvalaggio, et al.
+Environmental impact of offshore gas activities on the benthic environment: a case study
+Environ. Manag., 60 (2017), pp. 340-356
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Rabek, 1994
+J.F. Rabek
+Polymer Photodegradation: Mechanisms and Experimental Methods
+Springer Science & Business Media (1994)
+Google Scholar
+Restrepo-Flórez et al., 2014
+J.-M. Restrepo-Flórez, A. Bassi, M.R. Thompson
+Microbial degradation and deterioration of polyethylene – a review
+Int. Biodeterior. Biodegradation, 88 (2014), pp. 83-90
+View PDF
+View articleView in ScopusGoogle Scholar
+Rousseau et al., 2010
+C. Rousseau, F. Baraud, L. Leleyter, M. Jeannin, O. Gil
+Calcareous deposit formed under cathodic protection in the presence of natural marine sediments: a 12 month experiment
+Corros. Sci., 52 (2010), pp. 2206-2218
+View PDF
+View articleView in ScopusGoogle Scholar
+Rudawska, 2020
+A. Rudawska
+The effect of the salt water aging on the mechanical properties of epoxy adhesives compounds
+Polymers, 12 (2020), p. 843
+View at publisherCrossrefView in ScopusGoogle Scholar
+Sabine et al., 2004
+C.L. Sabine, R.A. Feely, N. Gruber, R.M. Key, K. Lee, J.L. Bullister, et al.
+The oceanic sink for anthropogenic CO2
+science, 305 (2004), pp. 367-371
+View in ScopusGoogle Scholar
+Sangale et al., 2012
+M. Sangale, M. Shahnawaz, A. Ade
+A review on biodegradation of polythene: the microbial approach
+J Bioremed Biodeg, 3 (2012), pp. 1-9
+Google Scholar
+Sangale et al., 2019
+M.K. Sangale, M. Shahnawaz, A.B. Ade
+Potential of fungi isolated from the dumping sites mangrove rhizosphere soil to degrade polythene
+Sci. Rep., 9 (2019), p. 5390
+View in ScopusGoogle Scholar
+Santo et al., 2013
+M. Santo, R. Weitsman, A. Sivan
+The role of the copper-binding enzyme – laccase – in the biodegradation of polyethylene by the actinomycete Rhodococcus ruber
+Int. Biodeterior. Biodegradation, 84 (2013), pp. 204-210
+View PDF
+View articleView in ScopusGoogle Scholar
+Scarborough-Bull, 1989
+A. Scarborough-Bull
+Some comparisons between communities beneath the petroleum platforms off California and in the Gulf of Mexico. Petroleum structures as artificial reefs: A compendium
+Fourth Int. Conf. On Artificial Habitats for Fisheries, Rigs-to-Reefs Special Session, OCS Study MMS, Miami, FL (1989)
+pp. 89-0021
+Google Scholar
+Scott, 2006
+H.F. Scott
+Elements of Chemical Reaction Engineering
+Prentice Hall Profesional (2006)
+Google Scholar
+Serment-Moreno et al., 2015
+V. Serment-Moreno, K. Deng, X. Wu, J. Welti-Chanes, G. Velazquez, J.A. Torres
+Pressure effects on the rate of chemical reactions under the high pressure and high temperature conditions used in pressure-assisted thermal processing
+Handbook of food chemistry, 1 (2015), pp. 1-23
+View at publisherCrossrefGoogle Scholar
+Seyvet and Navard, 2000
+O. Seyvet, P. Navard
+Collision-induced dispersion of agglomerate suspensions in a shear flow
+J. Appl. Polym. Sci., 78 (2000), pp. 1130-1133
+View in ScopusGoogle Scholar
+Shah et al., 2008
+A.A. Shah, F. Hasan, A. Hameed, S. Ahmed
+Biological degradation of plastics: a comprehensive review
+Biotechnol. Adv., 26 (2008), pp. 246-265
+View PDF
+View articleCrossrefView in ScopusGoogle Scholar
+Shimpi and Krier, 1975
+S.A. Shimpi, H. Krier
+The closed bomb test for the assessment of solid propellant grains utilized in guns
+Combustion and Flame, 25 (1975), pp. 229-240
+View PDF
+View articleView in ScopusGoogle Scholar
+Shyichuk et al., 2001
+A.V. Shyichuk, D.Y. Stavychna, J.R. White
+Effect of tensile stress on chain scission and crosslinking during photo-oxidation of polypropylene
+Polym. Degrad. Stab., 72 (2001), pp. 279-285
+View PDF
+View articleView in ScopusGoogle Scholar
+Singh and Sharma, 2008
+B. Singh, N. Sharma
+Mechanistic implications of plastic degradation
+Polym. Degrad. Stab., 93 (2008), pp. 561-584
+View PDF
+View articleView in ScopusGoogle Scholar
+Sivaguru et al., 2019
+P. Sivaguru, Z. Wang, G. Zanoni, X. Bi
+Cleavage of carbon–carbon bonds by radical reactions
+Chem. Soc. Rev., 48 (2019), pp. 2615-2656
+View at publisherCrossrefView in ScopusGoogle Scholar
+Song et al., 2017
+Y.K. Song, S.H. Hong, M. Jang, G.M. Han, S.W. Jung, W.J. Shim
+Combined effects of UV exposure duration and mechanical abrasion on microplastic fragmentation by polymer type
+Environ. Sci. Technol., 51 (2017), pp. 4368-4376
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Sørensen et al., 2010
+P.A. Sørensen, C.E. Weinell, K. Dam-Johansen, S. Kiil
+Reduction of cathodic delamination rates of anticorrosive coatings using free radical scavengers
+J. Coat. Technol. Res., 7 (2010), pp. 773-786
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Soulsby, 1997
+R. Soulsby
+Dynamics of Marine Sands: A Manual for Practical Applications
+Telford
+(1997)
+Google Scholar
+Sowmya et al., 2015
+H. Sowmya, M. Krishnappa, B. Thippeswamy
+Degradation of polyethylene by Penicillium simplicissimum isolated from local dumpsite of Shivamogga district
+Environ. Dev. Sustain., 17 (2015), pp. 731-745
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Stapelfeldt et al., 1996
+H. Stapelfeldt, P.H. Petersen, K.R. Kristiansen, K.B. Qvist, L.H. Skibsted
+Effect of high hydrostatic pressure on the enzymic hydrolysis of β-lactoglobulin B by trypsin, thermolysin and pepsin
+J. Dairy Res., 63 (1996), pp. 111-118
+View in ScopusGoogle Scholar
+Strickland, 1958
+J.D.H. Strickland
+Solar radiation penetrating the ocean. A review of requirements, data and methods of measurement, with particular reference to photosynthetic productivity
+Journal of the Fisheries Board of Canada, 15 (1958), pp. 453-493
+View at publisherCrossrefGoogle Scholar
+Stumm and Morgan, 2012
+W. Stumm, J.J. Morgan
+Aquatic Chemistry: Chemical Equilibria and Rates in Natural Waters
+126, John Wiley & Sons (2012)
+Google Scholar
+Sudhakar et al., 2007
+M. Sudhakar, C. Priyadarshini, M. Doble, P. Sriyutha Murthy, R. Venkatesan
+Marine bacteria mediated degradation of nylon 66 and 6
+Int. Biodeterior. Biodegradation, 60 (2007), pp. 144-151
+View PDF
+View articleView in ScopusGoogle Scholar
+Sudhakar et al., 2008
+M. Sudhakar, M. Doble, P.S. Murthy, R. Venkatesan
+Marine microbe-mediated biodegradation of low- and high-density polyethylenes
+Int. Biodeterior. Biodegradation, 61 (2008), pp. 203-213
+View PDF
+View articleView in ScopusGoogle Scholar
+do Sul and Costa, 2014
+J.A.I. do Sul, M.F. Costa
+The present and future of microplastic pollution in the marine environment
+Environ. Pollut., 185 (2014), pp. 352-364
+Google Scholar
+Sundararajan et al., 1990
+G. Sundararajan, M. Roy, B. Venkataraman
+Erosion efficiency-a new parameter to characterize the dominant erosion micromechanism
+Wear, 140 (1990), pp. 369-381
+View PDF
+View articleView in ScopusGoogle Scholar
+Sverdrup et al., 1942
+H.U. Sverdrup, M.W. Johnson, R.H. Fleming
+The oceans: Their physics, chemistry, and general biology
+Vol 1087: Prentice-Hall (1942)
+New York
+Google Scholar
+Takehara et al., 2017
+I. Takehara, D.-I. Kato, M. Takeo, S. Negoro
+Draft genome sequence of the nylon oligomer-degrading bacterium Arthrobacter sp. strain KI72
+Genome announcements (2017), p. 5
+Google Scholar
+Takehara et al., 2018
+I. Takehara, T. Fujii, Y. Tanimoto, D.-I. Kato, M. Takeo, S. Negoro
+Metabolic pathway of 6-aminohexanoate in the nylon oligomer-degrading bacterium Arthrobacter sp. KI72: identification of the enzymes responsible for the conversion of 6-aminohexanoate to adipate
+Appl. Microbiol. Biotechnol., 102 (2018), pp. 801-814
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Ter Halle et al., 2016
+A. Ter Halle, L. Ladirat, X. Gendre, D. Goudouneche, C. Pusineri, C. Routaboul, et al.
+Understanding the fragmentation pattern of marine plastic debris
+Environ. Sci. Technol., 50 (2016), pp. 5668-5675
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Tidjani, 2000
+A. Tidjani
+Comparison of formation of oxidation products during photo-oxidation of linear low density polyethylene under different natural and accelerated weathering conditions
+Polym. Degrad. Stab., 68 (2000), pp. 465-469
+View PDF
+View articleView in ScopusGoogle Scholar
+Tilly, 1969
+G.P. Tilly
+Sand erosion of metals and plastics: a brief review
+Wear, 14 (1969), pp. 241-248
+View PDF
+View articleView in ScopusGoogle Scholar
+Torres et al., 2009
+J.A. Torres, P.D. Sanz, L. Otero, C. Pérez Lamela, M.D.A. Saldaña
+Temperature distribution and chemical reactions in foods treated by pressure-assisted thermal processing
+Processing effects on safety and quality of foods (2009), pp. 415-440
+View at publisherCrossrefView in ScopusGoogle Scholar
+Tosa and Chibata, 1965
+T. Tosa, I. Chibata
+Utilization of cyclic amides and formation of ω-amino acids by microorganisms
+J. Bacteriol., 89 (1965), p. 919
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Troost et al., 2018
+T.A. Troost, T. Desclaux, H.A. Leslie, M.D. van Der Meulen, A.D. Vethaak
+Do microplastics affect marine ecosystem productivity?
+Mar. Pollut. Bull., 135 (2018), pp. 17-29
+View PDF
+View articleView in ScopusGoogle Scholar
+Turley et al., 2010
+C. Turley, M. Eby, A. Ridgwell, D. Schmidt, H. Findlay, C. Brownlee, et al.
+The societal challenge of ocean acidification
+Mar. Pollut. Bull., 60 (2010), pp. 787-792
+View PDF
+View articleView in ScopusGoogle Scholar
+Van Eldik et al., 1989
+R. Van Eldik, T. Asano, W. Le Noble
+Activation and reaction volumes in solution. 2
+Chem. Rev., 89 (1989), pp. 549-688
+View at publisher
+CrossrefGoogle Scholar
+Van Sebille et al., 2020
+E. Van Sebille, S. Aliani, K.L. Law, N. Maximenko, J.M. Alsina, A. Bagaev, et al.
+The physical oceanography of the transport of floating marine debris
+Environ. Res. Lett., 15 (2020), Article 023003
+View at publisherCrossrefView in ScopusGoogle Scholar
+Vyazovkin et al., 2011
+S. Vyazovkin, A.K. Burnham, J.M. Criado, L.A. Pérez-Maqueda, C. Popescu, N. Sbirrazzuoli
+ICTAC kinetics committee recommendations for performing kinetic computations on thermal analysis data
+Thermochim. Acta, 520 (2011), pp. 1-19
+View PDF
+View articleView in ScopusGoogle Scholar
+Wang et al., 2016
+G. Wang, K. Chai, J. Wu, F. Liu
+Effect of pseudomonas putida on the degradation of epoxy resin varnish coating in seawater
+Int. Biodeterior. Biodegradation, 115 (2016), pp. 156-163
+View PDF
+View articleView in ScopusGoogle Scholar
+Wang et al., 2022a
+H. Wang, C. Hu, X. Feng, C. Ji, Y. Jia
+In-situ long-period monitoring of suspended particulate matter dynamics in deep sea with digital video images
+Front. Mar. Sci., 9 (2022), p. 1011029
+View in ScopusGoogle Scholar
+Wang et al., 2022b
+T. Wang, S. Zhao, L. Zhu, J.C. McWilliams, L. Galgani, R.M. Amin, et al.
+Accumulation, transformation and transport of microplastics in estuarine fronts
+Nat. Rev. Earth Environ., 3 (2022), pp. 795-805
+View at publisherCrossrefView in ScopusGoogle Scholar
+Wang et al., 2021
+X. Wang, N. Bolan, D.C.W. Tsang, B. Sarkar, L. Bradney, Y. Li
+A review of microplastics aggregation in aquatic environment: influence factors, analytical methods, and environmental implications
+J. Hazard. Mater., 402 (2021), Article 123496
+View PDF
+View articleView in ScopusGoogle Scholar
+Watts and Castle, 1984
+J.F. Watts, J.E. Castle
+The application of X-ray photoelectron spectroscopy to the study of polymer-to-metal adhesion - part 2 The cathodic disbondment of epoxy coated mild steel
+J. Mater. Sci., 19 (1984), pp. 2259-2272
+View in ScopusGoogle Scholar
+Wayman and Niemann, 2021
+C. Wayman, H. Niemann
+The fate of plastic in the ocean environment–a minireview
+Environ. Sci. Process. Impacts, 23 (2021), pp. 198-212
+View at publisherCrossrefView in ScopusGoogle Scholar
+Wei et al., 2021
+J. Wei, M. Wang, L. Jiang, X. Yu, K. Mikelsons, F. Shen
+Global estimation of suspended particulate matter from satellite ocean color imagery
+J. Geophys. Res. Oceans, 126 (2021), Article e2021JC017303
+View in ScopusGoogle Scholar
+Wright, 1995
+J. Wright
+Seawater: Its Composition, Properties, and Behaviour
+2, Pergamon (1995)
+Google Scholar
+Wroblowa, 1992
+H. Wroblowa
+Intermediate products of atmospheric oxygen reduction and the integrity of metal—organic coating interface
+J. Electroanal. Chem., 339 (1992), pp. 31-40
+View PDF
+View articleView in ScopusGoogle Scholar
+Wypych, 2016
+G. Wypych
+Handbook of Polymers
+ChemTec Publishing, Scarborough, UNITED STATES (2016)
+Google Scholar
+Xu et al., 2019
+J. Xu, Z. Cui, K. Nie, H. Cao, M. Jiang, H. Xu, et al.
+A quantum mechanism study of the C-C bond cleavage to predict the bio-catalytic polyethylene degradation
+Front. Microbiol., 10 (2019), p. 489
+View at publisher
+CrossrefGoogle Scholar
+Yasuhira et al., 2006
+K. Yasuhira, Y. Uedo, N. Shibata, S. Negoro, M. Takeo, Y. Higuchi
+Crystallization and X-ray diffraction analysis of 6-aminohexanoate-cyclic-dimer hydrolase from Arthrobacter sp. KI72
+Acta Crystallogr. Sect. F: Struct. Biol. Cryst. Commun., 62 (2006), pp. 1209-1211
+View in ScopusGoogle Scholar
+Yasuhira et al., 2007
+K. Yasuhira, Y. Tanaka, H. Shibata, Y. Kawashima, A. Ohara, D.-i. Kato, et al.
+6-Aminohexanoate oligomer hydrolases from the alkalophilic bacteria Agromyces sp. strain KY5R and Kocuria sp. strain KY2
+Appl. Environ. Microbiol., 73 (2007), pp. 7099-7102
+View in ScopusGoogle Scholar
+Yoon et al., 2012
+M.G. Yoon, H.J. Jeon, M.N. Kim
+Biodegradation of polyethylene by a soil bacterium and AlkB cloned recombinant cell
+J. Bioremed. Biodegrad., 3 (2012), pp. 1-8
+Google Scholar
+Zargarnezhad et al., 2021
+H. Zargarnezhad, E. Asselin, D. Wong, C.N.C. Lam
+A critical review of the time-dependent performance of polymeric pipeline coatings: focus on hydration of epoxy-based coatings
+Polymers, 13 (2021), p. 1517
+View at publisherCrossrefView in ScopusGoogle Scholar
+Zhang et al., 2020
+J. Zhang, Z. Yu, X. Zhao, X. Lan, J. Wang, X. Lv, et al.
+The interaction of biofoulants and calcareous deposits on corrosion performance of Q235 in seawater
+Materials, 13 (2020), p. 850
+Google Scholar
+Zheng and Suh, 2019
+J. Zheng, S. Suh
+Strategies to reduce the global carbon footprint of plastics
+Nat. Clim. Chang., 9 (2019), pp. 374-378
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Zhu et al., 2020
+L. Zhu, S. Zhao, T.B. Bittar, A. Stubbins, D. Li
+Photochemical dissolution of buoyant microplastics to dissolved organic carbon: rates and microbial impacts
+J. Hazard. Mater., 383 (2020), Article 121065
+View PDF
+View articleView in ScopusGoogle Scholar
+Zimmermann et al., 2021
+L. Zimmermann, Z. Bartosova, K. Braun, Oehlmann Jr, C. Völker, M. Wagner
+Plastic products leach chemicals that induce in vitro toxicity under realistic use conditions
+Environ. Sci. Technol., 55 (2021), pp. 11814-11823
+CrossrefView in ScopusGoogle Scholar
+Cited by (12)
+Electron beam pretreatment of carboxymethyl nanofibrillar cellulose reinforced polyvinyl alcohol-based degradable composite membranes: Preparation, characterization and property optimization
+2024, Industrial Crops and Products
+Citation Excerpt :
+
+Plastics are widely used in various fields because of their low cost. However, the plastics currently used are non-degradable and non-renewable petroleum-based plastics (Oluwoye et al., 2023). Due to the scarcity of petroleum resources, there is a need to find a new biodegradable, green, renewable packaging material to replace traditional plastic packaging.
+
+Show abstract
+Beyond Visibility: Microorganisms for tackling plastic and microplastic problems for cleaner future
+2024, Chemical Engineering Journal
+Citation Excerpt :
+
+Packaging plastics typically last for about a year, while plastics used in building and construction can last for several decades. Despite efforts to manage plastic waste through recycling, incineration, and landfill disposal, plastic pollution remains a significant problem [20]. In 2014, the recycling rate for post-consumer plastics was only between 9 % and 30 % [14].
+
+Show abstract
+Polylactic acid (PLA): Properties, synthesis, and biomedical applications – A review of the literature
+2024, Journal of Molecular Structure
+Show abstract
+Valorization of Cork Stoppers, Coffee-Grounds and Walnut Shells in the Development and Characterization of Pectin-Based Composite Films: Physical, Barrier, Antioxidant, Genotoxic, and Biodegradation Properties
+2024, Polymers
+Current Progress and Potential Microbial Cornucopia for Plastic Degradation
+2024, Advanced Strategies for Biodegradation of Plastic Polymers
+Laboratory Assessment for Determining Microplastics in Freshwater Systems—Characterization and Identification along the Somesul Mic River
+2024, Water (Switzerland)
+View all citing articles on Scopus
+© 2023 The Authors. Published by Elsevier B.V.
+About ScienceDirect
+Remote access
+Shopping cart
+Advertise
+Contact and support
+Terms and conditions
+Privacy policy
+
+Cookies are used by this site.Cookie Settings
+
+All content on this site: Copyright © 2024 Elsevier B.V., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the Creative Commons licensing terms apply.
+
+PDF
+Help
