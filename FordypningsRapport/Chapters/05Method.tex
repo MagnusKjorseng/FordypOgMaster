@@ -22,6 +22,13 @@ After considering multiple simulation options and on the advice of a professor, 
 
 My implementation of AGX is based on Python as that's the language I'm most familiar with. I am aware of Python's inferiority to a C++ based approach in terms of speed and efficiency in resource use, but the time investment required for me to get to an acceptable level of C++ proficiency was not worth it for this project.
 
+
+
+\subsection{Limitations of AGX}
+By using a ready-made simulation platform I am able to quickly implement a simulation without needing to worry about the mathematical models that exist behind the simulation. This allows me to focus on achieving results, although it also necessitates a degree of trust in the simulation. I am able to verify whether the simulator acts as expected or not, but changing the governing equations is not necessarily something I am able to do. 
+
+Another limitation of AGX is that it's a licensed software. This means that in order to apply and use the findings of this report, the software needs to be acquired. This is a limitation for further research, and ideally the findings should be based on open and available software or arrived at from first principles. 
+
 \section{Description of the simulation setup}
 The simulation starts with defining a water volume. This is done using AGX built-in functions. Currently the volume is 100m along the sides and 50m deep, though this is arbitrary. I've implemented one "water controller" which is the object that handles wave, current and wind forces. Currently this controller is completely still and there is no force inputs, but it is implemented so that adding weather forces is simple for later iterations. In AGX, each element in a simulation has to be individually added to that simulation. Once both the water volume and the water controller have been added to the active simulation, the vessels are made.
 
@@ -35,18 +42,9 @@ Whether the complications mentioned in the previous paragraph are necessary is n
 
 Finally, the wire which connects the ROV and the surface vessel is created. AGX has two similar wire-like simulation objects: Wires and Cables. According to the documentation, because torsion of the wire is irrelevant, we want to be able to winch the wire in and out to simulate lifting and lowering the ROV and we are working on long wires, the Wire module should be used. The way wires work in AGX is as a series of links connected to or passed through a series of nodes. For this implementation only two nodes are necessary, one connecting the wire to the surface vessel and one connecting it to the ROV. The Wire module of AGX allows for winches to be simulated as well, with given speeds, gearings, torques etc.. I have not implemented this currently due to time constraints. 
 
-In addition to all the "necessary" elements, the simulation also has a manual controller for the vessels. It is possible to use the keyboard to give manual force inputs on the vessels. This uses the same framework for adding force as the controller does. I've done this as a way to debug and test the system a bit. 
+In addition to all the "necessary" elements, the simulation also has a manual controller for the vessels. It is possible to use the keyboard to give manual force inputs on the vessels. This uses the same framework for adding force as the controller does. I've done this as a way to debug and test the system a bit.
 
 
-
-\begin{itemize}
-\item Describe use as simulation framework
-\item Describe sim setup
-\item Discuss alternative solutions (make your own, do numerical analysis)
-\item Hull and ROV shape can be exchanged, allowing for greater flexibility in a future system
-\item Can be used to scale things like winch strength/responsivity or cable elasticity
-\end{itemize}
-\subsection{Capabilities and limitations}
 
 \section{ROS2}
 \label{sec:ros}

@@ -1,0 +1,266 @@
+Proceedings ofthe Sixth (1996) -International Offshore and Polar Engineering Conference (1996) Los Angeles, USA May 26-31, 1996 Copyright © 1996 by The International Society ofOffshore and Polar Engineers ISBN 1-880653-22-2 (Set); ISBN 1-880653-24-9 (Vol. II)
+Manoeuvering of Bodies Suspended at Extreme Water Depth
+Walter Lian
+MARINTEK, Trondheim, Norway
+Bjem Sortland
+Norwegian University of Science and Technology, NTNU, Trondheim, Norway
+ABSTRACT
+The response due to current and ship manoeuvring of remotely operated tools vertically suspended in a single wire at extreme water depth is studied. POSitioning of the tool by repositioninz the surface ship may introduce large vertical excursions of the tool. The time needed for the tool to settle at a new position is found to be extremely long. The time consumption can be reduced considerably by following an overshoot strategy for the ship motion. The simUlations have been performed using an advanced non-linear finite element program. Simple simulation models have been tested to reduce computer time.
+INTRODUCTION
+The oil production is moving to deeper waters. At present, installation and intervention systems intended for use in water depths up to 1500 m are being studied. Deep water intervention tasks are performed by use of tethered swimming vehicles, ROVs, and vertically suspended tools, ROTs. Horizontal positioning of vertically suspended tools have traditionally been obtained by use of guidewires which are mounted prior to the operation. At extreme water depth this might no longer be a practical solution. An alternative is to suspend the ROT in a single cable connected to a ship, and position it by moving the ship. The tool may also be equipped with thrusters, which enables it to some extent to manoeuvre independently of the ship. Introducing thrusters at the tool, however, increases the complexity or" the system, and implies a thicker cable due to power transmission.
+m the present paper, a passive ROT suspended in a cable from a ship at 1500 m water depth is considered, see Figure 1. This corresponds to the water depth at the V0ring Plateau off the west coast of Norway. When the tool is launched to be docked on a subsea structure, it will experience a large horizontal offset due to current. The tool might be moved up to the target by repositioning the ship. Large vertical tool excursions will occur, and the operation is very time consuming. Thus there is a need for optimising the operation.
+The dynamics of towed underwater vehicles have been studied intensively at Massachusetts Institute of Technology and Woods Hole Oceanographic Institution, see Triantafyllou and Hover (1990), Grosenbaugh (1990), Yoerger et al (1991), Grosenbaugh et al (1991), and Howell et al (1992). The works performed have been based on full
+204
+scale measurements and numerical simulations. They have focused on flow induced vibrations on the cable and prediction of the corresponding drag coefficients. The dynamic response of the towed vehicle to ship manoeuvring has been studied by comparing speed and horizontal traj ectory of the ship and vehicle.
+o~----------~~r-~
+Current2
+-500 (
+-1000
+0.0 0.4 0.8
+Current speed [m/s]
+Figure 1. Vertically suspended tools scenario.
+In the present work both vertical and horizontal tool ~otions in response to ship manoeuvres are studied. Time domain simulations of the ROT-cable system have been performed using an advanced, nonlinear finite element program RIFLEX, see Engseth et al (1988). This program has been developed in order to provide a tool for analysis of flexible riser systems, and is tailor made for static and dynamic analysis of flexible pipe- and cable systems, see Lie et al (1989) and
+Downloaded from http://onepetro.org/ISOPEIOPEC/proceedings-pdf/ISOPE96/All-ISOPE96/ISOPE-I-96-112/1959893/isope-i-96-112.pdf/1 by Norwegian University of Science & Technology user on 10 December 2024
+
+
+Sortland et al (1994). Examples of comparisons with other computer programs, model tests and full scale tests can be found in Larsen (1991), Fylling et al (1992) and S"dahl et al (1992). Further RIFLEX simulations on time consumption for repositioning of vertically suspended tools have been performed by Nedrelid (1995).
+ENVIRONMENT AND SYSTEM DATA
+Two different ROT-cable systems are considered, one heavy tool with mass 10 tonnes, and one light tool with mass 250 kg. For the heavy system a lift umbilical of 62 mm diameter is chosen to allow for power and signal transmission. The light system is suspended in a 12 mm steel wire. Two different current profiles and zero current are used, the current profiles are time invariant. No wave induced ship motion is taken into account. The main data for the two ROT-cable systems are presented in Figure I.
+SIMULATION PROCEDURE
+The ROT and cable response due to a 300 m repositioning of the ship is simulated. Before the ship starts moving, a static cable configuration is obtained. Thus the tool at the lower end of the cable will initially have a horizontal offset relative to the ship as a function of current. For the two current profiles, the simulations are performed for both upstream and downstream ship motion. Only ship motion in-line with the current is studied. The simulation input and main results are given in Table I.
+The ship is moved 300 m during 3 minutes and then stopped at the new location. The ship speed is set to 2 mls with 30 seconds of
+acceleration and retardation. Varying the ship speed ± 50 % gives little change in ROT and cable responses. Thus changes within normal operating ship speeds turns out to have insignificant effect on the ROT response and is not discussed further.
+ROT RESPONSE DUE TO SHIP REPOSITIONING
+Figures 2 and 3 show snapshot plots of the cable every 2 minutes, starting with the initial static cable configuration. The ROT response relative to the initial static position is shown in Figure 4. In this figure the ROT position is marked every minute. As shown in the figures the ROT moves mainly vertically when the ship starts moving. After the ship has come to rest at the new location, the cable slowly swings back to the initial static configuration approaching the target point
+asymptotically. The ROT is dermed to be repositioned when it is within 3 m from the target horizontal position.
+Due to the fact that tangential cable drag is an order of magnitude less than normal drag, the cable tends to act like a wire in a hose when the ship starts moving. The ROT and cable weight, however, tends to straighten out the cable and give the ROT a pendulum motion. As can be seen from Figure 4, large vertical motions occur, especially when the ship moves upstream. During the first two minutes of the upstream ship translation, the lower half of the cables only experience axial motion. In the case of the light ROT the tool is lifted 120 m when the ship is moved 200 m upstream.
+Upstream ship repositioning will make the ROT start an upwards vertical motion, and after reaching its maximum it will descend asymptotically back to the initial cable configuration. Downstream the ROT will first experience a downwards vertical motion before it starts to ascend towards the target. The vertical excursions are mainly a function of current speed, ROT and cable weight, and direction of ship motion versus current. The extreme vertical excursions are tabulated in Table I, and plotted in Figure 5.
+205
+Upstream ship motion
+.... Ship motion
+....
+Downstream ship mot.i.o.n
+,-~-,-,=-'-'--T--~,L~--r-'-I,--+~rL~~~
+o 0 500
+Figure 2. Snapshots plots of the cable responses due to a 300 m repositioning of the ship. Heavy ROT system, current I, timestep 120 s.
+Upstream ship motion III
+o,
+Ship motion III
+oa
+Downstream
+ship moll.O.n
+500
+Figure 3. Snapshots plots of the cable responses due to a 300 m repositioning of the ship. Light ROT system, current I, timestep 120 s.
+Downloaded from http://onepetro.org/ISOPEIOPEC/proceedings-pdf/ISOPE96/All-ISOPE96/ISOPE-I-96-112/1959893/isope-i-96-112.pdf/1 by Norwegian University of Science & Technology user on 10 December 2024
+
+
+The slowly asymptotic back-swinging ROT motion after the ship has come to rest is governed by the weight and drag of the system. Large cable and ROT weight will reduce the time needed for repositioning, and large current or drag area (cable diameter) will increase the time. Thus the repositioning time mainly depends on the static horizontal ROT offset in current, and is almost independent of direction of ship motion. The time needed for ROT repositioning as a function of current speed is given in Figure 6. As seen from the figure the repositioning time for most systems in current are more than half an hour, and for a light system it is between one and two hours, which is unacceptable during an operation.
+In downstream repositioning a peculiar ROT motion may occur, as for the heavy system in current I, see Figure 7. The ROT moves up and down several times before the system is brought back to the static cable configuration. The first minimum is obtained when the ship catches up the ROT and the ship is located vertically above the ROT. As the ship passes beyond the ROT, the latter is lifted, and it reaches its maximum as the ship is stopped at the new location. The ROT will continue its horizontal motion, and when it is located vertically below
+the ship it will have its second vertical minimum, after which it will finally ascend asymptotically towards the target position.
+Table 1. Simulated ROT response due to a 300 m repositioning of the ship.
+ROT
+Heavy
+Light
+150
+I
+E100
+cCC~EDD.. 50
+iII;I
+i.i!ijdi; 0
+>
+-50
+Figure 4.
+Input
+Curr Direction of ship motion versus current 1 up 1 down
+0
+2 up 2 down
+1 up 1 down
+02 up 2 down
+o 50
+ROT reSDonse
+Horizontal Time for Extreme
+100
+offset [m]
+193 193 0 95 95
+418 418 0 214 214
+repositioning vertical [min] excursion [m] 250m 300m 24 45 112 15 30 - 15 11 16 40 20 40 84 10 25 -4/10
+50 110 172
+35 100 -64 15 23 57 45 90 133 25 80 - 17
+300 m repositioning, current 1 --Heavy ROT
+........... Light ROT
+o Upstream
+l!J. Downstream
+o No current
+1 minute between marks
+150 200 250 300
+ROT responses relative to the initial static position due to a 300 m repositioning of the ship.
+200
+E
+~ 150
+'.00c..0:. 100
+:>UQ:<J)
+(ij 50
+tQu>) 0
+..... ...............•.. .. ·················1····.... ·· ........•............
+300 m repositioning -HeavyROT "'''''''".. Light ROT
+QX~E) - 50 ......
+W Downstream upstrea,m
+-100~----4r----~----+-----~----~--~
+-0.6 -0.4 -0.2 0.0 0.2 0.4 0.6
+Current speed [m/s]
+Figure 5. Extreme vertical excursions due to a 300 m repositioning of the ship.
+206
+12 0 ~... 300 m repositioning
+~100
+oS
+-HeavyROT / ......; ...."'....'" Light ROT ··.·.·.·.·.i".,..·l
+..\....·........i
+cO:J 80
+.c~ o~: 60
+a~o. 40
+
+Q)
+~ 20 ;......
+o
+~.
+\.,\.. I .....
+\ ............................. y.......
+...., ~ .
+.. ,,>~~\..... NO.,..•....,'.,,.........."',.....,r:.............
+i
+: \, ~
+1 \"<Io,l With
+-_.","~"·.un~~~~:::J;~~:1~~~~~~~:c:;;;;;~~ij~iUU.10 V e r 
+Downstr~~.~.. u~~~ream Sh~ot
+-0.6 -0.4 -0.2 0.0 0.2 0.4 0.6
+Current speed [m/s]
+Figure 6. Time needed for a 300 m ROT repositioning as a function of current speed and ship manoeuvring strategy.
+A METHOD TO REDUCE REPOSITIONING TIME
+An obvious way to reduce the repositioning time is to move the ship more than the specified distance of 300 m, let it rest for a while in this position and then move back to the final location, 300 m from the starting point. In this case the ROT will have a horizontal velocity as it reaches the target and an overshoot may occur. By careful ship manoeuvring, however, it is possible to obtain a very low ROT horizontal speed as it approaches the target location. The ROT and cable motions in response to an overshoot ship repositioning are presented as snapshot plots in Figures 8 and 9. The input parameters with respect to ship overshoot position (distance between starting and resting point) and ship resting time is tabulated in Table 2.
+Downloaded from http://onepetro.org/ISOPEIOPEC/proceedings-pdf/ISOPE96/All-ISOPE96/ISOPE-I-96-112/1959893/isope-i-96-112.pdf/1 by Norwegian University of Science & Technology user on 10 December 2024
+
+
+The light ROT system is dominated by the cable drag, and as shown in the previous section a repositioning time of more than one hour is needed in current. Thus a ship overshoot motion procedure is necessary
+to position the ROT within acceptable time limits. It is further found that for upstream ship repositioning the overshoot distance must be larger than for downstream. By this procedure it is possible to reduce the time consumption for the light system considerably and down to an acceptable time of 15 - 20 minutes, see Figure 6.
+When the light ROT approaches the target location upstream, it has only a vertical motion, as seen from Figure SA. As the ship stops at the final location, the ROT is almost at the target position, but the cable geometry is an S-configuration, which is different from the start geometry. Thus, the cable has not reached the static configuration, but the remaining cable motion has only a modest influence on the ROT motion. Downstream the ship motion is not so successfully chosen, because the ROT does not approach the target at the correct height, but
+will pass about 30 m above, see Figure se. A possible solution is to pay out cable to make the ROT hit the target. By this way it is possible to control the ROT vertical motion, but the ROT will still have a small horizontal velocity as it reaches the target.
+In the case of the heavy tool it has showed advantageous to move the ship to an overshoot position and back to the final location without any time delay. Thus for the heavy system in current the overshoot ship motion strategy can reduce the time consumption more than 50 % compared to the situation with no overshoot, see Figure 6. With no current present the time reduction is only a few minutes.
+As shown the time consumption can be reduced by following an overshoot strategy for the ship motion, but the vertical motion' increases considerably. This may be compensated if the winch pays out cable at the same time as the ship moves upstream. During operation a control system should be used to manoeuvre the ship and run the cable winch to optimise the ROT motion and time needed for repositioning. Nedrelid (1995) has shown that when repositioning perpendicular to the current, large horizontal tool excursions may also occur. The ROT may then collide with other structures at the bottom during the docking operation if necessary care is not taken.
+z
+10
+5
+o+-~~------------~====~========
+Time [s]
+Figure 7. Vertical ROT motion relative to the initial static position due to a 300 m downstream repositioning of the ship. Heavy ROT system, current I.
+207
+Table 2. Simulated ROT response. The support vessel is moved to an overshoot position; set to rest and moved back to the final location 300 m from the starting position.
+ROT
+Heavy
+Light
+Input
+Curr Direction Ship
+001111
+-500
+of ship overmotion shoot versus position current [m] up 900
+down 500
+- 600
+up 900
+down 600
+- 600
+Upstream ship motion iIIIII
+-500
+o
+Ship resting ti[sm]e
+432002050000
+ROT response
+Time for repositioning [min]
+.112111535530
+i 500
+Extreme vertical excursion [m]
+380
+-1417
+515102
+-68/65
+158
+Figure S. Snapshots plots of the cable responses due to a 300 m repositioning of the ship using an overshoot manoeuvring procedure. Light ROT system, current I, timestep 30 s.
+Downloaded from http://onepetro.org/ISOPEIOPEC/proceedings-pdf/ISOPE96/All-ISOPE96/ISOPE-I-96-112/1959893/isope-i-96-112.pdf/1 by Norwegian University of Science & Technology user on 10 December 2024
+
+
+Ship motion
+..
+Upstream ship motion
+..
+-soo
+- 5 I0 0
+Downstream ship motion
+..
+Io
+Figure 9. Snapshots plots of the cable responses due to a 300 m repositioning of the ship using an overshoot manoeuvring procedure. Heavy ROT system, current I, timestep 60 s,
+SIMPLE SIMULATION MODELS
+Due to long computer time needed for the non-linear time-domain simulations, simpler numerical models would be convenient in a ship and cable winch control system. Both a simple rigid pendulum model and a two-element (double pendulum) model have been tested, see Figures 10 and 11. The simple pendulum model was calculated by use of a spread sheet, and the double pendulum by RIFLEX. The computer time with the two-element model was considerably reduced compared to the finite element model.
+The rigid pendulum model does not predict the large transient vertical ROT motion in upstream ship motion. The model assumes that the ROT moves along the line of the initial pendulum configuration during the ship motion. During the ship manoeuvring the curvature in the cable increases significantly which is impossible to predict using a rigid pendulum. As a consequence the large vertical excursion is not correctly predicted with this simplified model. After the ship has reached its final position, the rigid pendulum starts to swing back towards its stationary angle. The ROT motion after the ship has come to rest is very well predicted by the rigid pendulum. The speed at which
+the ROT is swinging back is almost the same for the rigid pendulum model as predicted by the non-linear time domain procedure.
+208
+By improving the rigid pendulum model with a joint, giving a double pendulum, the increase in cable curvature during the ship motion can be predicted. The joint should be placed at the point of maximum increase
+of curvature, about 1/3 of the cable length from the surface. The double pendulum model predicts the vertical excursion of the ROT precisely as shown in Figures 10 and II, except for a small horizontal offset. Both
+in the rigid pendulum and the double pendulum model the ROT is moving upwards along a slightly different angle than predicted by the finite element cable model. This is due to the different vertical initial
+lower end cable angles in the models.
+:['00
+'E 80
+GEI
+GI 60
+i
+.!!! 40
+'tl
+~ 20 1~: 0
+o 50 100 150
+Heavy ROT, Current 1 -_. Finite element model ........... Rigid pendulum . - -, Double pendulum
+200 250 300 Horizontal displacement 1m]
+Figure 10. A simple rigid pendulum model and a two-element (double pendulum) model compared to the finite element model. Vertical ROT motion relative to the initial static position due to a 300 m repositioning of the ship. Heavy ROT system, current 1.
+'~E100
+Q)
+i(ass.). 50
+U)
+'5
+~0
+'1>G:I -50
+o
+, 1\I ,I
+,. \
+\
+,'
+,'
+,1-""",,:, "
+II ..-.......:: ' ....
+Light ROT, Current 1 - - Finite element model
+.......... Rigid pendulum . - _. Double pendulum
+'-"; ,
+/ "'/UpstreamL
+. -.~ '~~
+IZero currentl ....---..........,
+_ ........._ •.4
+_ . - 1 Downstreaml----------
+50 100 150 200 250 300
+Horizontal displacement [m]
+Figure II. A simple rigid pendulum model and a two-element (double pendulum) model compared to the finite element model. Vertical ROT motion relative to the. initial static position due to a 300 m repositioning of the ship. Light ROT system, current 1.
+CONCLUSIONS
+The time required to reposition a freely hanging ROT at 1500 m water depth by moving the ship has been assessed The time may be reduced considerably by following an overshoot strategy for the surface vessel motion. When the ship is moved, large vertical excursions of the ROT may occur, especially when the ship is moved upstream. A double pendulum model can be used to predict the vertical ROT motion.
+Downloaded from http://onepetro.org/ISOPEIOPEC/proceedings-pdf/ISOPE96/All-ISOPE96/ISOPE-I-96-112/1959893/isope-i-96-112.pdf/1 by Norwegian University of Science & Technology user on 10 December 2024
+
+
+ACKNOWLEDGEMENTS
+The authors wish to acknowledge the support from the NOlWegian oil company StatoiI AlS.
+REFERENCES
+Engseth, A, Bech, A and Larsen, CM "Efficient Method for Analysis of Flexible Risers", BOSS'88, Behaviour of Offshore Structures, Trondheim, NOlWay 1988.
+FyIIing, IJ, Stansberg, CT and Mo, K "Extreme Motions and Anchor Line Loads in Turret Mooring Systems", BOSS'92, Behaviour of Offshore Structures, London, July 1992.
+Grosenbaugh, MA "The Effect of Unsteady Motion on the Drag Forces and Flow-Induced Vibrations ofa Long Vertical Tow Cable", EUROMS, Trondheim, NOlWay 1990
+Grosenbaugh, MA, Yoerger, DR, Hover, FS and Triantafyllou, MS "Drag Forces and Flow-Induced Vibrations ofa Long Vertical Tow Cable -- Part 2: Unsteady Towing Conditions", ASME Journal of Offshore Mechanics and Arctic Engineering, Vol 113, August 1991.
+Howell, CT, Grosenbaugh, MA, Moxnes, S, Anderson, J and Triantafyllou, MS "Maneuvring Underwater Vehicles Employing LowTension Tethers", Second Int. Offshore and Polar Eng. Conf., San Francisco 1992.
+Larsen, CM "Flexible Riser Analysis - Comparison of Results from Computer Programs", Eng. Structures, 1991.
+Lie, H,Sortland, B and Lian, W "Design of ROV Umbilical Configurations to Improve ROV Operability". Proceedings of the 8th. Offshore Mechanics and Arctic Engineering Conference (OMAE), The Hague, March 1989
+NedreIid, K "Posisjonering av ROV-garasje pa dypt vann", Diplomoppgave, Institutt for Marin Prosjektering, NTH, Trondheim, Norge, desember 1995.
+Sortland, B, Sandvik, PC, Lian, W "Deep Water Intervention". UndelWater Technology Conference, UTC'94, Bergen, March 14-16, 1994
+Sedahl, N, Hanson, TO, Otteren, A and FyIIing, IJ "Influence from Nonelastic Material Modelling in Computer Simulation of Flexible Risers Verified by Full Scale Measurements", OTC, Houston 1992.
+Triantafyllou, MS and Hover, FS, "Cable Dynamics for Tethered UndelWater Vehicles", MIT Sea Grant College Program, Report No. 904, Massachusetts Institute of Technology, Cambridge, Mass., 1990.
+Yoerger, DR, Grosenbaugh, MA, Triantafyllou, MS and Burgess, JJ "Drag Forces and Flow-Induced Vibrations of a Long Vertical Tow Cable -- Part 1: Steady-State Towing Conditions", ASME Journal of Offshore Mechanics and Arctic Engineering, Vol 113, May 1991.
+Downloaded from http://onepetro.org/ISOPEIOPEC/proceedings-pdf/ISOPE96/All-ISOPE96/ISOPE-I-96-112/1959893/isope-i-96-112.pdf/1 by Norwegian University of Science & Technology user on 10 December 2024

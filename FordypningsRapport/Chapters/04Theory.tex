@@ -1,11 +1,12 @@
 %equations, bib. \\
 \section{Literature review/State of the art}
-\begin{itemize}
-\item Little specifically helpful literature
-\item Some help from deep sea lifting and ROV simulation papers
-\item Nevne catenary form
+There is little specifically helpful literature on the topic of coupled powered systems above and below the surface of the sea. There are however bits and pieces that are useful. Primarily, the offshore oil and gas industry, as well as general ROV operations are able to help a bit. The main issue with this project and its challenges is that it is a form of combined system. There are several papers discussing for instance the effect of currents on deep-submergence suspended tooling used for oil and gas installations. For example, Lian and Sortland 1996 \cite{lian_manoeuvering_1996}. They also performed simulations, however their paper is focused on non-powered remotely operated tooling (ROT) as opposed to a remotely operated vehicle. Their results can be useful as a kind of sanity check for the results of the simulations of this project, though their working area is down to 1500m below the surface while it's improbable that the Plan Sea project will ever operate below 200m. 
 
-\end{itemize}
+The tether is also a consideration for this project, Chen et al. 2021 \cite{chen_dynamic_2021} discuss the hydrodynamic effects on ROV tethers under complex sea conditions. Whether or not this is useful for this implementation is uncertain, as the tether simulations are all done by the simulation software. It might be possible to expand the tether simulations to include Chen et al.'s findings, but this is not done at present. 
+
+Enevoldsen et al., 2018 \cite{enevoldsen_simplified_2018} provide one of the more useful documents on the topic. They discuss a simplified modelling strategy for ROVs to allow for both greater control capabilities and simulated efforts. The state of this project has not used this information, but it will be very helpful in later iterations to expand the accuracy of the simulation for the ROV, both for control purposes and for a more accurate simulation. Anderlini, Parker and Thomas 2018 \cite{anderlini_control_2018} discuss control of an ROV carrying an object. They discuss the sudden added mass of the vessel and how to compensate for it from a control perspective, though their paper focuses more on autonomous underwater maintenance vehicles. This paper as well will be very helpful for further implementation work, but has not been used in any great extent here. Thingstad and Hveding, 1982 \cite{thingstad_nonbuoyant_1982} have a conference paper on non-buoyant ROVs for performing subsea work. On the surface this sounds perfect, but looking into the paper it is more focused on the physical construction of the ROV rather than the control of it. This makes it less helpful for me. Additionally, Thingstad and Hveding's paper is more than 40 years old at time of writing, and applications of control theory, as well as microelectronics and actuators have evolved a lot since then, making what little control they do discuss less useful. Their paper is still mentioned here for completeness.
 
 \section{Control theory?}
-Basic control theory? ?????
+This project is primarily focused on simulation and control. As such I will give a basic introduction to control theory here. 
+
+Control systems are systems that control other systems. For instance a dynamic positioning system is a control system that controls the vessel's position. The "other systems" are usually called the "plant". 
