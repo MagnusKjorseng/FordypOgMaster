@@ -1,0 +1,1 @@
+The files here are what run the simulator. The simulator requires an install of AGX in order to work. The latest version is `simulator_controlled.agxpy` and can be started in the AGX viewer. 
