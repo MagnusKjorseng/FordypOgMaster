@@ -12,13 +12,12 @@ class Rov(Vessel.Vessel):
         self.dims = dims 
 
     def build(self, density, position):
-        #define material properties
-        material = agx.Material("rov_material")
-        material.getBulkMaterial().setDensity(density)
-        
         #add geometry
         self.hull.add(agxCollide.Geometry(agxCollide.Box(self.dims)))
         
+        #define material properties
+        material = agx.Material("rov_material")
+        material.getBulkMaterial().setDensity(density)
         agxUtil.setBodyMaterial(self.hull, material)
         
         self.hull.setPosition(position)

@@ -29,6 +29,10 @@ class UsvController(agxSDK.StepEventListener):
         self.has_plotted = False
         self.lastmag = 0
         
+    def pre(self,t):
+        self.vessel.hull.setVelocity(agx.Vec3(1,0,0))
+        
+    '''
     def pre(self, t):
 
         frame = self.vessel.hull.getFrame()
@@ -44,9 +48,9 @@ class UsvController(agxSDK.StepEventListener):
             angle = np.arcsin(direction[0])
             self.heading_desired = angle
            
-        '''
-        heading command
-        '''
+        ########
+        #heading command
+        ########
         error_heading = agx.Vec3(0,0,self.heading_desired - rot)
         print(error_heading)
         kp = 1000
@@ -54,9 +58,9 @@ class UsvController(agxSDK.StepEventListener):
         self.clamp(command, self.torque)
         self.vessel.add_torque(command)
         
-        '''
-        Force command
-        '''
+        ########
+        #Force command
+        ########
         
         self.error = self.targets[self.current_target] - pos
         self.error[-1] = 0 #no force in Z-direction, no error in z-direction
@@ -108,3 +112,4 @@ class UsvController(agxSDK.StepEventListener):
             return vec * clamp
         else:
             return variable
+    '''

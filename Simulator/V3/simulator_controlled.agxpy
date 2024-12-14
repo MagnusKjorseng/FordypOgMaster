@@ -15,6 +15,7 @@ import agxWire
 
 import sys
 from agxPythonModules.utils.environment import simulation, application, root, init_app
+import matplotlib.pyplot as plt
 
 import Usv
 import Rov
@@ -23,6 +24,7 @@ import usv_controller
 
 usv_density = 600 #kg/m^3, average density over the entire object
 rov_density = 2000
+rov_depth = -20
 
 def init_camera(app):
     eye = agx.Vec3(100,0,60)
@@ -66,9 +68,10 @@ def build_control_scene(sim, app):
     Make and add the ROV
     '''
     rov_size = agx.Vec3(0.45, 0.575, 0.254) 
-    rov_position = agx.Vec3(0,0,-20)
+    rov_position = agx.Vec3(0,0,rov_depth)
     rov = Rov.Rov(rov_size)
     rov.build(rov_density, rov_position)
+    print(rov.hull.getMassProperties().getMass())
     sim.add(rov.hull)
     
 
@@ -119,12 +122,23 @@ class ForceListener(agxSDK.StepEventListener):
         self.app = app
         self.wire = wire
         self.node = interest_node
+        self.tensions = []
+        
+        self.has_plotted = False
         
     def post(self, t):
-        tension = self.wire.getTension(self.node)
-        string = "Tension at ROV: " + str(tension.getRaw())
+        self.tensions.append(self.wire.getTension(self.node).getRaw())
+        string = "Tension at ROV: " + str(self.tensions[-1])
         #Print the wire tension in the corner of the simulation
         self.app.getSceneDecorator().setText(1, string)
+        
+        if t > 10 and not self.has_plotted:
+            self.has_plotted=True
+            plt.plot(self.tensions)
+            plt.xlabel("Time(ms)")
+            plt.ylabel("Tether tension(N)")
+            print(sum(self.tensions)/len(self.tensions))
+            plt.show()
         
         return super().post(t)
         
@@ -157,15 +171,14 @@ def buildScene():
     Make the wire between the USV and ROV
     '''
     #TODO: make a winch
-    wireRadius = 0.01 #assumed amount, can be changed for known materials
+    wireRadius = 0.005 #assumed amount, can be changed for known materials
     wireResolution = 2 #resolution in number per unit length
     wireMaterial = agx.Material("WireMaterial")
     wireMaterial.getWireMaterial().setYoungsModulusBend(1e9)
     
     wire = agxWire.Wire(wireRadius, wireResolution)
     wire.setMaterial(wireMaterial)
-    
-    wireLength = 20 #TODO change this to make the wire actually usable for different lengths
+    wireLength = abs(rov_depth) 
     
     usv_node = agxWire.BodyFixedNode(usv.hull, agx.Vec3(1.3,0,0))
     rov_node = agxWire.BodyFixedNode(rov.hull, agx.Vec3(0,0,0.129))
@@ -180,6 +193,8 @@ def buildScene():
     
     #usv_listener = KeyboardListener(usv)
     #sim.add(usv_listener)
+    
+    
     
     rov_listener = KeyboardListener(rov)
     sim.add(rov_listener)
