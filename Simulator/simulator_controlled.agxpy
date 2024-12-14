@@ -24,6 +24,14 @@ import usv_controller
 usv_density = 600 #kg/m^3, average density over the entire object
 rov_density = 2000
 
+def init_camera(app):
+    eye = agx.Vec3(100,0,60)
+    center = agx.Vec3(1.5, 0, -5)
+    up = agx.Vec3(0,0,1)  
+
+    app.setCameraHome(eye, center, up)
+    app.setEnableDebugRenderer(True)  
+
 
 def build_control_scene(sim, app):
     #Make the water geometry a 10x10x200m box
@@ -97,11 +105,29 @@ class KeyboardListener(agxSDK.GuiEventListener):
             print("up")
             self.body.add_force(force)
         # Ignore all other keyboard events
+        elif keydown and key == "P":
+            print("P")
         else:
             return False
 
         return True
 
+class ForceListener(agxSDK.StepEventListener):
+    def __init__(self, app, wire, interest_node):
+        super().__init__()
+        
+        self.app = app
+        self.wire = wire
+        self.node = interest_node
+        
+    def post(self, t):
+        tension = self.wire.getTension(self.node)
+        string = "Tension at ROV: " + str(tension.getRaw())
+        #Print the wire tension in the corner of the simulation
+        self.app.getSceneDecorator().setText(1, string)
+        
+        return super().post(t)
+        
         
 setPoint = agx.Vec3(0,0,0)
 def buildScene():
@@ -113,17 +139,22 @@ def buildScene():
     
     water_cont, water_geo, usv, rov = build_control_scene(sim,app)
     
-    kp = 2.1e3
-    ki = 4e-5
-    kd = 10
-    target = agx.Vec3(10,15,0)
+    m_usv=2384 #kg
+    omega = 0.45
+    zeta = 1.2
     
-    controller = usv_controller.UsvController(kp,ki,kd, usv)
+    
+    kp = m_usv*omega**2
+    ki = 0
+    kd = 2*m_usv*zeta*omega
+    targets = [agx.Vec3(5,10,0), agx.Vec3(50, -30, 0)]
+    
+    controller = usv_controller.UsvController(kp,ki,kd, usv, targets = targets)
     sim.add(controller)
     
     
     '''
-    Make the wire between the AUV and ROV
+    Make the wire between the USV and ROV
     '''
     #TODO: make a winch
     wireRadius = 0.01 #assumed amount, can be changed for known materials
@@ -142,12 +173,10 @@ def buildScene():
     wire.add(rov_node)
     sim.add(wire)
     
-    eye = agx.Vec3(50,0,30)
-    center = agx.Vec3(1.5, 0, -5)
-    up = agx.Vec3(0,0,1)  
-
-    app.setCameraHome(eye, center, up)
-    app.setEnableDebugRenderer(True)    
+    init_camera(app)
+    
+    force_listener = ForceListener(app, wire, rov_node)
+    sim.add(force_listener)
     
     #usv_listener = KeyboardListener(usv)
     #sim.add(usv_listener)
