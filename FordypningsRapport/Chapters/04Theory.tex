@@ -6,6 +6,20 @@ The tether is also a consideration for this project, Chen et al. 2021 \cite{chen
 
 Enevoldsen et al., 2018 \cite{enevoldsen_simplified_2018} provide one of the more useful documents on the topic. They discuss a simplified modelling strategy for ROVs to allow for both greater control capabilities and simulated efforts. The state of this project has not used this information, but it will be very helpful in later iterations to expand the accuracy of the simulation for the ROV, both for control purposes and for a more accurate simulation. Anderlini, Parker and Thomas 2018 \cite{anderlini_control_2018} discuss control of an ROV carrying an object. They discuss the sudden added mass of the vessel and how to compensate for it from a control perspective, though their paper focuses more on autonomous underwater maintenance vehicles. This paper as well will be very helpful for further implementation work, but has not been used in any great extent here. Thingstad and Hveding, 1982 \cite{thingstad_nonbuoyant_1982} have a conference paper on non-buoyant ROVs for performing subsea work. On the surface this sounds perfect, but looking into the paper it is more focused on the physical construction of the ROV rather than the control of it. This makes it less helpful for me. Additionally, Thingstad and Hveding's paper is more than 40 years old at time of writing, and applications of control theory, as well as microelectronics and actuators have evolved a lot since then, making what little control they do discuss less useful. Their paper is still mentioned here for completeness.
 
+\section{Mathematical basis}
+The root problem can be decomposed into equations \ref{eq:usv} and \ref{eq:rov}. They show the forces that impact the motions of both the surface vessel and the ROV. The forces that have an impact are hydrodynamic forces, such as buoyancy, righting moment etc. The propulsive forces that the vessels' thrusters provide. Environmental forces coming from waves, winds and currents. And finally the force the coupling acts with on each vessel. Do note that though the form of the equations is the same for the surface vessel and the ROV, the values both in total and in each individual element are not going to be equal. Hydrodynamic, propulsive and environmental forces will be entirely individual for each element because of their physical shape and capabilities. The coupling forces however will be linked to each other, though not directly because of how hanging wires act. See \cref{sec:catenary} for elaboration.
+
+\begin{align}
+M_{v_{\text{surf}}} = \sum f &= f_{hydro} + f_{prop} + f_{env} + f_ {coupling} \label{eq:usv}\\
+M_{v_{\text{ROV}}} = \sum g &= g_{hydro} + g_{prop} + g_{env} + g_ {coupling} \label{eq:rov}
+\end{align}
+
+The equations demonstrate the need for simulation compared to analytical examination of the problem. Hydrodynamic forces and environmental forces contribute to a highly dynamic system that is difficult or impossible to find a closed form expression of. This means that calculating an expected state for the dynamic system manually is labour and time intensive. Using a simulation instead of analytical methods hides these problems away. The simulation will take care of the complex interactions which allows me to focus on extracting interesting data. I will further discuss simulation options in \cref{sec:sim_options}
+
+Using a simulation does introduce a new requirement: that of validating the models' accuracy. There are many ways of doing this, both intuitively and mathematically. I will get into these in \cref{sec:validation}. 
+
+The simulation allowing for "setting and forgetting" whatever parts of the force equations are desired allows the user to focus on whatever specific field they are interested in. For example a user might examine the propulsive force required given a certain seastate, or how hull shape and hydrodynamics affects the stability of the total system. 
+
 \section{Control theory?}
 This project is primarily focused on simulation and control. As such I will give a basic introduction to control theory here. 
 
