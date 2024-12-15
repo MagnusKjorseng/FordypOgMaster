@@ -1,0 +1,715 @@
+Version 2.19.0.0
+Algoryx Simulation AB
+2017-06-28
+
+
+
+
+
+
+
+
+
+
+20
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 1
+#include <namespace/headerfile.h>
+Table 1: Available namespaces and libraries.
+
+
+Iterative solver
+
+
+Direct solver
+Split solver
+
+
+x v = ẋ q
+ωf τ
+vk+1 = vk + h
+m fk
+ωk+1 = ωk + hJk−1τk
+xk+1 = xk + hvk+1
+qk+1 = q exp(h
+2 ωk+1)
+(1)
+
+
+m J h k
+exp(h
+2 ω) =
+[
+cos(h
+2)‖ω‖
+1
+‖ω‖ sin (h
+2) ω]
+(2)
+q
+q0 qv pq
+pq = [p0
+pv] [q0
+qv] = [ p0q0 − pv ∙ qv
+p0qv + q0pv + pv×qv] (3)
+x, y ∈ R3
+x×y = [
+−x3y2 + x2y3 x3y1 − x1y3 −x2y1 + x1y2
+] (4)
+
+
+Area based approach
+k = E/h (1)
+P = k ∙ d (2)
+F = P ∙ A (3)
+fi
+
+
+k = k1∙k2
+k1+k2
+Contact point based approach (default)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$ sudo dpkg -i agx-setup-2.16.0.3-x64-ubuntu_16.04-double.deb
+(Reading database ... 220029 files and directories currently installed.) Preparing to unpack agx-setup-2.16.0.3-x64-ubuntu_16.04-double.deb ... Unpacking agx (2.16.0.3) over (2.16.0.3) ... Setting up agx (2.16.0.3) ... $ ls /opt/Algoryx/AgX-2.16.0.3/
+AgX_build_settings.txt bin data lib setup_env.bash agxOSG CMakeLists.txt doc LICENSE.TXT tutorials applications CMakeModules include README.TXT $
+> source /opt/Algoryx/AgX-<version>/setup_env.bash
+> agxViewer beam.agxLua
+
+
+
+
+
+
+d:\temp>mkdir buildAgXTutorials d:\temp>cd buildAgXTutorials d:\temp\buildAgXTutorials>cmake-gui "c:\Program Files\Algoryx\AgX 2.12.0.0"
+
+
+d:\temp\buildAgXTutorials>
+d:\temp\buildAgXTutorials>dir Release\tutorial_bodies.exe d:\temp\buildAgXTutorials>Release\tutorial_bodies.exe
+d:\temp\buildAgXTutorials>set PATH=%PATH%;c:\Program Files\Algoryx\AgX 2.12.0.0\bin\x64 d:\temp\buildAgXTutorials>Release\tutorial_bodies.exe
+d:\temp\buildAgXTutorials>Release\tutorial_basicSimulation.exe AGX Library 64Bit AgX 2.12.0.0 Algoryx(C) Basic simulation tutorial -------------------------------
+Creating a simulation Creating a body Adding body to the simulation Step system 3 seconds forward in time Shutting down AGX
+d:\temp\buildAgXTutorials>
+Building your own code
+
+
+SET(AGX_INSTALL_DIRECTORY ${agxBuild_SOURCE_DIR})
+SET(AGX_INSTALL_DIRECTORY "C:/Program Files/Algoryx/AgX 2.10.0.0"
+Compiling (without CMake)
+
+Linking (without CMake)
+
+
+Tools for building AGX Tutorials or own applications
+
+
+Libraries for building/running AGX binaries
+Building tutorials
+# create an empty directory %mkdir /tmp/agxBuild %cd /tmp/agxBuild # Configure cmake and create makefiles for the tutorials etc. %cmake --DCMAKE_INSTALL_PREFIX /tmp/agxBuild /usr/home/agx-1.10.0 # Now run make using the created makefiles. %make
+std::string pathToAgX = "c:\\Program Files\\Algoryx\\AgX 2.7.1.0\\"; agxIO::Environment::instance().getFilePath( agxIO::Environment::RESOURCE_PATH).push_back(pathToAgX+”/bin/x64/plugins”);
+agxIO::Environment::instance().getFilePath( agxIO::Environment::RUNTIME_PATH).push_back(pathToAgX+”/bin/x64/plugins”);
+
+
+agxIO::Environment::instance().getFilePath( agxIO::Environment::RESOURCE_PATH).push_back(pathToAGX+”/data”);
+Windows registry
+
+
+Hello world
+#include <agxSDK/Simulation.h> #include <agx/RigidBody.h>
+int main() {
+// Where AGX is placed/installed: std::string pathToAgX = "c:\\Program Files\\Algoryx\\AgX 2.13.0.0\\";
+// Probably where the license file is agxIO::Environment::instance()->getFilePath( agxIO::Environment::RESOURCE_PATH).pushbackPath(pathToAgX);
+// Text files for plugins agxIO::Environment::instance()->getFilePath( agxIO::Environment::RESOURCE_PATH).addFilePath(pathToAgX);
+// binary plugin files agxIO::Environment::instance()->getFilePath( agxIO::Environment::RUNTIME_PATH).addFilePath(pathToAgX + "/bin/x64/plugins");
+// resource files agxIO::Environment::instance()->getFilePath( agxIO::Environment::RESOURCE_PATH).addFilePath(pathToAgX + "/data");
+// AutoInit will call agx::init() which must be called before // using the AGX API creating resources such as bodies, geometries etc. agx::AutoInit init; {
+// Create a Simulation which holds the DynamicsSystem and Space. agxSDK::SimulationRef sim = new agxSDK::Simulation;
+// Create a rigid body (no geometry) with default mass etc. agx::RigidBodyRef body = new agx::RigidBody;
+// Add the body to the simulation. sim->add(body);
+// Simulate for 2 seconds // The Time step (dt) is determined by the so called TimeGovernour. // Changing the time step: sim->getDynamicsSystem()->getTimeGovernor()->setTimeStep(1.0 / 100.0); while (sim->getTimeStamp() < 2.0) sim->stepForward(); // Take one time step. }
+// The destructor for AutoInit will call agx::shutdown() automatically. // Unloads plugins, destroys threads etc.
+return 0; }
+
+
+
+
+  o 
+
+
+   
+bool valid = agx::Runtime::instance()->unlock( licenseFileContent ); if (valid) // We got a valid license file
+
+
+const char *keyInUtf8; // Initialized with some utf8 string std::wstring wKey = agx::utf8ToWide( key ); // Convert to Wide character string
+agx::String& value; // Here is where we store the result
+dwType=0; DWORD dwLen=0; status = RegQueryValueExW(hkey, wKey.c_str(), 0,&dwType,nullptr, &dwLen);
+if (status== ERROR_SUCCESS && dwType == REG_SZ) {
+agx::Vector<wchar_t> data;
+// Since we use wchar, this will overallocate, but that's ok. data.resize(dwLen+1);
+// Now get the value status = RegQueryValueExW(hkey, wKey.c_str(), nullptr,nullptr,(PBYTE)(data.ptr()), &dwLen); if (status== ERROR_SUCCESS) {
+// If we use RegQueryValueEx and UNICODE is not set, then the API call // will be RegQueryValueExA that will convert from wstring to ANSI if // the data in the registry key is written as unicode. // // We don't want that conversion since it might not be safe and having to mess // around with code pages is not fun.
+value = agx::wideToUtf8( std::wstring(data.ptr() ) ); found = true; }
+RegCloseKey(hkey); }
+
+
+
+
+
+
+struct A : public agx::Referenced { }; agx::ref_ptr<A> a; A* aPtr = a; // Ok, as the reference pointer will be cast to a A*
+// Problem #1: Local ref_ptr going out of scope A* createA() {
+agx::ref_ptr<A> aRef = new A;
+// When this function returns, aRef will go out if scope and the // memory be deallocated. The number of reference pointers pointing to // this object is decremented to zero, and it will be deallocated. // So we are returning an invalid object! return aRef; }
+
+
+agxSDK::Simulation
+agxCollide::Space Geometry
+Shape
+Material
+agx::DynamicsSystem
+agx::RigidBody
+agx::Constraint agx::RigidBody
+agx::Material
+agxSDK::EventListener
+
+
+Timeline for Simulation::stepForward()
+Initialization and shutdown of AGX
+agx::init();
+agx::shutdown();
+preCollid e()
+*updateBoundingVolu mes()
+*updateNarrowP hase()
+triggerContact/ImpactEv ents()
+triggerSeparationEvents() triggerPreStepEve nts()
+DynamicsSystem::up date()
+triggerPostStepEve nts()
+t
+User events
+System
+calls updateBroadpha
+se()
+*Solver::updat e()
+
+
+Shutting down threads
+ 
+
+
+Filter events
+agx::ref_ptr<MyContactEventListener> l = new MyContactEventListener; unsigned int mask = agxSDK::ContactEventListener::IMPACT| agxSDK::ContactEventListener::SEPARATION;
+// Only react to IMPACT and SEPARATION events. l->setMask( mask );
+Order of execution
+simulation->add( listenerA ); simulation->add ( listenerB ) ;
+simulation->addEventListener( listenerA, 10 ) ; simulation->addEventListener( listenerB, 20 ) ;
+GuiEventListener
+keyboard
+mouseMoved
+mouseDragged
+mouse
+update
+StepEventListener
+preCollide
+pre (integration)
+post (integration)
+last
+ContactEventListener
+impact
+contact
+separation
+
+
+[EventManager::LOWEST_PRIORITY, EventManager::HIGHEST_PRIORITY]
+Collision Events
+class MyContactListener : public agxSDK::ContactEventListener {
+public: KeepContactPolicy impact( const agx::TimeStamp&, agxCollide::GeometryContact *gc); };
+
+
+
+
+
+
+
+
+agx::ref_ptr<MyContactListener> listener = new MyContactlistener; listener->setFilter( new agxSDK::GeometryFilter(geom1) );
+simulation->addEventListener( listener ):
+Modifying contacts
+
+
+Calculating relative velocity
+KeepContactPolicy impact( const agx::TimeStamp&, agxCollide::GeometryContact* gc);
+KeepContactPolicy contact( const agx::TimeStamp&, agxCollide::GeometryContact* gc);
+for( size_t i =0; i < gc->points().size(); i++) {
+ContactPointBuffer& p = gc->points()[i];
+p.normal(); // contact normal p.point(); // point of contact p.depth(); // penetration depth agx::Vec3 contactVel = gc->calculateRelativeVelocity( i ); }
+ContactPoint& p = gc->points()[i]; agx::Real normalForce = p->getNormalForceMagnitude(); agx::Real tangentialForce = p->getTangentialForceMagnitude();
+const agxCollide::GeometryContactPtrVector& contacts = getSimulation()->getSpace()>getGeometryContacts();
+
+
+Step Events
+GUI Events
+tutorials/ tutorial_basic1.cpp
+using namespace agx; FrameRef parent = new Frame; FrameRef child = new Frame;
+
+
+child->setParent(parent);
+parent->setTranslate( Vec3( 1, 0, 0) );
+child->getTranslate(); // Now returns (1,0,0) due to its parent
+parent->setRotate( EulerAngles(0, M_PI/2, 0) ); // Rotate 90 deg around Y.
+Vec3 localVelocity( 1, 0, 0 ); // Local velocity, 1 in X. Vec3 worldVelocity = child->transformVectorToWorld( localVelocity ); // World velocity is now (0,0,-1) as it is rotated around Y 90 deg.
+child->getTranslate(); // Now returns (0,0,-1) due to its parents transformation.
+      
+agxSDK::Assembly* buildCar() {
+agxSDK::Assembly* parent = new agxSDK::Assembly(); agx::RigidBodyRef chassis = new agx::RigidBody(); // ... parent->add(chassis); parent->add(new agx::Material("rubber")); // ... return parent; }
+Adding/Removing an Assembly
+
+
+bool Simulation::remove(agxSDK::Assembly *assembly, bool removeAllEntries = true );
+Derived transformation
+agx::RigidBodyRef body = new agx::RigidBody(); body->getFrame()->setLocalTranslate( agx::Vec3(1,0,0) ); // Set the transformation of the rigidbody
+agxSDK::AssemblyRef assembly = new agxSDK::Assembly(); assembly->add( body );
+// Move the assembly up in z 1 unit. assembly->setPosition( agx::Vec3(0,0,1) );
+// The line below will be true as body will inherit the assembly's transformation assert(body->getPosition() == agx::Vec3(1,0,1));
+
+
+agx::RigidBodyRef body = new agx::RigidBody(); simulation->add( body ); // Add body to the simulation
+RigidBody::setMotionControl(RigidBody::MotionControl);
+Velocities
+agx::Vec3 worldVelocity(0,1,0);
+// Specify the linear velocity in world coordinates for a rigidbody body->setVelocity( worldVelocity );
+// Specify angular velocity for a body in LOCAL coordinate system agx::Vec3 localAngular(0,0,1);
+// Convert from local to world coordinate system agx::Vec3 worldAngular = body->getFrame()->transformVectorToWorld( localAngular);
+// Set the angular velocity in World coordinates body->setAngularVelocity( worldAngular );
+
+
+void setMassCoefficients( const Vec3& coefficients ); void setInertiaTensorCoefficients(const Vec3& coefficients);
+agx::RigidBodyRef body = new agx::RigidBody;
+// Get position of Center of Mass in world coordinate system
+
+
+Vec3 pos = body->getCmPosition();
+// Get orientation of Center of Mass in world coordinate system Quat rot = body->getCmRotation();
+// Get rotation and translation of Center of Mass in world // coordinate system AffineMatrix4x4 m = body->getCmTransform();
+// Or the complete frame at one call Frame *cmFrame = body->getCmFrame();
+// Translation relative to model coordinate system Vec3 pos = body->getCmFrame()->getLocalTranslate();
+// In most situation, it is the model coordinate system that is interesting. This can be accessed using the calls: // Get position of Rigid Body in world coordinate system Vec3 pos = body->getPosition();
+// Get orientation of Rigid Body in world coordinate system Quat rot = body->getRotation();
+// Get rotation and translation of Rigid Body in world coordinate system AffineMatrix4x4 m = body->getTransform();
+// Or the complete frame at one call Frame *cmFrame = body->getFrame();
+// Get linear velocity of body Vec3 v = body->getVelocity()
+/** \return the local offset of the center of mass position to the model origin (in model frame coordinates). */ agx::Vec3 getCmLocalTranslate() const;
+/** Sets the local offset of the center of mass position to the model origin (in model frame coordinates). \param translate The new offset. */ void setCmLocalTranslate(const agx::Vec3& translate);
+rigidbody->setMotionControl( agx::RigidBody::KINEMATICS );
+agx::RigidBody::moveTo(AffineMatrix4x4& transform, agx::Real dt);
+
+
+Enable/disable
+void Geometry::setEnable( bool enable ); bool Geometry::getEnable() const; bool Geometry::isEnabled() const;
+Sensors
+agxCollide::GeometryRef geometry = new agxCollide::Geometry; geometry->setSensor( true ); // Tell the geometry to become a Sensor
+   
+
+
+Disable collisions for a geometry
+// Disable all contact generation for the geometry: geometry1->setEnableCollisions( false );
+Enable/disable pair
+// Disable contact generation between geometry1 and geometry2 geometry1->setEnableCollisions( geometry2, false );
+// Enable contact generation between geometry1 and geometry2 geometry1->setEnableCollisions( geometry2, true );
+GroupID
+void agxCollide::Geometry::addGroup( unsigned ); bool agxCollide::Geometry::hasGroup( unsigned ) const; bool agxCollide::Geometry::removeGroup( unsigned );
+void agxCollide::Space::setEnablePair(unsigned id1, unsigned id2, bool enable)
+space->setEnablePair( id1, id1, false );
+Named collision groups
+void agxCollide::Geometry::addGroup( const agx::Name& ); bool agxCollide::Geometry::hasGroup(const agx::Name& ) const; bool agxCollide::Geometry::removeGroup(const agx::Name& );
+
+
+space->setEnablePair( name1, name1, false );
+User supplied contact listener
+class MyContactListener : public agxSDK::ContactEventListener {
+public: MyContactListener() {
+// Only activate upon impact event setMask(agxSDK::ContactEventListener::IMPACT); }
+bool impact(const agx::TimeStamp& t, agxCollide::GeometryContact *cd) {
+RigidBody* rb1 = cd->geomA->getBody(); RigidBody* rb2 = cd->geomB->getBody();
+// If both geometries have a body, and the mass of the first is over 10 // then remove the contact if (rb1 && rb2 && rb1->getMassProperties()->getMass() > 10 ) return REMOVE_CONTACT; // remove contact.
+return KEEP_CONTACT; // keep the contact } };
+class MyFilter : public agxCollide::ExecuteFilter {
+public:
+MyFilter() {}
+/** Called when narrow phase tests have determined overlap (when we have detailed intersection between the actual geometries). Return true if GeometryContact matches this filter:
+if both geometries have a body. */ virtual bool operator==(const agxCollide::GeometryContact& cd) const {
+bool f = (cd.geomA->getBody() && cd.geomB->getBody()); return f; }
+/** Called when broad phase tests have determined overlap between the two
+
+
+bounding volumes. */ virtual bool operator==(const GeometryPair& geometryPair) const {
+bool f = (cd.geomA->getBody() && cd.geomB->getBody()); return f; } };
+Surface velocity
+agx::Vec3f Geometry::calculateSurfaceVelocity( const agxCollide::LocalContactPoint& point ) const.
+×
+Box
+Box::Box( const agx::Vec3& halfExtents )
+Sphere
+Sphere::Sphere( const agx::Real& radius )
+Capsule
+Capsule::Capsule( agx::Real radius, agx::Real height )
+Cylinder
+Cylinder::Cylinder( const agx::Real& radius, const agx::Real& height )
+Line
+
+
+Line::Line( const agx::Vec3& start, const agx::Vec3& end )
+Plane
+Plane::Plane( agx::Real const a, agx::Real const b, agx::Real const c, agx::Real d ) Plane::Plane( const agx::Vec3& normal , agx::Real d ) Plane::Plane( const agx::Vec3& normal, const agx::Vec3& point ) Plane::Plane( const agx::Vec4& plane) Plane::Plane( const agx::Vec3& p1, const agx::Vec3& p2, const agx::Vec3& p3)
+Triangle mesh
+agx::Vec3Vector vertices; agx::UIntVector indices;
+// Add vertices vertices.push_back( agx::Vec3( -0.4, -0.4, 0.0 ) ); // ...
+// Add indices indices.push_back( 1 ); // starting first triangle indices.push_back( 0 ); indices.push_back( 2 ); // finished first triangle indices.push_back( 0 ); // starting second triangle, reusing one vertex // ...
+// Create the collision shape based on the vertices and indices agxCollide::TrimeshRef triangleMesh = new agxCollide::Trimesh( &vertices, &indices, "handmade pyramid" );
+// Create the trimesh shape from a WaveFront OBJ file: agxCollide::TrimeshRef trimeshShape = agxUtil::TrimeshReaderWriter::createTrimeshFromWavefrontOBJ( "torusRoundForCollision.obj" );
+
+
+agx::Vec3Vector vertices; agx::UIntVector indices;
+// Add vertices vertices.push_back( agx::Vec3( -0.4, -0.4, 0.0 ) ); ...
+// Add indices indices.push_back( 1 ); // starting first triangle
+uint32_t optionsMask = agxCollide::Trimesh::TERRAIN; ...
+TrimeshRef terrain = new Trimesh( &vertices, &indices, "handmade terrain", optionsMask, 5.0 );
+
+
+     
+
+
+// Create the trimesh shape from a WaveFront OBJ file: agxCollide::TrimeshRef trimesh = agxUtil::TrimeshReaderWriter::createTrimeshFromWavefrontOBJ( "pin.obj" ); // Get first triangle in trimesh agxCollide::Mesh::Triangle triangle = trimesh->getTriangle(0); if (triangle.isValid()) // Important to check validity before use triangle = triangle.getHalfEdgePartner(0); // Get neighbor to first edge
+// Create the trimesh shape from a WaveFront OBJ file: agxCollide::TrimeshRef trimesh = agxUtil::TrimeshReaderWriter::createTrimeshFromWavefrontOBJ( "pin.obj" ); // Get a circulator around the first vertex in the first triangle. agxCollide::Mesh::VertexEdgeCirculator circulator = trimesh->createVertexEdgeCirculator( 0, 0 ); // The circulator might be invalid if created from invalid parameters. if (circulator.isValid()) { // Has the circulator done a whole turn around the vertex? while (!circulator.atEnd()) { // Set it to next position. The VertexEdgeIterator will even manage //holes in the neighborhood structue by jumpoing over all holes. circulator++; if (circulator.hasJustJumpedOverHole())//Have holes been passed? std::cout << "Vertex circulator jumped over hole\n";
+
+
+} }
+Convex
+agx::Vec3Vector vertices; agx::UIntVector indices; // ... add single vertices and indices to the containers... ConvexRef convex = new Convex(&vertices, &indices);
+#include <agxCollide/ConvexBuilder.h>
+// Create a ConvexBuilder agxCollide::ConvexBuilderRef builder = new agxCollide::ConvexBuilder;
+// Createa mesh reader for Wavefront OBJ format. agxIO::MeshReaderRef reader = new agxIO::MeshReaderOBJ; if (!reader->readFile( "mesh.obj")) error();
+// Try to parse the data read from the reader and create convex shapes size_t numConvexShapes = builder->build( reader ); if (numConvexShapes) error();
+// Get the vector of the created shapes agxCollide::ConvexBuilder::ConvexShapeVector& shapes = builder->getConvexShapes(); // Now insert shapes into one or more geometries
+
+
+WireShape
+
+
+HeightField
+
+
+HeightField(size_t resolutionX, size_t resolutionY, agx::Real sizeX, agx::Real sizeY, agx::Real bottomMargin=agx::Real(1));
+bool setHeights(const agx::RealVector& heights, size_t minVertexX, size_t maxVertexX, size_t minVertexY, size_t maxVertexY);
+void setHeight(size_t xIndex, size_t yIndex, agx::Real height);
+Composite Shapes
+
+
+
+
+Collider Matrix
+× (×)
+Point, normal and depth calculation
+
+
+  
+p{shape1} = p − n ∗ d ∗ 0.5 p{shape2} = p + n ∗ d ∗ 0.5
+Results for contacts with Line Shapes
+P0 P1 d = P1 − P0
+P0 + t d, 0 ≤ t ≤ 1
+Pc
+tc Pc = P0 + tcd
+(1 − tc) ∗ |P0 − P1| Pc
+
+
+// Create a RenderData object agxCollide::RenderDataRef renderData = new agxCollide::RenderData;
+// Specify the vertices agx::Vec3Vector vertices; renderData->setVertexArray( vertices );
+// Specify the normals agx::Vec3Vector normals; renderData->setNormalArray( normals );
+// Specify the indices, which constructs Triangles agx::UInt32Vector indices; renderData->setIndexArray( indices, agxCollide::RenderData::TRIANGLES);
+// Store a diffuse color renderData->setDiffuseColor( agx::Vec4(1,0,1,1) );
+
+
+agxCollide::ShapeRef shape = new agxCollide::Sphere(1.0); shape->setRenderData( renderData );
+agxCollide::RenderData *renderData = shape->getRenderData();
+RigidBody::add(Geometry*) RigidBody::remove(Geometry*),
+body->getMassProperties()->setInertiaTensor(I);
+
+
+  
+agx::RigidBody::updateMassProperties(agx::MassProperties::AUTO_GENERATE_ALL);
+#include <agx/ForceField.h> class MyForceField : public agx::ForceField {
+public: MyForceField() {} ~MyForceField() {}
+// Implement this method to add forces/torques of all or selected bodies void updateForce( DynamicsSystem *system ); };
+// Create the force field and add to the DynamicsSystem. agx::InteractionRef forceField = new MyForceField; simulation->getDynamicsSystem()->add( forceField );
+
+
+agxSDK::SimulationRef sim = new agxSDK::Simulation; sim->setGravityField( new agx::PointGravityField );
+CustomGravityField
+class MyGravityField : public agx::CustomGravityField {
+public: MyGravityField() {} /// overidden method to calculate the gravity for a point in 3D Space virtual agx::Vec3 calculateGravity(const agx::Vec3& position) const {
+return position*-1; }
+protected: ~MyGravityField() {}
+};
+// Register the gravity field with the simulation simulation->setGravityField( new MyGravityField() );
+agxCollide::Geometry::setMaterial(agx::Material*)
+
+
+material->getSurfaceMaterial(); material->getBulkMaterial(); material->geWireMaterial();
+SurfaceMaterial
+
+ 
+
+SurfaceMaterial::setAdhesion( adhesionForce, adhesiveOverlap );
+
+
+BulkMaterial
+ 
+
+ 
+WireMaterial
+ 
+ 
+adhesion_distance
+AB
+
+
+ContactMaterial
+// Create a contact material based on two agx::Material’s m1 and m2
+agx::ContactMaterial *cm = simulation->getOrCreateContactMaterial(m1, m2);
+// When two geometries collide, where m1 and m2 is involved, the contact area approach // will be used. cm->setUseContactAreaApproach( true );
+agx::Real minElasticRestLength=0.0005, agx::Real maxElasticRestLength=0.05; cm->setMinMaxElasticRestLength(minElasticRestLength, maxElasticRestLength);
+sqrt(material1.roughness*material2.roughness) = 0.31623
+
+
+agxUtil::Convert
+Defining implicit Material properties
+   
+ 
+Defining explicit ContactMaterial properties
+
+
+BulkMaterial::setDensity() BulkMaterial::setYoungsModulus() BulkMaterial::setPoissonsRatio()
+ContactMaterial::setRestitution() ContactMaterial::setFrictionCoefficient() ContactMaterial::setLineStickFriction() ContactMaterial::setLineSlideFriction() ContactMaterial::setDamping() ContactMaterial::setEnableContactReduction()
+agx::MaterialRef wood = new agx::Material("Wood"); agx::MaterialRef plastic = new agx::Material("Plastic"); agx::MaterialRef metal = new agx::Material("Metal");
+// Define the material for plastic/metal agx::ContactMaterialRef plastic_metal = new agx::ContactMaterial(plastic, metal); plastic_metal->setRestitution( 0.6 ); plastic_metal->setFrictionCoefficient( 0.7 ); plastic_metal->setYoungsModulus( 0.1E9 ); // GPa // Define the material for wood/metal agx::ContactMaterialRef wood_metal = new agx::ContactMaterial(wood, metal); wood_metal->setRestitution( 0.2 ); wood_metal->setFrictionCoefficient( 0.2 );
+// Define the material for wood/plastic agx::ContactMaterialRef wood_plastic = new agx::ContactMaterial(wood, plastic); wood_plastic->setRestitution( 0.4 ); wood_plastic->setFrictionCoefficient( 0.3 ); wood_plastic->setYoungsModulus( 3.654E9 ); // GPa
+// Add ALL materials to the simulation simulation->add(wood) simulation->add(metal) simulation->add(plastic) simulation->add(plastic_metal); simulation->add(wood_metal); simulation->add(wood_plastic);
+
+
+// Define the material for wood/plastic agx::ContactMaterialRef wood_plastic = new agx::ContactMaterial(wood, plastic); wood_plastic->setUseContactAreaApproach(true);
+Friction model
+using namespace agx; using namespace agxCollide; // Create two materials MaterialRef wood = new Material("wood"); MaterialRef steel = new Material("steel");
+// Create two geometries with material steel and wood GeometryRef geom1 = new Geometry; geom1->setMaterial("wood"); GeometryRef geom2 = new Geometry; geom2->setMaterial("steel");
+// Create a contactmaterial that will be used when steel collides with wood ContactMaterialRef steelWood = simulation->getMaterialManager()->getOrCreateContactMaterial( wood, steel );
+
+
+
+
+BoxFrictionModelRef boxFriction = new BoxFrictionModel();
+// Use box friction as the friction model for this contact material steelWood->setFrictionModel (boxFriction);
+ScaledBoxFrictionModelRef scaledBoxFriction = new ScaledBoxFrictionModel();
+// Use scaled box friction as the friction model for this contact material steelWood->setFrictionModel (scaledBoxFriction);
+IterativeProjectedConeFrictionRef ipcFriction = new IterativeProjectedConeFriction();
+// Use iterative projected cone friction as the friction model for this contact material steelWood->setFrictionModel (ipcFriction);
+Solve type
+FrictionModel::setSolveType (FrictionModel::SolveType solveType);
+
+
+bool Space::testBoundingVolumeOverlap( agxCollide::GeometryPtrVector& testGeometries, agxCollide::GeometryPairVector& result, bool skip = true );
+bool Space::testGeometryOverlap( agxCollide::GeometryPtrVector& testGeometries, agxCollide::GeometryContactVector& result, bool skip = true );
+  
+External/ForceField/Gravity forces
+RigidBody::addForce, RigidBody::addTorque
+const agx::Vec3& RigidBody::getLastForce() const; const agx::Vec3& RigidBody::getLastTorque() const;
+Constraint forces
+
+
+void Constraint::setEnableComputeForces(bool);
+// If you know the index of your body in the Constraint (0 or 1) bool Constraint::getLastForce( UInt bodyIndex, Vec3& retForce, Vec3& retTorque, bool giveTorqueAtCm=false ) const;
+// If you have pointer to the rigid body bool Constraint::getLastForce( const RigidBody* rb, Vec3& retForce, Vec3& retTorque, bool giveTorqueAtCm=false ) const;
+
+
+// \return the current force magnitude (i.e., the force magnitude last time step) in given DOF >= 0 && <= NUM_DOFS bool Constraint::getCurrentForce( UInt degreeOfFreedom) const;
+enum DOF
+getCurrentForce
+getCurrentForce getLastForce
+Contact forces
+
+
+#include <agxCollide/Contacts.h> #include <agxCollide/Space.h>
+// Return the sum of the magnitude for all contact forces being applied to a specific body. agx::Real getContactForce(agx::RigidBody* body, agxCollide::Space* space) {
+// Get the vector with all the contacts const agxCollide::GeometryContactPtrVector& contacts = space->getGeometryContacts();
+agx::Real contactForce = 0; // For all contacts in the system for (size_t i = 0; i < contacts.size(); ++i) {
+agxCollide::GeometryContact *gc = contacts[i]; // Is the contact enabled? if (!gc->isEnabled()) continue; // Is our body involved in this contact? if (gc->rigidBody(0) != body && gc->rigidBody(1) != body) continue;
+// Get all the points and sum the magnitude for the contact force (normal force) const agxCollide::ContactPointVector& points = gc->points(); for (size_t n = 0; n < points.size(); ++n) {
+// Is the contact point enabled? if (!points[n].enabled()) continue; contactForce += points[n].getNormalForceMagnitude(); } }
+return contactForce; }
+
+
+
+
+
+
+
+ o o 
+ 
+/// Specifies the mode for contact reduction enum ContactReductionMode { REDUCE_NONE, /**< No contact reduction enabled */ REDUCE_GEOMETRY, /**< Default: Reduce contacts between geometries */ REDUCE_ALL /**< Two step reduction: first between geometries, and then between rigid bodies */ };
+// We want to reduce contacts not only between each geometry, but between body and other body
+// Assume we have a body and five geometries, each with e.g. one or more trimesh shapes. rigidBody->add( geometry1 ); rigidBody->add( geometry2 ); rigidBody->add( geometry3 ); rigidBody->add( geometry4 ); rigidBody->add( geometry5 );
+// Assign a material to the geometries geometry1->setMaterial( material1 ); geometry2->setmaterial( material1 );
+// Assume we also have another body which we also assign a material to otherBody->add( otherGeometry ); otherGeometry->setMaterial( material2 );
+// Create a new contact material agx::ContactMaterialRef cm = simulation->getMaterialManager()>getOrCreateContactMaterial(material1, material2);
+// Set contact reduction mode to REDUCE_ALL - now, contacts between rigidBody and otherBody // get reduced together, not only each contact by itself. cm->setContactReductionMode( agx::ContactMaterial::REDUCE_ALL );
+
+
+Bin resolution
+// Set contact reduction bin size to 3 for simulation (rigid body overlaps). sim->setContactReductionBinResolution( 3 );
+// Create a new contact material agx::ContactMaterialRef cm = simulation->getMaterialManager()>getOrCreateContactMaterial(material1, material2);
+// Set contact reduction bin size to 3 for contact material (all geometry overlaps with this contact material). cm->setContactReductionBinResolution( 3 );
+// Set contact reduction bin size to 3 for space (fallback value for geometry overlaps). agxCollide:;SpaceRef = sim->getSpace(); space->setContactReductionBinResolution( 3 );
+// Set contact reduction bin size to 3 for simulation (rigid body overlaps). sim->setContactReductionBinResolution( 3 );
+
+
+// Set contact reduction bin size to 3 for simulation (rigid body overlaps). size_t binResolution = 3; agxCollide::ContactReducer::reduce(contactPoints, binResolution);
+ContactReductionThreshold
+agxCollide::SpaceRef space = new agxCollide::Space(); // More than 10 contact points will trigger contact reduction space-> setContactReductionThreshold( 10 );
+agxSDK::SimulationRef sim = new agxSDK::Simulation(); // More than 10 contact points will trigger contact reduction sim-> setContactReductionThreshold( 10 );
+
+
+
+
+Converting spring constant and damping
+// Convert from a spring constant to compliance agx::Real compliance = agxUtil::convert::convertSpringConstantToCompliance( springConstant ); // Use the compliance constraint->setCompliance( compliance );
+agx::Real spookDamping = agxUtil::convert::convertDampingCoefficientToSpookDamping( dampingCoefficient, springConstant);
+constraint->setDamping( spookDamping );
+Regularization parameters
+
+
+// Set compliance for all DOF:s hinge->setCompliance( 1E-14 );
+// Set compliance for all DOF:s for (size_t dof=0; dof < hinge->getNumDOF(); dof++) hinge->getRegularizationParameters( dof )->setCompliance( 1E-4 );
+enum DOF
+Attachment frames
+agx::RigidBodyRef A, B; // Two bodies // Create an attachment frame relative body A:s model origin agx::FrameRef frameA = new agx::Frame(); frameA->setLocalTranslate(-0.5,0,0.5); // Translate the frame left and up relative to body A. A->addAttachment(frameA, "frameA");
+// Create an attachment frame relative body B:s model origin agx::FrameRef frameB = new agx::Frame(); frameB->setLocalTranslate(0.5,0,-0.5); // Translate the frame left and up relative to body B. B->addAttachment(frameB, "frameB");
+// Create a LockJoint using the attachments agx::LockJointRef lock = new agx::LockJoint(a, a->getAttachment("frameA"), b, b->getAttachment("frameB"));
+AB
+A
+B
+
+
+
+
+enum DOF {
+ALL_DOF=-1, /**< Select all degrees of freedom */ TRANSLATIONAL_1=0, /**< Select DOF for the first translational axis */ TRANSLATIONAL_2=1, /**< Select DOF for the second translational axis */ TRANSLATIONAL_3=2, /**< Select DOF for the third translational axis */ ROTATIONAL_1=3, /**< Select DOF corresponding to the first rotational axis */ ROTATIONAL_2=4, /**< Select DOF corresponding to the second rotational axis */ ROTATIONAL_3=5, /**< Select DOF corresponding to the third rotational axis */ NUM_DOF=6 /**< Number of DOF available for this constraint */ };
+// Set the compliance for translational movements for the hinge: hinge->setCompliance( 1E-8, 1EHinge::TRANSLATIONAL_1 ); hinge->setCompliance( 1E-8, 1EHinge::TRANSLATIONAL_2 ); hinge->setCompliance( 1E-8, 1EHinge::TRANSLATIONAL_3 );
+// Get the number of DOF for this constraint. -1 if numDof is not defined for the constraint. int numDof = hinge->getNumDOF();
+// body1 is a rigid body agx::FrameRef frame = new agx::Frame(); frame->setLocalTranslate( -1.0, 0.0, 0.0 ); // Hinge axis translated -1 along X
+// Align hinge axis along negative y-axis instead of Z. frame->setLocalRotate( agx::Quat(agx::Vec3::Z_AXIS(), agx::Vec3::Y_AXIS()*(-1)) ); agx::ref_ptr< agx::Hinge > h = new agx::Hinge( frame, body1 );
+
+
+// body1 and body2 are rigid bodies agx::FrameRef frame1 = new agx::Frame; agx::FrameRef frame2 = new agx::Frame; frame1->setLocalTranslate( 1,0,0); frame1->setLocalRotate( agx::EulerAngles(agx::degreesToRadians(90.0),0,0) ); frame2->setLocalTranslate( -1,0,0); frame2->setLocalRotate( agx::EulerAngles(agx::degreesToRadians(-90.0),0,0) );
+agx::HingeRef h = new agx::Hinge( body1, frame1, body2, frame2 );
+simulation->add( h.get() );
+// body1 is a rigid body agx::FrameRef frame = new agx::Frame(); agx::BallJointRef b = new agx::BallJoint(body1 frame);
+// body1 and body2 are rigid bodies agx::FrameRef frame1 = new agx::Frame(); agx::FrameRef frame2 = new agx::Frame();
+frame1->setLocalTranslate(-1,0,0); frame2->setLocalTranslate(1,0,0);
+// Create A BallJoint using the two frames agx::BallJointRef b = new agx::BallJoint( body1, frame1, body2, frame2 );
+simulation->add( b );
+
+
+// Creating a universal joint, axis along world z. agx::FrameRef rbFrame = new agx::Frame(); rbFrame->setTranslate(0,0,1.5); agx::FrameRef rb2Frame = new agx::Frame(); rb2Frame->setTranslate(0,0,-1.5); agx::UniversalJointRef universal = new agx::UniversalJoint( body1, rbFrame, body2, rb2Frame );
+simulation->add( universal );
+Motor
+// Enable the two motors universal->getMotor1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_1 )->setEnable( true ); universal->getMotor1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_2 )->setEnable( true );
+// Set a speed to the two motors universal->getMotor1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_1 )->setSpeed( 0.5 ); universal->getMotor1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_2 )->setSpeed( 0.2 );
+Range
+// Enable the ranges universal->getRange1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_1 )->setEnable( true ); universal->getRange1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_2 )->setEnable( true );
+
+
+// Set the ranges universal->getRange1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_1 )->setRange( -agx::PI*0.3, agx::PI*0.3 ); universal->getRange1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_2 )->setRange( -agx::PI*0.3, agx::PI*0.3 );
+Lock
+// Enable the locks universal->getLock1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_1 )->setEnable( true ); universal->getLock1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_2 )->setEnable( true );
+// Set the lock positions universal->getLock1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_1 )->setPosition(agx::PI); universal->getLock1D( agx::UniversalJoint::ROTATIONAL_CONTROLLER_2 )->setPosition(agx::PI);
+// Creating a universal prismatic joint, axis along world z. agx::FrameRef rbFrame = new agx::Frame(); rbFrame->setTranslate(0,0,1.5); agx::FrameRef rb2Frame = new agx::Frame(); rb2Frame->setTranslate(0,0,-1.5); agx::PrismaticUniversalJointRef universal = new agx::PrismaticUniversalJoint( body1, rbFrame, body2, rb2Frame );
+// Enable the prismatic motor universal->getMotor1D( agx::UniversalJoint::TRANSLATIONAL_CONTROLLER_1 )->setEnable( true );
+// Set the force range and speed universal->getMotor1D( agx::UniversalJoint::TRANSLATIONAL_CONTROLLER_1 )->setSpeed( 0.1 ); universal->getMotor1D( agx::UniversalJoint::TRANSLATIONAL_CONTROLLER_1 )->setForceRange(100,100);
+// body1 is a rigid body // Given in body frame // Position in the world where the attachment of the distance joint is agx::Vec3 worldConnectPoint( 0.0, 0.0, 10.0 ); agx::FrameRef frame = new agx::Frame(); // Other end of joint is at origo of rigid body agx::DistanceJointRef d = new agx::DistanceJoint(body1, frame ,worldConnectPoint );
+
+
+// body1 and body2 are rigid bodies agx::FrameRef frame1 = new agx::Frame() frame1->setLocalTranslate( agx::FrameRef frame2 = new agx::Frame()
+agx::DistanceJointRef d = new agx::DistanceJoint(body1,frame1, body2, frame2);
+// Disable the lock so that it will not interfere with the motor d->getLock1D()->setEnable(false);
+// Enable the motor and increase the distance between the two bodies with 0.1 m/s d->getMotor1D()->setEnable(true); d->getMotor1D()->setSpeed(0.1);
+// set locked at zero speed, to avoid slipping when the distance is supposed to be constant d->getMotor1D()->setLockedAtZeroSpeed(true);
+// body1 is a rigid body agx::LockJointRef l = new agx::LockJoint( body1 );
+simulation->add( l.get() );
+// body1 and body2 are rigid bodies body1->setPosition( agx::Vec3( 10.0, 0.0, 0.0 ) ); body2->setPosition( agx::Vec3( 5.0, 0.0, 0.0 ) ); agx::Frame frame1 = new agx::Frame; frame1->setLocalTranslate(-2.5,0,0); frame2->setLocalTranslate(2.5,0,0);
+agx::LockJoint l = new agx::LockJoint(body1, frame1, body2, frame2);
+simulation->add( l );
+
+
+agx::Motor1D *angularMotor = cylindrical->getLock1D( agx::Constraint2DOF::FIRST ); agx::Motor1D *linearMotor = cylindrical->getLock1D( agx::Constraint2DOF::SECOND );
+Screw1D
+// Create a Cylindrical joint (pseudo code)
+agx::CylindricalJointRef cylindrical = new agx::CylindricalJoint(...); // Enable the Screw1D cylindrical->getScrew1D()->setEnable( true );
+// For each revolution, the constrained body will translate 0.1 units. cylindrical->setLead(0.1);
+
+
+agx::Motor1D *motor = hinge->getMotor1D(); agx::Lock1D *lock = hinge->getLock1D(); agx::Range1D *range = hinge->getRange1D();
+agx::Screw1D *screw1D = cylindrical->getScrew1D();
+Motor1D
+hinge->getMotor1D()->setSpeed( 1.2 ); // Set the desired speed in radians/sec // Specify the available amount of torque in negative and positive direction hinge->getMotor1D()->setForceRange( -1000, 1000 ); // Nm
+// Whenever the desired speed is set to 0, the motor1d will operate as a Lock1D // The same force range will be used for locking the constrained bodies. hinge->getMotor1D()-setLockedAtZeroSpeed( true );
+Lock1D
+// Specify a position of -100 radians, ie. a wounded up spring.
+
+
+hinge->getLock1D()->setPosition( -100 ); hinge->getLock1D()->setCompliance( 1E-5 );
+Range1D
+// Enable the range hinge->getRange1D()->setEnable( true ); // Specify the range limits hinge->getRange1D()->setRange( agx::RangeReal(-agx::PI, 10*agx::PI) );
+Current Position
+// Create a hinge
+agx::Constraint1DOFRef constraint = new agx::Hinge(... );
+// Get the current angle in radians agx::Real currentAngle = constraint->getAngle();
+// Create a prismatic
+agx::Constraint1DOFRef constraint = new agx::Prismatic(... );
+// Same call but here we get the current position as it is a Prismatic constraint agx::Real currentPosition = prismatic->getAngle();
+Current force
+// Get the current torque applied by the hinge agx::Real currentTorque = hinge->getMotor1D()->getCurrentForce();
+Regularization parameters
+// Specify how stiff the limit should be: hinge->getRange1D()->getRegularizationParameters()->setCompliance(1E-5);
+// Specify the damping of the limit hinge->getRange1D()->getRegularizationParameters()->setDamping(3.0/60);

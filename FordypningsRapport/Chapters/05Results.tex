@@ -1,4 +1,3 @@
-
 I have implemented a simulated surface vessel and a non-buoyant subsurface vessel, both of which are controllable either manually or by automated controller. The two vessels are bound together by a wire tether. The vessels and the wire are all affected by weather effects such as ocean currents, as well as physical effects like added mass and inertia. 
 
 The simulation works as would be intuitively expected. An example of the simulation graphical interface can be seen in \cref{fig:sim-display}. The figure shows a surface vessel and the ROV under water in green, and the teal tether connecting them. The simulated water is shown as a grey volume, but it's not easy to distinguish it in \cref{fig:sim-display} because it takes up the entire screen. 
@@ -12,12 +11,16 @@ The simulation works as would be intuitively expected. An example of the simulat
 
 \section{Model Validation}
 \label{sec:validation}
-There are two ways I will attempt to validate the simulator results here. One is intuitively and the other is using analytical methods and a couple of simple cases. The intuitive demonstration is difficult to convey in text-form in a report, but I have placed some animations of the results on GitHub\cite{noauthor_fordypogmastersimulator_nodate} along with the project. The intuitive demonstrations consist of starting the simulation, pulling objects around and seeing if they "act right". Human minds are excellent pattern recognition machines, and I will use this to my advantage here, as if something is "off", it would be noticable. 
+There are two ways I will attempt to validate the simulator results here. One is intuitively and the other is using analytical methods and a simple case. The intuitive demonstration is difficult to convey in text-form in a report, but I have placed some animations of the results on GitHub\cite{noauthor_fordypogmastersimulator_nodate} alongside the simulator. The intuitive demonstrations consist of starting the simulation, pulling objects around and seeing if they "act right". Human minds are excellent pattern recognition machines, and I will use this to my advantage here, as if something is "off", it would be noticable. 
+
+For the analytical validation I will use analytical methods and simple physics to estimate an expected result, and then simulate the result to compare the values for both.
 
 \subsection{Intuitive validation}
 I have done two tests here, one where I pull the surface vessel and look at how the ROV follows, and the other where I pull the ROV and see how the surface vessel follows. The shape of the tether is also relevant here. Looking at the results, shown in the \texttt{Results} directory of the simulator on the Github repo, there is nothing that pops out as obviously wrong. Of note is that the surface vessel flips in the ROV pulled test. This is because I pulled the ROV down and given the situation the surface vessel was in it was more stable flipped upside down. This is not a realistic scenario for the real-life project because the amount of force exerted pulling the surface vessel down will never be that large. Looking at the tension in the tether at the ROV it reaches upwards of 20kN at points, which corresponds to roughly 20 tonnes lifted.
 
 In addition to the two tests above I've also tried swinging the ROV as a pendulum underneath the surface vessel. This test also confirms the intuitive assumption that when the surface vessel is far more massive than the ROV, it will be less affected when pulled like this, although it will still be affected. 
+
+I will note that in the two first animations the ROV is shown as larger than in the last. This was due to an implementation error on my part. The result of this is that the ROV is far more massive than it's supposed to be, and also larger which gives it greater drag in the water. Neither of these affect the intuitive approach as the physics still "act right". 
 
 \subsection{Analytical validation}
 \label{sec:anal}
@@ -26,24 +29,26 @@ For the analytical part of the validation I will use a simple case in which the 
 It is possible to analytically find an expected tension in the tether and then compare this with the simulated results. I will ignore the effects of the tether in the analytical calculations for simplicity. This will be a source of error on the final result as the tether will have an effect in the simulation.
 
 The tension on the tether in the towing case will be dependent on the resistance of the water around the tether and ROV as well as the effect of gravity. This gives the equation 
-\[F = F_g - F_B + F_D\]
+\[F = F_g - F_b + F_D\]
 Where \(F\) is the total force pulling on the wire, \(F_g\) is the force due to gravity, \(F_b\) is the buoyant force and \(F_D\) is the drag force. 
 
-For the force of gravity I will assume that gravity is in-line with the tether. This is not the case as the ROV will lag behind a bit, causing effectively a cosine error. From having looked at the simulations this seems to be a fairly small error and so I will ignore it, but this will add to the cause of error in results. The force of gravity on the ROV simply becomes 
+For the force of gravity I will assume that gravity is in-line with the tether. This is not the case in reality as the ROV will lag behind a bit as can be seen in \cref{fig:dragged}. This causes effectively a cosine error. This angle can be quite large, however since the only thing keeping the ROV from sinking is the tether, the gravitational force is still transmitted through the tether. The force of gravity becomes
 \[F_g = m g \approx 131kg \times 9.8\frac{m}{s^2} \approx 1300N\] 
 
-Buoyant force is given by the volume the ROV displaces. It's given by the equation below, where \(\rho\) is density of the fluid, \(V\) is volume and \(g\) is the gravitational acceleration. The seawater used in the simulation has defined \(\rho = 1025\frac{kg}{m^3}\) and the volume of the ROV is previously found to be \(V=0.0654m^3\). Using these values, we can find that the buoyant force is 
+Buoyant force is given by the volume the ROV displaces and is given by 
+\[F_b = \rho V\]
+Where \(\rho\) is density of the fluid, \(V\) is volume displaced and \(g\) is the acceleration due to gravity. The seawater used in the simulation is defined with \(\rho = 1025\frac{kg}{m^3}\) and the volume of the ROV is previously found to be \(V=0.0654m^3\). Using these values, we can find that the buoyant force is 
 \[F_b = \rho V g = 1025\frac{kg}{m^3} \times 0.0654m^3 \times 9.8\frac{m}{s^2} = 657N\]
 
-The ROV will be the largest influence here due to its large size compared to the wire. The resistance for an object in a fluid (drag) is given by the equation 
+When it comes to drag force, the ROV will be the largest influence due to its large size compared to the tether. The resistance for an object in a fluid (drag) is given by the equation 
 \[F_D = \frac 1 2 \rho v^2 C_D A\]
-Where \(F_D\) is the drag force, \(\rho\) is the density of the fluid, \(v\) is velocity, \(C_D\) is the coefficient of drag and \(A\) is the cross-sectional area. For the cross-sectional area I will assume that the ROV doesn't turn as it flows. It likely will, which will change both \(A\) and \(C_D\), but for these calculations I will ignore this. I will assume that \[A = 0.45m\times 0.254m = 0.114m^3\]
+Where \(v\) is velocity, \(C_D\) is the coefficient of drag and \(A\) is the cross-sectional area. For the cross-sectional area I will assume that the ROV doesn't rotate around any axis as it is being dragged. In reality it definitely will, which will change both \(A\) and \(C_D\). Including the effect of these rotations will be very complex, and so I will ignore them. I will assume that the cross-sectional area is the front facing area, defined as \[A = 0.45m\times 0.254m = 0.114m^3\]
 
-The drag coefficient of a cube is according to tables 1.05, while the drag coefficient of a square prism perpendicular to flow is 2.05. The ROV is simulated as a simple box which is roughly half of a cube, divided horizontally. I believe the actual coefficient of drag on the simulated ROV will be somewhere between these and I will use both values to calculate an upper and lower bounds. 
+Coefficient of drag is a value found experimentally and normally referenced in tables. The drag coefficient of a cube is according to tables 1.05, while the drag coefficient of a square prism perpendicular to flow is 2.05. The ROV is simulated as a simple box which is roughly half of a cube, divided horizontally. I believe the actual coefficient of drag on the simulated ROV will be somewhere between these and I will use both values to calculate an upper and lower bounds. For best results, either CFD analysis  or physical experiments on an equivalent shape could be done.
 
-The dragging of the ROV behind will cause it to be at an angle to the surface vessel. This means that the force of gravity and the force of drag will not be acting in-line with the tether. This is no matter, as the total force will still have to be carried by the tether, so off-axis forces will not impact this. The ROV lagging behind will however lead to it being easier to tumble, changing its forward facing area which would affect the drag calculations. 
+The dragging of the ROV behind will cause it to no longer be directly beneath the surface vessel. This means that the force of gravity and the force of drag will not be acting in-line with the tether. This is no matter, as the total force will still have to be carried by the tether, so off-axis forces will not impact this. The ROV lagging behind will however lead to it being easier to tumble, changing its forward facing area which would affect the drag calculations. 
 
-That only leaves the velocity as a variable. I will do simulations in increments of 1m/s from 0 to 5m/s, which is roughly 10 knots. The simulated tensions will be the average of tensions over a 60s period. The period is chosen so that the system is allowed to stabilize. The calculated and simulated tensions can be seen in \cref{tab:tension}. Graphs of tensions can be seen in \cref{fig:tensions}.
+That only leaves the velocity as a variable. I will do simulations in increments of 1m/s from 0 to 5m/s, roughly 10 knots. The simulated tensions will be the average of tensions over a 60s period. This period is chosen so that the system is allowed to stabilize. The calculated and simulated tensions can be seen in \cref{tab:tension}. Graphs of tensions can be seen in \cref{fig:tensions}. 
 
 \begin{table}
 \begin{tabular}{c | c c | c c | c}
@@ -118,14 +123,14 @@ Velocity & Deviation(\(C_D=1.05\)) & Deviation(\(C_D=2.05\)) \\
 \end{figure}
 
 \section{Control system results}
-The control system has been implemented as a simple PD controller, as mentioned in \cref{sec:control}. The weights for the controller are set to 
+The control system has been implemented as a simple PD controller. The weights for the controller are set to 
 \begin{align*}
 k_p &= m_{\text{surf}}\omega^2 \\
 k_d &= 2m_{\text{surf}}\zeta\omega
 \end{align*}
 Where \(m_{\text{surf}}\) is the mass of the surface vessel, \(\omega\) is a damping frequency and \(\zeta\) is the damping ratio. Through experimentation, I found that \(\omega = 0.45\) and \(\zeta = 1.2\) gave good results for this vessel. 
 
-The way I've implemented the controller it's able to take in several targets and will treat them as targets sequentially. Once the vessel has reached one within a given acceptable error (currently set to 0.1m), the next target in the list is selected and the vessel moves towards it. The target selection finds not only if the current step has achieved the goal but also checks the errors for the last 50 timesteps. This is done so that the vessel couldn't hypothetically run straight through the waypoints, and instead has to actually come to a stop (or close to it) at the target positions. While there is a simple heading controller implemented, heading error is not taken into account with whether the vessel has reached the target or not. 
+The way the controller is implemented it is able to take in a list of several targets and will treat them as individual targets sequentially. Once the vessel has reached one within a given acceptable error (currently set to 0.1m), the next target in the list is selected and the vessel moves towards it. The target selection finds not only if the current step has achieved the goal but also checks the errors for the last 50 timesteps. This is done so that the vessel couldn't hypothetically run straight through the waypoints, and instead has to actually come to a stop (or close to it) at the target positions. The number 50 was chosen arbitrarily. While there is a simple heading controller implemented, heading error is not taken into account with whether the vessel has reached the target or not. 
 
 One simulation with the control system was done with 4 waypoints. The vessel moved from the starting point at (0,0) to (10,15) to (50, -30) to (-20,10) and back to (0,0). These points were chosen arbitrarily and were chosen because they are a fair distance away from each other. In total, the theoretical shortest distance to travel would be roughly 180m. The time taken for the simulated vessel to move was 208s, or approximately 3.5 minutes. The total error can be seen in \cref{fig:error}
 
