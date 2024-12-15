@@ -20,14 +20,17 @@ I have done two tests here, one where I pull the surface vessel and look at how 
 In addition to the two tests above I've also tried swinging the ROV as a pendulum underneath the surface vessel. This test also confirms the intuitive assumption that when the surface vessel is far more massive than the ROV, it will be less affected when pulled like this, although it will still be affected. 
 
 \subsection{Analytical validation}
-For the analytical part of the validation I will use some simple cases. The first case is a towing, where the surface vessel moves forward towing the ROV behind it. This will be roughly analogous to how the ROV and tether will respond in currents. I can analytically find an expected tension in the tether and then compare this with the simulation results. I will ignore the effects of the tether for simplicity. This will be a source of error on the final result as the tether will have an effect in the simulation.
+\label{sec:anal}
+For the analytical part of the validation I will use a simple case in which the surface vessel moves forward, towing the ROV behind it. This will be roughly analogous to how the ROV and tether will respond in currents, though not entirely interchangable. The current speed will impart parallel forces on the tether and ROV while the towing case will impart a tension force on the tether. Still, this is a simple case for rough validation of the model and can be further worked or reworked for later use.
+
+It is possible to analytically find an expected tension in the tether and then compare this with the simulated results. I will ignore the effects of the tether in the analytical calculations for simplicity. This will be a source of error on the final result as the tether will have an effect in the simulation.
 
 The tension on the tether in the towing case will be dependent on the resistance of the water around the tether and ROV as well as the effect of gravity. This gives the equation 
 \[F = F_g - F_B + F_D\]
 Where \(F\) is the total force pulling on the wire, \(F_g\) is the force due to gravity, \(F_b\) is the buoyant force and \(F_D\) is the drag force. 
 
 For the force of gravity I will assume that gravity is in-line with the tether. This is not the case as the ROV will lag behind a bit, causing effectively a cosine error. From having looked at the simulations this seems to be a fairly small error and so I will ignore it, but this will add to the cause of error in results. The force of gravity on the ROV simply becomes 
-\[F_g = m \times g \approx 131kg \times 9.8\frac{m}{s^2} \approx 1300N\] 
+\[F_g = m g \approx 131kg \times 9.8\frac{m}{s^2} \approx 1300N\] 
 
 Buoyant force is given by the volume the ROV displaces. It's given by the equation below, where \(\rho\) is density of the fluid, \(V\) is volume and \(g\) is the gravitational acceleration. The seawater used in the simulation has defined \(\rho = 1025\frac{kg}{m^3}\) and the volume of the ROV is previously found to be \(V=0.0654m^3\). Using these values, we can find that the buoyant force is 
 \[F_b = \rho V g = 1025\frac{kg}{m^3} \times 0.0654m^3 \times 9.8\frac{m}{s^2} = 657N\]
@@ -38,13 +41,13 @@ Where \(F_D\) is the drag force, \(\rho\) is the density of the fluid, \(v\) is 
 
 The drag coefficient of a cube is according to tables 1.05, while the drag coefficient of a square prism perpendicular to flow is 2.05. The ROV is simulated as a simple box which is roughly half of a cube, divided horizontally. I believe the actual coefficient of drag on the simulated ROV will be somewhere between these and I will use both values to calculate an upper and lower bounds. 
 
-The dragging of the ROV behind will cause it to be at an angle to the surface vessel. This means that the force of gravity and the force of drag will not be acting in-line with the tether. This is no matter, as the total force will still have to be carried by the tether, so off-axis forces will not impact this. The ROV lagging behind will however lead to it being easier to tumble, this would affect the drag calculations. 
+The dragging of the ROV behind will cause it to be at an angle to the surface vessel. This means that the force of gravity and the force of drag will not be acting in-line with the tether. This is no matter, as the total force will still have to be carried by the tether, so off-axis forces will not impact this. The ROV lagging behind will however lead to it being easier to tumble, changing its forward facing area which would affect the drag calculations. 
 
-That only leaves the velocity as a variable. I will do simulations in increments of 1m/s from 0 to 5m/s, which is roughly 10 knots. The simulated tensions will be the average of tensions over a 60s period. The period is chosen so that the system is allowed to stabilize. The calculated and simulated tensions can be seen in \cref{tab:tension}. Graphs of tensions can be seen in \cref{fig:tensions}
+That only leaves the velocity as a variable. I will do simulations in increments of 1m/s from 0 to 5m/s, which is roughly 10 knots. The simulated tensions will be the average of tensions over a 60s period. The period is chosen so that the system is allowed to stabilize. The calculated and simulated tensions can be seen in \cref{tab:tension}. Graphs of tensions can be seen in \cref{fig:tensions}.
 
 \begin{table}
 \begin{tabular}{c | c c | c c | c}
-Velocity & \multicolumn{2}{|c|}{Calculated drag (N)} & \multicolumn{2}{|c|}{Calculated tension(N)} & Simulated tension \\
+Velocity & \multicolumn{2}{c|}{Calculated drag (N)} & \multicolumn{2}{c|}{Calculated tension(N)} & Simulated tension \\
 (m/s)& \(C_D = 1.05\) & \(C_D=2.05\) & \(C_D = 1.05\) & \(C_D=2.05\) & (N)\\
 \hline
 0 & 0 & 0 & 643 & 643 &628 \\
@@ -56,6 +59,21 @@ Velocity & \multicolumn{2}{|c|}{Calculated drag (N)} & \multicolumn{2}{|c|}{Calc
 \end{tabular}
 \caption{Calculated drag and tensions in the tether between the surface vessel and the hanging ROV. Results are from both calculation and simulation. Simulated tensions are an average over a 60s period.}
 \label{tab:tension}
+\end{table}
+
+\begin{table}
+\begin{tabular}{c c c}
+Velocity & Deviation(\(C_D=1.05\)) & Deviation(\(C_D=2.05\)) \\
+\hline
+0 & -2.4\% & -2.4\% \\
+1 & -12.5\% & -21.9\% \\
+2 & -18.9\% & -50\% \\
+3 & 10.7\% & -30\% \\
+4 & 32.0\% & -7.2\% \\
+5 & 55.8\% & 7.1\%
+\end{tabular}
+\caption{Discrepancies between the calculated tension and the simulated tension from \cref{tab:tension}. Negative numbers indicate that simulated tension is lower than calculated tension}
+\label{tab:deviation}
 \end{table}
 
 \begin{figure}
@@ -100,3 +118,20 @@ Velocity & \multicolumn{2}{|c|}{Calculated drag (N)} & \multicolumn{2}{|c|}{Calc
 \end{figure}
 
 \section{Control system results}
+The control system has been implemented as a simple PD controller, as mentioned in \cref{sec:control}. The weights for the controller are set to 
+\begin{align*}
+k_p &= m_{\text{surf}}\omega^2 \\
+k_d &= 2m_{\text{surf}}\zeta\omega
+\end{align*}
+Where \(m_{\text{surf}}\) is the mass of the surface vessel, \(\omega\) is a damping frequency and \(\zeta\) is the damping ratio. Through experimentation, I found that \(\omega = 0.45\) and \(\zeta = 1.2\) gave good results for this vessel. 
+
+The way I've implemented the controller it's able to take in several targets and will treat them as targets sequentially. Once the vessel has reached one within a given acceptable error (currently set to 0.1m), the next target in the list is selected and the vessel moves towards it. The target selection finds not only if the current step has achieved the goal but also checks the errors for the last 50 timesteps. This is done so that the vessel couldn't hypothetically run straight through the waypoints, and instead has to actually come to a stop (or close to it) at the target positions. While there is a simple heading controller implemented, heading error is not taken into account with whether the vessel has reached the target or not. 
+
+One simulation with the control system was done with 4 waypoints. The vessel moved from the starting point at (0,0) to (10,15) to (50, -30) to (-20,10) and back to (0,0). These points were chosen arbitrarily and were chosen because they are a fair distance away from each other. In total, the theoretical shortest distance to travel would be roughly 180m. The time taken for the simulated vessel to move was 208s, or approximately 3.5 minutes. The total error can be seen in \cref{fig:error}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\textwidth]{control-error}
+	\caption{Total error for the vessel between the four waypoints}
+	\label{fig:error}
+\end{figure}

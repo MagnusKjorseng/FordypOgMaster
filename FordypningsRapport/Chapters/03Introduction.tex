@@ -5,7 +5,7 @@
 This report is a summary of work done in the course IP502122 - Specialization Project, undertaken in the autumn of 2024 at NTNU in Ålesund as a part of my master's degree in Product and Systems Engineering. The specialization project is intended as an introduction and "head start" on my master's thesis next semester. As such, the work done here is used in large part as a jumping off point for later.
 
 \section{Marine plastic pollution}
-Plastic pollution in the oceans has been widely documented. The amount of plastic currently in the ocean is uncertain, however. Jambeck et al.\cite{jambeck_plastic_2015} estimates that in 2010, somewhere between 4.8 and 12.7 million metric tons(MT) of plastic ended up in the ocean. According to the World Economic Forum\cite{wef}, there is between 75 and 199 million MT currently in the ocean. Around two thirds of all plastics that end up in the ocean are heavier than seawater \cite{isobe_fate_2022} meaning that they sink and either drift in the pelagic zone or end up on the seafloor as litter. Removing litter and plastic pollution on a large scale is difficult, removing it under many meters of ocean makes it much more difficult. 
+Plastic pollution in the oceans has been widely documented, however the amount of plastic currently in the ocean is uncertain. Jambeck et al.\cite{jambeck_plastic_2015} estimates that in 2010, somewhere between 4.8 and 12.7 million metric tons(MT) of plastic ended up in the ocean. According to the World Economic Forum\cite{world_economic_forum_top_2022}, there is between 75 and 199 million MT currently in the ocean. Around two thirds of all plastics that end up in the ocean are heavier than seawater \cite{isobe_fate_2022} meaning that they sink and either drift in the pelagic zone or end up on the seafloor as litter. Removing litter and plastic pollution on a large scale is difficult, removing it under many meters of ocean makes it much more difficult. 
 
 It is undesirable to have plastic waste in the oceans. This is because of the health effects the plastics have on marine and terrestrial life. Two points are especially of note: microplastics and leeching. Microplastics are plastic particles smaller than 5mm. Leeching on the other hand, is the plastics' chemical interaction with the seawater surrounding them, leeching harmful chemicals into the water. \textbf{TODO: kilder for mikroplast og leeching skadelighet} For both of these issues, the best solution is to remove the litter. This is because plastics' general longevity. For example, Oluwoye et al. \cite{oluwoye_degradation_2023} found that polyethylene, commonly used as a coating for subsea structures, would take about 800 years to degrade on the ocean floor. Polyethylene is also used in many consumer- and industrially facing applications, for instance in plastic cannisters for liquids, boxes and crates for fishing or other industrial practices, or as plastic bags. 
 
@@ -31,7 +31,15 @@ One drawback of this solution is that it will switch between two operating modes
 This project is focusing on how to control the two units as one. 
 
 \section{Control systems}
-A control system commands and regulates the behaviour of other systems automatically. For this project in particular, the control system will be in charge of maintaining and changing positions of the surface vessel and the ROV. 
+A control system commands and regulates the behaviour of other systems automatically. For this project in particular, the control system will be in charge of maintaining and changing positions of the surface vessel and the ROV. A simplified function block diagram of the total system can be seen in \cref{fig:fbd}. The goal of the simulator is to function as a drop-in replacement for the vessel, local controllers and environmental impact. This makes it so that the development can happen digitally to then be quickly deployed in the real-world. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\textwidth]{control-fbd}
+	\caption{A simplified function block diagram of the total system. Grey blocks are not currently implemented, green blocks are simulated and blue is for the controller which is system-agnostic}
+	\label{fig:fbd}
+\end{figure}
+
 
 \subsection{Considerations because of a coupled system}
 In the marine sector, dynamic positioning (DP) is commonly used. DP allows for a vessel to maintain a position or a course automatically despite external effects. This is used for example for offshore supply vessels which need to stay stationary relative to an anchored platform to allow loading and offloading of supplies. DP is also used for applications such as laying subsea fiberoptic cables, where maintaining correct speed and course is important to avoid damaging the cables. For the Plan Sea project too, a DP system is necessary because it consists of vessels that need to maintain specific positions at sea with wind, wave and current forces affecting the vessels
