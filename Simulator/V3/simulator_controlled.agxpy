@@ -67,11 +67,11 @@ def build_control_scene(sim, app):
     '''
     Make and add the ROV
     '''
+    #divide by 2 because these are half-extents
     rov_size = agx.Vec3(0.45, 0.575, 0.254) 
     rov_position = agx.Vec3(0,0,rov_depth)
     rov = Rov.Rov(rov_size)
     rov.build(rov_density, rov_position)
-    print(rov.hull.getMassProperties().getMass())
     sim.add(rov.hull)
     
 
@@ -127,19 +127,20 @@ class ForceListener(agxSDK.StepEventListener):
         self.has_plotted = False
         
     def post(self, t):
-        self.tensions.append(self.wire.getTension(self.node).getRaw())
+        self.tensions.append(self.wire.getTension(self.node).getAverageRaw())
         string = "Tension at ROV: " + str(self.tensions[-1])
         #Print the wire tension in the corner of the simulation
         self.app.getSceneDecorator().setText(1, string)
-        
-        if t > 10 and not self.has_plotted:
+        '''
+        #tether tension plotting
+        if t > 60 and not self.has_plotted:
             self.has_plotted=True
             plt.plot(self.tensions)
             plt.xlabel("Time(ms)")
             plt.ylabel("Tether tension(N)")
             print(sum(self.tensions)/len(self.tensions))
             plt.show()
-        
+        '''
         return super().post(t)
         
         
@@ -161,7 +162,7 @@ def buildScene():
     kp = m_usv*omega**2
     ki = 0
     kd = 2*m_usv*zeta*omega
-    targets = [agx.Vec3(5,10,0), agx.Vec3(50, -30, 0)]
+    targets = [agx.Vec3(10,15,0), agx.Vec3(50, -30, 0), agx.Vec3(-20, 10, 0), agx.Vec3(0,0,0)]
     
     controller = usv_controller.UsvController(kp,ki,kd, usv, targets = targets)
     sim.add(controller)

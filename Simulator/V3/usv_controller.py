@@ -28,11 +28,13 @@ class UsvController(agxSDK.StepEventListener):
         self.heading_set = False
         self.has_plotted = False
         self.lastmag = 0
-        
-    def pre(self,t):
-        self.vessel.hull.setVelocity(agx.Vec3(1,0,0))
-        
     '''
+    #For simple drag simulations
+    def pre(self,t):
+        self.vessel.hull.setVelocity(agx.Vec3(5,0,0))
+     
+    '''
+    #Actual control loop
     def pre(self, t):
 
         frame = self.vessel.hull.getFrame()
@@ -51,9 +53,9 @@ class UsvController(agxSDK.StepEventListener):
         ########
         #heading command
         ########
-        error_heading = agx.Vec3(0,0,self.heading_desired - rot)
-        print(error_heading)
-        kp = 1000
+        error_heading = agx.Vec3(0,0,self.heading_desired - rot) 
+        #print(error_heading)
+        kp = 3000
         command = error_heading * kp #just proportional control
         self.clamp(command, self.torque)
         self.vessel.add_torque(command)
@@ -62,11 +64,11 @@ class UsvController(agxSDK.StepEventListener):
         #Force command
         ########
         
-        self.error = self.targets[self.current_target] - pos
+        self.error = self.targets[self.current_target] - pos 
         self.error[-1] = 0 #no force in Z-direction, no error in z-direction
-        #print(self.error)
+        print(self.error)
         self.vel_error = agx.Vec3(0,0,0) - vel
-        self.errors.append(np.array(self.error))
+        self.errors.append(np.array(self.error)) 
         self.sum += self.error
         difference = self.error - self.last
         
@@ -80,15 +82,15 @@ class UsvController(agxSDK.StepEventListener):
         
         self.last = self.error
         
-        avgLast10 = np.sum(self.errors[-10:], axis=0)/10
+        avgLast50 = np.sum(self.errors[-50:], axis=0)/50
         #print(avgLast10)
         #
         #print(np.less(abs(avgLast10), 0.5).all())
-        if np.less(abs(avgLast10), 0.5).all():
+        if np.less(abs(avgLast50), 0.1).all():
             if self.current_target + 1 < len(self.targets):
                 self.current_target += 1
                 print("New Target")
-                print(self.targets[self.current_target])
+                print(self.targets[self.current_target]) 
                 self.heading_set = False
                 input()
                 
@@ -97,8 +99,13 @@ class UsvController(agxSDK.StepEventListener):
                 print("End of targets, plotting...")
                 #print(self.errors.shape())
                 errors = np.array(self.errors)
+                errors = np.sqrt(errors[:,0]**2 + errors[:,1]**2)
                 print(errors.shape)
-                plt.semilogy(abs(errors)[:,:2])
+                plt.plot(abs(errors))
+                plt.xlabel("Time(ms)")
+                plt.ylabel("Positional error(m)")
+                plt.title("Control system error with 4 set-points")
+                plt.legend
                 plt.show()
                 input()
             
@@ -112,4 +119,3 @@ class UsvController(agxSDK.StepEventListener):
             return vec * clamp
         else:
             return variable
-    '''

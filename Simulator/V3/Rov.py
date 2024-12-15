@@ -9,7 +9,7 @@ class Rov(Vessel.Vessel):
         super().__init__("rov_hull")
     
         #rov size in xyz, in meters
-        self.dims = dims 
+        self.dims = dims/2 
 
     def build(self, density, position):
         #add geometry
@@ -19,5 +19,7 @@ class Rov(Vessel.Vessel):
         material = agx.Material("rov_material")
         material.getBulkMaterial().setDensity(density)
         agxUtil.setBodyMaterial(self.hull, material)
+        
+        self.hull.updateMassProperties()
         
         self.hull.setPosition(position)
