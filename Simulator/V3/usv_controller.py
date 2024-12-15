@@ -119,3 +119,4 @@ class UsvController(agxSDK.StepEventListener):
             return vec * clamp
         else:
             return variable
+    #'''
