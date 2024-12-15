@@ -23,36 +23,80 @@ In addition to the two tests above I've also tried swinging the ROV as a pendulu
 For the analytical part of the validation I will use some simple cases. The first case is a towing, where the surface vessel moves forward towing the ROV behind it. This will be roughly analogous to how the ROV and tether will respond in currents. I can analytically find an expected tension in the tether and then compare this with the simulation results. I will ignore the effects of the tether for simplicity. This will be a source of error on the final result as the tether will have an effect in the simulation.
 
 The tension on the tether in the towing case will be dependent on the resistance of the water around the tether and ROV as well as the effect of gravity. This gives the equation 
-\[F = F_g + F_D\]
-Where \(F\) is the total force pulling on the wire, \(F_g\) is the force due to gravity and \(F_D\) is the drag force. 
+\[F = F_g - F_B + F_D\]
+Where \(F\) is the total force pulling on the wire, \(F_g\) is the force due to gravity, \(F_b\) is the buoyant force and \(F_D\) is the drag force. 
 
 For the force of gravity I will assume that gravity is in-line with the tether. This is not the case as the ROV will lag behind a bit, causing effectively a cosine error. From having looked at the simulations this seems to be a fairly small error and so I will ignore it, but this will add to the cause of error in results. The force of gravity on the ROV simply becomes 
 \[F_g = m \times g \approx 131kg \times 9.8\frac{m}{s^2} \approx 1300N\] 
 
+Buoyant force is given by the volume the ROV displaces. It's given by the equation below, where \(\rho\) is density of the fluid, \(V\) is volume and \(g\) is the gravitational acceleration. The seawater used in the simulation has defined \(\rho = 1025\frac{kg}{m^3}\) and the volume of the ROV is previously found to be \(V=0.0654m^3\). Using these values, we can find that the buoyant force is 
+\[F_b = \rho V g = 1025\frac{kg}{m^3} \times 0.0654m^3 \times 9.8\frac{m}{s^2} = 657N\]
+
 The ROV will be the largest influence here due to its large size compared to the wire. The resistance for an object in a fluid (drag) is given by the equation 
 \[F_D = \frac 1 2 \rho v^2 C_D A\]
-Where \(F_D\) is the drag force, \(\rho\) is the density of the fluid, \(v\) is velocity, \(C_D\) is the coefficient of drag and \(A\) is the cross-sectional area. The seawater used in the simulation has defined \[\rho = 1025\frac{kg}{m^3}\] For the cross-sectional area I will assume that the ROV doesn't turn as it flows. It likely will, which will change both \(A\) and \(C_D\), but for these calculations I will ignore this. I will assume that \[A = 0.45m\times 0.254m = 0.114m^3\]
+Where \(F_D\) is the drag force, \(\rho\) is the density of the fluid, \(v\) is velocity, \(C_D\) is the coefficient of drag and \(A\) is the cross-sectional area. For the cross-sectional area I will assume that the ROV doesn't turn as it flows. It likely will, which will change both \(A\) and \(C_D\), but for these calculations I will ignore this. I will assume that \[A = 0.45m\times 0.254m = 0.114m^3\]
 
 The drag coefficient of a cube is according to tables 1.05, while the drag coefficient of a square prism perpendicular to flow is 2.05. The ROV is simulated as a simple box which is roughly half of a cube, divided horizontally. I believe the actual coefficient of drag on the simulated ROV will be somewhere between these and I will use both values to calculate an upper and lower bounds. 
 
-That only leaves the velocity as a variable. I will do simulations in increments of 1m/s from 0 to 5m/s, which is roughly 10 knots. 
+The dragging of the ROV behind will cause it to be at an angle to the surface vessel. This means that the force of gravity and the force of drag will not be acting in-line with the tether. This is no matter, as the total force will still have to be carried by the tether, so off-axis forces will not impact this. The ROV lagging behind will however lead to it being easier to tumble, this would affect the drag calculations. 
+
+That only leaves the velocity as a variable. I will do simulations in increments of 1m/s from 0 to 5m/s, which is roughly 10 knots. The simulated tensions will be the average of tensions over a 60s period. The period is chosen so that the system is allowed to stabilize. The calculated and simulated tensions can be seen in \cref{tab:tension}. Graphs of tensions can be seen in \cref{fig:tensions}
 
 \begin{table}
-\begin{tabular}{c c c}
-Velocity (m/s) & Calculated tension (N) & Simulated tension (N) \\
+\begin{tabular}{c | c c | c c | c}
+Velocity & \multicolumn{2}{|c|}{Calculated drag (N)} & \multicolumn{2}{|c|}{Calculated tension(N)} & Simulated tension \\
+(m/s)& \(C_D = 1.05\) & \(C_D=2.05\) & \(C_D = 1.05\) & \(C_D=2.05\) & (N)\\
 \hline
-0 & & 5021 \\
-1 & & \\
-2 & & \\
-3 & & \\
-4 & & \\
-5 & &
+0 & 0 & 0 & 643 & 643 &628 \\
+1 & 61 & 119 & 704 & 763 &626\\
+2 & 245 & 479 & 888 & 1122&747\\
+3 & 552 & 1077& 1195 & 1721&1318\\
+4 & 981 & 1916 & 1625& 2559& 2388\\
+5 & 1533 & 2994 & 2177& 3627& 3901
 \end{tabular}
-\caption{Tensions in the tether between the surface vessel and the hanging ROV}
+\caption{Calculated drag and tensions in the tether between the surface vessel and the hanging ROV. Results are from both calculation and simulation. Simulated tensions are an average over a 60s period.}
 \label{tab:tension}
 \end{table}
 
-
-
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{tow0}
+		\caption{\(v=0\)}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{tow1}
+		\caption{\(v=1\frac{m}{s}\)}
+	\end{subfigure}
+	\vfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{tow2}
+		\caption{\(v=2\frac{m}{s}\)}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{tow3}
+		\caption{\(v=3\frac{m}{s}\)}
+	\end{subfigure}
+	\vfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{tow4}
+		\caption{\(v=4\frac{m}{s}\)}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{tow5}
+		\caption{\(v=5\frac{m}{s}\)}
+	\end{subfigure}
+	\caption{Graphs of tension in the towing tether at different towing speeds. The graphs are spiky at points, I believe this is because of singularities in the simulation or other instabilities though I don't know for sure}
+	\label{fig:tensions}
+\end{figure}
 
 \section{Control system results}

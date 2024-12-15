@@ -4,6 +4,8 @@
 \usepackage[utf8]{inputenc} %to manage special characters
 \usepackage[T1]{fontenc} %to manage special characters
 \usepackage[Bjarne]{fncychap} %fancy chapter style (many more available, like Sonny or Lenny etc.)
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{fancyhdr} %to customize the headers
 \usepackage[lmargin=1in, rmargin=1in, tmargin=1in, bmargin=1in]{geometry} %sets the margins for the pages
 \setcounter{tocdepth}{2} %table of contents number depth for subsections (2 = x.x.x)
@@ -12,7 +14,7 @@
 \usepackage{listings} %include this if you want to include code in the thesis
 \usepackage{amsmath,amssymb} %mathematical package
 \usepackage{siunitx} %includes SI-units
-\usepackage[bf]{caption} %makes float captions bold
+%\usepackage[bf]{caption} %makes float captions bold
 \usepackage{array, booktabs} %to make better tables
 \usepackage{graphicx} %to include graphics
 \graphicspath{{./Figures}}
@@ -21,9 +23,10 @@
 \usepackage{subfig} %to include subfigures
 \usepackage{chngcntr} %will make it possible to change the counter for tables, figures etc. such as below
 \counterwithin{figure}{chapter} %change counter for figures within sections (also possible to choose for each chapter
-\counterwithin{table}{section} %change counter for tables within sections
+\counterwithin{table}{chapter} %change counter for tables within sections
 \usepackage{color, xcolor} %edit e.g. text colors
 \usepackage{cleveref}
+
 %\usepackage{tgtermes}
 
 \usepackage[backend = bibtex,
