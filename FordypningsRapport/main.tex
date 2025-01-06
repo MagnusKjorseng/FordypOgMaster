@@ -26,6 +26,7 @@
 \counterwithin{table}{chapter} %change counter for tables within sections
 \usepackage{color, xcolor} %edit e.g. text colors
 \usepackage{cleveref}
+\usepackage{parskip}
 
 %\usepackage{tgtermes}
 
@@ -39,13 +40,14 @@
 %\bibliography{bibliography} %declare the bibliography resource
 \usepackage{comment} %to be able to comment out sections in the .tex files
 \usepackage{afterpage} %to customize page commands such as below
-\newcommand\myemptypage{
-    \null
-    \thispagestyle{empty}
-    \addtocounter{page}{-1}
-    \newpage
-    } %sets new page command to insert an empty page without adding to the page counter or having a page number
+\pagestyle{plain}
+\fancyhead[L]{Specialization Project \\ IP502122}
+\fancyhead[C]{Candidate 10016}
+\fancyhead[R]{\today}
 
+\lfoot{}
+\fancyfoot[C]{\thepage}
+\rfoot{}
 
 
 
@@ -61,7 +63,8 @@
 \newgeometry{left=2in, right=2in}
 \vspace*{1.5cm}
 
-\noindent  \textcolor{gray}{\large Magnus Renaa Kjørseng} \\
+%\noindent  \textcolor{gray}{\large Magnus Renaa Kjørseng} \\
+\noindent  \textcolor{gray}{\large Candidate number 10016} \\
 \vspace{1cm}
 
 \noindent \textbf{\Large Simulation of a coupled system consisting of a non-buoyant remotely operated vehicle and a surface vessel} \\
@@ -73,7 +76,7 @@
 
 \vspace{7cm}
 \noindent Specialization Project Report, IP502122 \\
-Supervisor: Øivind Kåre Kjerstad \\
+%Supervisor: Øivind Kåre Kjerstad \\
 %Co-supervisor: Co-supervisor Name \\
 December 2024 \\
 
@@ -123,7 +126,7 @@ Department of Ocean Operations and Civil Engineering \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Customize the layout of the main content of your thesis
 
-\pagestyle{fancy} %set customized page style for header
+%\pagestyle{fancy} %set customized page style for header
 \fancyhf{} %clear header and footer fields
 \renewcommand{\headrulewidth}{0pt} %set to no rule
 %\fancyhead[LE, RO]{\thepage} %set the page number at left for even, right for odd pages

@@ -1,10 +1,11 @@
-I have implemented a simulated surface vessel and a non-buoyant subsurface vessel, both of which are controllable either manually or by automated controller. The two vessels are bound together by a wire tether. The vessels and the wire are all affected by weather effects such as ocean currents, as well as physical effects like added mass and inertia. 
+\section{Simulation setup}
+The finalized simulation setup consists as described in \cref{sec:setup} of two vessels connected by a tether. The vessels exist in a \(200m\times 200m\times 100m\) large water volume. The submerged vessel is denser than the surrounding water and the floating vessel is less dense. For the testing I've done I have set the tether length, and therefore ROV depth, to be 20m. This was done arbitrarily, but chosen because it allows for the effects of the system to propogate quickly, meaning stabilization time is lower. The two vessels are connected by a tether which is 10cm in diameter. This diameter was chosen mostly so it would be visible in the readout as otherwise it would be so thin as to disappear. Of course, choosing a larger tether makes the tether's impact on the results larger. This may be a source of error in the later results. The wire is defined with a Young's modulus of \(10^9\), this value was chosen as an estimate based on other somewhat similar tethers I found commercially available. 
 
-The simulation works as would be intuitively expected. An example of the simulation graphical interface can be seen in \cref{fig:sim-display}. The figure shows a surface vessel and the ROV under water in green, and the teal tether connecting them. The simulated water is shown as a grey volume, but it's not easy to distinguish it in \cref{fig:sim-display} because it takes up the entire screen. 
+The simulation works as would be intuitively expected. An example of the simulation graphical interface can be seen in \cref{fig:sim-display}. The figure shows a surface vessel and the ROV under water in green, and the teal tether connecting them. The simulated water is shown as a grey volume, but it's not easy to distinguish it in \cref{fig:sim-display} because it takes up the entire screen. When interacting with the interface the water volume becomes more obvious. 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.7\textwidth]{sim-display}
+	\includegraphics[width=0.8\textwidth]{sim-display}
 	\caption{The graphical user interface of AGX with the simulation running}
 	\label{fig:sim-display}
 \end{figure}
@@ -51,6 +52,7 @@ The dragging of the ROV behind will cause it to no longer be directly beneath th
 That only leaves the velocity as a variable. I will do simulations in increments of 1m/s from 0 to 5m/s, roughly 10 knots. The simulated tensions will be the average of tensions over a 60s period. This period is chosen so that the system is allowed to stabilize. The calculated and simulated tensions can be seen in \cref{tab:tension}. Graphs of tensions can be seen in \cref{fig:tensions}. 
 
 \begin{table}
+\centering
 \begin{tabular}{c | c c | c c | c}
 Velocity & \multicolumn{2}{c|}{Calculated drag (N)} & \multicolumn{2}{c|}{Calculated tension(N)} & Simulated tension \\
 (m/s)& \(C_D = 1.05\) & \(C_D=2.05\) & \(C_D = 1.05\) & \(C_D=2.05\) & (N)\\
@@ -67,8 +69,9 @@ Velocity & \multicolumn{2}{c|}{Calculated drag (N)} & \multicolumn{2}{c|}{Calcul
 \end{table}
 
 \begin{table}
+\centering
 \begin{tabular}{c c c}
-Velocity & Deviation(\(C_D=1.05\)) & Deviation(\(C_D=2.05\)) \\
+Velocity (m/s) & Deviation(\(C_D=1.05\)) & Deviation(\(C_D=2.05\)) \\
 \hline
 0 & -2.4\% & -2.4\% \\
 1 & -12.5\% & -21.9\% \\
@@ -83,42 +86,45 @@ Velocity & Deviation(\(C_D=1.05\)) & Deviation(\(C_D=2.05\)) \\
 
 \begin{figure}
 	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.9\textwidth]{tow0}
 		\caption{\(v=0\)}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.9\textwidth]{tow1}
 		\caption{\(v=1\frac{m}{s}\)}
 	\end{subfigure}
-	\vfill
-	\begin{subfigure}[b]{0.45\textwidth}
+	\hfill
+	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.9\textwidth]{tow2}
 		\caption{\(v=2\frac{m}{s}\)}
 	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.45\textwidth}
+\end{figure}
+
+\begin{figure}\ContinuedFloat
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.9\textwidth]{tow3}
 		\caption{\(v=3\frac{m}{s}\)}
 	\end{subfigure}
-	\vfill
-	\begin{subfigure}[b]{0.45\textwidth}
+	\hfill
+	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.9\textwidth]{tow4}
 		\caption{\(v=4\frac{m}{s}\)}
 	\end{subfigure}
 	\hfill
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
 		\includegraphics[width=0.9\textwidth]{tow5}
 		\caption{\(v=5\frac{m}{s}\)}
 	\end{subfigure}
-	\caption{Graphs of tension in the towing tether at different towing speeds. The graphs are spiky at points, I believe this is because of singularities in the simulation or other instabilities though I don't know for sure}
+	\caption{Graphs of tension in the towing tether at different towing speeds. The graphs are spiky at points, this is further discussed in \cref{sec:spiky}}
 	\label{fig:tensions}
 \end{figure}
 
@@ -132,11 +138,18 @@ Where \(m_{\text{surf}}\) is the mass of the surface vessel, \(\omega\) is a dam
 
 The way the controller is implemented it is able to take in a list of several targets and will treat them as individual targets sequentially. Once the vessel has reached one within a given acceptable error (currently set to 0.1m), the next target in the list is selected and the vessel moves towards it. The target selection finds not only if the current step has achieved the goal but also checks the errors for the last 50 timesteps. This is done so that the vessel couldn't hypothetically run straight through the waypoints, and instead has to actually come to a stop (or close to it) at the target positions. The number 50 was chosen arbitrarily. While there is a simple heading controller implemented, heading error is not taken into account with whether the vessel has reached the target or not. 
 
-One simulation with the control system was done with 4 waypoints. The vessel moved from the starting point at (0,0) to (10,15) to (50, -30) to (-20,10) and back to (0,0). These points were chosen arbitrarily and were chosen because they are a fair distance away from each other. In total, the theoretical shortest distance to travel would be roughly 180m. The time taken for the simulated vessel to move was 208s, or approximately 3.5 minutes. The total error can be seen in \cref{fig:error}
+One simulation with the control system was done with 4 waypoints. The vessel moved from the starting point at (0,0) to (10,15) to (50, -30) to (-20,10) and back to (0,0). The route has been illustrated in \cref{fig:route}. These points were chosen arbitrarily and were chosen because they are a fair distance away from each other. In total, the theoretical shortest distance to travel would be roughly 180m. The time taken for the simulated vessel to move was 208s, or approximately 3.5 minutes. The total error can be seen in \cref{fig:error}. 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.6\textwidth]{control-error}
+	\includegraphics[width=0.8\textwidth]{route}
+	\caption{The route the vessel was controlled through. Starting at A it moved through B, C and D before going back to A. Returning to start is not a requirement of the controller but was chosen as a waypoint}
+	\label{fig:route}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\textwidth]{control-error}
 	\caption{Total error for the vessel between the four waypoints}
 	\label{fig:error}
 \end{figure}

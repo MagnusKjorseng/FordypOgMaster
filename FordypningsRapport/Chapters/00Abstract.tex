@@ -1,8 +1,10 @@
-A Remotely Operated Vehicle (ROV) can be used to find and grab underwater plastic litter. Lifting heavier litter is difficult however. This project simulates an ROV which is negatively buoyant, that is it sinks in water. The project uses Algoryx' AGX as a framework for simulating a coupled system consisting of a surface vessel and an ROV, connected by a flexible tether. 
+This project purports to simulate a non-buoyant Remotely Operated Vehicle (ROV) to be used for underwater litter collection. This is done as a part of a student-driven project at NTNU in Ålesund which aims to build a functioning solution to find and pick plastic litter on the seabed.
+
+An ROV can be used to find and grab underwater plastic litter, however lifting heavier litter is difficult. This is because heavier litter will require more force to lift. If this force is to be provided by only the ROV's thrusters, very large thrusters are required. This project simulates an ROV which is negatively buoyant, that is it sinks in water, and tethered to a winch on a floating surface vessel. The project uses Algoryx' AGX as a framework for simulating the resulting coupled system consisting of a surface vessel, an ROV and a flexible tether. The simulation includes hydrodynamic effects and is configurable to include weather effects like wind, waves and currents on both vessels. 
 
 The results of this project show that AGX is a usable framework for simulating this type of problem. Additionally the project has created a simulation which is usable for further work with this configuration of a non-buoyant ROV. Using the simulation, a simple proportional-derivative controller has been implemented and tested. 
 
-The report concludes that the simulator created is useful in further exploration on the topic of non-buoyant ROVs. 
+The report concludes that the simulator created is useful in further exploration on the topic of non-buoyant ROVs. The simulator has shown itself to be valid in the use-cases tested. Applications for this simulator include control system development, stability studies of the complete system, coupled system problems and as an engineering tool to properly dimension a physical vessel.
 
 %Write an abstract/summary of your thesis, and state your main findings here. \\
 
