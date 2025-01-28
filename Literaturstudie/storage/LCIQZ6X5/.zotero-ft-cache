@@ -1,0 +1,201 @@
+Author’s Name Name of the Paper Session
+DYNAMIC POSITIONING CONFERENCE October 14-15, 2014
+SENSORS SESSION (Back up paper)
+Taut Wire
+By (Doug Phillips and Brian Haycock)
+(DPExpertise,BHDPServices)
+Return to Session Directory
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 1
+Abstract
+With the advent of DGNSS, advances in acoustics, radar and laser based position reference systems, and movement of operations into ever deeper water, taut wire has become less prevalent as a DP Position reference. However there are still many taut wires in use and it has proved to be a reliable and consistent means of measuring a vessel’s position for dynamic positioning.
+Taut wires compared to other position reference systems are simple mechanical devices. Their use is restricted to water depths up to around 350m. The factors affecting accuracy are the effects of catenaries due to self weight of the wire and sea currents, and the ability to maintain a constant tension in the wire.
+This paper explores the principles of taut wire, advantages and disadvantages, physical limitations and various methods of implementation. There is a review of the MTS operating guidelines for tautwires incorporating their failure effects.
+Introduction
+History
+Taut wires were the first position reference systems used for dynamic positioning systems where the control loop was actually closed. (Eureka in 1961 Caldrill and Térébel, in 1964) [1]. Note – the Cuss1was reckoned to be the first dynamically positioned vessel but she employed manual control with the operator observing the vessels radar and sonar systems.
+In the early days of using DP control systems the initial trend, especially at the design stage, was to have an acoustic system as the main position reference system and possibly have a taut wire as a ‘back up’.
+DGNSS was unheard of at this time and the nearest concept to it were radio systems based on range measurements to chains of land based transmitters. These radio systems were not of sufficient accuracy and the vessel’s location, particularly in the case of drill ships, would have prohibited their use in any case. The drill ships needed acoustic systems in any case for re-entry and well relocation.
+It soon became evident that in practice, particularly when DP started to be used on diving ships, that the taut wire was a far more reliable device than the acoustic systems of that generation. In fact many early Dive Vessels opted for two taut wires, especially as they could be deemed to be totally separate. Acoustic systems could never be fully duplicated as they always share the same sea water. Taut wire systems had some other key advantages in particular that the operator could often see the taut wire angle, whereas the acoustic operation was something of a ‘mystery’. Also the ship’s crew understood how it operated and could easily maintain it.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 2
+Principle of operation
+Clump weight
+Gimbal head with sensors
+winch
+Fig 1. Taut wire principle of operation
+A taut wire system operates by lowering a clump weight by wire to the seabed using a davit or A-frame. The wire is held in constant tension to remove vessel motion from the system. As the wire leaves the vessel it is taken through a ‘gimbal head’ with pulley and some form of wire follower with guide blocks. Attached to the follower are inclinometers, or potentiometers, that measure the angle of the wire in the fore/aft and port/starboard axes. Using the angles of the wire and either the known water depth or the measured line out, the position of the weight with respect to the vessel can be calculated.
+Fig 2 typical gimbal and inclinometer assembly
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 3
+Deployment and Recovery
+In general the weight needs to be deployed over the vessel’s side, although some systems have been produced that deploy through a moonpool. The means of deploying the weight has to achieve two things; firstly to get the weight sufficiently outboard to give the vessel reasonable room to manoeuvre before the wire touches the vessel’s side. Secondly it needs to provide the necessary distance to allow the wire spooling gear or self-spooling winch to operate correctly. This second item only applies to systems that use a winch; those that use a counter balance do not have this restraint. Generally though recent ‘over the side’ systems are either an A frame design or a davit. The A frame has the advantage of occupying the minimum deck space but do not get the weight as far over the side as a davit can. They also tend to need spooling gear and this can produce other problems. Some form of weight catching and securing also needs to be considered. Note that since the weight must be lowered in a steady and controlled fashion the energy expended in converting potential to kinetic energy has to be dissipated somewhere within the taut wire mechanism.
+Principle of Measurement
+The position of the weight is derived from the taut wire angles and the height of the gimbal assembly from the seabed. The height, as the sum of water depth and vertical height of the gimbal assembly above sea level, is entered manually and by multiplying by the tangent of the angle the weight’s position can be derived. This is done in two axes to get vessel position with respect to the weight. If the line out is measured this offers other possibilities for entering height above seabed.
+Fig 3. Taut wire measurement principle (in one axis only)
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 4
+Measurements are made in each axis by a potentiometer or inclinometer. There will be two devices one for each axis; one fore aft and one port starboard.
+Each sensor measures the angle in its particular axis. If however there is also movement in the other axis then the two interact. However for the purposes of this paper, and for small angles, they can be considered as being independent and the position of the weight can be calculated by;
+Y = (WD +h) x Tan α X = (WD +h) x Tan β
+However the correct equations needed to be included in the DP control system’s software to derive a more accurate position.
+Catenaries
+In fig 3 above the hypotenuse of the right angled triangle is clearly not a straight line but is actually a curve called a catenary. A catenary can be defined as the curve that an idealized hanging chain or cable assumes under its own weight when supported only at its ends. Using only the simple Pythagoras above to calculate position, a catenary has the effect of making the weight appear to be in a different position to its actual position.
+Fig 5 Catenary formation in the wire
+The shape of the catenary is also affected by sea currents.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 5
+Pitch and Roll compensation?
+The angles that a taut wire system measures can be either by inclinometer, with respect to the vertical, or by potentiometer with respect to the A frame or davit. If they are with respect to the davit, or A frame, then they need to be compensated for roll and pitch. If measured to the vertical they do not. This can mean that on some vessels all the position reference systems can be reliant on the measurements of the vertical reference units.
+Fig.4 Taut wire pitch and roll compensation
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 6
+Response and Inertia
+To control tension as the vessel heaves, pitches and rolls, the inertia of the rope, plus any friction has to be over come. If the taut wire system includes an active winch then the inertia of drum and wire have also to be over come. Whenever the vessel heaves the taut wire has to pay out or pay in wire, to do this it has to over come the inertia, dead bands, back lash and friction of all the mechanical moving parts. This means that the system must always have a finite response time, this therefore contributes to the accuracy, or more specifically the inaccuracy, of the tension control.
+Types of system
+There are many different ways that taut wire systems have been realised but there are only three main ways in which they can be different;
+ Wire and weight size  Means of deployment and recovery  Means of tensioning.
+Wire and weight size A tensioned wire in water has two effects that will influence it and cause inaccuracies. These are the catenary caused by the self-weight of the wire; and the catenary produced by sea current or tides. Ideally to remove these effects entirely the wire would have to be infinitesimally thin and held at an infinite tension. This is clearly not feasible.
+In the early days of taut wire systems the designers opted for a thick wire typically 12 mm diameter with a 3 tonne weight. The self-weight catenary is proportional to the tension in the wire which can be increased in proportion to the square of the wire diameter. However the weight of the wire also increases in proportion to the square of the diameter so self weight catenary stays much the same. The current effect is however directly proportional to the wire diameter while the tension can be increased as the square of the diameter, so this is worse for a ‘thin’ wire than it is for a ‘thick’ wire. The wire tension is generally set at about half the seabed weight to avoid lifting the weight. The weight size is chosen such that the rope has a safety factor of about 6, obviously the safety factor is kept as low as possible to achieve as high a tension as possible.
+Catenary effects
+As already discussed there are two sources of catenary; self - weight catenary and current induced catenary. These two effects will combine or tend to cancel out in any particular set up. The self - weight catenary however remains the same for a particular wire size. For example if a 6 mm wire is compared to one of twice the diameter at 12 mm the weight per unit length of the 12 mm is four times that of the 6 mm, since the weight increases with the square of the diameter. However the tension in the wire can also be increased four fold, while maintaining the same safety factor. So in brief the self-weight catenary is not affected by the system design provided similar safety factors are used. The catenary effect due to current is only proportional to the wire diameter. Double the wire diameter doubles the current effect, but as the tension is allowed to increase in proportion to the square of the diameter it can be increased by a factor of four. This reduces the effect of current. In summary from a catenary point of view the thicker wire designs would seem to be preferable. However other factors came into play. The length of wire deployed; i.e. depth and the offset of the vessel from the weight will influence both catenary effects
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 7
+Fd Cd Vc 2 Ap
+2
+1
+
+Fig. 5 Drag force and tension variation with wire diameter
+It would seem from this that a thick wire system would be better, but there are also some disadvantages. Although the thick system may give better accuracy from the point of view of deciding the weight’s position, it can be poor in repeatability. This is because repeatability is affected by the variation in tension, and with the thicker system, the wire and its tensioning device has to be larger and therefore has higher inertia, friction, and so on. Also a large weight is more difficult to deploy and recover, and more expensive to replace. More modern systems have tended to opt for thinner wires and gone for better tension control, and therefore better repeatability. A DP control system is not that ‘concerned’ about exactly where the weight is accurately so long as its supposed position is repeatable, but it is ‘upset’ if its apparent position keeps shifting because of poor tension control. ‘Thin’ systems tend to have about 6 mm wires and 500 kg steel weights. These are an attempt to compromise the two effects; the thicker the wire the less the current catenary but the poorer the tension control; thinner the wire the greater the current catenary but the better the tension control.
+Tensioning There are generally two means by which a taut wire system attempts to maintain the wire in constant tension. The simplest and the preferred method on many of the earlier DP vessels was to use a counter balance weight running in guides. More recent systems use a powered winch, which is controlled to keep the wire taut. The winch may be pneumatically, hydraulically or electrically actuated. Some form of heave compensator may provide additional compensation. There are variants on these main types such as pneumatic rams similar to those used for riser tensioning on drill ships.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 8
+PERFORMANCE AND OPERATION
+Accuracy
+With small catenary effects the taut wire manufactures will claim two percent of water depth; the repeatability being better than this. Accuracy is a function of water depth, offset angle, current and tension as shown in typical accuracy figures below.
+Current - 0.0 m/s Current - 0.5 m/s Offset
+angle 00 100 200 00 100 200
+200kp Mooring tension
+100m WD 0m 0.6m 1.2m 2.4m 2.9m 3.5m 200m WD 0m 1.8m 3.5m 9.3m 11.2m 13m 300m WD 0m 3.5m 7.6m 20.2m 25.3m 28m 300kp Mooring tension
+100m WD 0m 0.5m 1.0m 2.0m 2.5m 3.0m 200m WD 0m 1.5m 3.0m 8.0m 9.5m 11.0m 300m WD 0m 3.5m 6.6m 18.0m 20m 24m 400m WD 0m 5m 11m 31m 36m 41m Table 1 typical accuracy of Taut Wire
+As the current gradually changes over hours the position according to a taut wire system will diverge gradually from the other position reference systems. So from the example table above, all other things being equal, if the taut wire was operating in a water depth of 300m, with 200kp mooring tension, at an offset angle of 00, and the tide causes a current change of +/-0.5m/s then the position of the vessel according to the taut wire will appear to vary by more than +/-20m.
+The DP operator can correct for this by occasionally deselecting the taut wire system and reselecting it to provide a new offset for it.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 9
+Accuracy or Repeatability?
+Fig. 6 below illustrates the differences between accuracy and repeatability. The target bottom left would represent a tautwire with a catenary causing inacuracy, but good tension control resulting in high repeatability. We can however expect that the cluster of ‘hits’ on the target will move slowly as the current changes. For a DP system it is normally more desirable to have repeatable fixes from the taut wire than to know exactly where the weight is.
+Fig 6. Accuracy and Repeatability
+The difference between the indicated position of the weight and the actual position will vary in proportion to the tension for any particular taut wire system. Studies have shown this to be that it is very close to being a linear relationship. The tension control is never perfect and for instance a twenty percent variation in tension produces a shift in position of twenty percent of the distance between actual and indicated weight position. This can be quite considerable and in deep water in particular can destabilise the DP control. As each time the vessel heaves and the tensioner compensates there is an apparent shift in position. The accuracy of control of the tension is related to the inertia and therefore the response of the particular design. However this effect is expected to be worse with thicker wire systems as they will in general need to be more heavily built.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 10
+Taut Wire tensioning Methods
+This section looks at some tensioning methods of taut wires and the various related issues with the different mechanisms.
+Weight Compensated
+Some vessel owners have in the past implemented their own systems mainly using counter balance weight systems. These operate using a pulley system that has a counter balance weight attached that runs in guides. As the vessel heaves the weight moves up and down to compensate. Limit switches are provided to provide an alarm when the counter balance weight is reaches the end of its travel. The system has a winch that allows wire to be added to or taken out of the system to re-centre the counter balance weight, as well as being used for recovering the sinker weight. Adding or subtracting rope has to be done with the taut wire deselected from DP, but is generally only necessary after a position move. Additional limit switches are provided to reject the taut wire should the counter balance weight top or bottom out. The main problem with the counter balance system is as the vessel heaves the counterbalance weight moves in the opposite direction so as to attempt to maintain tension in the wire. However is say a single pulley system the vessel heaves at say an acceleration of 0.1g the counter balance weight will accelerate at half of this 0.05g, this represents a tension variation of 50%. If a two pulley system is used then this halves again to 25%. To get below 10% would require a least a four pulley system. This tension variation excludes any affects of friction and stiction, which with a multiple pulley system on an open deck could be quite high. In summary the counter balance system offers a very simple way of implementing a taut wire system, it requires no external supplies other than to the winch. This may be electric, pneumatic or hydraulic depending on preference. Also a brake is required for lowering the weight. However the tension control is likely to be poor, this may limit its operational depth and the sea state that it can operate in.
+Fig 7 Basic principle of a weight compensated taut Wire
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 11
+Hydraulic
+If the tension is controlled directly by a winch then the inertia of the motor that drives the winch is also to be included in the total inertia of the scheme. It is in this area that hydraulic motors have an advantage as they have very low inertia. Hydraulic systems typically employed a swash plate type pump which was connected to a hydraulic motor on the winch. In this type of pump the volume of hydraulic fluid displaced is proportional to the angle of the swash plate. A feedback of pressure in the line, equivalent to tension, was fed back to control the angle of swash and hence tension.
+Any inertia in the system upstream of the gearbox is effectively amplified by the gear box ratio. However hydraulic schemes tend to suffer from backlash. This backlash occurs as the system can never be set up such that the hydraulic pressure to pay out, and therefore tension, is the same as the pay in pressure. There is always a fundamental error in the tension accuracy with hydraulic systems that can not be improved. This backlash can represent a tension variation of between 15 and 30%
+Electric
+Electric motors have higher inertia and need to be connected to the winch drum via a gearbox. The electric motor has to accelerate its own inertia plus the systems inertia that is multiplied up by the gear ratio. However the advantage of an electric drive is that it does not exhibit the same backlash that is found in hydraulic schemes. Electric motor choice is generally vector controlled type. This type of motor can provide full torque at zero speed as required since in calm conditions, the motor is at a standstill but providing the required torque and hence tension. Flux vector control provides the precise speed and torque control required. Energy dissipated during lowering of the weight is normally dumped into a breaking resistor
+Hybrid systems
+They systems have an electric or hydraulic winch to provide the main tension and a pneumatic based heave compensator.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 12
+FAILURE MODES and OPERATIONAL ISSUES
+Review of MTS DP Operations Guidance[2]:
+Care should be exercised when lowering or repositioning taut wire weights that divers and ROVs are alerted and are a safe distance from the seabed position. Taut wire weights should also be placed clear of pipelines, manifolds or other subsea assets. These subsea assets should be positively identified prior to positioning taut wire weights, e.g. by the ROV. Care should also be taken that the taut wires are not fouled by other subsea lines or obstructions.
+It is possible for thruster wash to interact with a taut wire, acting as a strong current and causing position instability. The thruster wash could be from own vessel or from another vessel close by. DPOs should be aware of the potential for this to occur. This can only be avoided at installation design stage by careful placing of the taut wire or in the case of azimuth thrusters, by including prohibited zones.
+DPOs should be aware of the potential for taut wire weights to “skip” along the seabed and provide inaccurate positioning information. This can be avoided by ensuring that the tension control is properly calibrated and operating within specified parameters and that the angle of wire inclination is kept as near to vertical as is possible and should not normally exceed 10 degrees. It has also been known for ships crews to attempt to construct their own replacement weights but to make them from materials that do not have the same characteristics as the designed weight. For example a weight can be fabricated from concrete and will appear to be the correct weight when weighed in air. However a concrete weight will be much lighter when submerged in sea water and may facilitate skipping as decribed above.
+Fig. 8 Skipping Taut Wire weight
+DPOs should also be aware of the potential for taut wire systems to become a “perfect” reference. This can have different causes, including the taut wire touching the side of own vessel or, otherwise being restricted in its movement, or by a faulty gimbal sensor. If the wire touches the side of the vessel or comes to the end of the range of the measurement from the sensors; and the DP does not reject the taut wire as a measurement then it effectively has a saturated feedback. If the vessels position is being moved when this occurs the DP will continue to demand thrust in the required direction but the taut wire will not show any movement. The thrust will continue to increase and increase and the vessel will quite rapidly be driven off position. Most DP systems will detect this fault. DPOs should ensure that the warning and alarm limits are properly set and operational.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 13
+Fig. 9 Taut wire at extreme of range
+The taut wire may break or have a faulty sensor, and thereby present a ‘perfect’ measurement which, depending on the DP control system design, may be followed to the exclusion of other position reference systems. The DP control system needs to be designed to reject this particular failure. The loss of the line length signal also needs to be considered.
+Fig. 10 Taut wire appearing as a “perfect” PRS
+The wires in use in modern taut wire systems are generally 5mm or 6mm in diameter. Weights are in the region of 400kg to 500kg. Taut wires are quite highly stressed for marine wire ropes and are liable to breakage, particularly at points of weakness, such as continuous wear at the spot on the main sheave, continuous wear at any guide blocks and kinks or damage caused by poor spooling or where the wire is attached to the weight. The potential for wire breakage is reduced by regular inspection of the taut wire system and by cropping the taut wire on a regular basis.
+As seen in table 1, taut wire systems are known to suffer inaccuracies in increasing water depths. MTS guidance recommends use of taut wire in maximum water depths of 350m to 500m, especially in high current areas. This should be taken into consideration when planning DP operations.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 14
+If the water depth is entered wrongly this will effectively change the gain of the DP control loop, potentially resulting in instability.
+DEEP WATER OPERATION
+Operational Experience
+Special Taut wires have been used in up to 800m of water but the control achieved were at best marginally stable. This was because any variation in tension directly causes an almost proportional variation in the estimated position of the weight. A fifteen percent variation in tension could cause a fifteen metre variation in the computed position of the weight. This adversely affects the DP control system, or at least those that have been designed to date. At best the taut wire might just be of use in very calm conditions or as a last ditch defence when all else has failed.
+Four Kongsberg 1000m taut wires have been supplied to the Solitaire but there is nothing in public domain as to their performance. Kongsberg do not offer a 1000m as a standard product on their website.
+Requirements for deep water
+With increased DP activity in deeper water, in particular West of Shetland and offshore Brazil, a taut wire system that could be operational in deeper water would be a very useful device. At present the only options in open water are Differential Global Navigation Satellite Systems (DGNSS) and Long Base Line acoustics. Both have their limitations and both are difficult to make completely duplicated to provide greater redundancy. If a dual DGNSS is used they can both be simultaneously affected by a common phenomena, such as scintillation. If dual acoustics are used then they have to share the same seawater. It is therefore very difficult to achieve the three independent position reference systems that tend to be the standard in other areas of operation. Even if a taut wire system could not be produced of sufficient accuracy, or more importantly sufficient, repeatability, to be used for pin point control required say for initial settling up or re-entry. It could still be of great benefit if available to ride through glitches in the DGNSS or acoustics, or in the event of them both failing staying sufficiently close to position to avoid pulling off or at least giving time for it to be done in an orderly fashion. In 1000m if not close to a fixed platform, the positioning requirements can often be considerably relaxed. The classic criteria for positioning accuracy in the early days of DP was ‘a radius of three percent of water depth or five metres, which ever was the greater.’ Three percent in 1000m is 30m, which is a watch circle of 60m.
+Conclusion
+Advantages and Disadvantages
+Advantages The key advantages of the taut wire have already been touched upon in the previous section. These are that it can be seen and easily understood and maintained by the operators. Its other advantages are that it is easily deployed from the vessel and does not need any outside assistance. Its short term accuracy is very good and it does not suffer from the short bursts of noise that can occur with an acoustic system for instance.
+Disadvantages The main disadvantages of a taut wire system are that it suffers long term drift as the current changes the catenary, plus the vessel’s movement is restricted to the range of angle measurement, often 30 degrees, or where the wire will touch the vessel’s side. The former disadvantage gets worse in shallower water. Other problems occur in trying to handle the weight in heavy weather and with the care of the wire rope.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 15
+The wire is quite highly stressed for a marine rope and any wear, kinking or inappropriate fixing to the weight will weaken it and make it likely to break.
+Another disadvantage of a taut wire system is the danger of lowering the weight onto something important on the seabed. This can be particularly problematic when close to or in the vicinity of an installation were there will be significant amount of sub sea equipment. There is also of course the danger to divers, entanglement with umbilicals, etc.
+The system is mounted on an open deck and has to be suitable for outdoor environment in a salt laden atmosphere.
+Comparative Advantages and Disadvantages The comparative advantages and disadvantages between taut wire, laser/radar based, acoustic based and DGNSS based position reference systems are summarised in the table below.
+Item Taut wire Laser/Radar Acoustic DGNSS
+Short term Accuracy
+Good Good Short term Bursts of noise
+Short term Loss of signal INS can mitigate Long term Accuracy
+Poor. changes with tide
+Good Good Good
+Range Approx. 60% Of water Depth
+A few hundred metres. Can be extended with prisms/special targets
+1 to 2 times Water depth Deep water requires an array
+Long Freedom of Movement
+Remote Device
+Simple Sea bed weight
+From simple reflective tape, to prisms and specially coded targets
+Complicated & expensive Device On sea bed
+Good reliable corrections have to be paid for. Not under Vessel’s control Operation Simple but not easy in rough weather
+Not viable in open water
+Tends to be Complicated
+May be complicated
+Miscellaneous Replacing rope and weight difficult Hazard to ROV, subsea & divers
+Essential against moving platforms
+Means of retrieval required
+Problematic in tropical zones scintillation
+In general a taut wire system offers a simple way of measuring vessel’s position for DP but is not as accurate as other systems; it has a limited range and can be difficult to handle in heavy weather and the weight may be a hazard to sub sea equipment. Its main advantage is that its angle can be seen by the operator and the vessel’s position ‘eye balled’. In general it is a much technically simpler system than the others are, however some of the systems available are now using quite sophisticated electric and electronic control systems, and contain their own processing power.
+
+
+Phillips & Haycock Back up paper Taut Wire
+MTS DP Conference - Houston October 14-15, 2014 Page 16
+Acknowledgements
+Please use this Font style and size for your paper in order to keep all papers consistent for publishing purposes.
+References
+[1] Dynamic Positioning Systems – Herbert Fay
+[2] MTS DP Operations Guidance.
