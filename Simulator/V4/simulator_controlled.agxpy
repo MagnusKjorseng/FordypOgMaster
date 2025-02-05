@@ -1,0 +1,229 @@
+''' 
+This simulator is capable of controlling the surface and (theoretically) the subsurface vessel at the same time. 
+
+'''
+
+import agx
+import agxPython
+import agxCollide
+import agxModel
+import agxUtil
+import agxOSG
+import agxIO
+import agxSDK
+import agxWire
+
+import sys
+from agxPythonModules.utils.environment import simulation, application, root, init_app
+import matplotlib.pyplot as plt
+
+import Usv
+import Rov
+import waterwrappers
+import usv_controller
+
+import agxROS2
+
+usv_density = 600 #kg/m^3, average density over the entire object
+rov_density = 2000
+rov_depth = -20
+
+def init_camera(app):
+    eye = agx.Vec3(100,0,60)
+    center = agx.Vec3(1.5, 0, -5)
+    up = agx.Vec3(0,0,1)  
+
+    app.setCameraHome(eye, center, up)
+    app.setEnableDebugRenderer(True)  
+
+
+def build_control_scene(sim, app):
+    #Make the water geometry a 10x10x200m box
+    water_geometry = agxCollide.Geometry(agxCollide.Box(100,100,50))
+    position = agx.Vec3(0,0,-50)
+    water_geometry.setPosition(position)
+    
+    #make new material to change the density to that of seawater, 1025kg/m^3
+    sea_water_material = agx.Material("waterMaterial")
+    sea_water_material.getBulkMaterial().setDensity(1025)
+    water_geometry.setMaterial(sea_water_material)
+    
+    #Create a wind and water controller
+    controller = agxModel.WindAndWaterController()
+    controller.addWater(water_geometry)
+    
+    controller.setWaterWrapper(water_geometry, waterwrappers.StillWaterWrapper())
+    #controller.setWaterWrapper(water_geometry, waterwrappers.WaveWaterWrapper())
+    
+    sim.add(controller)
+    sim.add(water_geometry)
+    
+    
+    '''
+    Create and add the USV
+    '''
+    usv = Usv.Usv()
+    usv.build("usv.obj", usv_density)
+    sim.add(usv.ship)
+    
+    '''
+    Make and add the ROV
+    '''
+    #divide by 2 because these are half-extents
+    rov_size = agx.Vec3(0.45, 0.575, 0.254) 
+    rov_position = agx.Vec3(0,0,rov_depth)
+    rov = Rov.Rov(rov_size)
+    rov.build(rov_density, rov_position)
+    sim.add(rov.hull)
+    
+
+    
+    return controller, water_geometry, usv, rov
+    
+
+########################################
+# Listener that listens for keyboard events
+########################################
+class KeyboardListener(agxSDK.GuiEventListener):
+    def __init__(self, body):
+        super().__init__(agxSDK.GuiEventListener.KEYBOARD)
+        self.body = body
+        self.root = agxPython.getContext().environment.getSceneRoot()
+        app = agxPython.getContext().environment.getApplication()
+        self.decorator = app.getSceneDecorator()
+        print("Keyboardlistener initialized")
+
+    # Function called whenever a key is pressed/released on the keyboard
+    # keydown: True when key is pressed, False when key is released
+    # This function must return True if the keyboard event has been handled
+    # or False if the event should be passed on to the context
+    def keyboard(self, key, x, y, alt, keydown):
+        force = agx.Vec3(5e4,0,0)
+        # If a key is pressed DOWN and it's the down-button
+        if keydown and key == agxSDK.GuiEventListener.KEY_Down:
+            # Decrease radius
+            print("down")
+            self.body.add_force(-force)
+        # If a key is pressed DOWN and it's the up-button
+        elif keydown and key == agxSDK.GuiEventListener.KEY_Up:
+            # Increase radius
+            print("up")
+            self.body.add_force(force)
+        # Ignore all other keyboard events
+        elif keydown and key == "P":
+            print("P")
+        else:
+            return False
+
+        return True
+
+class ForceListener(agxSDK.StepEventListener):
+
+    def __init__(self, app, wire, interest_node):
+        super().__init__()
+        
+        self.app = app
+        self.wire = wire
+        self.node = interest_node
+        self.tensions = []
+        
+        self.has_plotted = False
+
+        self.pub = agxROS2.PublisherStdMsgsString("tension")
+        
+    def post(self, t):
+        self.tensions.append(self.wire.getTension(self.node).getAverageRaw())
+        string = "Tension at ROV: " + str(self.tensions[-1])
+        #Print the wire tension in the corner of the simulation
+        self.app.getSceneDecorator().setText(1, string)
+
+        msg = agxROS2.StdMsgsString8)
+        msg.data = string
+        self.pub.sendMessage(msg)
+        '''
+        #tether tension plotting
+        if t > 60 and not self.has_plotted:
+            self.has_plotted=True
+            plt.plot(self.tensions)
+            plt.xlabel("Time(ms)")
+            plt.ylabel("Tether tension(N)")
+            print(sum(self.tensions)/len(self.tensions))
+            plt.show()
+        '''
+        return super().post(t)
+        
+        
+setPoint = agx.Vec3(0,0,0)
+def buildScene():
+    sim = agxPython.getContext().environment.getSimulation()
+    app = agxPython.getContext().environment.getApplication()
+    sim.setTimeStep(1/1000)
+    
+
+    
+    water_cont, water_geo, usv, rov = build_control_scene(sim,app)
+    
+    m_usv=2384 #kg
+    omega = 0.45
+    zeta = 1.2
+    
+    
+    kp = m_usv*omega**2
+    ki = 0
+    kd = 2*m_usv*zeta*omega
+    targets = [agx.Vec3(10,15,0), agx.Vec3(50, -30, 0), agx.Vec3(-20, 10, 0), agx.Vec3(0,0,0)]
+    
+    controller = usv_controller.UsvController(kp,ki,kd, usv, targets = targets)
+    sim.add(controller)
+    
+    
+    '''
+    Make the wire between the USV and ROV
+    '''
+    #TODO: make a winch
+    wireRadius = 0.005 #assumed amount, can be changed for known materials
+    wireResolution = 2 #resolution in number per unit length
+    wireMaterial = agx.Material("WireMaterial")
+    wireMaterial.getWireMaterial().setYoungsModulusBend(1e9)
+    
+    wire = agxWire.Wire(wireRadius, wireResolution)
+    wire.setMaterial(wireMaterial)
+    wireLength = abs(rov_depth) 
+    
+    usv_node = agxWire.BodyFixedNode(usv.hull, agx.Vec3(1.3,0,0))
+    rov_node = agxWire.BodyFixedNode(rov.hull, agx.Vec3(0,0,0.129))
+    wire.add(usv_node)
+    wire.add(rov_node)
+    sim.add(wire)
+    
+    init_camera(app)
+    
+    force_listener = ForceListener(app, wire, rov_node)
+    sim.add(force_listener)
+    
+    #usv_listener = KeyboardListener(usv)
+    #sim.add(usv_listener)
+    
+    
+    
+    rov_listener = KeyboardListener(rov)
+    sim.add(rov_listener)
+    
+  
+def main(args):
+
+    app = agxOSG.ExampleApplication()
+    
+    argParser = agxIO.ArgumentParser([sys.executable] + args)
+    
+    app.addScene(argParser.getArgumentName(1), "buildScene", ord('1'), True)
+    
+    if app.init(argParser):
+        app.run()
+        autoStepping=True
+    else:
+        print("An error occurred while initializing ExampleApplication.")
+
+if agxPython.getContext() is None:
+    init = agx.AutoInit()
+    main(sys.argv)

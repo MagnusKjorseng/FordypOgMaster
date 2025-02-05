@@ -1,0 +1,12 @@
+import agxROS2
+
+
+def main():
+    sub = agxROS2.SubscriberStdMsgsString("tension")
+
+    msgRecieve = agxROS2.StdMsgsString()
+    if sub.receiveMessage(msgRecieve):
+        print(msgRecieve.data)
+
+if __name__ == '__main__':
+    main()

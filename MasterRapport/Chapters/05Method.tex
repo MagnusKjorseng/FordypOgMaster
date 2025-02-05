@@ -10,7 +10,15 @@
 \section{Physical setup}
 \subsection{Surface vessel}
 \subsection{Subsea vessel}
+The subsea vessel is based on a BlueROV2 Heavy, made by BlueRobotics. The BlueROV is a prosumer-grade battery operated remotely operated vehicle. It's approximately 0.5x0.5x0.3m in WxDxH. The ROV has been acquired to use for the Plan Sea project specifically. It is not the ideal solution for this case, but it's been decided that modifying an existing and functioning solution is better than attempting to build a new one, at least for this proof of concept.
+A bracket has been designed to account for a mounting point for the USBL transponder, as well as to securely mount to the ROV already in use.
 \subsection{Crane}
+A crane needs to be designed. Thsi can be done as simply as possible having just a simple A-frame crane mounted over a moon pool. The crane system needs to consist of a few different parts. The gantry/frame itself, a winch motor, a winching system for the ROV tether and a winching system for the ROV lifting wire.
 \subsection{Control systems/Ancillary}
+the entirety of the control system will be acting as one big system divided into many smaller parts. The fact that ROS allows for multiple subscribers and publishers to various topics means that each element can have its own local controller that only interacts with the others. This means that the surface vessel, the crane and the ROV will all act as independent parties in the same system.
+\subsubsection{ROV control}
+The ROV's control system is based on an ArduPilot implementation. ArduPilot is an open-source autopilot system which is intended to be used for any remote or unmanned vehicle. The current implementation needs to be modified to allow for the type of control that's required for the project.
+
+The majority of heave-movement will be caused by the crane onboard the surface vessel, rather than the thursters on the ROV as it's set up for by default.
 \section{Case description}
 \end{document}
