@@ -1,0 +1,2666 @@
+7
+Models for Ships, Offshore
+Structures and Underwater
+Vehicles
+This chapter presents hydrodynamic models for ships, offshore structures and underwater vehicles. The foundation for the models are the kinematic equations (Chapter 2), rigid-body kinetics (Chapter 3), hydrostatics (Chapter 4), seakeeping theory (Chapter 5) and maneuvering theory (Chapter 6). Results from these chapters are combined to obtain 1 DOF heading autopilot models, 3 DOF maneuvering and DP models, 4 DOF maneuvering models that include roll and finally 6 DOF coupled models for advanced maneuvers. The models are all expressed in a vectorial setting for effective computer simulation and to simplify control design. Focus is made towards preservation of matrix properties such as symmetry, skew-symmetry, positive definiteness and orthogonality, which are key elements in nonlinear control and estimation theory.
+7.1 Maneuvering Models (3 DOF)
+The 3 DOF horizontal plane models for maneuvering are based on the rigid-body kinetics:
+MRBν ̇ + CRB(ν)ν = τRB (7.1)
+where
+τRB = τhyd + τhs + τwind + τwave + τ (7.2)
+The hydrostatic forces τhs = 0 in the horizontal plane. From (6.102) under the assumption that ν ̇c ≈ 0, it follows that
+τhyd = −MAν ̇ − CA(νr)νr − D(νr)νr (7.3)
+Combining (7.1), (7.2) and (7.3) gives
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+134 Models for Ships, Offshore Structures and Underwater Vehicles
+ ̇η = J (η)ν (7.4)
+Mν ̇ + CRB(ν)ν + N(νr)νr = τ + τwind + τwave (7.5)
+where
+N(νr) := CA(νr) + D(νr) (7.6)
+Moreover, added mass Coriolis and centripetal terms together with hydrodynamic damping terms are collected into the matrix N(νr). This is convenient since it is difficult to distinguish terms in CA(νr) with similar terms in D(νr). Hence, only the sum of these terms is used in the model in order to avoid overparametrization. In the case of ocean currents it is possible to express (7.5) using only the relative velocity vector νr and thus avoiding terms in ν. In order to do this, CRB(ν) must be parametrized independent of linear velocity, for instance by using (3.57). Hence, it follows from Property 8.1 in Section 8.3 that (7.5) can be rewritten as
+Mν ̇r + C(νr)νr + D(νr)νr
+} {{ }
+N(νr )νr
+= τ + τwind + τwave (7.7)
+where
+M = MA + MRB (7.8)
+C(νr) = CA(νr) + CRB(νr) (7.9)
+In this representation the generalized velocity νr is the only velocity vector while (7.5) uses both ν and νr.
+3 DOF System Matrices
+Since the horizontal motion of a ship or semi-submersible is described by the motion components in surge, sway and yaw, the state vectors are chosen as ν = [u, v, r] and η = [N, E, ψ] (see Figure 7.1). This implies that the dynamics associated with the motion in heave, roll and pitch are neglected, that is w = p = q = 0. For the horizontal motion of a vessel the kinematic equations of motion reduce from the general 6 DOF expression (2.18) to one principal rotation about the z axis:
+J (η) 3 D=OF R(ψ) =
+⎡
+⎣
+cos (ψ) − sin (ψ) 0
+sin (ψ) cos (ψ) 0
+0 01
+⎤
+⎦ (7.10)
+It is also common to assume that the craft has homogeneous mass distribution and xz-plane symmetry such that
+Ixy = Iyz = 0 (7.11)
+
+
+Maneuvering Models (3 DOF) 135
+Figure 7.1 Displacement vessel where the horizontal plane model can be used for DP and maneuvering.
+Let the {b}-frame coordinate origin be set in the centerline of the craft at the point CO, such that yg = 0. Under the previously stated assumptions, matrices (3.44) and (3.60) associated with the rigid-body kinetics reduce to
+MRB =
+⎡
+⎣
+m0 0
+0 m mxg
+0 mxg Iz
+⎤
+⎦ (7.12)
+CRB(ν) =
+⎡
+⎣
+0 0 −m(xgr + v)
+0 0 mu
+m(xgr + v) −mu 0
+⎤
+⎦ (7.13)
+Notice that surge is decoupled from sway and yaw in MRB due to symmetry considerations of the system inertia matrix (see Section 3.3). It is assumed that the added mass matrix is computed in CO. This allows for the following reduction of (6.38) and (6.45):
+MA =
+⎡
+⎣
+−X ̇u 0 0
+0 −Yv ̇ −Yr ̇
+0 −Yr ̇ −Nr ̇
+⎤
+⎦ (7.14)
+CA(ν) =
+⎡
+⎣
+0 0 Y ̇vv + Yr ̇r
+0 0 −X ̇uu
+−Yv ̇ v − Yr ̇r X ̇uu 0
+⎤
+⎦ (7.15)
+
+
+136 Models for Ships, Offshore Structures and Underwater Vehicles
+where M = M , CRB(ν) = −CRB(ν) and CA(ν) = −CA(ν) . Hence,
+M=
+⎡
+⎣
+m − X ̇u 0 0
+0 m − Yv ̇ mxg − Yr ̇
+0 mxg − Yr ̇ Iz − Nr ̇
+⎤
+⎦ (7.16)
+We will now derive the expressions for N(νr) in (7.6) as a function of CA(νr) and D(νr).
+7.1.1 Nonlinear Maneuvering Models based on Surge Resistance and Cross-Flow Drag
+If we use the surge resistance and cross-flow drag models in Section 6.4, the N(νr) matrix in the maneuvering model (7.6) can be expanded as
+N(νr)νr = CA(νr)νr + Dνr + d(νr) (7.17)
+where νr = ν − νc is the relative velocity vector and
+CA(νr) =
+⎡
+⎣
+0 0 Y ̇vvr + Yr ̇r
+0 0 −X ̇uur
+−Yv ̇ vr − Yr ̇r X ̇uur 0
+⎤
+⎦ (7.18)
+D=
+⎡
+⎣
+−Xu 0 0
+0 −Yv −Yr
+0 −Nv −Nr
+⎤
+⎦ (7.19)
+d(νr) =
+⎡
+⎢⎢⎣
+1
+2 ρS(1 + k)Cnew
+f (ur)|ur|ur
+1
+2 ρ ∫ Lpp/2
+−Lpp/2 T (x)C2D
+d (x)|vr + xr|(vr + xr) dx
+1
+2 ρ ∫ Lpp/2
+−Lpp/2 T (x)C2D
+d (x)x|vr + xr|(vr + xr) dx
+⎤
+⎥⎥⎦ (7.20)
+The linear damper D in this expression is important for low-speed maneuvering and stationkeeping while the term d(νr) dominates at higher speeds. Linear damping also guarantees that the velocity converges exponentially to zero.
+7.1.2 Nonlinear Maneuvering Models based on Second-order Modulus Functions
+The idea of using second-order modulus functions to describe the nonlinear dissipative terms in N(νr) dates back to Fedyaevsky and Sobolev (1963). Within this framework, a simplified form of Norrbin’s nonlinear model (Norrbin, 1970), which retains the most important terms for steering and propulsion
+
+
+Maneuvering Models (3 DOF) 137
+loss assignment, has been proposed by Blanke (1981). This model corresponds to fitting the cross-flow drag integrals (6.91) and (6.92) to second-order modulus functions:1
+N(νr)νr = CA(νr)νr + D(νr)νr
+=
+⎡
+⎣
+Yv ̇ vrr + Y r ̇ r2
+−X  ̇u ur r
+(X ̇u − Y  ̇v)urvr − Yr ̇urr
+⎤
+⎦
+⎛
+⎝alternatively:
+⎡
+⎣
+Xvrvrr + Xrrr2
+Yur ur r
+Nuvurvr + Nururr
+⎤
+⎦
+⎞
+⎠
++
+⎡
+⎣
+−X|u|u |ur| ur
+−Y |v|v|vr|vr − Y|v|r|vr|r − Y v|r|vr|r| − Y |r|r|r|r|
+−N|v|v|vr|vr − N|v|r|vr|r − Nv|r|vr|r| − N|r|r|r|r|
+⎤
+⎦
+or
+N(νr)νr =
+⎡
+⎣
+−X|u|u |ur| ur + Yv ̇ vrr + Y r ̇ r2
+−X ̇uurr − Y |v|v|vr|vr − Y|v|r|vr|r − Y v|r|vr|r| − Y |r|r|r|r|
+(X ̇u − Y v ̇ )urvr − Yr ̇urr − N|v|v|vr|vr − N|v|r|vr|r − Nv|r|vr|r| − N|r|r|r|r|
+⎤
+⎦ (7.21)
+From this expression it is seen that
+CA(νr) =
+⎡
+⎣
+0 0 Yv ̇ vr + Yr ̇r
+0 0 −X ̇uur
+−Yv ̇ vr − Yr ̇r X ̇uur 0
+⎤
+⎦ (7.22)
+D(νr) =
+⎡
+⎣
+−X|u|u |ur| 0 0
+0 −Y |v|v |vr| −Y |r|v |r| −Y |v|r |vr| −Y |r|r |r|
+0 −N|v|v |vr| −N|r|v |r| −N|v|r |vr| −N|r|r |r|
+⎤
+⎦ (7.23)
+Recall that D(νr) = D + Dn(νr). However, linear potential damping and skin friction D are neglected in (7.21) since the nonlinear quadratic terms Dn(νr) dominate at higher speeds (see Figure 7.2). This is a good assumption for maneuvering while stationkeeping models should include a nonzero D. Figure 7.2 shows the significance of the linear and quadratic terms for different ship speeds. It is recommended to use different damping models depending on the regime of the control system. In many cases, it is important to include both linear and quadratic damping, since only quadratic damping in the model will cause oscillatory behavior at low speed. The main reason is that linear damping is needed for exponential convergence to zero. For marine craft operating in waves, linear damping will always be present due to potential damping and linear skin friction (Faltinsen and Sortland, 1987). For large ships Blanke (1981) suggests simplifying (7.23) according to
+Dn(νr) =
+⎡
+⎣
+−X|u|u |ur| 0 0
+0 −Y |v|v |vr| −Y |v|r |vr|
+0 −N|v|v |vr| −N|v|r |vr|
+⎤
+⎦ (7.24)
+1 The CA terms can also be denoted as Xvrvrr, Xrrr2, Yururr, Nuvurvr and Nururr. If these terms are experimentally obtained, viscous effects will be included in addition to the potential coefficients Y ̇v, X ̇u and Yr ̇.
+
+
+138 Models for Ships, Offshore Structures and Underwater Vehicles
+Figure 7.2 Linear and quadratic damping and their speeds regimes. Notice that the linear part goes to zero for higher speeds.
+This gives
+N(νr) = CA(νr) + D(νr) (7.25)
+=
+⎡
+⎣
+−X|u|u |ur| 0 Y ̇vvr + Yr ̇ r
+0 −Y |v|v |vr| −X ̇uur−Y |v|r |vr|
+−Y ̇vvr − Yr ̇ r X ̇uur−N|v|v |vr| −N|v|r |vr|
+⎤
+⎦
+7.1.3 Nonlinear Maneuvering Models based on Odd Functions
+So far, we have discussed nonlinear maneuvering models based on first principles such as surge resistance and cross-flow drag, which have been approximated by second-order modulus functions (see Fedyaevsky and Sobolev, 1963; Norrbin, 1970). In many cases a more pragmatic approach is used for curve fitting of experimental data (Clarke, 2003). This is typically done by using Taylor series of first- and second-order terms (Abkowitz, 1964) to describe the nonlinear terms in N(νr).
+
+
+Maneuvering Models (3 DOF) 139
+The Nonlinear Model of Abkowitz (1964)
+One of the standard nonlinear ship models in the literature is that of Abkowitz (1964). Consider the nonlinear rigid-body kinetics:
+MRBν ̇ + CRB(ν)ν = τRB (7.26)
+with external forces and moment:
+τRB = [X(x), Y (x), N(x)] (7.27)
+where
+x = [u, v, r, u ̇ ,  ̇v, r ̇, δ] (7.28)
+and δ is the rudder angle. Based on these equations, Abkowitz (1964) proposed a third-order truncated Taylor-series expansion of the functions X(x), Y (x) and N(x) at
+xo = [U, 0, 0, 0, 0, 0, 0] (7.29)
+This gives
+X(x) ≈ X(x0) +
+∑n
+i=1
+(
+∂X(x) ∂xi
+∣∣∣∣x0
+xi + 1
+2
+∂2X(x) (∂xi)2
+∣∣∣∣x0
+x2
+i+1
+6
+∂3X(x) (∂xi)3
+∣∣∣∣x0
+x3
+i
+)
+Y (x) ≈ Y (x0) +
+∑n
+i=1
+(
+∂Y (x) ∂xi
+∣∣∣∣x0
+xi + 1
+2
+∂2Y (x) (∂xi)2
+∣∣∣∣x0
+x2
+i+1
+6
+∂3Y (x) (∂xi)3
+∣∣∣∣x0
+x3
+i
+)
+N(x) ≈ Z(x0) +
+∑n
+i=1
+(
+∂N (x) ∂xi
+∣∣∣∣x0
+xi + 1
+2
+∂2 N (x) (∂xi)2
+∣∣∣∣x0
+x2
+i+1
+6
+∂3 N (x) (∂xi)3
+∣∣∣∣x0
+x3
+i
+)
+where x = x − x0 = [ x1, x2, . . . , x7] . Unfortunately, a third-order Taylor-series expansion results in a large number of terms. By applying some physical insight, the complexity of these expressions can be reduced. Abkowitz (1964) makes the following assumptions:
+1. Most ship maneuvers can be described by a 3rd-order truncated Taylor expansion about the steady state condition u = u0. 2. Only 1st-order acceleration terms are considered. 3. Standard port/starboard symmetry simplifications except terms describing the constant force and moment arising from single-screw propellers. 4. The coupling between the acceleration and velocity terms is negligible.
+Simulations of standard ship maneuvers show that these assumptions are quite good. Applying these assumptions to the expressions X(x), Y (x) and N(x) yields
+X = X∗ + X ̇u  ̇u + Xu u + Xuu u2 + Xuuu u3 + Xvvv2 + Xrrr2 + Xδδδ2
++ Xrvδrvδ + Xrδrδ + Xvδvδ + Xvvuv2 u + Xrrur2 u + Xδδuδ2 u
++ Xrvurvu + Xrδurδ u + Xvδuvδ u
+
+
+140 Models for Ships, Offshore Structures and Underwater Vehicles
+Y = Y ∗ + Yu u + Yuu u2 + Yrr + Yvv + Yr ̇r ̇ + Yv ̇  ̇v + Yδδ + Yrrrr3 + Yvvvv3
++ Yδδδδ3 + Yrrδr2δ + Yδδrδ2r + Yrrvr2v + Yvvrv2r + Yδδvδ2v + Yvvδv2δ + Yδvrδvr
++ Yvuv u + Yvuuv u2 + Yrur u + Yruur u2 + Yδuδ u + Yδuuδ u2
+N = N∗ + Nu u + Nuu u2 + Nrr + Nvv + Nr ̇r ̇ + N ̇v  ̇v + Nδδ + Nrrrr3 + Nvvvv3
++ Nδδδδ3 + Nrrδr2δ + Nδδrδ2r + Nrrvr2v + Nvvrv2r + Nδδvδ2v + Nvvδv2δ
++ Nδvrδvr + Nvuv u + Nvuuv u2 + Nrur u + Nruur u2 + Nδuδ u
++ Nδuuδ u2 (7.30)
+The hydrodynamic derivatives (7.30) are defined using the notation
+F ∗ = F (x0), Fxi = ∂F (x)
+∂xi
+∣∣∣∣x0
+Fxixj = 1
+2
+∂2F (x) ∂xi∂xj
+∣∣∣∣x0
+, Fxixj xk = 1
+6
+∂3F (x) ∂xi ∂xj ∂xk
+∣∣∣∣x0
+where F ∈ {X, Y, N}.
+PMM Models
+The hydrodynamic coefficients can be experimentally determined by using a planar-motion-mechanism (PMM) system, which is a device for experimentally determining the hydrodynamic derivatives required in the equations of motion. This includes coefficients usually classified into the three categories of static stability, rotary stability and acceleration derivatives. The PMM device is capable of oscillating a ship (or submarine) model while it is being towed in a testing tank. The forces are measured on the scale model and fitted to odd functions based on Taylor-series expansions. The resulting model is usually referred to as the PMM model and this model is scaled up to a full-scale ship by using Froude number similarity. This ensures that the ratio between the inertial and gravitational forces is kept constant.
+7.1.4 Linearized Maneuvering Models
+For marine craft moving at constant (or at least slowly varying) forward speed,
+U=
+√
+u2 + v2 ≈ u (7.31)
+The 3 DOF maneuvering model of Section 7.1.1 can be decoupled in a forward speed (surge) model and a sway–yaw subsystem for maneuvering.
+Forward Speed Model (Surge Subsystem)
+Starboard–port symmetry implies that surge is decoupled from sway and yaw. Hence, the surge equation in Section 7.1.1 can be written in component form as
+
+
+Maneuvering Models (3 DOF) 141
+(m − X ̇u)  ̇u − Xuur − X|u|u |ur| ur = τ1 (7.32)
+where τ1 is the sum of control and external forces in surge.
+Linearized Maneuvering Model (Sway–Yaw Subsystem)
+The linearized maneuvering model known as the potential theory representation can be written (Fossen, 1994, Clarke and Horn, 1997)
+Mν ̇ + N(uo)νr = bδ (7.33)
+where νr = [vr, r] and δ is the rudder angle. This is based on the assumptions that the cruise speed
+u = uo ≈ constant (7.34)
+and that vr and r are small. The ocean current force is included as a linear term N(uo)[vc, 0] . The potential theory representation is obtained by extracting the 2nd and 6th rows in CRB(ν) and CA(ν), Equations (3.60) and (6.45), with u = uo, resulting in
+C(ν)ν ≈
+[ (m − X ̇u)uor
+(m − Y v ̇ )uov + (mxg − Yr ̇)uor − (m − X ̇u)uov
+]
+=
+[ 0 (m − X ̇u)uo
+(X ̇u − Yv ̇ )uo (mxg − Yr ̇)uo
+][v
+r
+]
+(7.35)
+Linear damping in sway and yaw takes the following form:
+D=
+[ −Yv −Yr
+−Nv −Nr
+]
+(7.36)
+Assuming that the ship is controlled by a single rudder:
+τ = bδ
+=
+[ −Y δ
+−N δ
+]
+δ (7.37)
+and that N(uo) contains the speed-dependent terms from C(ν) and the linear damper D, finally gives
+M=
+[ m − Y  ̇v mxg − Yr ̇
+mxg − Yr ̇ Iz − Nr ̇
+]
+(7.38)
+
+
+142 Models for Ships, Offshore Structures and Underwater Vehicles
+N(uo) =
+[ −Y v (m − X ̇u)uo − Yr
+(X ̇u − Y ̇v)uo − Nv (mxg − Yr ̇)uo − Nr
+]
+(7.39)
+b=
+[ −Y δ
+−N δ
+]
+(7.40)
+Comment 7.1
+Davidson and Schiff (1946) assumed that the hydrodynamic forces τRB are linear in δ, ν ̇ and ν (linear strip theory) such that
+τRB = −
+[ Yδ
+Nδ
+]
+} {{ }
+b
+δ+
+[ Y ̇v Yr ̇
+N ̇v Nr ̇
+]
+} {{ }
+MA
+ν ̇ +
+[ Yv Yr
+Nv Nr
+]
+} {{ }
+D
+νr (7.41)
+This gives
+N(uo) =
+[ −Y v muo − Yr
+−Nv mxguo − Nr
+]
+(7.42)
+Notice that the Munk moment (X ̇u − Yv ̇ )uov is missing in the yaw equation when compared to (7.39). This is a destabilizing moment known from aerodynamics which tries to turn the craft; see Faltinsen (1990, pp. 188–189). Also notice that the less important terms X ̇uuor and Yr ̇uor are removed from N when compared to (7.39). All missing terms terms are due to the CA(ν) matrix, which is omitted in the linear expression (7.41). Consequently, it is recommended to use (7.39), which includes the terms from the CA(νr) matrix.
+Hydrodynamic Derivatives
+The hydrodynamic derivatives in (7.38) and (7.39) are related to the zero-speed potential coefficients according to
+−Yv ̇ = A22(0) −Nv ̇ = A62(0)
+−Yr ̇ = A26(0) −Nr ̇ = A66(0)
+−Yv = B22(0) + B22v −Nv = B62(0) + B62v
+−Yr = B26(0) + B26v −Nr = B66(0) + B66v
+(7.43)
+where the subscript v for the B elements denotes the viscous contribution.
+7.2 Autopilot Models for Heading Control (1 DOF)
+Model-based heading controllers for marine craft are usually based on the model representation of Nomoto et al. (1957).The Nomoto autopilot model can be derived from the linearized maneuvering model, as explained below.
+7.2.1 Second-Order Nomoto Model (Yaw Subsystem)
+A linear autopilot model for heading control can be derived from the maneuvering model
+Mν ̇ + N(uo)ν = bδ (7.44)
+
+
+Autopilot Models for Heading Control (1 DOF) 143
+by choosing the yaw rate r as output:
+r = c ν, c = [0, 1] (7.45)
+Hence, application of the Laplace transformation yields
+r
+δ (s) = K(1 + T3s)
+(1 + T1s)(1 + T2s) (7.46)
+A similar expression is obtained for the sway motion:
+v
+δ (s) = Kv(1 + Tvs)
+(1 + T1s)(1 + T2s) (7.47)
+where Kv and Tv differ from K and T3 in the yaw equation. Equation (7.46) is referred to as Nomoto’s second-order model (Nomoto et al., 1957).
+7.2.2 First-Order Nomoto Model (Yaw Subsystem)
+The first-order Nomoto model is obtained by defining the equivalent time constant:
+T := T1 + T2 − T3 (7.48)
+such that
+r
+δ (s) = K
+(1 + Ts) (7.49)
+Finally, ψ ̇ = r yields
+ψ
+δ (s) = K
+s(1 + Ts) (7.50)
+which is the transfer function that is used in most commercial autopilot systems.
+Time-Domain Representations of the First- and Second-Order Nomoto Models
+The time-domain representation for Nomoto’s second-order model becomes
+T1T2ψ(3) + (T1 + T2)ψ ̈ + ψ ̇ = K(δ + T3δ ̇) (7.51)
+which can be approximated by
+T ψ ̈ + ψ ̇ = Kδ (7.52)
+The accuracy of the first-order Nomoto model when compared to the second-order model is illustrated in Example 7.1 where a course stable cargo ship and a course unstable oil tanker are considered (see Section 12.1.1).
+
+
+144 Models for Ships, Offshore Structures and Underwater Vehicles
+Matlab
+function nomoto(T1,T2,T3,K)
+% NOMOTO(T1,T2,T3,K) generates the Bode plots for
+%
+% K K (1+T3s)
+% H1(s) = —————— H2(s) = ——————————————
+% (1+Ts)s s(1+T1s)(1+T2s)
+%
+% Author: Thor I. Fossen
+T = T1+T2-T3;
+d1 = [T 1 0]; n1 = K;
+d2 = [T1*T2 T1+T2 1 0]; n2 = K*[T3 1];
+[mag1,phase1,w] = bode(n1,d1);
+[mag2,phase2] = bode(n2,d2,w);
+% shift ship phase with 360 deg for course unstable ship
+if K < 0,
+phase1 = phase1-360;
+phase2 = phase2-360;
+end
+clf,subplot(211),semilogx(w,20*log10(mag1)),grid
+xlabel(’Frequency [rad/s]’),title(’Gain [dB]’)
+hold on,semilogx(w,20*log10(mag2),’–’),hold off
+subplot(212),semilogx(w,phase1),grid
+xlabel(’Frequency [rad/s]’),title(’Phase [deg]’)
+hold on,semilogx(w,phase2,’–’),hold off
+Example 7.1 (Frequency Response for Nomoto First- and Second-Order Models)
+Consider a Mariner class cargo ship (Chislett and Strøm-Tejsen, 1965a) and a fully loaded tanker (Dyne and Tra ̈g ̊ardh, 1975) given by the parameters in Table 7.1. The Bode diagram is generated by using the MSS toolbox commands:
+T1=118; T2=7.8; T3=18.5; K=0.185;
+nomoto(T1, T2, T3, K)
+T1=-124.1; T2=16.4; T3=46.0; K=-0.019;
+nomoto(T1, T2, T3, K)
+It is seen from Figure 7.3 that the first-order approximation is quite accurate up to 0.1 rad/s for the cargo ship and the tanker. A small deviation in the phase around 0.5 rad/s is observed. This is due to the cancelation of the sway dynamics.
+
+
+Autopilot Models for Heading Control (1 DOF) 145
+Table 7.1 Parameters for a cargo ship and a fully loaded oil tanker
+L(m) u0(m/s) ∇(dwt) K(1/s) T1(s) T2(s) T3(s)
+Cargo ship 161 7.7 16622 0.185 118.0 7.8 18.5 Oil tanker 350 8.1 389100 −0.019 −124.1 16.4 46.0
+Figure 7.3 First-order and second-order Nomoto transfer functions for a course-stable Mariner class cargo ship and a course-unstable oil tanker.
+7.2.3 Nonlinear Extensions of Nomoto’s Model
+The linear Nomoto model can be extended to include nonlinear effects by adding a static nonlinearity to describe the maneuvering characteristics.
+Nonlinear Extension of Nomoto’s First-Order Model
+In Norrbin (1963) the following first-order model was proposed:
+T r ̇ + HN (r) = Kδ (7.53)
+HN (r) = n3r3 + n2r2 + n1r + n0 (7.54)
+where HN (r) is a nonlinear function. For HN (r) = r, the linear model (7.52) is obtained.
+
+
+146 Models for Ships, Offshore Structures and Underwater Vehicles
+Nonlinear Extension of Nomoto’s Second-Order Model
+Bech and Wagner Smith (1969) propose a second-order model:
+T1T2r ̈ + (T1 + T2)r ̇ + KHB(r) = K(δ + T3δ ̇) (7.55)
+HB(r) = b3r3 + b2r2 + b1r + b0 (7.56)
+where HB(r) can be found from Bech’s reverse spiral maneuver. The linear equivalent (7.51) is obtained for HB(r) = r. The linear and nonlinear maneuvering characteristics are shown in Figure 12.12 in Section 12.1.2. They are generated by solving for r as a function of δ using the steady-state solutions of (7.53) or (7.55):
+HN (r) = Kδ, HB(r) = δ (7.57)
+The nonlinear maneuvering characteristics can also be generated from full-scale maneuvering tests. For stable ships both the Bech and Dieudonne spiral tests can be applied, while the Bech spiral is the only one avoiding the hysteresis effect for course-unstable ships; see Section 12.1.2 for details. For a course-unstable ship, b1 < 0, whereas a course-stable ship satisfies b1 > 0. A single-screw propeller or asymmetry in the hull will cause a nonzero value of b0. Similarly, symmetry in the hull implies that b2 = 0. Since a constant rudder angle is required to compensate for constant steady-state wind and current forces, the bias term b0 could conveniently be treated as an additional rudder off set. This in turn implies that a large number of ships can be described by the polynomial
+HB(r) = b3r3 + b1r (7.58)
+The coefficients bi (i = 0, . . . , 3) are related to those in Norrbin’s model ni (i = 0, . . . , 3) by
+ni = bi
+|b1| (7.59)
+resulting in
+HN (r) = n3r3 + n1r (7.60)
+This implies that n1 = 1 for a course-stable ship and n1 = −1 for a course-unstable ship.
+7.2.4 Pivot Point (Yaw Rotation Point)
+When turning a ship it is important to know at which point the ship turns about. This rotation point or pivot point in yaw is defined as follows:
+Definition 7.1 (Pivot Point)
+A ship’s pivot point xp is a point on the centerline measured from the CG about which the ship turns. Consequently, it has no sideways movement (Tzeng, 1998a):
+vp/n = vg/n + xpr ≡ 0 (7.61)
+
+
+Autopilot Models for Heading Control (1 DOF) 147
+and vg/n is the sway velocity of CG with respect to {n}. The pivot point will scribe the ship’s turning circle.
+It is possible to compute the pivot point for a turning ship online by measuring the velocity vg/n(t) in the CG and the turning rate r(t). From (7.61) it follows that
+xp(t) = − vg/n(t)
+r(t) , r(t) =/ 0 (7.62)
+This expression is not defined for a zero yaw rate corresponding to a straight-line motion. This means that the pivot point is located at infinity when moving on a straight line or in a pure sway motion. It is well known to the pilots that the pivot point of a turning ship is located at about 1/5 to 1/4 ship length aft of bow (Tzeng, 1998a). The location of the pivot point of a rudder controlled ship is related to the ratio of the sway-rudder and yaw-rudder gain coefficients. This can be explained by considering the linearized maneuvering equations in the steady state. From (7.46) and (7.47) we have
+v
+r = Kv(1 + Tvs)
+K(1 + T3s)
+s==0 Kv
+K (7.63)
+Consequently, the steady-state location of the pivot point is given by
+xp(s,s) = − Kv
+K (7.64)
+This expression can also be related to the hydrodynamic derivatives according to
+xp(s,s) = − NrYδ − (Yr − mu0)Nδ
+YvNδ − NvYδ
+(7.65)
+Notice that xp(s,s) depends on the forward speed u0. The nondimensional form becomes (see Section 7.2.5)
+x′
+p(s,s) = xp(s,s)
+Lpp
+= −N′
+rY′
+δ − (Y ′
+r − m′u′
+0 )N ′
+δ
+Yv′ N′
+δ − Nv′ Y ′
+δ
+(7.66)
+Example 7.2 (Pivot Point for the Mariner Class Vessel)
+Consider the Mariner Class vessel (Chislett and Strøm-Tejsen, 1965b) where the nondimensional linear maneuvering coefficients for u0 = 7.175 m/s (15 knots) are given as
+Y′
+v = −1160 × 10−5 N′
+v = −264 × 10−5 Y′
+r − m′u′
+0 = −499 × 10−5 N′
+r = −166 × 10−5 Y′
+δ = 278 × 10−5 N′
+δ = −139 × 10−5
+
+
+148 Models for Ships, Offshore Structures and Underwater Vehicles
+Figure 7.4 Location of the pivot point for the Mariner Class vessel.
+The Mariner Class vessel is programmed in the MSS toolbox file mariner.m. The nondimensional pivot point is computed from (7.66). This gives
+x′
+p(s,s) = 0.4923 (7.67)
+or
+xp(s,s) = 0.4923Lpp (7.68)
+where Lpp = 160.93 m is the length between the perpendiculars AP and FP. The overall length is Loa = 171.8 m. The pivot point xp(s,s) is located ahead of the CG. Since the CG is located at xg = −0.023Lpp and the bow is approximately 0.03Lpp fore of FP, the pivot point is 0.06Lpp aft of the bow (see Figure 7.4).
+7.2.5 Nondimensional Maneuvering and Autopilot Models
+When designing course autopilots it is often convenient to normalize the ship steering equations of motion such that the model parameters can be treated as constants with respect to the instantaneous speed U defined by
+U=
+√
+u2 + v2 = √
+(u0 + u)2 + v2 (7.69)
+where u0 is the service speed and u and v are small perturbations in the surge and sway velocities, respectively. Hence,
+U ≈ u0 (7.70)
+During course-changing maneuvers the instantaneous speed will decrease due to increased resistance during the turn. The most commonly used normalization forms for marine craft are the prime system of SNAME (1950) and the bis system of Norrbin (1970).
+Prime System: This system uses the craft’s instantaneous speed U, the length L = Lpp (the length between the fore and aft perpendiculars), the time unit L/U and the mass unit 1/2ρL3 or 1/2ρL2T as normalization variables. The latter is inspired by wing theory, where the reference area A = LT is used instead of A = L2. The prime system cannot be used for low-speed applications such as dynamic ship positioning, since normalization of the velocities u, v and w implies dividing by the cruise speed U, which can be zero for a dynamically positioned ship. As a consequence, the prime system is mostly used in ship maneuvering. Bis System: This system can be used for zero-speed as well as high-speed applications since division of speed U is avoided. The bis system is based on the use of the length L = Lpp, with the time unit
+
+
+Autopilot Models for Heading Control (1 DOF) 149
+Table 7.2 Normalization variables used for the prime and bis systems
+Unit Prime system I Prime system II Bis system Length L L L Mass 1
+2 ρL3 1
+2 ρL2T μρ∇ Inertia moment 1
+2 ρL5 1
+2 ρL4T μρ∇L2 Time L
+U
+L U
+√L/g Reference area L2 LT μ 2∇
+L
+Position L L L Angle 1 1 1
+Linear velocity U U √Lg Angular velocity U
+L
+U L
+√ g/L
+Linear acceleration U2
+L
+U2
+Lg Angular acceleration U2
+L2
+U2 L2
+g L
+Force 1
+2 ρU2L2 1
+2 ρU2LT μρg∇ Moment 1
+2 ρU2L3 1
+2 ρU2L2T μρg∇L
+√L/g such that speed becomes √Lg > 0. In addition, the body mass density ratio μ = m/ρ∇, where m is the mass unit and ∇ is the hull contour displacement, is applied. The density ratio μ takes the following values:
+μ < 1 Underwater vehicles (ROVs, AUVs and submarines) μ = 1 Floating ships/rigs and neutrally buoyant underwater vehicles μ > 1 Heavy torpedoes (typically μ = 1.3–1.5)
+The normalization variables for the prime and bis systems are given in Table 7.2. The nondimensional quantities will be distinguished from those with dimension by applying the notation (·)′ for the prime system and (·)′′ for the bis system.
+Example 7.3 (Normalization of Parameters)
+The hydrodynamic coefficient Yr can be made nondimensional by using the prime and bis systems. First, let us determine the dimension of Yr. Consider
+}{Y{}
+[N=kgm/s2 ]
+= }{Yr{}
+[unknown]
+}{r{}
+[rad/s]
+Hence, the unknown dimension must be kg m/s since rad is a nondimensional unit. The nondimensional values Y ′
+r and Y ′′
+r are found by using kg, m and s from Table 7.2. Consequently,
+Y′
+r = Yr
+[
+1
+2 ρL3]
+[L]
+[L/U]
+=1
+1
+2 ρL3U Yr (7.71)
+Y ′′
+r = Yr
+[μρ∇][L]
+√L/g
+=1
+μρ∇√Lg Yr (7.72)
+For a floating ship, Y ′′
+r can be further simplified since μ = 1 and m = ρ∇. Hence,
+Y ′′
+r= 1
+m√Lg Yr (7.73)
+
+
+150 Models for Ships, Offshore Structures and Underwater Vehicles
+Example 7.4 (Normalization of States and Parameters)
+Consider the linear maneuvering model (7.33). Normalization according to the prime system suggests
+M′ν ̇′ + N′(u′
+0)ν′ = b′δ′ (7.74) where ν′ = [v′, r′] and
+M′ =
+[ m′ − Y ′
+ ̇v m′x′
+g − Y′
+r ̇ m′x′
+g − N′
+v ̇ I′
+z − N′
+r ̇
+]
+, b′ =
+[ −Y ′
+δ
+−N ′
+δ
+]
+, N′(u′
+0) =
+[ −Y ′
+v m′u′
+0 − Y′
+r
+−N ′
+v m′x′
+g u′
+0 − N′
+r
+]
+where
+u′
+0 = u0
+U ≈ 1, for u ≈ 0 and v ≈ 0 (7.75)
+The nondimensional velocities and control input can be transformed to its dimensional values by
+v = Uv′, r = U
+L r′, δ = δ′ (7.76)
+6 DOF Normalization Procedure
+A systematic procedure for 6 DOF normalization is found by defining a transformation matrix:
+T = diag
+{
+1, 1, 1, 1
+L, 1
+L, 1
+L
+}
+(7.77)
+T −1 = diag{1, 1, 1, L, L, L} (7.78)
+Consider the nondimensional MIMO model (see Example 7.4)
+M′ν ̇′ + N′ν′ + G′η′ = τ′ (7.79)
+When designing marine craft simulators and gain-scheduled controllers it is convenient to perform the numerical integration in real time using dimensional time. Consequently, it is convenient to use the nondimensional hydrodynamic coefficients as input to the simulator or controller, while the states ν, η and input τ should have their physical dimensions. For the prime system this is obtained by applying the following transformation to (7.79):
+M′
+(L
+U2 T −1ν ̇
+)
++ N′
+(1
+U T −1ν
+)
++ G′
+(1
+L T −1η
+)
+=1
+1
+2 ρU2L2 Tτ (7.80)
+such that
+(TM′T −1)ν ̇ +
+(U
+L
+)
+(TN′T −1)ν +
+(U
+L
+)2
+(TG′T −1)η = 1
+1
+2 ρL3 T 2τ (7.81)
+Hence,
+M = ρL3
+2 T −2(TM′T −1),
+N = ρL2U
+2 T −2(TN′T −1),
+G = ρLU2
+2 T −2(TG′T −1)
+
+
+Autopilot Models for Heading Control (1 DOF) 151
+Table 7.3 6 DOF normalization variables
+Prime system Bis system
+Acceleration ν ̇ = U2
+L T ν ̇′ ν ̇ = g T ν ̇′′
+Velocity ν = U Tν′ ν = √Lg Tν′′ Position/attitude η = L Tη′ η = L Tη′′ Control forces/moments τ = 1
+2 ρU2L2 T −1τ′ τ = μρg∇ T −1τ′′
+Notice that ν, η and the input vector τ now have physical dimensions while M′, N′ and G′ are nondimensional. Similarly, bis system scaling with μ = 1 gives
+(TM′′T −1)ν ̇ +
+√g
+L (TN′′T −1)ν + g
+L (TG′′T −1)η = 1
+m T 2τ (7.82)
+Hence,
+M = mT −2(TM′′T −1),
+N =m
+√g
+L T −2(TN′′T −1),
+G = mg
+L T −2(TG′′T −1)
+The 6 DOF normalization procedure is summarized in Table 7.3. The following example demonstrates this for a linearized maneuvering model.
+Example 7.5 (Normalization of Parameters while keeping the Actual States) Consider the model in Example 7.4:
+M′ν ̇′ + N′(u′
+0)ν′ = b′δ′ (7.83)
+Transforming the states ν′ and control input δ′ in (7.80) to dimensional quantities yields
+(TM′T −1)ν ̇ + U
+L (TN′(u′
+0)T −1)ν = U2
+L T b′δ (7.84)
+where
+T = diag{1, 1/L} (7.85)
+Notice that δ = δ′. Expanding (7.84) yields
+[ m′
+11 Lm′
+12 1
+L m′
+21 m′
+22
+] [  ̇v
+r ̇
+]
++U
+L
+[ n′
+11 Ln′
+12 1
+L n′
+21 n′
+22
+][v
+r
+]
+= U2
+L
+[ b′
+1 1
+L b′
+2
+]
+δ (7.86)
+where m′
+ij , d′
+ij and b′
+i are defined according to prime systems I or II in Table 7.2.
+Example 7.6 (Normalization Procedure for the Nomoto Time and Gain Constants)
+The gain and time constants in Nomoto’s first- and second-order models can be made invariant with respect to L and U by using
+K′ = (L/U) K, T ′ = (U/L) T (7.87)
+
+
+152 Models for Ships, Offshore Structures and Underwater Vehicles
+This suggests that the first-order ship dynamics can be expressed as
+(L/U) T ′ r ̇ + r = (U/L) K′ δ (7.88)
+or
+r ̇ = −
+(U
+L
+)1
+T′r +
+(U
+L
+)2 K′
+T ′ δ (7.89)
+This representation is quite useful since the nondimensional gain and time constants will typically be in the range 0.5 < K′ < 2 and 0.5 < T ′ < 2 for most ships. An extension to Nomoto’s second-order model is obtained by writing
+(L/U)2 T ′
+1 T′
+2 ψ(3) + (L/U) (T ′
+1 +T′
+2) ψ ̈ + ψ ̇ = (U/L) K′ δ + K′ T ′
+3  ̇δ (7.90)
+where the nondimensional time constants T ′
+i are defined as T ′
+i = Ti (U/L) for (i = 1, 2, 3) and the nondi
+mensional gain constant is K′ = (L/U) K.
+7.3 DP Models (3 DOF)
+Models for dynamic positioning (DP) are derived under the assumption of low speed. The DP models are valid for stationkeeping and low-speed maneuvering up to approximately 2 m/s, as indicated by the speed regions shown in Figure 7.2. This section presents a nonlinear DP model based on current coefficients and linear exponential damping that can be used for accurate simulation and prediction. In addition to this, a linearized model intended for controller–observer design is derived. Consider the nonlinear model:
+ ̇η = R(ψ)ν (7.91)
+Mν ̇ + CRB(ν)ν + N(νr)νr = τ + τwind + τwave (7.92)
+where
+N(νr)νr := CA(νr)νr + D(νr)νr (7.93)
+The state vectors are ν = [u, v, r] and η = [N, E, ψ] . This implies that the dynamics associated with the motion in heave, roll and pitch are neglected, that is w = p = q = 0. The rotation, mass and Coriolis–centripetal matrices for DP are
+R(ψ) =
+⎡
+⎣
+cos(ψ) − sin(ψ) 0
+sin(ψ) cos(ψ) 0
+0 01
+⎤
+⎦ (7.94)
+M=
+⎡
+⎣
+m − X ̇u 0 0
+0 m − Y ̇v mxg − Yr ̇
+0 mxg − Yr ̇ Iz − Nr ̇
+⎤
+⎦ (7.95)
+
+
+DP Models (3 DOF) 153
+CRB(ν) =
+⎡
+⎣
+0 0 −m(xgr + v)
+0 0 mu
+m(xgr + v) −mu 0
+⎤
+⎦ (7.96)
+Notice that surge is decoupled from sway and yaw is due to symmetry considerations of the system inertia matrix (Section 3.3). It is assumed that the added mass matrix is computed in CO. The expression for N(νr) will depend on how the dissipative forces are modeled. This is the topic for the next sections.
+7.3.1 Nonlinear DP Model using Current Coefficients
+For low-speed applications such as DP, ocean currents and damping can be modeled by three current coefficients CX, CY and CN . These can be experimentally obtained using scale models in wind tunnels. The resulting forces are measured on the model, which is restrained from moving (U = 0). The current coefficients can also be related to the surge resistance, cross-flow drag and the Munk moment used in maneuvering theory. For a ship moving at forward speed U > 0, quadratic damping will be embedded in the current coefficients if relative speed is used.
+Zero-Speed Representation
+In many textbooks and papers, for instance Blendermann (1994), wind and current coefficients are defined in {b} relative to the bow using a counter clockwise rotation γc (see Figure 7.5). The current forces on a
+Figure 7.5 Current speed Vc, current direction βc and current angle of attack γc relative to the bow.
+
+
+154 Models for Ships, Offshore Structures and Underwater Vehicles
+Figure 7.6 Experimental current coefficients CX, CY and CN for a tanker. Notice that γc is a counter clockwise rotation and the angle of attack γc = 0◦ for a current in the bow.
+marine craft at rest (U = 0) can be expressed in terms of the area-based current coefficients CX(γc), CY (γc) and CN (γc) as
+Xcurrent = 1
+2 ρAFcCX(γc)V 2
+c (7.97)
+Ycurrent = 1
+2 ρALcCY (γc)V 2
+c (7.98)
+Ncurrent = 1
+2 ρALcLoaCN (γc)V 2
+c (7.99)
+where Vc is the speed of the ocean current. The frontal and lateral projected currents areas are denoted AFc and ALc, respectively, while Loa is the length overall and ρ is the density of water. Typical experimental current coefficients are shown in Figure 7.6.
+Forward Speed Representation
+Equations (7.97)–(7.99) only add zero-speed current forces (no damping) to the equations of motion since they only depend on the current speed Vc. For a ship moving at relative forward speed, Ur > 0, current forces and quadratic damping in surge and sway are given by
+
+
+DP Models (3 DOF) 155
+Xcurrent = 1
+2 ρAFcCX(γrc)V 2
+rc (7.100)
+Ycurrent = 1
+2 ρALcCY (γrc)V 2
+rc (7.101)
+Ncurrent = 1
+2 ρALcLoaCN (γrc)V 2
+rc (7.102)
+These expressions are functions of the relative speed Vrc and direction γrc:
+Vrc = √
+ur2c + vr2c = √
+(u − uc)2 + (v − vc)2 (7.103)
+γrc = −atan2(vrc, urc) (7.104)
+where
+uc = Vc cos(βc − ψ) (7.105)
+vc = Vc sin(βc − ψ) (7.106)
+are the current velocities (see Section 8.3).
+Ocean Current Angle of Attack
+From Figure 7.5, it is seen that the angles assosiated with an ocean current in the horizontal plane for a marine craft at rest satisfy
+γc = ψ − βc − π (7.107)
+where βc is the direction of the ocean current and γc is specified relative to the bow. Hence, the velocity components (7.105) and (7.106) can be written
+uc = −Vc cos(γc) (7.108)
+vc = Vc sin(γc) (7.109)
+The current goes in the geographic direction βc in {n} and its magnitude is
+Vc = √
+uc2 + vc2 (7.110)
+Notice that for zero speed the expressions (7.103) and (7.104) become
+Vrc = √
+(u − uc)2 + (v − vc)2 u==v=0 Vc (7.111)
+tan(γrc) = − v − vc
+u − vc
+u==v=0 − vc
+uc
+= tan(γc) (7.112)
+
+
+156 Models for Ships, Offshore Structures and Underwater Vehicles
+This means that the angles γrc and γc as well as the speeds Vrc and Vc in general are different for U > 0. Consequently, the geometrical relationship (7.107) shown in Figure 7.5 only holds for U = 0.
+Relationship Between Current Coefficients and Surge Resistance/Cross-Flow Drag
+The current coefficients can be related to the surge resistance (6.86) and cross-flow drag (6.94)–(6.95) coefficients by assuming low speed such that u ≈ 0 and v ≈ 0. This is a good assumption for DP. From (7.108)–(7.109) it follows that the quadratic terms are
+ur |ur| ≈ −uc |−uc|
+= V2
+c cos(γc)| cos(γc)| (7.113)
+vr |vr| ≈ −vc |−vc|
+= −V 2
+c sin(γc)| sin(γc)| (7.114)
+urvr ≈ ucvc
+= −1
+2V2
+c sin(2γc) (7.115)
+The next step is to neglect terms in r (no rotations during stationkeeping) in (6.94)–(6.95) and require that CX, CY and CN in (7.97)–(7.99) satisfy
+Xcurrent = 1
+2 ρAFcCX(γc)V 2
+c := X|u|u |ur| ur (7.116)
+Ycurrent = 1
+2 ρALcCY (γc)V 2
+c := Y|v|v|vr|vr (7.117)
+Ncurrent = 1
+2 ρALcLoaCN (γc)V 2
+c := N|v|v|vr|vr − (X ̇u − Yv ̇ )urvr
+} {{ }
+Munk moment
+(7.118)
+for u = v = r = 0. Notice that the Munk moment (Y ̇v − X ̇u)urvr in the yaw equation is included in the expression for Ncurrent (see Section 7.1.4). The other terms are recognized as diagonal quadratic damping terms in D(νr). This gives the following analytical expressions for the area-based current coefficients:
+CX(γc) = −2
+( −X|u|u
+ρAFc
+)
+cos(γc)| cos(γc)| (7.119)
+CY (γc) = 2
+( −Y|v|v|
+ρALc
+)
+sin(γc)| sin(γc)| (7.120)
+CN (γc) = 2
+ρALc Loa
+(−N|v|v sin(γc)| sin(γc)| + 1
+2 (X ̇u − Yv ̇ )
+} {{ }
+A22 −A11
+sin(2γc)) (7.121)
+These results are similar to Faltinsen (1990, pp. 187–188). The trigonometric functions in (7.119)–(7.121) will be quite close to the shape of the experimental current coefficients shown in Figure 7.6. For tankers, the current coefficients can be computed using the formulae of Leite et al. (1998) whereas the ITTC and cross-flow drag principles are commonly used for other hull forms.
+
+
+DP Models (3 DOF) 157
+The nonlinear DP model based on current coefficients takes the following form:
+ ̇η = R(ψ)ν (7.122)
+Mν ̇ + CRB(ν)ν + D exp(−αVrc)νr + d(Vrc, γrc) = τ + τwind + τwave (7.123)
+d(Vrc, γcr) =
+⎡
+⎣
+−1
+2 ρAFcCX(γrc)V 2
+rc −1
+2 ρALcCY (γrc)V 2
+rc −1
+2 ρALcLoaCN (γrc)V 2
+rc − N|r|rr|r
+⎤
+⎦ (7.124)
+where −N|r|r > 0 is an optional quadratic damping coefficient used to counteract the destabilizing Munk moment in yaw since the current coefficients do not include nonlinear damping in yaw. The model also includes an optional linear damping matrix:
+D=
+⎡
+⎣
+−Xu 0 0
+0 −Y v −Y r
+0 −Nv −Nr
+⎤
+⎦ (7.125)
+to ensure exponential convergence at low relative speed Vr. This is done by tuning α > 0. At higher speeds Vrc 0 and the nonlinear term d(Vrc, γrc) dominates over the linear term, which vanishes at higher speeds. It is also possible to eliminate ν in (7.123) by using Property 8.1 in Section 8.3. The key assumption is that CRB(ν) must be parametrized according to (3.57). Hence, it follows that
+Mν ̇r + CRB(νr)νr + D exp(−αVrc)νr + d(Vrc, γrc) = τ + τwind + τwave (7.126)
+where νr is the state vector.
+7.3.2 Linearized DP Model
+As shown in Section 6.4, linear damping is a good assumption for low-speed applications. Similarly, the quadratic velocity terms given by C(νr)νr and d(Vrc, γrc) can be neglected when designing DP control systems if the ocean currents (drift) are properly compensated for by using integral action. One way to do this is to treat the ocean currents as a slowly varying bias vector b expressed in {n}. Hence, the relative velocity vector νr is superfluous. The linear model is usually expressed in vessel parallel coordinates (see Section 7.5.3):
+ηp = R (ψ)η (7.127)
+such that
+ ̇ηp = ν (7.128)
+Mν ̇ + Dν = R (ψ)b + τ + τwind + τwave (7.129)
+b ̇ = 0 (7.130)
+
+
+158 Models for Ships, Offshore Structures and Underwater Vehicles
+where
+τ = Bu (7.131)
+This model is intended for controller–observer design, where feedback suppresses errors due to the model uncertainty. The control matrix B describes the thruster configuration while u is the control input vector. Notice that the currents are assumed constant in {n} and therefore transformed to {b} by R (ψ)b. The position reference signals y = η are transformed to vessel parallel coordinates ηp at each time step using (7.127). This removes the kinematic nonlinearity.
+7.4 Maneuvering Models including Roll (4 DOF)
+The maneuvering models presented in Section 7.1 only describe the horizontal motions (surge, sway and yaw). These models are intended for the design and simulation of DP systems, heading autopilots, trajectory-tracking and path-following control systems. Many vessels, however, are equipped with actuators that can reduce the rolling motion. This could be anti-rolling tanks, rudders and fin stabilizers (see Part II). In order to design a control system for roll damping, it is necessary to add the roll equation to the horizontal plane model. Inclusion of roll means that the restoring moment due to buoyancy and gravity must be included. The resulting model is a 4 DOF maneuvering model that includes roll (surge, sway, roll and yaw).
+The speed equation (7.32) can be decoupled from the sway, roll and yaw modes. The resulting model takes the form
+Mν ̇ + N(uo)ν + Gη = τ (7.132)
+where uo = constant, ν = [v, p, r] and η = [E, φ, ψ] are the states while τ is the control vector. For a ship with homogeneous mass distribution and xz-plane symmetry, Ixy = Iyz = 0 and yg = 0. From the general expressions (3.44) and (6.38) in Sections 3.3 and 6.3.1, respectively, we get (with nonzero Ixz)
+M=
+⎡
+⎣
+m − Y ̇v −mzg − Yp ̇ mxg − Yr ̇
+−mzg − K ̇v Ix − K  ̇p −Ixz − Kr ̇
+mxg − N ̇v −Ixz − Np ̇ Iz − Nr ̇
+⎤
+⎦ (7.133)
+The expression for N(uo) is obtained by linearization of C(ν) and D(ν) about u = u0 which gives
+N(uo) =
+⎡
+⎣
+−Yv −Yp mu0 − Yr
+−Kv −Kp −mzgu0 − Kr
+−Nv −Np mxgu0 − Nr
+⎤
+⎦ (7.134)
+Recall from Section 4.1 that the linear restoring forces and moments for a surface vessel can be written
+G = diag{0, W GMT , 0} (7.135)
+where W = mg is the weight and GMT is the transverse metacenter height.
+
+
+Maneuvering Models including Roll (4 DOF) 159
+In addition to these equations, the kinematic equations (assuming q = θ = 0)
+φ ̇ = p (7.136)
+ψ ̇ = cos(φ)r ≈ r (7.137)
+must be augmented to the system model. The general kinematic expressions are found in Section 2.2.1.
+State-Space Model
+The linearized model (7.132) together with (7.136)–(7.137) can be written in state-space form by defining the state vector as x := [v, p, r, φ, ψ] . The elements associated with the matrices A and B are given by
+x ̇ =
+⎡
+⎢⎢⎢⎢⎢⎣
+a11 a12 a13 a14 0
+a21 a22 a23 a24 0
+a31 a32 a33 a34 0
+0 1 0 00
+0 0 1 00
+⎤
+⎥⎥⎥⎥⎥⎦
+} {{ }
+A
+x+
+⎡
+⎢⎢⎢⎢⎢⎣
+b11 b12 · · · b1r
+b21 b22 · · · b2r
+b31 b32 · · · b3r
+0 0 ··· 0
+0 0 ··· 0
+⎤
+⎥⎥⎥⎥⎥⎦
+} {{ }
+B
+u (7.138)
+where the elements aij are found from
+⎡
+⎣
+a11 a12 a13
+a21 a22 a23
+a31 a32 a33
+⎤
+⎦ = −M−1N(uo) (7.139)
+⎡
+⎣
+∗ a14 ∗
+∗ a24 ∗
+∗ a34 ∗
+⎤
+⎦ = −M−1G (7.140)
+while the elements bij depend on what type of actuators are in use. Finally, the roll and yaw outputs are chosen as
+φ = [0, 0, 0, 1, 0]
+} {{ }
+croll
+x (7.141)
+ψ = [0, 0, 0, 0, 1]
+} {{ }
+cyaw
+x (7.142)
+
+
+160 Models for Ships, Offshore Structures and Underwater Vehicles
+Decompositions in Roll and Sway–Yaw Subsystems
+To simplify the system for further analysis, the state vector is reorganized such that state variables associated with the steering and roll dynamics are separated. Consequently, (7.138) is rewritten as
+⎡
+⎢⎢⎢⎣
+ ̇v r ̇ ψ ̇
+ ̇p φ ̇
+⎤
+⎥⎥⎥⎦ =
+⎡
+⎢⎢⎢⎣
+a11 a13 0 a12 a14
+a31 a33 0 a32 a34
+0 10 0 0
+a21 a23 0 a22 a24
+0 00 1 0
+⎤
+⎥⎥⎥⎦
+⎡
+⎢⎢⎢⎣
+v r ψ p φ
+⎤
+⎥⎥⎥⎦ +
+⎡
+⎢⎢⎢⎣
+b11 b12 · · · b1r
+b31 b32 · · · b3r 0 0 ··· 0
+b21 b22 · · · b2r 0 0 ··· 0
+⎤
+⎥⎥⎥⎦u (7.143)
+Let
+[ x ̇ ψ
+x ̇ φ
+] =
+[ Aψψ Aψφ
+Aφψ Aφφ
+] [ xψ
+xφ
+] +
+[ Bψ
+Bφ
+]
+u (7.144)
+where xψ = [v, r, ψ] and xφ = [p, φ] . If the coupling matrices are small, that is Aψφ = Aφψ = 0, the following subsystems:
+[  ̇p
+φ ̇
+] =
+[ a22 a24
+10
+][p
+φ
+] +
+[ b21 b22 · · · b2r
+0 0 ··· 0
+]
+u (7.145)
+and
+⎡
+⎣
+ ̇v
+r ̇
+ψ ̇
+⎤
+⎦=
+⎡
+⎣
+a11 a13 0
+a31 a33 0
+0 10
+⎤
+⎦
+⎡
+⎣
+v
+r
+ψ
+⎤
+⎦+
+⎡
+⎣
+b11 b12 · · · b1r
+b31 b32 · · · b3r
+0 0 ··· 0
+⎤
+⎦ u (7.146)
+will describe the ship dynamics. The last expression is recognized as the second-order Nomoto model (7.46) with r control inputs.
+Transfer Functions for Steering and Rudder-Roll Damping
+The linearized model (7.143) is useful for frequency analysis of rudder-roll damping (RRD) systems. For simplicity consider a ship with one rudder u = δ and b = [b11, b21, b31, 0, 0] . For the state-space model (7.143) the transfer functions φ(s)/δ(s) = croll(sI − A)−1b and ψ(s)/δ(s) = cyaw(sI − A)−1b become
+φ
+δ (s) = b2s2 + b1s + b0
+s4 + a3s3 + a2s2 + a1s + a0
+≈ Kroll ω2
+roll (1 + T 5s)
+(1 + T 4s)(s2 + 2ζωrolls + ω2
+roll )
+} {{ }
+no coupling between roll and sway–yaw
+(7.147)
+ψ
+δ (s) = c3s3 + c2s2 + c1s + c0
+s(s4 + a3s3 + a2s2 + a1s + a0) ≈ Kyaw (1 + T 3s)
+s(1 + T 1s)(1 + T 2s)
+} {{ }
+no coupling between roll and sway–yaw
+(7.148)
+where the decoupled models (7.145) and (7.146) have been applied. In most cases, this approximation is only rough so care should be taken. In Figure 7.7 it is seen that the phase of the roll transfer function
+
+
+Maneuvering Models including Roll (4 DOF) 161
+Figure 7.7 Transfer functions for the roll and sway–yaw subsystems corresponding to the Son and Nomoto container ship.
+is inaccurate for the decoupled model. This can be improved by using a model reduction via a balanced state-space realization (see modred.m and ssbal.m in Matlab). Also, parametric investigations show that cross-couplings between steering and roll might give robust performance problems of RRD control systems (Blanke and Christensen, 1993). This is also documented in Blanke (1996), who has identified the ship parameters for several loading conditions during sea trials with a series of ships. The results clearly reveal changes in the dynamics between the different ships in the series, indicating that there is a robustness problem due to changes in load conditions and rudder shape. Nonlinear effects also give rise to the same problem. Identification of ship steering-roll models are discussed by Blanke and Tiano (1997). The interested reader is also advised to consult Van der Klugt (1987) for a discussion of decoupled linear models for RRD, while nonlinear models are presented in Section 7.4.1.
+Example 7.7 (Roll and Sway–Yaw Transfer Functions)
+The roll and yaw transfer functions corresponding to the model of Son and Nomoto (1981) are plotted in Figure 7.7 using the MSS toolbox file ExRRD1.m. The plots show both the full state-space model (7.138) and the decoupled models (7.145)–(7.146). The model considered is a container ship of length L = 175 m and with a displacement volume of 21 222 m3. The ship is moving at service speed
+
+
+162 Models for Ships, Offshore Structures and Underwater Vehicles
+u0 = 7.0 m/s. The model of Son and Nomoto (1981) is based on a third-order Taylor-series expansion (see Section 7.1.3) of the hydrodynamic forces including higher-order restoring terms replacing (7.135). The nonlinear model is included in the MSS toolbox under the file name container.m while a linearized version of this model is found in Lcontainer.m. The nonlinear model is described more closely in the next section. The numerical values for the transfer functions are
+φ
+δ (s) = 0.0032(s − 0.036)(s + 0.077)
+(s + 0.026)(s + 0.116)(s2 + 0.136s + 0.036)
+≈ 0.083(1 + 49.1s)
+(1 + 31.5s)(s2 + 0.134s + 0.033) (7.149)
+and
+ψ
+δ (s) = 0.0024(s + 0.0436)(s2 + 0.162s + 0.035)
+s(s + 0.0261)(s + 0.116)(s2 + 0.136s + 0.036)
+≈ 0.032(1 + 16.9s)
+s(1 + 24.0s)(1 + 9.2s) (7.150)
+corresponding to
+ωroll = 0.189 rad/s (7.151)
+ζ = 0.36 (7.152)
+It is seen that the amplitudes of the roll and yaw models are quite close. However, the decoupled model in roll does not describe the phase with sufficient accuracy, so stability problems could be an issue when designing a model-based RRD. The main reason for this is that one pole–zero pair is omitted in the decoupled roll model. Since this is a right-half-plane zero,
+z = 0.036 rad/s (7.153)
+the pole–zero pair gives an additional phase lag of −180 degrees, as observed in the plot of the full model. This will of course result in serious stability problems when trying to damp the roll motion. In practice it will be difficult to design an RRD for this system since the controller should reduce the energy at the peak frequency ωroll = 0.189 rad/s which is much higher than the right-half-plane zero z = 0.036 rad/s. This is a nonminimum phase property which cannot be changed with feedback (recall that only poles and not zeros can be moved using feedback control). The nonminimum phase characteristic is observed as an inverse response in roll when a step input is applied (see Figure 7.8). The plots in Figure 7.8 are generated by simulating the nonlinear model of Son and Nomoto (see ExRRD3.m). The nonminimum phase behavior due to the right-half-plane zero is discussed in more detail by Fossen and Lauvdal (1994), where both linear and nonlinear analyses of the models of Son and Nomoto are considered. The nonlinear equivalent to a right-half-plane zero is unstable zero dynamics.
+
+
+Maneuvering Models including Roll (4 DOF) 163
+Figure 7.8 Roll angle 10φ ̇ and yaw angle ψ versus time for a 10 degree rudder step in 50 s. Notice the inverse response in roll and speed reduction during turning.
+7.4.1 The Nonlinear Model of Son and Nomoto
+A nonlinear model including roll for a high-speed container ship has been proposed by Son and Nomoto (1981, 1982):
+(m + mx)  ̇u − (m + my)vr = X + τ1 (7.154)
+(m + my) ̇v + (m + mx)ur + myαyr ̇ − myly  ̇p = Y + τ2 (7.155)
+(Ix + Jx)  ̇p − myly  ̇v − mxlxur = K − W GMT φ + τ4 (7.156)
+(Iz + Jz)r ̇ + myαy  ̇v = N − xgY + τ6 (7.157)
+where mx = A11(0), my = A22(0), Jx = A44(ωroll) and Jz = A66(0) denote the added mass and added moments of inertia. The control inputs are recognized as τ = [τ1, τ2, τ4, τ6] . The added mass x
+
+
+164 Models for Ships, Offshore Structures and Underwater Vehicles
+coordinates of mx and my are denoted by αx and αy, while lx and ly are the added mass z coordinates of mx and my, respectively. The terms on the right-hand side of (7.154)–(7.157) are defined in terms of a third-order Taylor series expansion where small coefficients are neglected. The remaining terms are
+X = X(u) + (1 − t)T + Xvrvr + Xvvv2 + Xrrr2 + Xφφφ2 + Xδ sin δ + Xext (7.158)
+Y = Yvv + Yrr + Yφφ + Ypp + Yvvvv3 + Yrrrr3 + Yvvrv2r + Yvrrvr2
++Yvvφv2φ + Yvφφvφ2 + Yrrφr2φ + Yrφφrφ2 + Yδ cos δ + Yext (7.159)
+K = Kvv + Krr + Kφφ + Kpp + Kvvvv3 + Krrrr3 + Kvvrv2r + Kvrrvr2
++Kvvφv2φ + Kvφφvφ2 + Krrφr2φ + Krφφrφ2 + Kδ cos δ + Kext (7.160)
+N = Nvv + Nrr + Nφφ + Npp + Nvvvv3 + Nrrrr3 + Nvvrv2r + Nvrrvr2
++Nvvφv2φ + Nvφφvφ2 + Nrrφr2φ + Nrφφrφ2 + Nδ cos δ + Next (7.161)
+where X(u) is usually modeled as quadratic drag X(u) = X|u|u|u|u and the subscript ext denotes external forces and moments due to wind, waves and ocean currents.
+Matlab
+The models of Son and Nomoto (1981) are implemented in the MSS toolbox as
+[xdot,U] = container(x,ui)
+The linearized model for U = U0 is accessed as
+[xdot,U] = Lcontainer(x,ui,U0)
+where x=[u v r x y psi p phi delta]’and ui=[delta c n c]’. In the linear case only
+one input, delta c, is used since the forward speed UO is constant. For the nonlinear model, propeller rpm, n c, should be positive.
+7.4.2 The Nonlinear Model of Blanke and Christensen
+An alternative model formulation describing the steering and roll motions of ships has been proposed by Blanke and Christensen (1993). This model is written as
+Mν ̇ + CRB(ν)ν + Gη = τhyd + τwind + τwave + τ (7.162)
+where ν = [v, p, r] , τhyd = [Y, K, N] and
+M=
+⎡
+⎣
+m − Y  ̇v −mzg − Yp ̇ mxg − Yr ̇
+−mzg − Kv ̇ Ix − K  ̇p 0
+mxg − N ̇v 0 Iz − Nr ̇
+⎤
+⎦ (7.163)
+
+
+Maneuvering Models including Roll (4 DOF) 165
+CRB(ν) =
+⎡
+⎣
+0 0 mu
+0 00
+−mu 0 0
+⎤
+⎦ (7.164)
+G=
+⎡
+⎣
+000
+0 −Kφ 0
+000
+⎤
+⎦ (7.165)
+The hydrodynamic forces in τhyd include both damping and hydrodynamic Coriolis and centripetal terms:
+Y = Y|u|v|u|v + Yurur + Yv|v||v|v + Yv|r|v|r| + Y|v|r|v|r
++Yφ|uv|φ|uv| + Yφ|ur|φ|ur| + Yφuuφu2 + Yext (7.166)
+K = K|u|v|u|v + Kurur + Kv|v||v|v + Kv|r|v|r| + K|v|r|v|r
++Kφ|uv|φ|uv| + Kφ|ur|φ|ur| + Kφuuφu2 + K|u|p|u|p
++Kp|p|p|p| + Kpp + Kφφφφ3 + Kext (7.167)
+N = N|u|v|u|v + N|u|r|u|r + Nr|r||r|r + Nv|r|v|r| + N|v|r|v|r
++Nφ|uv|φ|uv| + Nφ|ur|φ|ur| + Npp + N|p|p|p|p + N|u|p|u|p
++Nφu|u|φ|u|u| + Next (7.168)
+where the forces and moments associated with the roll motion are assumed to involve the square terms of the surge speed u2 and |u|u. The terms Yext, Kext and Next consist of possible contributions from external disturbances while control inputs such as rudders, propellers and bow thrusters are included in τ.
+7.4.3 Nonlinear Model Based on Low-Aspect Ratio Wing Theory
+In Ross (2008), the ship is modeled as a low-aspect ratio wing. This approach is well suited to derive a physical model structure that can best describe the nonlinear damping forces acting on a marine craft. The parameters of the model must, however, be found by curve fitting the simulated response to time series, for instance by using system identification. In this approach, the lift and drag are derived from two coefficients: namely the lift and drag coefficients, respectively. The resulting expressions are
+XLD = XL
+uuu2 + XL
+uuuu3 + XL
+vvv2 + XL
+rrr2 + XL
+rvrv + XL
+uvv uv2
++XL
+rvurvu + XL
+urrur2 + XL
+vvφφv2φ2 + XL
+vrφφvrφ2 + XL
+rrφφ r2 φ2
+} {{ }
+XLD
+(7.169)
+YLD = Y L
+uvuv + Y L
+urur + Y L
+uuru2r + Y L
+uuvu2v + Y L
+vvvv3 + Y L
+rrr r3
++Y L
+rrvr2v + Y L
+vvrv2r + Y L
+uvφφuvφ2 + Y L
+urφφ urφ2
+} {{ }
+YLD
+(7.170)
+KLD = YLDzcp
+= KL
+uvuv + KL
+urur + KL
+uuru2r + KL
+uuvu2v + KL
+vvv v3
++KL
+rrrr3 + KL
+rrvr2v + KL
+vvrv2r + KL
+uvφφuvφ2 + KL
+urφφurφ2 (7.171)
+
+
+166 Models for Ships, Offshore Structures and Underwater Vehicles
+NLD = YLDxcp
+= NL
+uvuv + NL
+urur + NL
+uuru2r + NL
+uuvu2v + NL
+vvv v3
++N L
+rrrr3 + NL
+rrvr2v + NL
+vvrv2r + NL
+uvφφuvφ2 + NL
+urφφurφ2 (7.172)
+where (xcp, zcp) defines the location of the center of pressure. The roll angle influence on lift and drag is modeled by
+XLD = XL
+vvφφv2φ2 + XL
+vrφφvrφ2 + XL
+rrφφr2φ2 (7.173)
+YLD = Y L
+uvφφuvφ2 + Y L
+urφφurφ2 (7.174)
+In addition to this, viscous roll damping is modeled by a third-order dissipative odd function:
+K = −Kpp − Kpppp3 (7.175)
+The lift and drag forces are forces that arise from circulatory effects. However, since the ship hull is being treated as a low-aspect ratio wing, it is necessary to include an additional nonlinear lift component, with an associated induced drag term. The additional nonlinear lift forces are recognized as the cross-flow drag terms:
+Y = Y|v|v|v|v + Y|v|r|v|r + Yv|r|v|r| + Y|r|r|r|r| (7.176)
+K = K|v|v|v|v + K|v|r|v|r + Kv|r|v|r| + K|r|r|r|r| (7.177)
+N = N|v|v|v|v + N|v|r|v|r + Nv|r|v|r| + N|r|r|r|r| (7.178)
+which were derived in Section 6.4.3. The resulting damping matrix is
+D (ν) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎣
+−XL
+uuu − XL
+uuu u2
+−XL
+rvurv
+−XL
+vvv − XL
+rv r
+−XL
+uvvuv − XL
+vvφφ vφ2
+−XL
+vrφφ rφ2
+−Y L
+uvφφvφ2−Y L
+urφφrφ2 −Y L
+uvu − Y L
+uuvu2−Y L
+vvv v2
+−Y L
+rrvr2−Y |v|v |v| −Y v|r| |r|
+−KL
+uvφφ vφ2 −KL
+urφφrφ2 −KL
+uvu − KL
+uuv u2 −KL
+vvv v2
+−KL
+rrvr2−K|v|v |v| −Kv|r| |r|
+−N L
+uvφφ vφ2 −N L
+urφφrφ2 −NL
+uvu − NL
+uuv u2 −N L
+vvv v2
+−N L
+rrvr2−N|v|v |v| −Nv|r| |r|
+0 −XL
+rrr − XL
+urrur − XL
+rrφφ rφ2
+0
+−Y L
+uru − Y L
+uuru2−Y L
+rrr r2
+−Y L
+vvrv2−Y |v|r |v| −Y |r|r |r|
+−Kp−Kpppp2 −KL
+uru − KL
+uur u2 −KL
+rrr r2
+−KL
+vvrv2−K|v|r |v| −K|r|r |r|
+0 −NL
+uru − NL
+uur u2 −N L
+rrr r2
+−N L
+vvrv2−N|v|r |v| −N|r|r |r|
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎦
+(7.179)
+The 4 DOF equations of motion are
+Mν ̇ + CRB(ν)ν + CA(ν)ν + D(ν)ν + Gη = τ + τwind + τwave (7.180)
+
+
+Equations of Motion (6 DOF) 167
+where
+M=
+⎡
+⎢⎢⎣
+m − X ̇u 0 0 0
+0 m − Y  ̇v −mzg−Y  ̇p mxg−Y r ̇
+0 −mzg−Kv ̇ Ix−K  ̇p 0
+0 mxg−Nv ̇ 0 Iz−Nr ̇
+⎤
+⎥⎥⎦ (7.181)
+CRB(ν) =
+⎡
+⎢⎢⎣
+0 0 mzgr −m(xgr + v)
+0 0 0 mu
+−mzgr 0 0 0
+m(xgr + v) −mu 0 0
+⎤
+⎥⎥⎦ (7.182)
+CA(ν) =
+⎡
+⎢⎢⎣
+0 0 0 Yv ̇ v
+0 0 0 −X ̇uu
+0 0 0 Yv ̇ v
+−Y v ̇ v X ̇uu −Y v ̇ v 0
+⎤
+⎥⎥⎦ (7.183)
+G=
+⎡
+⎢⎢⎣
+00 0 0
+00 0 0
+0 0 −Kφ 0
+00 0 0
+⎤
+⎥⎥⎦ (7.184)
+7.5 Equations of Motion (6 DOF)
+Ship models are usually reduced-order models for control of the horizontal plane motions (surge, sway and yaw) in combination with roll if roll damping is an issue. Semi-submersible control systems are also designed for the stabilization of the horizontal plane motions, but for these types of vessels it is also of interest to simulate the heave, roll and pitch motions during critical operations such as drilling. The rolling and pitching of a semi-submersible can also be stabilized by using the thrusters located on the pontoons since these have large moment arms that produce restoring moments. The 3 and 4 DOF models in the previous sections are intended for model-based control and observer design (see Section 1.1). In this section we will discuss 6 DOF models, which are useful for prediction, simulation and control of marine craft performing coupled motions. A 6 DOF model is usually implemented in a computer to describe all dynamics effects as accurately as possible. This is referred to as the simulation model; see Figure 1.4 in Section 1.1. The simulation model should be able to reconstruct the time responses of the physical system. Model-based controllers and observers, however, can be designed using reduced-order or simplified models. For marine craft with actuation in all DOFs, such as underwater vehicles, a modelbased controller and observer design requires a 6 DOF model, while ship and semi-submersible control systems can be designed using a 3 or 4 DOF model.
+7.5.1 Nonlinear 6 DOF Vector Representations in BODY and NED
+When designing feedback control systems it can be advantageous to formulate the equations of motion in both the {b} and {n} frames in order to exploit physical properties of the model. This section includes nonlinear transformations that can be used to represent the equations of motion in different reference frames.
+
+
+168 Models for Ships, Offshore Structures and Underwater Vehicles
+Equations of Motion Expressed in BODY
+Consider the nonlinear equations of motion expressed in {b} with νc = 0:
+ ̇η = Jk(η)ν (7.185)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) + go = τ + τwind + τwave (7.186)
+where
+M = MRB + MA (7.187)
+C(ν) = CRB(ν) + CA(ν) (7.188)
+D(ν) = D + Dn(ν) (7.189)
+The expressions for η and Jk(η) depend on the kinematic representation. Three different choices for Jk(η) will be presented where the subscript k ∈ { , q, r} denotes the Euler angle, quaternion and rotation matrix representation, respectively.
+Equations of Motion Expressed in NED
+The equations of motion (7.186) when transformed to {n} take the following form:
+M∗(η) ̈η + C∗(ν, η) ̇η + D∗(ν, η) ̇η + g∗(η) + g∗
+o(η) = τ∗ + τ∗
+wind + τ∗
+wave (7.190)
+where the expressions for M∗, C∗(ν, η), D∗(ν, η), g∗(η), g∗
+o(η), τ∗, τ∗
+wind, τ∗
+wave and the associated kinematic transformations depend on how attitude is represented. Three different choices are outlined below:
+1. Positions and Euler Angles (k = ): The Euler angle representation (2.40) is based on the three parameters φ, θ and ψ. This gives
+J (η) :=
+[ Rn
+b ( nb) 03×3
+03×3 T ( nb)
+]
+, J −1(η) =
+[ Rn
+b ( nb) 03×3
+03×3 T −1( nb)
+]
+(7.191)
+where η := [N, E, D, φ, θ, ψ] . The representation singularity at θ =/ ± π/2 in the expression for T implies that the inverse matrix J−1(η) does not exist at this value. The transformation is as follows:
+ ̇η = J (η)ν ⇐⇒ ν = J−1(η) ̇η
+ ̈η = J (η)ν ̇ + J ̇ (η)ν ⇐⇒ ν ̇ = J−1(η)[ ̈η − J ̇ (η)J−1(η) ̇η]
+
+
+Equations of Motion (6 DOF) 169
+and
+M∗(η) = J − (η)MJ −1(η)
+C∗(ν, η) = J − (η)[C(ν) − MJ −1(η)J ̇ (η)]J −1(η)
+D∗(ν, η) = J − (η)D(ν)J −1(η)
+g∗(η) + g∗
+o(η) = J − (η)[g(η) + go]
+τ∗ + τ∗
+wind + τ∗
+wave = J − (η)(τ + τwind + τwave) (7.192)
+2. Positions and Quaternions (k = q): The quaternion representation (2.69) avoids the singular points θ =/ ± π/2 by using four parameters (unit quaternions) η, ε1, ε2 and ε3 to represent attitude:
+J q(η) :=
+[ Rn
+b (q) 03×3
+04×3 T q(q)
+]
+, J†
+q(η) =
+[ Rn
+b (q) 03×4
+04×3 4T q (q)
+]
+(7.193)
+Notice that pseudo-inverse J†
+q(η) is computed using the left Moore–Penrose pseudo-inverse and by exploiting the property T q (q)T q(q) = 1/4I3×3. Moreover, the left inverse of T q(q) is
+T†
+q(q) = (T q (q)T q(q))−1 T q (q)
+= 4T q (q) (7.194)
+For this case, η := [N, E, D, η, ε1, ε1, ε1] and
+ ̇η = J q(η)ν ⇐⇒ ν = J †
+q (η)  ̇η
+ ̈η = J q(η)ν ̇ + J ̇q(η)ν ⇐⇒ ν ̇ = J †
+q(η)[ ̈η − J ̇q(η)J †
+q (η)  ̇η]
+and
+M∗(η) = J †
+q(η) MJ †
+q(η)
+C∗(ν, η) = J †
+q(η) [C(ν) − MJ †
+q(η)J ̇q(η)]J †
+q(η)
+D∗(ν, η) = J †
+q(η) D(ν)J †
+q(η)
+g∗(η) + g∗
+o(η) = J †
+q(η) [g(η) + go]
+τ∗ + τ∗
+wind + τ∗
+wave = J †
+q(η) (τ + τwind + τwave) (7.195)
+3. Positions and Angular Rates (k = r): A singularity free three-parameter transformation based on the rotation matrix Rn
+b( nb) and its inverse Rn
+b ( nb)−1 = Rn
+b( nb) is
+J r(η) :=
+[ Rn
+b ( nb) 03×3
+03×3 Rn
+b ( nb)
+]
+, J −1
+r (η) = Jr (η) (7.196)
+where the last three states are angular rates expressed in {n}. This gives
+ ̇η = Jr(η)ν ⇐⇒ ν = Jr (η) ̇η
+ ̈η = Jr(η)ν ̇ + J ̇ r(η)ν ⇐⇒ ν ̇ = Jr (η) [ ̈η − J ̇ r(η)Jr (η) ̇η]
+
+
+170 Models for Ships, Offshore Structures and Underwater Vehicles
+and
+M∗(η) = J r(η)MJ r (η)
+C∗(ν, η) = J r(η)[C(ν) − MJ r(η)J ̇ r(η)]J r (η)
+D∗(ν, η) = J r(η)D(ν)J r (η)
+g∗(η) + g∗
+o(η) = J r(η)[g(η) + go]
+τ∗ + τ∗
+wind + τ∗
+wave = J r(η)(τ + τwind + τwave) (7.197)
+The following properties hold for the body-fixed vector representation:
+Property 7.1 (System Inertia Matrix M)
+For a rigid body the system inertia matrix is positive definite and constant, that is
+M = M > 0, M ̇ = 0
+where M is defined as
+M :=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m − X ̇u −X ̇v −X  ̇w
+−Xv ̇ m − Y  ̇v −Y  ̇w
+−X  ̇w −Y  ̇w m − Z  ̇w
+−X  ̇p −mzg−Y  ̇p myg−Z  ̇p
+mzg−Xq ̇ −Y q ̇ −mxg−Zq ̇
+−myg−Xr ̇ mxg−Y r ̇ −Zr ̇
+−Xp ̇ mzg−Xq ̇ −myg−Xr ̇
+−mzg−Y p ̇ −Y q ̇ mxg−Y r ̇
+myg−Zp ̇ −mxg−Zq ̇ −Zr ̇
+Ix−Kp ̇ −Ixy−Kq ̇ −Izx−Kr ̇
+−Ixy−Kq ̇ Iy−Mq ̇ −Iyz−Mr ̇
+−Izx−Kr ̇ −Iyz−Mr ̇ Iz−Nr ̇
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+Property 7.2 (Coriolis and Centripetal Matrix C)
+For a rigid body moving through an ideal fluid the Coriolis and centripetal matrix C(ν) can always be parameterized such that it is skew-symmetric, that is
+C(ν) = −C (ν), ∀ν ∈ R6
+Proof. C(ν) is skew-symmetric under the assumptions that the matrices CRB(ν) and CA(ν) are skewsymmetric.
+For the vector representation in {n} it is straightforward to show that:
+1. M∗(η) = M∗(η) > 0
+2. s [M ̇ ∗(η) − 2C∗(ν, η)]s = 0 3. D∗(ν, η) > 0
+
+
+Equations of Motion (6 DOF) 171
+since M = M > 0 and M ̇ = 0. It should be noted that C∗(ν, η) will not be skew-symmetrical although C(ν) is skew-symmetrical.
+Example 7.8 (Lyapunov Analysis exploiting MIMO Model Properties) Consider the following model:
+ ̇η = Jk(η)ν (7.198)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) = τ (7.199)
+where Jk(η) can be represented by J (η), Jq(η) or Jr(η). The obvious Lyapunov function candidate is based on kinetic and potential energy:
+V=1
+2 ν Mν + 1
+2 η Kpη (7.200)
+where Kp = Kp > 0 is a constant gain matrix. Since M = M > 0 and M ̇ = 0, it follows that
+V ̇ = ν Mν ̇ + η Kp  ̇η
+= ν Mν ̇ + η KpJ k(η)ν
+= ν [Mν ̇ + Jk (η)Kpη] (7.201)
+Substituting (7.199) into the expression for V ̇ gives
+V ̇ = ν [τ − C(ν)ν − D(ν)ν − g(η) + Jk (η)Kpη] (7.202)
+Since ν C(ν)ν ≡ 0 and ν D(ν)ν > 0, we can choose the control law of PD type according to
+τ = g(η) − Kdν − Jk (η)Kpη (7.203)
+with Kd > 0 such that
+V ̇ = −ν [Kd + D(ν)]ν
+≤ 0 (7.204)
+Consequently, GAS follows from Krasowskii–LaSalle’s theorem if Jk(η) is nonsingular (see Appendix A.1).
+7.5.2 Symmetry Considerations of the System Inertia Matrix
+We have seen that the 6 DOF nonlinear equations of motion, in their most general representation, require that a large number of hydrodynamic derivatives are known. From a practical point of view this is an unsatisfactory situation. However, the number of unknown parameters can be drastically reduced by using body symmetry conditions. In general MA and MRB will be a full matrices in CO. Let
+M = MRB + MA, M = M > 0
+From the definitions of MA and MRB it is straightforward to verify the following cases (notice that mij = mji):
+
+
+172 Models for Ships, Offshore Structures and Underwater Vehicles
+(i) xy plane of symmetry (bottom/top symmetry):
+M=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m11 m12 0 0 0 m16
+m21 m22 0 0 0 m26
+0 0 m33 m34 m35 0
+0 0 m43 m44 m45 0
+0 0 m53 m54 m55 0
+m61 m62 0 0 0 m66
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(ii) xz plane of symmetry (port/starboard symmetry):
+M=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m11 0 m13 0 m15 0
+0 m22 0 m24 0 m26
+m31 0 m33 0 m35 0
+0 m42 0 m44 0 m46
+m51 0 m53 0 m55 0
+0 m62 0 m64 0 m66
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(iii) yz plane of symmetry (fore/aft symmetry):
+M=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m11 0 0 0 m15 m16
+0 m22 m23 m24 0 0
+0 m32 m33 m34 0 0
+0 m42 m43 m44 0 0
+m51 0 0 0 m55 m56
+m61 0 0 0 m65 m66
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(iv) xz and yz planes of symmetry (port/starboard and fore/aft symmetries):
+M=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m11 0 0 0 m15 0
+0 m22 0 m24 0 0
+0 0 m33 0 0 0
+0 m42 0 m44 0 0
+m51 0 0 0 m55 0
+0 0 0 0 0 m66
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+More generally, the resulting inertia matrix for a body with ij and jk planes of symmetry is formed by the intersection Mij∩jk = Mij ∩ Mjk. (v) xz, yz and xy planes of symmetry (port/starboard, fore/aft and bottom/top symmetries):
+M = diag{m11, m22, m33, m44, m55, m66}
+
+
+Equations of Motion (6 DOF) 173
+7.5.3 Linearized Equations of Motion (Vessel Parallel Coordinates)
+The following assumption will be applied when deriving the linearized equations of motion:
+Assumption 7.1 (Small Roll and Pitch Angles) The roll and pitch angles
+φ, θ are small (7.205)
+These are good assumptions for marine craft where the pitch and roll motions are limited, that is highly metacentric stable craft.
+Vessel Parallel Coordinate System
+When deriving the linearized equations of motion it is convenient to introduce a vessel parallel coordinate system obtained by rotating the body axes an angle ψ about the z axis at each time step. Assumption 7.1 implies that
+ ̇η = J (η)ν φ=≈θ=0 P(ψ)ν (7.206)
+where
+P(ψ) =
+[ R(ψ) 03×3
+03×3 I3×3
+]
+(7.207)
+and R(ψ) = Rz,ψ is the rotation matrix in yaw.
+Definition 7.2 (Vessel Parallel Coordinate System)
+The vessel parallel (VP) coordinate system is defined as
+ηp := P (ψ)η (7.208)
+where ηp is the NED position and attitude vector expressed in {b} and P(ψ) is given by (7.207). Notice that P (ψ)P(ψ) = I6×6.
+Low-Speed Applications (Stationkeeping)
+It is convenient to express the kinematic equations of motion in VP coordinates when using linear theory. From Definition 7.2 it is seen that
+ ̇ηp = P ̇ (ψ)η + P (ψ) ̇η
+= P ̇ (ψ)P(ψ)ηp + P (ψ)P(ψ)ν
+= rSηp + ν (7.209)
+
+
+174 Models for Ships, Offshore Structures and Underwater Vehicles
+where r = ψ ̇ and
+S=
+⎡
+⎢⎢⎢⎢⎢⎣
+0 10000
+−1 0 0 0 0 0
+0 00000
+0 00000
+0 00000
+⎤
+⎥⎥⎥⎥⎥⎦
+(7.210)
+For low-speed applications r ≈ 0. Hence, (7.209) reduces to six pure integrators:
+ ̇ηp ≈ ν (7.211)
+This model is useful since it is linear in ν. In fact, this is the main idea for using VP coordinates in ship and rig control designs. The gravitational and buoyancy forces can also be expressed in terms of VP coordinates. For small angles φ and θ it is seen that (see Section 4.1)
+g(η) φ=≈θ=0 P (ψ)Gη = P (ψ)GP(ψ)
+} {{ }
+G
+ηp = Gηp (7.212)
+Notice that this formula confirms that the restoring forces of a leveled floating vessel (φ = θ = 0) are independent of the yaw angle ψ. This is illustrated by the following two examples:
+Neutrally Buoyant Submersible: For a neutrally buoyant submersible (W = B) with xg = xb and yg = yb, Assumption 7.1 implies that (see (4.10))
+G = diag{0, 0, 0, 0, (zg − zb)W, (zg − zb)W, 0} (7.213)
+which is independent of the yaw angle ψ. Hence, (7.213) satisfies (7.212). Surface Vessel: For a surface vessel, G is defined by (4.26). Thanks to the special structure of
+G=
+⎡
+⎢⎢⎢⎢⎢⎣
+02×2 02×3
+0
+0
+03×2 G{3,4,5} 0
+0
+00 000 0
+⎤
+⎥⎥⎥⎥⎥⎦
+, G{3,4,5} =
+⎡
+⎣
+−Zz 0 −Zθ
+0 −Kφ 0
+−Mz 0 −Mθ
+⎤
+⎦ (7.214)
+it is again seen that P (ψ)GP(ψ) ≡ G.
+Assumption 7.1 for low-speed applications ν ≈ 0 implies that the nonlinear Coriolis, centripetal, damping, restoring and buoyancy forces and moments can be linearized about ν = 0 and φ = θ = 0.
+
+
+Equations of Motion (6 DOF) 175
+Since C(0) = 0 and Dn(0) = 0 it makes sense to approximate
+Mν ̇ + C(ν)ν
+} {{ }
+0
++ [D + Dn(ν)]ν
+} {{ }
+Dν
++ g(η)
+}{{}
+Gηp
++ go = τ + τwind + τwave
+} {{ }
+w
+(7.215)
+which for go = 0 gives
+ ̇ηp = ν (7.216)
+Mν ̇ + Dν + Gηp = τ + w (7.217)
+This is a linear time-invariant (LTI) state-space model
+x ̇ = Ax + Bu + Ew (7.218)
+where x = [ηp , ν ] , u = τ and
+A=
+[0 I
+−M−1G −M−1D
+]
+, B=
+[0
+M −1
+]
+, E=
+[0
+M −1
+]
+(7.219)
+The model (7.216)–(7.217) is the foundation for DP and PM control systems design (see Figure 7.9). A linear optimal controller based on (7.216)–(7.217) is presented in Section 13.1.6 while optimal state estimation is discussed in Section 11.3.6. Notice that the NED positions are computed from ηp by using:
+η = P(ψ)ηp (7.220)
+Hence, the control system can be based on feedback from the states (ηp, ν) while η is presented to the human operator using (7.220).
+Marine Craft in Transit (Cruise Condition)
+For marine craft in transit the cruise speed is assumed to satisfy
+u = uo (7.221)
+Figure 7.9 Transformation of desired position ηd and measured position η in a feedback control system using vessel parallel coordinates.
+
+
+176 Models for Ships, Offshore Structures and Underwater Vehicles
+This suggests that
+N(uo) = ∂
+∂ν {C(ν)ν + D(ν)ν}|ν=νo (7.222)
+where νo = [uo, 0, 0, 0, 0, 0] . Defining ν := ν − νo yields
+ ̇ηp = ν + νo (7.223)
+M ν ̇ + N(uo) ν + Gηp = τ + w (7.224)
+This corresponds to a linear parameter-varying (LPV) model
+x ̇ = A(uo)x + Bu + Ew + Fνo (7.225)
+where x = [ηp , ν ] , u = τ and
+A(uo) =
+[0 I
+−M−1G −M−1N(uo)
+]
+, B=
+[0
+M −1
+]
+(7.226)
+E=
+[0
+M −1
+]
+, F=
+[I
+0
+]
+(7.227)
+The matrix A(uo) depends on the forward speed uo. This suggests that the control law for transit (maneuvering) should be gain scheduled with respect to the forward speed uo. Notice that stationkeeping resulted in an LTI model while maneuvering implies that an LPV model must be used.
+7.5.4 Transforming the Equations of Motion to a Different Point
+When deriving the nonlinear equations of motion it is convenient to transform inertia, damping, gravitational and buoyancy forces between different points in {b} to exploit structural properties of the model. For instance, the rigid-body translational and rotational parts of the system inertia matrix is decoupled if the coordinate system is located in the CG while it is common to express hydrodynamic added mass and damping in CF or a common reference point CO (see Section 2.1). This means that it is common to solve the equations of motion in three points: CG, CF and CO, all in {b}. The main tool for this is the system transformation matrix, which transforms the generalized velocities, accelerations and forces between two points in the same reference frame.
+System Transformation Matrix
+The system transformation matrix is derived from (3.14) for an arbitrarily point P according to
+vb
+p/n = vb
+b/n + ωb
+b/n × rb
+p/n
+= vb
+b/n − S (rb
+p
+) ωb
+b/n
+= vb
+b/n + S (rb
+p
+) ωb
+b/n (7.228)
+
+
+Equations of Motion (6 DOF) 177
+Figure 7.10 Definitions of vectors and coordinate systems.
+where rb
+p = [xp, yp, zp] is the vector from CO to P expressed in {b} (see Figure 7.10). For notational simplicity, we will define rb
+p := rb
+p/b and rb
+g := rb
+cg/b .
+Definition 7.3 (System Transformation Matrix) The system transformation matrix
+H (rb
+p) =
+[ I3×3 S (rb
+p
+)
+03×3 I3×3
+]
+, H −1 (rb
+p
+)=
+[ I3×3 S (rb
+p
+)
+03×3 I3×3
+]
+(7.229)
+transforms the linear and angular velocity vectors between the two points CO and P in the {b} frame:
+[ vb
+p/n
+ωb
+b/n
+]
+= H (rb
+p
+) [ vb
+b/n
+ωb
+b/n
+]
+(7.230)
+νp = H (rb
+p
+) ν (7.231)
+Similarly, the generalized force vector τ can be transformed from CO to an arbitrary point P by
+[ fb
+b
+mb
+b
+] =
+[ fb
+p rb
+p × fb
+p + mb
+p
+] =
+[ I3×3 03×3
+S (rb
+p
+) I3×3
+][ fb
+p
+mb
+p
+]
+(7.232)
+τ = H (rb
+p
+) τp (7.233)
+Matlab
+The system transformation matrix is implemented in the MSS toolbox as
+function H = Hmtrx(r)
+% H = HMTRX(r) % 6x6 system transformation matrix
+S = Smtrx(r);
+H = [eye(3) S’
+zeros(3,3) eye(3) ];
+
+
+178 Models for Ships, Offshore Structures and Underwater Vehicles
+Definition 7.3 implies that the nonlinear equations of motion can be represented at an arbitrary defined point P by using the transformation matrix H(rb
+p). Consider the nonlinear equations of motion expressed in {b} with coordinate origin CO:
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) = τ (7.234)
+This expression can be transformed to a point P in {b} by
+H − (rb
+p
+) MH −1(rb
+p
+)
+} {{ }
+Mp
+ν ̇p + H − (rb
+p
+) C(ν)H −1(rb
+p
+)
+} {{ }
+Cp (ν)
+νp
++ H − (rb
+p
+) D(ν)H −1(rb
+p
+)
+} {{ }
+Dp (ν)
+νp + H − (rb
+p
+) g(η)
+} {{ }
+gp (η)
+= H − (rb
+p
+)τ
+} {{ }
+τp
+(7.235)
+where
+Mp = H − (rb
+p
+) MH −1 (rb
+p
+) (7.236)
+Cp(ν) = H − (rb
+p
+) C(ν)H −1 (rb
+p
+) (7.237)
+Dp(ν) = H − (rb
+p
+) D(ν)H −1 (rb
+p
+) (7.238)
+gp(η) = H − (rb
+p
+) g(η) (7.239)
+From this it follows that
+M = H (rb
+p
+) MpH (rb
+p
+) (7.240)
+C(ν) = H (rb
+p
+) Cp(ν)H (rb
+p
+) (7.241)
+D(ν) = H (rb
+p
+) Dp(ν)H (rb
+p
+) (7.242)
+g(η) = H (rb
+p
+) gp(η) (7.243)
+These expressions can be used to specify the inertia, damping and restoring forces in different reference frames in order to exploit different physical properties.
+
+
+Equations of Motion (6 DOF) 179
+Transformation of the System Inertia Matrix
+It is convenient to specify the rigid-body system inertia matrix (3.44) with respect to the CG such that
+M cg
+RB =
+[ mI3×3 03×3
+03×3 Ig
+] =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m0 0 0 0 0
+0m0 0 0 0
+0 0m 0 0 0
+0 0 0 Icg
+x −Icg
+xy −Icg
+zx
+0 0 0 −Icg
+xy Icg
+y −Icg
+yz
+0 0 0 −Icg
+zx −Icg
+yz Icg
+z
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(7.244)
+The expression for Mcg
+RB is uniquely defined by seven parameters: {m, Icg
+x , Icg
+y , Icg
+z , −Icg
+xy , −Icg
+zx , −Icg
+yz }. It can be transformed to the coordinate origin CO in {b} by specifying the vector rb
+p = rb
+g = [xg, yg, zg] such that the points P and CG coincide. Accordingly, (7.240) implies that
+MRB = H (rb
+g
+) Mcg
+RBH (rb
+g
+)=
+⎡
+⎢⎣
+mI3×3 −mS (rb
+g
+)
+mS (rb
+g
+) Ig − mS2 (rb
+g
+)
+} {{ }
+Ib
+⎤
+⎥⎦
+=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m 0 0 0 mzg −myg
+0 m 0 −mzg 0 mxg
+0 0 m myg −mxg 0
+0 −mzg myg Ix −Ixy −Izx
+mzg 0 −mxg −Ixy Iy −Iyz
+−myg mxg 0 −Izx −Iyz Iz
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(7.245)
+which is recognized as (3.44).
+Matlab
+The 6 × 6 rigid-body system inertia matrix MRB about an arbitrarily point ob can be computed by using the following Matlab commands:
+r g = [x g y g z g]’ % location of the CG w.r.t. to CO
+I g = [ Ix -Ixy -Ixz % 3x3 inertia matrix about CG
+-Ixy Iy -Iyz
+-Ixz -Iyz Iz ]
+MRB CG = [ m*eye(3) zeros(3,3)
+zeros(3,3) I g ]
+MRB = Hmtrx(r g)’*MRB CG*Hmtrx(r g)
+Transformation of the Added Mass System Inertia Matrix
+Hydrodynamic seakeeping programs usually compute hydrodynamic added mass in CO or CG depending on the user specifications. Let us assume that the data have been computed in CG and that you want to
+
+
+180 Models for Ships, Offshore Structures and Underwater Vehicles
+transform the result to CO, which is the point where the equations of motion are integrated numerically. The system inertia matrix Mcg
+A is transformed to CO by choosing rb
+p = rb
+g in (7.240). Consequently,
+MA = H (rb
+g
+) Mcg
+A H (rb
+g
+)
+Next, let us assume that MA is a diagonal matrix described by six parameters according to
+MA = −diag{X ̇u, Yv ̇ , Z  ̇w, K  ̇p, Mq ̇ , Nr ̇} (7.246)
+This is often the best estimate you have unless you are using a hydrodynamic software program that computes a full Mcg
+A matrix (see Chapter 5). If you want to solve the equations of motion in CG instead of CO, the matrix MA can be transformed to CG by using
+M cg
+A = H − (rb
+g
+) MAH −1 (rb
+g
+)
+Transformation of the Coriolis–Centrifugal Matrix
+The Coriolis–centrifugal matrices are derived directly from MRB and MA by using the result in Theorem 3.2 or numerically in Matlab:
+Matlab
+The 6 × 6 Coriolis–centrifugal matrix can be computed in Matlab by using the MSS toolbox commands:
+CA = m2c(MA,nu)
+CRB = m2c(MRB,nu)
+Computation of the Restoring Forces and Moments
+For underwater vehicles the gravitational and buoyancy forces (4.6) can be expressed in CG as
+gcg(η) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+(W − B) sin(θ)
+−(W − B) cos(θ) sin(φ)
+−(W − B) cos(θ) cos(φ)
+ybB cos(θ) cos(φ) − zbB cos(θ) sin(φ)
+−zbB sin(θ) − xbB cos(θ) cos(φ)
+xbB cos(θ) sin(φ) + ybB sin(θ)
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(7.247)
+where xb, yb and zb are the coordinates of CB with respect to CG. This expression can be transformed from CG to CO by
+g(η) = H (rb
+g
+) gcg(η) (7.248)
+Matlab
+The restoring forces and moments are generated in the MSS toolbox according to
+g CG = gvect(W,B,theta,phi,[0,0,0]’,[xb,yb,zb]’)
+g = Hmtrx(r g)’*g CG
+
+
+Equations of Motion (6 DOF) 181
+For floating vessels the expression (4.21) can be transformed from CF to CO. In practice, it is common to assume that small angle (linear) theory holds. Hence,
+Gcf =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+00 0 0 0 0
+00 0 0 0 0
+0 0 −Zz 0 0 0
+0 0 0 −Kφ 0 0
+0 0 0 0 −Mθ 0
+00 0 0 0 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(7.249)
+Since rf = [LCF, 0, 0] , that is CF is located a distance LCF from CO, the restoring matrix in CO becomes
+G = H (rb
+f
+) Gcf H (rb
+f
+)
+=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+00 0 0 0 0
+00 0 0 0 0
+0 0 −Zz 0 LCF · Zz 0
+0 0 0 −Kφ 0 0
+0 0 LCF · Zz 0 −Mθ 0
+00 0 0 0 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(7.250)
+Matlab
+The 6 × 6 system spring stiffness matrix G is computed by using the MSS toolbox function Gmtrx.m:
+A wp = 1000 % water plane area
+nabla = 10000 % displacement
+GMT = 1 % transverse metacentric heights
+GML = 2 % lateral metacentric heights
+r g = [1 0 10]’ % location of CG w.r.t. CO
+% Spring stiffness matrix
+G = Gmtrx(nabla,A wp,GMT,GML,r g)
+This produces the numerical result
+G=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+00 0 0 0 0
+00 0 0 0 0
+0 0 10055250 0 −10055250 0
+0 0 0 100552500 0 0
+0 0 −10055250 0 211160250 0
+00 0 0 0 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+
+
+182 Models for Ships, Offshore Structures and Underwater Vehicles
+7.5.5 6 DOF Models for AUVs and ROVs
+As shown in the previous sections, the 6 DOF nonlinear equations of motion can be written
+ ̇η = J (η)ν (7.251)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) = τ (7.252)
+Note that:
+MA = A(ω) = constant (7.253)
+B(ω) = 0 (7.254)
+for underwater vehicles operating below the wave-affected zone. The system inertia matrix M = MRB + MA for an underwater vehicle follows the symmetry considerations in Section 7.5.2. If we consider a starboard–port symmetrical marine craft with yg = Ixy = Iyz = 0, this gives
+M=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m − X ̇u 0 −X  ̇w
+0 m − Y v ̇ 0
+−X  ̇w 0 m − Z  ̇w
+0 −mzg−Y  ̇p 0
+mzg−Xq ̇ 0 −mxg−Zq ̇
+0 mxg−Y r ̇ 0
+0 mzg−Xq ̇ 0
+−mzg−Y p ̇ 0 mxg−Y r ̇
+0 −mxg−Zq ̇ 0
+Ix−K  ̇p 0 −Izx−Kr ̇
+0 Iy−Mq ̇ 0
+−Izx−Kr ̇ 0 Iz−Nr ̇
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+Consequently, it is straightforward to compute the Coriolis and centripetal matrix C(ν) using the results in Section 3.3 when the structure of M has been determined. In general, the damping of an underwater vehicle moving in 6 DOF at high speed will be highly nonlinear and coupled. This could be described mathematically as
+Dn(ν)ν =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+|ν| Dn1ν
+|ν| Dn2ν
+|ν| Dn3ν
+|ν| Dn4ν
+|ν| Dn5ν
+|ν| Dn6ν
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(7.255)
+where |ν| = [|u| , |v| , |w| , |p| , |q| , |r|] and Dni (i = 1, . . . , 6) are 6 × 6 matrices. Nevertheless, one rough approximation could be to use quadratic drag in surge and the cross-flow drag in sway and yaw (see Section 6.4.3). Alternatively, if the vehicle is performing a noncoupled motion, it makes sense to assume a diagonal structure of D(ν) such that
+D(ν) = − diag{Xu, Yv, Zw, Kp, Mq, Nr} (7.256)
+− diag{X|u|u|u|, Y|vv||v|, Z|w|w|w|, K|p|p|p|, M|q|q|q|, N|r|r|r|}
+
+
+Equations of Motion (6 DOF) 183
+Alternatively, the current coefficient representation in Section 7.3.1 can be used to model the damping. This can be done by replacing Dn(ν)ν with 6 DOF current coefficients:
+d(Vrc, γcr) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+−1
+2 ρAFc CX(γrc)V 2
+rc −1
+2 ρALc CY (γrc)V 2
+rc −1
+2 ρAFc CZ(γrc)V 2
+rc −1
+2 ρALc HLc CK(γrc)V 2
+rc −1
+2 ρAFc HFc CM (γrc)V 2
+rc −1
+2 ρALc LoaCN (γrc)V 2
+rc
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+3D≈OF
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+−1
+2 ρAFc CX(γrc)V 2
+rc −1
+2 ρALc CY (γrc)V 2
+rc
+0
+0
+0 −1
+2 ρALc LoaCN (γrc)V 2
+rc
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(7.257)
+where CX, CY , CZ, CK, CM and CN are the current coefficients and HFc and HLc are the centroids above the water line of the frontal and lateral projected areas AFc and ALc . The 6 DOF model can also be divided into submodels, as shown in the next section.
+7.5.6 Longitudinal and Lateral Models for Submarines
+The 6 DOF equations of motion can in many cases be divided into two noninteracting (or lightly interacting) subsystems:
+• Longitudinal subsystem: states u, w, q and θ • Lateral subsystem: states v, p, r, φ and ψ
+This decomposition is good for slender symmetrical bodies (large length/width ratio) or so-called “flying vehicles”, as shown in Figure 7.11; typical applications are aircraft, missiles and submarines (Gertler and Hagen, 1967; Feldman, 1979; Tinker, 1982). This can also be seen from the expression of the system inertia matrix in the case of starboard–port symmetry (see Section 7.5.2):
+M=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m11 0 m13 0 m15 0
+0 m22 0 m24 0 m26
+m31 0 m33 0 m35 0
+0 m42 0 m44 0 m46
+m51 0 m53 0 m55 0
+0 m62 0 m64 0 m66
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(7.258)
+Figure 7.11 Slender body submarine (large length/width ratio).
+
+
+184 Models for Ships, Offshore Structures and Underwater Vehicles
+which clearly confirms that the two subsystems
+Mlong =
+⎡
+⎣
+m11 m13 m15
+m31 m33 m35
+m51 m53 m55
+⎤
+⎦ , Mlat =
+⎡
+⎣
+m22 m24 m26
+m42 m44 m46
+m62 m64 m66
+⎤
+⎦ (7.259)
+are decoupled.
+Longitudinal Subsystem
+Under the assumption that the lateral states v, p, r, φ are small, the longitudinal kinematics for surge, heave and pitch are, see (2.18) and (2.28),
+[ D ̇
+θ ̇
+] =
+[ cos(θ) 0
+01
+][w
+q
+] +
+[ − sin(θ)
+0
+]
+u (7.260)
+For simplicity, it is assumed that higher-order damping can be neglected, that is Dn(ν) = 0. Coriolis is, however, modeled by assuming that u 0 and that second-order terms in v, w, p, q and r are small. Hence, from (3.60) it is seen that
+CRB(ν)ν =
+⎡
+⎢⎢⎢⎣
+m(ygq + zgr)p − m(xgq − w)q − m(xgr + v)r
+−m(zgp − v)p − m(zgq + u)q + m(xgp + ygq)r
+m(xgq − w)u − m(zgr + xgp)v + m(zgq + u)w
++(Iyzq + Ixzp − Izr)p + (−Ixzr − Ixyq + Ixp)r
+⎤
+⎥⎥⎥⎦
+such that
+CRB(ν)ν ≈
+⎡
+⎣
+00 0
+0 0 −mu
+0 0 mxgu
+⎤
+⎦
+⎡
+⎣
+u
+w
+q
+⎤
+⎦ (7.261)
+Notice that CRB(ν) =/ −CRB(ν) for the decoupled model. Assuming a diagonal MA as in Example 6.2, the corresponding added mass terms are
+CA(ν)ν =
+⎡
+⎣
+−Z  ̇wwq + Y v ̇ vr
+−Y  ̇vvp + X ̇uuq
+(Z  ̇w−X ̇u)uw + (Nr ̇−Kp ̇ )pr
+⎤
+⎦≈
+⎡
+⎣
+00 0
+0 0 X ̇uu
+0 (Z  ̇w−X ̇u)u 0
+⎤
+⎦
+⎡
+⎣
+u
+w
+q
+⎤
+⎦ (7.262)
+According to (7.5) and (4.6) with W = B and xg = xb, the dynamics becomes
+⎡
+⎣
+m − X ̇u −X  ̇w mzg − Xq ̇
+−X  ̇w m − Z  ̇w −mxg − Zq ̇
+mzg − Xq ̇ −mxg − Zq ̇ Iy − Mq ̇
+⎤
+⎦
+⎡
+⎣
+u ̇
+ ̇w
+q ̇
+⎤
+⎦+
+⎡
+⎣
+−Xu −Xw −Xq
+−Zu −Zw −Zq
+−Mu −Mw −Mq
+⎤
+⎦
+⎡
+⎣
+u
+w
+q
+⎤
+⎦
++
+⎡
+⎣
+00 0
+0 0 −(m − X ̇u)u
+0 (Z  ̇w − X ̇u)u mxgu
+⎤
+⎦
+⎡
+⎣
+u
+w
+q
+⎤
+⎦+
+⎡
+⎣
+0
+0
+W BGz sin(θ)
+⎤
+⎦=
+⎡
+⎣
+τ1
+τ3
+τ5
+⎤
+⎦
+(7.263)
+
+
+Equations of Motion (6 DOF) 185
+This model is the basis for forward speed control (state u) and depth/diving autopilot design (states w, q, θ). If the forward speed is stabilized by a forward speed controller such that
+u = uo = constant (7.264)
+forward speed can be eliminated from the longitudinal equations of motion such that
+[ m − Z  ̇w −mxg−Zq ̇
+−mxg−Zq ̇ Iy−Mq ̇
+] [  ̇w
+q ̇
+] +
+[ −Zw −Zq
+−Mw −Mq
+][w
+q
+] +
+[ 0 −(m − X ̇u)uo
+(Z  ̇w−X ̇u)uo mxguo
+][w
+q
+]
++
+[0
+W BGz sin (θ)
+] =
+[ τ3
+τ5
+]
+Moreover, if  ̇w = w = 0 (constant depth) and θ is small such that sin(θ) ≈ θ, the linear pitch dynamics becomes
+(Iy − Mq ̇ )θ ̈ − Mqθ ̇ + W BGzθ = τ5 (7.265)
+The natural frequency and period are recognized as
+ωpitch =
+√
+W BGz
+Iy − Mq ̇
+(7.266)
+Tpitch = 2π
+ωpitch
+(7.267)
+Lateral Subsystem
+Under the assumption that the longitudinal states u, w, p, r, φ and θ are small, the lateral kinematics, see (7.5) and (2.28), reduce to
+φ ̇ = p (7.268)
+ψ ̇ = r (7.269)
+Again it is assumed that higher-order velocity terms can be neglected so that Dn(ν) = 0 and that the Coriolis terms in u = uo are the most important, see (3.60),
+CRB(ν)ν =
+⎡
+⎢⎢⎢⎢⎢⎣
+−m(ygp + w)p + m(zgr + xgp)q − m(ygr − u)r
+−m(ygq + zgr)u + m(ygp + w)v + m(zgp − v)w
+m(xgr + v)u + m(ygr − u)v − m(xgp + ygq)w
++(−Iyzq − Ixzp + Izr)q + (Iyzr + Ixyp − Iyq)r
++(−Iyzr − Ixyp + Iyq)p + (Ixzr + Ixyq − Ixp)q
+⎤
+⎥⎥⎥⎥⎥⎦
+
+
+186 Models for Ships, Offshore Structures and Underwater Vehicles
+Hence,
+CRB(ν)ν ≈
+⎡
+⎣
+0 0 muo
+00 0
+0 0 mxguo
+⎤
+⎦
+⎡
+⎣
+v
+p
+r
+⎤
+⎦ (7.270)
+Under the assumption of a diagonal MA structure as in Example 6.2, the corresponding added mass terms are
+CA(ν)ν =
+⎡
+⎣
+Z  ̇wwp − X ̇uur
+(Y v ̇ −Z  ̇w)vw + (Mq ̇ −Nr ̇)qr
+(X ̇u−Y  ̇v)uv + (K  ̇p−Mq ̇ )pq
+⎤
+⎦≈
+⎡
+⎣
+0 0 −X ̇uu
+0 00
+(X ̇u−Y v ̇ )u 0 0
+⎤
+⎦
+⎡
+⎣
+v
+p
+r
+⎤
+⎦ (7.271)
+Next, assume that W = B, xg = xb and yg = yb. Then (7.5) and (4.6) reduce to
+⎡
+⎣
+m − Yv ̇ −mzg − Y  ̇p mxg − Yr ̇
+−mzg − Y  ̇p Ix − K  ̇p −Izx − Kr ̇
+mxg − Yr ̇ −Izx − Kr ̇ Iz − Nr ̇
+⎤
+⎦
+⎡
+⎣
+ ̇v
+ ̇p
+r ̇
+⎤
+⎦+
+⎡
+⎣
+−Yv −Yp −Yr
+−Mv −Mp −Mr
+−Nv −Np −Nr
+⎤
+⎦
+⎡
+⎣
+v
+p
+r
+⎤
+⎦
++
+⎡
+⎣
+0 0 (m − X ̇u)u
+0 00
+(X ̇u − Yv ̇ )u 0 mxgu
+⎤
+⎦
+⎡
+⎣
+v
+p
+r
+⎤
+⎦+
+⎡
+⎣
+0
+W BGz sin (φ)
+0
+⎤
+⎦=
+⎡
+⎣
+τ2
+τ4
+τ6
+⎤
+⎦
+(7.272)
+For vehicles where  ̇p and p are small (small roll motions) and the speed is u = uo, this reduces to
+[ m − Y  ̇v mxg−Y r ̇
+mxg−Y r ̇ Iz−Nr ̇
+] [  ̇v
+r ̇
+] +
+[ −Yv −Yr
+−Nv −Nr
+][v
+r
+] +
+[ 0 (m − X ̇u)uo
+(X ̇u−Y  ̇v)uo mxguo
+][v
+r
+] =
+[ τ2
+τ6
+]
+which is the sway–yaw maneuvering model (see Section 7.1.4). The decoupled linear roll equation under the assumption of a small φ is
+(Ix − Kp ̇ )φ ̈ − Kpφ ̇ + W BGzφ = τ4 (7.273)
+From this it follows that the natural frequency and period are
+ωroll =
+√
+W BGz
+Ix − K  ̇p
+(7.274)
+Troll = 2π
+ωroll
+(7.275)

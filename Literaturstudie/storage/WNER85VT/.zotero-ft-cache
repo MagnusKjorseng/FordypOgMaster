@@ -1,0 +1,799 @@
+5
+Seakeeping Theory
+The study of ship dynamics has traditionally been covered by two main theories: maneuvering and seakeeping. Maneuvering refers to the study of ship motion in the absence of wave excitation (calm water). The maneuvering equations of motion are derived in Chapter 6 under the assumption that the hydrodynamic potential coefficients and radiation-induced forces are frequency independent. Seakeeping, on the other hand, refers to the study of motion of marine craft on constant course and speed when there is wave excitation. This includes the trivial case of zero speed. In seakeeping analysis, a dissipative force (Cummins, 1962) known as fluid memory effects is introduced. Although both areas are concerned with the same issues, study of motion, stability and control, the separation allows us to make different assumptions that simplify the study in each case. A chief distinguishing characteristic of these theories is the use of different coordinates and reference systems to express the equations of motion. In maneuvering theory, the equations of motion are described relative to {b}, which is fixed to the marine craft, whereas in seakeeping the motion is described relative to a coordinate system {s} fixed to an equilibrium virtual craft that moves at a constant speed and heading corresponding to the average motion of the actual craft. Most hydrodynamic programs compute radiation and wave excitation forces in {s}. This chapter presents the seakeeping theory in equilibrium axes {s} and shows how the time-domain solution known as the Cummins equation can be transformed to body-fixed axes {b}. The radiationinduced forces and moment are represented as impulse response functions and state-space models. This is done within a linear framework so viscous damping must be added in the time domain under the assumption of linear superposition. The main results are the {b}-frame seakeeping equations of motion in the following form:
+ ̇η = J (η)ν (5.1)
+MRBν ̇ + C∗
+RBν + MAν ̇r + C∗
+Aνr + Dνr + μ + Gη + go = τ + τwind + τwave (5.2)
+where μ is an additional term representing the fluid memory effects. This model is valid in the body-fixed reference frame and describes a maneuvering ship in a seaway. When designing model-based control systems or simulating marine craft motions it is important to have good estimates of the inertia, damping and restoring coefficients. In Chapter 3, formulae for computation of the rigid-body matrices MRB and
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+82 Seakeeping Theory
+C∗
+RB were given while the restoring and ballast forces Gη + g0 were derived in Chapter 4. In this chapter,
+we will derive formulae for hydrodynamic added mass MA, linear Coriolis–centripetal forces C∗
+A due to the rotation of the seakeeping reference frame {s} about {n} and linear potential damping DP . Linear viscous damping DV will be added manually to obtain a more accurate model. The terms in (5.2) can be grouped according to:
+Inertia forces: MRBν ̇ + C∗
+RBν + MAν ̇r + C∗
+Aνr
+Damping forces: +(DP + DV )νr + μ
+Restoring forces: +Gη + go
+Wind and wave forces: = τwind + τwave
+Propulsion forces: +τ
+The matrices MA, CA and DP , the fluid memory function μ as well as transfer functions for τwave can be computed using hydrodynamics programs. This requires postprocessing of hydrodynamic data and methods for this are discussed later in this chapter. The environmental forces, τwave and τwind, are treated separately in Chapter 8. Different principles for the computation of the hydrodynamic coefficients can be used. The main tool is potential theory where it is assumed that the flow is constant, irrotational and incompressible such that time becomes unimportant. Hence, the discrepancies between real and idealized flow must be compensated by adding dissipative forces, for instance viscous damping.
+5.1 Hydrodynamic Concepts and Potential Theory
+In order to describe most fluid flow phenomena associated with the waves and the motion of ships in waves, we need to know the velocity of the fluid and the pressure at different locations. The velocity of the fluid at the location x = [x1, x2, x3]T is given by the fluid flow velocity vector:
+v(x, t) = [v1(x, t), v2(x, t), v3(x, t)] (5.3)
+For the flow velocities involved in ship motion, the fluid can be considered incompressible, that is of constant density ρ. Under this assumption, the net volume rate at a volume V enclosed by a closed surface S is
+∫∫
+S
+v · n ds =
+∫∫∫
+V
+div(v) dV = 0 (5.4)
+Since (5.4) should be valid for all the regions V in the fluid, then by assuming that ∇ · v is continuous we obtain
+div(v) = ∇ · v = ∂v1
+∂x + ∂v2
+∂y + ∂v3
+∂z = 0 (5.5)
+which is the continuity equation for incompressible flows. The conservation of momentum in the flow is described by the Navier–Stokes equations; see, for example, Acheson (1990):
+ρ
+( ∂v
+∂t + v · ∇v
+)
+= ρ F − ∇p + μ∇2v (5.6)
+where F = [0, 0, −g] are accelerations due to volumetric forces, from which only gravity is considered, p = p(x, t) is the pressure and μ is the viscosity coefficient of the fluid.
+
+
+Hydrodynamic Concepts and Potential Theory 83
+To describe the real flow of ships, it is then necessary to solve the Navier–Stokes equations (5.6) together with the continuity equation (5.5). These form a system of nonlinear partial differential equations, which unfortunately do not have analytical solutions and the numerical solutions are still far from being feasible with current computing power. If viscosity is neglected, the fluid is said to be an ideal fluid. This is a common assumption that is made to calculate ship flows because viscosity often matters only in a thin layer close to the ship hull. By disregarding the last term in (5.6), the Euler equations of fluid motion are obtained:
+ρ
+( ∂v
+∂t + v · ∇v
+)
+= ρ F − ∇p (5.7)
+A further simplification of the flow description is obtained by assuming that the flow is irrotational:
+curl(v) = ∇ × v = 0 (5.8)
+The term potential flow is used to describe irrotational flows of inviscid-incompressible fluids. Under this assumption, there exists a scalar function (t, x, y, z) called potential such that
+v = ∇ (5.9)
+Hence, if the potential is known the velocities can be calculated as
+v1 = ∂
+∂x , v2 = ∂
+∂y , v3 = ∂
+∂z (5.10)
+Using the potential , the continuity equation (5.5) reverts to the Laplace equation of the potential:
+∇2 = ∂2
+∂x2 + ∂2
+∂y2 + ∂2
+∂z2 = 0 (5.11)
+The potential can then be obtained by solving the Laplace equation (5.11) subject to appropriate boundary conditions, that is by solving a boundary value problem. The pressure in the fluid can be obtained by integrating the Euler equation of fluid motion (5.7). This results in the Bernoulli equation:
+p
+ρ+∂
+∂t + 1
+2 (∇ )2 + gz = C (5.12)
+By setting the constant C = p0/ρ, the relative pressure can be computed from
+p − p0 = −ρgz − ρ ∂
+∂t − 1
+2 ρ(∇ )2 (5.13)
+For simplicity, the atmospheric pressure p0 is often considered zero. To summarize, potential theory makes two assumptions:
+1. Inviscid fluid (no viscosity) 2. Irrotational flow
+The assumption of irrotational flow leads to the description of the fluid velocity vector as the gradient of a potential function, which has no physical meaning. However, this is a large simplification because the potential is scalar while the velocity is a vector quantity. The potential satisfies the Laplace equation (5.11), which needs to be solved subject to appropriate boundary conditions (on the free surface, sea floor and ship hull). This is another large simplification because the Laplace equation is linear; therefore,
+
+
+84 Seakeeping Theory
+superposition holds and the problem can also be solved in the frequency domain, which is the basis of most hydrodynamic programs. Once we have the potential and thus the velocities, the pressure can be computed using Bernoulli’s equation. Then, by integrating the pressure over the surface of the hull, the hydrodynamic forces are obtained. For most problems related to ship motion in waves, potential theory is sufficient to obtain results with appropriate accuracy for engineering purposes. However, because of the simplifying assumptions in some cases we need to complement the results by adding the effects of viscosity. This is important, for example, when considering maneuvering and propeller–rudder–hull interactions. For further discussions on the topics presented in this section, see Newman (1977), Faltinsen (1990), Acheson (1990), Journ ́ee and Massie (2001) and Bertram (2004).
+5.1.1 Numerical Approaches and Hydrodynamic Codes
+In order to evaluate the potentials a boundary value problem needs to be solved. There are different approaches to do this, which lead to different formulations.
+Strip Theory (2-D Potential Theory)
+In some problems, the motion of the fluid can be approximated as two-dimensional (2-D). This is characteristic for slender bodies. In this case a good estimate of the hydrodynamic forces can be obtained by applying strip theory (Newman, 1977; Faltinsen, 1990; Journ ́ee and Massie, 2001). The 2-D theory theory takes into account the fact that variation of the flow in the cross-directional plane is much larger than the variation in the longitudinal direction of the ship. The principle of strip theory involves dividing the submerged part of the craft into a finite number of strips. Hence, 2-D hydrodynamic coefficients for added mass can be computed for each strip and then summed over the length of the body to yield the 3-D coefficients. The 2-D hydrodynamic coefficients can be calculated from boundary element methods or via conformal mapping and analytical expressions. This principle is also used to compute viscous quadratic damping from 2-D drag coefficients, as explained in Section 6.4. Several strip theory programs can be used to compute hydrodynamic added mass MA, potential damping Dp and the hydrostatic matrix G. Commonly used 2-D programs are Octopus Office by Amarcon Inc. (Journ ́ee and Adegeest, 2003) and ShipX (Veres) by MARINTEK (Fathi, 2004) . These programs can be used at both zero speed and forward speed and they calculate frequency-dependent added mass and potential damping coefficients, restoring terms, first- and second-order wave load transfer functions (amplitudes and phases) between the marine craft and the waves for given wave directions and frequencies as well as other hydrodynamic data. Processing of the data is explained later in this chapter. In this context it will be shown how frequency-dependent added mass and damping can be used to derive the equations of motion where these effects are included as fluid memory effects using retardation functions. In order to compute the retardation functions, asymptotic values for zero and infinite added mass must be used.
+Panel Methods (3-D Potential Theory)
+For potential flows, the integrals over the fluid domain can be transformed to integrals over the boundaries of the fluid domain. This allows the application of panel or boundary element methods to solve the 3-D potential theory problem. Panel methods divide the surface of the ship and the surrounding water into discrete elements (panels). On each of these elements, a distribution of sources and sinks is defined that fulfil the Laplace equation. The problem then amounts to finding the strength of these distributions and identifying the potential. Computer codes based on this approach provide suitable performance for offshore applications at zeroforward speed in either the frequency or time domain. A commercial program such as WAMIT (WAMIT Inc., 2010) has become the de facto industry standard among oil and engineering companies. This program
+
+
+Seakeeping and Maneuvering Kinematics 85
+computes frequency-dependent added mass MA, potential damping coefficients DP , restoring terms G, and first- and second-order wave load transfer functions (amplitudes and phases) between the marine craft and the waves for given wave directions and frequencies, and much more. One special feature of WAMIT is that the program solves a boundary value problem for zero and infinite added mass. These boundary values are particularly useful when computing the retardation functions describing the fluid memory effects.
+Semi-Empirical Methods
+An alternative and less accurate approach to hydrodynamic programs is to use semi-empirical methods to compute the added mass derivatives; see, for instance, Imlay (1961), Humphreys and Watkinson (1978) and Triantafyllou and Amzallag (1984).
+5.2 Seakeeping and Maneuvering Kinematics
+This section derives the kinematics needed to transform the equations of motion from the seakeeping reference frame {s} to the body-fixed reference frame {b} and the NED reference frame {n}. This is based on Perez and Fossen (2007).
+5.2.1 Seakeeping Reference Frame
+In seakeeping theory the study of ship motion is performed under the assumption that it can be described as the superposition of an equilibrium state of motion plus perturbations. The equilibrium is determined by a constant heading angle ψ and speed U, and the perturbations are zero-mean oscillatory components induced by first-order wave excitations. Note that the case of zero forward speed U = 0 is also contemplated as an equilibrium of motion. Due to this, the motion is often described using an equilibrium or seakeeping reference frame.
+Seakeeping Frame: The seakeeping reference frame {s} = (xs, ys, zs) is not fixed to the marine craft; it is fixed to the equilibrium state. Hence, in the absence of wave excitation, the {s}-frame origin os coincides with the location of the {b}-frame origin ob (also denoted as CO) which is a fixed point in the ship. Under the action of the waves, the hull is disturbed from its equilibrium and the point os oscillates, with respect to its equilibrium position. This is illustrated in Figure 5.1.
+Figure 5.1 The seakeeping coordinate system {s} and distance vectors to {b} and {n}.
+
+
+86 Seakeeping Theory
+The {s} frame is considered inertial and therefore it is nonaccelerating and fixed in orientation with respect to the {n} frame (or must vary very slowly). This assumption implies that the {s}-frame equations of motion are linear. The equilibrium state is defined by a constant heading and speed:
+vn
+s/n = [U cos(ψ ̄ ), U sin(ψ ̄ ), 0] (5.14)
+ωn
+s/n = [0, 0, 0] (5.15)
+ns = [0, 0, ψ ̄ ] (5.16)
+where U = ||vn
+s/n|| is the average forward speed and ψ ̄ is the equilibrium heading. Hence, the velocity of {s} with respect to {n} expressed in {s} is
+vs
+s/n = Rs
+n( ns)vn
+s/n = [U, 0, 0] (5.17)
+The equilibrium heading ψ ̄ can be computed by averaging the gyro compass measurements ψ over a fixed period (moving horizon) of time.
+Seakeeping (Perturbation) Coordinates
+The seakeeping or perturbation coordinates are defined as (Perez and Fossen, 2007)
+δη :=
+[rs
+b/s
+sb
+]
+(5.18)
+δν :=
+[ vb
+b/s
+ωb
+b/s
+]
+(5.19)
+In hydrodynamic textbooks it is common to denote the perturbation coordinates by
+ξ := δη (5.20)
+where
+ξ = [ξ1, ξ2, ξ3, ξ4, ξ5, ξ6]T (5.21)
+The first three coordinates (ξ1, ξ2, ξ3) are the surge, sway and heave perturbations and
+sb = [ξ4, ξ5, ξ6] = [δφ, δφ, δψ] (5.22)
+are the roll, pitch and yaw perturbations (Euler angles).
+5.2.2 Transformation between BODY and SEAKEEPING
+From the definition of {s} and the coordinates δη and δν it follows that
+δ ̇η = J (δη)δν (5.23)
+
+
+Seakeeping and Maneuvering Kinematics 87
+where J (δη) is the transformation matrix between {b} and {s}:
+J (δη) =
+[ Rs
+b( sb) 03×3
+03×3 T ( sb)
+]
+(5.24)
+This expression is similar to the transformation between {b} and {n}. This is an expected result since both {n} and{s} are assumed inertial while {b} rotates about the inertial frame. In addition to position and attitude it is necessary to derive the relationship between the perturbed velocities and accelerations (δν, δν ̇) and (ν, ν ̇). To obtain these expressions consider the distance vector; see Figure 5.1:
+rb/n = rs/n + rb/s (5.25)
+which can be expressed in {n} as
+rn
+b/n = rn
+s/n + Rn
+s ( ns)rs
+b/s (5.26)
+Time differentiation gives
+r ̇ n
+b/n = r ̇n
+s/n + Rn
+s ( ns)r ̇s
+b/s (5.27)
+where
+Rn
+s ( ns) = Rz,ψ ̄ =
+⎡
+⎣
+cos (ψ ̄ ) − sin (ψ ̄ ) 0
+sin (ψ ̄ ) cos (ψ ̄ ) 0
+0 01
+⎤
+⎦ ,  ̇Rn
+s ( ns) = 0 (5.28)
+Note that the time derivative of Rn
+s ( ns) is zero because {s} does not rotate with respect to {n}. The expression for r ̇n
+b/n can be rewritten as
+r ̇ n
+b/n = r ̇n
+s/n + Rn
+b ( nb)Rb
+s ( bs)r ̇s
+b/s
+= r ̇n
+s/n + Rn
+b ( nb)vb
+b/s (5.29)
+Both sides of (5.29) can be mulitplied by Rb
+n( bn) to obtain
+vb
+b/n = Rb
+n( bn)vn
+s/n + vb
+b/s (5.30)
+For notational simplicity, the linear and angular velocity vectors are grouped according to
+ν=
+[ ν1
+ν2
+] =
+[ [u, v, w]
+[p, q, r]
+]
+(5.31)
+δν =
+[ δν1
+δν2
+] =
+[ [δu, δv, δw]
+[δp, δq, δr]
+]
+(5.32)
+Then it follows from (5.30) that
+ν1 =  ̄ν1 + δν1 (5.33)
+where
+ ̄ν1 := Rb
+n( bn)
+⎡
+⎣
+U cos (ψ)
+U sin (ψ)
+0
+⎤
+⎦ = Rb
+s ( bs)
+⎡
+⎣
+U
+0
+0
+⎤
+⎦ (5.34)
+
+
+88 Seakeeping Theory
+To obtain the angular velocity transformation, we make use of
+ωb/n = ωs/n + ωb/s = ωb/s (5.35)
+since ωs/n = 0. Moreover, {s} does not rotate with respect to {n}. This leads to
+ωb
+b/n = ωb
+b/s (5.36)
+or
+ν2 = δν2 (5.37)
+The Euler angle transformation matrices Rs
+b( sb) and T ( sb) for sb = [δφ, δθ, δψ] are similar to those used in Section 2.2. Moreover,
+Rs
+b( sb) =
+⎡
+⎣
+cδψcδθ −sδψcδφ + cδψsδθ sδφ sδψsδφ + cδψcφsδθ
+sδψcδθ cδψcδφ + sδφsδθ sδψ −cδψsδψ + sδθ sδψcδφ
+−sδθ cδθ sδφ cδθ cδφ
+⎤
+⎦ (5.38)
+T ( sb) =
+⎡
+⎣
+1 sδφtδθ cδφtδθ
+0 cδφ −sδφ
+0 sδφ/cδθ cδφ/cδθ
+⎤
+⎦ , cδθ =/ 0 (5.39)
+Computing  ̄ν1 under the assumption of small angles gives
+ ̄ν1 = Rs
+b( sb)
+⎡
+⎣
+U
+0
+0
+⎤
+⎦
+=U
+⎡
+⎣
+cδψ cδθ
+−sδψcδφ + cδψsδθsδφ
+sδψsδφ + cδψcφsδθ
+⎤
+⎦
+≈U
+⎡
+⎣
+1
+−δψ
+δθ
+⎤
+⎦ (5.40)
+Finally,
+ν =  ̄ν + δν (5.41)
+where
+ ̄ν ≈ U [1, −δψ, δθ, 0, 0, 0] (5.42)
+
+
+Seakeeping and Maneuvering Kinematics 89
+This can written as
+ν ≈ U(e1 − Lδη) + δν (5.43)
+e1 :=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+1
+0
+0
+0
+0
+0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+, L :=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0000 0 0
+0000 0 1
+0 0 0 0 −1 0
+0000 0 0
+0000 0 0
+0000 0 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(5.44)
+The expressions for acceleration follows from
+ν ̇ =  ̄ν ̇ + δν ̇ (5.45)
+The key here is  ̄ν ̇1 given by (5.40). Moreover,
+ ̄ν ̇1 = U
+⎡
+⎣
+1
+−δr
+δq
+⎤
+⎦ = ULδν (5.46)
+The final expression then becomes
+ν ̇ = −ULδν + δν ̇ (5.47)
+The linear transformations needed to transform a system from seakeeping coordinates (δη, δν) to body-fixed coordinates (η, ν) are
+δν ≈ ν + U(Lδη − e1) (5.48)
+δν ̇ ≈ ν ̇ + ULν (5.49)
+The Euler angles are related through the following equation:
+nb = ns + sb (5.50)
+which gives
+⎡
+⎣
+φ
+θ
+ψ
+⎤
+⎦=
+⎡
+⎣
+0
+0
+ψ ̄
+⎤
+⎦+
+⎡
+⎣
+δφ
+δθ
+δψ
+⎤
+⎦ (5.51)
+
+
+90 Seakeeping Theory
+5.3 The Classical Frequency-Domain Model
+Frequency-dependent hydrodynamic forces can be determined experimentally or computed using potential theory programs or seakeeping codes. This section describes the transformations needed to obtain what is called the frequency-domain model and a method known as forced oscillations, which can be used to obtain frequency-dependent added mass and damping experimentally. The seakeeping equations of motion are considered to be inertial. Hence, the rigid-body kinetics in terms of perturbed coordinates δη and δν becomes (see Section 3.3)
+δ ̇η = J (δη)δν (5.52)
+MRBδ ̈η + CRB(δν)δ  ̇η = δτRB (5.53)
+Linear theory suggests that second-order terms can be neglected. Consequently, the rigid-body kinetics in seakeeping coordinates ξ = δη and ξ ̇ = δν reduces to
+MRBξ ̈ = δτRB
+= τhyd + τhs + τexc (5.54)
+The rigid-body kinetics is forced by the term δτRB which can be used to model hydrodynamic forces τhyd, hydrostatic forces τhs and other external forces τexc. Cummins (1962) showed that the radiationinduced hydrodynamic forces in an ideal fluid can be related to frequency-dependent added mass A(ω) and potential damping B(ω) according to
+τhyd = −A ̄ ξ ̇ −
+∫t
+0
+K ̄ (t − τ)ξ ̇(τ)dτ (5.55)
+where  ̄A = A(∞) is the constant infinite-frequency added mass matrix and  ̄K(t) is a matrix of retardation functions given by
+K(t) = 2
+π
+∫∞
+0
+B(ω) cos(ωt)dω (5.56)
+If linear restoring forces τhs = −Cξ are included in the model, this results in the time-domain model:
+(MRB + A(∞))ξ ̈ +
+∫t
+0
+ ̄K(t − τ)ξ ̇(τ)dτ + Cξ = τexc (5.57)
+This is a vector integro-differential equation formulated in the time domain even though the potential coefficients are frequency dependent. In order to understand this, we will consider a floating body forced to oscillate at a given frequency.
+5.3.1 Potential Coefficients and the Concept of Forced Oscillations
+Consider the motions of a floating or submerged body given by
+MRBξ ̈ = τhyd + τhs + f cos(ωt) (5.58)
+
+
+The Classical Frequency-Domain Model 91
+where τhyd and τhs denote the hydrodynamic and hydrostatic forces due to the surrounding water. The vector:
+f = [f1, . . . , f6] (5.59)
+contains the excitation force amplitudes. In an experimental setup with a restrained scale model, it is then possible to vary the wave excitation frequency ω and the amplitudes fi of the excitation force. Hence, by measuring the position and attitude vector ξ, the response of the second-order system (5.58) can be fitted to a linear model:
+[MRB + A(ω)]ξ ̈ + B(ω)ξ ̇ + Cξ = f cos(ωt) (5.60)
+for each frequency ω where the hydrodynamic and hydrostatic forces are recognized as a frequencydependent mass–damper–spring system:
+τhyd + τhs = −A(ω)ξ ̈ − B(ω)ξ ̇
+} {{ }
+radiation force
+− Cξ
+}{{}
+restoring force
+(5.61)
+The radiation force is due to the energy carried away by generated surface waves and it is formed by two components, hydrodynamic inertia forces A(ω)ξ ̈ and damping forces B(ω)ξ ̇, where the matrices:
+• A(ω) added mass • B(ω) potential damping
+are recognized as the potential coefficient matrices. If the experiment is repeated for several frequencies ωi > 0 (i = 1, . . . N), added mass A(ωi) and damping B(ωi) can be computed at different frequencies. Added mass and damping for a conventional ship is plotted as a function of ω in Figures 5.2 and 5.3.
+Figure 5.2 Longitudinal added mass and potential damping coefficients as a function of frequency. Exponential decaying viscous damping is included for B11(ω).
+
+
+92 Seakeeping Theory
+Figure 5.2 (Continued )
+The matrices A(ω), B(ω) and C in (5.61) represent a hydrodynamic mass–damper–spring system which varies with the frequency of the forced oscillation. The added mass matrix A(ω) should not be understood as additional mass due to a finite amount of water that is dragged with the vessel. A more precise definition is:
+Definition 5.1 (Added Mass)
+Hydrodynamic added mass can be seen as a virtual mass added to a system because an accelerating or decelerating body must move some volume of the surrounding fluid as it moves through it. Moreover, the object and fluid cannot occupy the same physical space simultaneously.
+
+
+The Classical Frequency-Domain Model 93
+5.3.2 Frequency-Domain Seakeeping Models
+Equation (5.57) can be transformed to the frequency domain (Newman, 1977; Faltinsen, 1990):
+(−ω2[MRB + A(ω)] − jωB(ω) + C) ξ( jω) = τexc( jω) (5.62)
+where
+ξi(t) = ξ ̄i cos(ωt + i) ⇒ ξi( jω) = ξ ̄i exp( j i) (5.63)
+τexc,i(t) = τ ̄i cos(ωt + εi) ⇒ τexc,i( jω) = τ ̄exc,i exp( jεi) (5.64)
+are the complex response and excitation variables, respectively. The model (5.60) is rooted deeply in the literature of hydrodynamics and the abuse of notation of this false time-domain model has been discussed eloquently in the literature. This is in fact not a time-domain model but rather a different way of
+Figure 5.3 Lateral added mass and potential damping coefficients as a function of frequency. Exponential decaying viscous damping is included for B22(ω) and B66(ω) while viscous IKEDA damping is included in B44(ω).
+
+
+94 Seakeeping Theory
+Figure 5.3 (Continued )
+writing (5.62), which is the frequency response function. The corresponding time-domain model is given by (5.57). The potential coefficients A(ω) and B(ω) are usually computed using a seakeeping program but the frequency response will not be accurate unless viscous damping is included. The viscous matrix BV (ω) is an optional matrix that can be used to model viscous damping such as skin friction, surge resistance and viscous roll damping. Consequently, the total linear damper becomes
+Btotal(ω) = B(ω) + BV (ω) (5.65)
+The pressure supporting a marine craft can be separated into hydrostatic and hydrodynamic forces. The hydrostatic pressure gives the buoyancy force, which is proportional to the displaced volume. Thus, the hydrostatic force, Cξ, represents the restoring forces due to gravity buoyancy that tend to bring the marine craft back to its upright equilibrium position. The wave excitation forces, τwave, arise due to changes in pressure due to waves. These have one component that varies linearly with the wave elevation and another that varies nonlinearly. The linear forces are oscillatory forces with a zero mean; these forces are called first-order wave forces – Froude–Krylov and diffraction forces. The energy of these forces is distributed
+
+
+The Classical Frequency-Domain Model 95
+at the same frequencies as the wave elevation seen from the moving ship (encounter frequencies). The nonlinear components give rise to nonoscillatory forces – mean wave drift forces – and also oscillatory forces, which have energy at frequencies that are both lower and higher than the range of first-order wave forces. The components at lower frequencies are called second-order slow wave drift forces, and together with the mean wave drift and the first-order wave forces constitute the main disturbances for ship motion control. The high-frequency forces are usually of no concern for ship motion control, but can produce oscillation in the structure of the vessel; this effect is known as springing. For further details on wave loads see Faltinsen (1990, 2005). If wave and wind forces are included the resulting frequency-domain model becomes
+(−ω2[MRB + A(ω)] − jωBtotal(ω) + C) ξ( jω) = τwave( jω) + τwind( jω) + δτ( jω) (5.66)
+Linear Frequency-Dependent Viscous Damping
+The linear frequency-dependent forces BV (ω) will give an additional contribution to the potential damping matrix B(ω), as shown in the plots for B11(ω), B22(ω), B44(ω) and B66(ω) in Figures 5.2 and 5.3. When running seakeeping codes it is important to include the external viscous damping matrix in order to obtain good estimates of the response amplitude operators (RAOs), which are used to compute the motions due to first- and second-order wave forces. Bailey et al. (1998) suggest using ramps in surge, sway and yaw to describe the viscous part of the damping forces. However, in the framework of linear theory exponential functions are well suited for this purpose. For instance, Ross et al. (2006) propose a diagonal matrix:
+BV (ω) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+β1e−αω + NITTC(A1) 0 0 0 0 0
+0 β2e−αω 0 0 0 0
+0 00 0 00
+0 0 0 βIKEDA(ω) 0 0
+0 00 0 00
+0 0 0 0 0 β6e−αω
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(5.67)
+where α > 0 is the exponential rate, βi > 0 (i = 1, 2, 6) are linear viscous skin friction coefficients describing the horizontal motions, NITTC(A1) is equivalent linear surge resistance depending on the surge velocity amplitude A1 and βIKEDA(ω) is frequency-dependent roll damping based on the theory of Ikeda et al. (1976). Other models for viscous roll damping can also be used. One useful property of the exponential function βie−αω is that linear skin friction only affects lowfrequency motions. It is also possible to add a frequency-independent linear damper Dii = βiξ ̇i directly to the equations of motion in the time domain and obtain the same effect as solving the frequency-domain equation with Bii(ω) = βie−αω (Ross and Fossen, 2005).
+Equivalent Linearization Method and Describing Functions
+The surge resistance NITTC(A1) can be found by equivalent linearization of the quadratic damping (6.86). Equivalent linearization is a Fourier-series approximation where the work done over one period T is the same for the nonlinear and linear terms. This is similar to a sinusoidal-input describing function that is frequently used in control engineering. Consider a sinusoidal input
+u = A sin(ωt) (5.68)
+
+
+96 Seakeeping Theory
+For static linearities, displaying no dependence upon the derivatives, the describing function for the particular odd polynomial nonlinearity
+y = c1x + c2x|x| + c3x3
+3 (5.69)
+is (Gelb and Vander Velde, 1968)
+N(A) = c1 + 8A
+3π c2 + 3A2
+4 c3 (5.70)
+Consequently, the amplitude-dependent linear mapping
+y = N(A)u (5.71)
+approximates the nonlinear polynomial (5.69) if the input is a harmonic function. This result is very useful for marine craft since it allows for linear approximation of nonlinear dissipative forces under the assumption of regular waves. For instance, the quadratic damping in surge due to the ITTC surge resistance formulation results in an expression (see Section 6.4.2)
+X = −X|u|u|u|u
+≈ NITTC(A1)u (5.72)
+where the surge velocity u = A1 cos(ωt) is assumed to be harmonic. Then it follows from (5.70) that
+NITTC(A1) = − 8A1
+3π X|u|u (5.73)
+Viscous damping can also be added in sway and yaw using a similar approach. The diagonal terms from the cross-flow drag analysis (see Section 6.4.3) result in similar terms depending on the sway and yaw amplitudes A2 and A6. Moreover,
+Y = NY, crossflow(A2)v, NY, crossflow(A2) = − 8A2
+3π Y|v|v (5.74)
+N = NN, crossflow(A6)r, NN, crossflow(A6) = − 8A6
+3π N|r|r (5.75)
+For a ship moving at high speed, the amplitudes A2 and A6 will be much smaller than A1. Hence, it is common to neglect these terms in seakeeping analysis.
+5.4 Time-Domain Models including Fluid Memory Effects
+The time-domain models are useful both for simulation and control systems design. In particular it is convenient to add nonlinear terms directly in the time domain to describe coupled maneuvers at high speed. Fluid memory effects and wave force terms are kept from the seakeeping theory. Hence, this can be seen as a unified approach where seakeeping and maneuvering theory are combined. The basis for the time-domain transformations are the famous papers by Cummins (1962) and Ogilvie (1964), and recent results by Fossen (2005) and Perez and Fossen (2007).
+5.4.1 Cummins Equation in SEAKEEPING Coordinates
+Cummins (1962) considered the behavior of the fluid and the ship in the time domain ab initio. He made the assumption of linearity and considered impulses in the components of motion. This resulted in a boundary value problem in which the potential was separated into two parts: one valid during the duration of the impulses and the other valid after the impulses are extinguished. By expressing the pressure
+
+
+Time-Domain Models including Fluid Memory Effects 97
+as a function of these potentials and integrating it over the wetted surface of the marine craft, he obtained a vector integro-differential equation, which is known as the Cummins equation; see (5.55) in Section 5.3. If we add viscous damping, restoring forces, wave-induced forces and wind forces, the time-domain seakeeping model becomes
+(MRB +  ̄A) ξ ̈ +
+∫t
+−∞
+ ̄K(t − τ)ξ ̇(τ)dτ +  ̄Cξ = τwind + τwave + δτ (5.76)
+In this expression, δτ is the perturbed control input,  ̄A and  ̄C are constant matrices to be determined and  ̄K(t) is a matrix of retardation functions given by
+ ̄K(t) = 2
+π
+∫∞
+0
+Btotal(ω) cos(ωt)dω (5.77)
+Equation (5.76) is a time-domain equation that reveals the structure of the linear equations of motion in {s} and it is valid for any excitation, provided the linear assumption is not violated; that is the forces produce small displacements from a state of equilibrium. The terms proportional to the accelerations due to the change in momentum of the fluid have constant coefficients. Moreover,  ̄A is constant and independent of the frequency of motion as well as forward speed. Due to the motion of the ship, waves are generated in the free surface. These waves will, in principle, persist at all subsequent times, affecting the motion of the ship. This is known as fluid memory effects, and they are captured by the convolution integral in (5.76). The convolution integral is a function of ξ ̇ and the retardation functions  ̄K(t). These functions depend on the hull geometry and the forward speed. This effect appears due to the free surface. For sinusoidal motions, these integrals have components in phase with the motion and 90 degrees out of phase. The latter components contribute to damping, whereas the components in phase with the motion can be added as a frequency-dependent added mass.
+The Ogilvie (1964) Transformations
+In order to relate the Cummins equation and the matrices  ̄A,  ̄C and  ̄K to the frequency-domain equation, we will rely on a result from Ogilvie (1964). Assume that the floating vessel carries out harmonic oscillations
+ξ = cos(ωt)i, i = [1, 1, 1, 1, 1, 1] (5.78)
+Substituting (5.78) into the Cummins equation (5.76) yields
+−ω2[MRB +  ̄A] cos(ωt) + ω
+∫t
+−∞
+ ̄K(τ) sin(ωt − ωτ)dτ +  ̄C cos(ωt) = τwind + τwave + δτ
+where we have replaced τ by t − τ in the integral. This gives
+−ω2
+{
+[MRB +  ̄A] − 1
+ω
+∫∞
+0
+ ̄K(τ) sin(ωτ)dτ
+}
+cos(ωt)
+−ω
+{∫ ∞
+0
+ ̄K(τ) cos(ωτ)dτ
+}
+sin(ωt) +  ̄C cos(ωt) = τwind + τwave + δτ (5.79)
+
+
+98 Seakeeping Theory
+The frequency-domain model is written
+−ω2 {[MRB + A(ω)} cos(ωt) − ω {Btotal(ω) sin(ωτ)dτ} sin(ωt) + C cos(ωt) = τwind + τwave + δτ
+(5.80)
+By comparing the terms in (5.79) and (5.80), it is seen that
+A(ω) =  ̄A − 1
+ω
+∫∞
+0
+ ̄K(τ) sin(ωτ)dτ (5.81)
+Btotal(ω) =
+∫∞
+0
+ ̄K(τ) cos(ωτ)dτ (5.82)
+C =  ̄C (5.83)
+Equation (5.81) must be valid for all ω. Hence, we choose to evaluate (5.81) at ω = ∞, implying that
+ ̄A = A(∞) (5.84)
+Equation (5.82) is rewritten using the inverse Fourier transform
+ ̄K(t) = 2
+π
+∫∞
+0
+Btotal(ω) cos(ωt)dω (5.85)
+This expression is recognized as a matrix of retardation functions. From a numerical point of view is it better to integrate the difference
+K(t) = 2
+π
+∫∞
+0
+[Btotal(ω) − Btotal(∞)] cos(ωt)dω (5.86)
+than to use (5.85), since Btotal(ω) − Btotal(∞) will be exact zero at ω = ∞. Figure 5.4 shows a typical retardation function that is converging to zero in 15–20 s. The tail will oscillate if (5.85) is used instead of (5.86) in the numerical integration. The relationship between  ̄K(t) and K(t) follows from
+ ̄K(t) = 2
+π
+∫∞
+0
+[Btotal(ω) − Btotal(∞) + Btotal(∞)] cos(ωτ)dω
+= K(t) + 2
+π
+∫∞
+0
+Btotal(∞) cos(ωτ)dω (5.87)
+Then it follows that
+∫t
+−∞
+ ̄K(t − τ)ξ ̇(τ)dτ =
+∫t
+−∞
+K(t − τ)ξ ̇(τ)dτ + Btotal(∞)ξ ̇
+cau=sal
+∫t
+0
+K(t − τ)ξ ̇(τ)dτ + Btotal(∞)ξ ̇ (5.88)
+We are now ready to state the main result.
+
+
+Time-Domain Models including Fluid Memory Effects 99
+Figure 5.4 Typical plot of the retardation function K22(t) in sway.
+Time-Domain Seakeeping Equations of Motion in {s}
+The relationship between the time-domain equation (5.76) and the frequency-domain equation (5.66) is established through (5.81)–(5.83) and (5.88). This gives
+[MRB + A(∞)]ξ ̈ + Btotal(∞)ξ ̇ +
+∫t
+0
+K(t − τ)ξ ̇(τ)dτ + Cξ = τwind + τwave + δτ (5.89)
+where K(t − τ) is defined by (5.86). The equations of motion (5.89) describe the perturbed motion ξ of a marine craft in 6 DOF using seakeeping coordinates. We will now transform this result to the rotating frame {b}.
+5.4.2 Linear Time-Domain Seakeeping Equations in BODY Coordinates
+Two representations in {b} are available: one using zero-speed potential coefficients and one using speeddependent matrices. Motion control systems are usually formulated in {b}. Consequently, we need to transform the time-domain representation of the Cummins equation (5.89) from {s} to {b}. When transforming the equations of motion to the rotating frame {b}, Coriolis and centripetal forces between {s} and {b} appear; see Figure 5.5. To illustrate this, consider
+[MRB + A(∞)]ξ ̈ + Btotal(∞)ξ ̇ +
+∫t
+0
+K(t − τ)ξ ̇(τ)dτ + Cξ = τwind + τwave + δτ (5.90)
+
+
+100 Seakeeping Theory
+Figure 5.5 Coriolis matrices due to the rotation of the body-fixed frame {b} about the inertial frame {s}.
+which can be transformed from {s} to {b} by using the kinematic transformations (5.20) and (5.48)–(5.49) derived in Section 5.2.2. This gives
+[MRB + A(∞)][ν ̇ + ULν] + Btotal(∞)[ν + U(Lδη − e1)]
++
+∫t
+0
+K(t − τ)δν(τ)dτ + Cδη = τwind + τwave + (τ − τ ̄ ) (5.91)
+The steady-state control force τ ̄ needed to obtain the forward speed U when τwind = τwave = 0 and δη = 0 is
+τ ̄ = Btotal(∞)Ue1 (5.92)
+Hence, (5.91) can be rewritten as
+[MRB + A(∞)][ν ̇ + ULν] + Btotal(∞)[ν + ULδη] +
+∫t
+0
+K(t − τ)δν(τ)dτ + Cδη = τwind + τwave + τ
+(5.93)
+In this expression, the linearized Coriolis–centripetal forces due to rigid-body mass and hydrodynamic added mass are recognized as MRBULν and A(∞)ULν, respectively. When computing the damping and retardation functions, it is common to neglect the influence of δη on the forward speed such that
+δν ≈ v + U(Lδη − e1) ≈ v − Ue1 (5.94)
+Hence, we can present the linear seakeeping equations expressed in the {b} frame.
+Linear Equations of Motion using Zero-Speed Potential Coefficients
+The kinematic equation between {b} and {n} is
+ ̇η = J (η)ν (5.95)
+
+
+Time-Domain Models including Fluid Memory Effects 101
+From (5.93)–(5.94) it follows that
+Mν ̇ + C∗
+RBν + C∗
+Aνr + Dνr +
+∫t
+0
+K(t − τ)[ν(τ) − Ue1]dτ + Gη = τwind + τwave + τ (5.96)
+where ν has been replaced by the relative velocity νr to include ocean currents, M = MRB + MA and
+MA = A(∞)
+C∗
+A = UA(∞)L
+C∗
+RB = UMRBL
+D = Btotal(∞)
+G=C
+We have here exploited the fact that Cδη = Gη. Notice that C∗
+RB and C∗
+A are linearized Coriolis and centripetal forces due to the rotation of {b} about {s}. At zero speed, these terms vanish.
+Linear Equations of Motion using Speed-Dependent Potential Coefficients
+Some potential theory programs compute the potential coefficients as functions of speed and frequency:
+AU (ω, U) = A(ω) + α(ω, U) (5.97)
+BU (ω, U) = B(ω) + β(ω, U) (5.98)
+where α(ω, U) and β(ω, U) denote the speed-dependent terms. For these codes, β(ω, U) can include the matrix C∗
+A = UA(∞)L as well as other effects. A frequently used representation is
+β(ω, U) = UA(∞)L
+} {{ }
+C∗
+A
++ BITTC(ω, U) + BIKEDA(ω, U) + Btransom(ω, U) (5.99)
+where the subscripts denote linearized ITTC resistance, IKEDA damping and transom stern effects. If the speed-dependent matrices (5.97) and (5.98) are used instead of the zero-speed matrices in (5.96), the equations of motion for each speed, U = constant, take the following form:
+MU ν ̇ + C∗
+RBν + DU νr +
+∫t
+0
+KU (t − τ, U)[ν(τ) − Ue1]dτ + Gη = τwind + τwave + τ (5.100)
+
+
+102 Seakeeping Theory
+where the matrix C∗
+A is superfluous and
+MU = MRB + AU (∞, U)
+C∗
+RB = UMRBL
+DU = Btotal,U (∞, U)
+G=C
+and
+KU (t, U) = 2
+π
+∫∞
+0
+[Btotal,U (ω, U) − Btotal,U (∞, U)] cos(ωt)dω (5.101)
+The speed-dependent equations of motion (5.100) are computed at each speed U = constant while (5.96) is valid for any U(t) provided that U(t) is slowly varying. It is advantageous to use (5.96) since only the zero-speed potential coefficients A(ω) and B(ω) are needed in the implementation. This is based on the assumption that the CA matrix is the only element in BU (ω, U). Moreover, it is assumed that
+β(ω, U) := C∗
+A
+= UA(∞)L (5.102)
+When using (5.96) instead of (5.100), it is necessary to add the remaining damping terms directly in the time-domain equations, as explained in Section 5.4.3.
+Properties of A, B and K
+The following properties are useful when processing the hydrodynamic data:
+• Asymptotic values for ω = 0:
+B(0) = 0
+• Asymptotic values for ω → ∞:
+AU (∞, U) = 0
+AU (∞, U) = A(∞)
+These properties can be exploited when computing K(t) numerically since most seakeeping codes only return values on an interval ω = [ωmin, ωmax]. Some useful properties of the retardation functions are:
+• Asymptotic value for t = 0:
+lim
+t→0
+K(t) =/ 0 < ∞ (5.103)
+• Asymptotic value for t → ∞:
+lim
+t→∞ K(t) = 0 (5.104)
+A plot illustrating the retardation function in sway is shown in Figure 5.4.
+
+
+Time-Domain Models including Fluid Memory Effects 103
+5.4.3 Nonlinear Unified Seakeeping and Maneuvering Model with Fluid Memory Effects
+Consider the seakeeping model (5.96) based on the zero-speed potential coefficients:
+Mν ̇ + C∗
+RBν + C∗
+Aνr + Dνr +
+∫t
+0
+K(t − τ)[ν(τ) − Ue1]dτ + Gη = τwind + τwave + τ (5.105)
+For this model, the linearized Coriolis and centripetal matrices C∗
+RB and C∗
+A can be replaced by their nonlinear counterparts CRB(ν) and CA(νr); see Section 6.3.1. In addition, the nonlinear damping D(νr)νr or maneuvering coefficients can be added directly in the time domain.
+Unified Seakeeping and Maneuvering Model
+Some authors refer to (5.105) as a unified model when nonlinear maneuvering terms are included since it merges the maneuvering and seakeeping theories (see Bailey et al., 1998; Fossen, 2005). This gives a unified seakeeping and maneuvering model in the following form:
+ ̇η = J (η)ν (5.106)
+Mν ̇r + CRB(ν)ν + CA(νr)νr + D(νr)νr + μ + Gη = τwind + τwave + τ (5.107)
+The seakeeping fluid memory effects are captured in the term
+μ :=
+∫t
+0
+K(t − τ) [ν(τ) − Ue1]
+} {{ }
+δν
+dτ (5.108)
+Constant and Irrotational Ocean Currents
+The model (5.107) can be simplified if the ocean currents are assumed to be constant and irrotational in {n} such that Property 8.1 is satisfied. Following the approach in Section 8.3 this gives
+Mν ̇r + C(νr)νr + D(νr)νr + μ + Gη = τwind + τwave + τ (5.109)
+Example 5.1 (Zero-Speed Model for DP with Fluid Memory Effects) For stationkeeping (U = 0 and r = 0), the model (5.109) reduces to
+ ̇η = J (η)ν (5.110)
+Mν ̇r + Dνr + μ + Gη = τwind + τwave + τ (5.111)
+under the assumptions that CRB(ν) = CA(νr) = 0 and D(νr) = D. This is similar to the result of Fossen and Smogeli (2004).
+
+
+104 Seakeeping Theory
+5.5 Case Study: Identification of Fluid Memory Effects
+Kristiansen and Egeland (2003) and Kristiansen et al. (2005) have developed a state-space approximation for μ using realization theory. Other methods such as the impulse response LS fitting can also be used (see Yu and Falnes, 1995, 1998). The time-domain methods are usually used in conjunction with model reduction in order to obtain a state-space model of smaller dimension suited for feedback control and time-domain simulation. This often results in a state-space model (Ar, Br, Cr, Dr) where the Dr matrix is nonzero (Perez and Fossen, 2008). This is nonphysical since potential damping should not amplify signals at low frequencies. Hence, care must be taken when using time-domain methods. As a consequence of this, frequency-domain identification methods are much more accurate and they do have the advantage that a transfer function of correct relative degree can be chosen prior to the identification process. Hence, model reduction in the time domain can be avoided since the estimated transfer function can be converted into a (Ar, Br, Cr) state-space model exploiting the structural constraint Dr = 0 directly. A more detailed discussion of the identification methods are found in Perez and Fossen (2008) while practical aspects are reported in Perez and Fossen (2011).
+5.5.1 Frequency-Domain Identification using the MSS FDI Toolbox
+This section illustrates how the fluid memory effects can be approximated using frequency-domain identification. The main tool for this is the MSS FDI toolbox (Perez and Fossen, 2009). When using the frequency-domain approach, the property that the mapping
+δν → μ (5.112)
+Figure 5.6 Bode plot showing the identified transfer function h33(s) of an FPSO when A33(∞) is treated as an unknown to be estimated.
+
+
+Case Study: Identification of Fluid Memory Effects 105
+has relative degree one is exploited. Hence, the fluid memory effects μ can be approximated by a matrix H(s) containing relative degree one transfer functions (see Figure 5.6):
+hij(s) = prsr + pr−1sr−1 + · · · + p0
+sn + qn−1sn−1 + · · · + q0
+, r = n − 1, n ≥ 2 (5.113)
+such that
+μ = H(s)δν (5.114)
+with
+H (s) = Cr(sI − Ar)−1Br (5.115)
+Consequently, the corresponding state-space model is in the form
+x ̇ = Arx + Brδν
+μ = Crx
+(5.116)
+Figure 5.7 FPSO identification results for h33(s) without using the infinite added mass A33(∞). The left-hand-side plots show the complex coefficient and its estimate while added mass and damping are plotted on the right-hand-side plots.
+
+
+106 Seakeeping Theory
+The states x in (5.116) reflect the fact that once the marine craft changes the momentum of the fluid, this will affect the forces in the future. In other words, the radiation forces at a particular time depend on the history of the velocity of the marine craft up to the present time. The dimension of x and the matrices Ar, Br and Cr depend on the order of the identified transfer functions (usually 2 to 20).
+Matlab
+The fluid memory transfer function (5.113) can be computed using the MSS toolbox, which includes the FDI toolbox for frequency-domain identification (Perez and Fossen, 2009). The toolbox includes two demo files for the cases where infinite added mass is unknown (2-D strip theory codes) or computed by the hydrodynamic code, for instance the 3-D code by WAMIT.
+Example 5.2 (Computation of Fluid Memory Effects)
+Consider the FPSO data set in the MSS toolbox and assume that the infinite-frequency added mass matrix is unknown. Hence, we can estimate the fluid transfer function h33(s) by using the following Matlab code:
+load fpso Dof = [3,3]; %Use coupling 3-3 heave-heave Nf = length(vessel.freqs); W = vessel.freqs(1:Nf-1)’; Ainf = vessel.A(Dof(1),Dof(2),Nf); % Ainf computed by WAMIT
+A = reshape(vessel.A(Dof(1),Dof(2),1:Nf-1),1,length(W))’; B = reshape(vessel.B(Dof(1),Dof(2),1:Nf-1),1,length(W))’;
+The identification routine is called according to (see Perez and Fossen, 2009, for an explanation of the options)
+FDIopt.OrdMax = 20; FDIopt.AinfFlag = 0; FDIopt.Method = 2; FDIopt.Iterations = 20; FDIopt.PlotFlag = 0; FDIopt.LogLin = 1; FDIopt.wsFactor = 0.1; FDIopt.wminFactor = 0.1; FDIopt.wmaxFactor = 5;
+[KradNum,KradDen,Ainf hat] = FDIRadMod(W,A,0,B,FDIopt,Dof)
+giving a fourth-order transfer function:
+h33(s) = 1.672e007 s3 + 2.286e007 s2 + 2.06e006 s
+s4 + 1.233 s3 + 0.7295 s2 + 0.1955 s + 0.01639
+of relative degree 1. The state-space model (5.116) is obtained by calling
+[Ar,Br,Cr,Dr] = tf2ss(KradNum,KradDen)
+
+
+Case Study: Identification of Fluid Memory Effects 107
+Ar =
+⎡
+⎢⎢⎣
+−1.2335 −0.7295 −0.1955 −0.0164
+1000
+0100
+0010
+⎤
+⎥⎥⎦
+Br =
+⎡
+⎢⎢⎣
+1
+0
+0
+0
+⎤
+⎥⎥⎦
+Cr = [ 1.672e007 2.286e007 2.06e006 0 ]
+Dr = 0
+The identified transfer function h33(s) is plotted in Figure 5.6 while curve fitting of amplitude, phase, added mass and potential damping are shown in Figure 5.7. The estimated transfer function and potential coefficients are matching the experimental data with good accuracy. Notice that the asymptotic behavior satisfies the properties of added mass A33(ω) and potential damping B33(ω) as expected.

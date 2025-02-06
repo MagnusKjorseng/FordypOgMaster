@@ -1,0 +1,262 @@
+Appendices
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+A
+Nonlinear Stability Theory
+This appendix briefly reviews some useful results from nonlinear stability theory. The methods are classified according to:
+• Lyapunov stability of nonlinear autonomous systems x ̇ = f (x), that is systems where f (x) does not explicitly depend on the time t. • Lyapunov stability of nonlinear nonautonomous systems x ̇ = f (x, t), that is systems where f (x, t) does depend on t explicitly.
+A.1 Lyapunov Stability for Autonomous Systems
+Before stating the main Lyapunov theorems for autonomous systems, the concepts of stability and convergence are briefly reviewed (Khalil, 2002).
+A.1.1 Stability and Convergence
+Consider the nonlinear time-invariant system
+x ̇ = f (x), x(0) = x0 (A.1)
+where x ∈ Rnand f : Rn → Rn is assumed to be locally Lipschitz in x; that is for each point x ∈ D ⊂ Rn there exists a neighborhood D0 ∈ D such that
+‖f (x) − f (y)‖ ≤ L ‖x − y‖ , ∀x, y ∈ D0 (A.2)
+where L is called the Lipschitz constant on D0. Let xe denote the equilibrium point of (A.1) given by
+f (xe) = 0 (A.3)
+The solutions x(t) of (A.1) are:
+• bounded, if there exists a nonnegative function 0 < γ(x(0)) < ∞ such that
+‖x(t)‖ ≤ γ(x(0)), ∀t ≥ 0 (A.4)
+In addition, the equilibrium point xe of (A.1) is:
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+532 Nonlinear Stability Theory
+Table A.1 Classification of theorems for stability and convergence
+Autonomous systems
+V > 0, V ̇ < 0 V > 0, V ̇ ≤ 0
+Lyapunov’s direct method Krasovskii–LaSalle’s theorem
+GAS/GES GAS
+Non-autonomous systems
+V > 0, V ̇ < 0 V > 0, V ̇ ≤ 0 V ≥ 0, V ̇ ≤ 0
+LaSalle–Yoshizawa’s theorem Matrosov’s theorem Barbalat’s lemma
+UGAS UGAS Convergence
+• stable, if, for each > 0, there exists a δ( ) > 0 such that
+‖x(0)‖ < δ( ) ⇒ ‖x(t)‖ < , ∀t ≥ 0 (A.5)
+• unstable, if it is not stable. • attractive, if, for each r > 0, > 0, there exists a T (r, ) > 0 such that
+‖x(0)‖ ≤ r ⇒ ‖x(t)‖ ≤ , ∀t ≥ T (r, ) (A.6)
+Attractivity implies convergence, that is limt→∞ ‖x(t)‖ = 0. • (locally) asymptotically stable (AS), if the equilibrium point xe is stable and attractive. • globally stable (GS), if the equilibrium point xe is stable and δ( ) can be chosen to satisfy lim →∞ δ( ) = ∞. • global asymptotically stable (GAS), if the equilibrium point xe is stable for all x(0) (region of attraction Rn). • (locally) exponentially stable (ES), if there exist positive constants α, λ and r such that
+‖x(0)‖ < r ⇒ ‖x(t)‖ < α exp(−λt) ‖x(0)‖ , ∀t ≥ 0 (A.7)
+• globally exponentially stable (GES), if there exist positive constants α, λ and r such that for all x(0) (region of attraction Rn):
+‖x(t)‖ < α exp(−λt) ‖x(0)‖ , ∀t ≥ 0 (A.8)
+Different theorems for investigation of stability and convergence will now be presented. A guideline for which theorem that should be applied is given in Table A.1 whereas the different theorems are listed in the forthcoming sections. Notice that for nonautonomous systems GAS is replaced by uniform global asymptotic stability (UGAS) since uniformity is a necessary requirement in the case of time-varying nonlinear systems.
+A.1.2 Lyapunov’s Direct Method
+Theorem A.1 (Lyapunov’s Direct Method)
+Let xe be the equilibrium point of (A.1) and assume that f (x) is locally Lipschitz in x. Let V : Rn → R+ be a continuously differentiable function V (x) satisfying:
+(i) V (x) > 0 (positive definite) and V (0) = 0 (A.9)
+(ii) V ̇ (x) = ∂V (x)
+∂x f (x) ≤ −W(x) ≤ 0 (A.10)
+(iii) V (x) → ∞ as ‖x‖ →∞ (radially unbounded) (A.11)
+Then the equilibrium point xe is GS if W(x) ≥ 0 (positive semi-definite) and GAS if W(x) > 0 (positive definite) for all x =/ 0.
+
+
+Lyapunov Stability for Autonomous Systems 533
+Figure A.1 Mass–damper–spring system.
+Proof. See Khalil (2002) or Lyapunov (1907). The requirement that W(x) > 0 such that V ̇ (x) < 0 is in many cases difficult to satisfy. This is illustrated in the following example.
+Example A.1 (Stability of a Mass–Damper–Spring System) Consider the nonlinear mass–damper–spring system
+x ̇ = v (A.12)
+m ̇v + d(v)v + kx2 = 0 (A.13)
+where m > 0, d(v) > 0, ∀v and k > 0, see Figure A.1. Let us choose V (x) as the sum of kinetic energy
+1
+2 mv2 and potential energy 1
+2 kx2 such that
+V (x) = 1
+2
+(mv2 + kx2) = 1
+2x
+[m 0
+0k
+]
+x (A.14)
+where x = [v, x] results in
+V ̇ (x) = mv ̇v + kxx ̇
+= v(m ̇v + kx)
+= −d(v)v2
+= −x
+[ d(v) 0
+00
+]
+x (A.15)
+Hence, only stability can be concluded from Theorem A.1, since V ̇ (x) = 0 for all v = 0. However, GAS can in many cases also be proven for systems with a negative semi-definite V ̇ (x) thanks to the invariant set theorem of Krasovskii–LaSalle; see LaSalle and Lefschetz (1961) and LaSalle (1966).
+A.1.3 Krasovskii–LaSalle’s Theorem
+The theorem of Krasovskii–LaSalle can be used to check a nonlinear autonomous system for GAS in the case of a negative semi-definite V ̇ (x).
+
+
+534 Nonlinear Stability Theory
+Theorem A.2 (Krazovskii–LaSalle’s Theorem)
+Let V : Rn → R+ be a continuously differentiable positive definite function such that
+V (x) → ∞ as ‖x‖ → ∞ (A.16)
+V ̇ (x) ≤ 0, ∀x (A.17)
+Let be the set of all points where V ̇ (x) = 0, that is
+= {x ∈ Rn|V ̇ (x) = 0} (A.18)
+and M be the largest invariant set in . Then all solutions x(t) converge to M. If M = {xe} then the equilibrium point xe of (A.1) is GAS.
+Proof. See LaSalle (1966).
+Example A.2 (Continued Example A.1: Stability of a Mass–Damper–Spring System)
+Again consider the mass–damper–spring system of Example A.1. The set is found by requiring that
+V ̇ (x) = −d(v)v2 ≡ 0 (A.19)
+which is true for v = 0. Therefore,
+= {(x∈ R, v = 0)} (A.20)
+Now, v = 0 implies that m ̇v = −kx, which is nonzero when x =/ 0. Hence, the system cannot get “stuck” at a point other than x = 0. Since the equilibrium point of the mass–damper–spring system is (x, v) = (0, 0), the largest invariant set M in contains only one point, namely (x, v) = (0, 0). Hence, the equilibrium point of (A.1) is GAS according to Theorem A.2.
+A.1.4 Global Exponential Stability
+The following theorem is useful to guarantee exponential convergence.
+Theorem A.3 (Global Exponential Stability)
+Let xe be the equilibrium point of (A.1) and assume that f (x) is locally Lipschitz in x. Let V : Rn → R+ be a continuously differentiable and radially unbounded function satisfying
+V (x) = x Px > 0, ∀x =/ 0 (A.21)
+V ̇ (x) ≤ −x Qx < 0, ∀x =/ 0 (A.22)
+with constant matrices P = P > 0 and Q = Q > 0. Then the equilibrium point xe is GES and the state vector satisfies
+‖x(t)‖2 ≤
+√
+λmax(P )
+λmin(P) exp (−αt) ‖x(0)‖2 (A.23)
+where
+α = λmin(Q)
+2λmax(P) > 0 (A.24)
+is a bound on the convergence rate.
+
+
+Lyapunov Stability of Nonautonomous Systems 535
+Proof. Since V (x) is bounded by
+0 < λmin(P) ‖x(t)‖2
+2 ≤ V (x) ≤ λmax(P) ‖x(t)‖2
+2 , ∀x =/ 0 (A.25)
+it is seen that
+− ‖x(t)‖2
+2≤− 1
+λmax(P) V (x) (A.26)
+Hence, it follows from (A.22) that
+V ̇ (x) ≤ −x Qx
+≤ −λmin(Q) ‖x(t)‖2
+2
+≤ − λmin(Q)
+λmax(P )
+} {{ }
+2α
+V (x) (A.27)
+Integration of V ̇ (x(t)) yields
+V (x(t)) ≤ exp (−2αt) V (x(0)) (A.28)
+Finally, (A.25) implies
+λmin(P ) ‖x(t)‖2
+2 ≤ exp (−2αt) λmax(P) ‖x(0)‖2
+2 (A.29)
+‖x(t)‖2 ≤
+√
+λmax(P )
+λmin(P ) e−αt ‖x(0)‖2 (A.30)
+This shows that ‖x(t)‖2 will converge exponentially to zero with convergence rate α.
+A.2 Lyapunov Stability of Nonautonomous Systems
+In this section several useful theorems for convergence and stability of time-varying nonlinear systems
+x ̇ = f (x, t), x(0) = x0 (A.31)
+where x ∈ Rn, t ∈ R+ and f : Rn × R+ → Rn is assumed to be locally Lipschitz in x and uniformly in t, are briefly reviewed.
+A.2.1 Barb ̆alat’s Lemma
+Lemma A.1 (Barb ̆alat’s Lemma)
+Let φ : R+ → R be a uniformly continuous function and suppose that limt→∞
+∫t
+0 φ(τ)dτ exists and is finite; then
+lim
+t→∞ φ(t) = 0 (A.32)
+Proof. See Barb ̆alat (1959).
+
+
+536 Nonlinear Stability Theory
+Notice that Barb ̆alat’s lemma only guarantees global convergence. This result is particularly useful if there exists a uniformly continuous function V : Rn × R+ → R satisfying:
+(i) V (x, t) ≥ 0
+(ii) V ̇ (x, t) ≤ 0
+(iii) V ̇ (x, t) is uniformly continuous
+Hence, according to Barb ̆alat’s lemma, limt→∞ V ̇ (x, t) = 0. The requirement that V ̇ should be uniformly continuous can easily be checked by using
+V ̈ (x, t) is bounded =⇒ V ̇ (x, t) is uniformly continuous
+A.2.2 LaSalle–Yoshizawa’s Theorem
+For nonautonomous systems the following theorem of LaSalle (1966) and Yoshizawa (1968) is quite useful
+Theorem A.4 (LaSalle–Yoshizawa’s Theorem)
+Let xe = 0 be the equilibrium point of (A.31) and assume that f (x, t) is locally Lipschitz in x. Let V : Rn × R+ → R+ be a continuously differentiable function V (x,t) satisfying
+(i) V (x, t) > 0 (positive definite) and V (0) = 0 (A.33)
+(ii) V ̇ (x, t) = ∂V (x, t)
+∂t + ∂V (x, t)
+∂x f (x, t) ≤ −W(x) ≤ 0 (A.34)
+(iii) V (x, t) → ∞ as ‖x‖ → ∞ (radially unbounded) (A.35)
+where W(x) is a continuous function. Then all solutions x(t) of (A.31) are uniformly globally bounded and
+lim
+t→∞ W (x(t)) = 0 (A.36)
+In addition, if W(x) > 0 (positive definite), then the equilibrium point xe = 0 of (A.31) is UGAS.
+Proof. See LaSalle (1966) and Yoshizawa (1968).
+A.2.3 Matrosov’s Theorem
+Nonautonomous systems where V ̇ (x, t) ≤ 0 are UGAS if Matrosov’s theorem is satisfied (Matrosov, 1962).
+Definition A.1 (Class K Function)
+A continuous function α : [0, a) → [0, ∞) is said to belong to class K if it is strictly increasing and α(0) = 0. It is said to belong to class K∞ if a = ∞ and α(r) → ∞ as r → ∞.
+Given two constants 0 ≤ δ ≤ < ∞ and H(δ, ) := {x ∈ Rn : δ ≤ |x| ≤ }, then Matrosov’s theorem can be stated according to:
+Theorem A.5 (Matrosov’s Theorem) Consider the system:
+x ̇ = f (x, t), x(0) = x0, x ∈ Rn (A.37)
+
+
+Lyapunov Stability of Nonautonomous Systems 537
+If for this system there exist: - a locally Lipschitz function V : R × Rn → R+ - a continuous positive semi-definite function U : Rn → R+ - functions α1, α2 ∈ K∞ such that:
+1. α1 (‖x‖) ≤ V (t, x) ≤ α2 (‖x‖) ∀ (t, x) ∈ R × Rn 2. V ̇ (t, x) ≤ −U(x) for almost all (t, x) ∈ R × Rn
+and for each 0 < δ ≤ and H(0, ) ⊆ Rn there exist: - a locally Lipschitz function W : R × Rn → R - a continuous function Y : Rn → R - strictly positive numbers ε1, ε2, ψ > 0 such that:
+3. max {|W(t, x)| , |Y (x)|} ≤ ψ ∀ (t, x) ∈ R × H(0, ) 4. W ̇ (t, x) ≤ Y (x) for all (t, x) ∈ R × Rn.
+5. x ∈ H(δ, ) ∩ {x : U(x) ≤ ε1} =⇒ Y (x) ≤ −ε2.
+then the origin of (A.37) is UGAS.
+Remark: If the system (A.37) is time-invariant, that is x ̇ = f (x), then Condition 5 can be replaced by:
+5. x ∈ H(δ, ) ∩ {x : U(x) = 0} =⇒ Y (x) < 0
+A.2.4 UGAS when Backstepping with Integral Action
+When designing industrial control systems it is important to include integral action in the control law in order to compensate for slowly varying and constant disturbances. This is necessary to avoid steadystate errors both in regulation and tracking. The integral part of the controller can be provided by using adaptive backstepping (Krstic et al., 1995) under the assumption of constant disturbances (see Section 13.3.4). Unfortunately, the resulting error dynamics in this case often becomes nonautonomous, which again implies that Krasovskii–LaSalle’s theorem cannot be used. An alternative theorem for this case will be stated by considering the nonlinear system
+x ̇ = f (x, u, θ, t) (A.38)
+where x ∈ Rn, u ∈ Rn and θ ∈ Rp (p ≤ n) is a constant unknown parameter vector. Furthermore, assume that there exists an adaptive control law
+u = u(x, xd, θˆ) (A.39)
+θˆ ̇ = φ(x, xd) (A.40)
+where xd ∈ Cr and θˆ ∈ Rp, such that the error dynamics can be written
+ ̇z = h(z, t) + B(t) θ ̃ (A.41)
+θ ̃ ̇ = −PB(t)
+( ∂W(z, t) ∂z
+)
+, P = P > 0 (A.42)
+
+
+538 Nonlinear Stability Theory
+where W(z, t) is a suitable C1 function and θ ̃ = θˆ − θ is the parameter estimation error. The parameter estimate θˆ can be used to compensate for a constant disturbance, that is integral action. Hence, the conditions in the following theorem can be used to establish UGAS when backstepping with integral action. The conditions are based on Loria et al. (1999) or alternatively Fossen et al. (2001). This can also be proven by applying Matrosov’s theorem.
+Theorem A.6 (UGAS/LES when Backstepping with Integral Action)
+The origin of the system (A.41)–(A.42) is UGAS if B (t)B(t) is invertible for all t, P = P > 0, there exists a continuous, nondecreasing function ρ : R+ → R+ such that
+max
+{
+‖h(z, t)‖ ,
+∥∥∥∥
+∂W(z, t) ∂z
+∥∥∥∥
+}
+≤ ρ(‖z‖) ‖z‖ (A.43)
+and there exist class-K∞ functions α1 and α2 and a strictly positive real number c > 0 such that W(z, t) satisfy
+α1(‖z‖) ≤ W (z, t) ≤ α2(‖z‖) (A.44)
+∂W(z, t)
+∂t + ∂W(z, t)
+∂z h(z, t) ≤ −c ‖z‖2 . (A.45)
+If, in addition, α2(s) ∝ s2 for sufficiently small s then the origin is LES.
+Proof. See Fossen et al. (2001). Theorem A.6 implies that both z → 0 and θ ̃ → 0 when t → ∞. The following example illustrates how a UGAS integral controller can be derived:
+Example A.3 (UGAS Integral Controller) Consider the nonautonomous system
+x ̇ = −a(t)x + θ + u (A.46)
+u = −Kpx − θˆ (A.47)
+θˆ ̇ = px (A.48)
+where 0 < a(t) ≤ amax, θ = constant, Kp > 0 and p > 0. This is a PI controller since
+u = −Kpx − p
+∫t
+0
+x(τ)dτ (A.49)
+Choosing z = x, the error dynamics can be written
+ ̇z = −(a(t) + Kp)z −  ̃θ (A.50)
+θ ̃ ̇ = pz (A.51)
+which is in the form (A.41)–(A.42) with W(z) = 1
+2 z2 and B = 1. Since B B = 1 > 0 and
+max {|a(t)z + Kpz|, |z|} ≤ ρ|z| (A.52)
+
+
+Lyapunov Stability of Nonautonomous Systems 539
+with ρ = amax + Kp, the equilibrium point z = 0 is UGAS according to Theorem A.6. Notice that the LaSalle–Yoshizawa theorem fails for this case since
+V (z, t) = W(z) + 1
+2p
+θ ̃2 (A.53)
+V ̇ (z, t) = z ̇z + 1
+p
+θ ̃ θ ̃ ̇
+= −[a(t) + Kp]z2
+≤ 0 (A.54)
+which by LaSalle–Yoshizawa only shows UGS and z(t) → 0, but not θ ̃ → 0.

@@ -1,0 +1,1263 @@
+8
+Environmental Forces
+and Moments
+In Chapters 2–7 nonlinear models for marine craft in 6 DOF were derived. In this chapter, models for environmental forces and moments are presented. These include models for:
+• Wind • Waves • Ocean currents
+The purpose of the chapter is to present models for simulation, testing and verification of feedback control systems. Complementary textbooks on hydrodynamic modeling are Faltinsen (1990), Newman (1977) and Sarpkaya (1981).
+Superposition of Wind and Wave Disturbances
+For control system design it is common to assume the principle of superposition when considering wind and wave disturbances. For most marine control applications this is a good approximation. In general, the environmental forces will be highly nonlinear and both additive and multiplicative to the dynamic equations of motion. An accurate description of the environmental forces and moments are important in vessel simulators that are produced for human operators. In Chapter 6 it was shown that the nonlinear dynamic equations of motion can be written
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) + g0 = τwind + τwave
+} {{ }
+w
++ τ (8.1)
+The principle of superposition suggests that the generalized wind- and wave-induced forces are added to the right-hand side of (8.1) by defining
+w := τwind + τwave (8.2)
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+188 Environmental Forces and Moments
+where τwind ∈ R6 and τwave ∈ R6 represent the generalized forces due to wind and waves. Computereffective models for the simulation of generalized wind and wave forces are presented in Sections 8.1 and 8.2.
+Equations of Relative Motion for Simulation of Ocean Currents
+The forces on a marine craft due to ocean currents can be implemented by replacing the generalized velocity vector in the hydrodynamic terms with relative velocities:
+νr = ν − νc (8.3)
+where νc ∈ R6 is the velocity of the ocean current expressed in {b}. The equations of motion including ocean currents become
+MRBν ̇ + CRB(ν)ν
+} {{ }
+rigid-body terms
++ MAν ̇r + CA(νr)νr + D(νr)νr
+} {{ }
+hydrodynamic terms
++ g(η) + go
+} {{ }
+hydrostatic terms
+= τ + w (8.4)
+Notice that the rigid-body kinetics is independent of the ocean current. A frequently used simplification is to assume that the ocean currents are irrotational and constant in {n}. In Section 8.3 it is shown that this assumption implies that (8.4) can be transformed to
+Mν ̇r + C(νr)νr + D(νr)νr + g(η) + g0 = τwind + τwave + τ (8.5)
+where all mass, Coriolis–centripetal and damping terms are functions of the relative acceleration and velocity vectors only. The matrices M and C(νr) in this model become
+M = MRB + MA (8.6)
+C(νr) = CRB(νr) + CA(νr) (8.7)
+In the linear case, Equation (8.5) reduces to
+Mν ̇r + Nνr + Gη + go = τ + w (8.8)
+Models for simulation of ocean currents in terms of νc are presented in Section 8.3.
+8.1 Wind Forces and Moments
+Wind is defined as the movement of air relative to the surface of the Earth. Mathematical models of wind forces and moments are used in motion control systems to improve the performance and robustness of the system in extreme conditions. Models for this are presented in the forthcoming sections.
+8.1.1 Wind Forces and Moments on Marine Craft at Rest
+Let Vw and γw denote the wind speed and angle of attack, respectively (see Figure 8.1). The wind forces and moments acting on a marine craft are computed using a similar approach to that of the current
+
+
+Wind Forces and Moments 189
+Figure 8.1 Wind speed Vw, wind direction βw and wind angle of attack γw relative to the bow.
+coefficients defined in Section 7.3.1. For zero speed it is common to write
+Xwind = qCX(γw)AFw (8.9)
+Ywind = qCY (γw)ALw (8.10)
+Zwind = qCZ(γw)AFw (8.11)
+Kwind = qCK(γw)ALwHLw (8.12)
+Mwind = qCM (γw)AFwHFw (8.13)
+Nwind = qCN (γw)ALwLoa (8.14)
+where HFw and HLw are the centroids above the water line of the frontal and lateral projected areas AFw and ALw , respectively, and
+γw = ψ − βw − π (8.15)
+where βw is the wind direction (going to) in {n} (see Figure 8.1). The dynamic pressure of the apparent wind is
+q= 1
+2 ρaV 2
+w (8.16)
+where ρa is the air density (see Table 8.1). The mean velocity profile satisfies a boundary-layer profile (Bretschneider, 1969):
+Vw(h) = V10(h/10)α (8.17)
+
+
+190 Environmental Forces and Moments
+Table 8.1 Air density as a function of temperature
+◦C Air density, ρ (kg/m3)
+−10 1.342 −5 1.317 0 1.292 5 1.269 10 1.247 15 1.225 20 1.204 25 1.184 30 1.165
+where V10 is the wind velocity 10 m above the sea surface, h is the height above the sea surface and α = 1/7. The nondimensional wind coefficients CX, CY , CZ, CK, CM and CN are usually computed using h = 10 m as reference height. To convert the nondimensional wind coefficients to a different reference height, the ratio between the dynamic pressures at the two heights are used:
+1
+2 ρaVw(h1)2
+1
+2 ρaVw(h2)2 = Vw(h1)2
+Vw(h2)2 =
+[V10(h1/10)α]2
+[V10(h2/10)α]2 =
+( h1
+h2
+)2α
+(8.18)
+Consequently, the nondimensional wind coefficients at height h1 can be converted to height h2 by multiplying with
+( h1
+h2
+)2α
+(8.19)
+For surface ships it is common to assume that Zwind = Mwind = 0 while the roll moment Kwind is used for ships and ocean structures where large rolling angles are an issue. For semi-submersibles both Kwind and Mwind are needed in addition to the horizontal motion components Xwind, Ywind and Nwind. The wind speed is usually specified in terms of Beaufort numbers, as shown in Table 8.2.
+Table 8.2 Definition of Beaufort numbers (Price and Bishop, 1974)
+Beaufort number Description of wind Wind speed (knots)
+0 Calm 0–1 1 Light air 2–3 2 Light breeze 4–7 3 Gentle breeze 8–11 4 Moderate breeze 12–16 5 Fresh breeze 17–21 6 Strong breeze 22–27 7 Moderate gale 28–33 8 Fresh gale 34–40 9 Strong gale 41–48 10 Whole gale 49–56 11 Storm 57–65 12 Hurricane More than 65
+
+
+Wind Forces and Moments 191
+Wind Coefficient Approximation for Symmetrical Ships
+For ships that are symmetrical with respect to the xz and yz planes, the wind coefficients for horizontal plane motions can be approximated by
+CX(γw) ≈ −cx cos(γw) (8.20)
+CY (γw) ≈ cy sin(γw) (8.21)
+CN (γw) ≈ cn sin(2γw) (8.22)
+which are convenient formulae for computer simulations. Experiments with ships indicate that cx ∈ {0.50, 0.90}, cy ∈ {0.70, 0.95} and cn ∈ {0.05, 0.20}. However, these values should be used with care.
+8.1.2 Wind Forces and Moments on Moving Marine Craft
+For a ship moving at a forward speed, (8.9)–(8.14) should be redefined in terms of relative wind speed Vrw and angle of attack γrw according to
+τwind = 1
+2 ρaV 2
+rw
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+CX(γrw)AFw
+CY (γrw)ALw
+CZ (γrw )AFw
+CK (γrw )ALw HLw
+CM (γrw)AFwHFw
+CN (γrw)ALwLoa
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(8.23)
+with
+Vrw = √
+ur2w + vr2w (8.24)
+γrw = −atan2(vrw, urw) (8.25)
+The relative velocities are
+urw = u − uw (8.26)
+vrw = v − vw (8.27)
+while the components of Vw in the x and y directions are (see Figure 8.1)
+uw = Vw cos(βw − ψ) (8.28)
+vw = Vw sin(βw − ψ) (8.29)
+The wind speed Vw and its direction βw can be measured by an anemometer and a weathervane, respectively. Anemometer is derived from the Greek word anemos, meaning wind. Anemometers can be divided into two classes: those that measure the wind’s speed and those that measure the wind’s pressure. If the pressure is measured, a formula relating pressure with speed must be applied.
+
+
+192 Environmental Forces and Moments
+The wind measurements should be low-pass filtered since only the mean wind forces and moments can be compensated for by the propulsion system. In fact, since the inertia of the craft is so large, it is unnecessary for the control system to compensate for wind gust. In order to implement wind feedforward compensation for a DP vessel using (8.23), only the wind coefficients CX, CY and CN are needed. They can be experimentally obtained by using a scale model located in a wind tunnel or computed numerically. Different models for computation of the wind coefficients for varying hull geometries will now be discussed.
+8.1.3 Wind Coefficients Based on Flow over a Helmholtz–Kirchhoff Plate
+Blendermann (1994) applies a simple load concept to compute the wind coefficients. This is based on the Helmholtz–Kirchhoff plate theory. The load functions are parametrized in terms of four primary wind load parameters: longitudinal and transverse resistance CDl and CDt, respectively, the cross-force parameter δ and the rolling moment factor κ. Numerical values for different vessels are given in Table 8.3. The longitudinal resistance coefficient CDlAF (γw) in Table 8.3 is scaled according to
+CDl = CDlAF (γw) AFw
+ALw
+(8.30)
+where values for two angles γw ∈ {0, π} are given. The value CDlAF (0) corresponds to head wind while CDlAF (π) should be used for tail wind. By using these two values in the regions |γw| ≤ π/2 and |γw| > π/2, respectively, a nonsymmetrical wind load function for surge can be computed. Moreover, this gives different wind loads for head and tail winds, as shown in Figure 8.2. Alternatively, a symmetrical wind profile is obtained by using CDlAF (0) or the mean of CDlAF (0) and CDlAF (π). Let the mean height of the area ALw be denoted by
+HM = ALw
+Loa
+(8.31)
+Table 8.3 Coefficients of lateral and longitudinal resistance, cross-force and rolling moment (Blendermann, 1994)
+Type of vessel CDt CDlAF (0) CDlAF (π) δ κ
+1. Car carrier 0.95 0.55 0.60 0.80 1.2 2. Cargo vessel, loaded 0.85 0.65 0.55 0.40 1.7 3. Cargo vessel, container on deck 0.85 0.55 0.50 0.40 1.4 4. Container ship, loaded 0.90 0.55 0.55 0.40 1.4 5. Destroyer 0.85 0.60 0.65 0.65 1.1 6. Diving support vessel 0.90 0.60 0.80 0.55 1.7 7. Drilling vessel 1.00 0.70–1.00 0.75–1.10 0.10 1.7 8. Ferry 0.90 0.45 0.50 0.80 1.1 9. Fishing vessel 0.95 0.70 0.70 0.40 1.1 10. Liquefied natural gas tanker 0.70 0.60 0.65 0.50 1.1 11. Offshore supply vessel 0.90 0.55 0.80 0.55 1.2 12. Passenger liner 0.90 0.40 0.40 0.80 1.2 13. Research vessel 0.85 0.55 0.65 0.60 1.4 14. Speed boat 0.90 0.55 0.60 0.60 1.1 15. Tanker, loaded 0.70 0.90 0.55 0.40 3.1 16. Tanker, in ballast 0.70 0.75 0.55 0.40 2.2 17. Tender 0.85 0.55 0.55 0.65 1.1
+
+
+Wind Forces and Moments 193
+Figure 8.2 Wind coefficients for the research vessel in Table 8.3 (vessel 13). CX is generated using CDlAF (0) and CDlAF (π) for |γw| ≤ π/2 and |γw| > π/2, respectively.
+and let the coordinates (sL, sH ) = (sL, HLw ) describe the centroid of the transverse project area ALw with respect to the main section and above the water line. Based on these quantities, Blendermann (1994) gives the following expressions for the wind coefficients:
+CX(γw) = − CDl
+ALw
+AFw
+} {{ }
+CDlAF
+cos(γw) 1− δ
+2
+(1 − CDl
+CDt
+) sin2(2γw) (8.32)
+CY (γw) = CDt
+sin(γw) 1− δ
+2
+(1 − CDl
+CDt
+) sin2(2γw) (8.33)
+CK(γw) = κCY (γw) (8.34)
+CN (γw) =
+[ sL
+Loa
+− 0.18
+(
+γw − π
+2
+)]
+CY (γw) (8.35)
+
+
+194 Environmental Forces and Moments
+where the expression for CK(γw) has been modified to comply with (8.12). Notice that in Blendermann (1994)
+CBlendermann
+K (γw) = sH
+HM
+CK(γw) (8.36)
+where sH = HLw . The numerical values for several vessel types are given in Table 8.3. Consider the research vessel in Table 8.3 with AFw = 160.7 m2, ALw = 434.8 m2, sL = 1.48 m, sH = 5.10 m, Loa = 55.0 m, Lpp = 48.0 m and B = 12.5 m. For this vessel, the wind coefficients are computed in Matlab according to:
+Matlab
+The wind coefficients are plotted in Figure 8.2 using the MSS toolbox example file ExWindForce.m.The data sets of Blendermann (1994) are programmed in the Matlab function
+blendermann94.m:
+[w wind,CX,CY,CK,CN] = ...
+blendermann94(gamma r,V r,AFw,ALw,sH,sL,Loa,vessel no)
+This function computes the nonsymmetrical version of CX
+8.1.4 Wind Coefficients for Merchant Ships
+Isherwood (1972) has derived a set of wind coefficients by using multiple regression techniques to fit experimental data of merchant ships. The wind coefficients are parametrized in terms of the following eight parameters:
+Loa – length overall B – beam ALw – lateral projected area ATw – transverse projected area ASS – lateral projected area of superstructure S – length of perimeter of lateral projection of model excluding water line and slender bodies such as masts and ventilators C – distance from bow of centroid of lateral projected area M – number of distinct groups of masts or king posts seen in lateral projection; king posts close against the bridge front are not included
+From regression analyses it was concluded that the measured data were best fitted to the following three equations:
+CX = −
+(
+A0 + A1
+2AL
+L2 + A2
+2AT
+B2 + A3
+L
+B + A4
+S
+L + A5
+C
+L + A6M
+)
+CY = B0 + B1
+2AL
+L2 + B2
+2AT
+B2 + B3
+L
+B + B4
+S
+L + B5
+C
+L + B6
+ASS
+AL
+CN = C0 + C1
+2AL
+L2 + C2
+2AT
+B2 + C3
+L
+B + C4
+S
+L + C5
+C L
+
+
+Wind Forces and Moments 195
+where Ai and Bi (i = 0, . . . , 6) and Cj (j = 0, . . . , 5) are tabulated in Table 8.4, together with the residual standard errors (S.E.). The signs of CX have been corrected to match the definition of γw in Figure 8.1.
+Matlab
+The wind coefficients are plotted in Figure 8.3 using the MSS toolbox example file ExWindForce.m. Isherwood (1972) are programmed in the Matlab function isherwood72.m:
+[w wind,CX,CY,CN]= isherwood72(gamma r,V r,Loa,B,AFw,ALw,A SS,S,C,M)
+8.1.5 Wind Coefficients for Very Large Crude Carriers
+Wind loads on very large crude carriers (VLCCs) in the range 150 000 to 500 000 dwt can be computed by applying the results of OCIMF (1977). In this work the wind coefficients are scaled using the conversion factor 1/7.6 instead of 1/2. In addition, the signs in sway and yaw must be corrected such that
+Xwind = 1
+7.6 COCIMF
+X (γw)ρaV 2
+wAFw (8.37)
+Ywind = − 1
+7.6 COCIMF
+Y (γw)ρaV 2
+wALw (8.38)
+Nwind = − 1
+7.6 COCIMF
+N (γw)ρaV 2
+wALw Loa (8.39)
+where the wind coefficients COCIMF
+X , COCIMF
+Y and COCIMF
+N correspond to the plots given in OCIMF (1977); see Figures 8.4–8.6.
+8.1.6 Wind Coefficients for Large Tankers and Medium-Sized Ships
+For wind resistance on large tankers in the 100 000 to 500 000 dwt class the reader is advised to consult Van Berlekom et al. (1974). Medium-sized ships of the order 600 to 50 000 dwt are discussed by Wagner (1967). A detailed analysis of wind resistance using semi-empirical loading functions is given by Blendermann (1986). The data sets for seven ships are included in the report.
+8.1.7 Wind Coefficients for Moored Ships and Floating Structures
+Wind loads on moored ships are discussed by De Kat and Wichers (1991) while an excellent reference for huge pontoon-type floating structures is Kitamura et al. (1997).
+
+
+196 Environmental Forces and Moments
+Table 8.4 Wind force parameters in surge, sway and yaw (Isherwood, 1972)
+γw (deg) A0 A1 A2 A3 A4 A5 A6 S.E.
+0 2.152 −5.00 0.243 −0.164 − − − 0.086 10 1.714 −3.33 0.145 −0.121 − − − 0.104 20 1.818 −3.97 0.211 −0.143 − − 0.033 0.096 30 1.965 −4.81 0.243 −0.154 − − 0.041 0.117 40 2.333 −5.99 0.247 −0.190 − − 0.042 0.115 50 1.726 −6.54 0.189 −0.173 0.348 − 0.048 0.109 60 0.913 −4.68 − −0.104 0.482 − 0.052 0.082 70 0.457 −2.88 − −0.068 0.346 − 0.043 0.077 80 0.341 −0.91 − −0.031 − − 0.032 0.090 90 0.355 − − − −0.247 − 0.018 0.094 100 0.601 − − − −0.372 − −0.020 0.096 110 0.651 1.29 − − −0.582 − −0.031 0.090 120 0.564 2.54 − − −0.748 − −0.024 0.100 130 −0.142 3.58 − 0.047 −0.700 − −0.028 0.105 140 −0.677 3.64 − 0.069 −0.529 − −0.032 0.123 150 −0.723 3.14 − 0.064 −0.475 − −0.032 0.128 160 −2.148 2.56 − 0.081 − 1.27 −0.027 0.123 170 −2.707 3.97 −0.175 0.126 − 1.81 − 0.115 180 −2.529 3.76 −0.174 0.128 − 1.55 − 0.112
+Mean S.E. 0.103
+γw (deg) B0 B1 B2 B3 B4 B5 B6 S.E.
+10 0.096 0.22 − − − − − 0.015 20 0.176 0.71 − − − − − 0.023 30 0.225 1.38 − 0.023 − −0.29 − 0.030 40 0.329 1.82 − 0.043 − −0.59 − 0.054 50 1.164 1.26 0.121 − −0.242 −0.95 − 0.055 60 1.163 0.96 0.101 − −0.177 −0.88 − 0.049 70 0.916 0.53 0.069 − − −0.65 − 0.047 80 0.844 0.55 0.082 − − −0.54 − 0.046 90 0.889 − 0.138 − − −0.66 − 0.051 100 0.799 − 0.155 − − −0.55 − 0.050 110 0.797 − 0.151 − − −0.55 − 0.049 120 0.996 − 0.184 − −0.212 −0.66 0.34 0.047 130 1.014 − 0.191 − −0.280 −0.69 0.44 0.051 140 0.784 − 0.166 − −0.209 −0.53 0.38 0.060 150 0.536 − 0.176 −0.029 −0.163 − 0.27 0.055 160 0.251 − 0.106 −0.022 − − − 0.036 170 0.125 − 0.046 −0.012 − − − 0.022
+Mean S.E. 0.044
+γw (deg) C0 C1 C2 C3 C4 C5 S.E.
+10 0.0596 0.061 − − − −0.074 0.0048 20 0.1106 0.204 − − − −0.170 0.0074 30 0.2258 0.245 − − − −0.380 0.0105 40 0.2017 0.457 − 0.0067 − −0.472 0.0137
+
+
+Wind Forces and Moments 197
+Table 8.4 (Continued )
+γw (deg) C0 C1 C2 C3 C4 C5 S.E.
+50 0.1759 0.573 − 0.0118 − −0.523 0.0149 60 0.1925 0.480 − 0.0115 − −0.546 0.0133 70 0.2133 0.315 − 0.0081 − −0.526 0.0125 80 0.1827 0.254 − 0.0053 − −0.443 0.0123 90 0.2627 − − − − −0.508 0.0141 100 0.2102 − −0.0195 − 0.0335 −0.492 0.0146 110 0.1567 − −0.0258 − 0.0497 −0.457 0.0163 120 0.0801 − −0.0311 − 0.0740 −0.396 0.0179 130 −0.0189 − −0.0488 0.0101 0.1128 −0.420 0.0166 140 0.0256 − −0.0422 0.0100 0.0889 −0.463 0.0162 150 0.0552 − −0.0381 0.0109 0.0689 −0.476 0.0141 160 0.0881 − −0.0306 0.0091 0.0366 −0.415 0.0105 170 0.0851 − −0.0122 0.0025 − −0.220 0.0057
+Mean S.E. 0.0127
+Figure 8.3 Wind coefficients for Loa = 100, B = 30, ALw = 900, AFw = 300, ASS = 100, S = 100, C = 50 and M = 2 using the formulae of Isherwood (1972).
+
+
+198 Environmental Forces and Moments
+Figure 8.4 Longitudinal wind force coefficient COCIMF
+X as a function of γw (OCIMF, 1977).
+Figure 8.5 Lateral wind force coefficient COCIMF
+Y as a function of γw (OCIMF, 1977).
+
+
+Wave Forces and Moments 199
+Figure 8.6 Wind moment coefficient COCIMF
+N in yaw as a function of γw (OCIMF, 1977).
+8.2 Wave Forces and Moments
+A motion control system can be simulated under influence of wave-induced forces by separating the first-order and second-order effects:
+• First-order wave-induced forces: wave-frequency (WF) motion observed as zero-mean oscillatory motions. • Second-order wave-induced forces: wave drift forces observed as nonzero slowly varying components.
+When designing motion control systems, it is important to evaluate robustness and performance in the presence of waves. Wave forces are observed as a mean slowly varying component and an oscillatory component, which need to be compensated differently by a feedback control system. For instance, the mean component can be removed by using integral action while the oscillatory component usually is removed by using a cascaded notch and low-pass filter. This is usually referred to as wave filtering. This section describes wave force models that can be used for prediction, observer-based wave filtering and testing of feedback control systems in the presence of waves. Both methods based on response amplitude operators (RAOs) and linear state-space models will be discussed. This includes:
+1. Force RAOs 2. Motion RAOs 3. Linear state-space models (WF models)
+
+
+200 Environmental Forces and Moments
+The first two methods require that the RAO tables are computed using a hydrodynamic program (see Section 5.1) since the wave forces depend on the geometry of the craft. The last method is attractive due to its simplicity but it is only intended for the testing of robustness and performance of control systems, that is closed-loop analysis. The resulting wave forces and moments are
+τwave = τwave1 + τwave2 (8.40)
+This is the sum of the first- and second-order wave-induced forces and moments τwave1 and τwave2, respectively. The next sections explain how these transfer functions can be realized in a time-domain simulator.
+8.2.1 Sea State Descriptions
+For marine craft the sea states in Table 8.5 can be characterized by the following wave spectrum parameters:
+• The significant wave height Hs (the mean wave height of the one-third highest waves, also denoted as H1/3) • One of the following wave periods: – The average wave period, T1 – Average zero-crossing wave period, Tz – Peak period, Tp (this is equivalent to the modal period, T0)
+To relate the different periods to each other it is necessary to define the wave spectrum moments.
+Table 8.5 Definition of sea state (SS) codes (Price and Bishop, 1974). Notice that the percentage probability for SS codes 0, 1 and 2 is summarized
+Percentage probability
+Sea state Description Wave height World North Northern code of sea observed (m) wide Atlantic North Atlantic 0 Calm (glassy) 0 1 Calm (rippled) 0–0.1 11.2486 8.3103 6.0616 2 Smooth (wavelets) 0.1–0.5 3 Slight 0.5–1.25 31.6851 28.1996 21.5683 4 Moderate 1.25–2.5 40.1944 42.0273 40.9915 5 Rough 2.5–4.0 12.8005 15.4435 21.2383 6 Very rough 4.0–6.0 3.0253 4.2938 7.0101 7 High 6.0–9.0 0.9263 1.4968 2.6931 8 Very high 9.0–14.0 0.1190 0.2263 0.4346 9 Phenomenal Over 14.0 0.0009 0.0016 0.0035
+
+
+Wave Forces and Moments 201
+Figure 8.7 Two peaked wave spectra S(ω) where one peak is due to swell and tidal waves and the other peak is due to a developing sea.
+Wave Spectrum Moments
+A wave spectrum S(ω), see Figure 8.7, can be classified by means of wave spectrum moments:
+mk :=
+∫∞
+0
+ωk S(ω)dω (k = 0, . . . , N) (8.41)
+For k = 0, this yields
+m0 =
+∫∞
+0
+S(ω)dω (8.42)
+The instantaneous wave elevation is Gaussian distributed with zero mean and variance:
+σ2 = m0 (8.43)
+where σ is the root-mean-square (RMS) value of the spectrum. The modal frequency (peak frequency) ω0 is found by requiring that
+( dS(ω) dω
+)
+ω=ω0
+= 0 (8.44)
+Hence, the modal period becomes
+T0 = 2π
+ω0
+(8.45)
+Consequently, the maximum value of S(ω) is
+Smax = S(ω0) (8.46)
+
+
+202 Environmental Forces and Moments
+Under the assumption that the wave height is Rayleigh distributed it can be shown that the significant wave height satisfies (Price and Bishop, 1974)
+Hs = 4σ = 4√m0 (8.47)
+The average wave period is defined as
+T1 := 2π m0
+m1
+(8.48)
+while the average zero-crossings period is defined as
+Tz := 2π
+√ m0
+m2
+(8.49)
+8.2.2 Wave Spectra
+The process of wave generation due to wind starts with small wavelets appearing on the water surface. This increases the drag force, which in turn allows short waves to grow. These short waves continue to grow until they finally break and their energy is dissipated. It is observed that a developing sea, or storm, starts with high frequencies creating a spectrum with a peak at a relatively high frequency. A storm that has lasted for a long time is said to create a fully developed sea. After the wind has stopped, a low-frequency decaying sea or swell is formed. These long waves form a wave spectrum with a low peak frequency. If the swell from one storm interacts with the waves from another storm, a wave spectrum with two peak frequencies may be observed. In addition, tidal waves will generate a peak at a low frequency. Hence, the resulting wave spectrum might be quite complicated in cases where the weather changes rapidly (see Figure 8.7). The state-of-the-art wave spectra will now be presented. These models are used to derive linear approximations and transfer functions for computer simulations, autopilot wave filtering and state reconstruction, which are the topics in Part II.
+Neumann Spectrum
+The earliest spectral formulation is due to Neumann (1952) who proposed the one-parameter spectrum
+S(ω) = Cω−6 exp (−2g2ω−2V −2) (8.50)
+where S(ω) in m/s2 is the wave elevation power spectral density function, C is an empirical constant, V is the wind speed and g is the acceleration of gravity. Six years later Phillips (1958) showed that the high-frequency part of the wave spectrum reached the asymptotic limit
+lim
+ω1
+S(ω) = α g2 ω−5 (8.51)
+where α is a positive constant. This limiting function of Phillips is still used as the basis for most spectral formulations.
+Bretschneider Spectrum
+The spectrum of Neumann was further extended to a two-parameter spectrum by Bretschneider (1959):
+S(ω) = 1.25 ω4
+0H2
+s
+4 ω−5 exp [−1.25 (ω0/ω)4] (8.52)
+where ω0 is the modal or peak frequency of the spectrum and Hs is the significant wave height (mean of the one-third highest waves). This spectrum was developed for the North Atlantic, for unidirectional
+
+
+Wave Forces and Moments 203
+seas, infinite depth, no swell and unlimited fetch. The significant wave height Hs is used to classify the type of sea in terms of sea state codes 0, 1, ..., 9, as shown in Table 8.5.
+Pierson–Moskowitz Spectrum
+Pierson and Moskowitz (1963) have developed a two-parameter wave spectral formulation for fully developed wind-generated seas from analyses of wave spectra in the North Atlantic Ocean:
+S(ω) = Aω−5 exp (−Bω−4) (8.53)
+which is commonly known as the PM spectrum (Pierson–Moskowitz spectrum). The PM spectrum is used as the basis for several spectral formulations but with different A and B values. In its original formulation, the PM spectrum is only a one-parameter spectrum since only B changes with the sea state. The parameters are
+A = 8.1 × 10−3 g2 = constant (8.54)
+B = 0.74
+(g
+V19.4
+)4
+= 3.11
+Hs2
+(8.55)
+where V19.4 is the wind speed at a height of 19.4 m over the sea surface.
+Matlab
+The Bretschneider and PM spectra are implemented in the MSS toolbox as wave spectra 1 and 2:
+S=wavespec(1,[A,B],w,1)
+S=wavespec(2,V20,w,1)
+where A and B are the spectrum parameters, V20 is wind speed at 20 m height and w is the wave frequency vector.
+The relationship between V19.4 and Hs in (8.55) is based on the assumption that the waves can be represented by Gaussian random processes and that S(ω) is narrow banded. From (8.55) it is seen that
+Hs = 2.06
+g2 V 2
+19.4 (8.56)
+This implies that the significant wave height is proportional to the square of the wind speed. This is shown in Figure 8.8 where the sea state codes and Beaufort numbers are plotted against each other; see Tables 8.2 and 8.5.
+
+
+204 Environmental Forces and Moments
+Figure 8.8 Plot showing the relationship between significant wave height, wind speed, Beaufort numbers and sea state codes.
+The modal frequency (peak frequency) ω0 for the PM spectrum is found by requiring that
+( dS(ω) dω
+)
+ω=ω0
+= 0 (8.57)
+Solving for ω0 in (8.53) yields
+ω0 = 4
+√
+4B
+5 =⇒ T0 = 2π 4
+√
+5
+4B (8.58)
+where T0 is the modal period. Consequently, the maximum value of S(ω) is
+Smax = S(ω0) = 5A
+4Bω0
+exp (−5/4) (8.59)
+Modified Pierson–Moskowitz (MPM) Spectrum
+In order to predict the responses of marine craft in open sea, the International Ship and Offshore Structures Congress (2nd ISSC, 1964), the International Towing Tank Conferences (12th ITTC, 1969, and 15th ITTC, 1978) have recommended the use of a modified version of the PM spectrum (see Figure 8.9) where
+A = 4π3H 2
+s
+Tz4
+, B = 16π3
+Tz4
+(8.60)
+
+
+Wave Forces and Moments 205
+Figure 8.9 Plot showing the JONSWAP and modified Pierson–Moskowitz spectra for ω0 = 0.4 rad/s and Hs = 3, 4, ..., 14 m.
+This representation of the PM spectrum has two parameters Hs and Tz, or alternatively T0 and T1 given by
+Tz = 0.710T0 = 0.921T1 (8.61)
+Matlab
+The modified PM spectrum is implemented in the MSS toolbox as wave spectra 3 to 5:
+S = wavespec(3,[Hs,T0],w,1)
+S = wavespec(4,[Hs,T1],w,1)
+S = wavespec(5,[Hs,Tz],w,1)
+where Hs is the significant wave height, T0,T1 and Tz are the peak, average and average zerocrossing wave periods, respectively, while w is the wave frequency vector.
+The modified PM spectrum should only be used for a fully developed sea with large (infinite) depth, no swell and unlimited fetch. For nonfully developed seas the JONSWAP or Torsethaugen spectra are recommended.
+
+
+206 Environmental Forces and Moments
+JONSWAP Spectrum
+In 1968 and 1969 an extensive measurement program was carried out in the North Sea, between the island Sylt in Germany and Iceland. The measurement program is known as the Joint North Sea Wave Project (JONSWAP) and the results from these investigations have been adopted as an ITTC standard by the 17th ITTC (1984). Since the JONSWAP spectrum (see Figure 8.9) is used to describe nonfully developed seas, the spectral density function will be more peaked than those representing fully developed spectra. The proposed spectral formulation is representative for wind-generated waves under the assumption of finite water depth and limited fetch. The spectral density function is written
+S(ω) = 155 H2
+s
+T4
+1
+ω−5 exp
+( −944
+T4
+1
+ω−4
+)
+γY (8.62)
+where Hasselmann et al. (1973) suggest that γ = 3.3 and
+Y = exp
+[
+−
+( 0.191ωT1 − 1
+√2σ
+)2]
+(8.63)
+where
+σ=
+{ 0.07 for ω ≤ 5.24/T1
+0.09 for ω > 5.24/T1
+(8.64)
+Alternative formulations can be derived in terms of the characteristic periods like T0 and Tz by using
+T1 = 0.834 T0 = 1.073 Tz (8.65)
+Matlab
+The JONSWAP spectrum is included in the MSS toolbox as wave spectra 6 and 7:
+S=wavespec(6,[V10,fetch],w,1)
+S=wavespec(7,[Hs,w0,gamma],w,1)
+where V10 is the wind speed at 10 m height, Hs is the significant wave height, w0 is peak frequency and w is the wave frequency vector.
+Torsethaugen Spectrum
+The Torsethaugen spectrum is an empirical, two-peaked spectrum, which includes the effect of swell (low-frequency peak) and newly developed waves (high-frequency peak). The spectrum was developed
+
+
+Wave Forces and Moments 207
+Figure 8.10 Torsethaugen spectrum: upper plot shows only one peak at ω0 = 0.63 rad/s representing swell and developing sea while the lower plot shows low-frequency swell and newly developing sea with peak frequency ω0 = 1.57 rad/s.
+for Norsk Hydro (Torsethaugen, 1996), and standardized under the Norsok Standard (1999). The spectrum was developed using curve fitting of experimental data from the North Sea.
+Matlab
+The Torsethaugen spectrum is included in the MSS toolbox as wave spectrum 7:
+S = wavespec(7,[Hs,w0],w,1)
+where Hs is the significant wave height, w0 is peak frequency and w is the wave frequency vector.
+If the peak frequency ω0 is chosen to be less than approximately 0.6 rad/s, the Torsethaugen spectrum reduces to a one-peak spectrum where swell dominates. For peak frequencies ω0 > 0.6 rad/s the two characteristic peaks shown in Figure 8.10 clearly appear. This is due to the fact that developing waves have energy at high frequencies compared to swell. This combined effect is very common in the North Sea, and it makes DP and autopilot design a challenging task in terms of wave filtering.
+
+
+208 Environmental Forces and Moments
+Figure 8.11 Comparison of different wave spectra.
+Matlab
+The different wave spectra when plotted for the same wave height and peak frequency are shown in Figure 8.11. The plots are generated by using the wave demo option in the MSS toolbox:
+gncdemo
+8.2.3 Wave Amplitude Response Model
+The relationship between the wave spectrum S(ωk) and the wave amplitude Ak for a wave component k is (Faltinsen, 1990)
+1
+2 A2
+k = S(ωk) ω (8.66)
+where ω is a constant difference between the frequencies. Formula (8.66) can be used to compute wave-induced responses in the time domain.
+
+
+Wave Forces and Moments 209
+Long-Crested Irregular Sea
+The wave elevation of a long-crested irregular sea in the origin of {s} of the seakeeping reference frame under the assumption of zero speed can be written as the sum of N harmonic components:
+ξ=
+N ∑
+k=1
+Ak cos(ωk + k)
+=
+N ∑
+k=1
+√
+2S(ωk) ω cos(ωk + k) (8.67)
+where k is the random phase angle of wave component number k. Since this expression repeats itself after a time 2π/ ω a large number of wave components N are needed. However, a practical way to avoid this is to choose ωk randomly in the interval
+[
+ωk − ω
+2 , ωk + ω
+2
+]
+(8.68)
+implying that good results can be obtained for N in the range 50–100.
+Short-Crested Irregular Sea
+The most likely situation encountered at sea is short-crested or confused waves. This is observed as irregularities along the wave crest at right angles to the direction of the wind. The effect of shortcrestedness can be modeled by a 2-D wave spectrum:
+S(ω, β) = S(ω)f (β) (8.69)
+where β = 0 corresponds to the main wave propagation direction while a nonzero β value (see Figure 8.12) will spread the energy at different directions. A commonly used spreading function is
+f (β) =
+{2
+π cos2(β), −π/2 ≤ β ≤ π/2
+0, elsewhere
+(8.70)
+Figure 8.12 Definition of encounter angle β.
+
+
+210 Environmental Forces and Moments
+Figure 8.13 Representation of the wave-induced forces as the product of two transfer functions.
+Figure 8.14 Computational setup for first-order wave-induced positions based on motion RAOs.
+Figure 8.15 Linear approximation for computation of wave-induced positions.
+For this case (8.67) becomes
+ξ=
+N ∑
+k=1
+M ∑
+i=1
+√
+2S(ωk, βi) ω β cos(ωk + k) (8.71)
+where βi is taken randomly in the interval
+[
+βk − β
+2 , βk + β
+2
+]
+(8.72)
+These equations effectively represent the first block in Figures 8.13–8.15.
+Extension to Forward Speed using the Frequency of Encounter
+For a marine craft moving at forward speed U, the peak frequency of the spectrum ω0 will be shifted according to
+ωe(U, ω0, β) =
+∣∣∣∣ω0 − ω2
+0
+g U cos(β)
+∣∣∣∣ (8.73)
+
+
+Wave Forces and Moments 211
+where
+ωe - encounter frequency (rad/s) ωp - wave spectrum peak frequency (rad/s) g - acceleration of gravity (m/s2) U - total speed of ship (m/s) β - the angle between the heading and the direction of the wave (rad)
+The definition of the encounter angle β is shown in Figure 8.12. The expression for the wave elevation (8.71) can be redefined in terms of the frequency of encounter for a ship moving at forward speed U > 0 and varying wave directions βi. Moreover,
+ξ=
+N ∑
+k=1
+N ∑
+i=1
+√
+2S(ωk, βi) ω β cos(ωk − ω2
+k
+g U cos(βi)
+} {{ }
+ωe(U,ωk ,βi)
++ k) (8.74)
+This modification is particular useful for ship maneuvering.
+8.2.4 Wave Force Response Amplitude Operators
+Force RAOs can be computed for a particular craft using a hydrodynamic program where the hull geometry is specified in an input file. These programs are usually based on potential theory, as described in Section 5.1. Since the equations of motions of a moving craft are expressed in terms of Newton’s second law
+Mν ̇ =
+K ∑
+i=1
+τi (8.75)
+it is advantageous to represent the wave loads as generalized wave-induced forces
+τ = τwave1 + τwave2 (8.76)
+The wave force responses are computed for different sea states by using a wave spectrum S(ω) to describe the wave amplitude components Ak as discussed in Section 8.2.3. The force RAO relates the wave amplitudes to the wave-induced force, as shown in Figure 8.13. The necessary equations that are needed to represent the force RAOs and compute the wave-induced forces in the time domain are presented now. The Simulink code for this is included in the MSS Hydro toolbox.
+Normalized Force RAOs
+The first- and second-order wave forces for varying wave directions βi and wave frequencies ωk are
+denoted τ ̃{dof}
+wave1(ωk, βi) and τ ̃{dof}
+wave2(ωk, βi) where dof ∈ {1, 2, 3, 4, 5, 6}. The normalized force RAOs are complex variables (WAMIT Inc., 2010):
+F {dof}
+wave1(ωk, βi) =
+∣∣∣∣
+τ ̃ {dof }
+wave1(ωk, βi)
+ρgAk
+∣∣∣∣ ej\ τ ̃{dof}
+wave1(ωk,βi) (8.77)
+F {dof}
+wave2(ωk, βi) =
+∣∣∣∣
+τ ̃ {dof }
+wave2(ωk, βi)
+ρgA2
+k
+∣∣∣∣ ej\ τ ̃{dof}
+wave2(ωk,βi) (8.78)
+
+
+212 Environmental Forces and Moments
+The output from the hydrodynamic code is usually an ASCII file containing RAOs in table format. Let us denote the imaginary and real parts of the force RAOs by two Matlab structures: Imwave1{dof}(k, i) and Rewave1{dof}(k, i). The amplitudes and phases for different frequencies ωk and wave directions βi for the first-order wave-induced forces can be computed according to the formulae
+∣∣F {dof}
+wave1(ωk, βi)∣∣ = √
+Imwave1{dof}(k, i)2 + Rewave1{dof}(k, i)2 (8.79)
+\F {dof}
+wave1(ωk, βi) = atan2 (Imwave1{dof}(k, i), Rewave1{dof}(k, i)) (8.80)
+The amplitudes and phases for the second-order mean forces are
+∣∣F {dof}
+wave2(ωk, βi)∣∣ = Rewave2{dof}(k, i) (8.81)
+\F {dof}
+wave2(ωk, βi) = 0 (8.82)
+Matlab
+The motion RAOs are processed in the MSS Hydro Matlab toolbox by using m-file commands:
+wamit2vessel % read and process WAMIT data
+veres2vessel % read and process ShipX (Veres) data
+The data are represented in the workspace as Matlab structures:
+vessel.forceRAO.w(k) % frequencies
+vessel.forceRAO.amp{dof}(k,i,speed no) % amplitudes
+vessel.forceRAO.phase{dof}(k,i,speed no) % phases
+where speed no=1 represents U = 0. For the mean drift forces only surge, sway and yaw are considered (dof∈ {1, 2, 3} where the third component corresponds to yaw)
+vessel.driftfrc.w(k) % frequencies
+vessel.driftfrc.amp{dof}(k,i,speed no) % amplitudes
+It is possible to plot the force RAOs using
+plotTF
+plotWD
+Wave Forces (No Spreading Function)
+Since the first- and second-order wave forces are represented in terms of the complex variables
+F {dof}
+wave1(ωk, βi) and F {dof}
+wave2(ωk, βi), the responses for sinusoidal excitations can be computed using different wave spectra. When doing this, linear superposition is employed as illustrated in Figure 8.13. Let the wave-induced forces in 6 DOF be denoted by vectors:
+τwave1 = [τ{1}
+wave1, η{2}
+wave1, η{3}
+wave1, η{4}
+wave1, η{5}
+wave1, η{6}
+wave1
+] (8.83)
+τwave2 = [τ{1}
+wave2, η{2}
+wave2, η{3}
+wave2, η{4}
+wave2, η{5}
+wave2, η{6}
+wave2
+] (8.84)
+
+
+Wave Forces and Moments 213
+For the no spreading case, the wave direction β = constant such that
+τ {dof }
+wave1 =
+N ∑
+k=1
+ρg ∣∣F {dof}
+wave1(ωk, β)∣∣ Ak cos (ωe(U, ωk, β)t + \F {dof}
+wave1(ωk, β) + k
+) (8.85)
+τ {dof }
+wave2 =
+N ∑
+k=1
+ρg ∣∣F {dof}
+wave2(ωk, β)∣∣ A2
+k cos (ωe(U, ωk, β)t + k) (8.86)
+where
+ωe(U, ωk, β) = ωk − ω2
+k
+g U cos(β) (8.87)
+Wave Forces (Spreading Function)
+The more general case, where the spreading function (8.70) is included, can be simulated by using varying wave directions βi (i = 1, .., M) and
+τ {dof }
+wave1 =
+N ∑
+k=1
+M ∑
+i=1
+ρg ∣∣F {dof}
+wave1(ωk, βi)∣∣ Ak cos (ωe(U, ωk, βi)t + \F {dof}
+wave1(ωk, βi) + k
+) (8.88)
+τ {dof }
+wave2 =
+N ∑
+k=1
+M ∑
+i=1
+ρg ∣∣F {dof}
+wave2(ωk, βi)∣∣ A2
+k cos (ωe(U, ωk, βi)t + k) (8.89)
+where
+ωe(U, ωk, βi) = ωk − ω2
+k
+g U cos(βi) (8.90)
+8.2.5 Motion Response Amplitude Operators
+An alternative to the force RAO representation in Section 8.2.4 is to use motion RAOs for position, velocity and acceleration to compute the wave-induced motions. For force RAOs the response will be generalized forces as shown in Figure 8.13. However, in a linear system it is possible to move the forces through the chain of integrators to obtain generalized position. The first-order wave-induced forces, τwave1, are zero-mean oscillatory wave forces. Consider the linear system
+[MRB + A(ω)]ξ ̈ + B(ω)ξ ̇ + Cξ = τwave1 (8.91)
+By assuming harmonic motions
+ξ = ξ ̄ cos(ωt) = ξ ̄ Re(ejωt) (8.92)
+where ξ ̄ is a vector of amplitudes, (8.91) can be written
+−ω2[MRB + A(ω)]ξ ̄ − jωB(ω)ξ ̄ + Cξ ̄ = τ ̄ wave1 (8.93)
+
+
+214 Environmental Forces and Moments
+The responses can be evaluated as
+ξ ̄ = H v( jω)τ ̄ wave1 (8.94)
+where the force-to-motion transfer function
+Hv( jω) = [−ω2[MRB + A(ω)] − jωB(ω) + C]−1 (8.95)
+is a low-pass filter representing the vessel dynamics. This expression confirms that the first-order wave-induced position can be computed by low-pass filtering the generalized forces τwave1. Since the wave-induced forces, τwave1, are computed using linear theory, the wave-induced positions, ξ ̄, are linear responses, which can be modeled by RAOs. Notice that the motion RAOs depend on the model matrices MRB, A(ω), B(ω) and C while force RAOs are only dependent on the wave excitations. Hydrodynamic programs compute both the motion and force RAOs. Let us denote the first-order wave-induced positions in {n} by the vector
+ηw = [η{1}
+w , η{2}
+w , η{3}
+w , η{4}
+w , η{5}
+w , η{6}
+w
+] (8.96)
+such that the total motion becomes
+y = η + ηw (8.97)
+The wave-induced positions are computed using a wave spectrum according to (see Figure 8.14)
+η{dof}
+w=
+N ∑
+k=1
+M ∑
+i=1
+∣∣η{dof}
+w (ωk, βi)∣∣ Ak cos (ωe(U, ωk, βi)t + \η{dof}
+w (ωk, βi) + k
+) (8.98)
+where |η{dof}
+w (ωk, βi)| and \η{dof}
+w (ωk, βi) are the motion RAO amplitude and phase for frequency ωk and wave direction βi. This expression does not contain the second-order wave-induced forces. Consequently, wave drift forces must be added manually, for instance by using the wave drift force RAO to compute τ{dof}
+wave2 .
+8.2.6 State-Space Models for Wave Responses
+When simulating and testing feedback control systems it is useful to have a simple and effective way of representing the wave forces. The force RAO representation discussed in Section 8.2.4 requires that the ship geometry is known a priori and that the user has access to a hydrodynamic program for numerical computation of RAO tables. This is also the case for the motion RAO approach discussed in Section 8.2.5.
+1. Linear Approximation for WF Position: An alternative approach is to represent the motion RAO formulation in Figure 8.14 as a state-space model where the wave spectrum is approximated by a linear filter. In addition to this, the response of the motion RAOs and the linear vessel dynamics in cascade is modeled as constant tunable gains:
+K = diag{K{1}, K{2}, K{3}, K{4}, K{5}, K{6}} (8.99)
+
+
+Wave Forces and Moments 215
+This means that the RAO vessel model is approximated as (see Figure 8.15)
+H rao(s)H v(s) ≈ K (8.100)
+where Hrao(s) is the wave amplitude-to-force transfer function and Hv(s) is the force-to-motion transfer function (8.95). The fixed-gain approximation (8.100) produces good results in a closed-loop system where the purpose is to test robustness and performance of a feedback control system in the presence of waves. This is done by tuning of the gains until realistic results are obtained. For marine craft it is common to use position test signals in the magnitude of ±1.0 m for surge, sway and heave and attitude test signals of magnitude ±5.0–10.0 degrees in roll, pitch and yaw. Since the WF model as well as motion RAO approach only models the first-order wave-induced motions it is necessary to include second-order wave drift forces when testing integral action in a feedback control system. The state observer must also be able to handle biased measurements. If the fixed gain approximation (8.100) is applied, the generalized WF position vector ηw in Figure 8.15 becomes
+ηw = KHs(s)w(s) (8.101)
+where Hs(s) is a diagonal matrix containing linear approximations of the wave spectrum S(ω). This idea dates back to Balchen et al. (1976) who observed that the motions of a marine craft could be linearly superpositioned by adding two motion components: the wave-frequency (WF) motion ηw and the marine craft low-frequency (LF) motion η. Moreover, the total motion can be represented as
+ ̇η = J (η)ν (8.102)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) + g0 = τwind + τwave2 + τ (8.103)
+y = η + ηw (8.104)
+Notice that the effect of τwave1 is included in ηw so this signal is not needed when integrating the second equation, that is ν ̇. The WF position for each degree of freedom becomes
+η{dof}
+w = K{dof}ξ{dof} (8.105)
+ξ{dof}(s) = h{dof}(s) w{dof}(s) (8.106)
+where h{dof }(s) is a linear approximation of the wave spectral density function S(ω) and w{dof}(s) is a zero-mean Gaussian white noise process with unity power across the spectrum:
+P {dof}
+ww (ω) = 1.0 (8.107)
+Hence, the power spectral density (PSD) function for ξ{dof}(s) can be computed as
+P {dof}
+ξξ (ω) = |h{dof}( jω)|2 P {dof}
+ww (ω) = |h{dof}( jω)|2 (8.108)
+The ultimate goal is to design an approximation P{dof}
+ξξ (ω) to S(ω), for instance by means of nonlinear
+regression, such that P{dof}
+ξξ (ω) reflects the energy distribution of S(ω) in the relevant frequency range. Linear approximations that are well suited for this purpose are discussed later.
+2. Linear Approximation for First-order Wave-Induced Forces: An alternative approach to (8.102)(8.104) is to approximate the first-order wave-induced forces by a linear filter such that
+
+
+216 Environmental Forces and Moments
+ ̇η = J (η)ν (8.109)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) + g0 = τwind + τwave1 + τwave2 + τ (8.110)
+τwave1 ≈ KH s(s)w(s) (8.111)
+In this case the wave amplitude-to-force transfer function is approximated by a constant tunable gain K that must be chosen such that the amplitudes of the signals in η are of reasonable magnitude.
+Second-Order Wave Transfer Function Approximation
+A linear wave response approximation for Hs(s) = diag{h{1}(s), . . . , h{6}(s)} is usually preferred by ship control systems engineers, owing to its simplicity and applicability. The first applications were reported by Balchen et al. (1976) who proposed modeling the WF motion of a dynamically positioned ship in surge, sway and yaw by three harmonic oscillators without damping. Later Sælid et al. (1983) introduced a damping term λ in the wave model to fit the shape of the PM spectrum better. In general, there will be six transfer functions, one for each DOF. For notational simplicity, only one DOF is considered. The wave spectrum can be approximated by a second-order system of relative degree one:
+h(s) = Kws
+s2 + 2λω0s + ω2
+0
+(8.112)
+It is convenient to define the gain constant according to
+Kw = 2λω0σ (8.113)
+where σ is a constant describing the wave intensity, λ is a damping coefficient and ω0 is the dominating wave frequency. Consequently, substituting s = jω yields the frequency response
+h(jω) = j 2(λω0σ)ω
+(ω2
+0 − ω2) + j 2λω0ω (8.114)
+The magnitude of h( jω) becomes
+|h( jω)| = 2(λω0σ)ω
+√
+(ω2
+0 − ω2)2 + 4(λω0ω)2 (8.115)
+From (8.108), it is seen that
+Pξξ(ω) = |h( jw)|2 = 4(λω0σ)2ω2
+(ω2
+0 − ω2)2 + 4(λω0ω)2 (8.116)
+Determination of σ and λ
+Since the maximum value of Pξξ(ω) and S(ω) are obtained for ω = ω0, it follows that
+Pξξ(ω0) = S(ω0) (8.117)
+σ2 = max
+0<ω<∞ S(ω) (8.118)
+
+
+Wave Forces and Moments 217
+For the PM spectrum (8.53) this implies
+σ=
+√
+A
+ω5
+0
+exp
+(
+−B
+ω4
+0
+)
+(8.119)
+while the term γY(ω0) must be included for the JONSWAP spectrum. The damping ratio λ can be computed by requiring that the energy, that is the areas under Pξξ(ω) and S(ω) of the spectra, be equal. An alternative approach is to use nonlinear least-squares (NLS) to compute λ such that Pξξ(ω) fits S(ω) in a least-squares sense; see Figure 8.17. This is demonstrated in Example 8.1 using the Matlab optimization toolbox.
+Example 8.1 (Nonlinear Least-Squares Optimization of Linear Spectra)
+Consider the Matlab script ExLinspec.m for computation of λ. The output of the nonlinear optimization process gives the following λ values for the modified PM and JONSWAP spectra:
+ω0= 0.5 ω0= 0.8 ω0= 1.1 ω0= 1.4 Recommended values λ (MPM) 0.2565 0.2573 0.2588 0.2606 0.26 λ (JONSWAP) 0.1017 0.1017 0.1017 0.1017 0.10
+The λ value for both these spectra are independent of the wave height Hs. For the Torsethaugen spectrum the λ values vary with both Hs and ω0 as shown in Figure 8.16. The results of the curve-fitting procedure for the three different spectra are shown in Figure 8.17. Since the Torsethaugen spectrum is a two- peaked spectrum a second linear spectrum should be added to fit the swell peak at low frequencies.
+Figure 8.16 Least-squares optimal λ values for the Torsethaugen spectrum for varying Hs and ω0 when a linear spectrum is fitted to the high-frequency peak of the spectrum.
+
+
+218 Environmental Forces and Moments
+Figure 8.17 Nonlinear least-squares fit of a linear spectrum to the PM, JONSWAP and Torsethaugen spectra. Only one peak is approximated for the Torsethaugen spectrum.
+Matlab
+Power spectral density function:
+function Pyy = Slin(lambda,w)
+% Pyy = Slin(lambda,w) 2nd-order linear PSD function
+% w = wave spectrum frequency (rad/s)
+% lambda = relative damping factor
+global sigma wo
+Pyy = 4*(lambda*wo*sigma)∧2*w.∧2./((wo∧2-w.∧2).∧2 +...
+4*(lambda*wo.*w).∧2)
+
+
+Wave Forces and Moments 219
+Matlab
+Nonlinear least-squares:
+% Matlab script for plotting of nonlinear least-squares fit,
+% see ExLinspec.m
+global sigma wo
+wo = 1.2; To = 2*pi/wo; Hs = 10; wmax = 3;
+w = (0.0001:0.01:wmax)’;
+% Modified PM
+subplot(311)
+S = wavespec(3,[Hs,To],w,1); sigma = sqrt(max(S));
+lambda = lsqcurvefit(’Slin’,0.1,w,S)
+hold on; plot(w,Slin(lambda,w)); hold off;
+legend(’Modified PM spectrum’,’Linear approximation’)
+% JONSWAP
+subplot(312)
+S = wavespec(7,[Hs,wo,3.3],w,1); sigma = sqrt(max(S));
+lambda = lsqcurvefit(’Slin’,0.1,w,S)
+hold on; plot(w,Slin(lambda,w)); hold off;
+legend(’Modified PM spectrum’,’Linear approximation’)
+% Torsethaugen
+subplot(313)
+S = wavespec(8,[Hs,wo],w,1); sigma = sqrt(max(S));
+lambda = lsqcurvefit(’Slin’,0.1,w,S)
+hold on; plot(w,Slin(lambda,w)); hold off;
+legend(’Modified PM spectrum’,’Linear approximation’)
+State-Space Representations of Linear Wave Spectra
+A linear state-space model can be obtained from (8.112) by transforming this expression to the time domain by defining x ̇w1 = xw2 and xw2 = yw as state variables. This implies that the state-space model can be written
+x ̇ w = Awxw + eww (8.120)
+yw = cwxw (8.121)
+where w is a zero-mean white noise process. Writing this expression in component form yields
+
+
+220 Environmental Forces and Moments
+[ x ̇w1
+x ̇ w2
+] =
+[0 1
+−ω2
+0 −2λω0
+] [ xw1
+xw2
+] +
+[0
+Kw
+]
+w (8.122)
+yw = [ 0 1 ] [ xw1
+xw2
+]
+(8.123)
+Higher-Order Wave Transfer Function Approximations
+An alternative wave transfer function based on five parameters has been proposed by Grimble et al. (1980) and Fung and Grimble (1983). This model takes the form
+h(s) = Kws2
+s4 + a1s3 + a2s2 + a3s + a4
+(8.124)
+where ai (i = 1, . . . , 4) are four parameters. Consequently, four differential equations are required to describe the wave model:
+⎡
+⎢⎢⎣
+x ̇ w1
+x ̇ w2
+x ̇ w3
+x ̇ w4
+⎤
+⎥⎥⎦ =
+⎡
+⎢⎢⎣
+0100
+0010
+0001
+−a4 −a3 −a2 −a1
+⎤
+⎥⎥⎦
+⎡
+⎢⎢⎣
+xw1
+xw2
+xw3
+xw4
+⎤
+⎥⎥⎦ +
+⎡
+⎢⎢⎣
+0
+0
+0
+Kw
+⎤
+⎥⎥⎦ w (8.125)
+yw = [ 0 0 1 0 ]
+⎡
+⎢⎢⎣
+xw1
+xw2
+xw3
+xw4
+⎤
+⎥⎥⎦ (8.126)
+The number of parameters can be reduced by assuming that the denominator can be factorized according to
+h(s) = Kws2
+(s2 + 2λω0s + ω2
+0)2 (8.127)
+Triantafyllou et al. (1983) have shown by applying a rational approximation to the Bretschneider spectrum that a satisfactory approximation of the WF motion can be obtained by using the transfer function
+h(s) = Kws2
+(s2 + 2λω0s + ω2
+0)3 (8.128)
+which only has three unknown parameters λ, ω0 and Kw. The advantage of the higher order models to the simple second-order system (8.112) is that they will represent a more precise approximation to the wave spectrum response through a nonlinear least-squares curve-fitting procedure. The disadvantage, of course, is higher model complexity and perhaps more parameters to determine.
+Example 8.2 (Linear Model for First- and Second-order Wave-Induced Forces)
+A marine control system can be tested under the influence of waves by separating the first- and second-order wave-induced forces. For a surface vessel in 3 DOF (dof ∈ {1, 2, 6}) the wave forces and
+
+
+Ocean Current Forces and Moments 221
+moment are
+τwave = [Xwave, Ywave, Nwave] (8.129)
+where Xwave, Ywave and Nwave are generated by using
+Xwave = K{1}
+ws
+s2 + 2λ{1}ω{e1}s + (ω{e1}
+)2 w1 + d1 (8.130)
+Ywave = K{2}
+ws
+s2 + 2λ{2}ω{e2}s + (ω{e2}
+)2 w2 + d2 (8.131)
+Nwave = K{6}
+ws
+s2 + 2λ{6}ω{e6}s + (ω{e6}
+)2 w3 + d3 (8.132)
+where the wave drift forces di (i = 1, 2, 3) are modeled as slowly varying bias terms (Wiener processes):
+d ̇1 = w4 (8.133)
+d ̇2 = w5 (8.134)
+d ̇3 = w6 (8.135)
+Here wi (i = 1, 2, ..., 6) are Gaussian white noise processes. The amplitudes of Xwave, Ywave and Nwave are adjusted by choosing the constants K{dof}
+w while the the spectra are parametrized in terms of the pairs
+λ{dof} and ω{dof}
+e . Notice that the frequency of encounter ω{dof}
+e should be used in the transfer functions for a ship moving at forward speed U > 0. The wave spectrum parameters should be chosen to represent the true sea state. A good approximation is to use the λ{dof} values in Example 8.1 while a typical wave peak frequency ω{dof}
+0 needed to compute ω{dof}
+e could be 0.8 rad/s. Alternatively, the sea state description
+in Table 8.5 can be used to find an appropriate ω{dof}
+0 . Equations (8.133)–(8.135) should be modified by using saturating elements to prevent di from exceeding a predescribed maximum physical limit, that is |di| ≤ di,max.
+8.3 Ocean Current Forces and Moments
+Ocean currents are horizontal and vertical circulation systems of ocean waters produced by gravity, wind friction and water density variation in different parts of the ocean. Besides wind-generated currents, the heat exchange at the sea surface, together with salinity changes, develop an additional sea current component, usually referred to as thermohaline currents. A world map showing the most major ocean surface currents is found in Defant (1961). The oceans are conveniently divided into two water spheres, the cold and warm water spheres. Since the Earth is rotating, the Coriolis force will try to turn the major currents to the East in the northern hemisphere and West in the southern hemisphere. Finally, the major ocean circulations will also have a tidal component arising from planetary interactions like gravity. In coastal regions and fjords, tidal components can reach very high speeds, in fact speeds of 2–3 m/s or more have been measured.
+Equations of Motion including Ocean Currents
+In order to simulate ocean currents and their effect on marine craft motion, the following model can be applied:
+
+
+222 Environmental Forces and Moments
+MRBν ̇ + CRB(ν)ν + g(η) + g0
+} {{ }
+rigid-body and hydrostatic terms
++ MAν ̇r + CA(νr)νr + D(νr)νr
+} {{ }
+hydrodynamic terms
+= τwind + τwave + τ (8.136)
+where νr = ν − νc is the relative velocity vector. The generalized ocean current velocity of an irrotational fluid is
+νc = [uc, vc, wc
+} {{ }
+vcb
+, 0, 0, 0] (8.137)
+where uc, vc and wc are expressed in {b}. Moreover, vb
+c = [uc, vc, wc] . The ocean current velocity vectors in {n} and {b} satisfy
+vn
+c = Rn
+b ( nb)vb
+c (8.138)
+Definition 8.1 (Irrotational Constant Ocean Current)
+An irrotational constant ocean current in {n} is defined by
+ ̇vn
+c =  ̇Rn
+b ( nb)vb
+c + Rn
+b ( nb) ̇vb
+c := 0 (8.139)
+where
+ ̇Rn
+b ( nb) = Rn
+b ( nb)S(ωb
+b/n) (8.140)
+Consequently,
+ ̇vb
+c = −S(ωb
+b/ n )vb
+c (8.141)
+Property 8.1 (Irrotational Constant Ocean Currents)
+If the Coriolis and centripetal matrix CRB(νr) is parametrized independent of linear velocity ν1 = [u, v, w] , for instance by using (3.57), and the ocean current is irrotational and constant (Definition 8.1), the rigid-body kinetics satisfies (Hegrenæs, 2010)
+MRBν ̇ + CRB(ν)ν = MRBν ̇r + CRB(νr)νr (8.142)
+with
+νr =
+[ vb − vb
+c
+ωb
+b/n
+]
+(8.143)
+Proof. Since the Coriolis and centripetal matrix represented by (3.57) is independent of linear velocity ν1 = [u, v, w] , it follows that
+CRB(νr) = CRB(ν) (8.144)
+The property
+MRBν ̇c + CRB(νr)νc = 0 (8.145)
+
+
+Ocean Current Forces and Moments 223
+is proven by expanding the matrices MRB and CRB(νr) and corresponding acceleration and velocity vectors according to
+[ mI3×3 −mS(rb
+g)
+mS(rb
+g) Ib
+] [ −S(ωb
+b/ n )vb
+c
+03×1
+] +
+[ mS(ωb
+b/n) −mS(ωb
+b/n)S(rb
+g)
+mS(rb
+g)S(ωb
+b/n) −S(Ibωb
+b/ n )
+] [ vb
+c
+03×1
+]
+=0
+Finally, it follows that
+MRBν ̇ + CRB(ν)ν = MRB[ν ̇r + ν ̇c] + CRB(νr)[νr + νc]
+= MRBν ̇r + CRB(νr)νr (8.146)
+Equations of Relative Velocity
+Property 8.1 can be used to simply the representation of the equations of motion (8.136). Moreover,
+Mν ̇r + C(νr)νr + D(νr)νr + g(η) + g0 = τwind + τwave + τ (8.147)
+where
+M = MRB + MA (8.148)
+C(νr) = CRB(νr) + CA(νr) (8.149)
+For DP vessels and ships moving on a straight-line path, ωb
+b/n ≈ 0. Hence, the acceleration of the current (8.141) is negligible such that
+ν ̇c ≈ 0 (8.150)
+Under this assumption, the equations of motion (8.147) become
+Mν ̇ + C(νr)νr + D(νr)νr + g(η) + g0 = τwind + τwave + τ (8.151)
+We will now turn our attention to simulation models for νc.
+Current Speed and Direction
+The ocean current speed is denoted by Vc while its direction relative to the moving craft is conveniently expressed in terms of two angles: angle of attack αc and sideslip angle βc as shown in Figure 2.9 in Section 2.4. For computer simulations the ocean current velocity can be generated by using a first-order Gauss–Markov process:
+V ̇c + μVc = w (8.152)
+
+
+224 Environmental Forces and Moments
+where w is Gaussian white noise and μ ≥ 0 is a constant. If μ = 0, this model reduces to a random walk, corresponding to time integration of white noise. A saturating element is usually used in the integration process to limit the current speed to
+Vmin ≤ Vc(t) ≤ Vmax (8.153)
+The direction of the current can be fixed by specifying constant values for αc and βc. Time-varying directions can easily be simulated by associating dynamics to αc and βc.
+8.3.1 3-D Irrotational Ocean Current Model
+A 3-D ocean current model is obtained by transforming the current speed Vc from FLOW axes to NED velocities:
+vn
+c = Ry,αc Rz,−βc
+⎡
+⎣
+Vc
+0
+0
+⎤
+⎦ (8.154)
+where the rotation matrices Ry,αc and Rz,−βc are defined in Section 2.4. Assuming that the fluid is irrotational implies that
+νc = [uc, vc, wc, 0, 0, 0] (8.155)
+Expanding (8.154) yields
+vn
+c=
+⎡
+⎣
+Vc cos(αc) cos(βc)
+Vc sin(βc)
+Vc sin(αc) cos(βc)
+⎤
+⎦ (8.156)
+which can be transformed to {b} using the Euler angle rotation matrix. Consequently,
+⎡
+⎣
+uc
+vc
+wc
+⎤
+⎦ = Rn
+b ( nb) vn
+c (8.157)
+8.3.2 2-D Irrotational Ocean Current Model
+For the 2-D case (motions in the horizontal plane), the 3-D equations (8.156) with αc = 0 reduce to
+vn
+c=
+⎡
+⎣
+Vc cos(βc)
+Vc sin(βc)
+0
+⎤
+⎦ (8.158)
+
+
+Ocean Current Forces and Moments 225
+Hence, from (8.157) it follows that
+uc = Vc cos(βc − ψ), vc = Vc sin(βc − ψ) (8.159)
+Notice that
+Vc = √
+uc2 + vc2 (8.160)
+Example 8.3 (Maneuvering Model including Ocean Currents) Consider a linearized maneuvering model in state-space form:
+⎡
+⎣
+m11 m12 0
+m21 m22 0
+0 01
+⎤
+⎦
+⎡
+⎣
+ ̇v −  ̇vc
+r ̇
+ψ ̇
+⎤
+⎦+
+⎡
+⎣
+d11 d12 0
+d21 d22 0
+0 −1 0
+⎤
+⎦
+⎡
+⎣
+v − vc
+r
+ψ
+⎤
+⎦=
+⎡
+⎣
+b1
+b2
+0
+⎤
+⎦δ+
+⎡
+⎣
+Ywind
+Nwind
+0
+⎤
+⎦+
+⎡
+⎣
+Ywave
+Nwave
+0
+⎤
+⎦
+(8.161)
+where v is the sway velocity, r is the yaw rate, ψ is the yaw angle, δ is the rudder angle and vc is the transverse current velocity given by
+vc = Vc sin(βc − ψ) (8.162)
+Assume that the current speed is a Gauss–Markov process (8.152) and the direction βc = constant. The ocean current acceleration in {b} becomes
+ ̇vc = V ̇c sin(βc − ψ) − Vcr cos(βc − ψ)
+= −μVc sin(βc − ψ) + w sin(βc − ψ) − Vcr cos(βc − ψ) (8.163)
+The resulting state-space model is
+⎡
+⎢⎢⎣
+m11 m12 0 0
+m21 m22 0 0
+0 0 10
+0 0 01
+⎤
+⎥⎥⎦
+⎡
+⎢⎢⎢⎣
+ ̇v
+r ̇
+ψ ̇
+V ̇ c
+⎤
+⎥⎥⎥⎦ =
+⎡
+⎢⎢⎣
+m11μVc sin(βc − ψ) + m11Vcr cos(βc − ψ) + d11Vc sin(βc − ψ) − d11v − d12r
+m21μVc sin(βc − ψ) + m21Vcr cos(βc − ψ) + d21Vc sin(βc − ψ) − d21v − d22r
+r
+−μVc
+⎤
+⎥⎥⎦
++
+⎡
+⎢⎢⎣
+b1
+b2
+0
+0
+⎤
+⎥⎥⎦ δ +
+⎡
+⎢⎢⎣
+Ywind
+Nwind
+0
+0
+⎤
+⎥⎥⎦ +
+⎡
+⎢⎢⎣
+Ywave
+Nwave
+0
+0
+⎤
+⎥⎥⎦ +
+⎡
+⎢⎢⎣
+−m11 sin(βc − ψ)
+−m21 sin(βc − ψ)
+0
+1
+⎤
+⎥⎥⎦ w
+Notice that the state-space model is nonlinear in ψ, Vc and βc even though the ship model (8.161) was linear.

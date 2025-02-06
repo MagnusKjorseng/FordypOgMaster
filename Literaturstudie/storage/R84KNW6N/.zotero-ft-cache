@@ -1,0 +1,1973 @@
+12
+Motion Control Systems
+Motion control systems for marine craft have been an active field of research since the first mechanical autopilot was constructed by Elmer Sperry in 1911. Modern control systems are based on a variety of design techniques such as PID control, linear quadratic optimal and stochastic control, H∞ control methods, fuzzy systems, neural networks and nonlinear control theory, to mention only some. In the first part of the book, models for simulation of marine craft were presented. In this chapter, dynamic models are used to design model-based control systems. The dynamic properties and limitation of the craft are incorporated into the design process to obtain robust performance. Many of the presented design methods have been successfully implemented and tested onboard ships, underwater vehicles and floating vessels. Chapter 12 covers state-of-the-art PID control methods for setpoint regulation, trajectory-tracking control and path-following control of marine craft. This includes autopilot design, stationkeeping, position mooring systems, cross-tracking control systems and LOS control systems. In addition to this, control allocation methods are discussed. Advance methods such as linear quadratic optimal control, sliding mode control, state feedback linearization and integrator backstepping are discussed in Chapter 13.
+Preview of the Chapter
+This chapter starts with open-loop analysis and maneuverability (Section 12.1) followed by state-of-theart linear PID design methods (Section 12.2). Conventional PID control systems have their origin from SISO linear systems theory. However, it is possible to generalize this to nonlinear MIMO systems by using results from robotics (Fossen, 1991). This requires that the marine craft equations of motion are expressed in a vectorial setting:
+ ̇η = J (η)ν (12.1)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) = τ + w (12.2)
+For this model class, MIMO nonlinear PID control systems can be designed by exploiting the fact that the mass matrix is positive definite and constant (M = M > 0, M ̇ = 0), the Coriolis and centripetal matrix C(ν) = −C (ν) is skew-symmetrical and the damping matrix D(ν) > 0 is strictly positive.
+12.1 Open-Loop Stability and Maneuverability
+When designing a motion control system a compromise between stability and maneuverability must be made. More specifically:
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+344 Motion Control Systems
+Figure 12.1 Maneuverability versus stability. Illustration by Bjarne Stenberg.
+• Stability of an uncontrolled marine craft can be defined as the ability to return to an equilibrium point after a disturbance, without any corrective action of the actuators. • Maneuverability, on the other hand, is defined as the capability of the craft to carry out specific maneuvers.
+It is well known that a craft that is easy to maneuver, for instance a fighter aircraft or a high-speed watercraft, can be marginally stable or even unstable in open loop. On the other hand, excessive stability implies that the control effort will be excessive in a maneuvering situation whereas a marginally stable ship is easy to maneuver. Consequently, a compromise between stability and maneuverability must be made (see Figure 12.1).
+12.1.1 Straight-Line, Directional and Positional Motion Stability
+For marine craft it is common to distinguish between three types of stability, namely:
+• Straight-line stability • Directional or course stability • Positional motion stability
+This can be explained using open-loop and closed-loop stability analyzes. In order to understand the different types of stability one can consider the following test system:
+x ̇ = u cos(ψ) − v sin(ψ)
+≈ u0 cos(ψ) (12.3)
+
+
+Open-Loop Stability and Maneuverability 345
+y ̇ = u sin(ψ) + v cos(ψ)
+≈ u0 sin(ψ) (12.4)
+ψ ̇ = r (12.5)
+T r ̇ + r = Kδ + w (12.6)
+where w is the external disturbances and u0 = constant is the cruise speed. The first two equations represent the (x, y) position of the ship while the last two equations describe the yaw dynamics modeled by Nomoto’s first-order model. For simplicity, it is assumed that the yaw motion of the craft is stabilized by a PD-controlled rudder servo:
+δ = −Kp(ψ − ψd) − Kdr (12.7)
+where ψd = constant denotes the desired heading angle and Kp and Kd are two positive regulator gains. Substituting the control law (12.7) into Nomoto’s first-order model (12.6) yields the closed-loop system
+}{T{}
+m
+ψ ̈ + (1 + KKd)
+} {{ }
+d
+ψ ̇ + KKp
+}{{}
+k
+ψ = KKpψd + w
+} {{ }
+f (t)
+(12.8)
+The closed-loop system represents a second-order mass–damper–spring system
+mψ ̈ + dψ ̇ + kψ = f (t) (12.9)
+with driving input
+f (t) = kψd + w (12.10)
+The eigenvalues λ1,2, the natural frequency ωn and the relative damping ratio ζ for the mass–damperspring system are
+λ1,2 = −d ± √d2 − 4km
+2m (12.11)
+ωn =
+√
+k
+m (12.12)
+ζ= d
+2
+√1km (12.13)
+Matlab
+The test system (12.8) is simulated in Matlab for varying model parameters using the MSS toolbox script
+StabDemo
+
+
+346 Motion Control Systems
+The simulation results and the stability analysis are presented on the next pages. This includes the following cases:
+• Instability • Straight-line stability • Directional stability • Positional motion stability
+Instability: For uncontrolled marine craft (Kp = Kd = 0) instability occurs when
+λ1 = − d
+m =− 1
+T >0
+λ2 = 0
+which simply states that T < 0. This is common for large tankers. Straight-Line Stability: Consider an uncontrolled marine craft (Kp = Kd = 0) moving in a straight path. If the new path is straight after a disturbance w in yaw the craft is said to have straight-line stability. The direction of the new path will usually differ from the initial path because no restoring forces are present (k = 0). This corresponds to
+λ1 = − d
+m =−1
+T <0
+λ2 = 0
+Consequently, the requirement T > 0 implies straight-line stability for the uncontrolled craft (δ = 0). Directional Stability (Stability on Course): Directional stability is a much stronger requirement than straight-line stability (see Figure 12.2). Directional stability requires the final path to be parallel to the initial path that is obtained for Kp > 0 ⇒ k > 0. Additional damping is added through Kd > 0. This corresponds to PD control. A marine craft is said to be directionally stable if both eigenvalues have negative real parts, that is
+Re{λ1,2} < 0
+The following two types of directional stability are observed: No oscillations (d2 − 4km ≥ 0): This implies that both eigenvalues are negative and real, that is ζ ≥ 1 such that
+λ1,2 = −d ± √d2 − 4km
+2m =
+(
+−ζ ± √
+ζ2 − 1
+)
+ωn < 0
+For a critically damped system ζ = 1.0, such that λ1,2 = −1/2(d/m) = −ωn. Damped oscillator (d2 − 4km < 0): This corresponds to two imaginary eigenvalues λ1,2 with negative real parts (ζ < 1), that is
+λ1,2 = −d ± j√4km − dm
+2m =
+(
+−ζ ± j
+√
+1 − ζ2
+)
+ωn
+Directional stability for a critically damped (ζ = 1.0) and underdamped craft (ζ = 0.1) is shown in Figures 12.3–12.4. Notice the oscillations in both positions and yaw angle in Figure 12.4. Directional stability requires feedback control since there are no restoring forces in yaw. However, in heave, roll
+
+
+Open-Loop Stability and Maneuverability 347
+Figure 12.2 Straight-line stability for a ship when an impulse w(t) is injected at t = 100 s.
+and pitch where metacentric restoring forces are present (k > 0) no feedback is required to damp out the oscillations. Positional Motion Stability: Positional motion stability implies that the ship should return to its original path after a disturbance (see Figure 12.5). This can be achieved by including integral action in the controller. Hence, a PID controller can be designed to compensate for the unknown disturbance term w while a PD controller will generally result in a steady-state offset.
+Example 12.1 (Straight-Line Stability)
+Consider the cargo ship and oil tanker of Example 7.1. Recall that the equivalent time constant in Nomoto’s first-order model was defined as
+T := T1 + T2 − T3
+Hence, the uncontrolled cargo ship has an equivalent time constant
+Tcargo ship = 118.0 + 7.8 − 18.5 = 107.3 s > 0
+while the oil tanker has an equivalent time constant
+Toil tanker = −124.1 + 16.4 − 46.0 = −153.7 s < 0
+This implies that the cargo ship is straight-line stable while the oil tanker is unstable.
+
+
+348 Motion Control Systems
+Figure 12.3 Directional stability for a critically damped ship (ζ = 1.0) when an impulse w(t) is injected at t = 100 s.
+Criteria for Straight-Line Stability
+Recall that a ship is said to be dynamically straight-line stable if it returns to a straight-line motion after a disturbance in yaw without any corrective action from the rudder. Consequently, instability refers to the case when the ship goes into a starboard or port turn without any rudder deflections. For Nomoto’s firstorder model straight-line motion was guaranteed for a positive time constant T . Similarly, it is possible to derive a criterion for straight-line stability for the state-space model (7.33):
+Mν ̇ + N(u0)ν = bδ (12.14)
+where ν = [v, r] . Applications of Laplace’s transformation to the linear model (12.14) with ν(0) = 0 yields
+[Ms + N(u0)]ν(s) = bδ(s) (12.15)
+Consequently,
+ν(s) = [Ms + N(u0)]−1bδ(s) = adj(Ms + N(u0))
+det(Ms + N(u0)) bδ(s) (12.16)
+
+
+Open-Loop Stability and Maneuverability 349
+Figure 12.4 Directional stability for an underdamped ship (ζ = 0.1) when an impulse w(t) is injected at t = 100 s.
+The characteristic equation is
+det(Mσ + N(u0)) = Aσ2 + Bσ + C = 0 (12.17)
+where
+A = det(M)
+B = n11m22 + n22m11 − n12m21 − n21m12
+C = det(N(u0)) (12.18)
+The two roots σ1,2 of (12.17), both of which must have negative real parts for open-loop stability, are
+Re{σ1,2} = Re
+{ −B ± √B2 − 4AC 2A
+}
+< 0 (12.19)
+
+
+350 Motion Control Systems
+Figure 12.5 Positional motion stability for a PID-controlled ship when an impulse w(t) is injected at t = 100 s.
+The quantities σ1,2 are often referred to as the control-fixed stability indices for straight-line stability. Alternatively, the Routh stability criterion can be applied.
+Theorem 12.1 (The Routh Stability Criterion) Consider the characteristic equation
+anλn + an−1λn−1 + an−2λn−2 + · · · + a0 = 0 (12.20)
+To apply the Routh criterion, the Routh array shown in Table 12.1 must be constructed. The coefficients ai are the coefficients of the characteristic equation (12.20) and bi, ci, di, . . . are defined as
+b1 = (an−1an−2 − anan−3)/an−1 b2 = (an−1an−4 − anan−5)/an−1 . . .
+c1 = (b1an−3 − an−1b2)/b1 c2 = (b1an−5 − an−1b3)/b1 . . .
+d1 = (c1b2 − c2b1)/c1 . . .
+Necessary and sufficient conditions for the system to be stable are:
+1. All the coefficients of the characteristic equation must be nonzero and have the same sign. 2. All the coefficients of the first column of the Routh array must have the same sign.
+
+
+Open-Loop Stability and Maneuverability 351
+Table 12.1 Routh array
+λn an an−2 an−4 ...
+λn−1 an−1 an−3 an−5 ... λn−2 b1 b2 b3 ... λn−3 c1 c2 c3 ... λn−4 d1 d2 d3 ...
+... ...
+If Condition 2 is violated, the number of sign changes will indicate how many roots of the characteristic equation will have positive real parts. Hence, the system will be unstable.
+Proof. See Routh (1877).
+According to the Routh stability criterion, necessary and sufficient conditions for a ship given by (12.14) with characteristic equation (12.17) to be stable are
+A, B, C > 0 (12.21)
+The first condition A = det(M) > 0 is automatically satisfied since the inertia matrix M is always positive definite for a marine craft. Condition B > 0 implies that
+n11m22 + n22m11 > n12m21 + n21m12 (12.22)
+Consequently, the products of the diagonal elements of M and N(u0) must be larger than the products of the off-diagonal elements. This is is satisfied for most ships. Consequently, condition (12.21) reduces to
+C = det(N(u0)) > 0 (12.23)
+This condition has also been verified by Abkowitz (1964), who stated the following theorem.
+Theorem 12.2 (Straight-Line Stability (Abkowitz, 1964))
+A ship is dynamically stable in straight-line motion if the hydrodynamic derivatives satisfy
+det(N(u0)) = det
+[ −Yv mu0 − Yr
+−Nv mxgu0 − Nr
+]
+(12.24)
+= Yv(Nr − mxgu0) − Nv(Yr − mu0) > 0
+Proof. This is seen as a consequence of (12.23) and (12.24).
+It is interesting to notice that making C more positive will improve stability and thus reduce the ship’s maneuverability, and the other way around. Straight-line stability implies that the new path of the ship will be a straight line after a disturbance in yaw. The direction of the new path will usually differ from the initial path. Contrary to this, unstable ships will go into a starboard or port turn without any rudder
+
+
+352 Motion Control Systems
+deflection. It should be noted that most modern large tankers are slightly unstable. For such ships, the criterion (12.24) corresponds to one of the poles being in the right half-plane.
+Straight-Line Stability in Terms of Time Constants
+The criterion (12.21) can be related to Nomoto’s second-order model (7.46) by noticing that
+T1T2 = A
+C > 0, T1 + T2 = B
+C > 0 (12.25)
+Consequently, straight-line stability is guaranteed if T1 > 0 and T2 > 0. This can also be seen from
+σ1,2 = − 1
+T1,2
+= Re
+{ −B±√B2 − 4AC 2A
+}
+< 0 (12.26)
+Criteria for Directional Stability
+Dynamic stability on course, or directional stability, cannot be obtained without activating the rudder. Usually a PID control system is used to generate the necessary rudder action to stabilize the ship. For simplicity, consider a PD controller:
+δ = −Kp(ψ − ψd) − Kdr (12.27)
+which after substitution into Nomoto’s second-order model yields the closed-loop dynamics:
+T1T2ψ(3) + (T1 + T2 + T3KKd )ψ ̈ + (1 + KKd + T3KKp)ψ ̇ + KKpψ = KKpψd (12.28)
+From this expression, the cubic characteristic equation
+Aσ3 + Bσ2 + Cσ + D = 0 (12.29)
+is recognized, where
+A = T1T2 (12.30)
+B = T1 + T2 + T3KKd (12.31)
+C = 1 + KKd + T3KKp (12.32)
+D = KKp (12.33)
+The requirement for directional stability is
+Re{σ1,2,3} < 0 (12.34)
+This can be checked by forming the Routh array:
+AC
+BD
+BC−AD
+B0 D
+(12.35)
+
+
+Open-Loop Stability and Maneuverability 353
+Consequently, sufficient and necessary conditions for the ship to be dynamically stable on course are
+A, B, C, D > 0 (12.36)
+BC − AD > 0 (12.37)
+This again implies that the controller gains Kp and Kd must be chosen such that the conditions (12.36) and (12.37) are satisfied.
+12.1.2 Maneuverability
+Several ship maneuvers can be used to evaluate the robustness, performance and limitations of a ship. This is usually done by defining a criterion in terms of a maneuvering index or by simply using a maneuvering characteristic to compare the maneuverability of the test ship with previously obtained results from other ships. A frequently used measure of maneuverability is the turning index of Norrbin (1965).
+The Norrbin Measure of Maneuverability
+Norrbin (1965) defines the turning index as
+P := ψ′(t′ = 1)
+δ′(t′ = 1) (12.38)
+where t′ = t(U/L) is the nondimensional time. P is a measure of turning ability or maneuverability since it can be interpreted as the heading change per unit rudder angle in one ship length traveled at U = 1 m/s. An expression for P can be found by solving the ODE:
+T ′ψ ̈ ′ + ψ ̇ ′ = K′δ′ (12.39)
+with δ′ = constant. This results in
+ψ′(t′) = K′[t′ − T ′ + T ′ exp(−(t′/T ′))]δ′(t′) (12.40)
+A second-order Taylor expansion of exp(−t′/T ′) is
+exp(−t′/T ′) = 1 − t′
+T ′ + (t′)2
+2(T ′)2 + O(3) (12.41)
+such that
+ψ′(t′)
+δ′(t′) ≈ K′
+[
+t′ − T ′ + T ′
+(
+1 − t′
+T ′ + (t′)2
+2(T ′)2
+)]
+= K (t′)2
+2T ′ (12.42)
+ψ′(t′ = 1)
+δ′(t′ = 1) ≈ K′
+[ (t′)2
+2T ′
+]
+t ′ =1
+= K′
+2T ′ (12.43)
+
+
+354 Motion Control Systems
+Consequently,
+P≈1
+2
+K′
+T ′ (12.44)
+The P number is a good measure of maneuverability for course-stable ships. Norrbin concludes that P > 0.3 guarantees a reasonable standard of course-change quality for most ships while P > 0.2 seems to be sufficient for large oil tankers. For poorly stable ships it is recommended to use P together with another maneuverability index, for instance the slope dr′/dδ′ or the width of the r′–δ′ loop (see Figure 12.12 later).
+Maneuvering Characteristics
+A maneuvering characteristic can be obtained by changing or keeping a predefined course and speed of the ship in a systematic manner by means of active controls. For most surface vessels these controls are rudders, fins, propellers and thrusters. However, since ship maneuverability depends on the water depth, environmental forces, ship speed and hydrodynamic derivatives care must be taken when performing a full-scale maneuvering test. A guide for sea trials describing how these maneuvers should be performed is found in SNAME (1989). The following standard ship maneuvers have been proposed by the International Towing Tank Conference (ITTC):
+• Turning Circle: This trial is mainly used to calculate the ship’s steady turning radius and to check how well the steering machine performs under course-changing maneuvers. • Kempf’s Zigzag Maneuver: The zigzag test is a standard maneuver used to compare the maneuvering properties and control characteristic of a ship with those of other ships. Another feature is that the experimental results of the test can be used to calculate the K and T values of Nomoto’s first-order model. • Pull-Out Maneuver: The pull-out maneuver can be used to check whether the ship is straight-line stable or not. The maneuver can also be used to indicate the degree of stability. • Dieudonn ́e’s Spiral Maneuver: The spiral maneuver is also used to check straight-line stability. The maneuver gives an indication of the range of validity of the linear theory. • Bech’s Reverse Spiral Maneuver: The reverse spiral maneuver can be used for unstable ships to produce a nonlinear maneuvering characteristic. The results from the test indicate which rudder corrections are required to stabilize an unstable ship. • Stopping Trials: Crash stops and low-speed stopping trials can be used to determine the ship’s head reach and maneuverability during emergency situations.
+Turning Circle
+This is probably the oldest maneuvering test. The test can be used as an indication on how well the steering machine and rudder control performs during course-changing maneuvers. It is also used to calculate standard measures of maneuverability such as tactical diameter, advance and transfer shown in Figure 12.6; see Gertler and Hagen (1960) for a detailed description.
+
+
+Open-Loop Stability and Maneuverability 355
+Matlab
+The turning circle for the Mariner class vessel is computed using the MSS toolbox script ExTurnCircle.m, where:
+t final = 700; % final simulation time (sec)
+t rudderexecute = 100; % time rudder is executed (sec)
+h = 0.1; % sampling time (sec)
+% Mariner class cargo ship, cruise speed U0 = 7.7 m/s
+x = zeros(7,1); % x=[u v r x y psi delta]’ (initial values)
+u i= -15*pi/180; % delta c=-delta R at time t = t rudderexecute
+[t,u,v,r,x,y,psi,U] =...
+turncircle(’mariner’, x, ui, t final, t rudderexecute, h);
+The results are plotted in Figure 12.6. Similar results are obtained by replacing mariner.m with the container ship, container.m; see ExTurnCircle.m.
+The maneuvering characteristics for the Mariner class vessel were computed to be:
+Rudder execute (x coordinate): 769 m Steady turning radius: 711 m Maximum transfer: 1 315 m Maximum advance: 947 m Transfer at 90 degrees heading: 534 m Advance at 90 degrees heading: 943 m Tactical diameter at 180 degrees heading: 1 311 m
+The steady turning radius R is perhaps the most interesting quantity obtained from the turning trials. In the maneuvering trial code of the 14th ITTC (1975) it is proposed to turn the ship over at maximum speed and with a rudder angle of minimum 15◦ to obtain the turning circle. The rudder angle δ should be held constant such that a constant rate of turn is reached (in practice a turning circle of 540◦ may be necessary). The output from a positioning system is used to calculate the tactical diameter, steady turning radius, maximum advance and maximum transfer. A typical turning circle corresponding to a negative rudder angle is shown in Figure 12.6. For a constant rudder angle δ, the ship will move in a circle with constant turning radius R and speed U in the steady state, that is ν ̇ = 0. Solving (7.33) for the steady-state solution of ν = [v, r] yields
+N(u0)ν = bδ =⇒ ν = N−1(u0)bδ (12.45)
+The equation for r in this expression becomes
+r = (YvNδ − NvYδ)
+Y v(Nr−mxgu0) − Nv(Yr − mu0) δ (12.46)
+
+
+356 Motion Control Systems
+Figure 12.6 Turning circle, yaw rate and speed for the Mariner class vessel for a constant rudder angle δR = −15 degrees applied at t = 100 s.
+
+
+Open-Loop Stability and Maneuverability 357
+The ship’s turning radius R is defined as
+R := U
+r where U =
+√
+u2 + v2 (12.47)
+Introducing the length L = Lpp of the ship, the following expression for the ratio (R/L) is obtained:
+(R
+L
+) =
+(U
+L
+)C
+(YvNδ − NvYδ)
+1
+δ , δ =/ 0 (12.48)
+where
+C = det(N(u0)) = Yv(Nr − mxgu0) − Nv(Yr − mu0) > 0 (stable ship)
+is recognized as one of the stability derivatives in the straight-line stability criterion discussed in Section 12.1.1. From (12.48) it is seen that increased stability (large C) implies that the turning radius will increase. Consequently, a highly stable ship requires more maneuvering effort than a marginally stable one. The ratio (R/L) can also be written in terms of nondimensional quantities by
+(R
+L
+)
+= Y′
+v (N ′
+r − m′x′
+g) − N′
+v(Y ′
+r − m′)
+Yv′ N′
+δ − Nv′ Y ′
+δ
+1
+δ , δ =/ 0 (12.49)
+This formula is independent of the ship speed. It should be noted that the formulae for the turning radius are based on linear theory, which assumes that δ is small and accordingly that R is large. Another feature of the turning test is that the Nomoto gain and time constants can be determined. This is illustrated in the following example where a cargo ship is considered.
+Example 12.2 (Determination of the Nomoto Gain and Time Constants)
+The Nomoto gain and time constants can be computed from a turning test by using nonlinear least-squares curve fitting, for instance. Solving the ODE:
+T r ̇ + r = Kδ (12.50)
+for a step input δ = δ0 = constant yields
+r(t) = exp(−t/T )r(0) + [1 − exp(−t/T )] Kδ0 (12.51)
+where K and T are unknowns. The Matlab MSS toolbox script ExKT.m fits this model to a simulated step response of the model mariner.m, which is a nonlinear model of the Mariner class vessel. The results for a step δ0 = 5◦ and U = 7.7 m/s = 15 knots, are (see Figure 12.7)
+K = 0.09 s−1 (12.52)
+T = 22.6 s (12.53)
+The Norrbin measure of maneuverability becomes
+P=1
+2
+K′
+T′ = 1
+2
+K T
+(L
+U
+)2
+=1
+2
+( 0.09 22.6
+) ( 160.9 7.7
+)2
+= 0.87 (12.54)
+which guarantees good maneuverability since P > 0.3. The turning circle is shown in Figure 12.6, indicating that the steady-state turning radius is 711 m.
+
+
+358 Motion Control Systems
+Figure 12.7 Plot showing the estimated linear model and the nonlinear Mariner model for a step δ = δ0 = 5 degrees.
+Matlab
+% ExKT Script for computation of Nomoto gain and time constants
+% using nonlinear least squares. The rudder input is 5 deg at t=0
+N = 2000; % number of samples
+h = 0.1; % sample time
+xout = zeros(N,2);
+x = zeros(7,1);
+delta R = 5*(pi/180); % rudder angle step input
+for i=1:N,
+xout(i,:) = [(i-1)*h ,x(3)];
+xdot = mariner(x,delta R); % nonlinear Mariner model
+x = euler2(xdot,x,h); % Euler integration
+end
+% time-series
+tdata = xout(:,1);
+rdata = xout(:,2)*180/pi;
+% nonlinear least-squares parametrization: x(1)=1/T and x(2)=K
+x0 = [0.01 0.1]’
+F = inline(’exp(-tdata*x(1))*0 +...
+x(2)*(1-exp(-tdata*x(1)))*5’,’x’,’tdata’)
+x = lsqcurvefit(F,x0, tdata, rdata);
+plot(tdata,rdata,’g’,tdata,exp(-tdata*x(1))*0 +...
+x(2)*(1-exp(-tdata*x(1)))*5,’r’),grid
+
+
+Open-Loop Stability and Maneuverability 359
+title(’NLS fit of Mariner model for \delta = 5 (deg)’)
+xlabel(’time (s)’)
+legend(’Nonlinear model’,’Estimated 1st-order Nomoto model’)
+Kempf’s Zigzag Maneuver
+The zigzag test was first proposed by Kempf (1932). Comprehensive test results of 75 freighters are published in Kempf (1944). The zigzag time response (see Figures 12.8–12.9) is obtained by moving the rudder 20◦ to starboard from an initially straight course. The rudder setting is kept constant until the heading is changed 20◦, and then the rudder is reversed 20◦ to port. Again, this rudder setting is maintained until the ship’s heading has reached 20◦ in the opposite direction. This process continues until a total of five rudder step responses have been completed. This test is usually referred to as a 20◦–20◦ maneuver; the first angle refers to the actual rudder settings while the second angle denotes how much the heading angle should change before the rudder is reversed. The zigzag maneuver was standardized by the International Towing Tank Conference (ITTC) in 1963. For larger ships, ITTC has recommended the use of a 10◦–10◦ or a 20◦–10◦ maneuver to reduce the time and waterspace required.
+Figure 12.8 A 20◦–20◦ maneuver for the Mariner class vessel.
+
+
+360 Motion Control Systems
+Figure 12.9 A 20◦–10◦ maneuver for the container ship.
+The only apparatus required to perform the test is a compass and a stopwatch. Alternatively, a computer interfaced for real-time logging of compass data can be used. The results from the zigzag maneuver can be used to compare the maneuvering properties of different ships. Maneuvering trials are also used in the design process since it is possible to test scale models in towing tanks to see how well they perform. In addition, maneuvering characteristics can be computed using hull parameters and by performing computer simulations based on seakeeping and maneuvering models.
+Example 12.3 (Zigzag Maneuvering Trials)
+Both the Mariner class vessel (mariner.m) and the container ship (container.m) are simulated for a 20◦–20◦ and a 20◦–10◦ zigzag maneuver, respectively, by using the Matlab script ExZigZag.m. The simulation results for the two vessels are shown in Figures 12.8–12.9.
+Matlab
+t final = 600; % final simulation time (sec)
+t rudderexecute = 10; % time rudder is executed (sec)
+h = 0.1; % sampling time (sec)
+
+
+Open-Loop Stability and Maneuverability 361
+% 20-20 zigzag maneuver for the Mariner class cargo ship
+% cruise speed U0 = 7.7 m/s (see mariner.m)
+x = zeros(7,1); % x = [ u v r x y psi delta ]’ (initial values)
+ui = 0; % delta c = 0 for time t < t rudderexecute
+[t,u,v,r,x,y,psi,U] =...
+zigzag(’mariner’,x,ui,t final,t rudderexecute,h,[20,20]);
+% 20-10 zigzag maneuver for a container ship
+% cruise speed 8.0 m/s see container.m)
+x = [8.0 0 0 0 0 0 0 0 0 70]’; % x = [ u v r x y psi delta n ]’
+delta c = 0; % delta c = 0 for time t < t rudderexecute
+n c = 80; % n c = propeller revolution in rpm
+ui = [delta c, n c];
+[t,u,v,r,x,y,psi,U] =...
+zigzag(’container’,x,ui,t final,t rudderexecute,h,[20,10]);
+Pull-Out Maneuver
+In 1969 Roy Burcher proposed a simple test procedure to determine whether a ship is straight-line stable or not. This test is referred to as the pull-out maneuver (12th ITTC, 1969). The pull-out maneuver involves a pair of maneuvers in which a rudder angle of approximately 20◦ is applied and returned to zero after steady turning has been attained. Both a port and a starboard turn should be performed. During the test the ship’s rate of turn must be measured or at least calculated by numerical derivation of the measured compass heading. If the ship is straight-line stable the rate of turn will decay to the same value for both the starboard and port turns (see Figure 12.10). The ship is unstable if the steady rate of turn from the port and starboard turns differ (see Figure 12.11). The difference between these two steady rates of turn corresponds exactly to the height of Dieudonn ́e’s spiral loop.
+Example 12.4 (Pullout Maneuver for a Stable and an Unstable Ship)
+Both the Mariner class vessel (mariner.m) and the Esso Osaka tanker (tanker.m) are simulated under a pullout maneuver by using the Matlab script ExPullout.m.
+Matlab:
+delta c = 20*pi/180; % rudder angle for maneuver (rad)
+h = 0.1; % sampling time (sec)
+% Mariner class cargo ship, speed U0 = 7.7 m/s (see mariner.m)
+x = zeros(7,1); % x = [ u v r x y psi delta ]’ (initial values)
+
+
+362 Motion Control Systems
+ui = delta c; % ui = delta c
+[t,r1,r2] = pullout(’mariner’,x,ui,h);
+% The Esso Osaka tanker (see tanker.m)
+n = 80;
+U = 8.23;
+x = [ U 0 0 0 0 0 0 n ]’; % x = [ u v r x y psi delta n ]’
+n c = 80; % n c = propeller revolution in rpm
+depth = 200; % water depth
+ui = [delta c, n c, depth];
+[t,r1,r2] = pullout(’tanker’,x,ui,h);
+The results are shown in Figures 12.10–12.11 where the curves meet for the stable ship (Mariner class vessel) while there is an offset between the curves for the unstable model of the Esso Osaka tanker.
+Figure 12.10 Pull-out maneuver for the Mariner class vessels. Notice that the positive and negative curves meet for the stable ship.
+
+
+Open-Loop Stability and Maneuverability 363
+Figure 12.11 Pullout maneuver for the Esso Osaka tanker. Notice that the positive and negative curves do not meet.
+Dieudonn ́e’s Spiral Maneuver
+The direct spiral test was published first in 1949–1950 by the French scientist Jean Dieudonn ́e. An English translation is found in Dieudonn ́e (1953). The direct spiral maneuver is used to check straightline stability. As seen from Figure 12.12, the maneuver also gives an indication of the degree of stability and the range of validity of the linear theory. To perform the test the ship should initially be held on a straight course. The rudder angle is then put to 25◦ starboard and held until a steady yawing rate is obtained. After this the rudder angle is decreased in steps of 5◦ and again held until constant yawing rates are obtained for all the rudder angles. The procedure is performed for all rudder angles between 25◦ starboard and 25◦ port. In the range around zero rudder angle the step of 5◦ rudder should be reduced to obtain more precise values. The results are plotted in an r–δ diagram, as shown in Figure 12.12. It should be noted that the spiral maneuver should be performed in still air and calm water to obtain the best results. For straight-line unstable ships it is recommended to use Bech’s reverse spiral maneuver.
+Bech’s Reverse Spiral Maneuver
+For stable ships both Dieudonn ́e’s direct and Bech’s reverse spiral tests can be used. For unstable ships within the limits indicated by the pull-out maneuver Bech’s reverse spiral should be applied. The reverse
+
+
+364 Motion Control Systems
+Figure 12.12 An r−δ diagram showing the Dieudonne and Bech spirals for both a stable and courseunstable ship. Notice the hysteresis loop in the Dieudonne spiral for the unstable ship.
+spiral test was first published by Mogens Bech in 1966 and later in 1968 (Bech, 1968). Since then the reverse spiral test has been quite popular, because of the simplicity and reliability of the method. The reverse spiral test is also less time-consuming than Dieudonn ́e’s spiral test. By observing that the ship steering characteristic is nonlinear outside a limited area, Bech (1968) suggested that one describes the mean value of the required rudder deflection δss to steer the ship at a constant rate of turn rss as a nonlinear function:
+δss = HB(rss) (12.55)
+where HB(rss) is a nonlinear function describing the maneuvering characteristic. This can be understood by considering Nomoto’s second-order model:
+T1T2r ̈ + (T1 + T2)r ̇ + KHB(r) = K(δ + T3δ ̇) (12.56)
+where the linear term r has been replaced with a function HB(r). Assuming that r = rss is constant in the steady state, that is r ̈ = r ̇ =  ̇δ = 0, directly gives (12.55). This implies that the r–δ curve will be a single-valued (one-to-one) function of r for both the stable and unstable ship (see Figure 12.12). If the conventional spiral test is applied to an unstable ship a hysteresis loop will be observed.
+
+
+PID Control and Acceleration Feedback 365
+The full-scale test is performed by measuring the necessary rudder action required to bring the ship into a desired rate of turn. For an unstable ship this implies that the rudder angle will oscillate about a mean rudder angle. The amplitude of the rudder oscillations should be kept to a minimum. After some time a balance condition is reached and both the mean rudder angle and rate of turn can be calculated. Care should be taken for large ships since they will require some more time to converge to their “balance condition”.
+12.2 PID Control and Acceleration Feedback
+This section discusses PID control design for SISO and MIMO motion control systems. The presented methods are used in many industrial systems. The PID control laws are also extended to include optional acceleration feedback. This topic is also covered by Lindegaard (2003), where experimental results with a model ship are used to document performance improvements due to acceleration feedback. Acceleration feedback can be implemented in conjuncture with PID control without increasing the demand for control energy.
+12.2.1 Linear Mass–Damper–Spring Systems
+Consider the following two equivalent systems:
+m ̈x + dx ̇ + kx = 0 (12.57)
+ ̈x + 2ζωnx ̇ + ω2
+nx = 0 (12.58)
+The step response is shown in Figure 12.13. From (12.57) and (12.58) it follows that
+2ζωn = d
+m , ω2
+n= k
+m (12.59)
+For second-order systems it is convenient to introduce
+ωn = √ k
+m natural frequency (undamped oscillator corresponding to d = 0)
+ζ= d
+2mωn relative damping ratio
+Damped Oscillator
+For the damped system d > 0, the frequency of the oscillation will be smaller than the natural frequency. This can be explained by considering the eigenvalues of the mass–damper–spring system (12.58):
+λ1,2 = − ζωn
+}{{}
+a
+±jω (12.60)
+From Figure 12.14 it is seen that
+a2 + ω2 = ω2
+n, ζ = a
+ωn
+= cos(φ) (12.61)
+
+
+366 Motion Control Systems
+Matlab
+The step responses in Figure 12.13 is computed using (see ExMDS.m):
+wn = 1; % natural frequency
+subplot(211)
+t = 0:0.01:20;
+z = 0.5; sys = tf([wn*wn],[1 2*z*wn wn*wn]); step(sys,t)
+hold on
+z = 1.0; sys = tf([wn*wn],[1 2*z*wn wn*wn]); step(sys,t)
+z = 2.0; sys = tf([wn*wn],[1 2*z*wn wn*wn]); step(sys,t)
+hold off
+subplot(212)
+t = 0:0.01:50;
+z = 0.1; sys = tf([wn*wn],[1 2*z*wn wn*wn]); step(sys,t)
+hold on
+sys = tf([wn*wn],[1 0 wn*wn]); step(sys,t)
+hold off
+Figure 12.13 The upper plot shows a mass–damper–spring system for different relative damping ratios. The lower plot shows the undamped oscillator together with a damped oscillator. The plots are generated by ExMDS.m.
+
+
+PID Control and Acceleration Feedback 367
+Figure 12.14 Graphical illustration of natural frequency ωn, frequency of the damped system ω and absolute damping factor a.
+and
+a = absolute damping factor
+ω = frequency of oscillation (damped system)
+The undamped oscillator is obtained by choosing a = 0. It is convenient to set
+ω = rωn (12.62)
+where r is a reduction factor denoting the ratio between the natural frequency ωn and the frequency ω of the linearly damped system. For marine craft a reduction of 0.5% in the natural frequency is common (Faltinsen, 1990). Hence,
+r = 1 − 0.5
+100 = 0.995 (12.63)
+From (12.61) and (12.62) it is seen that
+a2 + (rωn)2 = ω2
+n (12.64)
+⇓
+a=
+√
+1 − r2
+} {{ }
+ζ
+ωn (12.65)
+For r = 0.995 we obtain ζ = 0.1, which is quite typical for a ship with bilge keels while the heave and pitch motions usually are more damped, for instance ζ = 0.2. Next,
+d
+m = 2ζωn
+= 2ζ
+√
+k
+m (12.66)
+which yields the following formula for linear damping:
+d = 2ζ√km, ζ =
+√
+1 − r2 (12.67)
+
+
+368 Motion Control Systems
+This formula is quite useful to determine the linear damping in heave, roll and pitch of an uncontrolled marine craft (open loop) since the mass m and spring (metacentric) coefficient k are easily obtained by other methods (see Chapters 3–5). The frequency of oscillation is
+ω=
+√
+k
+m−
+(d
+2m
+)2
+(12.68)
+which for d = 0 reduces to the natural frequency of the undamped oscillator:
+ω d==0
+√
+k
+m = ωn (12.69)
+Damping in surge, sway and yaw, however, cannot be determined by formula (12.67) since k = 0 in a pure mass–damper system. Linear damping for such a system:
+m ̈x + dx ̇ = τ (12.70)
+can be found by specifying the time constant T > 0. Let T = m/d such that (12.70) becomes
+T  ̈x + x ̇ = 1
+d τ (12.71)
+which yields the following design formula:
+d= m
+T (12.72)
+for the mass–damper system. Equations (12.67) and (12.72) will be referred to as the linear damping formulae for a mass–damper–spring and a mass–damper system, respectively. A relationship between the time constant T and the natural frequency ωn in a PD-controlled system can be derived by considering (12.70) under feedback:
+τ = −Kdx ̇ − Kpx (12.73)
+This gives the closed-loop system
+m ̈x + (d + Kd)x ̇ + Kpx = 0 (12.74)
+and
+2ζωn = d + Kd
+m (12.75)
+ωn =
+√
+Kp
+m (12.76)
+
+
+PID Control and Acceleration Feedback 369
+In closed loop, Kp and Kd are positive constants and the natural period Tn = 2π/ωn satisfies
+2ζωn = 2ζ 2π
+Tn
+= d + Kd
+m
+=1
+T + Kd
+m (12.77)
+If Kd/m ≈ 1/T , corresponding to increasing 1/T to 2/T by feedback control, the following useful relationship between the time constant and the natural period of a PD-controlled mass–damper system is obtained:
+T ≈ Tn
+2πζ (12.78)
+Example 12.5 (Linear Damping in Roll and Pitch for Submarines) Consider the linear pitch equation (7.265):
+(Iy − Mq ̇ )θ ̈ − Mqθ ̇ + BGz W θ = τ5
+Hence, the linear damping coefficient can be computed by using (12.67):
+−Mq = 2
+√
+1 − r2
+√
+BGz W (Iy − Mq ̇ ) > 0
+where Mq ̇ , W and BGz are assumed to be known and r > 0 is a design parameter. For roll a similar expression is obtained (see (7.273)):
+−Kp = 2
+√
+1 − r2
+√
+BGz W (Ix − K  ̇p) > 0
+Example 12.6 (Linear Damping in Yaw for Ships and Underwater Vehicles) Consider the Nomoto model (see Section 7.1.4):
+(Iz − Nr ̇)r ̇ − Nrr = Nδδ (12.79)
+Assume that the moment of inertia Iz − Nr ̇ is known. The linear damping coefficient Nr can be estimated by specifying the time constant. If it is assumed that the closed-loop yawing motion has a natural period Tn = 150 s and relative damping ratio ζ = 1.0 (critically damped), it is possible to compute an estimate of the time constant in yaw using (12.78):
+T ≈ 150 s
+2π × 1.0 = 23.8 s (12.80)
+and from (12.72) the unknown hydrodynamic derivative becomes
+−Nr = Iz − Nr ̇
+T (12.81)
+
+
+370 Motion Control Systems
+12.2.2 Acceleration Feedback
+It is possible to extend the results of Section 12.2.1 to include acceleration feedback. Consider a massdamper–spring system:
+m ̈x + dx ̇ + kx = τ + w (12.82)
+Let the control law be
+τ = τPID − Km  ̈x (12.83)
+where Km > 0 is the acceleration feedback gain and τPID represents a conventional PID controller. This yields
+(m + Km) ̈x + dx ̇ + kx = τPID + w (12.84)
+or equivalently
+ ̈x + d
+m + Km
+x ̇ + k
+m + Km
+x= 1
+m + Km
+τPID + 1
+m + Km
+w (12.85)
+From this expression it is noticed that besides increasing the mass from m to m + Km, acceleration feedback also reduces the gain in front of the disturbance w from 1/m to 1/(m + Km). Hence, the system is expected to be less sensitive to an external disturbance w if acceleration feedback is applied. This design can be further improved by introducing a frequency-dependent virtual mass in the following form (Sagatun et al., 2001):
+τ = τPID − hm(s) ̈x (12.86)
+If hm(s) is chosen as a low-pass filter:
+hm(s) = Km
+Tms + 1 (12.87)
+with gain Km > 0 and time constant Tm > 0, it is seen that
+(
+m + Km
+Tms + 1
+)
+} {{ }
+mtotal (s)
+ ̈x + dx ̇ + kx = τPID + w (12.88)
+
+
+PID Control and Acceleration Feedback 371
+Figure 12.15 Total mass mtotal(s) as a function of frequency for m = Km = 1000 (60 dB) and Tm = 1.0 s.
+where the total mass of the system in closed loop is
+mtotal(s) = m + Km
+Tms + 1 = mTms + (m + Km)
+Tms + 1 (12.89)
+Hence, it can be concluded that the total mass is m + Km at low frequencies (s → 0) while at high frequencies (s → ∞) the total mass m + Km reduces to m. This is shown in Figure 12.15. The filter hm(s) can be chosen rather arbitrarily depending on the application. For instance, a low-pass filter will remove high-frequency acceleration feedback components while a notch structure can be used to remove first-order wave-induced forces. This is seen by letting
+g(s) = 1
+m + hm(s) (12.90)
+such that (12.88) takes the form
+ ̈x + g(s)dx ̇ + g(s)kx = g(s)τPID + g(s)w (12.91)
+where g(s) is chosen such that the disturbance w is suppressed in a limited frequency band (low-pass, high-pass and notch). It will next be shown how a PID controller can be designed independently of the acceleration feedback loop.
+
+
+372 Motion Control Systems
+12.2.3 PID Control with Acceleration Feedback
+Consider the controller:
+τ = kxd
+}{{}
+reference feedforward
+−
+(
+Kp  ̃x + Kd x ̇ + Ki
+∫t
+o
+ ̃x(τ)dτ
+)
+} {{ }
+PID controller
+− hm(s) ̈x
+} {{ }
+acceleration feedback
+(12.92)
+with gains Kp > 0, Kd > 0 and Ki > 0 and tracking error  ̃x = x − xd (see Figure 12.16). For simplicity, assume that hm(s) = Km and Ki = 0. This gives
+τ = kxd − (Kp  ̃x + Kdx ̇) − Km  ̈x (12.93)
+The closed-loop system becomes
+(m + Km) ̈x + (d + Kd)x ̇ + (k + Kp)  ̃x = w (12.94)
+such that
+ωn =
+√
+k + Kp m + Km
+(12.95)
+ζ = d + Kd
+2(m + Km)ωn
+(12.96)
+Figure 12.16 Acceleration feedback (inner loop) and PID feedback (outer loop).
+
+
+PID Control and Acceleration Feedback 373
+Pole placement of the mass–damper–spring system suggests that Kp and Kd can be computed by specifying ωn and ζ in (12.95) and (12.96). Solving for Kp and Kd, yields
+Kp = (m + Km)ω2
+n − k (12.97)
+Kd = 2ζωn(m + Km) − d (12.98)
+such that (12.94) becomes
+ ̈x + 2ζωnx ̇ + ω2
+nx = ω2
+nxd + 1
+m + Km
+w (12.99)
+⇓ {m + Km 1}
+x
+xd
+(s) ≈ ω2
+n
+s2 + 2ζωns + ωn2
+(12.100)
+This is a good approximation for m + Km 1. An even better approach is to add integral action Ki > 0 to compensate for a large constant disturbance w. Let the PID controller be written as
+τ = kxd
+}{{}
+reference feedforward
+− Kp
+(
+1 + Tds + 1
+Tis
+)
+ ̃x
+} {{ }
+PID
+− Km  ̈x
+}{{}
+acceleration feedback
+(12.101)
+where Td = Kd/Kp and Ti = Kp/Ki are the derivative and integral time constants, respectively. A ruleof-thumb is to choose
+1
+Ti
+≈ ωn
+10 (12.102)
+which states that the integrator is 10 times slower than the natural frequency ωn. This yields
+Ki = ωn
+10 Kp = ωn
+10
+[(m + Km)ω2
+n − k] (12.103)
+The natural frequency ωn can be related to the system bandwidth ωb by using the following definition:
+Definition 12.1 (Control Bandwidth)
+The control bandwidth of a system y = h(s)u with negative unity feedback is defined as the frequency ωb at which the loop transfer function l(s) = h(s) · 1 is
+|l(jω)|ω=ωb =
+√2
+2
+or equivalently
+20 log |l(jω)|ω=ωb = −3 dB
+
+
+374 Motion Control Systems
+Figure 12.17 Closed-loop feedback system.
+From this definition it can be shown that the control bandwidth of a second-order system:
+h(s) = ω2
+n
+s2 + 2ζωns + ωn2
+(12.104)
+with negative unity feedback is (see Figure 12.17)
+ωb = ωn
+√
+1 − 2ζ2 + √
+4ζ4 − 4ζ2 + 2 (12.105)
+For a critically damped system, ζ = 1.0, this expression reduces to
+ωb = ωn
+√√2 − 1 ≈ 0.64 ωn (12.106)
+Table 12.2 summarizes the pole-placement algorithm.
+Example 12.7 (Ship Autopilot Design)
+Consider the Nomoto model (Nomoto et al., 1957):
+T ψ ̈ + ψ ̇ = Kδ (12.107)
+where ψ is the yaw angle and δ is the rudder angle (control input). From (12.82) it is seen that
+m= T
+K, d = 1
+K , k = 0 (12.108)
+Table 12.2 PID and acceleration feedback pole-placement algorithm
+1. Specify the bandwidth ωb > 0 and the relative damping ratio ζ > 0 2. Compute the natural frequency: ωn = 1
+√
+1−2ζ2 +√
+4ζ4 −4ζ2 +2
+ωb
+3. Specify the gain: Km ≥ 0 (optionally acceleration feedback) 4. Compute the P gain: Kp = (m + Km)ω2
+n−k 5. Compute the D gain: Kd = 2ζωn(m + Km) − d 6. Compute the I gain: Ki = ωn
+10 Kp
+
+
+PID Control and Acceleration Feedback 375
+The PID and acceleration feedback controller gains are found by using pole placement in terms of the design parameters Km, ωn and ζ, resulting in
+Km ≥ 0
+Kp = T + KKm
+K ω2
+n>0
+Kd = T + KKm
+K 2ζωn − 1
+K >0
+Ki = T + KKm
+10K ω3
+n>0
+For Km = 0 (no angular acceleration feedback in yaw) this reduces to a conventional autopilot of PID type with gains:
+Kp = ω2
+nT
+K >0
+Kd = 2ζωnT − 1
+K >0
+Ki = ω3
+nT
+10K > 0
+12.2.4 MIMO Nonlinear PID Control with Acceleration Feedback
+The PID control concept can be generalized to nonlinear mechanical systems by exploiting the kinematic equations of motion in the design. Consider the nonlinear model
+ ̇η = J (η)ν (12.109)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) = τ + w (12.110)
+where η and ν are assumed to be measured. Consider the control law
+τ = g(η) − Hm(s)ν ̇ + J (η)τPID (12.111)
+with acceleration feedback Hm(s)ν ̇, gravity compensation g(η) and PID controller
+τPID = −Kp η ̃ − Kd  ̇η − Ki
+∫t
+0
+η ̃(τ)dτ (12.112)
+For simplicity, assume that Ki = 0 and Hm(s) = Km (PD control with fixed gain acceleration feedback). This yields the closed-loop system
+Hν ̇ + [C(ν) + D(ν) + K∗
+d(η)]ν + J (η)Kp η ̃ = w (12.113)
+
+
+376 Motion Control Systems
+where η ̃ = η − ηd,
+K∗
+d(η) = J (η)KdJ (η) (12.114)
+and
+H = M + Km
+In the stability analysis it is assumed that  ̇ηd = 0 , that is regulation of η to ηd = constant. A Lyapunov function candidate for this system is
+V= 1
+2 ν Hν
+} {{ }
+kinetic energy
++1
+2 η ̃ Kp η ̃
+} {{ }
+potential energy
+(12.115)
+where H = H > 0 and Kp = Kp > 0. Time differentiation of (12.115) along the trajectories of ν and η ̃ yields
+V ̇ = ν Hν ̇ +  ̇η Kp η ̃
+= ν (Hν ̇ + J (η)Kp η ̃) (12.116)
+since η ̃ ̇ =  ̇η −  ̇ηd =  ̇η and  ̇η = ν J (η). Substituting (12.113) into (12.116) yields
+V ̇ = ν (w − [C(ν) + D(ν) + K∗
+d (η)]ν)
+= ν w − ν [D(ν) + K∗
+d(η)] ν (12.117)
+since ν C(ν)ν = 0 for all ν; see Property 7.2 in Section 7.5. If w = 0, Krasovskii–LaSalle’s Theorem A.2 in Appendix A.1 can be used to prove that the system (12.109)–(12.110) with nonlinear PD control (Ki = 0) is globally asymptotically stable (GAS) if J (η) is defined for all η (no representation singularity). Moreover, the trajectories will converge to the set found from
+V ̇ (x) = −ν [D(ν) + K∗
+d(η)] ν ≡ 0 (12.118)
+which is true for ν = 0. Therefore,
+= {( η ̃, ν) : ν = 0)} (12.119)
+Now, ν ≡ 0 implies that Hν ̇ = −J (η)Kp η ̃, which is nonzero as long as η ̃ =/ 0. Hence, the system cannot get “stuck” at an equilibrium point value other than η ̃ = 0. Since the equilibrium point ( η ̃, ν) = (0, 0) is the largest invariant set M in , the equilibrium point is GAS according to Theorem A.2. In the case w =/ 0 but w ̇ = 0, the system trajectories will converge to a ball about the origin ( η ̃, ν) = (0, 0). The radius of the ball depends on the magnitude of the disturbance w. This is referred to as uniform ultimate boundedness (UUB).
+
+
+PID Control and Acceleration Feedback 377
+If integral action is included with Ki > 0 (PID control), it is possible to prove local asymptotic stability (LAS) also for the case w =/ 0. This result is well known from robotics (Arimoto and Miyazaki, 1984). The bias term w can also be removed by using parameter adaptation (Fossen et al., 2001).
+12.2.5 Case Study: Heading Autopilot for Ships and Underwater Vehicles
+The principal blocks of a heading angle autopilot system, shown in Figure 12.18, are:
+Control System: The feedback control system provides the necessary commands to track the desired yaw angle ψd. The output is the yaw moment τN . Control Allocation: This module distributes the output from the feedback control system, usually the yaw moment τN , to the actuators (rudders and in some cases propellers and thrusters) in an optimal manner (see Section 12.3). For single-screw ships the controller yaw moment τN will simply be a function of the rudder command δc. Reference Model: The autopilot reference model computes smooth trajectories ψd, rd and r ̇d needed for course-changing maneuvers. Course-keeping is the special case then ψd = constant and rd = r ̇d = 0 (see Section 10.2.1). Compass and Yaw Gyro: The compass measures the yaw angle ψ which is needed for feedback. In some cases a yaw rate gyro is available for yaw rate feedback, that is feedback from r = ψ ̇ . Observer/Wave Filter: In its simplest form the first-order wave-induced motion components ψw and rw are filtered out from the measurements y1 = ψ + ψw and y2 = r + rw, and consequently prevented from entering the feedback loop. This is known as wave filtering, where the output of the filter is the LF motion components ψ and r. This is necessary to avoid excessive rudder action. In cases where y2 is not measured the wave filter must be constructed as a state observer so that r can be estimated from the yaw angle measurement y1; see Sections 11.3.5, 11.4.2 and 11.4.3. Wind Feedforward: In cases where a wind sensor is available for wind speed and direction, a wind model can be used for wind feedforward. This is often advantageous since the integral action term in the PID controller does not have to integrate up the wind disturbance term. However, an accurate model of the wind force and moment as a function of ship speed and wind direction is needed to implement wind feedforward.
+The different autopilot blocks of Figure 12.18 needed to implement a PID control law based on the Nomoto model will now be discussed.
+Figure 12.18 Block diagram of a heading autopilot system.
+
+
+378 Motion Control Systems
+Autopilot Reference Model
+A modern autopilot must have both course-keeping and turning capabilities. This can be obtained in one design by using a reference model to compute the desired states ψd, rd and r ̇d needed for turning, while
+ψd = constant (12.120)
+can be treated as a special case of turning. A simple third-order filter for this purpose was derived in Section 10.2.1. Moreover,
+ψd
+ψr
+(s) = ω3
+n
+(s + ωn)(s2 + 2ζωns + ωn2) (12.121)
+where the reference ψr is the operator input, ζ is the relative damping ratio and ωn is the natural frequency. Notice that
+lim
+t→∞ ψd (t) = ψr (12.122)
+and that ψ ̇ d and ψ ̈ d are smooth and bounded for steps in ψr. This is the main motivation for choosing a third-order model since a second-order model will result in steps in ψ ̈d for steps in ψr. In many cases it is advantageous to limit the desired yaw rate |rd| ≤ rmax during turning. This can be done by including a saturating element in the reference model (see Van Amerongen, 1982, 1984). The yaw acceleration ad = ψ ̈ d can also be limited such that |ad| ≤ amax by using a second saturating element. The resulting state-space model including velocity and acceleration saturating elements becomes
+ψ ̇ d = sat(rd) (12.123)
+r ̇d = sat(ad) (12.124)
+a ̇d = −(2ζ + 1)ωnsat(ad) − (2ζ + 1)ω2
+nsat(rd ) + ω3
+n(ψr − ψd) (12.125)
+The saturating element is defined as
+sat(x) :=
+{ sgn(x)xmax if |x| ≥ xmax
+x else (12.126)
+The autopilot reference model has been simulated in Matlab with yaw rate limitation rmax = 1.0 deg/s, acceleration limit amax = 0.5 deg/s2 and command ψr = 30 deg. The results are shown in Figure 12.19. Notice that the unlimited (linear) case yields unsatisfactorily high values for rd. The main motivation for using a rate-limiting element in the reference model is that the course-changing maneuver will be described by three phases (positive turn):
+I: Start of turn, acceleration (rd > 0 and 0 < r ̇d ≤ amax) II: Steady turning (rd = rmax and r ̇d = 0) III: End of turn, deceleration (rd > 0 and −amax ≤ r ̇d < 0)
+
+
+PID Control and Acceleration Feedback 379
+Figure 12.19 The plots show the effect of including a rate limiter of rmax = 1 deg/s in a third-order reference model for heading. Notice that rd becomes very high in the linear case while ψd looks satisfactory in both cases.
+For a negative turn the signs of the turning rate and acceleration must be changed. The three phases are advantageous when performing a large change in course. The effect of a saturating element and nonlinear damping in a reference model are also demonstrated in Example 10.2 in Section 10.2.1. A more sophisticated method for generating heading reference signals could be to use optimization techniques to compute the desired yaw angle, but then at the expense of a more complicated software algorithm to be implemented in real time.
+Conventional PID Control
+The autopilot systems of Sperry and Minorsky were both SISO control systems where the heading angle of the ship was measured by a gyro compass (see Section 9.1). Today, this signal is fed back to a computer in which a PID control system (autopilot) is implemented in software. The autopilot compares the operator setpoint (desired heading) with the measured heading and computes the rudder command, which is then transmitted to the rudder servo for corrective action. The main difference between the autopilot systems of Sperry and Minorsky and the modern autopilot is the increased functionality that has been added with sophisticated features such as:
+
+
+380 Motion Control Systems
+• Wave filtering, which avoids first-order wave forces being fed back to the actuators (see Section 11.3.5). • Adaptation to varying environmental conditions, shallow water effects and time-varying model parameters, for instance changes in mass and center of gravity. • Wind feedforward for accurate and rapid course-changing maneuvers. • Reference feedforward using a dynamic model, ψd, rd and r ̇d, for course-changing maneuvers. Coursekeeping is obtained by using a constant reference signal, ψd = constant, as input to the reference model.
+Full State Feedback Control
+Consider the Nomoto model of Section 7.2 in the following form:
+(Iz − Nr ̇)r ̇ − Nrr = τwind + τN (12.127)
+where τwind is an optional input for wind feedforward and τN is the yaw moment generated by the controller. The constants m = Iz − Nr ̇, d = −Nr and
+T=m
+d = Iz − Nr ̇
+−Nr
+(12.128)
+are introduced such that
+r ̇ + 1
+Tr= 1
+m (τwind + τN) (12.129)
+The yaw moment can be generated by a single rudder:
+τN = Nδδ (12.130)
+or several actuators ui(i = 1, . . . , r) satisfying
+τN = b u, u = [u1, . . . , ur] (12.131)
+Assume that both ψ and r are measured by using a compass and a rate gyro. A PID controller for heading control is (see Section 12.2.3)
+τN(s) = −τˆwind + τFF(s) −Kp
+(
+1 + Tds + 1
+Tis
+)
+ψ ̃ (s)
+} {{ }
+τPID
+(12.132)
+where τN is the controller yaw moment, τFF is a feedforward term to be decided, ψ ̃ = ψ − ψd is the heading error and
+Kp > 0 proportional gain constant
+Td > 0 derivative time constant
+Ti > 0 integral time constant
+The wind feedforward term τˆwind is an estimate of the wind moment τwind using wind coefficients and an anemometer measuring wind speed Vw and direction βw. An estimate of the wind yaw moment can be computed according to (see Section 8.1)
+
+
+PID Control and Acceleration Feedback 381
+τˆwind = 1
+2 ρaV 2
+rwCN (γrw)ALwLoa (12.133)
+where the relative wind speed and angle of attack are
+Vrw = √
+ur2w + vr2w (12.134)
+γrw = −atan2(vrw, urw) (12.135)
+The relative velocities depend on the heading angle ψ, wind direction βw and wind speed Vw according to
+urw = u − uw = u − Vw cos(βw − ψ) (12.136)
+vrw = v − vw = v − Vw sin(βw − ψ) (12.137)
+When wind feedforward is implemented it is important that the wind measurements are low-pass filtered to avoid rapid changes in heading command. Wind feedforward is an optional term since the integrator in the PID control law can compensate for a slowly varying wind moment as well. The main difference will be the response time. In general, wind feedforward will be much faster than integral action since the integrator needs several minutes to remove a large wind component during the start-up of an autopilot system. Integral action works fairly well during fixed heading (stationkeeping and transit) while in a maneuvering situation large course deviations might be expected. Consequently, it is advantageous to implement wind feedforward to reduce the loads on the integrator and obtain maximum performance during start-up and in maneuvering situations. However, if the wind coefficients are poorly known, the closed-loop system can be destabilized by the wind feedforward term so care must be taken. A continuous-time representation of the controller (12.132) is
+τN = −τˆwind + τFF − Kpψ ̃ − KpTd
+} {{ }
+Kd
+ ̃r − Kp
+Ti
+}{{}
+Ki
+∫t
+0
+ψ ̃(τ)dτ (12.138)
+where  ̃r := r − rd and ψ ̃ := ψ − ψd. The controller gains can be found by pole placement; see Table 12.2 in Section 12.2.3. By specifying the control bandwidth ωb, we get
+ωn = 1
+√
+1 − 2ζ2 + √
+4ζ4 − 4ζ2 + 2
+ωb (12.139)
+
+
+382 Motion Control Systems
+Kp = mω2
+n
+Kd = m
+(
+2ζωn − 1
+T
+)
+T≈0 2ζωnm
+Ki = ωn
+10 Kp
+The relative damping ratio ζ is usually chosen in the range 0.8–1.0, which means that the only tunable parameter is the control bandwidth ωb (typically 0.01 rad/s for large tankers and 0.1 rad/s for smaller ships and underwater vehicles). This makes the system very easy to tune. However, it is important to have a good estimate of m = Iz − Nr ̇ to obtain good performance.
+Control Allocation
+For a rudder-controlled craft, the input command is computed from (12.130), implying that
+δ= 1
+Nδ
+τN (12.140)
+In the case of several actuators, the generalized inverse can be used to compute u from (12.131) if the scalar b b =/ 0 (see Section 12.3). This gives
+u = b(b b)−1τN (12.141)
+Reference Feedforward
+The feedforward term τFF in (12.132) is determined such that perfect tracking during course-changing maneuvers is obtained. Using Nomoto’s first-order model (12.129) as a basis for feedforward control, suggests that reference feedforward should be implemented according to
+τFF = m
+(
+r ̇d + 1
+T rd
+)
+(12.142)
+Substituting (12.142) and (12.132) into (12.129), the error dynamics becomes
+ ̈e + 1
+T  ̇e = 1
+m τPID (12.143)
+where e = ψ − ψd. Since this system is linear, the closed-loop system can be analyzed in the frequency plane by using Bode plots. Consider the transfer function
+h(s) = e
+τPID
+(s) = T/m
+s(Ts + 1) (12.144)
+
+
+PID Control and Acceleration Feedback 383
+and let
+hPID(s) = Kp
+(
+1 + Tds + 1
+Tis
+)
+= Kp
+TiTd s2 + Td s + 1
+Tis (12.145)
+Hence, the loop transfer function becomes
+l(s) = h(s)hPID(s)
+=T
+m
+Kp
+Ti
+(TiTd s2 + Tis + 1)
+s2(Ts + 1) (12.146)
+A frequently used approximation for (12.145) is found by assuming that Ti Td such that Ti ≈ Ti + Td. Hence,
+hPID(s) = Kp
+(
+1 + Tds + 1
+Tis
+)
+≈ Kp
+1 + (Ti + Td )s + Td Tis2 Tis
+= Kp
+(1 + Tis)(1 + Tds)
+Tis (12.147)
+Output Feedback using Only Compass Measurements
+In many cases ships are only equipped with a gyrocompass for feedback control. If this is the case, the rate can be estimated using an observer, as shown in Sections 11.3.5 and 11.4.2. This approach also gives wave filtering. Alternatively, the D term in the controller must be replaced with a limited differentiator:
+r(s) ≈ Tds
+αTds + 1 ψ(s), 0 < α 1 (12.148)
+such that the high-frequency components of ψ(s) are filtered out. If we apply the low-pass filter
+hLP(s) = 1
+αTds + 1 (12.149)
+to all terms in the PID controller, (12.147) takes the form
+hPID(s) = Kp
+(Tis + 1)(Tds + 1) Tis(αTds + 1)
+The controller can be implemented in the time domain as
+τN = τFF − Kpψ ̃LP − KpTd
+} {{ }
+Kd
+ ̃rLP − Kp/Ti
+} {{ }
+Ki
+∫t
+0
+ψ ̃LP(τ)dτ (12.150)
+
+
+384 Motion Control Systems
+with two filters:
+ψ ̃LP(s) = 1
+αTds + 1
+ψ ̃(s),  ̃rLP(s) = Tds
+αTds + 1
+ψ ̃(s) (12.151)
+The parameter 0 < α < 1 is usually chosen as 0.1 while Ti = 10Td, such that
+1
+Ti
+1
+Td
+1 αTd
+(12.152)
+12.2.6 Case Study: Heading Autopilot with Acceleration Feedback for Ships and Underwater Vehicles
+An autopilot system can be extended to exploit acceleration feedback by differentiating the output of a yaw rate gyro rgyro according to
+r ̇ ≈ s
+s + ωf
+rgyro (12.153)
+The filter frequency ωf must, however, be larger than the control bandwidth ωb. In most cases this is easy to satisfy since ωf can be chosen as high as 10–50 Hz if an accurate yaw-rate gyro is applied. A discrete-time representation of the filter (12.153) is found in Appendix B.3. This is particularly useful for smaller marine craft, which are more vulnerable to environmental forces than large marine craft. The main idea is to increase the moment of inertia by yaw rate feedback, such that external disturbances are suppressed; see Section 12.2.3. Consider the controller
+τN = −τˆwind + τFF −Kpψ ̃ − Kd  ̃r − Ki
+∫t
+0
+ψ ̃ (τ )dτ
+} {{ }
+PID
+−Kmr ̇
+} {{ }
+acceleration feedback
+(12.154)
+τFF = (m + Km)
+(
+r ̇d + 1
+T rd
+)
+(12.155)
+Notice that the term Km must be included in τFF correspondingly. Substituting these expressions into (12.129) yields the closed-loop error dynamics
+(m + Km)  ̈e +
+(m
+T + Kd
+)
+ ̇e + Kpe + Ki
+∫t
+0
+e(τ)dτ = 0 (12.156)
+Based on Table 12.2 in Section 12.2.3, this suggests the following pole-placement algorithm for a critically damped system (ζ = 1) with bandwidth ωb:
+
+
+PID Control and Acceleration Feedback 385
+ωn = 1.56ωb (12.157)
+Kp = (m + Km)ω2
+n (12.158)
+Kd = 2ζωn(m + Km) − m
+T
+T≈0 2ζωn(m + Km) (12.159)
+Ki = ωn
+10 Kp (12.160)
+where the additional moment of inertia Km can be specified as a percentage (0–100 %) of the total moment of inertia m according to
+Km = α
+100 m, α ∈ [0, 100] (12.161)
+The only tunable parameter in addition to Km is the control bandwidth ωb and this makes the system very easy to tune. However, it is important to have a good estimate of m = Iz − Nr ̇ to obtain good performance. A final implementation issue is the problem of first-order wave-induced forces. Using a wave filter for ψ, r and r ̇ is recommended if all these signals are used in feedback. Wave filtering for systems using velocity and acceleration feedback is discussed by Lindegaard and Fossen (2001a) and Lindegaard (2003).
+12.2.7 Case Study: Linear Cross-Tracking System for Ships and Underwater Vehicles
+Often it is of primary importance to steer a ship, a submersible or a rig along a desired path with a prescribed speed. The path is usually defined in terms of waypoints using the Cartesian coordinates (xk, yk) ∈ R2. Waypoint guidance systems can be designed as trajectory-tracking controllers. In its simplest form this involves the use of a classical autopilot system where the yaw angle command ψd is generated such that the cross-track error is minimized. This can be done in a multivariable controller, for instance of H∞ or LQG type, or by including an additional PID tracking error control-loop in the autopilot. A waypoint trajectory-tracking system is usually designed such that the ship can move forward with reference speed Ud at the same time as the path cross-track error is minimized. The desired path can be generated using a route management system or by specifying the desired route by waypoints; see Section 10.2. If weather data are available, the optimal route can be generated such that the effects of wind and water resistance are minimized. When designing a 3 DOF trajectory-tracking control system, the solution will depend on the number of available actuators. For most craft only two controls are needed: thrust T for speed control and a rudder δ for steering control.
+Consider a path parametrized by two waypoints: pk = [xk, yk] and pk+1 = [xk+1, yk+1] , respectively. Next, we introduce a path-fixed reference frame {p} = (xp, yp, zp) with origin on in pk, whose xp axis has been rotated a positive angle:
+αk := atan2 (yk+1 − yk, xk+1 − xk) (12.162)
+
+
+386 Motion Control Systems
+relative to the x axis of the inertial reference frame {n} = {x, y, z}. Recall from (10.56) that the along-track distance and cross-track errors are
+s(t) = (x(t) − xk) cos(αk) + (y(t) − yk) sin(αk) (12.163)
+e(t) = −(x(t) − xk) sin(αk) + (y(t) − yk) cos(αk) (12.164)
+Consequently, the error term e represents the deviation to the path in the y direction in NED coordinates. Since the craft is moving along a straight line, the sway velocity v and yaw angle ψ will be small. The cross-track error expressed in the path-fixed reference frame {p} is
+e = yp (12.165)
+and the kinematic equations reduce to
+x ̇p = u cos(ψ) − v sin(ψ) v≈0 and ψ≈0
+≈ U (12.166)
+y ̇p = u sin(ψ) + v cos(ψ) v≈0 and ψ≈0
+≈ Uψ (12.167)
+Consequently, the craft is moving with approximately constant speed U = √u2 + v2 ≈ u along the path. A conventional cross-track controller is usually designed by using Nomoto’s model in the following form:
+y ̇p = Uψ (12.168)
+ψ ̇ = r (12.169)
+T r ̇ + r = Kδ + b (12.170)
+b ̇ = 0 (12.171)
+where b is a bias term and δ is the control input. Consequently,
+e(s) = hδ(s)δ(s) + hb(s)b(s) (12.172)
+where
+hδ(s) = e
+δ (s) = KU
+s2(1 + Ts) (12.173)
+hb(s) = e
+b (s) = U
+s2(1 + Ts) (12.174)
+This is a linear system and it is straightforward to design a PID controller:
+δ = −Kpe − Kd  ̇e − Ki
+∫t
+0
+e(τ)dτ (12.175)
+
+
+PID Control and Acceleration Feedback 387
+for the regulation of e to zero. Integral action is needed in order to compensate for the bias term b representing environmental forces and the rudder offset.
+12.2.8 Case Study: LOS Path-Following Control for Ships and Underwater Vehicles
+A line-of-sight (LOS) path-following controller can be designed for conventional craft by representing the desired path by waypoints, as described in Section 10.3. This is particularly useful for underwater vehicles and surface vessels in transit operations where the user can specify the path by straight lines using a digital chart. For curved paths, the approach of Section 12.2.9 can be used. If the craft is equipped with a conventional heading autopilot, an outer feedback loop representing the guidance system can be designed as shown in Figure 12.20. This is practical since a commercial autopilot system can be treated as a black box where the outer-loop LOS algorithm computes heading commands to the autopilot. For this purpose, the guidance laws of Section 10.3.2 can be used to steer along the LOS vector which again forces the craft to track the path. When designing path-following control systems both the desired heading and course angles can be used since
+ψd = χd − β (12.176)
+where the sideslip angle is given by
+β = arcsin
+(v
+U
+)
+(12.177)
+Notice that β depends on the surge and sway velocities, implying that β must be computed using Doppler or GNSS velocity measurements, for instance. Alternatively, a state estimator for β can be designed.
+Figure 12.20 Conventional autopilot used in conjuncture with an LOS guidance algorithm in the outer loop.
+
+
+388 Motion Control Systems
+The heading autopilot is usually a PID controller with feedforward (see Section 12.2.6):
+τN = −τˆwind + τFF − Kpψ ̃ − Kd ψ ̃ ̇ − Ki
+∫t
+0
+ψ ̃(τ)dτ (12.178)
+τFF = m
+(
+r ̇d + 1
+T rd
+)
+(12.179)
+where ψ ̃ = ψ − ψd, and Kp > 0, Kd > 0 and Ki > 0 are the controller gains.
+Body x axis aligned to the LOS vector: If the sideslip angle β is unknown, the body x axis of the craft can be aligned with the LOS vector to the price of a tracking offset (see Section 10.3.2).
+Enclosure-based steering: In this approach, the desired heading angle ψd is chosen as:
+ψd = χd = atan2 (ylos − y, xlos − x) (12.180)
+and the body x axis of the craft points in the direction of the LOS intersection point pn
+los = [xlos, ylos] ,
+as shown Figure 10.9. Velocity and LOS vectors aligned: In order to align the velocity and LOS vectors, the desired course angle χd must be specified such that the velocity vector points towards the intersection point plos. The course angle command χd needed to accomplish this can be computed using one of the following guidance algorithms (see Section 10.3.2):
+Enclosure-based steering: The course angle is chosen as
+χd = atan2 (ylos − y, xlos − x) (12.181)
+and mapped into a heading command by
+ψd = χd − β
+= χd − arcsin
+(v
+U
+)
+(12.182)
+This approach requires velocity measurements.
+Lookahead-based steering: The course angle command (Breivik and Fossen, 2009)
+χd = χp + χr(e) (12.183)
+is chosen as the sum of the path-tangential angle χp and the velocity-path relative angle χr(e) to ensure that the velocity is directed toward a point on the path that is located a lookahead distance > 0 (Papoulias, 1991) ahead of the direct projection of pn on to the path. In this context
+χp = αk (12.184)
+χr(e) = arctan (−Kpe) (12.185)
+where χr is a proportional controller and e(t) is the cross-track error given by
+e(t) = −[x(t) − xk] sin(αk) + [y(t) − yk] cos(αk) (12.186)
+
+
+PID Control and Acceleration Feedback 389
+Lookahead-based steering can be implemented in terms of the heading controller (12.178) by using the transformation
+ψd = χd − β
+= χp + χr − β (12.187)
+If the sideslip angle β is unknown, a PI controller
+χr(e) = arctan
+(
+−Kpe − Ki
+∫t
+0
+e(τ)dτ
+)
+(12.188)
+together with the approximation ψd ≈ χp + χr can be used to compensate for sideslip.
+When moving along a piece wise linear path made up of n straight-line segments connected by n + 1 waypoints, a switching mechanism for selecting the next waypoint is needed. Waypoint (xk+1, yk+1) can be selected on a basis of whether the craft lies within a circle of acceptance with radius Rk+1 around (xk+1, yk+1). Moreover, if the craft positions (x, y) at time t satisfy
+[xk+1 − x(t)]2 + [yk+1 − y(t)]2 ≤ R2
+k+1 (12.189)
+the next waypoint (xk+1, yk+1) should be selected. This is described more closely in Section 10.3.2, which also discusses extensions from 2-D to 3-D path-following control.
+12.2.9 Case Study: Path-Following Control for Ships and Underwater Vehicles using Serret-Frenet Coordinates
+In Section 10.4.2 a guidance law for curved parametrized paths was presented. The guidance law assumes that there exists a parametrized path
+pn
+d( ) =
+[ xd( )
+yd ( )
+]
+(12.190)
+as a function of the path variable . The main idea is to use a kinematic controller to compute yaw commands rd to a yaw rate feedback control system that turns the marine craft such that the predefined path is followed. In 2-D this is a simple rotation about the vertical axis. The kinematic controller can be designed using a dynamic model of the marine craft by specifying a reference frame that moves along the path. This reference frame is usually chosen as the Serret–Frenet frame (see Frenet, 1847, Serret, 1851), as shown in Figure 10.19. The kinematic controller can be implemented in cascade with the yaw rate controller, as illustrated in Figure 12.21. We will look at the implementation aspects of the path-following controller by considering the yaw dynamics of the marine craft in the following form:
+(Iz − Nr ̇)r ̇ − Nrr = τN (12.191)
+Figure 12.21 Cascaded kinematic and yaw rate controller for path-following control.
+
+
+390 Motion Control Systems
+where Iz − Nr ̇ > 0 and −Nr > 0 are constant parameters. The controller yaw moment τN can easily be designed to regulate r to rd, for instance by using the following feedback control law:
+τN = −Nrr − Kp(r − rd) (12.192)
+where Kp > 0 is a design parameter and rd is the desired yaw rate generated by the kinematic controller. In Section 10.4.2 it was shown that
+rd =
+(
+1 − (m − X ̇u)
+(m − Yv ̇ )
+)−1 (
+χ ̇ d + κUd − K1 χ ̃SF − Yv
+(m − Yv ̇ )
+(
+tan(β) − vc
+U cos(β)
+))
+(12.193)
+where χ ̃SF = χSF − χd renders the equilibrium point (s, e, χ ̃SF) = (0, 0, 0) UGAS and ULES. Unfortunately, this expression requires knowledge of the sideslip angle
+β = arcsin
+(v
+U
+)
+(12.194)
+and the current velocity vc. One way to avoid this is to replace the term proportional to tan(β) with an integral term. This of course is based on the assumption that the sideslip angle changes slowly. The PI guidance law then takes the following form:
+rd =
+(
+1 − (m − X ̇u)
+(m − Yv ̇ )
+)−1 (
+χ ̇ d + κUd − Kp χ ̃SF − Ki
+∫t
+0
+χ ̃SF(τ)dτ
+)
+(12.195)
+where Kp = 2λ and Ki = λ2 are parametrized using λ > 0 as a design parameter and (see Section 10.4.2):
+χd = arctan
+( −e )
+(12.196)
+Ud = U cos(χSF) + K2s (12.197)
+The dynamic equations of the guidance law are
+s ̇ = U cos(χSF) − (1 − κe)Ud (12.198)
+ ̇e = U sin(χSF) − κUds (12.199)
+χ ̇ SF = r + β ̇ − κUd (12.200)
+An alternative approach to integral action is to use a state estimator to estimate the ocean currents (Encarnacao et al., 2000). Cascaded design techniques based on backstepping and Lyapunov analysis are discussed by Lapierre and Soetanto (2007) and Børhaug and Pettersen (2006), while Breivik and Fossen (2004a) present an alternative approach for Serret–Frenet path-following control where the path curvature κ is superfluous.
+
+
+PID Control and Acceleration Feedback 391
+12.2.10 Case Study: Dynamic Positioning Control System for Ships and Floating Structures
+Control systems for stationkeeping and low-speed maneuvering are commonly known as dynamic positioning (DP) systems. The Norwegian classification society DnV (1990) defines a DP vessel according to:
+Dynamically positioned vessel: a free-floating vessel which maintains its position (fixed location or predetermined track) exclusively by means of thrusters.
+It is, however, possible to exploit rudder forces in DP also by using the propeller to generate rudder lift forces (Lindegaard and Fossen, 2003). For ships that are anchored, additional spring forces are introduced into the control model. These systems are referred to as position mooring (PM) systems (see Section 12.2.11). Optimality with respect to changing weather conditions will be discussed in Section 13.3.10 using the concept of weather optimal positioning control (WOPC).
+DP and PM Systems
+In the 1960s, systems for automatic control of the horizontal position, in addition to the heading, were developed. Systems for the simultaneous control of the three horizontal motions (surge, sway and yaw) are today commonly known as DP systems and are used in a wide range of marine operations such as stationkeeping, drilling and offloading, as illustrated in Figure 12.22. More recently anchored positioning systems or PM systems have been designed; see Section 12.2.11. For a free-floating vessel the thrusters are the prime actuators for stationkeeping, while for a PM system the assistance of thrusters are only complementary since most of the position-keeping is provided by a deployed anchor system. Different DP applications are described more closely in Strand and Sørensen (2000). DP systems have traditionally been a low-speed application, where the basic DP functionality is either to keep a fixed position and heading or to move slowly from one location to another (marked positioning). In addition, specialized tracking functions for cable and pipe-layers, and operations of ROVs have been included. The traditional autopilot and waypoint-tracking functionalities have also been included in modern DP systems. The trend today is that high-speed operation functionality merges with classical DP functionality, resulting in a unified system for all speed ranges and types of operations. The first DP systems were designed using conventional PID controllers in cascade with low-pass and/or notch filters to suppress the wave-induced motion components. This was based on the assumption that the interactions were negligible (Sargent and Cowgill, 1976, and Morgan, 1978). From the middle of the 1970s a new model-based control concept utilizing stochastic optimal control theory and Kalman filtering techniques was employed with the DP problem by Balchen et al. (1976). The Kalman filter is used to separate the LF and WF motion components such that only feedback from the LF motion components is used (see Chapter 11). Later extensions and modifications of this work have been proposed by numerous authors; see Balchen et al. (1980a, 1980b), Grimble et al. (1980a, 1980b), Fung and Grimble (1983), Sælid et al. (1983) and more lately Fossen et al. (1996), Sørensen et al. (1996, 2000), Fossen and Grøvlen (1998) and Fossen and Strand (1999a).
+Roll and Pitch Damping in DP
+Traditionally DP systems have been designed for 3 DOF low-speed trajectory-tracking control by means of thrusters and propellers. However, extensions to 5 DOF control for the purpose of roll and pitch damping of semi-submersibles has been proposed by Sørensen and Strand (1998). It is well known that for marine structures with a small waterplane area and low metacentric height, which results in relatively low hydrostatic restoration compared to the inertia forces, an unintentional coupling phenomenon between
+
+
+392 Motion Control Systems
+Figure 12.22 Dynamically positioned supply vessel used in offshore offloading. Illustration by Bjarne Stenberg/Department of Marine Technology, NTNU.
+the vertical and the horizontal planes through the thruster action can be invoked. Examples are found in semi-submersibles and SWATHs, which typically have natural periods in roll and pitch in the range of 35–65 s. If the inherent vertical damping properties are small, the amplitudes of roll and pitch may be emphasized by the thruster’s induction by up to 2◦–5◦ in the resonance range. These oscillations have
+
+
+PID Control and Acceleration Feedback 393
+caused discomfort to the vessel’s crew and have in some cases limited the operation. Hence, the motions in both the horizontal and vertical planes should be considered in the controller design, as proposed in Sørensen and Strand (2000).
+Optimal Setpoint Chasing in DP for Drilling and Intervention Vessels
+Further extension in the development of DP systems includes extended functionality adapted for the particular marine operation considered. In Sørensen et al. (2001) a function for optimal setpoint chasing in DP of drilling and intervention vessels is proposed in order to minimize riser angle offsets at the sea bed and on the vessel.
+Controller and Observer Models
+For DP systems an LF controller model will be employed for feedback since dynamics at higher frequencies are negligible in stationkeeping. Recall from Section 7.3.2 that
+ ̇ηp = ν (12.201)
+Mν ̇ + Dν = bp + τ + τwind + τwave (12.202)
+where VP coordinates have been employed (see Section 7.5.3). The bias term is expressed in {b} using the transformation bp = R(ψ) b. The North-East positions and heading measurements are related to ηp by
+η = R(ψ)ηp (12.203)
+In some cases additional measurements are available such as GNSS and Doppler log velocity ν as well as anemometer measurements, which can be used to compute an estimate of the generalized wind forces τwind. The bias b is treated as an unknown state due to wave drift, ocean currents and unmodeled dynamics.
+DP Control System
+The craft is exposed to waves, ocean currents and wind. The observer–controller must be robust and compensate for environmental forces and unmodeled dynamics. These are the most important design requirements in an industrial vessel control system since a full-state feedback controller will not work in bad weather unless the environmental forces are included in the design specifications. In commercial DP systems it is therefore necessary to include the following features:
+• Integral action to compensate for slowly varying forces (bias term b) due to ocean currents, secondorder wave drift forces and unmodeled dynamics. • Wind feedforward control to compensate for mean wind forces. Wind gust cannot be compensated for since the actuators do not have the capacity for moving a large vessel in the frequency range of the wind gust. • Wave filtering to avoid where first-order wave-induced oscillations are fed back to the control system as explained in Chapter 11. This is an important feature since the actuators cannot move a large vessel fast enough to suppress the disturbances. • State estimator for noise filtering and estimation of unmeasured states, for instance linear and angular velocities. The main tool for this is the Kalman filter, alternatively nonlinear and passive observers as described in Sections 11.3–11.4. • Optimal allocation of thrust where the main goal is to compute optimal setpoints for thrusters, rudders and other actuators based on the force and moment commands generated by the DP control system. This is treated in detail in Section 12.3.
+
+
+394 Motion Control Systems
+Figure 12.23 Dynamic positioning system. The observer can be implemented as a Kalman filter or a passive observer. Illustration by Bjarne Stenberg.
+The different blocks in a closed-loop DP system is shown in Figure 12.23. The control system can be designed as a MIMO nonlinear PID controller using the results in Section 12.2.4. Moreover,
+τ = −τˆ wind + R (η)τPID (12.204)
+where τˆ wind is an estimate of the generalized wind forces and the PID controller is expressed in {n} according to:
+τPID = −Kp η ̃ − Kd  ̇η − Ki
+∫t
+0
+η ̃(τ)dτ (12.205)
+By combining (12.204) and (12.205), the DP control law becomes
+τ = −τˆ wind − R (η)Kp η ̃ − R (η)Kd R(η)
+} {{ }
+K∗
+d
+ν − R (η)Ki
+∫t
+0
+η ̃(τ)dτ (12.206)
+where
+K∗
+d := R (η)KdR(η) (12.207)
+It is common to choose Kd as a diagonal matrix and thus K∗
+d = Kd. For the full-state feedback case, asymptotic stability follows using Lyapunov arguments (see Section 12.2.4). However, in order to implement the nonlinear PID controller a state estimator and wave filter must be designed. This is straightforward for the linearized DP model (12.201)–(12.203) where additional states for the WF motions can be augmented and used directly in a Kalman filter (see Section 11.3.6). GAS and convergence of the nonlinear PID controller (12.206) in combination with a linear Kalman filter cannot be guaranteed but the solution has been used in many industrial systems with excellent performance and robustness. Hence, from a practical point of view this is indeed a well-proven concept. An alternative approach could be to use linear vessel
+
+
+PID Control and Acceleration Feedback 395
+parallel coordinates and a separation principle to guarantee asymptotic stability via a linear quadratic Gaussian optimal control philosophy (see Section 13.1.6). It is, however, possible to prove UGAS for the nonlinear PID controller in combination with the nonlinear passive observer of Section 11.4 under certain conditions. Consider the passive observer:
+ξˆ ̇ = Awξˆ + K1(ωo)  ̃y (12.208)
+ˆ ̇η = R(y3)ˆν + K2  ̃y (12.209)
+ˆb ̇ = −T −1 ˆb + K3  ̃y (12.210)
+M ˆν ̇ = −Dˆν + R (y3)ˆb + τ + τwind + R (y3)K4  ̃y (12.211)
+ˆy = ˆη + Cwξˆ (12.212)
+where drift is estimated using the bias term ˆb. For the DP controller (12.206), the drift forces have been compensated for by adding integral action in the controller. A PD controller motivated by (12.206), where slowly varying environmental forces are compensated by using the observer bias estimates, R (ψ)ˆb, has been proposed by Loria et al. (2000):
+τ = −τˆ wind − R (ψ)Kp(ˆη − ηd ) − K∗
+d ˆν − R (ψ)ˆb (12.213)
+Notice that the integral term in the controller (12.206) is removed and replaced by the bias estimate. It is then possible to show that the equilibrium point of the observer–controller is UGAS. The stability proof is based on a separation principle, which holds for nonlinear systems (Loria et al., 2000).
+Wind Feedforward
+It is possible to implement wind feedforward τwind in DP control systems. However, this requires that the wind forces and moment are known as functions of the wind speed and direction, as well as ship hull parameters. Different wind models are presented in Section 8.1, suggesting that
+τˆ wind = 1
+2 ρaV 2
+rw
+⎡
+⎣
+CX(γrw)AFw
+CY (γrw)ALw
+CN (γrw)ALw Loa
+⎤
+⎦ (12.214)
+where the relative wind speed and angle of attack are
+Vrw = √
+ur2w + vr2w (12.215)
+γrw = −atan2(vrw, urw) (12.216)
+
+
+396 Motion Control Systems
+The relative velocity components depend on the heading angle ψ, wind direction βw and wind speed Vw according to
+urw = u − uw = u − Vw cos(βw − ψ) (12.217)
+vrw = v − vw = v − Vw sin(βw − ψ) (12.218)
+When wind feedforward is implemented, it is important that the wind measurements are low-pass filtered to avoid rapid changes in the actuator commands. Wind feedforward is an optional term since the integrator in the DP system can compensate for slowly varying wind forces as well. The main difference will be the response time. In general, wind feedforward will be much faster than integral action since the integrator needs several minutes to remove a large wind component during the start-up of the DP system.
+12.2.11 Case Study: Position Mooring Control System for Ships and Floating Structures
+Figure 12.24 illustrates different mooring strategies for ships and floating structures. The results of Section 12.2.10 can be generalized to PM systems by adding a spring to the model. Consider the model
+ ̇ηp = ν (12.219)
+Mν ̇ + Dν + Kpηp = bp + τ + τwind + τwave (12.220)
+Figure 12.24 Mooring systems for a submersible, FPSO and platform. Illustration by Bjarne Stenberg.
+
+
+PID Control and Acceleration Feedback 397
+where ν = [u, v, r] and η = [N, E, ψ] . For this system:
+M=M =
+⎡
+⎣
+m11 0 0
+0 m22 m23
+0 m32 m33
+⎤
+⎦ (12.221)
+D=D =
+⎡
+⎣
+d11 0 0
+0 d22 d23
+0 d32 d33
+⎤
+⎦ (12.222)
+K = diag{k11, k22, k33} (12.223)
+The additional spring Kηp due to the mooring system adds spring stiffness in surge, sway and yaw described by the parameters k11 > 0, k22 > 0 and k33 ≥ 0. With this in mind, two different design philosophies for mooring systems are quite common:
+• Turret mooring systems have cables that are connected to the turret via bearings. This allows the vessel to rotate around the anchor legs. In this case, the rotational spring can be neglected such that k33 = 0. The turret can be mounted either internally or externally. An external turret is fixed, with appropriate reinforcements, to the bow or stern of the ship. In the internal case the turret is placed within the hull in a moon pool. A moon pool is a wet porch, that is an opening in the floor or base of the hull giving access to the water below, allowing technicians or researchers to lower tools and instruments into the sea. Turret mooring systems allow the vessel to rotate in the horizontal plane (yaw) into the direction where environmental loading due to wind, waves and ocean currents is minimal. This is referred to as weathervaning. • Spread mooring systems are used to moor Floating Production, Storage and Offloading (FPSO) units, tankers and floating platforms (see Figure 12.24). The system consists of mooring lines attached somewhere to the vessel. The drawback with a spread mooring system is that it restrains the vessel from rotating (k33 > 0) and hence weathervaning is impossible. On the other hand, it is relatively inexpensive to equip an existing vessel with mooring lines that can be attached directly to the hull.
+For thruster-assisted PM systems the thrusters are complementary to the mooring system and the main idea is to provide the system with additional damping, for instance by using a D controller:
+τ = −Kdν (12.224)
+The mooring term Kηp is in fact a P controller but additional spring forces can be included by position feedback if necessary. Integral action is not used in PM systems, since the ship is only allowed to move within a limited radius from the equilibrium point or field-zero point (FZP). If the vessel moves outside the specified radius of the mooring system, a stabilizing control system of PD type can be used to drive the vessel inside the circle again. This is usually done in an energy perspective since it is important to reduce the fuel consumption of PM systems. Consequently, in bad weather it will be more optimal to use additional thrust to stay on the circle rather than move the vessel to the FZP. In good weather, no control action is needed since the vessel is free to move within the circle. PM systems have been commercially available since the 1980s, and provide a flexible solution for floating structures for drilling and oil and gas exploitation on the smaller and marginal fields (Sørensen et al., 2000). Modeling and control of turret-moored ships are complicated problems since the mooring
+
+
+398 Motion Control Systems
+Figure 12.25 Block diagram showing the control allocation block in a feedback control system.
+forces and moments are inherently nonlinear (Strand et al., 1998). The control design of PM systems using nonlinear theory is addressed by Strand (1999).
+12.3 Control Allocation
+For marine craft in n DOF it is necessary to distribute the generalized control forces τ ∈ Rn to the actuators in terms of control inputs u ∈ Rr as shown in Figure 12.25 (Fossen and Johansen, 2006). If r > n this is an overactuated control problem while r < n is referred to as underactuated control; see the discussion in Section 9.4. The input matrix is square for r = n, that is the number of actuators is equal to the number of DOFs. Computation of u from τ is a model-based optimization problem, which in its simplest form is unconstrained while physical limitations such as input amplitude and rate saturations imply that a constrained optimization problem must be solved. Another complication is actuators that can be rotated at the same time as they produce control forces. An example is azimuth thrusters on an offshore supply vessel. This increases the number of available controls from r to r + p, where p denotes the number of rotatable actuators for which additional nonlinearities are introduced.
+12.3.1 Actuator Models
+The control force due to a propeller, a rudder or a fin can be written (assuming linearity)
+F = ku (12.225)
+where k is the force coefficient and u is the control input depending on the actuator considered; see Table 12.3. The linear model F = ku can also be used to describe nonlinear monotonic control forces. For instance, if the rudder force F is quadratic in rudder angle δ, that is F = k δ |δ|, the choice u = δ |δ|,
+which has a unique inverse δ = sgn(u)√|u|, satisfies (12.225).
+Table 12.3 Definition of actuators and control variables
+Actuator u (control input) α (control input) f (force vector)
+Main propellers (longitudinal) Pitch and rpm – [F, 0, 0] Tunnel thrusters (transverse) Pitch and rpm – [0, F, 0] Azimuth (rotatable) thruster Pitch and rpm Angle [F cos (α), F sin (α), 0] Aft rudders Angle – [0, F, 0] Stabilizing fins Angle – [0, 0, F ]
+
+
+Control Allocation 399
+Figure 12.26 Fin stabilized ship where the vertical force F = ku is proportional to the angle u for small deflections.
+For marine craft the most common actuators are:
+• Main propellers: The main propellers of the craft are mounted aft of the hull, usually in conjunction with rudders. They produce the necessary force Fx in the x direction needed for transit. • Tunnel thrusters: These are transverse thrusters going through the hull of the craft. The propeller unit is mounted inside a transverse tube and produces a force Fy in the y direction. Tunnel thrusters are only effective at low speeds, which limits their use to low-speed maneuvering and stationkeeping. • Azimuth thrusters: Thruster units that can be rotated an angle α about the z axis and produce two force components (Fx, Fy) in the horizontal plane are usually referred to as azimuth thrusters. They are usually mounted under the hull of the craft and the most sophisticated units are retractable. Azimuth thrusters are frequently used in DP systems since they can produce forces in different directions. Hence, this becomes an overactuated control problem that can be optimized with respect to power and possible failure situations. • Aft rudders: Rudders are the primary steering device for conventional marine craft. They are located aft of the craft and the rudder force Fy will be a function of the rudder deflection (the drag force in the x direction is usually neglected in the control analysis). A rudder force in the y direction will produce a yaw moment that can be used for steering control. • Stabilizing fins: Stabilizing fins are used for the damping of vertical vibrations and roll motions (see Figure 12.26). They produce a force Fz in the z directions that is a function of the fin deflection. For small angles this relationship is linear. Fin stabilizers can be retractable, allowing for selective use in bad weather. The lift forces are small at low speed so the most effective operating condition is in transit. • Control surfaces: Control surfaces can be mounted at different locations to produce lift and drag forces. For underwater vehicles these could be fins for diving, rolling and pitching and rudders for steering. • Water jets: Water jets are an alternative to main propellers aft of the ship. They are usually used for high-speed craft.
+
+
+400 Motion Control Systems
+Figure 12.27 Propellers that can be rotated an angle α to produce a force F in an arbitrary direction.
+The forces and moments in 6 DOF corresponding to the force vector f = [Fx, Fy, Fz] can be written (see Table 12.3)
+τ=
+[f
+r×f
+] =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+Fx
+Fy
+Fz
+Fzly − Fylz
+Fxlz − Fzlx
+Fylx − Fxly
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+4 DOF
+=⇒ τ =
+⎡
+⎢⎢⎣
+Fx
+Fy
+Fzly − Fylz
+Fylx − Fxly
+⎤
+⎥⎥⎦ (12.226)
+where r = [lx, ly, lz] are the moment arms. For rotatable (azimuth) thrusters the control force F will be a function of the rotation angle α and propeller revolution u (see Figure 12.27). Consequently, an azimuth thruster in the horizontal plane will have two force components, Fx = F cos(α) and Fy = F sin(α), while the main propeller aft of the ship only produces a longitudinal force Fx = F (see Table 12.3).
+Thrust Configuration and Force Coefficient Matrices
+The control forces and moments f = [u1, . . . , un] are conveniently expressed as
+f = Ku (12.227)
+where u = [u1, . . . , ur] is a vector of control inputs and K ∈ Rr×r is a diagonal force coefficient matrix given by
+K = diag{K1, . . . , Kr}, K−1 = diag
+{1
+K1
+,..., 1
+Kr
+}
+(12.228)
+
+
+Control Allocation 401
+The actuator forces and moments relate to the control forces and moments by
+τ = T (α)f
+= T (α)Ku (12.229)
+where α = [α1, . . . , αp] ∈ Rp is a vector of azimuth angles and T (α) ∈ Rn×r is the thrust configuration matrix. For a marine craft equipped with r actuators for operation in n DOFs, the thrust configuration matrix describes the geometry or locations of the actuators.
+Thrust Configuration Matrix for Nonrotatable Thrusters: The trivial case refers to a marine craft equipped with nonrotatable thrusters such that
+T = [t1, . . . , tr] = constant
+The thrust configuration matrix is defined in terms of a set of column vectors ti ∈ Rn. In 4 DOF (surge, sway, roll and yaw) the column vectors for some standard actuators are
+ti =
+⎡
+⎢⎢⎣
+1
+0
+0
+−lyi
+⎤
+⎥⎥⎦
+} {{ }
+main propeller
+, ti =
+⎡
+⎢⎢⎣
+0
+1
+−lzi
+lxi
+⎤
+⎥⎥⎦
+} {{ }
+tunnel thruster and aft rudder
+, ti =
+⎡
+⎢⎢⎣
+0
+0
+lyi
+0
+⎤
+⎥⎥⎦
+} {{ }
+stabilizing fin
+An example using this representation is found in Section 13.1.5 discussing fin and rudder control systems.
+Thrust Configuration Matrix for Rotatable Thrusters: For marine craft equipped with azimuth thrusters in combination with nonrotatable thrusters we write:
+T (α) = [t1, . . . , tr] (12.230)
+where α = [α1, . . . , αp] ∈ Rp is a vector of azimuth angles. The thrust configuration matrix is defined in terms of a set of column vectors ti ∈ Rn. In 4 DOF (surge, sway roll and yaw) the column vectors take the following form:
+ti =
+⎡
+⎢⎢⎣
+cos (αi)
+sin (αi)
+−lzi sin (αi)
+lxi sin (αi) − lyi cos (αi)
+⎤
+⎥⎥⎦
+} {{ }
+azimuth thruster
+, ti =
+⎡
+⎢⎢⎣
+1
+0
+0
+−lyi
+⎤
+⎥⎥⎦
+} {{ }
+main propeller
+, ti =
+⎡
+⎢⎢⎣
+0
+1
+−lzi
+lxi
+⎤
+⎥⎥⎦
+} {{ }
+tunnel thruster and aft rudder
+, ti =
+⎡
+⎢⎢⎣
+0
+0
+lyi
+0
+⎤
+⎥⎥⎦
+} {{ }
+stabilizing fin
+An example using this representation is found in Section 12.3.5 discussing dynamic positioning systems.
+
+
+402 Motion Control Systems
+Extended Thrust Configuration Matrix for Rotatable Actuators: When solving the control allocation optimization problem an alternative representation to (12.230) is the extended thrust configuration matrix. Equation (12.230) is nonlinear in the controls α. This implies that a nonlinear optimization problem must be solved. In order to avoid this, the rotatable thrusters can be treated as two forces. Consider a rotatable thruster in the horizontal plane (the same methodology can be used for thrusters that can be rotated in the vertical plane):
+Fxi = Fi cos(αi)
+= Kiui cos(αi) (12.231)
+Fyi = Fi sin(αi)
+= Kiui sin(αi) (12.232)
+Next, the extended force vector is defined according to
+f e := Keue (12.233)
+such that
+τ = T eKeue (12.234)
+where T e and Ke are the extended thrust configuration and coefficient matrices, respectively, and ue is a vector of extended control inputs where the azimuth controls are defined as
+uix := ui cos(αi) (12.235)
+uiy := ui sin(αi) (12.236)
+This approach was used by Sørdalen (1997b). The following example illustrates how this model can be established for an underwater vehicle equipped with two main propellers and two azimuth thrusters in the horizontal plane (Fossen et al., 2009).
+Example 12.8 (Thrust Configuration Matrix for an Underwater Vehicle)
+The forces and moment X, Y and N in surge, sway and yaw, respectively, for the AUV thruster configuration shown in Figure 12.28 satisfy
+τ = T (α)Ku (12.237)
+⎡
+⎣
+X
+Y
+N
+⎤
+⎦=
+⎡
+⎣
+cos(α1) cos(α2) 1 1
+sin(α1) sin(α2) 0 0
+lx1 sin(α1) lx2 sin(α2) −ly3 −ly4
+⎤
+⎦·
+⎡
+⎢⎢⎣
+K1 0 0 0
+0 K2 0 0
+0 0 K3 0
+0 0 0 K4
+⎤
+⎥⎥⎦
+⎡
+⎢⎢⎣
+u1
+u2
+u3
+u4
+⎤
+⎥⎥⎦ (12.238)
+
+
+Control Allocation 403
+Figure 12.28 AUV equipped with two azimuth thrusters (forces F1 and F2) and two main propellers (forces F3 and F4). The azimuth forces are decomposed along the x and y axes.
+The extended thrust vector ue corresponding to (12.234) and (12.235)–(12.236) satisfies
+τe = T eKeue (12.239)
+⎡
+⎣
+X
+Y
+N
+⎤
+⎦=
+⎡
+⎣
+1010 1 1
+0101 0 0
+0 lx1 0 lx2 −ly3 −ly4
+⎤
+⎦·
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+K1 0 0 0 0 0
+0 K1 0 0 0 0
+0 0 K2 0 0 0
+0 0 0 K2 0 0
+0 0 0 0 K3 0
+0 0 0 0 0 K4
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+u1x
+u1y
+u2x
+u2y
+u3
+u4
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(12.240)
+Notice that T e = constant while T (α) depends on α. This means that the extended control input vector ue can be solved directly from (12.234), for instance using the pseudo-inverse approach presented in Section 12.3.2. This is not the case for (12.230), which represents a nonlinear optimization problem. If ue is computed using the pseudo-inverse, the azimuth control can be derived from the extended control vector elements by mapping the pairs (u1x, u1y) and (u2x, u2y) according to
+u1 =
+√
+u2
+1x + u2
+1y, α1 = atan2(u1y, u1x) (12.241)
+u2 =
+√
+u2
+2x + u2
+2y, α2 = atan2(u2y, u2x) (12.242)
+The last two controls u3 and u4 are elements five and six in ue.
+
+
+404 Motion Control Systems
+12.3.2 Unconstrained Control Allocation for Nonrotatable Actuators
+The simplest allocation problem is the one where all control forces are produced by thrusters in fixed directions alone or in combination with rudders and control surfaces. This implies that
+α = α0 = constant, T = T (α0) (12.243)
+It will be assumed that the allocation problem is unconstrained; that is there are no bounds on the vector elements fi, αi and ui, and their time derivatives. Saturating control and constrained control allocation are discussed in Sections 12.3.3–12.3.4. For marine craft where the configuration matrix T is square or nonsquare (r ≥ n), that is there are equal or more control inputs than controllable DOFs, it is possible to find an “optimal” distribution of control forces f for each DOF by using an explicit method. Consider the unconstrained least-squares (LS) optimization problem (Fossen and Sagatun, 1991):
+J = min
+f
+{f Wf }
+subject to: τ − Tf = 0
+(12.244)
+Here W is a positive definite matrix, usually diagonal, weighting the control forces. For marine craft that have both control surfaces and propellers, the elements in W should be selected so that using the control surfaces are considerably less expensive than using the propellers.
+Explicit Solution to the LS Optimization Problem using Lagrange Multipliers
+Consider the Lagrangian (Fossen, 1994)
+L(f , λ) = f Wf + λ (τ − Tf ) (12.245)
+where λ ∈ Rr is a vector of Lagrange multipliers. Consequently, differentiating the Lagrangian L with respect to f yields
+∂L
+∂f = 2Wf − T λ = 0 (12.246)
+⇓
+f=1
+2 W −1T λ (12.247)
+Next, assume that TW −1T is nonsingular such that
+τ = Tf = 1
+2 TW −1T λ (12.248)
+⇓
+λ = 2(TW −1T )−1τ (12.249)
+
+
+Control Allocation 405
+Substituting the Lagrange multipliers λ = 2(TW −1T )−1τ into (12.247) yields
+f = W −1T (TW −1T )−1
+} {{ }
+T†
+w
+τ (12.250)
+where the matrix
+T†
+w = W −1T (TW −1T )−1 (12.251)
+is recognized as the generalized inverse. For the case W = I, that is equally weighted control forces, (12.251) reduces to the right Moore–Penrose pseudo-inverse
+T † = T (TT )−1 (12.252)
+Since
+f = T†
+wτ (12.253)
+the control input vector u can be computed from (12.230) as
+u = K−1T †
+wτ (12.254)
+Notice that this solution is valid for all α0 but not optimal with respect to a time-varying α0 (only f ). Optimality with respect to α in addition to (12.247) is discussed in Section 12.3.4.
+Matlab
+The generalized inverse for the case T = T (α0) = constant is implemented in the Matlab MSS toolbox as
+u=ucalloc(K,T,W,tau)
+12.3.3 Constrained Control Allocation for Nonrotatable Actuators
+In industrial systems it is important to minimize the power consumption by taking advantage of the additional control forces in an overactuated control problem. From a critical point of view concerning safety it is also important to take into account actuator limitations such as saturation, wear and tear as well as other constraints. In general this leads to a constrained optimization problem.
+
+
+406 Motion Control Systems
+Explicit Solution using Piecewise Linear Functions
+An explicit solution approach for parametric quadratic programming has been developed by Tøndel et al. (2003a) while applications to marine craft are presented by Johansen et al. (2005). In this work the constrained optimization problem is formulated as
+J = min
+f,s,f ̄
+{f Wf + s Qs + βf ̄ }
+subject to:
+Tf = τ + s
+f min ≤ f ≤ f max
+−f ̄ ≤ f1, f2, . . . , fr ≤ f ̄
+(12.255)
+where s ∈ Rn is a vector of slack variables. The first term of the criterion corresponds to the LS criterion (12.244), while the third term is introduced to minimize the largest force f ̄ = maxi |fi| among the actuators. The constant β ≥ 0 controls the relative weighting of the two criteria. This formulation ensures that the constraints f min
+i ≤ fi ≤ f max
+i (i = 1, . . . , r) are satisfied, if necessary by allowing the resulting generalized force Tf to deviate from its specification τ. To achieve accurate generalized force, the slack variable should be close to zero. This is obtained by choosing the weighting matrix Q W > 0. Moreover, saturation is handled in an optimal manner by minimizing the combined criterion (12.255). Letting
+z = [f , s , f ̄] ∈ Rr+n+1 (12.256)
+and
+p = [τ , f min, f max, β] ∈ Rn+2r+1 (12.257)
+denotes the parameter vector, it is straightforward to see that the optimization problem (12.255) can be reformulated as a QP problem:
+J = min
+z
+{z z + z Rp}
+subject to:
+A1z = C1p A2z ≤ C2p
+(12.258)
+where
+=
+⎡
+⎣
+W 0r×n 0r×1
+0n×r Q 0n×1
+01×r 01×n 0
+⎤
+⎦, R =
+[
+0(r+n+1)×(n+2r)
+[ 0(r+n)×1
+1
+]]
+
+
+Control Allocation 407
+A1 = [ T −In×n 0n×1
+] , C1 = [ In×n 0n×(2r+1)
+]
+A2 =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎢⎣
+−Ir×r 0r×n 0r×1
+Ir×r 0r×n 0r×1
+Ir×r 0r×n
+⎡
+⎢⎢⎢⎢⎣
+1
+1
+...
+1
+⎤
+⎥⎥⎥⎥⎦
+Ir×r 0r×n −
+⎡
+⎢⎢⎢⎢⎣
+1
+1
+...
+1
+⎤
+⎥⎥⎥⎥⎦
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎥⎦
+, C2 =
+⎡
+⎢⎢⎣
+0r×n −Ir×r 0r×r 0r×1
+0r×n 0r×r Ir×r 0r×1
+0r×n 0r×r 0r×r 0r×1
+0r×n 0r×r 0r×r 0r×1
+⎤
+⎥⎥⎦
+Since W > 0 and Q > 0 this is a convex quadratic program in z parametrized by p. Convexity guarantees that a global solution can be found. The optimal solution z∗(p) to this problem is a continuous piecewise linear function z∗(p) defined on any subset
+pmin ≤ p ≤ pmax (12.259)
+of the parameter space. Moreover, an exact representation of this piecewise linear function can be computed offline using multiparametric QP (mp-QP) algorithms (Tøndel et al., 2003b) or the Matlab MultiParametric Toolbox (MPT) by Kvasnica et al. (2004). Consequently, it is not necessary to solve the QP (12.255) in real time for the current value of τ and the parameters fmin, fmax and β if they are allowed to vary. In fact, it suffices to evaluate the known piecewise linear function z∗(p) as a function of the given parameter vector p, which can be done efficiently with a small amount of computations. For details of the implementation aspects of the mp-QP algorithm see Johansen et al. (2004) and references therein. An online control allocation algorithm is presented in Tøndel et al. (2003a).
+Explicit Solution for Varying α using Piecewise Linear Functions
+An extension of the mp-QP algorithm to marine craft equipped with azimuth thrusters and rudders has been given by Tøndel et al. (2003a). A propeller with a rudder can produce a thrust vector within a range of directions and magnitudes in the horizontal plane for low-speed maneuvering and stationkeeping. The set of attainable thrust vectors is nonconvex because significant lift can be produced by the rudder only with forward thrust. The attainable thrust region can, however, be decomposed into a finite union of convex polyhedral sets. A similar decomposition can be made for azimuth thrusters including forbidden sectors. Hence, this can be formulated as a mixed-integer-like convex QP problem, and by using, arbitrarily, number, of rudders as well as thrusters, other propulsion devices can be handled. Actuator rate and position constraints are also taken into account. Using a mp-QP software, an explicit piecewise linear representation of the least-squares optimal control allocation law can be precomputed. The method has been tested on a scale model of a supply vessel by Tøndel et al. (2003a) and a scale model of a floating platform by Spjøtvold (2008).
+
+
+408 Motion Control Systems
+Explicit Solutions based on Minimum Norm and Null-Space Methods
+In flight and aerospace control systems, the problems of control allocation and saturating control have been addressed by Durham (1993, 1994a, 1994b). Durham also discusses an explicit solution to avoid saturation, referred to as the “direct method”. By noticing that there are infinite combinations of admissible controls that generate control forces on the boundary of the closed subset of attainable controls, the “direct method” calculates admissible controls in the interior of the attainable forces as scaled-down versions of the unique solutions for force demands. Unfortunately it is not possible to minimize the norm of the control forces on the boundary or some other constraint since the solutions on the boundary are unique. The computational complexity of the algorithm is proportional to the square of the number of controls, which can be problematic in real-time applications. In Bordignon and Durham (1995) the null-space interaction method is used to minimize the norm of the control vector, when possible, and still access the attainable forces to overcome the drawbacks of the “direct method”. This method is also explicit but much more computationally intensive. For instance, 20 independent controls imply that up to 3.4 billion points have to be checked at each sample. In Durham (1999) a computationally simple and efficient method to obtain near-optimal solutions is described. The method is based on prior knowledge of the controls’ effectiveness and limits such that precalculation of several generalized inverses can be done.
+Iterative Solutions
+An alternative to the explicit solution could be to use an iterative solution to solve the QP problem. The m-file function quadprog.m in the Matlab optimization toolbox can be used for computer simulations, while a stand alone compiled QP solver must be implemented in a real-time application. The drawback with the iterative solution is that several iterations may have to be performed at each sample in order to find the optimal solution. An advantage of the iterative approach is that there is more flexibility for online reconfiguration, as, for example, a change in W may require that the explicit solutions are recalculated. Computational complexity is also greatly reduced by a “warm start”; that is the numerical solver is initialized with the solution of the optimization problem computed at the previous sample.
+12.3.4 Constrained Control Allocation for Azimuth Thrusters
+The control allocation problem for marine craft equipped with azimuth thrusters is in general a nonconvex optimization problem that is hard to solve. The primary constraint is
+τ = T (α)f (12.260)
+where α ∈ Rp denotes the azimuth angles. The azimuth angles must be computed at each sample together with the control inputs u ∈ Rr which are subject to both amplitude and rate saturations. In addition, azimuth thrusters can only operate in feasible sectors αi,min ≤ αi ≤ αi,max at a limiting turning rate  ̇αi. Another problem is that the inverse
+T†
+w(α) = W −1T (α)[T (α)W −1T (α)]−1 (12.261)
+can be singular for certain α values. The consequence of such a singularity is that no force is produced in certain directions. This may greatly reduce dynamic performance and maneuverability as the azimuth angles can be changed only slowly. This suggests that the following criterion should be minimized (Johansen et al., 2004):
+
+
+Control Allocation 409
+J = min
+f,α,s
+{ r ∑
+i=1
+P ̄ i |fi|3/2 + s Qs + (α − α0) (α − α0)
++ ε + det(T (α)W −1T (α))
+}
+(12.262)
+subject to:
+T (α)f = τ + s
+f min ≤ f ≤ f max
+αmin ≤ α ≤ αmax αmin ≤ α − α0 ≤ αmax
+where
+• ∑r
+i=1 P ̄ i |fi|3/2represents power consumption where P ̄ i > 0 (i = 1, . . . , r) are positive weights.
+• s Qs penalizes the error s between the commanded and achieved generalized force. This is necessary in order to guarantee that the optimization problem has a feasible solution for any τ and α0. The weight Q > 0 is chosen to be large enough so that the optimal solution is s ≈ 0 whenever possible. • f min ≤ f ≤ f max is used to limit the use of force (saturation handling). • αmin ≤ α ≤ αmax denotes the feasible sectors of the azimuth angles. • αmin ≤ α − α0 ≤ αmax ensures that the azimuth angles do not move too much within one sample, taking α0 equal to the angles at the previous sample. This is equivalent to limiting  ̇α, that is the turning rate of the thrusters. • The term
+ε + det(T (α)W −1T (α))
+is introduced to avoid singular configurations given by det(T (α)W−1T (α) = 0. To avoid division by zero, ε > 0 is chosen as a small number, while > 0 is scalar weight. A large ensures high maneuverability at the cost of higher power consumption and vice versa.
+The optimization problem (12.262) is a nonconvex nonlinear program and requires a significant amount of computations at each sample (Nocedal and Wright, 1999). The nonlinear program is solved by using iterations as shown in Figure 12.29. The following two implementation strategies are attractive alternatives to nonlinear program efforts.
+Iterative Solutions using Quadratic Programming
+The problem (12.262) can be locally approximated with a convex QP problem by assuming that:
+1. The power consumption can be approximated by a quadratic term in f near the last force f 0 such that f = f0 + f.
+2. The singularity avoidance penalty can be approximated by a linear term linearized about the last azimuth angle α0 such that α = α0 + α.
+
+
+410 Motion Control Systems
+Figure 12.29 Control allocation using an iterative solution.
+The resulting QP criterion is (Johansen et al., 2004)
+J = min
+f, α,s
+{
+(f 0 + f ) P(f 0 + f ) + s Qs + α α
++∂
+∂α
+(
+ε + det(T (α)W −1T (α))
+)∣∣∣∣α0
+α
+}
+(12.263)
+subject to:
+s + T (α0) f + ∂
+∂α (T (α0)f )|α0,f 0 α = τ − T (α0)f 0
+f min − f 0 ≤ f ≤ f max − f 0 αmin − α0 ≤ α ≤ αmax − α0
+αmin ≤ α ≤ αmax
+The convex QP problem (12.263) can be solved by using standard software for numerical optimization, for instance the m-file function quadprog.m in the Matlab optimization toolbox.
+Iterative Solutions using Linear Programming
+Linear approximations to the thrust allocation problem have been discussed by Webster and Sousa (1999) and Lindfors (1993). In Lindfors (1993) the azimuth thrust constraints
+|fi| =
+√[fi cos(αi)]2 + [fi sin(αi)]2 ≤ f max
+i (12.264)
+are represented as circles in the (fi cos αi, fi sin αi) plane. The nonlinear program is transformed to a linear programming (LP) problem by approximating the azimuth thrust constraints by straight lines forming a polygon. If eight lines are used to approximate the circles (octagons), the worst case errors will be less than ±4.0 %. The criterion to be minimized is a linear combination of ‖f ‖, that is magnitude of force
+in the x and y directions, weighted against the magnitudes |√[fi cos(αi)]2 + [fi sin(αi)]2| representing azimuth thrust. Hence, singularities and azimuth rate limitations are not weighted in the cost function. If these are important, the QP formulation should be used.
+Explicit Solution using the Singular Value Decomposition and Filtering Techniques
+An alternative method to solve the constrained control allocation problem is to use the singular value decomposition (SVD) and a filtering scheme to control the azimuth directions such that they are aligned with the direction where most force is required, paying attention to singularities (Sørdalen, 1997b).
+
+
+Control Allocation 411
+Results from sea trials have been presented in Sørdalen (1997a). A similar technique using the damped least-squares algorithm has been reported in Berge and Fossen (1997), where the results are documented by controlling a scale model of a supply vessel equipped with four azimuth thrusters.
+12.3.5 Case Study: DP Control Allocation System
+Most DP ships use thrusters to maintain their position and heading. Both fixed pitch (FP) and controllable pitch (CP) propellers are available for this purpose.
+Fixed-Speed CP and Variable-Speed FP Propellers
+The thrust F from a variable-speed FP propeller can be modeled as
+F (n) = Kn |n| (or F (n) = Kn) (12.265)
+where K = constant is the thrust coefficient and n is the propeller revolutions per minute (rpm). Some propellers show linear behavior in n while others are quadratic. Even combinations of the linear and quadratic behavior are observed in practice. CP propellers are screw blade propellers where the blades can be turned under the control of a hydraulic servo. This introduces a second control variable, pitch p, which is used to obtained the desired thrust F for different propeller revolutions n. If P is the “traveled distance per revolution” and D is the propeller diameter then p = P/D represents the pitch ratio. The thrust from a fixed-speed CP propeller can be approximated by
+F (n, p) = K(n)|(p − p0)|(p − p0) (or F (n, p) = K(n)(p − p0)) (12.266)
+where the force coefficient K(n) now depends on the propeller revolution. Again, thrust is quadratic, alternatively linear, in p–p0 or combinations of both. The pitch offset is denoted as p0. For DP ships using fixed-speed CP propellers it is common to operate at one or two fixed propeller revolutions such that only p is used for active control by the DP system; see Example 12.9. For ships in transit a constant demand for thrust and power suggests that a fixed-speed CP propeller should be used while low-speed applications such as DP operations require little thrust in good weather, suggesting that a variable-speed FP propeller might be advantageous (see Figure 12.30). Notice that the fixed-speed CP propeller also requires power at zero thrust.
+Example 12.9 (Experimental Thrust Characteristics)
+The supply vessel in Fossen et al. (1996) is equipped with a main propeller and tunnel thrusters. The measured thrust is shown as asterisks in Figure 12.31 while the solid lines are least-square fits to the quadratic thrust function (12.266). The main propeller operated at n = 122 rpm and n = 160 rpm, while the tunnel thruster ran at n = 236 rpm resulting in
+Main propeller F (122, p) = 370 |p| p F (236, p) = 137 |p| p
+Tunnel thruster F (160, p) = 655 |p| p
+Actuator Configuration and Thrust Coefficient Matrices
+Recall from Section 12.3 that the forces and moment τ ∈ R3 (surge, sway and yaw) can be written
+
+
+412 Motion Control Systems
+Figure 12.30 Power consumption of fixed-speed CP and variable speed FP propellers.
+Figure 12.31 Thrust F (n, p) = K(n)p |p| versus pitch p for a main propeller (left-hand plot) and a tunnel thruster (right-hand plot). The asterisks are experimental measured values and the solid lines are least-square fits to a quadratic model.
+
+
+Control Allocation 413
+τ = T (α)f (12.267)
+f = Ku (12.268)
+where f ∈ Rr (r = number of thrusters) is the thrust force vector and u ∈ Rr is a DP control variable given by
+CP: u = [|p1|p1, |p2|p2, . . . , |pr|pr] , (or u = [p1, p2, . . . , pr] )
+FP: u = [|n1|n1, |n2|n2, . . . , |nr|nr] , (or u = [n1, n2, . . . , nr] ) (12.269)
+The thrust coefficient matrix K is a diagonal matrix of thrust coefficients given by
+K = diag{K1(n1), K2(n2), . . . , Kr(nr)} (12.270)
+The actuator configuration matrix T (α) ∈ R3×r only depends on the location of the actuators and possible angles α used for rotatable thrusters (azimuth thruster).
+Example 12.10 (Supply Vessel Thrust Configuration and Coefficient Matrices)
+Computation of T (α) can be illustrated by considering the supply vessel in Figure 12.32, which is equipped with two main propellers (aft of the ship), two tunnel thrusters and two azimuth thrusters, which can be rotated to arbitrary angles α1 and α2, and therefore produce thrust in different directions; see Figure 12.32. Hence, we have eight control variables (six rpm setpoints and two azimuth angles) for 3 DOF. The control variables are assigned according to (clockwise numbering of ui):
+u1, α1 fore azimuth thruster u4 aft tunnel thruster u2 fore tunnel thruster u5 starboard main propeller u3, α2 aft azimuth thruster u6 port main propeller
+Figure 12.32 Schematic drawing showing the thruster configuration for a offshore supply vessel.
+
+
+414 Motion Control Systems
+From Section 12.3 it follows that
+K = diag{K1, K2, K3, K4, K5, K6} (12.271)
+T (α) =
+⎡
+⎣
+cos(α1) 0 cos(α2) 0 1 1
+sin(α1) 1 sin(α2) 1 0 0
+l1 sin(α1) l2 l3 sin(α2) l4 −l5 −l6
+⎤
+⎦ (12.272)
+where li (i = 1, . . . , r) are the moment arms in yaw. It is also seen that l5 = −l6 (symmetrical location of the main propellers). The thrust demands are defined such that positive thrust results in positive motion according to the VP axis system. The resulting forces and moment are
+τ = T (α)Ku (12.273)
+⎡
+⎣
+X
+Y
+N
+⎤
+⎦=
+⎡
+⎣
+cos(α1) 0 cos(α2) 0 1 1
+sin(α1) 1 sin(α2) 1 0 0
+l1 sin(α1) l2 l3 sin(α2) l4 −l5 −l6
+⎤
+⎦·
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+K1 0 0 0 0 0
+0 K2 0 0 0 0
+0 0 K3 0 0 0
+0 0 0 K4 0 0
+0 0 0 0 K5 0
+0 0 0 0 0 K6
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+u1
+u2
+u3
+u4
+u5
+u6
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(12.274)
+One of the advantages of the model representation (12.267) is that input uncertainties only appear in the diagonal force coefficient matrix K, since T (α) will be perfectly known. In fact, this decomposition is highly advantageous since it can be exploited when designing the feedback control system where robust measures for uncertainties in K must be taken.
+Example 12.11 (Supply Vessel Thrust Allocation)
+In order to implement a DP control system for the vessel shown in Figure 12.32 a thrust allocation algorithm is needed. The simplest algorithm is the generalized inverse
+u = K−1T †(α)τ (12.275)
+T †(α) = W −1T (α)[T (α)W −1T (α)]−1 (12.276)
+where W = WT > 0 is a positive definite weighting matrix, usually chosen to be diagonal. W should be selected so that using the tunnel and azimuth thrusters is less expensive (small Ki value) than using the main propellers (large Ki value). This solution is easy to use for constant azimuth angles α. As soon as α is allowed to vary or the control input saturates, a strategy for this must be developed. This significantly complicates the control allocation software. Many companies solve this in an ad hoc manner and the price is extensive failure testing in order to cover all failure situations. An alternative to this is to use an optimal solution for varying α and limited thrust f such as the one presented in Section 12.3. This of course requires an iterative solver to be implemented in the control loop and extensive testing is needed to verify that the optimal solution is convergent and stable. For a system with quadratic thrust characteristics, the computed u values must be mapped to pitch or rpm commands. If ui = |pi|pi, it is straightforward to verify that
+pi = sgn(ui)√ui (12.277)
+
+
+Control Allocation 415
+The generalized inverse
+T †(α) = 1
+det[T (α)W −1T (α)] W −1T (α) adj[T (α)W −1T (α)] (12.278)
+will be a function of the azimuth angles α1 and α2 in Figure 12.32. The expression for the determinant in (12.278) will be nonzero for all combinations of α1 and α2, since the craft has more actuators than needed for 3 DOF stabilization (overactuated). However, for some craft a singular configuration may exist; that is the determinant becomes zero for certain combinations of αi (i = 1, . . . , r). The expression for the determinant can also be used to compute optimal angles α1 and α2 in a minimum energy sense by simply maximizing the determinant with respect to α1 and α2.

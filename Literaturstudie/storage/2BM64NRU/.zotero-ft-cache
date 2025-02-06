@@ -1,0 +1,170 @@
+Part One
+Marine Craft
+Hydrodynamics
+De Navium Motu Contra Aquas
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+1
+Introduction
+The subject of this book is motion control and hydrodynamics of marine craft. The term marine craft includes ships, high-speed craft, semi-submersibles, floating rigs, submarines, remotely operated and autonomous underwater vehicles, torpedoes, and other propelled and powered structures, for instance a floating air field. Offshore operations involve the use of many marine craft, as shown in Figure 1.1. Vehicles that do not travel on land (ocean and flight vehicles) are usually called craft, such as watercraft, sailcraft, aircraft, hovercraft and spacecraft. The term vessel can be defined as follows:
+Vessel: “hollow structure made to float upon the waterfor purposes of transportation and navigation; especially, one that is larger than a rowboat.”
+The words vessel, ship and boat are often used interchangeably. In Encyclopedia Britannica, a ship and a boat are distinguished by their size through the following definition:
+Ship: “any large floating vessel capable of crossingopen waters, as opposed to a boat, which is generally a smaller craft. The term formerly was applied to sailing vessels having three or more masts; in modern times it usually denotes a vessel of more than 500 tons of displacement. Submersible ships are generally called boats regardless of their size.”
+Similar definitions are given for submerged vehicles:
+Submarine: “any naval vessel that is capable of propelling itself beneath the water as well as on the water’s surface. This is a unique capability among warships, and submarines are quite different in design and appearance from surface ships.”
+Underwater Vehicle: “small vehicle that is capable of propelling itself beneath the water surface as well as on the water’s surface. This includes unmanned underwater vehicles (UUV), remotely operated vehicles (ROV), autonomous underwater vehicles (AUV) and underwater robotic vehicles (URV). Underwater vehicles are used both commercially and by the navy.”
+From a hydrodynamic point of view, marine craft can be classified according to their maximum operating speed. For this purpose it is common to use the Froude number:
+Fn := √UgL (1.1)
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+4 Introduction
+where U is the craft speed, L is the overall submerged length of the craft and g is the acceleration of gravity. The pressure carrying the craft can be divided into hydrostatic and hydrodynamic pressure. The corresponding forces are:
+• Buoyancy force due to the hydrostatic pressure (proportional to the displacement of the ship). • Hydrodynamic force due to the hydrodynamic pressure (approximately proportional to the square of the relative speed to the water).
+For a marine craft sailing at constant speed U, the following classifications can be made (Faltinsen, 2005):
+Displacement Vessels (Fn < 0.4): The buoyancy force (restoring terms) dominates relative to the hydrodynamic forces (added mass and damping).
+Semi-displacement Vessel (0.4−0.5 < Fn < 1.0−1.2): The buoyancy force is not dominant at the maximum operating speed for a high-speed submerged hull type of craft. Planing Vessel (Fn > 1.0−1.2): The hydrodynamic force mainly carries the weight. There will be strong flow separation and the aerodynamic lift and drag forces start playing a role.
+In this book only displacement vessels are covered; see Figure 1.2. The Froude number has influence on the hydrodynamic analysis. For displacement vessels, the waves radiated by different parts of the hull do not influence other parts of the hull. For semi-displacement vessels, waves generated at the bow influence the hydrodynamic pressure along the hull towards the stern. These characteristics give rise to different modeling hypotheses, which lead to different hydrodynamic theories. For displacement ships it is widely accepted to use two- and three-dimensional potential theory programs to compute the potential coefficients and wave loads; see Section 5.1. For semi-displacement
+Figure 1.1 Marine craft in operation. Illustration Bjarne Stenberg/Department of Marine Technology, NTNU.
+
+
+Introduction 5
+Figure 1.2 Displacement vessel.
+vessels and planing vessels it is important to include the lift and drag forces in the computations (Faltinsen, 2005).
+Degrees of Freedom and Motion of a Marine Craft
+In maneuvering, a marine craft experiences motion in 6 degrees of freedom (DOFs); see Section 9.4. The DOFs are the set of independent displacements and rotations that specify completely the displaced position and orientation of the craft. The motion in the horizontal plane is referred to as surge (longitudinal motion, usually superimposed on the steady propulsive motion) and sway (sideways motion). Yaw (rotation about the vertical axis) describes the heading of the craft. The remaining three DOFs are roll (rotation about the longitudinal axis), pitch (rotation about the transverse axis) and heave (vertical motion); see Figure 1.3.
+Figure 1.3 Motion in 6 degrees of freedom (DOF).
+
+
+6 Introduction
+Roll motion is probably the most influential DOF with regards to human performance, since it produces the highest accelerations and, hence, is the principal villain in seasickness. Similarly, pitching and heaving feel uncomfortable to people. When designing ship autopilots, yaw is the primary mode for feedback control. Stationkeeping of a marine craft implies stabilization of the surge, sway and yaw motions. When designing feedback control systems for marine craft, reduced-order models are often used since most craft do not have actuation in all DOF. This is usually done by decoupling the motions of the craft according to:
+1 DOF models can be used to design forward speed controllers (surge), heading autopilots (yaw) and roll damping systems (roll). 3 DOF models are usually: • Horizontal plane models (surge, sway and yaw) for ships, semi-submersibles and underwater vehicles that are used in dynamic positioning systems, trajectory-tracking control systems and path-following systems. For slender bodies such as submarines, it is also common to assume that the motions can be decoupled into longitudinal and lateral motions. • Longitudinal models (surge, heave and pitch) for forward speed, diving and pitch control. • Lateral models (sway, roll and yaw) for turning and heading control. 4 DOF models (surge, sway, roll and yaw) are usually formed by adding the roll equation to the 3 DOF horizontal plane model. These models are used in maneuvering situations where it is important to include the rolling motion, usually in order to reduce roll by active control of fins, rudders or stabilizing liquid tanks. 6 DOF models (surge, sway, heave, roll, pitch and yaw) are fully coupled equations of motion used for simulation and prediction of coupled vehicle motions. These models can also be used in advanced control systems for underwater vehicles that are actuated in all DOF.
+1.1 Classification of Models
+The models in this book can be used for prediction, real-time simulation and controller-observer design. The complexity and number of differential equations needed for the various purposes will vary. Consequently, one can distinguish between three types of models (see Figure 1.4):
+Simulation Model: This model is the most accurate description of a system, for instance a 6 DOF high-fidelity model for simulation of coupled motions in the time domain. It includes the marine craft dynamics, propulsion system, measurement system and the environmental forces due to wind, waves and ocean currents. It also includes other features not used for control and observer design that have a direct impact on model accuracy. The simulation model should be able to reconstruct the time responses of the real system and it should also be possible to trigger failure modes to simulate events such as accidents and erroneous signals. Simulation models where the fluid-memory effects are included due to frequency-dependent added mass and potential damping typically consist of 50–200 ordinary differential equations (ODEs) while a maneuvering model can be represented in 6 DOF with 12 ODEs for generalized position and velocity. In addition, some states are needed to describe the environmental forces and actuators, but still the number of states will be less than 50 for a marine craft. Control Design Model: The controller model is a reduced-order or simplified version of the simulation model that is used to design the motion control system. In its simplest form, this model is used to compute a set of constant gains for a proportional, integral, derivative (PID) controller. More
+
+
+The Classical Models in Naval Architecture 7
+Figure 1.4 Models used in guidance, navigation and control.
+sophisticated control systems use a dynamic model to generate feedforward and feedback signals. This is referred to as model-based control. The number of ODEs used in conventional model-based ship control systems is usually less than 20. A PID controller typically requires two states: one for the integrator and one for the low-pass filter used to limit noise amplification. Consequently, setpoint regulation in 6 DOF can be implemented by using 12 ODEs. However, trajectory-tracking controllers require additional states for feedforward as well as filtering so higher-order control laws are not uncommon. Observer Design Model: The observer model will in general be different from the model used in the controller since the purpose is to capture the additional dynamics associated with the sensors and navigation systems as well as disturbances. It is a simplified version of the simulation model where attention is given to accurate modeling of measurement noise, failure situations including dead-reckoning capabilities, filtering and motion prediction. For marine craft, the model-based observer often includes a disturbance model where the goal is to estimate wave, wind and ocean current forces by treating these as colored noise. For marine craft the number of ODEs in the state estimator will typically be 20 for a dynamic positioning (DP) system while a basic heading autopilot is implemented with less than five states.
+1.2 The Classical Models in Naval Architecture
+The motions of a marine craft exposed to wind, waves and ocean currents takes place in 6 DOF. The equations of motion can be derived using the Newton–Euler or Lagrange equations. The equations of motion are used to simulate ships, high-speed craft, underwater vehicles and floating structures operating under or on the water surface, as shown in Figure 1.5. In Section 3.3 it is shown that a rigid body with
+
+
+8 Introduction
+Figure 1.5 Ship and semi-submersibles operating offshore. Illustration Bjarne Stenberg/MARINTEK.
+constant mass m and center of gravity (xg, yg, zg) relative to a fixed point on the hull can be described by the following coupled differential equations:
+m [  ̇u − vr + wq − xg(q2 + r2) + yg(pq − r ̇) + zg(pr + q ̇)]= X
+m [ ̇v − wp + ur − yg(r2 + p2) + zg(qr −  ̇p) + xg(qp + r ̇)]= Y
+m [  ̇w − uq + vp − zg(p2 + q2) + xg(rp − q ̇) + yg(rq +  ̇p)]= Z
+Ix  ̇p + (Iz − Iy)qr − (r ̇ + pq)Ixz + (r2 − q2)Iyz + (pr − q ̇)Ixy
++ m [yg(  ̇w − uq + vp) − zg( ̇v − wp + ur)]= K
+Iyq ̇ + (Ix − Iz)rp − (  ̇p + qr)Ixy + (p2 − r2)Izx + (qp − r ̇)Iyz
++ m [zg(  ̇u − vr + wq) − xg(  ̇w − uq + vp)]= M
+Izr ̇ + (Iy − Ix)pq − (q ̇ + rp)Iyz + (q2 − p2)Ixy + (rq −  ̇p)Izx
++ m [xg( ̇v − wp + ur) − yg(u ̇ − vr + wq)]= N
+(1.2)
+where X, Y, Z, K, M and N denote the external forces and moments. This model is the basis for timedomain simulation of marine craft. The external forces and moments acting on a marine craft are usually modeled by using:
+Maneuvering Theory: The study of a ship moving at constant positive speed U in calm water within the framework of maneuvering theory is based on the assumption that the maneuvering (hydrodynamic) coefficients are frequency independent (no wave excitation). The maneuvering model will in its simplest representation be linear while nonlinear representations can be derived using methods such as crossflow drag, quadratic damping or Taylor-series expansions; see Chapter 6. Seakeeping Theory: The motions of ships at zero or constant speed in waves can be analyzed using seakeeping theory where the hydrodynamic coefficients and wave forces are computed as a function of the wave excitation frequency using the hull geometry and mass distribution. The seakeeping models
+
+
+The Classical Models in Naval Architecture 9
+are usually derived within a linear framework (Chapter 5) while the extension to nonlinear theory is an important field of research.
+For underwater vehicles operating below the wave-affected zone, the wave excitation frequency will not affect the hydrodynamic mass and damping coefficients. Consequently, it is common to model underwater vehicles with constant hydrodynamic coefficients similar to a maneuvering ship.
+1.2.1 Maneuvering Theory
+Maneuvering theory assumes that the ship is moving in restricted calm water, that is in sheltered waters or in a harbor. Hence, the maneuvering model is derived for a ship moving at positive speed U under a zero-frequency wave excitation assumption such that added mass and damping can be represented by using hydrodynamic derivatives (constant parameters). The zero-frequency assumption is only valid for surge, sway and yaw since the natural periods of a PD-controlled ship will be in the range of 100–150 s. For 150 s the natural frequency is close to zero, that is
+ωn = 2π
+T ≈ 0.04 rad/s (1.3)
+This clearly gives support for the zero-frequency assumption. The natural frequencies in heave, roll and pitch are much higher so it is recommended to use the zero-frequency potential coefficients in these modes. For instance, a ship with a roll period of 10 s will have a natural frequency of 0.628 rad/s which clearly violates the zero-frequency assumption. This means that hydrodynamic added mass and potential damping should be evaluated at a frequency of 0.628 rad/s in roll if a pure rolling motion is considered. As a consequence of this, it is common to formulate the ship maneuvering model (1.2) as a coupled surge–sway–yaw model and thus neglect heave, roll and pitch motions:
+m [  ̇u − vr − xgr2 − ygr ̇] = X
+m [ ̇v + ur − ygr2 + xgr ̇] = Y
+Izr ̇ + m [xg( ̇v + ur) − yg(u ̇ − vr)] = N
+(1.4)
+The rigid-body kinetics (1.4) can be expressed in vectorial form according to (Fossen, 1994)
+MRBν ̇ + CRB(ν)ν = τRB (1.5)
+τRB = τhyd + τhs
+} {{ }
+hydrodynamic and hydrostatic forces
++ τwind + τwave
+} {{ }
+environmental forces
++ τcontrol (1.6)
+where MRB is the rigid-body inertia matrix, CRB(ν) is a matrix of rigid-body Coriolis and centripetal forces and τRB is a vector of generalized forces. The generalized velocity is
+ν = [u, v, w, p, q, r] (1.7)
+where the first three components (u, v, w) are the linear velocities in surge, sway and heave and (p, q, r) are the angular velocities in roll, pitch and yaw. The generalized force acting on the craft is
+τi = [Xi, Yi, Zi, Ki, Mi, Ni] , i ∈ {hyd, hs, wind, wave, control} (1.8)
+
+
+10 Introduction
+where the subscripts stand for:
+• Hydrodynamic added mass, potential damping due to wave radiation and viscous damping • Hydrostatic forces (spring stiffness) • Wind forces • Wave forces (first and second order) • Control and propulsion forces
+This model is motivated by Newton’s second law: F = ma, where F represents force, m is the mass and a is the acceleration. The Coriolis and centripetal term is due to the rotation of the body-fixed reference frame with respect to the inertial reference frame. The model (1.5) is used in most textbooks on hydrodynamics and the generalized hydrodynamic force τhyd can be represented by linear or nonlinear theory:
+Linearized Models: In the linear 6 DOF case there will be a total of 36 mass and 36 damping elements proportional to velocity and acceleration. In addition to this, there will be restoring forces, propulsion forces and environmental forces. If the generalized hydrodynamic force τhyd is written in component form using the SNAME (1950) notation, the linear added mass and damping forces become:
+X1 = Xuu + Xvv + Xww + Xpp + Xqq + Xrr (1.9)
++ X ̇u  ̇u + X ̇v  ̇v + X  ̇w  ̇w + Xp ̇  ̇p + Xq ̇ q ̇ + Xr ̇r ̇
+...
+N1 = Nuu + Nvv + Nww + Npp + Nqq + Nrr (1.10)
++ N ̇u  ̇u + N ̇v  ̇v + N  ̇w  ̇w + N  ̇p  ̇p + Nq ̇ q ̇ + Nr ̇r ̇
+where Xu, Xv, ..., Nr are the linear damping coefficients and X ̇u, Xv ̇ , ..., Nr ̇ represent hydrodynamic added mass. Nonlinear Models: Application of nonlinear theory implies that many elements must be included in addition to the 36 linear elements. This is usually done by one of the following methods: 1. Truncated Taylor-series expansions using odd terms (first and third order) which are fitted to experimental data, for instance (Abkowitz, 1964):
+X1 = X ̇u  ̇u + Xuu + Xuuuu3 + Xv ̇  ̇v + Xvv + Xvvvv3 + · · · (1.11)
+...
+N1 = N ̇u  ̇u + Nuu + Nuuuu3 + N ̇v  ̇v + Nvv + Nvvvv3 + · · · (1.12)
+In this approach added mass is assumed to be linear and damping is modeled by a third order odd function. Alternatively, second-order modulus terms can be used (Fedyaevsky and Sobolev, 1963), for instance:
+X1 = X ̇u  ̇u + Xuu + X|u|u|u|u + X ̇v  ̇v + Xvv + X|v|v|v|v + · · · (1.13)
+...
+N1 = N ̇u  ̇u + Nuu + N|u|u|u|u + Nv ̇  ̇v + Nvv + N|v|v|v|v + · · · (1.14)
+
+
+The Classical Models in Naval Architecture 11
+This is motivated by the square law damping terms in fluid dynamics and aerodynamics. When applying Taylor-series expansions in model-based control design, the system (1.5) becomes relatively complicated due to the large number of hydrodynamic coefficients on the right-hand side needed to represent the hydrodynamic forces. This approach is quite common when deriving maneuvering models and many of the coefficients are difficult to determine with sufficient accuracy since the model can be overparametrized. Taylor-series expansions are frequently used in commercial planar motion mechanism (PMM) tests where the purpose is to derive the maneuvering coefficients experimentally. 2. First principles where hydrodynamic effects such as lift and drag are modeled using well established models. This results in physically sound Lagrangian models that preserve energy properties. Models based on first principles usually require a much smaller number of parameters than models based on third order Taylor-series expansions.
+1.2.2 Seakeeping Theory
+As explained above, maneuvering refers to the study of ship motion in the absence of wave excitation (calm water). Seakeeping, on the other hand, is the study of motion when there is wave excitation and the craft keeps its heading ψ and its speed U constant (which includes the case of zero speed). This introduces a dissipative force (Cummins, 1962) known as fluid-memory effects. Although both areas are concerned with the same issues, study of motion, stability and control, the separation allows different assumptions to be made that simplify the study in each case. Seakeeping analysis is used in capability analysis and operability calculations to obtain operability diagrams according to the adopted criteria. The seakeeping theory is formulated using seakeeping axes {s} where the state vector ξ = [ξ1, ξ2, ξ3, ξ4, ξ5, ξ6] represents perturbations with respect to a fixed equilibrium state; see Figure 1.6. These perturbations can be related to motions in the body frame {b} and North-East-Down
+Figure 1.6 Coordinate systems used in seakeeping analysis.
+
+
+12 Introduction
+frame {n} by using kinematic transformations; see Section 5.2.The governing model is formulated in the time domain using the Cummins equation in the following form (see Section 5.4):
+[MRB + A(∞)]ξ ̈ + Btotal(∞)ξ ̇ +
+∫t
+0
+K(t − τ)ξ ̇(τ)dτ + Cξ = τwind + τwave + δτ (1.15)
+where δτ is the perturbed control input due to propulsion and control surfaces, A(∞) is the infinitefrequency added mass matrix, Btotal(∞) = B(∞) + BV (∞) is the infinite-frequency damping matrix containing potential and viscous damping terms, C is the spring stiffness matrix and K(t) is a timevarying matrix of retardation functions given by
+K(t) = 2
+π
+∫∞
+0
+[Btotal(ω) − Btotal(∞)] cos(ωt)dω (1.16)
+The frequency-domain representation of (1.15) is (Newman, 1977; Faltinsen, 1990)
+(−ω2[MRB + A(ω)] − jωBtotal(ω) + C) ξ( jω) = τwind( jω) + τwave( jω) + δτ( jω) (1.17)
+where ξ( jω) is a complex vector with components:
+ξi(t) = ξ ̄i cos(ωt + i) ⇒ ξi( jω) = ξ ̄i exp( j i) (1.18)
+Similarly, the external signals τwind( jω), τwave( jω) and δτ( jω) are complex vectors. Naval architects often write the seakeeping model as a pseudo-differential equation:
+[MRB + A(ω)]ξ ̈ + Btotal(ω)ξ ̇ + Cξ = τwind + τwave + δτ (1.19)
+mixing time and frequency. Unfortunately this is deeply rooted in the literature of hydrodynamics even though it is not correct to mix time and frequency in one single equation. Consequently, it is recommended to use the time- and frequency-domain representations (1.15) and (1.17). Computer simulations are done under the assumptions of linear theory and harmonic motions such that the resulting response is linear in the time domain. This approach dates back to Cummins (1962) and the necessary derivations are described in Chapter 5.
+1.2.3 Unified Theory
+A unified theory for maneuvering and seakeeping is useful since it allows for time-domain simulation of a marine craft in a seaway. This is usually done by using the seakeeping representation (1.19) as described in Chapter 5. The next step is to assume linear superposition such that wave-induced forces can be added for different speeds U and sea states. A similar assumption is used to add nonlinear damping and restoring forces so that the resulting model is a unified nonlinear model combining the most important terms from both maneuvering and seakeeping. Care must be taken with respect to “double counting.” This refers to the problem that hydrodynamic effects can be modeled twice when merging the results from two theories.
+1.3 Fossen’s Robot-Like Vectorial Model for Marine Craft
+In order to exploit the physical properties of the maneuvering and seakeeping models, the equations of motion are represented in a vectorial setting which dates back to Fossen (1991). The vectorial model is expressed in {b} and {n} so appropriate kinematic transformations between the reference frames {b}, {n} and {s} must be derived. This is done in Chapters 2 and 5. The vectorial model is well suited for computer implementation and control systems design.
+
+
+Fossen’s Robot-Like Vectorial Model for Marine Craft 13
+Component Form
+The classical model (1.2) is often combined with expressions such as (1.9)–(1.10) or (1.11)–(1.14) to describe the hydrodynamic forces. This often results in complicated models with hundreds of elements. In most textbooks the resulting equations of motion are on component form. The following introduces a compact notation using matrices and vectors that will simplify the representation of the equations of motion considerably.
+Vectorial Representation
+In order to exploit the physical properties of the models, the equations of motion are represented in a vectorial setting. It is often beneficial to exploit physical system properties to reduce the number of coefficients needed for control. This is the main motivation for developing a vectorial representation of the equations of motion. In Fossen (1991) the robot model (Craig, 1989; Sciavicco and Siciliano, 1996)
+M(q) ̈q + C(q, q ̇)q = τ (1.20)
+was used as motivation to derive a compact marine craft model in 6 DOFs using a vectorial setting. In the robot model q is a vector of joint angles, τ is the torque, while M and C denote the system inertia and Coriolis matrices, respectively. It is found that similar quantities can be identified for marine craft and aircraft. In Fossen (1991) a complete 6 DOF vectorial setting for marine craft was derived based on these ideas. These results were further refined by Sagatun and Fossen (1991), Fossen (1994) and Fossen and Fjellstad (1995). The 6 DOF models considered in this book use the following representation:
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) + g0 = τ + τwind + τwave (1.21)
+where
+η = [x, y, z, φ, θ, ψ] (1.22)
+ν = [u, v, w, p, q, r] (1.23)
+are vectors of velocities and position/Euler angles, respectively. In fact ν and η are generalized velocities and positions used to describe motions in 6 DOF. Similarly, τ is a vector of forces and moments or the generalized forces in 6 DOF. The model matrices M, C(ν) and D(ν) denote inertia, Coriolis and damping, respectively, while g(η) is a vector of generalized gravitational and buoyancy forces. Static restoring forces and moments due to ballast systems and water tanks are collected in the term g0.
+Component Form versus Vectorial Representation
+When designing control systems, there are clear advantages using the vectorial model (1.21) instead of (1.5)–(1.6) and the component forms of the Taylor-series expansions (1.11)–(1.14). The main reasons are that system properties such as symmetry, skew-symmetry and positiveness of matrices can be incorporated into the stability analysis. In addition, these properties are related to passivity of the hydrodynamic and rigid-body models (Berge and Fossen, 2000). The system properties represent physical properties of the system, which should be exploited when designing controllers and observers for marine craft. As a consequence, Equation (1.21) is chosen as the foundation for this textbook and the previous book Guidance and Control of Ocean Vehicles (Fossen, 1994). Equation (1.21) has also been adopted by the international community as a “standard model” for marine control systems design (controller and observer
+
+
+14 Introduction
+design models) while the “classical model” (1.5)–(1.6) is mostly used in hydrodynamic modeling where isolated effects often are studied in more detail. It should be noted that the classical model with hydrodynamic forces in component form and the vectorial model (1.21) are equivalent. Therefore it is possible to combine the best of both approaches, that is hydrodynamic component-based modeling and control design models based on vectors and matrices. However, it is much easier to construct multiple input multiple output (MIMO) controllers and observers when using the vectorial representation, since the model properties and model reduction follow from the basic matrix properties. This also applies to system analysis since there are many tools for MIMO systems. Finally, it should be pointed out that the vectorial models are beneficial from a computational point of view and in order to perform algebraic manipulations. Readability is also significantly improved thanks to the compact notation.
