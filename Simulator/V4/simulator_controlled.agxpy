@@ -38,7 +38,6 @@ def init_camera(app):
 
 
 def build_control_scene(sim, app):
-    #Make the water geometry a 10x10x200m box
     water_geometry = agxCollide.Geometry(agxCollide.Box(100,100,50))
     position = agx.Vec3(0,0,-50)
     water_geometry.setPosition(position)
@@ -70,7 +69,7 @@ def build_control_scene(sim, app):
     Make and add the ROV
     '''
     #divide by 2 because these are half-extents
-    rov_size = agx.Vec3(0.45, 0.575, 0.254) 
+    rov_size = agx.Vec3(0.45, 0.575, 0.254)/2
     rov_position = agx.Vec3(0,0,rov_depth)
     rov = Rov.Rov(rov_size)
     rov.build(rov_density, rov_position)
@@ -116,8 +115,40 @@ class KeyboardListener(agxSDK.GuiEventListener):
             return False
 
         return True
+        
+class PoseListener(agxSDK.StepEventListener):
+    def __init__(self, vessel, topic):
+        super().__init__()
+        
+        self.vessel = vessel
+        
+        self.pub = agxROS2.PublisherGeometryMsgsPose(topic)
+    
+    def pre(self, t):
+        frame = self.vessel.hull.getFrame()
+        position = frame.getTranslate()
+        
+        point = agxROS2.GeometryMsgsPoint()
 
-class ForceListener(agxSDK.StepEventListener):
+        point.x = position.x()
+        point.y = position.y()
+        point.z = position.z()
+        
+        rotation = frame.getRotate()
+        orientation = agxROS2.GeometryMsgsQuaternion()
+        orientation.w = rotation.w()
+        orientation.x = rotation.x()
+        orientation.y = rotation.y()
+        orientation.z = rotation.z()
+        
+        pose = agxROS2.GeometryMsgsPose()
+        pose.position = point
+        pose.orientation = orientation
+        
+        self.pub.sendMessage(pose)
+        
+
+class TensionListener(agxSDK.StepEventListener):
 
     def __init__(self, app, wire, interest_node):
         super().__init__()
@@ -129,17 +160,20 @@ class ForceListener(agxSDK.StepEventListener):
         
         self.has_plotted = False
 
-        self.pub = agxROS2.PublisherStdMsgsString("tension")
+        self.pub = agxROS2.PublisherStdMsgsFloat32("tension")
+        
+    def pre(self, t):
+        self.tensions.append(self.wire.getTension(self.node).getAverageRaw())
+        msg = agxROS2.StdMsgsFloat32()
+        msg.data = self.tensions[-1]
+        self.pub.sendMessage(msg)
         
     def post(self, t):
-        self.tensions.append(self.wire.getTension(self.node).getAverageRaw())
+        
         string = "Tension at ROV: " + str(self.tensions[-1])
         #Print the wire tension in the corner of the simulation
         self.app.getSceneDecorator().setText(1, string)
 
-        msg = agxROS2.StdMsgsString8)
-        msg.data = string
-        self.pub.sendMessage(msg)
         '''
         #tether tension plotting
         if t > 60 and not self.has_plotted:
@@ -151,7 +185,27 @@ class ForceListener(agxSDK.StepEventListener):
             plt.show()
         '''
         return super().post(t)
+
+class VesselMover(agxSDK.StepEventListener):
+    def __init__(self, vessel, topic):
+        super().__init__()
         
+        self.vessel = vessel
+        
+        self.force_vector = agx.Vec3(0,0,0)
+        
+        self.sub = agxROS2.SubscriberGeometryMsgsVector3(topic)
+        self.msgRecieve = agxROS2.GeometryMsgsVector3()
+    
+    def pre(self, t):
+        if self.sub.receiveMessage(self.msgRecieve):
+            x  = self.msgRecieve.x
+            y  = self.msgRecieve.y
+            z  = self.msgRecieve.z
+            
+            self.force_vector = agx.Vec3(x,y,z)
+        
+        self.vessel.add_force(self.force_vector)
         
 setPoint = agx.Vec3(0,0,0)
 def buildScene():
@@ -163,18 +217,6 @@ def buildScene():
     
     water_cont, water_geo, usv, rov = build_control_scene(sim,app)
     
-    m_usv=2384 #kg
-    omega = 0.45
-    zeta = 1.2
-    
-    
-    kp = m_usv*omega**2
-    ki = 0
-    kd = 2*m_usv*zeta*omega
-    targets = [agx.Vec3(10,15,0), agx.Vec3(50, -30, 0), agx.Vec3(-20, 10, 0), agx.Vec3(0,0,0)]
-    
-    controller = usv_controller.UsvController(kp,ki,kd, usv, targets = targets)
-    sim.add(controller)
     
     
     '''
@@ -198,13 +240,17 @@ def buildScene():
     
     init_camera(app)
     
-    force_listener = ForceListener(app, wire, rov_node)
-    sim.add(force_listener)
+    usv_pose_listener = PoseListener(usv, "usv_pose")
+    sim.add(usv_pose_listener)
+    
+    tension_listener = TensionListener(app, wire, rov_node)
+    sim.add(tension_listener)
     
     #usv_listener = KeyboardListener(usv)
     #sim.add(usv_listener)
     
-    
+    usv_mover = VesselMover(usv, "usv_desired_force_on_cog")
+    sim.add(usv_mover)
     
     rov_listener = KeyboardListener(rov)
     sim.add(rov_listener)
