@@ -1,4 +1,5 @@
 import agxROS2
+import time
 
 def main():
     # Create Publisher and Subscriber with specific Topic.
@@ -12,9 +13,7 @@ def main():
     while True:
         pub.sendMessage(msgSend)
         print("Sent message")
-
-    # Try to receive the message.
-
+        time.sleep(0.5)
 
 if __name__ == '__main__':
     main()
