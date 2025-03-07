@@ -60,89 +60,89 @@ class UsvController(Node):
 
         #self.rotation_publisher = self.create_publisher()
 
-        #self.velocity_subscriber = self.create_subscription(Vector3, "usv_velocity", None, 10)
-
         # self.desired_force_publisher = self.create_publisher(Wrench, "usv_desired_force_on_cog", 10)
-        self.desired_force_publisher = self.create_publisher(geo_msgs.Vector3, "usv_desired_force_on_cog", 10)
-        timer_period = 0.5
+        self.desired_force_publisher = self.create_publisher(geo_msgs.Vector3,
+                                                             "usv_desired_force_on_cog",
+                                                             10)
+        timer_period = 0.01
         self.timer = self.create_timer(timer_period, self.run)
 
         '''
         self.rotation_msg = agxROS2.StdMsgsFloat32()
         self.rotation_publisher = agxROS2.PublisherStdMsgsFloat32("usv_rotation_command")
-
-        self.vel = agxROS2.GeometryMsgsVector3()
-        self.vel_sub = agxROS2.SubscriberGeometryMsgsVector3("usv_velocity")
-
-        self.vele = agxROS2.GeometryMsgsVector3()
-        self.vele_pub = agxROS2.PublisherGeometryMsgsVector3("usv_desired_force_on_cog")
-
-        self.pose = agxROS2.GeometryMsgsPose()
-        self.pose_sub = agxROS2.SubscriberGeometryMsgsPose("usv_pose")
         '''
+
+        #TODO: Change velocity to be a Twist, not a vector3
+        self.velocity_subscriber = self.create_subscription(geo_msgs.Vector3,
+                                                            "usv_velocity",
+                                                            self.velocity_callback,
+                                                            5)
+
+        self.pose_subscriber     = self.create_subscription(geo_msgs.Pose,
+                                                            "usv_pose",
+                                                            self.pose_callback,
+                                                            5)
+
+        # self.pose = agxROS2.GeometryMsgsPose()
+        # self.pose_sub = agxROS2.SubscriberGeometryMsgsPose("usv_pose")
+
 
     #Actual control loop
     def run(self):
         #self.updateSubscriptions()
         
-        if not self.connection_active:
-            print("No connection detected")
-            return
-        
-        if not self.heading_set:
-            goal = self.targets[self.current_target]
-            direction = goal - self.position
-            direction.normalize()
-            
-            angle = np.arcsin(direction[0])
-            self.heading_desired = angle
-           
+#         if not self.connection_active:
+#             print("No connection detected")
+#             return
+#
+#         if not self.heading_set:
+#             goal = self.targets[self.current_target]
+#             direction = goal - self.position
+#             direction.normalize()
+#
+#             angle = np.arcsin(direction[0])
+#             self.heading_desired = angle
+#
         #rotation = self.controlHeading(self.frame, self.heading_desired, self.torque)
         #msg = agxROS2.StdMsgsFloat32()
         #msg.data = command
         #self.rotation_publisher.sendMessage(msg)
         
         
-        force, error = self.controlForce(self.position, self.velocity, self.targets[self.current_target])
+        controlled, error = self.controlForce(self.position, self.velocity, self.targets[self.current_target])
         
-        vele = geo_msgs.Vector3
-        vele.x = force[0]
-        vele.y = force[1]
-        vele.z = force[2]
-        self.desired_force_publisher.publish(vele)
-        print("Velocity published")
+        #TODO: Change from vector to wrench, include torque
+        force = geo_msgs.Vector3()
+        force.x = controlled[0]
+        force.y = controlled[1]
+        force.z = controlled[2]
+
+
+        self.desired_force_publisher.publish(force)
+        print("Force published")
         self.errors.append(error)
         self.last = error
         
         #checkNextTarget()
+
+    def pose_callback(self, msg):
+        x = msg.position.x
+        y = msg.position.y
+        z = msg.position.z
+
+        a = msg.orientation.w
+        i = msg.orientation.x
+        j = msg.orientation.y
+        k = msg.orientation.z
+
+        self.position = np.array([x,y,z])
+        self.rotation = np.array([a,i,j,k])
     
-#     def updateSubscriptions(self):
-#         self.connection_active = False
-#
-#         if self.pose_sub.receiveMessage(self.pose):
-#             self.connection_active = True
-#             x = self.pose.position.x
-#             y = self.pose.position.y
-#             z = self.pose.position.z
-#
-#             a = self.pose.orientation.w
-#             i = self.pose.orientation.x
-#             j = self.pose.orientation.y
-#             k = self.pose.orientation.z
-#
-#             self.position = np.array([x,y,z])
-#             self.rotation = np.array([a,i,j,k])
-#
-#         if self.vel_sub.receiveMessage(self.vel):
-#             self.connection_active = True
-#             x = self.vel.x
-#             y = self.vel.y
-#             z = self.vel.z
-#
-#             self.velocity = np.array([x,y,z])
-#
-            
-            
+    def velocity_callback(self, msg):
+        self.velocity[0] = msg.x
+        self.velocity[1] = msg.y
+        self.velocity[2] = msg.z
+        #self.get_logger().info('Velocity Received')
         
     def controlForce(self, position, velocity, target):
         
@@ -178,9 +178,10 @@ class UsvController(Node):
     #Clamps variable to the range 
     #-clamp < variable < clamp
     def clamp(self, variable, clamp):
-        if variable.length() > clamp:
-            vec = variable.normal()
-            return vec * clampFalse
+        length = sum(variable * variable) ** 0.5
+        if  length > clamp:             #If the length of variable is larger than clamp
+            vec = variable/length       #find the normalized vector
+            return vec * clamp          #and return it scaled by clamp
         else:
             return variable
     #'''
