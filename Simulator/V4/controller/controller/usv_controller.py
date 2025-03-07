@@ -1,9 +1,7 @@
 import rclpy
 from rclpy.node import Node
-
 import geometry_msgs.msg as geo_msgs # Wrench, Vector3 Pose
 
-#import agxROS2
 import numpy as np
 #import matplotlib.pyplot as plt
 
