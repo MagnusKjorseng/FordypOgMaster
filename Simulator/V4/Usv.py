@@ -29,24 +29,36 @@ class Usv(Vessel.Vessel):
 
         self.ship.add(self.hull)
 
-        self.thruster_positions = thruster_positions
+        self.thrusters = thruster_positions
 
-        for thruster in thruster_positions:
-            self.add_thruster(thruster)
 
-    
+
+        # for debugging
+        # for thruster in self.thrusters:
+        #     thr = self.add_thruster(thruster)
+        #     print(thr.getLocalPosition())
+        #     self.ship.add(thr)
+
+    def add_force(self, forces):
+        if len(forces) == len(self.thrusters):
+            for i in range(len(self.thrusters)):
+                self.hull.addForceAtLocalPosition(forces[i], self.thrusters[i])
+        else:
+            print("Forces vector not the same length as number of thrusters")
+
+    #For debugging, shows the physical location of the thruster.
     def add_thruster(self, thruster_position):
         thruster = agx.RigidBody()
+        thruster.setParentFrame(self.ship.getFrame())
 
         position = agx.Vec3(thruster_position[0], thruster_position[1], thruster_position[2])
-        thruster.setPosition(position)
+        thruster.setLocalPosition(position)
 
-        geometry = agxCollide.Geometry(agxCollide.Sphere(1))
+        geometry = agxCollide.Geometry(agxCollide.Sphere(0.1))
+        geometry.setEnableCollisions(False)
         thruster.add(geometry)
 
-        thruster.setEnable(False)
-
-
-
-        self.ship.add(thruster)
+        #thruster.setEnable(False)
+        return thruster
     
+

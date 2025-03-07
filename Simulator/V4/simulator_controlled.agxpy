@@ -22,6 +22,7 @@ import Rov
 import waterwrappers
 
 import agxROS2
+import yaml
 
 usv_density = 600 #kg/m^3, average density over the entire object
 rov_density = 2000
@@ -60,10 +61,23 @@ def build_control_scene(sim, app):
     '''
     Create and add the USV
     '''
-    thruster_positions = [[1.5,1,1.5]]
+    configfile = "./controller/controller/configuration.yml"
+
+    with open(configfile) as f:
+            config = yaml.safe_load(f)
+
+    thrusters = config["thrusters"]
+
+    azimuths = []
+    for thruster in thrusters:
+        if thrusters[thruster]["type"] == "azimuth":
+            azimuths.append(thrusters[thruster]["position"])
+
+    thruster_positions = azimuths
     usv = Usv.Usv("usv.obj", usv_density, thruster_positions)
     sim.add(usv.ship)
     
+
     '''
     Make and add the ROV
     '''
@@ -79,9 +93,7 @@ def build_control_scene(sim, app):
     return controller, water_geometry, usv, rov
     
 
-########################################
-# Listener that listens for keyboard events
-########################################
+
 class KeyboardListener(agxSDK.GuiEventListener):
     def __init__(self, body):
         super().__init__(agxSDK.GuiEventListener.KEYBOARD)
@@ -275,6 +287,8 @@ def buildScene():
     
     rov_listener = KeyboardListener(rov)
     sim.add(rov_listener)
+
+
     
   
 def main(args):
@@ -288,6 +302,7 @@ def main(args):
     if app.init(argParser):
         app.run()
         autoStepping=True
+
     else:
         print("An error occurred while initializing ExampleApplication.")
 
