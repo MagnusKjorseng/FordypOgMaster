@@ -20,7 +20,6 @@ import matplotlib.pyplot as plt
 import Usv
 import Rov
 import waterwrappers
-import usv_controller
 
 import agxROS2
 
@@ -61,8 +60,8 @@ def build_control_scene(sim, app):
     '''
     Create and add the USV
     '''
-    usv = Usv.Usv()
-    usv.build("usv.obj", usv_density)
+    thruster_positions = [[1.5,1,1.5]]
+    usv = Usv.Usv("usv.obj", usv_density, thruster_positions)
     sim.add(usv.ship)
     
     '''
@@ -146,6 +145,25 @@ class PoseListener(agxSDK.StepEventListener):
         pose.orientation = orientation
         
         self.pub.sendMessage(pose)
+
+
+class VelocityListener(agxSDK.StepEventListener):
+    def __init__(self, vessel, topic):
+        super().__init__()
+
+        self.vessel = vessel
+
+        self.pub = agxROS2.PublisherGeometryMsgsVector3(topic)
+
+    def pre(self, t):
+        velocity = self.vessel.getVelocity()
+
+        message = agxROS2.GeometryMsgsVector3()
+        message.x = velocity[0]
+        message.y = velocity[1]
+        message.z = velocity[2]
+
+        self.pub.sendMessage(message)
         
 
 class TensionListener(agxSDK.StepEventListener):
@@ -211,7 +229,7 @@ setPoint = agx.Vec3(0,0,0)
 def buildScene():
     sim = agxPython.getContext().environment.getSimulation()
     app = agxPython.getContext().environment.getApplication()
-    sim.setTimeStep(1/1000)
+    sim.setTimeStep(1/100)
     
 
     
@@ -245,6 +263,9 @@ def buildScene():
     
     tension_listener = TensionListener(app, wire, rov_node)
     sim.add(tension_listener)
+
+    velocity_listener = VelocityListener(usv.hull, "usv_velocity")
+    sim.add(velocity_listener)
     
     #usv_listener = KeyboardListener(usv)
     #sim.add(usv_listener)
