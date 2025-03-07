@@ -1,12 +1,16 @@
-import agx
-import agxSDK
-import agxROS2
+import rclpy
+from rclpy.node import Node
+
+import geometry_msgs.msg as geo_msgs # Wrench, Vector3 Pose
+
+#import agxROS2
 import numpy as np
-import matplotlib.pyplot as plt
-import time
+#import matplotlib.pyplot as plt
 
 
-def main():
+def main(args = None):
+    rclpy.init(args = args)
+
     m_usv=2384 #kg
     omega = 0.45
     zeta = 1.2
@@ -15,30 +19,33 @@ def main():
     kp = m_usv*omega**2
     ki = 0
     kd = 2*m_usv*zeta*omega
-    targets = [agx.Vec3(10,15,0), agx.Vec3(50, -30, 0), agx.Vec3(-20, 10, 0), agx.Vec3(0,0,0)]
+    targets = np.array([[10,15,0],[50, -30, 0],[-20, 10, 0],[0,0,0]])
     
     controller = UsvController(kp, ki, kd, targets = targets)
-    
-    while True:
-        controller.run()
-        time.sleep(0.1)
+
+    rclpy.spin(controller)
 
 
-class UsvController():
-    def __init__(self, Kp, Ki, Kd, authority=2e4, torque = 2e5, targets = [agx.Vec3(0,0,0)]):
-        super().__init__()
+class UsvController(Node):
+    def __init__(self, Kp, Ki, Kd, authority=2e4, torque = 2e5, targets = np.array([[0,0,0]])):
+        super().__init__("usv_controller")
         
         self.kp = Kp
         self.ki = Ki
         self.kd = Kd
         self.last = 0
-        self.sum = agx.Vec3(0,0,0) #for integral part
+        self.sum = np.array([0,0,0]) #for integral part
         self.steps = 0
         
-        self.position = agx.Vec3(0,0,0)
-        self.rotation = agx.Quat(0,0,0,0)
-        self.velocity = agx.Vec3(0,0,0)
-        
+        self.position = np.array([0,0,0])
+        self.rotation = np.array([0,0,0,0]) #quaternion for rotation
+        self.velocity = np.array([0,0,0])
+
+        self.heading_desired = np.zeros(4) #desired rotation as quaternion
+        self.heading_set = False
+        self.has_plotted = False
+        self.lastmag = 0
+
         self.authority = authority
         self.torque = torque
         
@@ -47,29 +54,36 @@ class UsvController():
 
         self.errors = []
         
-        self.heading_desired = agx.Quat()
-        self.heading_set = False
-        self.has_plotted = False
-        self.lastmag = 0
+
         
         self.connection_active = False
-        
+
+        #self.rotation_publisher = self.create_publisher()
+
+        #self.velocity_subscriber = self.create_subscription(Vector3, "usv_velocity", None, 10)
+
+        # self.desired_force_publisher = self.create_publisher(Wrench, "usv_desired_force_on_cog", 10)
+        self.desired_force_publisher = self.create_publisher(geo_msgs.Vector3, "usv_desired_force_on_cog", 10)
+        timer_period = 0.5
+        self.timer = self.create_timer(timer_period, self.run)
+
+        '''
         self.rotation_msg = agxROS2.StdMsgsFloat32()
         self.rotation_publisher = agxROS2.PublisherStdMsgsFloat32("usv_rotation_command")
-        
+
         self.vel = agxROS2.GeometryMsgsVector3()
         self.vel_sub = agxROS2.SubscriberGeometryMsgsVector3("usv_velocity")
-        
+
         self.vele = agxROS2.GeometryMsgsVector3()
         self.vele_pub = agxROS2.PublisherGeometryMsgsVector3("usv_desired_force_on_cog")
-        
+
         self.pose = agxROS2.GeometryMsgsPose()
         self.pose_sub = agxROS2.SubscriberGeometryMsgsPose("usv_pose")
-        
+        '''
 
     #Actual control loop
     def run(self):
-        self.updateSubscriptions()
+        #self.updateSubscriptions()
         
         if not self.connection_active:
             print("No connection detected")
@@ -91,41 +105,42 @@ class UsvController():
         
         force, error = self.controlForce(self.position, self.velocity, self.targets[self.current_target])
         
-        self.vele.x = force[0]
-        self.vele.y = force[1]
-        self.vele.z = force[2]
-        self.vele_pub.sendMessage(self.vele)  
+        vele = geo_msgs.Vector3
+        vele.x = force[0]
+        vele.y = force[1]
+        vele.z = force[2]
+        self.desired_force_publisher.publish(vele)
         print("Velocity published")
-        self.errors.append(np.array(error))
+        self.errors.append(error)
         self.last = error
         
         #checkNextTarget()
     
-    def updateSubscriptions(self):
-        self.connection_active = False
-        
-        if self.pose_sub.receiveMessage(self.pose):
-            self.connection_active = True
-            x = self.pose.position.x
-            y = self.pose.position.y
-            z = self.pose.position.z
-                
-            a = self.pose.orientation.w
-            i = self.pose.orientation.x
-            j = self.pose.orientation.y
-            k = self.pose.orientation.z
-
-            self.position = agx.Vec3(x,y,z)            
-            self.rotation = agx.Quat(a,i,j,k)
-            
-        if self.vel_sub.receiveMessage(self.vel):
-            self.connection_active = True
-            x = self.vel.x
-            y = self.vel.y
-            z = self.vel.z
-                
-            self.velocity = agx.Vec3(x,y,z)      
-            
+#     def updateSubscriptions(self):
+#         self.connection_active = False
+#
+#         if self.pose_sub.receiveMessage(self.pose):
+#             self.connection_active = True
+#             x = self.pose.position.x
+#             y = self.pose.position.y
+#             z = self.pose.position.z
+#
+#             a = self.pose.orientation.w
+#             i = self.pose.orientation.x
+#             j = self.pose.orientation.y
+#             k = self.pose.orientation.z
+#
+#             self.position = np.array([x,y,z])
+#             self.rotation = np.array([a,i,j,k])
+#
+#         if self.vel_sub.receiveMessage(self.vel):
+#             self.connection_active = True
+#             x = self.vel.x
+#             y = self.vel.y
+#             z = self.vel.z
+#
+#             self.velocity = np.array([x,y,z])
+#
             
             
         
@@ -135,7 +150,7 @@ class UsvController():
         error[-1] = 0 #no force in Z-direction, no error in z-direction
         #TODO: implement force commands in heave-direction
 
-        vel_error = agx.Vec3(0,0,0) - velocity #zero speed is desired
+        vel_error = np.array([0,0,0]) - velocity #zero speed is desired
         self.sum += error
         difference = error - self.last
         
@@ -150,7 +165,7 @@ class UsvController():
     def controlHeading(self, frame, desired_heading, authority):
         rot = frame.getLocalRotate().getAsEulerAngles()[2]#Rotation in local frame 
         
-        error_heading = agx.Vec3(0,0, desired_heading - rot) 
+        error_heading = np.array([0,0, desired_heading] - rot)
         #print(error_heading)
         
         kp = 3000
@@ -165,7 +180,7 @@ class UsvController():
     def clamp(self, variable, clamp):
         if variable.length() > clamp:
             vec = variable.normal()
-            return vec * clamp
+            return vec * clampFalse
         else:
             return variable
     #'''
@@ -183,20 +198,20 @@ class UsvController():
                 
             #elif not self.has_plotted:
     
-    def plot(self):
-        self.has_plotted = True
-        print("End of targets, plotting...")
-        #print(self.errors.shape())
-        errors = np.array(self.errors)
-        errors = np.sqrt(errors[:,0]**2 + errors[:,1]**2)
-        print(errors.shape)
-        plt.plot(abs(errors))
-        plt.xlabel("Time(ms)")
-        plt.ylabel("Positional error(m)")
-        plt.title("Control system error with 4 set-points")
-        plt.legend
-        plt.show()
-        input()
+    # def plot(self):
+    #     self.has_plotted = True
+    #     print("End of targets, plotting...")
+    #     #print(self.errors.shape())
+    #     errors = np.array(self.errors)
+    #     errors = np.sqrt(errors[:,0]**2 + errors[:,1]**2)
+    #     print(errors.shape)
+    #     plt.plot(abs(errors))
+    #     plt.xlabel("Time(ms)")
+    #     plt.ylabel("Positional error(m)")
+    #     plt.title("Control system error with 4 set-points")
+    #     plt.legend
+    #     plt.show()
+    #     input()
    
 if __name__ == '__main__':
     main()
