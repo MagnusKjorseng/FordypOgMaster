@@ -4,7 +4,7 @@
 thrusters:
      thruster1:
          type: azimuth
-         position: [0.5,1,-0.95]
+         position: [-0.5,1,-0.95]
      thruster2:
          type: azimuth
-         position: [0.5,-1,-0.95]
+         position: [-0.5,-1,-0.95]

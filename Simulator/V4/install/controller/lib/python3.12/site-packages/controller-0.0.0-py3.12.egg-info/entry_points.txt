@@ -1,2 +1,3 @@
 [console_scripts]
+alloc = controller.usv_allocator:main
 usv = controller.usv_controller:main

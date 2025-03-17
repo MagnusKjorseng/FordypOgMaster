@@ -33,11 +33,13 @@ class Usv(Vessel.Vessel):
 
 
 
-        # for debugging
-        # for thruster in self.thrusters:
-        #     thr = self.add_thruster(thruster)
-        #     print(thr.getLocalPosition())
-        #     self.ship.add(thr)
+        #for debugging
+        for thruster in self.thrusters:
+            thr = self.add_thruster(thruster)
+            #print(thr.getFrame())
+            #print(thr.getLocalPosition())
+            local_pos = agx.Vec3
+            self.ship.add(thr)
 
     def add_force(self, forces):
         if len(forces) == len(self.thrusters):
@@ -54,11 +56,11 @@ class Usv(Vessel.Vessel):
         position = agx.Vec3(thruster_position[0], thruster_position[1], thruster_position[2])
         thruster.setLocalPosition(position)
 
-        geometry = agxCollide.Geometry(agxCollide.Sphere(0.1))
+        geometry = agxCollide.Geometry(agxCollide.Sphere(0.1)
         geometry.setEnableCollisions(False)
         thruster.add(geometry)
 
         #thruster.setEnable(False)
-        return thruster
+        return geometry
     
 

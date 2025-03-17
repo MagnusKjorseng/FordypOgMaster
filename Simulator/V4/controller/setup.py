@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import os
+from glob import glob
 
 package_name = 'controller'
 
@@ -10,6 +12,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('controller/', ['config.yml']),
+        #(os.path.join('share',package_name,'launch'), glob(os.path.join('launch', 'config.yml'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -21,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'usv = controller.usv_controller:main',
+            'alloc = controller.usv_allocator:main',
         ],
     },
 )

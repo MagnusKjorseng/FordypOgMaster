@@ -1,9 +1,7 @@
 import rclpy
 from rclpy.node import Node
-
 import geometry_msgs.msg as geo_msgs # Wrench, Vector3 Pose
 
-#import agxROS2
 import numpy as np
 #import matplotlib.pyplot as plt
 
@@ -34,7 +32,7 @@ class UsvController(Node):
         self.ki = Ki
         self.kd = Kd
         self.last = 0
-        self.sum = np.array([0,0,0]) #for integral part
+        self.integral = np.array([0,0,0]) #for integral part
         self.steps = 0
         
         self.position = np.array([0,0,0])
@@ -151,10 +149,10 @@ class UsvController(Node):
         #TODO: implement force commands in heave-direction
 
         vel_error = np.array([0,0,0]) - velocity #zero speed is desired
-        self.sum += error
+        self.integral += error
         difference = error - self.last
         
-        controlled = self.kp * error + self.ki * self.sum + self.kd * vel_error
+        controlled = self.kp * error + self.ki * self.integral + self.kd * vel_error
         
         #Check that the controlled variable is not outside authority
         controlled = self.clamp(controlled, self.authority)
