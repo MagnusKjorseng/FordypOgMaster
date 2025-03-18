@@ -32,7 +32,7 @@ class UsvController(Node):
         self.ki = Ki
         self.kd = Kd
         self.last = 0
-        self.integral = np.array([0,0,0]) #for integral part
+        self.integral = np.array([0.,0.,0.]) #for integral part
         self.steps = 0
         
         self.position = np.array([0,0,0])
@@ -147,7 +147,7 @@ class UsvController(Node):
         error = target - position
         error[-1] = 0 #no force in Z-direction, no error in z-direction
         #TODO: implement force commands in heave-direction
-
+        print(error)
         vel_error = np.array([0,0,0]) - velocity #zero speed is desired
         self.integral += error
         difference = error - self.last

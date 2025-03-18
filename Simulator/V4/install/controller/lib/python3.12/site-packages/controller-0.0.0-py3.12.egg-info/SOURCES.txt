@@ -12,7 +12,6 @@ setup.py
 controller/__init__.py
 controller/usv_allocator.py
 controller/usv_controller.py
-launch/config.yml
 resource/controller
 test/test_copyright.py
 test/test_flake8.py

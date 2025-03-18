@@ -56,7 +56,7 @@ class Usv(Vessel.Vessel):
         position = agx.Vec3(thruster_position[0], thruster_position[1], thruster_position[2])
         thruster.setLocalPosition(position)
 
-        geometry = agxCollide.Geometry(agxCollide.Sphere(0.1)
+        geometry = agxCollide.Geometry(agxCollide.Sphere(0.1))
         geometry.setEnableCollisions(False)
         thruster.add(geometry)
 

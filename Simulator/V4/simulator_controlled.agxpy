@@ -61,7 +61,7 @@ def build_control_scene(sim, app):
     '''
     Create and add the USV
     '''
-    configfile = "./controller/controller/configuration.yml"
+    configfile = "./controller/controller/config.yml"
 
     with open(configfile) as f:
             config = yaml.safe_load(f)

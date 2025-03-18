@@ -9,6 +9,8 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 import geometry_msgs.msg as geo_msgs
+from ament_index_python.packages import get_package_share_directory
+import os
 
 import yaml
 
@@ -18,8 +20,10 @@ import yaml
 def main(args = None):
     rclpy.init(args=args)
 
-    config = "config.yml"
-    allocator = Allocator(config)
+    config = "controller"
+    yaml_package_path = get_package_share_directory(config)
+
+    allocator = Allocator(os.path.join(yaml_package_path, "config.yml"))
 
     rclpy.spin(allocator)
 
@@ -37,12 +41,14 @@ class Allocator(Node):
                                                             "usv_desired_force_on_cog",
                                                             self.force_callback,
                                                             5)
-        self.publishers = []
+        publishers = []
+
         for thruster in self.thrusters:
             topic = "{}_force".format(thruster[0])
-            self.publishers.append(self.create_publisher(geo_msgs.Vector3,
-                                                         topic,
-                                                         10))
+            publishers.append(self.create_publisher(geo_msgs.Vector3,
+                                                    topic,
+                                                    10))
+        self.pubs = publishers
 
     def run(self):
         return
@@ -54,10 +60,11 @@ class Allocator(Node):
         N = msg.z
 
         force = np.array([X,Y,N]).T
-        print(force)
+        #self.get_logger().info('Force calculated: %f, %f, %f' % (force[0], force[1], force[2]))
 
         tau = self.inv_transform * force
-        print(tau)
+        #self.get_logger().info('Tau calculated: %f, %f, %f, %f' % (tau[0][0], tau[1], tau[2], tau[3]))
+        #print(tau)
         '''
         self.parse_tau(tau)
         # unwrap tau into individual thrusters and publish each
