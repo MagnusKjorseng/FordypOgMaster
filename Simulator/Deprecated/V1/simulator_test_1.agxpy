@@ -1,0 +1,152 @@
+''' First attempt at a simulator for the project
+This will be a living document. Might become deprecated after I've learned more about AGX.
+'''
+
+import agx
+import agxPython
+import agxCollide
+import agxModel
+import agxUtil
+import agxOSG
+import agxIO
+import agxSDK
+import agxWire
+
+import math
+
+import sys
+from agxPythonModules.utils.environment import simulation, application, root, init_app
+
+auvDensity = 600 #kg/m^3, average density over the entire object
+rovDensity = 2000
+
+class WaveWaterWrapper(agxModel.WaterWrapper):
+    #Shamelessly stolen from the hydrodynamics tutorial for AGX
+    def __init__(self):
+        super().__init__()
+
+    def findHeightFromSurface(self, worldPoint, upVector, t):
+        surface_level = -2 + 0.5 * math.sin(0.5 * worldPoint.x() + 0.6 * t) + \
+            0.25 * math.cos(0.6 * worldPoint.y() + 0.3 * worldPoint.x() + 1.45 * t)
+        return worldPoint.z() - surface_level
+
+class StillWaterWrapper(agxModel.WaterWrapper):
+    def __init__(self):
+        super().__init__()
+        
+    def findHeightFromSurface(self, worldPoint, upVector, t):
+        return worldPoint.z()
+
+def build_bouyancy_scene(sim, app):
+    #Make the water geometry a 10x10x200m box
+    water_geometry = agxCollide.Geometry(agxCollide.Box(10,10,50))
+    position = agx.Vec3(0,0,-50)
+    water_geometry.setPosition(position)
+    
+    #make new material to change the density to that of seawater, 1025kg/m^3
+    sea_water_material = agx.Material("waterMaterial")
+    sea_water_material.getBulkMaterial().setDensity(1025)
+    water_geometry.setMaterial(sea_water_material)
+    
+    #Create a wind and water controller
+    controller = agxModel.WindAndWaterController()
+    controller.addWater(water_geometry)
+    controller.setWaterWrapper(water_geometry, StillWaterWrapper())
+    #controller.setWaterWrapper(water_geometry, WaveWaterWrapper())
+    
+    sim.add(controller)
+    sim.add(water_geometry)
+    
+    
+    '''
+    Create and add the AUV
+    '''
+    auv_material = agx.Material("auvMaterial")
+    auv_material.getBulkMaterial().setDensity(auvDensity)
+    
+    #The .obj file here is something I've just thrown together. It can be improved and changed for higher accuracy later
+    auv_trimesh = agxUtil.createTrimesh("./usv.obj", agxCollide.Trimesh.REMOVE_DUPLICATE_VERTICES)
+    auv_geometry = agxCollide.Geometry(auv_trimesh)
+    auv_hull = agx.RigidBody(auv_geometry)
+    agxUtil.setBodyMaterial(auv_hull, auv_material)
+    
+    sim.add(auv_hull)
+    
+    '''
+    Make and add the ROV
+    '''
+    rov_material = agx.Material("rovMaterial")
+    rov_material.getBulkMaterial().setDensity(rovDensity)
+    
+    #rov size in xyz, in meters
+    rov_dims = agx.Vec3(0.45, 0.575, 0.254) 
+    
+    rov_body = agx.RigidBody()
+    rov_body.add(agxCollide.Geometry(agxCollide.Box(rov_dims)))
+    rov_body.setPosition(0,0,-20)
+    
+    agxUtil.setBodyMaterial(rov_body, rov_material)
+    
+    sim.add(rov_body)
+    
+    '''
+    Make the wire between the AUV and ROV
+    '''
+    #TODO: make a winch
+    wireRadius = 0.01 #assumed amount, can be changed for known materials
+    wireResolution = 2 #resolution in number per unit length
+    wireMaterial = agx.Material("WireMaterial")
+    wireMaterial.getWireMaterial().setYoungsModulusBend(1e9)
+    
+    wire = agxWire.Wire(wireRadius, wireResolution)
+    wire.setMaterial(wireMaterial)
+    
+    wireLength = 20 #TODO change this to make the wire actually usable for different lengths
+    
+    auv_node = agxWire.BodyFixedNode(auv_hull, agx.Vec3(1.3,0,0))
+    rov_node = agxWire.BodyFixedNode(rov_body, agx.Vec3(0,0,0.129))
+    wire.add(auv_node)
+    wire.add(rov_node)
+    sim.add(wire)
+'''
+def buildScene1(sim, app):
+    #starting with a floor that a box can land on
+    floorGeometry = agxCollide.Geometry(agxCollide.Plane())
+    sim.add(floorGeometry)
+    
+    #make a box, this will evolve into a hull later (possibly)
+    rb1 = agx.RigidBody()
+    rb1.add(agxCollide.Geometry(agxCollide.Box(1,1,1)))
+    rb1.setPosition(0,0,3)
+    sim.add(rb1)
+'''
+def buildScene():
+    sim = agxPython.getContext().environment.getSimulation()
+    app = agxPython.getContext().environment.getApplication()
+    #buildScene1(sim,app)
+    build_bouyancy_scene(sim,app)
+    
+    
+    #eye = agx.Vec3(30, -30.8831, 16.03734)
+    eye = agx.Vec3(50,0,30)
+    center = agx.Vec3(1.5, 0, -5)
+    up = agx.Vec3(0,0,1)  
+
+    app.setCameraHome(eye, center, up)
+    app.setEnableDebugRenderer(True)    
+  
+def main(args):
+    app = agxOSG.ExampleApplication()
+    
+    argParser = agxIO.ArgumentParser([sys.executable] + args)
+    
+    app.addScene(argParser.getArgumentName(1), "buildScene", ord('1'), True)
+    
+    if app.init(argParser):
+        app.run()
+    else:
+        print("An error occurred while initializing ExampleApplication.")
+
+if agxPython.getContext() is None:
+    init = agx.AutoInit()
+    main(sys.argv)
