@@ -1,0 +1,36 @@
+{
+  "type_description_msg": {
+    "type_description": {
+      "type_name": "interfaces/msg/ThrusterCommand",
+      "fields": [
+        {
+          "name": "rpm",
+          "type": {
+            "type_id": 11,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        },
+        {
+          "name": "angle",
+          "type": {
+            "type_id": 11,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        }
+      ]
+    },
+    "referenced_type_descriptions": []
+  },
+  "type_hashes": [
+    {
+      "type_name": "interfaces/msg/ThrusterCommand",
+      "hash_string": "RIHS01_d3020ad4ab07dcb3daebce2e65dcd2ec8e5b70800f52af2c02479ab8868fcf33"
+    }
+  ]
+}

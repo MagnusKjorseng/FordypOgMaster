@@ -9,6 +9,7 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 import geometry_msgs.msg as geo_msgs
+from interfaces.msg import ThrusterCommand
 from ament_index_python.packages import get_package_share_directory
 import os
 
@@ -64,7 +65,7 @@ class Allocator(Node):
 
         tau = self.inv_transform * force
         #self.get_logger().info('Tau calculated: %f, %f, %f, %f' % (tau[0][0], tau[1], tau[2], tau[3]))
-        print(tau)
+        #print(tau)
         '''
         self.parse_tau(tau)
         # unwrap tau into individual thrusters and publish each
