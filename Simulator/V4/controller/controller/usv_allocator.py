@@ -9,6 +9,7 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 import geometry_msgs.msg as geo_msgs
+from interfaces.msg import ThrusterCommand
 from ament_index_python.packages import get_package_share_directory
 import os
 
