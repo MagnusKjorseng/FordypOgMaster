@@ -1,1 +1,1 @@
-geometry_msgs:rclpy:tutorial_interfaces
+geometry_msgs:interfaces:rclpy

@@ -35,8 +35,10 @@ class Allocator(Node):
         self.thrusters = self.load_config(config)
 
         self.transform = np.array(self.find_transform(self.thrusters))
+        #print(self.transform)
         #pseudoinverse to go from global to local frame
         self.inv_transform = np.linalg.pinv(self.transform)
+        #print(self.inv_transform)
 
         self.force_subscriber = self.create_subscription(geo_msgs.Vector3,
                                                             "usv_desired_force_on_cog",
@@ -60,19 +62,21 @@ class Allocator(Node):
         Y = msg.y
         N = msg.z
 
-        force = np.array([X,Y,N]).T
+        force = np.array([X,Y,N])
         #self.get_logger().info('Force calculated: %f, %f, %f' % (force[0], force[1], force[2]))
 
-        tau = self.inv_transform * force
+        tau = np.dot(self.inv_transform, force)
+        print(tau)
         #self.get_logger().info('Tau calculated: %f, %f, %f, %f' % (tau[0][0], tau[1], tau[2], tau[3]))
-        #print(tau)
-        '''
-        self.parse_tau(tau)
+
+        for i in range(floor(len(tau)/2)):
+            thrust = tau[0*i:0*i+1]
+            self.parse_tau(thrust)
         # unwrap tau into individual thrusters and publish each
-        '''
+
 
     def parse_tau(self, tau):
-        alpha = np.atan(tau[0],tau[1])
+        alpha = np.arctan(tau[0]/tau[1])
         thrust = np.sqrt(tau[0]**2 + tau[1]**2)
 
         return alpha, thrust
@@ -96,15 +100,19 @@ class Allocator(Node):
 
     # Finds the transform matrix T used to convert from local to global frame
     def find_transform(self, thrusters):
-        T = []
+        T = None
 
         for thruster in thrusters:
             if thruster[1] == "azimuth":
+
                 azi = thruster[2]
                 t = [[1,       0],
                  [0,       1],
                  [-azi[1], azi[0]]]
-                T.append(t)
+                if T == None:
+                    T = t
+                else:
+                    T = np.concatenate((T,t),1)
             elif thruster[1] == "tunnel":
                 print("tunnel thruster")
 

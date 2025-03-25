@@ -147,7 +147,6 @@ class UsvController(Node):
         error = target - position
         error[-1] = 0 #no force in Z-direction, no error in z-direction
         #TODO: implement force commands in heave-direction
-        print(error)
         vel_error = np.array([0,0,0]) - velocity #zero speed is desired
         self.integral += error
         difference = error - self.last
