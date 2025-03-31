@@ -9,7 +9,7 @@ import agxOSG
 import Vessel
 
 class Usv(Vessel.Vessel):
-    def __init__(self, hull_obj, density, thruster_positions):
+    def __init__(self, hull_obj, density, thrusters):
         super().__init__("usv_hull")
         
         self.ship = agxSDK.Assembly()
@@ -29,36 +29,36 @@ class Usv(Vessel.Vessel):
 
         self.ship.add(self.hull)
 
-        self.thrusters = thruster_positions
+        self.thrusters = thrusters
 
 
 
         #for debugging
-        for thruster in self.thrusters:
-            thr = self.add_thruster(thruster)
-            #print(thr.getFrame())
-            #print(thr.getLocalPosition())
-            local_pos = agx.Vec3
-            self.ship.add(thr)
+        # for thruster in self.thrusters:
+        #     thr = self.add_thruster(thruster)
+        #     #print(thr.getFrame())
+        #     #print(thr.getLocalPosition())
+        #     local_pos = agx.Vec3()
+        #     self.ship.add(thr)
 
-    def add_force(self, forces):
-        if len(forces) == len(self.thrusters):
-            for i in range(len(self.thrusters)):
-                self.hull.addForceAtLocalPosition(forces[i], self.thrusters[i])
-        else:
-            print("Forces vector not the same length as number of thrusters")
+    #Takes in a force vector and the name of the thruster in question
+    def add_force(self, force, thruster):
+        position = agx.Vec3(thruster[2][0],thruster[2][1],thruster[2][2])#position 2 is the position of the thruster
+        self.hull.addForceAtLocalPosition(force, position)
 
     #For debugging, shows the physical location of the thruster.
-    def add_thruster(self, thruster_position):
-        thruster = agx.RigidBody()
-        thruster.setParentFrame(self.ship.getFrame())
+    def add_thruster(self, thruster):
+        thruster_position = thruster["position"]
+
+        thr = agx.RigidBody()
+        thr.setParentFrame(self.ship.getFrame())
 
         position = agx.Vec3(thruster_position[0], thruster_position[1], thruster_position[2])
-        thruster.setLocalPosition(position)
+        thr.setLocalPosition(position)
 
         geometry = agxCollide.Geometry(agxCollide.Sphere(0.1))
         geometry.setEnableCollisions(False)
-        thruster.add(geometry)
+        thr.add(geometry)
 
         #thruster.setEnable(False)
         return geometry

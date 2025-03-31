@@ -217,12 +217,14 @@ class TensionListener(agxSDK.StepEventListener):
         return super().post(t)
 
 class VesselMover(agxSDK.StepEventListener):
-    def __init__(self, vessel, topic):
+    def __init__(self, vessel, topic, thruster):
         super().__init__()
         
         self.vessel = vessel
         
         self.force_vector = agx.Vec3(0,0,0)
+
+        self.thruster = thruster
         
         self.sub = agxROS2.SubscriberGeometryMsgsVector3(topic)
         self.msgRecieve = agxROS2.GeometryMsgsVector3()
@@ -235,7 +237,7 @@ class VesselMover(agxSDK.StepEventListener):
             
             self.force_vector = agx.Vec3(x,y,z)
         
-        self.vessel.add_force(self.force_vector)
+        self.vessel.add_force(self.force_vector, self.thruster)
         
 setPoint = agx.Vec3(0,0,0)
 def buildScene():
@@ -282,8 +284,22 @@ def buildScene():
     #usv_listener = KeyboardListener(usv)
     #sim.add(usv_listener)
     
-    usv_mover = VesselMover(usv, "usv_desired_force_on_cog")
-    sim.add(usv_mover)
+    filename = "controller/controller/config.yml"
+    with open(filename) as f:
+            config = yaml.safe_load(f)
+
+    data = config["thrusters"]
+
+    thrusters = []
+
+    for thruster in data:
+        thrusters.append([thruster,
+                            data[thruster]["type"],
+                            data[thruster]["position"]])
+
+    usv_movers = [VesselMover(usv, "sim_{}_force".format(thruster[0]),thruster) for thruster in thrusters]
+    for mover in usv_movers:
+        sim.add(mover)
     
     rov_listener = KeyboardListener(rov)
     sim.add(rov_listener)
