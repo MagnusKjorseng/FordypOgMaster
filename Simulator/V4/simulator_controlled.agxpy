@@ -137,7 +137,7 @@ class ForceListener(agxSDK.StepEventListener):
         #Print the wire tension in the corner of the simulation
         self.app.getSceneDecorator().setText(1, string)
 
-        msg = agxROS2.StdMsgsString8)
+        msg = agxROS2.StdMsgsString()
         msg.data = string
         self.pub.sendMessage(msg)
         '''
