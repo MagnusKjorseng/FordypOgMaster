@@ -41,8 +41,8 @@ struct ThrusterCommand_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->rpm = 0.0;
-      this->angle = 0.0;
+      this->rpm = 0.0f;
+      this->angle = 0.0f;
     }
   }
 
@@ -52,28 +52,28 @@ struct ThrusterCommand_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->rpm = 0.0;
-      this->angle = 0.0;
+      this->rpm = 0.0f;
+      this->angle = 0.0f;
     }
   }
 
   // field types and members
   using _rpm_type =
-    double;
+    float;
   _rpm_type rpm;
   using _angle_type =
-    double;
+    float;
   _angle_type angle;
 
   // setters for named parameter idiom
   Type & set__rpm(
-    const double & _arg)
+    const float & _arg)
   {
     this->rpm = _arg;
     return *this;
   }
   Type & set__angle(
-    const double & _arg)
+    const float & _arg)
   {
     this->angle = _arg;
     return *this;

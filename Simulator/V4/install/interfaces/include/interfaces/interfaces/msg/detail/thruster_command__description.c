@@ -11,10 +11,10 @@ interfaces__msg__ThrusterCommand__get_type_hash(
 {
   (void)type_support;
   static rosidl_type_hash_t hash = {1, {
-      0xd3, 0x02, 0x0a, 0xd4, 0xab, 0x07, 0xdc, 0xb3,
-      0xda, 0xeb, 0xce, 0x2e, 0x65, 0xdc, 0xd2, 0xec,
-      0x8e, 0x5b, 0x70, 0x80, 0x0f, 0x52, 0xaf, 0x2c,
-      0x02, 0x47, 0x9a, 0xb8, 0x86, 0x8f, 0xcf, 0x33,
+      0xc8, 0xa3, 0x03, 0x4a, 0x2c, 0x72, 0x52, 0x8c,
+      0x32, 0x56, 0xc6, 0x08, 0xc7, 0x10, 0x3e, 0xaf,
+      0x99, 0xc6, 0xe6, 0x98, 0xbf, 0x71, 0x4f, 0x4b,
+      0x00, 0x69, 0x53, 0x07, 0xa5, 0xc5, 0x82, 0xcb,
     }};
   return &hash;
 }
@@ -38,7 +38,7 @@ static rosidl_runtime_c__type_description__Field interfaces__msg__ThrusterComman
   {
     {interfaces__msg__ThrusterCommand__FIELD_NAME__rpm, 3, 3},
     {
-      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE,
+      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT,
       0,
       0,
       {NULL, 0, 0},
@@ -48,7 +48,7 @@ static rosidl_runtime_c__type_description__Field interfaces__msg__ThrusterComman
   {
     {interfaces__msg__ThrusterCommand__FIELD_NAME__angle, 5, 5},
     {
-      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_DOUBLE,
+      rosidl_runtime_c__type_description__FieldType__FIELD_TYPE_FLOAT,
       0,
       0,
       {NULL, 0, 0},
@@ -77,8 +77,8 @@ interfaces__msg__ThrusterCommand__get_type_description(
 }
 
 static char toplevel_type_raw_source[] =
-  "float64 rpm\n"
-  "float64 angle";
+  "float32 rpm\n"
+  "float32 angle";
 
 static char msg_encoding[] = "msg";
 

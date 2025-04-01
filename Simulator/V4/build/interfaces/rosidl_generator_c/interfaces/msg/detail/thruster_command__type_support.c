@@ -4,8 +4,8 @@
 
 #include <string.h>
 
-#include "interfaces/msg/detail/thruster_command__functions.h"
 #include "rosidl_typesupport_interface/macros.h"
+#include "interfaces/msg/detail/thruster_command__functions.h"
 #include "interfaces/msg/detail/thruster_command__type_support.h"
 #include "interfaces/msg/detail/thruster_command__struct.h"
 

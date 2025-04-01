@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'usv = controller.usv_controller:main',
             'alloc = controller.usv_allocator:main',
+            'translator = controller.sim_translator:main',
         ],
     },
 )

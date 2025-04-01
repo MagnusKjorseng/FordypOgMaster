@@ -133,17 +133,17 @@ size_t max_serialized_size_interfaces__msg__ThrusterCommand(
   // Field name: rpm
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint64_t);
-    current_alignment += array_size * sizeof(uint64_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint64_t));
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
   // Field name: angle
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint64_t);
-    current_alignment += array_size * sizeof(uint64_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint64_t));
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
 
@@ -232,17 +232,17 @@ size_t max_serialized_size_key_interfaces__msg__ThrusterCommand(
   // Field name: rpm
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint64_t);
-    current_alignment += array_size * sizeof(uint64_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint64_t));
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
   // Field name: angle
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint64_t);
-    current_alignment += array_size * sizeof(uint64_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint64_t));
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
   size_t ret_val = current_alignment - initial_alignment;

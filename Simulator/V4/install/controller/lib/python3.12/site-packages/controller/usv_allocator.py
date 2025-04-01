@@ -29,10 +29,10 @@ def main(args = None):
     rclpy.spin(allocator)
 
 class Allocator(Node):
-    def __init__(self, config):
+    def __init__(self, configfile):
         super().__init__("usv_allocator")
 
-        self.thrusters = self.load_config(config)
+        self.thrusters = self.load_config(configfile)
 
         self.transform = np.array(self.find_transform(self.thrusters))
         #print(self.transform)
@@ -44,14 +44,10 @@ class Allocator(Node):
                                                             "usv_desired_force_on_cog",
                                                             self.force_callback,
                                                             5)
-        publishers = []
-
-        for thruster in self.thrusters:
-            topic = "{}_force".format(thruster[0])
-            publishers.append(self.create_publisher(geo_msgs.Vector3,
-                                                    topic,
-                                                    10))
-        self.pubs = publishers
+        self.pubs = [self.create_publisher(ThrusterCommand,
+                                           "{}_force".format(thruster),
+                                           10)
+                    for thruster in self.thrusters]
 
     def run(self):
         return
@@ -66,36 +62,49 @@ class Allocator(Node):
         #self.get_logger().info('Force calculated: %f, %f, %f' % (force[0], force[1], force[2]))
 
         tau = np.dot(self.inv_transform, force)
-        print(tau)
         #self.get_logger().info('Tau calculated: %f, %f, %f, %f' % (tau[0][0], tau[1], tau[2], tau[3]))
 
-        for i in range(floor(len(tau)/2)):
-            thrust = tau[0*i:0*i+1]
-            self.parse_tau(thrust)
-        # unwrap tau into individual thrusters and publish each
+
+        alpha, rpm = self.parse_tau(tau)
+
+        print(alpha, rpm)
+
+        for i in range(len(self.pubs)):
+            msg = ThrusterCommand()
+            msg.rpm = rpm[i]
+            msg.angle = alpha[i]
+            self.pubs[i].publish(msg)
 
 
     def parse_tau(self, tau):
-        alpha = np.arctan(tau[0],tau[1])
-        thrust = np.sqrt(tau[0]**2 + tau[1]**2)
+        # since tau is in the form [x_1, y_1, x_2, y_2, ...]
+        # and we want the form [x_1, y_1], [x_2, y_2], ...
+        # this makes a list of every two elements
+        thrust = [tau[i*2:i*2+2] for i in range(len(tau)//2)]
 
-        return alpha, thrust
+        alpha = [np.arctan(command[0]/command[1]) for command in thrust]
 
+        thrust = [np.sqrt(command[0]**2 + command[1]**2) for command in thrust]
+
+        Kt = [thruster["Kt"]for thruster in self.thrusters]
+        Dp = [thruster["Dp"]for thruster in self.thrusters]
+        rpms = self.force_to_rpm(thrust, Kt, Dp)
+
+        return alpha, rpms
+
+    def force_to_rpm(self, thrust, Kt=0.5, Dp = 0.2, rho=1025):
+        # Taken from propeller force calculation
+        # T = Kt * rho * n^2 * Dp^4, where n is in rps
+        rps = np.sqrt(thrust/(Kt*rho*Dp**4))
+        rpm = rps * 60
+        return rpm
 
     # Find thrusters from config file
     def load_config(self, filename):
         with open(filename) as f:
             config = yaml.safe_load(f)
 
-        data = config["thrusters"]
-
-        thrusters = []
-
-        for thruster in data:
-            thrusters.append([thruster,
-                             data[thruster]["type"],
-                             data[thruster]["position"]])
-        print(thrusters)
+        thrusters = config["thrusters"]
         return thrusters
 
     # Finds the transform matrix T used to convert from local to global frame
@@ -103,9 +112,9 @@ class Allocator(Node):
         T = None
 
         for thruster in thrusters:
-            if thruster[1] == "azimuth":
+            if thrusters[thruster]["type"] == "azimuth":
 
-                azi = thruster[2]
+                azi = thrusters[thruster]["position"]
                 t = [[1,       0],
                  [0,       1],
                  [-azi[1], azi[0]]]

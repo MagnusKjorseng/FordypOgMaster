@@ -70,15 +70,15 @@ class ThrusterCommand(metaclass=Metaclass_ThrusterCommand):
     ]
 
     _fields_and_field_types = {
-        'rpm': 'double',
-        'angle': 'double',
+        'rpm': 'float',
+        'angle': 'float',
     }
 
     # This attribute is used to store an rosidl_parser.definition variable
     # related to the data type of each of the components the message.
     SLOT_TYPES = (
-        rosidl_parser.definition.BasicType('double'),  # noqa: E501
-        rosidl_parser.definition.BasicType('double'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
@@ -145,8 +145,8 @@ class ThrusterCommand(metaclass=Metaclass_ThrusterCommand):
             assert \
                 isinstance(value, float), \
                 "The 'rpm' field must be of type 'float'"
-            assert not (value < -1.7976931348623157e+308 or value > 1.7976931348623157e+308) or math.isinf(value), \
-                "The 'rpm' field must be a double in [-1.7976931348623157e+308, 1.7976931348623157e+308]"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'rpm' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
         self._rpm = value
 
     @builtins.property
@@ -160,6 +160,6 @@ class ThrusterCommand(metaclass=Metaclass_ThrusterCommand):
             assert \
                 isinstance(value, float), \
                 "The 'angle' field must be of type 'float'"
-            assert not (value < -1.7976931348623157e+308 or value > 1.7976931348623157e+308) or math.isinf(value), \
-                "The 'angle' field must be a double in [-1.7976931348623157e+308, 1.7976931348623157e+308]"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'angle' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
         self._angle = value

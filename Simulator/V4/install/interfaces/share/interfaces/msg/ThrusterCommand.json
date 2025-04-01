@@ -6,7 +6,7 @@
         {
           "name": "rpm",
           "type": {
-            "type_id": 11,
+            "type_id": 10,
             "capacity": 0,
             "string_capacity": 0,
             "nested_type_name": ""
@@ -16,7 +16,7 @@
         {
           "name": "angle",
           "type": {
-            "type_id": 11,
+            "type_id": 10,
             "capacity": 0,
             "string_capacity": 0,
             "nested_type_name": ""
@@ -30,7 +30,7 @@
   "type_hashes": [
     {
       "type_name": "interfaces/msg/ThrusterCommand",
-      "hash_string": "RIHS01_d3020ad4ab07dcb3daebce2e65dcd2ec8e5b70800f52af2c02479ab8868fcf33"
+      "hash_string": "RIHS01_c8a3034a2c72528c3256c608c7103eaf99c6e698bf714f4b00695307a5c582cb"
     }
   ]
 }

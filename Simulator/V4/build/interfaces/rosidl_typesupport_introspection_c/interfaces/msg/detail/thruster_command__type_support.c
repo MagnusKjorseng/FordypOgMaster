@@ -34,7 +34,7 @@ void interfaces__msg__ThrusterCommand__rosidl_typesupport_introspection_c__Thrus
 static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__ThrusterCommand__rosidl_typesupport_introspection_c__ThrusterCommand_message_member_array[2] = {
   {
     "rpm",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_DOUBLE,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is key
@@ -52,7 +52,7 @@ static rosidl_typesupport_introspection_c__MessageMember interfaces__msg__Thrust
   },
   {
     "angle",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_DOUBLE,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is key

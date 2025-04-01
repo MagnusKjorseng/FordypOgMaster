@@ -23,8 +23,9 @@ def main(args = None):
 
     config = "controller"
     yaml_package_path = get_package_share_directory(config)
+    path = os.path.join(yaml_package_path, "config.yml")
 
-    allocator = Allocator(os.path.join(yaml_package_path, "config.yml"))
+    allocator = Allocator(path)
 
     rclpy.spin(allocator)
 
@@ -44,14 +45,10 @@ class Allocator(Node):
                                                             "usv_desired_force_on_cog",
                                                             self.force_callback,
                                                             5)
-        publishers = []
-
-        for thruster in self.thrusters:
-            topic = "{}_force".format(thruster[0])
-            publishers.append(self.create_publisher(ThrusterCommand,
-                                                    topic,
-                                                    10))
-        self.pubs = publishers
+        self.pubs = [self.create_publisher(ThrusterCommand,
+                                           "{}_force".format(thruster),
+                                           10)
+                    for thruster in self.thrusters]
 
     def run(self):
         return
@@ -89,7 +86,10 @@ class Allocator(Node):
         alpha = [np.arctan(command[0]/command[1]) for command in thrust]
 
         thrust = [np.sqrt(command[0]**2 + command[1]**2) for command in thrust]
-        rpms = [self.force_to_rpm(T) for T in thrust]
+        Kt = [thruster["Kt"]for thruster in self.thrusters]
+        Dp = [thruster["Dp"]for thruster in self.thrusters]
+
+        rpms = self.force_to_rpm(thrust, Kt, Dp)
 
         return alpha, rpms
 
@@ -105,14 +105,7 @@ class Allocator(Node):
         with open(filename) as f:
             config = yaml.safe_load(f)
 
-        data = config["thrusters"]
-
-        thrusters = []
-
-        for thruster in data:
-            thrusters.append([thruster,
-                             data[thruster]["type"],
-                             data[thruster]["position"]])
+        thrusters = config["thrusters"]
         return thrusters
 
     # Finds the transform matrix T used to convert from local to global frame
@@ -120,9 +113,9 @@ class Allocator(Node):
         T = None
 
         for thruster in thrusters:
-            if thruster[1] == "azimuth":
+            if thrusters[thruster]["type"] == "azimuth":
 
-                azi = thruster[2]
+                azi = thrusters[thruster]["position"]
                 t = [[1,       0],
                  [0,       1],
                  [-azi[1], azi[0]]]

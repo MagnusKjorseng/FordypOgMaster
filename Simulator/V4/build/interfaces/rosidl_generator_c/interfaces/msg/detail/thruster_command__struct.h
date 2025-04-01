@@ -22,8 +22,8 @@ extern "C"
 /// Struct defined in msg/ThrusterCommand in the package interfaces.
 typedef struct interfaces__msg__ThrusterCommand
 {
-  double rpm;
-  double angle;
+  float rpm;
+  float angle;
 } interfaces__msg__ThrusterCommand;
 
 // Struct for a sequence of interfaces__msg__ThrusterCommand.

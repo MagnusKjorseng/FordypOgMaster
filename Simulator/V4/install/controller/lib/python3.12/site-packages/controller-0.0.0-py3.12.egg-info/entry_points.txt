@@ -1,3 +1,4 @@
 [console_scripts]
 alloc = controller.usv_allocator:main
+translator = controller.sim_translator:main
 usv = controller.usv_controller:main

@@ -56,7 +56,7 @@ bool interfaces__msg__thruster_command__convert_from_py(PyObject * _pymsg, void 
       return false;
     }
     assert(PyFloat_Check(field));
-    ros_message->rpm = PyFloat_AS_DOUBLE(field);
+    ros_message->rpm = (float)PyFloat_AS_DOUBLE(field);
     Py_DECREF(field);
   }
   {  // angle
@@ -65,7 +65,7 @@ bool interfaces__msg__thruster_command__convert_from_py(PyObject * _pymsg, void 
       return false;
     }
     assert(PyFloat_Check(field));
-    ros_message->angle = PyFloat_AS_DOUBLE(field);
+    ros_message->angle = (float)PyFloat_AS_DOUBLE(field);
     Py_DECREF(field);
   }
 

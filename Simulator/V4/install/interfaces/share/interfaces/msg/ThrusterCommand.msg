@@ -1,2 +1,2 @@
-float64 rpm
-float64 angle
+float32 rpm
+float32 angle

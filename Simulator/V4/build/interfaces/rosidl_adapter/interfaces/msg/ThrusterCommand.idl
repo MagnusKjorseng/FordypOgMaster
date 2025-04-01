@@ -6,9 +6,9 @@
 module interfaces {
   module msg {
     struct ThrusterCommand {
-      double rpm;
+      float rpm;
 
-      double angle;
+      float angle;
     };
   };
 };
