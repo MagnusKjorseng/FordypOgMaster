@@ -20,7 +20,7 @@ def main(args = None):
     kd = 2*m_usv*zeta*omega
     #targets = np.array([[10,15,0],[50, -30, 0],[-20, 10, 0],[0,0,0]])
     
-    controller = UsvController(kp, ki, kd, targets=[[10,30,0]])#, targets)
+    controller = UsvController(kp, ki, kd)#, targets=[[10,30,0]])#, targets)
 
     rclpy.spin(controller)
 
@@ -73,8 +73,8 @@ class UsvController(Node):
         # self.desired_force_publisher = self.create_publisher(geo_msgs.Vector3,
                                                              # "usv_desired_force_on_cog",
                                                              # 10)
-        timer_period = 0.01
-        self.timer = self.create_timer(timer_period, self.run)
+        self.delta_time = 0.01
+        self.timer = self.create_timer(self.delta_time, self.run)
         #TODO: Change this to be implemented in the callbacks, requires callbacks to be correct first though.
 
         '''
@@ -122,7 +122,7 @@ class UsvController(Node):
         wrench = geo_msgs.Wrench()
         wrench.force = force
         wrench.torque = torque
-        self.get_logger().info(f"\nForce: {force} \nTorque: {torque}")# \nWrench: {wrench}")
+        # self.get_logger().info(f"\nForce: {force} \nTorque: {torque}")# \nWrench: {wrench}")
 
         self.desired_force_publisher.publish(wrench)
         # self.get_logger().info("pubslished")
@@ -174,14 +174,18 @@ class UsvController(Node):
     def controlHeading(self, authority=100):
         if not self.heading_set_manually:
             self.findHeading()
+            self.get_logger().info(f"Desired heading: {self.desired_heading}")
 
         error_heading = self.desired_heading - self.heading
+        turning_rate = (self.heading - self.last_heading)/self.delta_time
+        error_rate = 0 - turning_rate #desired turning rate is 0
         # self.get_logger().info(f"heading error: {error_heading}")
         
         #error_heading = np.array([0,0, desired_heading] - rot)
         
-        kp = -60
-        command = error_heading * kp #just proportional control
+        kp = -15
+        kd = -5
+        command = error_heading * kp + error_rate * kd
         # command = self.clamp(command, authority)
         
         self.last_heading = self.heading
@@ -199,8 +203,8 @@ class UsvController(Node):
         if heading_vector[1] == 0:
             angle_from_north = 0.
         else:
-            angle_from_north = np.arctan(heading_vector[0]/heading_vector[1]) # The angle from north is atan x/y which provides clockwise rotation with 0 at north
-        # self.get_logger().info(f"angle: {angle_from_north}")
+            angle_from_north = np.rad2deg(np.arctan(heading_vector[0]/heading_vector[1])) # The angle from north is atan x/y which provides clockwise rotation with 0 at north
+        self.get_logger().info(f"angle: {angle_from_north}")
         #correction to provide a continous range -0.5pi < a < 1.5pi
         if heading_vector[1] < 0:
             angle_from_north += 180
