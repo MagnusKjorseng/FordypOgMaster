@@ -51,8 +51,7 @@ def build_control_scene(sim, app):
     controller = agxModel.WindAndWaterController()
     controller.addWater(water_geometry)
     
-    #controller.setWaterWrapper(water_geometry, waterwrappers.StillWaterWrapper())
-    controller.setWaterWrapper(water_geometry, waterwrappers.WaveWaterWrapper(2))
+    controller.setWaterWrapper(water_geometry, waterwrappers.WaveWaterWrapper(0))
     
     sim.add(controller)
     sim.add(water_geometry)
@@ -217,7 +216,7 @@ class TensionListener(agxSDK.StepEventListener):
         return super().post(t)
 
 class VesselMover(agxSDK.StepEventListener):
-    def __init__(self, vessel, topic, thruster):
+    def __init__(self, vessel, topic, thruster = None):
         super().__init__()
         
         self.vessel = vessel
@@ -237,7 +236,10 @@ class VesselMover(agxSDK.StepEventListener):
             
             self.force_vector = agx.Vec3(x,y,z)
         
-        self.vessel.add_force(self.force_vector, self.thruster)
+        if self.thruster is None:
+            self.vessel.add_force(self.force_vector)
+        else:
+            self.vessel.add_force(self.force_vector, self.thruster)
 
 class WireHandler(agxSDK.StepEventListener):
     def __init__(self, topic):
@@ -313,8 +315,11 @@ def buildScene():
     usv_pose_listener = PoseListener(usv, "usv_pose")
     sim.add(usv_pose_listener)
     
-    tension_listener = TensionListener(app, wire, rov_node)
+    tension_listener = TensionListener(app, wire.wire, rov_node)
     sim.add(tension_listener)
+
+    rov_depth_publisher = PoseListener(rov, "rov_pose")
+    sim.add(rov_depth_publisher)
 
     velocity_listener = VelocityListener(usv.hull, "usv_velocity")
     sim.add(velocity_listener)
@@ -339,7 +344,7 @@ def buildScene():
     for mover in usv_movers:
         sim.add(mover)
     
-    rov_mover = VesselMover(rov, "rov_force", "NYI") #ROV thrust implemented as a simple force on config
+    rov_mover = VesselMover(rov, "rov_force") #ROV thrust implemented as a simple force on config
     sim.add(rov_mover)
 
     
