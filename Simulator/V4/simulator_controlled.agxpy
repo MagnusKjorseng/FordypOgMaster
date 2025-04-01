@@ -344,8 +344,11 @@ def buildScene():
     rov_depth_publisher = PoseListener(rov, "rov_pose")
     sim.add(rov_depth_publisher)
 
-    velocity_listener = VelocityListener(usv.hull, "usv_velocity")
-    sim.add(velocity_listener)
+    rov_velocity_listener = VelocityListener(rov.hull, "rov_velocity")
+    sim.add(rov_velocity_listener)
+
+    usv_velocity_listener = VelocityListener(usv.hull, "usv_velocity")
+    sim.add(usv_velocity_listener)
     
     #usv_listener = KeyboardListener(usv)
     #sim.add(usv_listener)
