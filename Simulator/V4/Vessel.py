@@ -14,11 +14,11 @@ class Vessel(agxSDK.StepEventListener):
         
         self.hull = agx.RigidBody(hullname)
     
-    def add_force(self, vector):
+    def add_force(self, force):
      
         #Translates force from local frame vector into global force.
-        frame = self.hull.getFrame()
-        force = frame.transformVectorToWorld(vector)
+        # frame = self.hull.getFrame()
+        # force = frame.transformVectorToWorld(vector)
         
         
         self.hull.addForce(force)

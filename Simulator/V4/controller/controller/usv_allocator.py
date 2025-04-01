@@ -40,7 +40,7 @@ class Allocator(Node):
         #pseudoinverse to go from global to local frame
         self.inv_transform = np.linalg.pinv(self.transform)
 
-        self.force_subscriber = self.create_subscription(geo_msgs.Vector3,
+        self.force_subscriber = self.create_subscription(geo_msgs.Wrench,
                                                             "usv_desired_force_on_cog",
                                                             self.force_callback,
                                                             5)
@@ -54,9 +54,11 @@ class Allocator(Node):
 
     #Desired force recieved from controller
     def force_callback(self, msg):
-        X = msg.x
-        Y = msg.y
-        N = msg.z
+        force = msg.force
+        torque = msg.torque
+        X = force.x
+        Y = force.y
+        N = torque.z
 
         force = np.array([X,Y,N])
         #self.get_logger().info('Force calculated: %f, %f, %f' % (force[0], force[1], force[2]))

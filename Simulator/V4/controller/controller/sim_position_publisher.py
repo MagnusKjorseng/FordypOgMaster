@@ -57,7 +57,7 @@ class Translator(Node):
         '''
 
         #temporary heading publisher because HDT messages don't work.'
-        self.heading_publisher = self.create_pubisher(std_msgs.Float32,
+        self.heading_publisher = self.create_publisher(std_msgs.Float32,
                                                       "temp_heading",
                                                       5)
 

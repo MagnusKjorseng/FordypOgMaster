@@ -40,7 +40,7 @@ class Allocator(Node):
         #pseudoinverse to go from global to local frame
         self.inv_transform = np.linalg.pinv(self.transform)
 
-        self.force_subscriber = self.create_subscription(geo_msgs.Vector3,
+        self.force_subscriber = self.create_subscription(geo_msgs.Wrench,
                                                             "usv_desired_force_on_cog",
                                                             self.force_callback,
                                                             5)
@@ -54,9 +54,11 @@ class Allocator(Node):
 
     #Desired force recieved from controller
     def force_callback(self, msg):
-        X = msg.x
-        Y = msg.y
-        N = msg.z
+        force = msg.force
+        torque = msg.torque
+        X = force.x
+        Y = force.y
+        N = torque.z
 
         force = np.array([X,Y,N])
         #self.get_logger().info('Force calculated: %f, %f, %f' % (force[0], force[1], force[2]))
@@ -80,7 +82,12 @@ class Allocator(Node):
         # this makes a list of every two elements
         thrust = [tau[i*2:i*2+2] for i in range(len(tau)//2)]
 
-        alpha = [np.arctan(command[0]/command[1]) for command in thrust]
+        self.get_logger().info(f'Thrust =  {thrust}', once=True)
+
+        try:
+            alpha = [np.arctan(command[0]/command[1]) for command in thrust]
+        except: #catches division by zero
+            alpha = [0 for command in thrust]
 
         thrust = [np.sqrt(command[0]**2 + command[1]**2) for command in thrust]
 

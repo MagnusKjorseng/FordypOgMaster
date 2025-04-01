@@ -42,9 +42,9 @@ class Usv(Vessel.Vessel):
         #     self.ship.add(thr)
 
     #Takes in a force vector and the name of the thruster in question
-    def add_force(self, force, thruster):
-        position = agx.Vec3(thruster[2][0],thruster[2][1],thruster[2][2])#position 2 is the position of the thruster
-        self.hull.addForceAtLocalPosition(force, position)
+    # def add_force(self, force, thruster):
+    #     position = agx.Vec3(thruster[2][0],thruster[2][1],thruster[2][2])#position 2 is the position of the thruster
+    #     self.hull.addForceAtLocalPosition(force, position)
 
     #For debugging, shows the physical location of the thruster.
     def add_thruster(self, thruster):

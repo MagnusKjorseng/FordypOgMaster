@@ -1,6 +1,7 @@
 import rclpy
 from rclpy.node import Node
 import geometry_msgs.msg as geo_msgs # Wrench, Vector3 Pose
+import std_msgs.msg as std_msgs
 
 import numpy as np
 #import matplotlib.pyplot as plt
@@ -10,22 +11,22 @@ def main(args = None):
     rclpy.init(args = args)
 
     m_usv=2384 #kg
-    omega = 0.45
-    zeta = 1.2
+    omega = 0.5
+    zeta = 1.3
     
     
     kp = m_usv*omega**2
     ki = 0
     kd = 2*m_usv*zeta*omega
-    targets = np.array([[10,15,0],[50, -30, 0],[-20, 10, 0],[0,0,0]])
+    #targets = np.array([[10,15,0],[50, -30, 0],[-20, 10, 0],[0,0,0]])
     
-    controller = UsvController(kp, ki, kd, targets = targets)
+    controller = UsvController(kp, ki, kd)#, targets)
 
     rclpy.spin(controller)
 
 
 class UsvController(Node):
-    def __init__(self, Kp, Ki, Kd, authority=2e4, torque = 2e5, targets = np.array([[0,0,0]])):
+    def __init__(self, Kp, Ki, Kd, authority=2e4, torque = 2e5, targets = np.array([[0,0,0]]), target_heading = None):
         super().__init__("usv_controller")
         
         self.kp = Kp
@@ -37,10 +38,17 @@ class UsvController(Node):
         
         self.position = np.array([0,0,0])
         self.rotation = np.array([0,0,0,0]) #quaternion for rotation
+
         self.velocity = np.array([0,0,0])
 
-        self.heading_desired = np.zeros(4) #desired rotation as quaternion
-        self.heading_set = False
+        self.heading = 0 #heading in degrees from north
+        if target_heading is None:
+            self.desired_heading = 0 #in degrees from north
+            #self.heading_desired = np.zeros(4) #desired rotation as quaternion
+            self.heading_set_manually = False
+        else:
+            self.desired_heading = target_heading
+            self.heading_set_manually = True
         self.has_plotted = False
         self.lastmag = 0
 
@@ -58,10 +66,12 @@ class UsvController(Node):
 
         #self.rotation_publisher = self.create_publisher()
 
-        # self.desired_force_publisher = self.create_publisher(Wrench, "usv_desired_force_on_cog", 10)
-        self.desired_force_publisher = self.create_publisher(geo_msgs.Vector3,
+        self.desired_force_publisher = self.create_publisher(geo_msgs.Wrench,
                                                              "usv_desired_force_on_cog",
-                                                             10)
+                                                             5)
+        # self.desired_force_publisher = self.create_publisher(geo_msgs.Vector3,
+                                                             # "usv_desired_force_on_cog",
+                                                             # 10)
         timer_period = 0.01
         self.timer = self.create_timer(timer_period, self.run)
         #TODO: Change this to be implemented in the callbacks, requires callbacks to be correct first though.
@@ -81,6 +91,11 @@ class UsvController(Node):
                                                             "usv_pose",
                                                             self.pose_callback,
                                                             5)
+        #Temporary subscriber because HDT messages are broken atm
+        self.heading_subscriber  = self.create_subscription(std_msgs.Float32,
+                                                            "temp_heading",
+                                                            self.heading_callback,
+                                                            5)
 
         # self.pose = agxROS2.GeometryMsgsPose()
         # self.pose_sub = agxROS2.SubscriberGeometryMsgsPose("usv_pose")
@@ -88,39 +103,32 @@ class UsvController(Node):
 
     #Actual control loop
     def run(self):
-        #self.updateSubscriptions()
-        
-#         if not self.connection_active:
-#             print("No connection detected")
-#             return
-#
-#         if not self.heading_set:
-#             goal = self.targets[self.current_target]
-#             direction = goal - self.position
-#             direction.normalize()
-#
-#             angle = np.arcsin(direction[0])
-#             self.heading_desired = angle
-#
-        #rotation = self.controlHeading(self.frame, self.heading_desired, self.torque)
-        #msg = agxROS2.StdMsgsFloat32()
-        #msg.data = command
-        #self.rotation_publisher.sendMessage(msg)
-        
-        
-        controlled, error = self.controlForce(self.position, self.velocity, self.targets[self.current_target])
-        
-        #TODO: Change from vector to wrench, include torque
+        controlled_force, force_error = self.controlForce(self.position, self.velocity, self.targets[self.current_target])
+
+        controlled_heading, heading_error = self.controlHeading()
+
+
         force = geo_msgs.Vector3()
-        force.x = controlled[0]
-        force.y = controlled[1]
-        force.z = controlled[2]
+        force.x = controlled_force[0]
+        force.y = controlled_force[1]
+        force.z = controlled_force[2]
+
+        torque = geo_msgs.Vector3()
+        torque.x = 0
+        torque.y = 0
+        torque.z = controlled_heading
+
+        wrench = geo_msgs.Wrench()
+        wrench.force = force
+        wrench.torque = torque
 
 
-        self.desired_force_publisher.publish(force)
-        self.errors.append(error)
-        self.last = error
-        
+        self.desired_force_publisher.publish(wrench)
+        self.get_logger().info("pubslished")
+        self.errors.append(force_error)
+        self.get_logger().info("appended")
+        self.last = force_error
+        self.get_logger().info("last")
         #checkNextTarget()
 
     def pose_callback(self, msg):
@@ -135,6 +143,9 @@ class UsvController(Node):
 
         self.position = np.array([x,y,z])
         self.rotation = np.array([a,i,j,k])
+
+    def heading_callback(self, msg):
+        self.heading = msg.data
     
     def velocity_callback(self, msg):
         self.velocity[0] = msg.x
@@ -159,23 +170,47 @@ class UsvController(Node):
               
         return controlled, error
     
-    def controlHeading(self, frame, desired_heading, authority):
-        rot = frame.getLocalRotate().getAsEulerAngles()[2]#Rotation in local frame 
+    def controlHeading(self, authority=100):
+        if not self.heading_set_manually:
+            self.findHeading()
+
+        error_heading = self.desired_heading - self.heading
+        self.get_logger().info(f"heading error: {error_heading}")
         
-        error_heading = np.array([0,0, desired_heading] - rot)
-        #print(error_heading)
+        #error_heading = np.array([0,0, desired_heading] - rot)
         
         kp = 3000
         command = error_heading * kp #just proportional control
-        self.clamp(command, authority)
+        command = self.clamp(command, authority)
         
-        return command
-        
+        return command, error_heading
+
+    #Finds the vector from the current point to the desired target and then finds the heading of that vector in world space
+    def findHeading(self):
+        current_pos = self.position
+        target = self.targets[self.current_target]
+
+        heading_vector = target - current_pos
+        # self.get_logger().info(f"heading_vector: {heading_vector}")
+
+        if heading_vector[1] == 0:
+            angle_from_north = 0
+        else:
+            angle_from_north = np.arctan(heading_vector[0]/heading_vector[1]) # The angle from north is atan x/y which provides clockwise rotation with 0 at north
+        # self.get_logger().info(f"angle: {angle_from_north}")
+        #correction to provide a continous range -0.5pi < a < 1.5pi
+        if heading_vector[1] < 0:
+            angle_from_north += np.pi
+
+        self.desired_heading = angle_from_north
 
     #Clamps variable to the range 
     #-clamp < variable < clamp
     def clamp(self, variable, clamp):
-        length = sum(variable * variable) ** 0.5
+        try:
+            length = sum(variable * variable) ** 0.5
+        except TypeError:
+            length = np.sqrt(variable*variable)
         if  length > clamp:             #If the length of variable is larger than clamp
             vec = variable/length       #find the normalized vector
             return vec * clamp          #and return it scaled by clamp

@@ -215,6 +215,29 @@ class TensionListener(agxSDK.StepEventListener):
         '''
         return super().post(t)
 
+class SimpleVesselMover(agxSDK.StepEventListener):
+    def __init__(self, vessel, topic):
+        super().__init__()
+
+        self.vessel = vessel
+
+        self.force_vector = agx.Vec3(0,0,0)
+
+        self.sub = agxROS2.SubscriberGeometryMsgsWrench(topic)
+        self.msgRecieve = agxROS2.GeometryMsgsWrench()
+
+    def pre(self, t):
+        if self.sub.receiveMessage(self.msgRecieve):
+            x  = self.msgRecieve.force.x
+            y  = self.msgRecieve.force.y
+            n  = self.msgRecieve.torque.z
+
+            force_vector = agx.Vec3(x,y,0)
+            self.torque_vector = agx.Vec3(0,0,n)
+
+        self.vessel.add_force(force_vector)
+        self.vessel.add_torque(self.torque_vector)
+
 class VesselMover(agxSDK.StepEventListener):
     def __init__(self, vessel, topic, thruster = None):
         super().__init__()
@@ -340,10 +363,11 @@ def buildScene():
                             data[thruster]["type"],
                             data[thruster]["position"]])
 
-    usv_movers = [VesselMover(usv, "sim_{}_force".format(thruster[0]),thruster) for thruster in thrusters]
-    for mover in usv_movers:
-        sim.add(mover)
-    
+    # usv_movers = [VesselMover(usv, "sim_{}_force".format(thruster[0]),thruster) for thruster in thrusters]
+    # for mover in usv_movers:
+        # sim.add(mover)
+    usv_mover = SimpleVesselMover(usv, "usv_desired_force_on_cog")
+    sim.add(usv_mover)
     rov_mover = VesselMover(rov, "rov_force") #ROV thrust implemented as a simple force on config
     sim.add(rov_mover)
 

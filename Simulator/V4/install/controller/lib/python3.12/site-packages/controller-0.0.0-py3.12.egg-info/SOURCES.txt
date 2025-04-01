@@ -10,6 +10,9 @@ setup.py
 ../build/controller/controller.egg-info/top_level.txt
 ../build/controller/controller.egg-info/zip-safe
 controller/__init__.py
+controller/crane_controller.py
+controller/data_collector.py
+controller/rov_controller.py
 controller/sim_position_publisher.py
 controller/sim_thrust_controller.py
 controller/usv_allocator.py
