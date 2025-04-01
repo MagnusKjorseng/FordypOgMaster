@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 import std_msgs.msg as std_msgs
-import geo_msgs.msg as geo_msgs
+import geometry_msgs.msg as geo_msgs
 
 import numpy as np
 
