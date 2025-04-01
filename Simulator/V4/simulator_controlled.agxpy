@@ -51,8 +51,8 @@ def build_control_scene(sim, app):
     controller = agxModel.WindAndWaterController()
     controller.addWater(water_geometry)
     
-    controller.setWaterWrapper(water_geometry, waterwrappers.StillWaterWrapper())
-    #controller.setWaterWrapper(water_geometry, waterwrappers.WaveWaterWrapper())
+    #controller.setWaterWrapper(water_geometry, waterwrappers.StillWaterWrapper())
+    controller.setWaterWrapper(water_geometry, waterwrappers.WaveWaterWrapper(2))
     
     sim.add(controller)
     sim.add(water_geometry)
