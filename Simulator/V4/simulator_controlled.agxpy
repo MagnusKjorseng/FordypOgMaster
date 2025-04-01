@@ -1,0 +1,369 @@
+''' 
+This simulator is capable of controlling the surface and (theoretically) the subsurface vessel at the same time. 
+
+'''
+
+import agx
+import agxPython
+import agxCollide
+import agxModel
+import agxUtil
+import agxOSG
+import agxIO
+import agxSDK
+import agxWire
+
+import sys
+from agxPythonModules.utils.environment import simulation, application, root, init_app
+import matplotlib.pyplot as plt
+
+import Usv
+import Rov
+import waterwrappers
+
+import agxROS2
+import yaml
+
+usv_density = 600 #kg/m^3, average density over the entire object
+rov_density = 2000
+rov_depth = -20
+
+def init_camera(app):
+    eye = agx.Vec3(100,0,60)
+    center = agx.Vec3(1.5, 0, -5)
+    up = agx.Vec3(0,0,1)  
+
+    app.setCameraHome(eye, center, up)
+    app.setEnableDebugRenderer(True)  
+
+
+def build_control_scene(sim, app):
+    water_geometry = agxCollide.Geometry(agxCollide.Box(100,100,50))
+    position = agx.Vec3(0,0,-50)
+    water_geometry.setPosition(position)
+    
+    #make new material to change the density to that of seawater, 1025kg/m^3
+    sea_water_material = agx.Material("waterMaterial")
+    sea_water_material.getBulkMaterial().setDensity(1025)
+    water_geometry.setMaterial(sea_water_material)
+    
+    #Create a wind and water controller
+    controller = agxModel.WindAndWaterController()
+    controller.addWater(water_geometry)
+    
+    controller.setWaterWrapper(water_geometry, waterwrappers.WaveWaterWrapper(0))
+    
+    sim.add(controller)
+    sim.add(water_geometry)
+    
+    
+    '''
+    Create and add the USV
+    '''
+    configfile = "./controller/controller/config.yml"
+
+    with open(configfile) as f:
+            config = yaml.safe_load(f)
+
+    thrusters = config["thrusters"]
+
+    azimuths = []
+    for thruster in thrusters:
+        if thrusters[thruster]["type"] == "azimuth":
+            azimuths.append(thrusters[thruster]["position"])
+
+    thruster_positions = azimuths
+    usv = Usv.Usv("usv.obj", usv_density, thruster_positions)
+    sim.add(usv.ship)
+    
+
+    '''
+    Make and add the ROV
+    '''
+    #divide by 2 because these are half-extents
+    rov_size = agx.Vec3(0.45, 0.575, 0.254)/2
+    rov_position = agx.Vec3(0,0,rov_depth)
+    rov = Rov.Rov(rov_size)
+    rov.build(rov_density, rov_position)
+    sim.add(rov.hull)
+    
+
+    
+    return controller, water_geometry, usv, rov
+    
+
+
+class KeyboardListener(agxSDK.GuiEventListener):
+    def __init__(self, body):
+        super().__init__(agxSDK.GuiEventListener.KEYBOARD)
+        self.body = body
+        self.root = agxPython.getContext().environment.getSceneRoot()
+        app = agxPython.getContext().environment.getApplication()
+        self.decorator = app.getSceneDecorator()
+        print("Keyboardlistener initialized")
+
+    # Function called whenever a key is pressed/released on the keyboard
+    # keydown: True when key is pressed, False when key is released
+    # This function must return True if the keyboard event has been handled
+    # or False if the event should be passed on to the context
+    def keyboard(self, key, x, y, alt, keydown):
+        force = agx.Vec3(5e4,0,0)
+        # If a key is pressed DOWN and it's the down-button
+        if keydown and key == agxSDK.GuiEventListener.KEY_Down:
+            # Decrease radius
+            print("down")
+            self.body.add_force(-force)
+        # If a key is pressed DOWN and it's the up-button
+        elif keydown and key == agxSDK.GuiEventListener.KEY_Up:
+            # Increase radius
+            print("up")
+            self.body.add_force(force)
+        # Ignore all other keyboard events
+        elif keydown and key == "P":
+            print("P")
+        else:
+            return False
+
+        return True
+        
+class PoseListener(agxSDK.StepEventListener):
+    def __init__(self, vessel, topic):
+        super().__init__()
+        
+        self.vessel = vessel
+        
+        self.pub = agxROS2.PublisherGeometryMsgsPose(topic)
+    
+    def pre(self, t):
+        frame = self.vessel.hull.getFrame()
+        position = frame.getTranslate()
+        
+        point = agxROS2.GeometryMsgsPoint()
+
+        point.x = position.x()
+        point.y = position.y()
+        point.z = position.z()
+        
+        rotation = frame.getRotate()
+        orientation = agxROS2.GeometryMsgsQuaternion()
+        orientation.w = rotation.w()
+        orientation.x = rotation.x()
+        orientation.y = rotation.y()
+        orientation.z = rotation.z()
+        
+        pose = agxROS2.GeometryMsgsPose()
+        pose.position = point
+        pose.orientation = orientation
+        
+        self.pub.sendMessage(pose)
+
+
+class VelocityListener(agxSDK.StepEventListener):
+    def __init__(self, vessel, topic):
+        super().__init__()
+
+        self.vessel = vessel
+
+        self.pub = agxROS2.PublisherGeometryMsgsVector3(topic)
+
+    def pre(self, t):
+        velocity = self.vessel.getVelocity()
+
+        message = agxROS2.GeometryMsgsVector3()
+        message.x = velocity[0]
+        message.y = velocity[1]
+        message.z = velocity[2]
+
+        self.pub.sendMessage(message)
+        
+
+class TensionListener(agxSDK.StepEventListener):
+
+    def __init__(self, app, wire, interest_node):
+        super().__init__()
+        
+        self.app = app
+        self.wire = wire
+        self.node = interest_node
+        self.tensions = []
+        
+        self.has_plotted = False
+
+        self.pub = agxROS2.PublisherStdMsgsFloat32("tension")
+        
+    def pre(self, t):
+        self.tensions.append(self.wire.getTension(self.node).getAverageRaw())
+        msg = agxROS2.StdMsgsFloat32()
+        msg.data = self.tensions[-1]
+        self.pub.sendMessage(msg)
+        
+    def post(self, t):
+        
+        string = "Tension at ROV: " + str(self.tensions[-1])
+        #Print the wire tension in the corner of the simulation
+        self.app.getSceneDecorator().setText(1, string)
+
+        '''
+        #tether tension plotting
+        if t > 60 and not self.has_plotted:
+            self.has_plotted=True
+            plt.plot(self.tensions)
+            plt.xlabel("Time(ms)")
+            plt.ylabel("Tether tension(N)")
+            print(sum(self.tensions)/len(self.tensions))
+            plt.show()
+        '''
+        return super().post(t)
+
+class VesselMover(agxSDK.StepEventListener):
+    def __init__(self, vessel, topic, thruster = None):
+        super().__init__()
+        
+        self.vessel = vessel
+        
+        self.force_vector = agx.Vec3(0,0,0)
+
+        self.thruster = thruster
+        
+        self.sub = agxROS2.SubscriberGeometryMsgsVector3(topic)
+        self.msgRecieve = agxROS2.GeometryMsgsVector3()
+    
+    def pre(self, t):
+        if self.sub.receiveMessage(self.msgRecieve):
+            x  = self.msgRecieve.x
+            y  = self.msgRecieve.y
+            z  = self.msgRecieve.z
+            
+            self.force_vector = agx.Vec3(x,y,z)
+        
+        if self.thruster is None:
+            self.vessel.add_force(self.force_vector)
+        else:
+            self.vessel.add_force(self.force_vector, self.thruster)
+
+class WireHandler(agxSDK.StepEventListener):
+    def __init__(self, topic):
+        super().__init__()
+
+        self.sub = agxROS2.SubscriberStdMsgsFloat32(topic)
+        self.msgRecieve = agxROS2.StdMsgsFloat32()
+
+
+    def create_wire(self, radius, resolution, youngsModulus, base_node, end_node):
+        wireRadius = radius #assumed amount, can be changed for known materials
+        wireResolution = resolution #resolution in number per unit length
+        wireMaterial = agx.Material("WireMaterial")
+        wireMaterial.getWireMaterial().setYoungsModulusBend(youngsModulus)
+
+        self.wire = agxWire.Wire(wireRadius, wireResolution)
+        self.wire.setMaterial(wireMaterial)
+
+        self.base = base_node
+        self.end = end_node
+        #self.wire.add(base_node)
+        #self.wire.add(end_node)
+
+
+    def create_winch(self, body, position=agx.Vec3(0,0,0), normal = agx.Vec3(0,0,-1), pulledInLength = 0):
+        self.winch = agxWire.WireWinchController(body, position, normal, pulledInLength)
+        self.winch.setAutoFeed(True)
+
+        self.wire.add(self.winch)
+        self.wire.add(self.end)
+
+        # self.winch.setSpeed(-0.5)
+
+    def pre(self, t):
+        if self.sub.receiveMessage(self.msgRecieve):
+            speed = self.msgRecieve.data
+            self.winch.setSpeed(speed)
+
+
+
+        
+setPoint = agx.Vec3(0,0,0)
+def buildScene():
+    sim = agxPython.getContext().environment.getSimulation()
+    app = agxPython.getContext().environment.getApplication()
+    sim.setTimeStep(1/100)
+    
+
+    
+    water_cont, water_geo, usv, rov = build_control_scene(sim,app)
+    
+    
+    
+    '''
+    Make the wire between the USV and ROV
+    '''
+    usv_node = agxWire.BodyFixedNode(usv.hull, agx.Vec3(1.3,0,0))
+    rov_node = agxWire.BodyFixedNode(rov.hull, agx.Vec3(0,0,0.129))
+
+    wire = WireHandler("winch_speed")
+    wire.create_wire(0.005, 2, 1e9, usv_node, rov_node)
+    wire.create_winch(usv.hull)
+
+    wireLength = abs(rov_depth) 
+    
+    sim.add(wire.wire)
+
+    '''
+    '''
+    
+    init_camera(app)
+    
+    usv_pose_listener = PoseListener(usv, "usv_pose")
+    sim.add(usv_pose_listener)
+    
+    tension_listener = TensionListener(app, wire.wire, rov_node)
+    sim.add(tension_listener)
+
+    rov_depth_publisher = PoseListener(rov, "rov_pose")
+    sim.add(rov_depth_publisher)
+
+    velocity_listener = VelocityListener(usv.hull, "usv_velocity")
+    sim.add(velocity_listener)
+    
+    #usv_listener = KeyboardListener(usv)
+    #sim.add(usv_listener)
+    
+    filename = "controller/controller/config.yml"
+    with open(filename) as f:
+            config = yaml.safe_load(f)
+
+    data = config["thrusters"]
+
+    thrusters = []
+
+    for thruster in data:
+        thrusters.append([thruster,
+                            data[thruster]["type"],
+                            data[thruster]["position"]])
+
+    usv_movers = [VesselMover(usv, "sim_{}_force".format(thruster[0]),thruster) for thruster in thrusters]
+    for mover in usv_movers:
+        sim.add(mover)
+    
+    rov_mover = VesselMover(rov, "rov_force") #ROV thrust implemented as a simple force on config
+    sim.add(rov_mover)
+
+    
+  
+def main(args):
+
+    app = agxOSG.ExampleApplication()
+    
+    argParser = agxIO.ArgumentParser([sys.executable] + args)
+    
+    app.addScene(argParser.getArgumentName(1), "buildScene", ord('1'), True)
+    
+    if app.init(argParser):
+        app.run()
+        autoStepping=True
+
+    else:
+        print("An error occurred while initializing ExampleApplication.")
+
+if agxPython.getContext() is None:
+    init = agx.AutoInit()
+    main(sys.argv)
