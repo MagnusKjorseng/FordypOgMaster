@@ -24,6 +24,10 @@ class CraneController(Node):
         self.crane_publisher = self.create_publisher(std_msgs.Float32,
                                                 "winch_speed",
                                                 5)
+        self.desired_depth_listener = self.create_subscription(std_msgs.Float32,
+                                                               "desired_rov_depth",
+                                                               self.update_depth_callback,
+                                                               5)
 
     def depth_callback(self, msg):
         depth = msg.position.z
@@ -42,3 +46,10 @@ class CraneController(Node):
 
         return controlled
 
+    def update_depth_callback(self, msg):
+        desired_depth = msg.data
+
+        self.target_depth = desired_depth
+
+if __name__ == '__main__':
+    main()
