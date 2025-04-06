@@ -86,17 +86,15 @@ class Allocator(Node):
         alpha = [np.arctan(command[0]/command[1]) for command in thrust]
 
         thrust = [np.sqrt(command[0]**2 + command[1]**2) for command in thrust]
-        Kt = [thruster["Kt"]for thruster in self.thrusters]
-        Dp = [thruster["Dp"]for thruster in self.thrusters]
 
-        rpms = self.force_to_rpm(thrust, Kt, Dp)
+        rpms = self.force_to_rpm(thrust)
 
         return alpha, rpms
 
     def force_to_rpm(self, thrust, Kt=0.5, Dp = 0.2, rho=1025):
         # Taken from propeller force calculation
         # T = Kt * rho * n^2 * Dp^4, where n is in rps
-        rps = np.sqrt(thrust/(Kt*rho*Dp**4))
+        rps = np.sqrt(np.divide(thrust,(Kt*rho*Dp**4)))
         rpm = rps * 60
         return rpm
 
