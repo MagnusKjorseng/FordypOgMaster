@@ -12,7 +12,7 @@
 import numpy as np
 import rclpy
 from rclpy.node import Node
-import geometry_msgs.msg as geometry_msgs
+import geometry_msgs.msg as geo_msgs
 from interfaces.msg import ThrusterCommand
 
 import os
@@ -37,24 +37,64 @@ class Translator(Node):
         self.thrusters = self.load_config(configfile)
 
         self.command_subscribers = [self.create_subscription(ThrusterCommand,
-                                                             "{}_force".format(thruster),
-                                                             self.callback,
-                                                             5)
-                                    for thruster in self.thrusters]
+                                                             "thruster1_force",
+                                                             self.callback1,
+                                                             5),
+                                    self.create_subscription(ThrusterCommand,
+                                                             "thruster2_force",
+                                                             self.callback2,
+                                                             5)]
 
-        self.force_publishers = [self.create_publisher(geometry_msgs.Vector3,
+        self.force_publishers = [self.create_publisher(geo_msgs.Vector3,
                                                        "sim_{}_force".format(thruster),
                                                        10)
                                 for thruster in self.thrusters]
 
-
-    def callback(self, msg):
+    #Couldn't think of a better way to combine these two, so I've implemented them as two identical methods.
+    def callback1(self, msg):
         angle = msg.angle
         rpm = msg.rpm
+        thruster = "thruster1"
+        Kt = self.thrusters[thruster]["Kt"]
+        Dp = self.thrusters[thruster]["Dp"]
+        rho = 1025
 
+        force = self.force_calculator(angle, rpm, Kt, Dp, rho)
+        self.send_message(force, 0)
 
+    def callback2(self, msg):
+        angle = msg.angle
+        rpm = msg.rpm
+        thruster = "thruster2"
+        Kt = self.thrusters[thruster]["Kt"]
+        Dp = self.thrusters[thruster]["Dp"]
+        rho = 1025
 
-        return
+        force = self.force_calculator(angle, rpm, Kt, Dp, rho)
+        self.send_message(force, 1)
+
+    def force_calculator(self, angle, rpm, Kt, Dp, rho):
+        rps = rpm / 60
+        thrust = Kt * rho * rps**2 * Dp**4
+
+        x_force = thrust * np.sin(angle)
+        y_force = thrust * np.cos(angle)
+
+        return [x_force, y_force]
+
+    def send_message(self, message, index):
+        publisher = self.force_publishers[index]
+
+        print(type(message[0]))
+
+        msg = geo_msgs.Vector3()
+        msg.x = message[0]
+        msg.y = message[1]
+        msg.z = 0
+        #self.get_logger().info(msg.x)
+
+        publisher.publish(msg)
+        #self.get_logger().info("Message sent: x: %f, y: %f" %(msg.x, msg.y))
 
     # Find thrusters from config file
     def load_config(self, filename):

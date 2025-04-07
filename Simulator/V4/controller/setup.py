@@ -26,7 +26,8 @@ setup(
         'console_scripts': [
             'usv = controller.usv_controller:main',
             'alloc = controller.usv_allocator:main',
-            'translator = controller.sim_translator:main',
+            'thrust_controller = controller.sim_thrust_controller:main',
+            'position_translator = controller.sim_position_publisher:main',
         ],
     },
 )

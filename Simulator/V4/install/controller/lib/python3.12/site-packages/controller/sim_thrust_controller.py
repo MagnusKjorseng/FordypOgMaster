@@ -85,6 +85,8 @@ class Translator(Node):
     def send_message(self, message, index):
         publisher = self.force_publishers[index]
 
+        print(type(float(message[0])))
+
         msg = geo_msgs.Vector3()
         msg.x = float(message[0])
         msg.y = float(message[1])

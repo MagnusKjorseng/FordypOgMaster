@@ -1,4 +1,5 @@
 [console_scripts]
 alloc = controller.usv_allocator:main
-translator = controller.sim_translator:main
+position_translator = controller.sim_position_publisher:main
+thrust_controller = controller.sim_thrust_controller:main
 usv = controller.usv_controller:main
