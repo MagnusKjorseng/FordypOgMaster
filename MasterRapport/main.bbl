@@ -1,0 +1,36 @@
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Isobe and Iwasaki(2022)]{isobe_fate_2022}
+Atsuhiko Isobe and Shinsuke Iwasaki.
+\newblock The fate of missing ocean plastics: {Are} they just a marine
+  environmental problem?
+\newblock \emph{Science of The Total Environment}, 825:\penalty0 153935, June
+  2022.
+\newblock ISSN 0048-9697.
+\newblock \doi{10.1016/j.scitotenv.2022.153935}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0048969722010270}.
+
+\bibitem[Jambeck et~al.(2015)Jambeck, Geyer, Wilcox, Siegler, Perryman,
+  Andrady, Narayan, and Law]{jambeck_plastic_2015}
+Jenna~R. Jambeck, Roland Geyer, Chris Wilcox, Theodore~R. Siegler, Miriam
+  Perryman, Anthony Andrady, Ramani Narayan, and Kara~Lavender Law.
+\newblock Plastic waste inputs from land into the ocean.
+\newblock \emph{Science}, 347\penalty0 (6223):\penalty0 768--771, February
+  2015.
+\newblock \doi{10.1126/science.1260352}.
+\newblock URL \url{https://www.science.org/doi/10.1126/science.1260352}.
+\newblock Publisher: American Association for the Advancement of Science.
+
+\bibitem[{World Economic Forum}(2022)]{world_economic_forum_top_2022}
+{World Economic Forum}.
+\newblock Top 25 recycling facts and statistics for 2022, June 2022.
+\newblock URL
+  \url{https://www.weforum.org/stories/2022/06/recycling-global-statistics-facts-plastic-paper/}.
+
+\end{thebibliography}
