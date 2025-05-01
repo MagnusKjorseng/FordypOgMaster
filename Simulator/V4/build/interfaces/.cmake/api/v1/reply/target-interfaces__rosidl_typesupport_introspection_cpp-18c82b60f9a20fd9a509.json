@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "libinterfaces__rosidl_typesupport_cpp.so"
+			"path" : "libinterfaces__rosidl_typesupport_introspection_cpp.so"
 		}
 	],
 	"backtrace" : 5,
@@ -20,29 +20,35 @@
 			"find_package",
 			"add_dependencies",
 			"add_compile_options",
-			"add_definitions"
+			"add_definitions",
+			"target_include_directories"
 		],
 		"files" : 
 		[
-			"/opt/ros/jazzy/share/rosidl_typesupport_cpp/cmake/rosidl_typesupport_cpp_generate_interfaces.cmake",
+			"/opt/ros/jazzy/share/rosidl_typesupport_introspection_cpp/cmake/rosidl_typesupport_introspection_cpp_generate_interfaces.cmake",
 			"/opt/ros/jazzy/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake",
 			"/opt/ros/jazzy/share/rosidl_cmake/cmake/rosidl_generate_interfaces.cmake",
 			"CMakeLists.txt",
 			"/opt/ros/jazzy/share/rosidl_generator_c/cmake/rosidl_generator_c_generate_interfaces.cmake",
-			"/opt/ros/jazzy/share/geometry_msgs/cmake/geometry_msgs__rosidl_typesupport_cppExport.cmake",
+			"/opt/ros/jazzy/share/geometry_msgs/cmake/geometry_msgs__rosidl_typesupport_introspection_cppExport.cmake",
 			"/opt/ros/jazzy/share/geometry_msgs/cmake/ament_cmake_export_targets-extras.cmake",
 			"/opt/ros/jazzy/share/geometry_msgs/cmake/geometry_msgsConfig.cmake",
+			"/opt/ros/jazzy/share/rosidl_typesupport_introspection_cpp/cmake/rosidl_typesupport_introspection_cppExport.cmake",
+			"/opt/ros/jazzy/share/rosidl_typesupport_introspection_cpp/cmake/ament_cmake_export_targets-extras.cmake",
+			"/opt/ros/jazzy/share/rosidl_typesupport_introspection_cpp/cmake/rosidl_typesupport_introspection_cppConfig.cmake",
+			"/opt/ros/jazzy/share/rosidl_typesupport_cpp/cmake/rosidl_typesupport_cpp-extras.cmake",
+			"/opt/ros/jazzy/share/rosidl_typesupport_cpp/cmake/rosidl_typesupport_cppConfig.cmake",
+			"/opt/ros/jazzy/share/builtin_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake",
+			"/opt/ros/jazzy/share/builtin_interfaces/cmake/builtin_interfacesConfig.cmake",
+			"/opt/ros/jazzy/share/std_msgs/cmake/ament_cmake_export_dependencies-extras.cmake",
+			"/opt/ros/jazzy/share/std_msgs/cmake/std_msgsConfig.cmake",
+			"/opt/ros/jazzy/share/geometry_msgs/cmake/ament_cmake_export_dependencies-extras.cmake",
 			"/opt/ros/jazzy/share/geometry_msgs/cmake/export_geometry_msgs__rosidl_generator_cExport.cmake",
 			"/opt/ros/jazzy/share/rcutils/cmake/rcutilsExport.cmake",
 			"/opt/ros/jazzy/share/rcutils/cmake/ament_cmake_export_targets-extras.cmake",
 			"/opt/ros/jazzy/share/rcutils/cmake/rcutilsConfig.cmake",
 			"/opt/ros/jazzy/share/rosidl_runtime_c/cmake/ament_cmake_export_dependencies-extras.cmake",
 			"/opt/ros/jazzy/share/rosidl_runtime_c/cmake/rosidl_runtime_cConfig.cmake",
-			"/opt/ros/jazzy/share/builtin_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake",
-			"/opt/ros/jazzy/share/builtin_interfaces/cmake/builtin_interfacesConfig.cmake",
-			"/opt/ros/jazzy/share/std_msgs/cmake/ament_cmake_export_dependencies-extras.cmake",
-			"/opt/ros/jazzy/share/std_msgs/cmake/std_msgsConfig.cmake",
-			"/opt/ros/jazzy/share/geometry_msgs/cmake/ament_cmake_export_dependencies-extras.cmake",
 			"/opt/ros/jazzy/share/rosidl_generator_cpp/cmake/rosidl_generator_cpp_generate_interfaces.cmake",
 			"/opt/ros/jazzy/share/ament_cmake_ros/cmake/ament_cmake_ros-extras.cmake",
 			"/opt/ros/jazzy/share/ament_cmake_ros/cmake/ament_cmake_rosConfig.cmake",
@@ -78,31 +84,31 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 103,
+				"line" : 109,
 				"parent" : 4
 			},
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 157,
+				"line" : 163,
 				"parent" : 4
 			},
 			{
 				"command" : 5,
 				"file" : 0,
-				"line" : 134,
+				"line" : 133,
 				"parent" : 4
 			},
 			{
 				"command" : 5,
 				"file" : 0,
-				"line" : 146,
+				"line" : 145,
 				"parent" : 4
 			},
 			{
 				"command" : 5,
 				"file" : 0,
-				"line" : 146,
+				"line" : 145,
 				"parent" : 4
 			},
 			{
@@ -171,19 +177,125 @@
 			},
 			{
 				"command" : 1,
-				"file" : 6,
+				"file" : 7,
+				"line" : 41,
+				"parent" : 15
+			},
+			{
+				"file" : 17,
+				"parent" : 22
+			},
+			{
+				"command" : 7,
+				"file" : 17,
+				"line" : 21,
+				"parent" : 23
+			},
+			{
+				"file" : 16,
+				"parent" : 24
+			},
+			{
+				"command" : 1,
+				"file" : 16,
+				"line" : 41,
+				"parent" : 25
+			},
+			{
+				"file" : 15,
+				"parent" : 26
+			},
+			{
+				"command" : 7,
+				"file" : 15,
+				"line" : 21,
+				"parent" : 27
+			},
+			{
+				"file" : 14,
+				"parent" : 28
+			},
+			{
+				"command" : 1,
+				"file" : 14,
+				"line" : 41,
+				"parent" : 29
+			},
+			{
+				"file" : 13,
+				"parent" : 30
+			},
+			{
+				"command" : 7,
+				"file" : 13,
+				"line" : 21,
+				"parent" : 31
+			},
+			{
+				"file" : 12,
+				"parent" : 32
+			},
+			{
+				"command" : 1,
+				"file" : 12,
+				"line" : 41,
+				"parent" : 33
+			},
+			{
+				"file" : 11,
+				"parent" : 34
+			},
+			{
+				"command" : 7,
+				"file" : 11,
+				"line" : 13,
+				"parent" : 35
+			},
+			{
+				"file" : 10,
+				"parent" : 36
+			},
+			{
+				"command" : 1,
+				"file" : 10,
+				"line" : 41,
+				"parent" : 37
+			},
+			{
+				"file" : 9,
+				"parent" : 38
+			},
+			{
+				"command" : 1,
+				"file" : 9,
 				"line" : 9,
-				"parent" : 17
+				"parent" : 39
 			},
 			{
 				"file" : 8,
-				"parent" : 22
+				"parent" : 40
 			},
 			{
 				"command" : 6,
 				"file" : 8,
 				"line" : 61,
-				"parent" : 23
+				"parent" : 41
+			},
+			{
+				"command" : 1,
+				"file" : 6,
+				"line" : 9,
+				"parent" : 17
+			},
+			{
+				"file" : 18,
+				"parent" : 43
+			},
+			{
+				"command" : 6,
+				"file" : 18,
+				"line" : 61,
+				"parent" : 44
 			},
 			{
 				"command" : 5,
@@ -192,110 +304,60 @@
 				"parent" : 11
 			},
 			{
-				"command" : 1,
-				"file" : 7,
-				"line" : 41,
-				"parent" : 15
-			},
-			{
-				"file" : 18,
-				"parent" : 26
-			},
-			{
 				"command" : 7,
-				"file" : 18,
-				"line" : 21,
-				"parent" : 27
-			},
-			{
-				"file" : 17,
-				"parent" : 28
-			},
-			{
-				"command" : 1,
-				"file" : 17,
-				"line" : 41,
-				"parent" : 29
-			},
-			{
-				"file" : 16,
-				"parent" : 30
-			},
-			{
-				"command" : 7,
-				"file" : 16,
+				"file" : 13,
 				"line" : 21,
 				"parent" : 31
 			},
 			{
-				"file" : 15,
-				"parent" : 32
+				"file" : 23,
+				"parent" : 47
 			},
 			{
 				"command" : 1,
-				"file" : 15,
+				"file" : 23,
 				"line" : 41,
-				"parent" : 33
+				"parent" : 48
 			},
 			{
-				"file" : 14,
-				"parent" : 34
+				"file" : 22,
+				"parent" : 49
 			},
 			{
 				"command" : 7,
-				"file" : 14,
+				"file" : 22,
 				"line" : 21,
-				"parent" : 35
+				"parent" : 50
 			},
 			{
-				"file" : 13,
-				"parent" : 36
+				"file" : 21,
+				"parent" : 51
 			},
 			{
 				"command" : 1,
-				"file" : 13,
+				"file" : 21,
 				"line" : 41,
-				"parent" : 37
+				"parent" : 52
 			},
 			{
-				"file" : 12,
-				"parent" : 38
-			},
-			{
-				"command" : 7,
-				"file" : 12,
-				"line" : 21,
-				"parent" : 39
-			},
-			{
-				"file" : 11,
-				"parent" : 40
+				"file" : 20,
+				"parent" : 53
 			},
 			{
 				"command" : 1,
-				"file" : 11,
-				"line" : 41,
-				"parent" : 41
-			},
-			{
-				"file" : 10,
-				"parent" : 42
-			},
-			{
-				"command" : 1,
-				"file" : 10,
+				"file" : 20,
 				"line" : 9,
-				"parent" : 43
+				"parent" : 54
 			},
 			{
-				"file" : 9,
-				"parent" : 44
+				"file" : 19,
+				"parent" : 55
 			},
 			{
 				"command" : 6,
-				"file" : 9,
+				"file" : 19,
 				"line" : 61,
-				"parent" : 45
+				"parent" : 56
 			},
 			{
 				"command" : 1,
@@ -304,14 +366,14 @@
 				"parent" : 2
 			},
 			{
-				"file" : 19,
-				"parent" : 47
+				"file" : 24,
+				"parent" : 58
 			},
 			{
 				"command" : 8,
-				"file" : 19,
+				"file" : 24,
 				"line" : 164,
-				"parent" : 48
+				"parent" : 59
 			},
 			{
 				"command" : 9,
@@ -326,34 +388,40 @@
 				"parent" : 2
 			},
 			{
-				"file" : 22,
-				"parent" : 51
+				"file" : 27,
+				"parent" : 62
 			},
 			{
 				"command" : 7,
-				"file" : 22,
+				"file" : 27,
 				"line" : 21,
-				"parent" : 52
+				"parent" : 63
 			},
 			{
-				"file" : 21,
-				"parent" : 53
+				"file" : 26,
+				"parent" : 64
 			},
 			{
 				"command" : 1,
-				"file" : 21,
+				"file" : 26,
 				"line" : 41,
-				"parent" : 54
+				"parent" : 65
 			},
 			{
-				"file" : 20,
-				"parent" : 55
+				"file" : 25,
+				"parent" : 66
 			},
 			{
 				"command" : 10,
-				"file" : 20,
+				"file" : 25,
 				"line" : 25,
-				"parent" : 56
+				"parent" : 67
+			},
+			{
+				"command" : 11,
+				"file" : 0,
+				"line" : 127,
+				"parent" : 4
 			}
 		]
 	},
@@ -366,30 +434,34 @@
 					"fragment" : "-std=gnu++17 -fPIC"
 				},
 				{
-					"backtrace" : 50,
+					"backtrace" : 61,
 					"fragment" : "-Wall"
 				},
 				{
-					"backtrace" : 50,
+					"backtrace" : 61,
 					"fragment" : "-Wextra"
 				},
 				{
-					"backtrace" : 50,
+					"backtrace" : 61,
 					"fragment" : "-Wpedantic"
 				}
 			],
 			"defines" : 
 			[
 				{
-					"define" : "ROSIDL_TYPESUPPORT_CPP_BUILDING_DLL"
+					"define" : "ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_BUILDING_DLL"
 				},
 				{
-					"backtrace" : 57,
+					"backtrace" : 68,
 					"define" : "ROS_PACKAGE_NAME=\"interfaces\""
 				}
 			],
 			"includes" : 
 			[
+				{
+					"backtrace" : 69,
+					"path" : "/media/Bigboi/Documents/FordypOgMaster/Simulator/V4/build/interfaces/rosidl_typesupport_introspection_cpp"
+				},
 				{
 					"backtrace" : 7,
 					"path" : "/media/Bigboi/Documents/FordypOgMaster/Simulator/V4/build/interfaces/rosidl_generator_c"
@@ -436,12 +508,12 @@
 				{
 					"backtrace" : 21,
 					"isSystem" : true,
-					"path" : "/opt/ros/jazzy/include/rosidl_typesupport_cpp"
+					"path" : "/opt/ros/jazzy/include/rosidl_typesupport_introspection_cpp"
 				},
 				{
 					"backtrace" : 21,
 					"isSystem" : true,
-					"path" : "/opt/ros/jazzy/include/rosidl_typesupport_c"
+					"path" : "/opt/ros/jazzy/include/rosidl_typesupport_introspection_c"
 				}
 			],
 			"language" : "CXX",
@@ -455,22 +527,22 @@
 			},
 			"sourceIndexes" : 
 			[
-				0
+				1
 			]
 		}
 	],
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 49,
-			"id" : "interfaces__cpp::@6890427a1f51a3e7e1df"
-		},
-		{
 			"backtrace" : 7,
 			"id" : "interfaces__rosidl_generator_c::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 60,
+			"id" : "interfaces__cpp::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "interfaces__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+	"id" : "interfaces__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
 	"install" : 
 	{
 		"destinations" : 
@@ -508,12 +580,12 @@
 			},
 			{
 				"backtrace" : 8,
-				"fragment" : "/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_cpp.so",
+				"fragment" : "/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_introspection_cpp.so",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 9,
-				"fragment" : "/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so",
+				"fragment" : "/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so",
 				"role" : "libraries"
 			},
 			{
@@ -528,21 +600,21 @@
 			},
 			{
 				"backtrace" : 20,
-				"fragment" : "/opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_cpp.so",
+				"fragment" : "/opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 21,
-				"fragment" : "/opt/ros/jazzy/lib/librosidl_typesupport_cpp.so",
+				"fragment" : "/opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 21,
-				"fragment" : "/opt/ros/jazzy/lib/librosidl_typesupport_c.so",
+				"backtrace" : 42,
+				"fragment" : "/opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 24,
+				"backtrace" : 45,
 				"fragment" : "/opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so",
 				"role" : "libraries"
 			},
@@ -552,24 +624,20 @@
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 25,
+				"backtrace" : 46,
 				"fragment" : "/opt/ros/jazzy/lib/librcutils.so",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 46,
+				"backtrace" : 57,
 				"fragment" : "-ldl",
-				"role" : "libraries"
-			},
-			{
-				"fragment" : "-Wl,-rpath-link,/opt/ros/jazzy/lib",
 				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
-	"name" : "interfaces__rosidl_typesupport_cpp",
-	"nameOnDisk" : "libinterfaces__rosidl_typesupport_cpp.so",
+	"name" : "interfaces__rosidl_typesupport_introspection_cpp",
+	"nameOnDisk" : "libinterfaces__rosidl_typesupport_introspection_cpp.so",
 	"paths" : 
 	{
 		"build" : ".",
@@ -578,17 +646,24 @@
 	"sourceGroups" : 
 	[
 		{
-			"name" : "Source Files",
+			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
 				0
 			]
 		},
 		{
-			"name" : "CMake Rules",
+			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
 				1
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				2
 			]
 		}
 	],
@@ -596,16 +671,22 @@
 	[
 		{
 			"backtrace" : 5,
+			"isGenerated" : true,
+			"path" : "/media/Bigboi/Documents/FordypOgMaster/Simulator/V4/build/interfaces/rosidl_typesupport_introspection_cpp/interfaces/msg/detail/thruster_command__rosidl_typesupport_introspection_cpp.hpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 5,
 			"compileGroupIndex" : 0,
 			"isGenerated" : true,
-			"path" : "/media/Bigboi/Documents/FordypOgMaster/Simulator/V4/build/interfaces/rosidl_typesupport_cpp/interfaces/msg/thruster_command__type_support.cpp",
-			"sourceGroupIndex" : 0
+			"path" : "/media/Bigboi/Documents/FordypOgMaster/Simulator/V4/build/interfaces/rosidl_typesupport_introspection_cpp/interfaces/msg/detail/thruster_command__type_support.cpp",
+			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "/media/Bigboi/Documents/FordypOgMaster/Simulator/V4/build/interfaces/rosidl_typesupport_cpp/interfaces/msg/thruster_command__type_support.cpp.rule",
-			"sourceGroupIndex" : 1
+			"path" : "/media/Bigboi/Documents/FordypOgMaster/Simulator/V4/build/interfaces/rosidl_typesupport_introspection_cpp/interfaces/msg/detail/thruster_command__rosidl_typesupport_introspection_cpp.hpp.rule",
+			"sourceGroupIndex" : 2
 		}
 	],
 	"type" : "SHARED_LIBRARY"

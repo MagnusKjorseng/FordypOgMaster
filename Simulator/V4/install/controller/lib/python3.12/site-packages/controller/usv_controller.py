@@ -64,6 +64,7 @@ class UsvController(Node):
                                                              10)
         timer_period = 0.01
         self.timer = self.create_timer(timer_period, self.run)
+        #TODO: Change this to be implemented in the callbacks, requires callbacks to be correct first though.
 
         '''
         self.rotation_msg = agxROS2.StdMsgsFloat32()
@@ -117,7 +118,6 @@ class UsvController(Node):
 
 
         self.desired_force_publisher.publish(force)
-        print("Force published")
         self.errors.append(error)
         self.last = error
         

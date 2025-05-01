@@ -36,10 +36,9 @@ class Allocator(Node):
         self.thrusters = self.load_config(configfile)
 
         self.transform = np.array(self.find_transform(self.thrusters))
-        #print(self.transform)
+
         #pseudoinverse to go from global to local frame
         self.inv_transform = np.linalg.pinv(self.transform)
-        #print(self.inv_transform)
 
         self.force_subscriber = self.create_subscription(geo_msgs.Vector3,
                                                             "usv_desired_force_on_cog",
@@ -67,8 +66,6 @@ class Allocator(Node):
 
 
         alpha, rpm = self.parse_tau(tau)
-
-        print(alpha, rpm)
 
         for i in range(len(self.pubs)):
             msg = ThrusterCommand()

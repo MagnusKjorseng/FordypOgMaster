@@ -18,3 +18,6 @@ resource/controller
 test/test_copyright.py
 test/test_flake8.py
 test/test_pep257.py
+utils/__init__.py
+utils/geo_utils.py
+utils/nmea_utils.py

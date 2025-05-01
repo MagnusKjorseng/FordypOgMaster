@@ -12,6 +12,7 @@
 
 
 import numpy as np
+from scipy.spatial.transform import Rotation
 import rclpy
 from rclpy.node import Node
 import geometry_msgs.msg as geo_msgs
@@ -48,10 +49,9 @@ class Translator(Node):
         self.gga_publisher = self.create_publisher(nmea_msgs.Gpgga,
                                                    "gpgga_received",
                                                    5)
-        # self.hdt_publisher = self.create_publisher(nmea_msgs.Gphdt,
-        #                                            "gphdt_received",
-        #                                            5) #HDT messages are not yet in the nmea_msg library, waiting on pull request
-
+        self.hdt_publisher = self.create_publisher(nmea_msgs.Gphdt,
+                                                   "gphdt_received",
+                                                   5)
         self.baseline = baseline
         self.current_position = baseline
 
@@ -59,15 +59,21 @@ class Translator(Node):
         position = msg.position
         position = [position.x, position.y, position.z]
 
-        orientation = msg.orientation #NYI
-        orientation = [orientation.x, orientation.y, orientation.z, orientation.w]
-
         # since the position in the simulator is given in meters from the origin,
         # this function allows me to use the position as the
         new_lat, new_lon = add_distance_to_lat_lon(self.baseline[0], self.baseline[1], position[0], position[1])
         gga_msg = self.make_gga_message(new_lat, new_lon)
 
         self.gga_publisher.publish(gga_msg)
+
+
+
+        orientation = msg.orientation
+        orientation = [orientation.x, orientation.y, orientation.z, orientation.w]
+
+        rot = Rotation.from_quat(orientation)
+        rot = rot.as_euler("xyz", degrees=True)
+        heading = rot[-1]
 
         hdt_msg = self.make_hdt_message(heading)
 

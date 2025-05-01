@@ -21,7 +21,13 @@ def generate_launch_description():
         Node(
             package='controller',
 
-            executable='translator',
-            name='translator'
+            executable='thrust_controller',
+            name='thrust_translator'
+        ),
+        Node(
+            package='controller',
+
+            executable='position_translator',
+            name='position_translator'
         ),
     ])
