@@ -4,41 +4,49 @@
 \contentsline {chapter}{\numberline {1}Introduction}{2}{}%
 \contentsline {section}{\numberline {1.1}Marine plastic pollution}{2}{}%
 \contentsline {section}{\numberline {1.2}Why's it an issue}{2}{}%
-\contentsline {section}{\numberline {1.3}What are we doing about it}{2}{}%
-\contentsline {subsection}{\numberline {1.3.1}Plan Sea project}{2}{}%
-\contentsline {subsection}{\numberline {1.3.2}Previous work (Specialization project)}{2}{}%
-\contentsline {section}{\numberline {1.4}How are we doing it}{3}{}%
-\contentsline {section}{\numberline {1.5}Reader's guide}{3}{}%
-\contentsline {chapter}{\numberline {2}Theory}{4}{}%
-\contentsline {section}{\numberline {2.1}Previous project work}{4}{}%
-\contentsline {section}{\numberline {2.2}State of the Art}{4}{}%
-\contentsline {subsection}{\numberline {2.2.1}Physical issues}{4}{}%
-\contentsline {subsection}{\numberline {2.2.2}Simulation issues}{4}{}%
-\contentsline {section}{\numberline {2.3}Mathematical basis}{4}{}%
-\contentsline {section}{\numberline {2.4}Modelling and Control Design}{4}{}%
-\contentsline {section}{\numberline {2.5}Sensorics}{4}{}%
-\contentsline {subsection}{\numberline {2.5.1}GNSS}{4}{}%
-\contentsline {subsection}{\numberline {2.5.2}USBL}{6}{}%
-\contentsline {subsection}{\numberline {2.5.3}IMUs}{6}{}%
-\contentsline {subsection}{\numberline {2.5.4}ROV Depth measuring devices}{6}{}%
-\contentsline {section}{\numberline {2.6}State estimation}{7}{}%
-\contentsline {section}{\numberline {2.7}State machine}{7}{}%
-\contentsline {section}{\numberline {2.8}GUI}{8}{}%
-\contentsline {section}{\numberline {2.9}Guidance}{8}{}%
-\contentsline {section}{\numberline {2.10}Controller}{8}{}%
-\contentsline {section}{\numberline {2.11}Allocation}{8}{}%
-\contentsline {section}{\numberline {2.12}Local control and physical response}{10}{}%
-\contentsline {chapter}{\numberline {3}Method}{11}{}%
-\contentsline {section}{\numberline {3.1}Simulation framework}{11}{}%
-\contentsline {subsection}{\numberline {3.1.1}Brief simulation setup}{11}{}%
-\contentsline {subsection}{\numberline {3.1.2}Improvements made since specialization project}{12}{}%
-\contentsline {section}{\numberline {3.2}Physical setup}{12}{}%
-\contentsline {subsection}{\numberline {3.2.1}Surface vessel}{12}{}%
-\contentsline {subsection}{\numberline {3.2.2}Subsea vessel}{13}{}%
-\contentsline {subsection}{\numberline {3.2.3}Crane}{13}{}%
-\contentsline {subsection}{\numberline {3.2.4}Control systems/Ancillary}{13}{}%
-\contentsline {subsubsection}{\numberline {3.2.4.1}ROV control}{13}{}%
-\contentsline {section}{\numberline {3.3}Case description}{14}{}%
-\contentsline {chapter}{\numberline {4}Results}{15}{}%
-\contentsline {chapter}{\numberline {5}Discussion}{16}{}%
-\contentsline {chapter}{\numberline {6}Conclusions}{17}{}%
+\contentsline {section}{\numberline {1.3}A layered approach}{2}{}%
+\contentsline {subsection}{\numberline {1.3.1}Potential removal strategies}{4}{}%
+\contentsline {subsection}{\numberline {1.3.2}Plan Sea project}{4}{}%
+\contentsline {section}{\numberline {1.4}Previous work (Specialization project)}{6}{}%
+\contentsline {section}{\numberline {1.5}The focus of this project}{6}{}%
+\contentsline {section}{\numberline {1.6}Reader's guide}{6}{}%
+\contentsline {chapter}{\numberline {2}Theory}{7}{}%
+\contentsline {section}{\numberline {2.1}Previous project work}{7}{}%
+\contentsline {section}{\numberline {2.2}State of the Art}{7}{}%
+\contentsline {subsection}{\numberline {2.2.1}Physical issues}{7}{}%
+\contentsline {subsection}{\numberline {2.2.2}Simulation issues}{7}{}%
+\contentsline {section}{\numberline {2.3}Mathematical basis}{7}{}%
+\contentsline {section}{\numberline {2.4}Modelling and Control Design}{7}{}%
+\contentsline {section}{\numberline {2.5}Sensorics}{7}{}%
+\contentsline {subsection}{\numberline {2.5.1}GNSS}{7}{}%
+\contentsline {subsection}{\numberline {2.5.2}USBL}{9}{}%
+\contentsline {subsection}{\numberline {2.5.3}IMUs}{9}{}%
+\contentsline {subsection}{\numberline {2.5.4}ROV Depth measuring devices}{9}{}%
+\contentsline {section}{\numberline {2.6}State estimation}{10}{}%
+\contentsline {section}{\numberline {2.7}State machine}{10}{}%
+\contentsline {section}{\numberline {2.8}GUI}{11}{}%
+\contentsline {section}{\numberline {2.9}Guidance}{11}{}%
+\contentsline {section}{\numberline {2.10}Controller}{11}{}%
+\contentsline {section}{\numberline {2.11}Allocation}{11}{}%
+\contentsline {section}{\numberline {2.12}Local control and physical response}{13}{}%
+\contentsline {chapter}{\numberline {3}Method}{14}{}%
+\contentsline {section}{\numberline {3.1}Simulation framework}{14}{}%
+\contentsline {subsection}{\numberline {3.1.1}Brief simulation setup}{14}{}%
+\contentsline {subsection}{\numberline {3.1.2}Improvements made since specialization project}{15}{}%
+\contentsline {section}{\numberline {3.2}Physical setup}{15}{}%
+\contentsline {subsection}{\numberline {3.2.1}Surface vessel}{15}{}%
+\contentsline {subsection}{\numberline {3.2.2}Subsea vessel}{16}{}%
+\contentsline {subsection}{\numberline {3.2.3}Crane}{16}{}%
+\contentsline {subsection}{\numberline {3.2.4}Control systems/Ancillary}{16}{}%
+\contentsline {subsubsection}{\numberline {3.2.4.1}ROV control}{16}{}%
+\contentsline {section}{\numberline {3.3}Case description}{17}{}%
+\contentsline {chapter}{\numberline {4}Results}{18}{}%
+\contentsline {section}{\numberline {4.1}Simulation results}{18}{}%
+\contentsline {subsection}{\numberline {4.1.1}Validation}{18}{}%
+\contentsline {subsection}{\numberline {4.1.2}Limitations}{19}{}%
+\contentsline {section}{\numberline {4.2}Controller results}{19}{}%
+\contentsline {subsection}{\numberline {4.2.1}USV}{19}{}%
+\contentsline {section}{\numberline {4.3}Results of physical testing}{19}{}%
+\contentsline {chapter}{\numberline {5}Discussion}{20}{}%
+\contentsline {chapter}{\numberline {6}Conclusions}{21}{}%
+\contentsline {chapter}{\numberline {}Bibliography}{22}{}%
