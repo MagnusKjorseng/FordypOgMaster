@@ -238,6 +238,32 @@ class VesselMover(agxSDK.StepEventListener):
             self.force_vector = agx.Vec3(x,y,z)
         
         self.vessel.add_force(self.force_vector, self.thruster)
+
+class WireHandler(agxSDK.StepEventListener):
+    def __init__(self, radius, resolution, youngsModulus, base_node, end_node):
+        wireRadius = radius #assumed amount, can be changed for known materials
+        wireResolution = resolution #resolution in number per unit length
+        wireMaterial = agx.Material("WireMaterial")
+        wireMaterial.getWireMaterial().setYoungsModulusBend(youngsModulus)
+
+        self.wire = agxWire.Wire(wireRadius, wireResolution)
+        self.wire.setMaterial(wireMaterial)
+
+        self.base = base_node
+        self.end = end_node
+        #self.wire.add(base_node)
+        #self.wire.add(end_node)
+
+
+    def create_winch(self, body, position=agx.Vec3(0,0,0), normal = agx.Vec3(0,0,-1), pulledInLength = 0):
+        self.winch = agxWire.WireWinchController(body, position, normal, pulledInLength)
+        self.winch.setAutoFeed(True)
+
+        self.wire.add(self.winch)
+        self.wire.add(self.end)
+
+        # self.winch.setSpeed(-0.5)
+
         
 setPoint = agx.Vec3(0,0,0)
 def buildScene():
@@ -254,21 +280,15 @@ def buildScene():
     '''
     Make the wire between the USV and ROV
     '''
-    #TODO: make a winch
-    wireRadius = 0.005 #assumed amount, can be changed for known materials
-    wireResolution = 2 #resolution in number per unit length
-    wireMaterial = agx.Material("WireMaterial")
-    wireMaterial.getWireMaterial().setYoungsModulusBend(1e9)
-    
-    wire = agxWire.Wire(wireRadius, wireResolution)
-    wire.setMaterial(wireMaterial)
-    wireLength = abs(rov_depth) 
-    
     usv_node = agxWire.BodyFixedNode(usv.hull, agx.Vec3(1.3,0,0))
     rov_node = agxWire.BodyFixedNode(rov.hull, agx.Vec3(0,0,0.129))
-    wire.add(usv_node)
-    wire.add(rov_node)
-    sim.add(wire)
+
+    wire = WireHandler(0.005, 2, 1e9, usv_node, rov_node)
+    wire.create_winch(usv.hull)
+
+    wireLength = abs(rov_depth) 
+    
+    sim.add(wire.wire)
     
     init_camera(app)
     
