@@ -240,7 +240,14 @@ class VesselMover(agxSDK.StepEventListener):
         self.vessel.add_force(self.force_vector, self.thruster)
 
 class WireHandler(agxSDK.StepEventListener):
-    def __init__(self, radius, resolution, youngsModulus, base_node, end_node):
+    def __init__(self, topic):
+        super().__init__()
+
+        self.sub = agxROS2.SubscriberStdMsgsFloat32(topic)
+        self.msgRecieve = agxROS2.StdMsgsFloat32()
+
+
+    def create_wire(self, radius, resolution, youngsModulus, base_node, end_node):
         wireRadius = radius #assumed amount, can be changed for known materials
         wireResolution = resolution #resolution in number per unit length
         wireMaterial = agx.Material("WireMaterial")
@@ -264,6 +271,13 @@ class WireHandler(agxSDK.StepEventListener):
 
         # self.winch.setSpeed(-0.5)
 
+    def pre(self, t):
+        if self.sub.receiveMessage(self.msgRecieve):
+            speed = self.msgRecieve.data
+            self.winch.setSpeed(speed)
+
+
+
         
 setPoint = agx.Vec3(0,0,0)
 def buildScene():
@@ -283,12 +297,16 @@ def buildScene():
     usv_node = agxWire.BodyFixedNode(usv.hull, agx.Vec3(1.3,0,0))
     rov_node = agxWire.BodyFixedNode(rov.hull, agx.Vec3(0,0,0.129))
 
-    wire = WireHandler(0.005, 2, 1e9, usv_node, rov_node)
+    wire = WireHandler("winch_speed")
+    wire.create_wire(0.005, 2, 1e9, usv_node, rov_node)
     wire.create_winch(usv.hull)
 
     wireLength = abs(rov_depth) 
     
     sim.add(wire.wire)
+
+    '''
+    '''
     
     init_camera(app)
     
