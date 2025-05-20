@@ -10,9 +10,7 @@
   <exec_depend>rclpy</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>nmea_msgs</exec_depend>
-  <exec_depend>interfaces</exec_depend>
-  <exec_depend>nmea_utils</exec_depend>
-  <exec_depend>geo_utils</exec_depend>
+
 
 
   <test_depend>ament_copyright</test_depend>
