@@ -9,6 +9,33 @@
 \begin{document}
 %equations, bib. \\
 \section{Previous project work}
+The specialization project focused on making the framework for this thesis and for further work on the Plan Sea project in general. In this section, the results of the specialization project will be presented as it forms the basis for further work.
+
+Originally, the goals of the specialization project were as follows:
+\begin{enumerate}
+\item Create a simulation to be used in later work
+\item Validate the performance of the simulation
+\item Create a rudimentary control system for the simulation that can be further developed later
+\item Do basic research that can be implemented in this thesis
+\end{enumerate}
+These goals were achieved with great success. Here is a short summary of each goal and its results.
+
+\subsection{Creating the simulation}
+The simulation framework AGX Dynamics was chosen based on a recommendation from a professor based on its ability to do wire simulations well, in addition to it having both a hydrodynamic simulation package and a package that could interface with ROS2. It was considered to build a simulation from scratch, but this was deprioritized due to the amount of work this would pose.
+
+The two vessels are simulated as simplified shapes, the surface vessel as a coarse model, while the ROV is simulated as a simple box. The simulation is mostly unchanged from the original setup, though some additional work has been done and this is further discussed in \cref{sec:simulation_work}
+
+\subsection{Validating the simulation}
+The simulation was validated by comparing the tension measured in the tether to a calculated drag force that would be expected. The surface vessel would be moving at constant speed and the ROV dragged behind. This was done at several speeds, and the tension was measured both on average and over time. The measured tension was then compared with a manually calculated drag force using the drag equation. The simulation was found to perform within \(\pm 20\%\) of the calculated drag, which given the assumptions made was concluded to be well within reasonable limits. Further discussion of this can be seen in section 4.2 of the specialization report \cite{specialization}
+
+\subsection{Creating a control system}
+A control system is a simplified abstraction of all the logic that is behind actually controlling a system. A "system" in this sense is any collection of real-world, digital, chemical or mechanical parts that accept some sort of affecting input and provide some resultant output. In this case, the movement of the vessels are the system of interest. The inputs of the system is the commands given to thrusters, cranes, or other means of moving the vessel, while the output of the system is the physical movement of the vessels and their components in space.
+
+The control system which was created in the specialization project was implemented directly in the same script as the simulation ran on. This was not ideal, but it did work. As it was implemented, it could control both the heading of the vessel towards its waypoint as well as its total force applied. It was implemented as navigating to a list of points, changing to the next point after it reached some steady state around the current one. The movement of the ROV and crane was not controlled in the control system achieved in the specialization project.
+
+As mentioned, the control system was not implemented in ROS2, as was the plan. This was not done due to issues with initializing a ROS workspace and decoupling the work already done. This has been achieved in this project however, and is further discussed in \cref{sec:simulation_work}.
+
+\subsection{Basic research}
 
 \section{State of the Art}
 \subsection{Physical issues}

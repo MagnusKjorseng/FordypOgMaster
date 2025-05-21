@@ -15,7 +15,7 @@ The exact details of the implementation are more specifically brought up in \cit
 \subsection{Brief simulation setup}
 The two vessels to be simulated are the surface vessel and the ROV. The ROV was simplified as a cuboid with the proper dimensions according to the manufacturer's specifications. The ROV to be used is a modified BlueROV2 Heavy made by Blue Robotics. The dimensions of which are 575 x 254 x 457 mm (WxHxD). The density of the ROV has not been tested, but is implemented in the simulation as \(2000kg/m^3\). This is a rough estimation and the real density is likely lower.
 
-The surface vessel was modelled roughly in CAD and then exported as a \texttt{.obj} file for AGX to work with. The dimensions and shape of the vessel are roughly corresponding with the real vessel, though not exactly as it was intended to be exchanged for a more detailed model produced by a different master project at a later date. The density of the surface vessel is implemented at \(600kg/m^3\) which was arrived at by taking a rough average of the different densities of sandwich plate we had for building the hull and then adding some extra mass to account for batteries, sensorics and other added weights.
+The surface vessel was modelled roughly in CAD and then exported as a \texttt{.obj} 3D-file for AGX to work with. The dimensions and shape of the vessel are roughly corresponding with the real vessel, though not exactly as it was intended to be exchanged for a more detailed model produced by a different master project at a later date. The density of the surface vessel is implemented at \(600kg/m^3\) which was arrived at by taking a rough average of the different densities of sandwich plate we had for building the hull and then adding some extra mass to account for batteries, sensorics and other added weights.
 
 As a note on the densities of the vessels: while AGX is able to model non-uniform densities and varying density distributions, this was not implemented in this simulation simply for the constraint of time. It was assumed that the loss of accuracy from assuming uniform density is small enough not to matter.
 
@@ -25,9 +25,10 @@ The two vessels and the tether are placed in a 200x200x100m pool of water. It is
 
 
 \subsection{Improvements made since specialization project}
+\label{sec:simulation_work}
 During the specialization project, it was not possible to implement the simulation as one decoupled from the controller. As such, the end result was that both the controller and the plant were running in the same simulation script. This has been improved upon now as the controller and its parts has been separated from the simulator and are now running as separate nodes commuicating via ROS2. The full ROS2 graph can be seen in \cref{fig:ros_graph}. Decoupling the simulator and the various controller nodes has allowed for work to progress slightly faster and more reliably. When it is possible to more or less finish one module before working on another, it makes doing the work easier.
 
-In addition, the simulator now is capable of simulating the winching movement of the winch on the ROV. Previously it was implemented as a fixed length wire. This means that the crane is able to operate as well now.
+In addition, the simulator now is capable of simulating the winching movement of the winch on the ROV. Previously it was implemented as a fixed length wire. This means that the crane now is able to operate. A rudimentary implementation to ROS has been made as well, allowing for the speed of the winch and breaking power to be changed via ROS topics.
 
 \section{Physical setup}
 \subsection{Surface vessel}
