@@ -3,3 +3,8 @@
 *.log
 *.pyc
 *.aux
+Simulator/bin
+Simulator/include
+Simulator/lib
+Simulator/lib64
+Simulator/pyvenv.cfg
