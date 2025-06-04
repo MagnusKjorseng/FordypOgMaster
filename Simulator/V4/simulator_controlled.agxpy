@@ -339,9 +339,8 @@ def buildScene():
     for mover in usv_movers:
         sim.add(mover)
     
-    rov_listener = KeyboardListener(rov)
-    sim.add(rov_listener)
-
+    rov_mover = VesselMover(rov, "rov_force", "NYI") #ROV thrust implemented as a simple force on config
+    sim.add(rov_mover)
 
     
   

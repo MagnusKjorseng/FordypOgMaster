@@ -3,46 +3,47 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: plainnat.bst
 Database file #1: bibliography.bib
+Warning--I didn't find a database entry for "sorensen_crude_2023"
 Warning--I didn't find a database entry for "specialization"
-You've used 3 entries,
+You've used 8 entries,
             2773 wiz_defined-function locations,
-            619 strings with 5728 characters,
-and the built_in function-call counts, 1599 in all, are:
-= -- 143
-> -- 106
-< -- 2
-+ -- 36
-- -- 33
-* -- 142
-:= -- 260
-add.period$ -- 15
-call.type$ -- 3
-change.case$ -- 20
-chr.to.int$ -- 3
-cite$ -- 6
-duplicate$ -- 56
-empty$ -- 112
-format.name$ -- 38
-if$ -- 322
+            672 strings with 7455 characters,
+and the built_in function-call counts, 4604 in all, are:
+= -- 430
+> -- 308
+< -- 3
++ -- 104
+- -- 96
+* -- 433
+:= -- 746
+add.period$ -- 47
+call.type$ -- 8
+change.case$ -- 56
+chr.to.int$ -- 8
+cite$ -- 16
+duplicate$ -- 160
+empty$ -- 313
+format.name$ -- 106
+if$ -- 934
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 2
-newline$ -- 29
-num.names$ -- 12
-pop$ -- 34
+missing$ -- 7
+newline$ -- 71
+num.names$ -- 32
+pop$ -- 80
 preamble$ -- 1
-purify$ -- 17
+purify$ -- 48
 quote$ -- 0
-skip$ -- 48
+skip$ -- 125
 stack$ -- 0
-substring$ -- 49
-swap$ -- 6
+substring$ -- 176
+swap$ -- 15
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 33
+type$ -- 88
 warning$ -- 0
-while$ -- 12
+while$ -- 35
 width$ -- 0
-write$ -- 57
-(There was 1 warning)
+write$ -- 156
+(There were 2 warnings)

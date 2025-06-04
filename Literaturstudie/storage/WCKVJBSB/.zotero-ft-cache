@@ -1,0 +1,558 @@
+Skip to main content
+Skip to article
+View PDF
+Download full issue
+Journal of Hazardous Materials
+Volume 458, 15 September 2023, 131810
+Research Paper
+Organic chemicals associated with rubber are more toxic to marine algae and bacteria than those of thermoplastics
+Author links open overlay panel
+Lisbet Sørensen a
+,
+Tânia Gomes b
+,
+Amaia Igartua a
+,
+Inger Larsen Lyngstad c
+,
+Ana Catarina Almeida b
+,
+Martin Wagner c
+,
+Andy M. Booth a
+Show more
+Outline
+Share
+Cite
+https://doi.org/10.1016/j.jhazmat.2023.131810
+Get rights and content
+Under a Creative Commons license
+Open access
+Highlights
+•
+Chemical features in products determined by GC-MS ranged from 39 to 2456.
+•
+Only 26 % of chemical features across all products could be tentatively identified.
+•
+Chemical complexity and abundance correlated with toxicity to marine species.
+•
+Elastomer product chemicals were generally more toxic than thermoplastic products.
+•
+Elastomer products should be targeted to reduce environmental chemical impacts.
+Abstract
+The current study investigated the chemical complexity of fifty plastic (36) and elastomer/rubber (14) methanol extracts from consumer products, focusing on the association with toxicity in two screening assays (bacteria luminescence and marine microalgae). The chemical composition varied considerably between the products and polymers. The most complex sample (car tire rubber) contained 2456 chemical features and the least complex (disposable water bottle) only 39 features, with a median of 386 features across all products. Individual extract toxicity also varied significantly across the products and polymers, with the two toxicity assays showing comparable results in terms of defining low and high toxicity extracts, and correlation between medium toxicity extracts. Chemical complexity and abundance both correlated with toxicity in both assays. However, there were strong differences in toxicity between plastic and elastomer extracts. Overall, 86–93 % of the 14 elastomer extracts and only 33–36 % of other polymer extracts (n = 36) were more toxic than the median. A range of compounds were tentatively identified across the sample set, with several concerning compounds being identified, mostly in the elastomers. While the current focus on plastic chemicals is towards thermoplastics, we show that elastomers may be of more concern from an environmental and human health perspective.
+Graphical Abstract
+Download: Download high-res image (160KB)
+Download: Download full-size image
+Previous
+Next
+Keywords
+Plastic additivesElastomersNon-target screeningBacteria luminescence assayMarine microalgaeToxicity assaysLeachate
+1. Introduction
+While plastic materials are historically described as being inert due to their stable polymeric composition, it is now known that relatively high concentrations of non-covalently bonded chemicals can comprise part of the polymer matrix, depending on the polymer type and consumer product [39]. Additives are chemicals that are incorporated into polymers to improve and/or impart desired material properties related to the intended usage of the final consumer product. Plasticizers, flame retardants, antioxidants, anti-aging chemicals, colorants, lubricants, and thermal stabilizers are the most commonly used additives [15]. Other additives such as slip agents, antistatics, antiblocking agents, lubricants and processing aids are used to improve or alter polymeric substrates’ performance and properties [56]. The processing of polymers requires different additives depending on their material properties [28]. For example, PET can be processed without the use of additives [10], while the production of flexible PVC requires high concentrations of plasticizers [15]. Besides the intentional chemical additives, residual monomers and oligomers, solvents and other polymerization and production impurities are usually also present in plastic and rubber products [17]. None of these 'associated chemicals' are chemically bound to the polymer, typically being dispersed in the porous polymer structure. This means they may leach to the surrounding environment depending on the physicochemical properties of both the polymer and the compound [17].
+Elastomers, many of which are commonly known as rubbers, are a particular class of polymers known for their high elasticity. They can further be classified as (i) thermoplastic elastomers (e.g., styrene-butadiene block copolymers, commonly used in rubber bands, toys and shoe soles), (ii) diene elastomers (e.g., polyisoprene and polybutadiene, commonly used in tires and shoe soles, and nitrile-butadiene-rubber, commonly used for chemical resistant gloves), and (iii) non-diene elastomers (e.g., silicone rubber, polyurethane, and butyl rubber) elastomers [34]. Natural rubber (polyisoprene) is obtained from rubber-producing plants. Irrespective of the increasing production of synthetic alternatives, natural rubber production continues to increase steadily, with almost 13 million tons produced in 2020 [36]. Both natural and synthetic rubbers are subject to chemical modification through vulcanization, where vulcanization agents and chemical stabilizers are added to improve the resistance and elasticity of the final rubber product. In addition to other chemical additives, elastomers also contain chemicals deriving from the vulcanization process. Rubber products may also contain components as fillers (carbon black, clay, silica, calcium carbonate), stabilizers (antioxidants, antiozonants, waxes), cross-linking agents (sulfur, accelerators, activators), and secondary components such as pigments, oils, resins, and short fibers [40].
+Plastic associated chemicals represent a hazard to aquatic organisms through leaching, but potentially also to organisms that ingest or otherwise come into direct contact with plastic [22]. Furthermore, they represent a technological challenge to be overcome for plastic waste handling and recycling [23], where methodological pipelines to accurately address the presence of such chemicals in plastic waste streams are needed. Toxicity assessment of most plastic materials and microplastics (MP) is typically conducted using simple reference materials that do not accurately reflect the complex plastic materials and particles derived from plastic products that are normally found in the environment [57]. Importantly, a recent review highlights the alarmingly low number of studies that factor in associated chemicals when addressing plastic environmental hazards [9]. Furthermore, certain polymers appear to be over-represented in associated chemical toxicity studies, leaving crucial knowledge gaps regarding the chemical toxicity of less common polymers, including rubbers and elastomers. Most studies of associated chemical risks have (i) looked at one or very few polymer types, (ii) identified and quantified only few, pre-selected, chemicals, and/or (iii) not separated the leached chemicals from particles. Such approaches have limitations when it comes to adequately assessing the contribution of the highly complex cocktail of plastic associated chemicals within plastic hazard and risk assessment.
+To characterize the chemical content of plastics, chemical extraction followed by GC-MS or LC-MS [2], or direct analysis by thermal desorption pyrolysis-GC-MS [1] are the most frequently applied approaches. While it can be argued that complete dissolution of the plastics is necessary to fully characterize the chemical content of the polymers, there does not exist a single solvent or solvent mixture that can dissolve all polymers and elastomers fully [2], [42]. Furthermore, to mimic leaching of chemicals to aquatic matrices, there is a point of using a solvent that does not dissolve the polymers, and methanol has been proven a good choice for this purpose [55].
+In the current study, 50 plastic (polymer and elastomer) products from both domestic and industrial applications, representing a range of different polymer and elastomer types were selected. Their associated organic chemicals were isolated by chemical leaching, and subject to analytical chemical characterization, as well as non-target screening and acute toxicity tests using marine luminescent bacteria and microalgae.
+2. Materials and methods
+2.1. Chemicals and materials
+Analytical grade dichloromethane (DCM), methanol (MeOH), n-hexane, dimethyl sulfoxide (DMSO), hydrochloric acid (HCl, 37 %), sodium sulfate (Na2SO4) and 3,5-dichlorophenol (3,5-DCP) were purchased from Merck and Sigma-Aldrich. Reference chemicals and deuterated standards were supplied by Chiron AS (Trondheim, Norway) or Sigma-Aldrich.
+2.2. Procurement and preparation of plastic materials
+A total of 50 polymer consumer products were sourced from a range of common commercial suppliers and shops. The products were selected to ensure a broad range of thermoplastic and elastomers, as well as high and low levels of plastic chemicals were represented in the study. It is important to note that the polymer type could not be verified for all materials at the time of purchased, nor could the level of associated chemicals. Prior to use, the bulk test materials were cut into small pieces (< 1 cm in all dimensions) that were then rinsed with ultrapure water (MilliQ) and dried over night at 40 °C. For chemical extract preparation, a protocol was adapted from [55]. Briefly, ∼ 3 g of cut material were extracted with 20–30 mL MeOH in an ultrasonication bath (Bandelin Sonorex Super 109 RK 510H, 138 640 W, 35 kHz) for 60 min at room temperature. The supernatant was then removed and filtered if particles were observed in the resulting extract (Whatman GF/C filters, nominal pore size 1.2 µm) to remove small particles. Afterwards a sub-sample (500 µL) was removed for chemical analysis, evaporated to 100 µL, added 100 µL internal standard (100 ng fluorene-d10 and 100 ng acenaphthene-d10, in DCM) and diluted by DCM-n-hexane (1:1) to 500 µL.
+To remove MeOH prior to exposure, DMSO (200 µL) was added to the remaining extract and the MeOH fully removed by gentle solvent evaporation (37 °C) under a flow of N2 until stable volume was achieved. A complete overview of the sample masses extracted, the solvent volumes, and which samples were filtered, is presented in SI, Table S1. Several extraction blank samples (with and without filtration), as well as DMSO blank samples were prepared.
+2.3. Polymer identification by pyrolysis GC-MS
+Approximately 0.25 mg of each test material was weighed in stainless steel pyrolysis crucibles and covered with a layer of glass wool to prevent loss. Analysis was conducted using a Frontier Multi-Shot Pyrolyzer (PY-3030D) coupled to an Agilent 7890A gas chromatograph (GC) with an Agilent 5975 C mass spectrometer (MS). The pyrolyzer was operated in double-shot mode, with initial thermal desorption of the sample at 100–300 °C (initial time 0.10 min, 30 °C min-1 rate, hold 3 min at 300 °C), followed by pyrolysis at 600 °C (0.2 min). The interface and inlet temperatures were 320 °C, and split ratio 100:1. The carrier gas was helium at a constant flow of 1 mL min-1. Separation was achieved using a Frontier Ultra ALLOY+-5 capillary column (30 m length, 0.25 µm film thickness and 0.25 mm internal diameter). The GC oven temperature was programmed at 40 °C (2 min) and then ramped by 20 °C min-1 until a maximum temperature of 320 °C (25 min hold). The transfer line temperature was 320 °C, the ion source temperature 230 °C and the quadrupole temperature 150 °C. The ion source was operated in full scan mode (50–650 mz) at 70 eV. To further investigate the rubber samples to distinguish between natural and synthetic rubber, an approximated evolved gas analysis (EGA) was performed. Here, the GC was held isothermally at 320 °C while the pyrolyzer chamber temperature was increased from 40 °C (held for 2 min) to 650 °C at 20 °C min-1 (total run time 33 min).
+2.4. Non-target screening for additives using low-resolution GC-MS
+Non-target screening of the MeOH extracts was performed using an Agilent 7890A GC coupled to an Agilent 5975 C MS. Samples (1 µL) were introduced at 250 °C in pulsed splitless mode. Separation was achieved using a Zebron ZB-1MS column (30 m length, 0.25 µm film thickness and 0.25 mm internal diameter). The carrier gas was helium at a constant flow of 1.1 mL min-1. The column oven temperature was programmed at 90 °C (1 min), ramped by 5 °C min-1 until 320 °C (10 min hold). The transfer line temperature was 300 °C, the ion source temperature 230 °C and the quadrupole temperature 150 °C. The ion source was operated in full scan mode (50–500 mz) at 70 eV, with a solvent delay of 5 min. A standard of n-alkanes and composite standards containing a range of compounds with different physicochemical profiles were also run on the same program for the purpose of calculating and estimating the retention indices (RI) of tentatively identified compounds in the polymer extracts (Table S2 in SI).
+Chromatograms and mass spectra were recorded in ChemStation software and MassHunter Unknowns Analysis software was applied to the raw data files for deconvolution and tentative identification of analytes using a query towards the NIST17 mass spectral library, returning the best matches with a similarity of > 75 %. Output files were then exported to.csv format for further processing using R [58]. Post-processing was performed on the complete data set, with duplicate matches binned within 0.2 min retention time intervals. RIs were calculated for all tentatively identified compounds [47] and used to exclude unlikely matches using RI prediction (described in SI), leaving only tentative identified compounds with less than 25 % deviation from predicted RIs and finally removing those with a < 85 % match to NIST.
+2.5. Toxicity screening – marine Bacteria Luminescence Toxicity
+As a baseline toxicity test, the Bacterial Luminescence Toxicity (BLT) assay was performed on methanol extracts dissolved in DMSO from the 50 plastic products. The BLT protocol was based on van de Merwe and Leusch [46] with minor adjustments. Samples were added in duplicates to 100 µL experimental media (100 mM KH2PO, 450 mM NaCl, 50 mM MgSO4, 10 mM KCl) in a 96-well plate (uncoated, white Greiner Bio-One) starting with a 200-fold dilution of the extracts (0.5 % v/v solvent concentration) followed by six serial dilutions (1:2 in experimental media). The resulting sample concentrations corresponded to a mass of 1.17–75 mg plastic mL-1 in the BLT assay. A duplicate negative control without sample or solvent and a positive control (either 54 or 69 mg/L 3,5-dichlorophenol as highest concentration, eight 1:2 dilutions) were also included on each plate (Merwe and Leusch,2015). In addition, solvent blanks (20 mL methanol used for the extraction evaporated to 200 µL DMSO) and procedural blanks (vials without any sample that were treated identically to the samples) were also analyzed.
+Cryopreserved aliquots of Photobacterium leiognathi (ATCC 33469) were thawed on ice and diluted 1:30 in sterile growth media (5 g/L bacto-peptone, 3 g/L yeast extract, 450 mM NaCl, 50 mM MgSO4, 30 mM MgCl2, 10 mM CaCl2, 10 mM KCl). After allowing the solution to approach room temperature for approximately 10 min, 50 µL of the bacterial suspension was added to each well. The well plate was then covered with aluminum foil and allowed to incubate at room temperature for 30 min. After incubation, the luminescence was recorded with a BioTek CYTATION 5 Cell Imaging Multimode Reader (Agilent). The luminescence of each well was normalized to 0 % luminescence inhibition (mean of the negative controls on each plate) and 100 % luminescence inhibition (background luminescence in wells containing only media). Dose-response relationships were generated using a four-parameter logistic regression model in GraphPad Prism (version 8, GraphPad), with the upper and lower plateau constrained to 0 % and 100 % inhibition, respectively. The mean luminescence inhibition value of the two technical replicates was used to calculate the effective concentration causing 20% luminescence inhibition (EC20). The EC20 values are presented as mean and standard deviation from at least independent experiments per sample. When an EC20 could not be derived from the tested concentrations, an EC20 of > 75 mg plastic mL-1 was used to visualize the data. In cases where the effects were too high at the sample concentrations tested, we reported the EC20 as < 1.17 mg mL-1 (lowest concentration analyzed).
+2.6. Toxicity screening - marine microalgae growth inhibition Skeletonema pseudocostatum
+Experiments were performed using the unicellular marine microalgae Skeletonema pseudocostatum (NIVA-BAC 1, Norwegian Institute for Water Research, Oslo, Norway), kept in 50 mL glass flasks with ISO 10253 medium [20]. Cultures in exponential growth phase, with an initial number of 10 × 103 cells mL-1, were incubated for 3–4 d in an incubator (Innova 3, 44 R, incubator shaker series, New Brunswick Scientific, Eppendorf AG, Germany) at 20 ± 2 °C, with orbital shaking at 90 rpm, under continuous light (day light-type fluorescence tubes, 61–62 µmol s-1 m-2).
+Growth inhibition tests were performed according to ISO 10253 [20], adapted to a 96-well format for fast screening. Negative, solvent (DMSO) and blank controls were used in each assay. Samples, solvent controls, and procedural blanks were diluted 100-fold to a maximum final DMSO concentration of 1 %. The same concentration of DMSO (1 % v/v) was added to the controls, as preliminary tests were performed confirming no effect in algal growth (data not shown). Extracts were analyzed in serial dilutions of 1:2, with the highest concentration tested corresponding to the 100-fold dilution of the initial extract (7–153 mg plastic mL-1). In the cases where toxicity was below the initial concentration range, extracts were further diluted (See Table S4, SI, for reference). A reference test using 3,5-dichlorophenol was performed in parallel to ensure optimal algal growth in the 96-well plate format (data not shown).
+Exposures were made at similar conditions as those described for the microalgal cultures, 20 ± 2 °C, with orbital shaking at 90 rpm, under continuous light in an incubator. Exponentially growing microalgae at an initial number of 10 × 103 cells mL-1, were exposed for 72 h and cell density was measured at the beginning and end of exposure by fluorescence using a Cytofluor 2300 (Millipore; Billerica, MA, USA) with excitation/emission at 530/685 nm. Growth inhibition was then calculated as % according to control (DMSO solvent controls). Two independent experiments were performed for each extract with 4 replicates per concentration.
+A non-linear regression using a sigmoidal dose-response curve was applied for each sample using GraphPad Prism 9 software (Version 9.4.4, GraphPad Software Inc., La Jolla, CA, USA). A lower and upper plateau constrained to 0 % and 100 % growth inhibition was used, after which an EC20 was derived (mass of plastic causing 20 % growth inhibition). Data is presented as effect concentration of the two independent experiments (mean EC20 ± standard deviation). Whenever an EC20 could not be calculated, the highest concentration tested was used to represent the EC20 and aid graphical representation.
+2.7. Data analysis and statistical treatment
+We correlated the log-transformed toxicity data with the results of the chemical analysis (log-transformed number of features or total ion count area) and computed Pearson correlation coefficients and two-tailed p values.
+3. Results and discussion
+3.1. Polymer composition and chemical complexity of methanol extracts
+Based on pyrolysis GC-MS analysis, samples were classified according to polymer or elastomer (rubber) composition (Table 1). Of the 50 consumer products included in the study, 14 were classified as elastomers, 11 as polyethylene (PE), 7 as polypropylene (PP), 6 as polystyrene (PS) and 5 as PET. The remaining 7 products included nylon (polyamide, PA), polyurethane, polyvinyl acetate, styrene vinyl, ethylene-vinyl styrene copolymer, ethylene-vinyl acetate copolymer and one sample (#47 mobile phone case) that could not be classified.
+
+Table 1. Overview of the 50 polymer-based consumer products included in the study, summarizing the product type, polymer type, number of chromatographic chemical features and the number of probable identified compounds.
+
+ID	Material identifier	Polymer	Area of total ion chromatograma	Features	Number of probable identified compounds
+1	Sponge	PE	1.33	543	7
+2	A4 sheet folder	PE	0.85	198	2
+3	Plastic Christmas tree	PE	0.37	327	1
+4	Seat Cushion	PE	0.11	85	1
+5	Beach toy (shovel)	PE	0.06	68	
+6	Freezer bags	PE	0.22	119	
+7	Wrapping material	PE	6.7	617	9
+8	Refuse bag	PE	1.3	568	14
+9	General tarpaulin	PE	0.86	588	12
+10	Pipe insulation	PE	2.9	346	3
+11	Plastic bag	PE	0.39	213	4
+12	Foam packaging material	PP	2.9	357	3
+13	Plastic cups (multi-use)	PP	0.05	104	1
+14	Plastic cups (disposable)	PP	0.05	78	
+15	Shopping bag	PP	0.48	307	
+16	Weed control fabric	PP	0.11	199	2
+17	Disposable straws	PP	0.07	65	
+18	Reusable shopping bag	PP	0.59	415	7
+19	Agricultural plastic net	PS	2.9	360	
+20	Plant pots	PS	0.35	208	3
+21	Styrofoam packaging material	PS	0.00	75	
+22	Disposable utensils	PS	0.30	251	1
+23	Cleaning sponges	PS	0.90	510	5
+24	Pen housing	PS	0.10	138	
+25	Fleece blankets	PET	0.14	96	1
+26	Microfiber wash cloth	PET	0.90	213	2
+27	Shower curtain	PET	0.05	88	
+28	Curtains	PET	0.06	83	
+29	Disposable water bottle	PET	0.01	39	
+30	Insulation for construction	SBR elastomer	0.19	114	
+31	Agricultural plastic wrap	SBR elastomer	3.2	1386	1
+32	Flame-retardant workwear	SBR elastomer	3.5	1148	17
+33	Balloons	Natural rubber elastomer	15	1289	28
+34	Anti-slip mat	Elastomer	185	1753	13
+35	Dishwashing gloves	Natural rubber elastomer	12	882	18
+36	Soccer ball	SBR elastomer	86	989	17
+37	Inflatable beach toy	SBR elastomer	69	911	17
+38	Garden hose	SBR elastomer	30	790	17
+39	Sole of shoes	SBR + PVC + natural rubber elastomer	26	1458	23
+40	Toy rubber duck	SBR elastomer	27	708	8
+41	Disposable plastic gloves	Nitrile rubber elastomer	9.2	1211	21
+42	Car tire rubber	SBR + natural rubber elastomer	15	2457	22
+43	Vinyl flooring	Ethylene-vinyl styrene copolymer	91	1155	18
+44	Vinyl flooring	Ethylene-vinyl acetate copolymer	132	1263	21
+45	Vinyl flooring	Styrene vinyl	116	1351	27
+46	Bath sponge	Unsaturated polyester	0.90	597	4
+47	Phone case	Not identified	3.9	431	7
+48	Fishing line	PA	1.5	145	3
+49	Foam mattress	Polyether	3.1	581	6
+50	Cigarette butts	Polyvinyl acetate	5.1	595	4
+a
+Relative to internal standard and blank subtracts.
+Both the total abundance of GC-amenable organic chemicals and the number of individually resolved chromatographic peaks differed greatly among the MeOH extracts from the products. The total ion chromatogram (TIC) area, normalized to the response of internal standards and blank subtracted, ranged from < 0.01 to 185 (#34 anti-slip mat), with a median of 1.3. Using automated algorithms, a broad range of chemicals were tentatively identified in the different extracts and the chemical profiles were found to vary significantly between the products. The most complex sample (#42 car tire rubber) contained 2456 chemical features, while the least complex (#29 disposable water bottle) contained only 39 features. The median number of features across the entire sample set was 386. The number of chemical features and tentatively identified compounds in the extraction blank samples ranged between 24 and 86 and 1–4, respectively. There was a strong correlation between the number of chemical features and TIC area (r = 0.9, p < 0.0001).
+There were observable differences in chemical complexity between the polymer types, with a low number of chemical features typically present in PET products and a relatively high number of chemical features present in elastomer and vinyl polymer products. PS, PE, and PP extracts varied in chemical complexity between products. These findings are in line with those presented by Capolupo et al. [6], although that study was limited to one material per polymer type (PET, PP, PS, PVC and CTR) and by Zimmermann et al. [54], [55]. Similar to the previous studies, we observed a high variability in chemical complexity between the individual products. For example, the number of chemical features ranged from 114 to 2456 in elastomer extracts (14 different products). This shows that the complexity of chemical composition is not solely based on the polymer type.
+3.2. The impact of chemical complexity on toxicity
+The analytical chemical assessment serves to highlight the complexity in understanding and assessing the presence and impacts of plastic chemicals. To date, very few studies have reported the total number of detected chemical features from analytical screening of plastic samples. Importantly, differences in detection method and data handling algorithms can make the comparison between studies difficult. Zimmerman and colleagues found a range of 0–194 features when they investigated 34 plastic products using GC-qToF-MS, with 15 of these products containing > 40 features [55]; this is comparable to the results obtained in the current study. In a more recent study by the same group, however, approximately 41,000 features were detected across 42 plastic samples using UPLC-qToF-MS/MS [54]. This discrepancy in the number of chemical features is likely the result of a combination of factors, including the sensitivity of the instruments towards most plastic chemicals, as well as other factors, such as the data analysis technique. When it comes to assignment of identity, the number and types of chemicals present in libraries used for GC-MS and LC-MS also become important.
+However, the complexity of plastic chemical profiles demonstrated above indicates that assessing the toxicity of plastic chemicals present in a product based on testing individual target chemicals has limited value. Furthermore, any attempt to assess the hazard of products based on chemical analysis alone remains far too challenging to be recommendable. In the current study, we therefore used two high-throughput toxicity assays using marine species to quantify the toxicity of all organic chemicals extracted from a product in order to classify them. Furthermore, we used the toxicity results in combination with the data from chemical screening and tentative identifications of chemicals present in extracts to explain patterns and deviations.
+3.3. Bacteria luminescence inhibition
+Toxicity data determined using the BLT screen correlate well with toxicity to other aquatic organisms [46]. This makes the BLT screen an initial screening tool of baseline toxicity that can guide the material selection for plastic toxicity studies. The solvent blanks and procedural blanks did not induce baseline toxicity. The solvents were therefore not contributing to observed toxicity of the samples, and there was no sign of contamination during extraction and analysis.
+Results from the BLT screen showed that most methanol extracts from the plastic products induced significant toxicity, indicated by a luminescence inhibition of > 20 %. In total, dose-response relationships and corresponding EC20 values for 46 out of 50 plastic extracts were derived (Fig. 1A; Table S3). One PE, PS, PP, and PET sample did not inhibit the bacterial bioluminescence by more than 20 % in the tested concentrations, whereas all other samples did. With an EC20 below 10 g/L, 22 samples were toxic. These included 11 out of the 13 elastomer samples, with the extracts from #41 nitrile gloves, #42 care tire rubber and #39 shoe soles inhibiting bioluminescence the most. Other polymer types that contained chemicals inducing a strong toxicity were PE (e.g., #11 shopping bags, #1 sponge), PS (e.g., #21 packaging), and vinyl co-polymers (e.g., #43-#45 vinyl flooring, #50 cigarette butts). On the other end of the spectrum, the extracts of certain PE, PP and PS products were less toxic.
+Download: Download high-res image (328KB)
+Download: Download full-size image
+
+Fig. 1. Toxicity of plastic extracts on marine bacteria and microalgae. A: Bacteria luminescence inhibition of plastic extracts in the BLT screen. B: Skeletonema pseudocostatum algal growth inhibition of plastic extracts after 72 h exposure. Data is presented as the mean EC20 (lines) from independent experiments (dots) with technical replicates. Dotted lines represent the lowest and highest concentrations tested.
+
+These results indicate that baseline toxicants are prevalent in everyday plastic products, especially in elastomers. This is in accordance with previous work that reported that most products made of commodity polymers [55], bioplastics [54] and some UV-degraded plastics [21] contain chemicals inhibiting bioluminescence in the marine bacterium Aliivibrio fischeri. However, and to the best of our knowledge, extracts of elastomers have not been investigated for bioluminescence so far. Given the broad application and environmental release of these materials, their extract and leachate toxicity deserve more attention.
+3.4. Microalgae growth inhibition
+In the case of the microalgal growth inhibition test, the majority of extracts induced significant toxicity relative to controls and blanks (low EC20 values; Fig. 1; Table S4). In contrast, no toxicity was detected for the solvent blanks and procedural blanks. Even though extract toxicity varied between the different polymers, in general PE, PP, PET and PS extracts caused no or low toxicity, while elastomers caused the highest toxicity in S. pseudocostatum. Three extracts (#5 beach toy, #14 plastic cups and #29 disposable water bottle) had EC20 values above the highest analyzed concentration (151, 150 and 152 g of plastic L-1, respectively), while 5 induced low effects (#13 plastic cups < #16 weed control fabric < #17 disposable straws < #20 plant pots < #24 ink pen housing). Of the remaining 42 extracts, 11 had an EC20 < 1 g of plastic L-1, with extracts from vinyl flooring (#45, EC20 = 0.076 ± 0.002 g of plastic L-1), disposable gloves (#41, EC20 = 0.065 ± 0.000 g of plastic L-1) and dishwashing gloves (#35, EC20 = 0.002 ± 0.000 g of plastic L-1) being the most toxic to S. pseudocostatum. These findings are in line with those found by Capolupo et al. [6], in which higher leachate toxicity in marine and freshwater microalgae seems to be directly correlated with higher additive chemical content, as generally seen for elastomers in this case. In contrast, Qiu et al. [38] assessed the toxicity of 15 different PP, PE and PA leachates generated in seawater and fish digests, finding that the fish digests typically contained fewer chemicals but were more toxic than the SW leachates. The results from these studies and the current study suggest that the toxicity of a specific leachate can be influenced by multiple factors, including the specifical chemicals present in the plastic material/product, the leachate media and associated conditions (e.g., pH, temperature, salinity), as well as the choice of text organism and toxicological endpoints.
+3.5. Relationship between chemical composition and toxicity
+Seven of the product extracts were found to be among the ten least toxic extracts in both the BLT and microalgae assays. These included one PE item: #5 beach toy, one PET item: #29 disposable water bottle, two PP items: #17 disposable straws and #14 plastic cups, and three PS items: #22 disposable utensils, #24 ink pen housing and #20 plant pots. Most of these items are expected to be subject to either food contact material (FCM) or toy regulations with regards to hazardous chemical content. Four of these extracts were among the ones with lowest number of chemical features in the extracts (disposable #29 water bottle, #17 disposable straws, #14 plastic cups, and #5 beach toy). Apart from one product (#31 agricultural plastic wrap) in the BLT screen, none of the ten least toxic extracts in either of the assays had a corresponding number of chemical features above the median.
+Five products were common across the ten most toxic extracts for both assays. These were two of the vinyl (flooring) products (#43 and #44), and three elastomer-based products: #34 anti-slip mat, #41 disposable plastic gloves and #42 car tire rubber. All of these products also had a total number of chemical features in the top ten products. Of the ten most toxic consumer product extracts for each assay, all but one in each assay (#47 phone case in the microalgae assay and #11 plastic bag in the BLT assay) had a number of chemical features below the median number.
+For the samples where EC20 values were within the tested concentration range, we found a correlation between responses in the BLT and microalgae assay (Fig. 2, p < 0.0001, Pearson r = 0.74). Notably, the microalgae growth inhibition was affected at lower concentrations than the luminescence in the BLT screen in case of multiple samples, particularly for samples with an EC20 < 1 g/L in the microalgae assay. This suggests that the alga used in this study are more sensitive to exposure to the chemicals present in these products than the bacterium. Even though the chemical additive composition of extracts most likely explains the different sensitivity of these organisms, the available literature seems to suggest that the impact of leachates in unicellular organisms is phylum dependent [9]. It is important to note that the two exposures used different media and this may also influence the bioavailability of chemicals from the same leachates.
+Download: Download high-res image (112KB)
+Download: Download full-size image
+
+Fig. 2. Correlation between the mean EC20 in the bacteria luminescence toxicity and microalgae assays. Samples that in either assay had an EC20 outside the tested concentration ranges have been removed.
+
+We also observed significant correlations between the EC20 values determined in both assays and both the number of features detected in each extract (Fig. 3, BLT: p = 0.001, Pearson r = − 0.50; algae: p < 0.0001, Pearson r = − 0.73), as well as the total peak area (Fig. 3, BLT: p < 0.0001, Pearson r = − 0.59; algae: p < 0.0001, Pearson r = − 0.73). This implies that the number of detectable chemicals, as well as their total peak area is somewhat predictive of the baseline toxicity and algae toxicity. From a toxicological perspective, this is plausible given that we investigated non-specific endpoints that are the result of mixture effects caused by multiple chemicals present in the extracts.
+Download: Download high-res image (261KB)
+Download: Download full-size image
+
+Fig. 3. Correlation between the mean EC20 in the bacterial luminescence toxicity (Panels A and B) and microalgae (Panels C and D) assays and the number of features (Panels A and C) or total area of all peaks (Total Ion Count, TIC, panels B and D). Samples that in either assay had an EC20 outside the tested concentration ranges have been removed.
+
+However, it is important to note that compounds present in the product leachates with low (or no) detection by GC could contribute to the observed toxicity. The use of only GC-based characterization in the current study misses compounds that are more amenable to analysis by other techniques. Previous studies have demonstrated a large variation in the number and type of detected features using GC and LC techniques [54], [55]. It is also important to note that the chemical 'cocktails' extracted for use in the experiments are limited to those that dissolve in MeOH. However, it was selected for use as it achieves a slightly more extensive and faster extraction of chemicals from plastic materials than water. The current study also does not account for the presence of metals, neither as contributors to toxicity (as they are not expected to partition to MeOH [24]), nor as part of the chemical characterization of the tested materials. Certain products, e.g., #42 car tire rubber, are known to have high contents of potentially toxic metals that can leach and cause harm to aquatic organisms [16]. While all samples were thoroughly rinsed with ultrapure water prior to extraction to remove any loose particles, the use of sonication to facilitate the MeOH extraction process could lead to the formation and release of a small amounts of micro- and nanoplastics [37], [48]. Filtration was applied where there was visible evidence of particles or turbidity in the extracts, but any nanoplastic particles produced could be present in the extracts used in the toxicity tests. It is therefore possible that these are contributing to any observed toxicity, although this is considered negligible relative to the chemical content.
+3.6. Relationship between intended product use and chemical complexity and toxicity
+Irrespective of polymer type, consumer products designed for use as FCMs (#6 PE freezer bags, #17 PP disposable straws, #14 single use plastic cups, #13 multi-use plastic cups and #29 PET disposable water bottle) proved to be among those with the fewest chemical features and displayed lower toxicities. In contrast, the five toys (subject to regulation of content of identified compounds by the Toy Safety Directive 2009/48/EC) did not generally fare so well in the current study. With the exception of the low toxicity PE beach toy (#5 plastic shovel), the four other elastomer-based toys (#33 balloons, #36 soccer ball, #37 inflatable beach toy and #40 rubber duck) all had toxicities above the median values of both assays. It is important to note that the Toy Safety Directive specifies content levels for target known toxicants, and it was not part of the scope of the current study to quantify these. Other studies have highlighted that target compounds may be above regulated levels, even in new toys [7]. Finally, some consumer products in the current study that can be classified as skin contact materials (in addition to those defined as toys) were also among the most toxic extracts (e.g., #41 disposable gloves). The results suggest that products subject to strict legislation from a human health perspective, may represent a risk from an ecotoxicological perspective.
+3.7. Relationship between polymer type and toxicity
+Several studies have hypothesized, but only partly demonstrated, a correlation between polymer type and leached additive chemical toxicity [11], [27], [55]. However, none of these studies have included elastomer products in their assessments. In the studies by Capolupo et al. [5], [6], car tire rubber granulates were shown to be generally more toxic than thermoplastics to freshwater algae, marine algae and marine mussels. However, it is important to note those studies were limited to one sample per polymer. When comparing to the median toxicity in the current study, 13 (BLT) and 12 (microalgae) of 14 total elastomer extracts were found to be more toxic than the median of all 50 samples. In contrast, only 4 out of 11 PE extracts in each assay were more toxic than the median. Similarly, 2 out of 6 PS extracts and 1 out of 5 PET extracts had toxicities that were higher than the median for each polymer type. Out of 7 PP extracts, only 1 in the microalgae assay performed worse than median toxicity. In total, 86–93 % of 14 elastomer extracts were more toxic than median, while 33–36 % of other polymer extracts (n = 36 total) were more toxic than median. While it is evident that the elastomer extracts are generally more toxic than the other polymer extracts, no systematic difference in toxicity could be observed between different types of elastomers. Natural rubber products (e.g., balloons, dishwashing gloves) were also among the most toxic extracts.
+3.8. Probable identified compounds and their associated hazards
+Following library matching and binning of compounds with the same identity at the same retention time, a final total of 1257 unique combinations of proposed chemical structure (>75 match to NIST) and retention index (RI) were identified in extracts, with the maxima, minima, and median number of chemical features per product being 114, 2 and 26, respectively. An average of 6.2 % of chemical features could be tentatively identified with a match to NIST17 of ≥ 75 % (no duplicates binned), while 2.1 % could be tentatively identified with a match of ≥ 85% after binning of duplicate hits at similar retention times (iteration process, moving in windows of 0.2 min). However, there were only 892 unique chemicals (identified by CAS numbers) within this set, meaning that several chromatographic peaks at different retention times received the same structural assignment, which is clearly incorrect. Some of the misassigned compounds are likely to be structural isomers of the assigned compound, whereas other proposed structures appear to be implausible. Misassignments always represent a challenge when conducting non-target screening and, especially in the case of large and complex datasets such as the current study, they are hard to address adequately.
+The prediction of RIs based on readily available compound properties is a possible route to eliminate some misassignments [41]. Of the 892 unique CAS numbers and compound names, 661 (74 %) were found by an automatic query of PubChem and their properties and SMILES structures collected. Collected SMILES structures were used to query EPI Suite [45], returning properties for 650 compounds (73 %). The combined data for the 650 compounds were then used to predict their GC retention indices and to filter out compounds with a deviation > 25 %. This approach left 237 (26 %) tentatively identified compounds (Table S5, SI). Of those compounds, 73 (30 %) were identified in two or more samples, and only nine (< 4 %) compounds were identified in five or more samples. This means that most compounds (∼ 70 %) with tentative identities were unique to only one sample. This further supports the assessment of complexity of the chemical composition of plastic and rubber products available on the market.
+The number of probable compounds identified per sample ranged between 0 (12 samples) and 28 (#33 balloons). Only one of the compounds (bis(2-ethylhexyl) benzene-1,4-dicarboxylate; CAS 6422-86-2; experimental RI 2719) was also identified in laboratory blank samples. Identified compounds included common chemicals known to have low toxicities (including e.g., fatty acids), as well as a variety of known substances of concern. The compound identified in the highest number of samples (n = 7) is an example of the former. (Z)-13-Docosenamide (CAS 112-84-5, experimental RI 2729, average match% 90), a known polymer additive, was identified in two PP (#12 foam packaging material, #13 plastic cups) and five PE (#2 sheet folder, #4 seat cushion, #6 freezer bags, #8 refuse bag, #10 pipe insulation, #11 plastic bag) extracts. This compound is not predicted to be toxic and has no hazard classifications associated with it. The extracts in which this chemical was detected were among the least toxic, with the exception of plastic bag (#11) in the BLT assay. This suggests that other chemicals present in the extract of this product are driving the observed toxicity. Bis(2-ethylhexyl)-1,4-benzenedicarboxylic acid and hexadecanoic acid were both found in six extracts, while methyl hexadecanoate, 2,2,4-trimethyl-3-(2-methylpropanoyloxy)pentyl] 2-methylpropanoate and dodecanoic acid were each found in five extracts. Further details of these five chemicals and the extracts in which they were found is presented in the SI.
+Due to their potential hazards, some compounds of interest were identified in the extracts of several polymer types, with two notable examples: Dibutyl phthalate (CAS 84-74-2, experimental RI 1914, average match% 93), a common plasticizer, was identified in six extracts: #45 vinyl flooring, #32 flame retardant workwear (elastomer), #34 anti-slip mat (elastomer), #8 refuse bag (PE), #47 phone case (unidentified polymer type), and #38 garden hose (elastomer). This compound causes immunotoxicity in zebrafish and damages the cells of several algae species [13], [51]. Triphenyl phosphate (CAS 115-86-6, experimental RI 2324, average match% 96), a common plasticizer and flame retardant, was identified in five extracts: #32 flame retardant workwear (elastomer), #3 synthetic Christmas tree (PE), #47 phone case (unidentified polymer type), #37 inflatable beach toy (elastomer) and #38 garden hose (elastomer). This compound is acutely toxic to phytoplankton and zooplankton [26], [49], and has been observed to cause reproductive toxicity in marine fish [25].
+3.9. The case of the elastomers
+The toxicity of rubber materials is not a novel topic, with a focus given to assessing the toxicity associated with compounds used for rubber production and rubber-additive chemicals occurring in the 1950s [32], [33]. Furthermore, natural rubber latex is a well-known skin sensitizer [19] and has proven to be generally more cytotoxic than alternative synthetic materials [30]. Leachates from rubber materials (aquaculture bands and car tires) have been shown to induce embryotoxicity, spermiotoxicity and decreased oyster reproductive output in the Pacific oyster Crassostrea gigas [43]. Comprising a mixture of natural rubber and SBR, car tire rubber emissions to the environment can originate from tire wear during use or from crumb rubber produced from end-of-life car tires and re-purposed for alternative uses, for example on artificial sports fields. Car tire rubber has received much attention over the last decades in terms of its toxicity and chemical content [16], [29], [6], [8]. For this material, several candidate chemicals are already known to contribute to the observed toxicity, but new associated chemicals continue to be identified as sources of toxicity. For example, the toxicity of the rubber antioxidant N-(1,3-dimethylbutyl)-N'-phenyl-p-phenylenediamine (6PPD) and of its quinone transformation product (6PPD-quinone) has received particular attention since the publication by Tian et al. [44]. 6PPD represents just one of many chemicals within the class phenylenediamines that are used as antidegradants in SBR and other rubber materials. A lot of effort has been focused on the environmental presence and toxicity of 6PPD-quinone, as well as similar quinone compounds [18], [3], [4]. The rubber accelerator 2-mercaptobenzothiazole, previously shown to be present in car tire rubber [16], is also a well-known toxicant [14].
+In the current study, consumer products comprised of elastomers and vinyl were those with the highest number of identified compounds. Equally, several of the compounds identified in the highest number of extracts, were mainly found in elastomers. 2,4,7,9-Tetramethyl-5-decyn-4,7-diol (CAS 126-86-3, experimental RI 1398, average match% 95) was identified in six extracts; including four elastomers (#33 balloons, #35 dishwashing gloves, #36 soccer ball and #41 disposable plastic gloves), all of which were among the more toxic extracts. The predicted toxicity of the compound is relatively low (ca. 6 mg/L EC50 to green algae according to EPI Suite [45], but is classified by the European Chemicals Agency (ECHA) as harmful to aquatic life and harmful to aquatic life with long lasting effects. 2-Ethylhexyl benzoate (CAS 5444-75-7, experimental RI 1683, average match% 95) was identified in three elastomer samples (#34 anti-slip mat, #36 soccer ball, and #37 inflatable beach toy). This compound is registered as a health hazard by ECHA, but no data on environmental properties are available. 2,6-Di-tert-butyl-4-methylphenol (CAS 128-37-0, experimental RI 1492, average match% 95) was identified in two elastomer samples (#33 balloons and #35 dishwashing gloves), as well as in two other samples exhibiting high toxicity. This compound is an antioxidant [52], and is not currently classified as a hazardous chemical by ECHA. 2,5,7,8-Tetramethyl-2-(4,8,12-trimethyltridecyl)-3,4-dihydrochromen-6-ol (CAS 10191-41-0, a natural product) was identified in #33 balloons (match 91 %). This was one of two compounds in the overall data set that were estimated as recalcitrant [45]. However, due to its low water solubility and toxicity threshold close to solubility limits, limited impact on aquatic organisms is expected.
+In addition to the compounds found by the automated algorithm described above, several elastomer extract chromatograms were dominated by an abundant, non-Gaussian elution pattern of phthalates, either present as a single, non-sharp peak at RI 2764 (#29 anti-slip mat, #36 soccer ball, #37 inflatable beach toy and #40 rubber duck) or as a characteristic 'cluster' (eluting between RIs 2600 and 2997) similar to those normally found in PVC-samples (#43 and #44 vinyl flooring samples and #38 garden hose). It is therefore likely that these materials have some degree of PVC content, although the bulk polymer was classified differently. Phthalates are a compound class of known concern, both in terms of human health and aquatic toxicity [53], [7]. The strong presence of these chemicals, particularly in elastomer-based consumer products, could contribute to the hazard associated with exposure to these materials, as well as their associated leachates. In the current study, elastomer consumer products that did not contain such an abundant level of phthalates were shown to be equally or even more toxic in the toxicity screening assays employed within the current study. This indicates that there are compounds in addition to the phthalates that warrant further investigation from a chemical identification and toxicity perspective.
+3.10. Compounds in foams/sponges
+Concerningly, given the long periods of daily exposure to humans, the polyurethane foam mattress (#49) was among the ten most toxic extracts. One of only two identified compounds across the entire sample set that was estimated by EPI Suite™ to be recalcitrant was found in this extract [45]. The chemical, 4-(2,4,4-Trimethylpentan-2-yl)-N-[4-(2,4,4-trimethylpentan-2-yl)phenyl]aniline (CAS 15721-78-5, used in lubricants and greases) was identified in three products overall: #1 sponge (PE; match 96 %), #23 sponge (PS; match 85 %) and #49 the mattress (match 94 %). This is interesting, as these materials are of three different polymer compositions, but of a similar physical form (foam). Several other substituted diphenylamines (SDPAs) were identified uniquely in sponge/foam products (Table S5, SI). These compounds are suspected endocrine disruptors and some have been demonstrated to affect reproduction in mammals [35]. They have also increasingly been detected in environmental compartments [31]. A recent study demonstrated the presence of such chemicals in children's car seats [50], and this study shows that children's mattresses and bath sponges may also be a route of human exposure. Furthermore, 4-methylbenzene-1,3-diamine (more commonly known as 2,4-diaminotoluene, CAS 95-80-7) was also found in the foam mattress and the three sponge samples. This compound is commonly used in production of polyurethane foams, and is a known carcinogen [12]. The antioxidant methyl 3-(3,5-di-tert-butyl-4-hydroxyphenyl)propionate (CAS 6386-38-5, RI 1903, match% 85) was also found in the foam mattress sample. This compound is classified by ECHA as toxic to aquatic life with long lasting effects.
+4. Conclusions
+The current work demonstrates the complexity of the chemical composition of polymer extracts and, importantly, the complexity in analyzing and assessing these chemicals within the context of risk assessment. We observed a correlation between the chemical composition of an extract and its toxicity, where a higher number of chemical features or total chemical signal were typically observed in the more toxic extracts. In a minority of consumer product extracts, the observed toxicity appears to be more likely related to the presence of specific chemicals, irrespective of whether there are large or smaller numbers of other plastic associated chemicals. The two toxicity assays showed generally comparable results for which consumer product extracts were of low and high toxicity, but exhibited some degree of difference for extracts sitting in the middle range of toxicity values. This highlights the importance of using multiple species and toxicological endpoints when assessing the hazards associated with complex mixtures of chemicals like those associated with certain plastic consumer products. Importantly, the study clearly highlighted that extracts from elastomer-based consumer products (both natural and synthetic rubbers) were, in most cases, more toxic than thermoplastic extracts. Although some potential toxicants could be identified through non-target GC-MS analysis, further work should focus on developing improved approaches for identifying and understanding the key toxicity drivers in complex mixtures of plastic associated chemicals.
+Environmental Implication Statement
+This study conducted a chemical and ecotoxicological assessment of 50 consumer thermoplastic (n = 36) and rubber/elastomer (n = 14) products, reflecting the diversity of plastic litter in the natural environment. The chemical composition of the different product leachates was investigated and the links between leachate composition and toxicity to marine algae and luminescent bacteria were studied. The results show links between chemical content and toxicity, indicating that certain polymer-based consumer products, particularly elastomers, may represent a source of toxic chemical release to the environment. The knowledge generated offers a basis for reducing the presence of the most toxic chemicals in consumer products.
+CRediT authorship contribution statement
+Lisbet Sørensen: Conceptualization, Investigation, Data analysis, Formal analysis, Writing – review & editing, Project administration, Funding acquisition. Tânia Gomes: Conceptualization, Investigation, Formal analysis, Writing – review & editing, Project administration, Funding acquisition. Amaia Igartua: Investigation, Writing – review & editing. Inger Larsen Lyngstad: Investigation, Writing – review & editing. Ana Catarina Almeida: Investigation, Writing – review & editing. Martin Wagner: Study design, Data analysis, Writing – review & editing. Andy M. Booth: Conceptualization, Formal analysis, Writing – review & editing, Project administration, Funding acquisition.
+Declaration of Competing Interest
+The authors declare the following financial interests/personal relationships which may be considered as potential competing interests: Martin Wagner reports a relationship with Food Packaging Forum Foundation that includes: board membership.
+Acknowledgements
+Funding was provided by the Norwegian Research Council (Grant nr. 295174). The authors are grateful to Oihane Del Puerto, Lisbet Støen, Marianne Rønsberg and Kjersti Almås (SINTEF) for assistance with chemical analysis. Amaia Igartua is grateful to the NoviaSalcedo Fundación, Spain, for financial support. Part of the TOC art was made using Biorender.
+Competing interests
+MW is an unremunerated member of the Scientific Advisory Board of the Food Packaging Forum Foundation.
+Appendix A. Supplementary material
+Download all supplementary files
+What’s this?
+Download: Download Word document (3MB)
+
+Supplementary material
+
+Download: Download spreadsheet (84KB)
+
+Supplementary material
+
+Data Availability
+Data will be made available on request.
+References
+[1]
+F. Akoueson, C. Chbib, S. Monchy, I. Paul-Pont, P. Doyen, A. Dehaut, et al.
+Identification and quantification of plastic additives using pyrolysis-GC/MS: a review
+Sci Total Environ, 773 (2021), Article 145073, 10.1016/j.scitotenv.2021.145073
+View PDF
+View articleView in ScopusGoogle Scholar
+[2]
+J.H. Bridson, E.C. Gaugler, D.A. Smith, G.L. Northcott, S. Gaw
+Leaching and extraction of additives from plastic pollution to inform environmental risk: a multidisciplinary review of analytical approaches
+J Hazard Mater, 414 (2021), Article 125571, 10.1016/j.jhazmat.2021.125571
+View PDF
+View articleView in ScopusGoogle Scholar
+[3]
+M. Brinkmann, D. Montgomery, S. Selinger, J.G.P. Miller, E. Stock, A.J. Alcaraz, et al.
+Acute toxicity of the tire rubber-derived chemical 6PPD-quinone to four fishes of commercial, cultural, and ecological importance
+Environ Sci Technol Lett, 9 (2022), pp. 333-338, 10.1021/acs.estlett.2c00050
+View at publisherView in ScopusGoogle Scholar
+[4]
+G. Cao, W. Wang, J. Zhang, P. Wu, X. Zhao, Z. Yang, et al.
+New evidence of rubber-derived quinones in water, air, and soil
+Environ Sci Technol, 56 (2022), pp. 4142-4150, 10.1021/acs.est.1c07376
+View at publisher
+View in ScopusGoogle Scholar
+[5]
+M. Capolupo, K. Gunaalan, A.M. Booth, L. Sørensen, P. Valbonesi, E. Fabbri
+The sub-lethal impact of plastic and tire rubber leachates on the Mediterranean mussel Mytilus galloprovincialis
+Environ Pollut, 283 (2021), Article 117081, 10.1016/j.envpol.2021.117081
+View PDF
+View articleView in ScopusGoogle Scholar
+[6]
+M. Capolupo, L. Sørensen, K.D.R. Jayasena, A.M. Booth, E. Fabbri
+Chemical composition and ecotoxicity of plastic and car tire rubber leachates to aquatic organisms
+Water Res, 169 (2020), Article 115270, 10.1016/j.watres.2019.115270
+View PDF
+View articleView in ScopusGoogle Scholar
+[7]
+B. Carney Almroth, D. Slunge
+Circular economy could expose children to hazardous phthalates and chlorinated paraffins via old toys and childcare articles
+J Hazard Mater Adv, 7 (2022), Article 100107, 10.1016/j.hazadv.2022.100107
+View PDF
+View articleGoogle Scholar
+[8]
+B. Cunningham, B. Harper, S. Brander, S. Harper
+Toxicity of micro and nano tire particles and leachate for model freshwater organisms
+J Hazard Mater, 429 (2022), Article 128319, 10.1016/j.jhazmat.2022.128319
+View PDF
+View articleView in ScopusGoogle Scholar
+[9]
+C. Delaeter, N. Spilmont, V.M.P. Bouchet, L. Seuront
+Plastic leachates: bridging the gap between a conspicuous pollution and its pernicious effects on marine life
+Sci Total Environ, 826 (2022), Article 154091, 10.1016/j.scitotenv.2022.154091
+View PDF
+View articleView in ScopusGoogle Scholar
+[10]
+M. Djapovic, D. Milivojevic, T. Ilic-Tomic, M. Lješević, E. Nikolaivits, E. Topakas, et al.
+Synthesis and characterization of polyethylene terephthalate (PET) precursors and potential degradation products: toxicity study and application in discovery of novel PETases
+Chemosphere, 275 (2021), Article 130005, 10.1016/j.chemosphere.2021.130005
+View PDF
+View articleView in ScopusGoogle Scholar
+[11]
+B. Gewert, M. MacLeod, M. Breitholtz
+Variability in toxicity of plastic leachates as a function of weathering and polymer type: a screening study with the copepod nitocra spinipes
+Biol Bull, 240 (2021), pp. 191-199, 10.1086/714506
+View articleView in ScopusGoogle Scholar
+[12]
+Gohari AR, Manayi A, Saeidnia S.Diaminotoluenes, In: Wexler P (Ed.), Encyclopedia of toxicology, Third Edition. Oxford: Academic Press; 2010, pp. 51–4. 〈https://doi.org/10.1016/B978-0-12-386454-3.01215-X〉.
+Google Scholar
+[13]
+S. Gu, H. Zheng, Q. Xu, C. Sun, M. Shi, Z. Wang, et al.
+Comparative toxicity of the plasticizer dibutyl phthalate to two freshwater algae
+Aquat Toxicol, 191 (2017), pp. 122-130, 10.1016/j.aquatox.2017.08.007
+View PDF
+View articleView in ScopusGoogle Scholar
+[14]
+W.L. Guess, R.K. O’Leary
+Toxicity of a rubber accelerator
+Toxicol Appl Pharm, 14 (1969), pp. 221-231, 10.1016/0041-008X(69)90102-1
+View PDF
+View articleView in ScopusGoogle Scholar
+[15]
+J.N. Hahladakis, C.A. Velis, R. Weber, E. Iacovidou, P. Purnell
+An overview of chemical additives present in plastics: migration, release, fate and environmental impact during their use, disposal and recycling
+J Hazard Mater, 344 (2018), pp. 179-199, 10.1016/j.jhazmat.2017.10.014
+View PDF
+View articleView in ScopusGoogle Scholar
+[16]
+C. Halsband, L. Sørensen, A.M. Booth, D. Herzke
+Car tire crumb rubber: does leaching produce a toxic chemical cocktail in coastal marine systems?
+Front Environ Sci (2020), p. 8
+Google Scholar
+[17]
+L. Hermabessiere, A. Dehaut, I. Paul-Pont, C. Lacroix, R. Jezequel, P. Soudant, et al.
+Occurrence and effects of plastic additives on marine environments and organisms: a review
+Chemosphere, 182 (2017), pp. 781-793, 10.1016/j.chemosphere.2017.05.096
+View PDF
+View articleView in ScopusGoogle Scholar
+[18]
+K. Hiki, K. Asahina, K. Kato, T. Yamagishi, R. Omagari, Y. Iwasaki, et al.
+Acute toxicity of a tire rubber-derived chemical, 6PPD quinone, to freshwater fish and Crustacean species
+Environ Sci Technol Lett, 8 (2021), pp. 779-784, 10.1021/acs.estlett.1c00453
+View at publisherView in ScopusGoogle Scholar
+[19]
+Y. Ikarashi, K. Toyoda, N. Ohsawa, T. Uchima, T. Tsuchiya, M.-A. Kaniwa, et al.
+Comparative studies by cell culture and in vivo implantation test on the toxicity of natural rubber latex materials
+J Biomed Mater Res, 26 (1992), pp. 339-356, 10.1002/jbm.820260306
+View at publisherView in ScopusGoogle Scholar
+[20]
+ISO 10253:2016. ISO 10253:2016 Water quality — marine algal growth inhibition test with Skeletonema sp. and Phaeodactylum tricornutum [No. ICS: 13.060.70], ISO/TC 147/SC 5 Biological methods; 2016.
+Google Scholar
+[21]
+K. Klein, D. Hof, A. Dombrowski, P. Schweyen, G. Dierkes, T. Ternes, et al.
+Enhanced in vitro toxicity of plastic leachates after UV irradiation
+Water Res, 199 (2021), Article 117203, 10.1016/j.watres.2021.117203
+View PDF
+View articleView in ScopusGoogle Scholar
+[22]
+S. Kühn, A.M. Booth, L. Sørensen, A. van Oyen, J.A. van Franeker
+Transfer of additive chemicals from marine plastic debris to the stomach oil of Northern Fulmars
+Front Environ Sci (2020), p. 8
+Google Scholar
+[23]
+H. Li, H. A. Aguirre-Villegas, R. D. Allen, X. Bai, C. H. Benson, G. T. Beckham, et al.
+Expanding plastics recycling technologies: chemical aspects, technology status and challenges
+Green Chem, 24 (2022), pp. 8899-9002, 10.1039/D2GC02588D
+View articleView in ScopusGoogle Scholar
+[24]
+X. Li, K. Binnemans
+Oxidative dissolution of metals in organic solvents
+Chem Rev, 121 (2021), pp. 4506-4530, 10.1021/acs.chemrev.0c00917
+View at publisher
+View in ScopusGoogle Scholar
+[25]
+Y. Li, R. Chen, J. He, H. Ma, F. Zhao, S. Tao, et al.
+Triphenyl phosphate at environmental levels retarded ovary development and reduced egg production in Japanese Medaka (Oryzias latipes
+Environ Sci Technol, 53 (2019), pp. 14709-14715, 10.1021/acs.est.9b05669
+View at publisherView in ScopusGoogle Scholar
+[26]
+K. Lin
+Joint acute toxicity of tributyl phosphate and triphenyl phosphate to Daphnia magna
+Environ Chem Lett, 7 (2009), pp. 309-312, 10.1007/s10311-008-0170-1
+View at publisherView in ScopusGoogle Scholar
+[27]
+D. Lithner, J. Damberg, G. Dave, Å. Larsson
+Leachates from plastic consumer products – screening for toxicity with Daphnia magna
+Chemosphere, 74 (2009), pp. 1195-1200, 10.1016/j.chemosphere.2008.11.022
+View PDF
+View articleView in ScopusGoogle Scholar
+[28]
+D. Lithner, Å. Larsson, G. Dave
+Environmental and health hazard ranking and assessment of plastic polymers based on chemical composition
+Sci Total Environ, 409 (2011), pp. 3309-3324, 10.1016/j.scitotenv.2011.04.038
+View PDF
+View articleView in ScopusGoogle Scholar
+[29]
+M. Llompart, L. Sanchez-Prado, J. Pablo Lamas, C. Garcia-Jares, E. Roca, T. Dagnac
+Hazardous organic chemicals in rubber recycled tire playgrounds and pavers
+Chemosphere, 90 (2013), pp. 423-431, 10.1016/j.chemosphere.2012.07.053
+View PDF
+View articleView in ScopusGoogle Scholar
+[30]
+E.-C. Lönnroth
+Toxicity of medical glove materials: a pilot study
+Int J Occup Saf Ergon, 11 (2005), pp. 131-139, 10.1080/10803548.2005.11076642
+View at publisher
+View in ScopusGoogle Scholar
+[31]
+Z. Lu, A.O. De Silva, J.F. Provencher, M.L. Mallory, J.L. Kirk, M. Houde, et al.
+Occurrence of substituted diphenylamine antioxidants and benzotriazole UV stabilizers in Arctic seabirds and seals
+Sci Total Environ, 663 (2019), pp. 950-957, 10.1016/j.scitotenv.2019.01.354
+View PDF
+View articleView in ScopusGoogle Scholar
+[32]
+F.S. Mallette, E. Von Haam
+Studies on the toxicity and skin effects of compounds used in the rubber and plastics industries. II, Plasti-cizers
+Arch Ind Hyg Occup Med, 6 (1952), pp. 231-236
+View in ScopusGoogle Scholar
+[33]
+F.S. Mallette, E. Von Haam
+Studies on the toxicity and skin effects of compounds used in the rubber and plastics industries. I. Accelerators, activators, and antioxidants
+AMA Arch Ind Hyg Occup Med, 5 (1952), pp. 311-317
+View in ScopusGoogle Scholar
+[34]
+Mark JE, Erman B, Roland M. The science and technology of rubber. Academic Press; 2013.
+Google Scholar
+[35]
+M. Matsumoto, M. Yamaguchi, Y. Yoshida, M. Senuma, H. Takashima, T. Kawamura, et al.
+An antioxidant, N,N′-diphenyl-p-phenylenediamine (DPPD), affects labor and delivery in rats: a 28-day repeated dose test and reproduction/developmental toxicity test
+Food Chem Toxicol, 56 (2013), pp. 290-296, 10.1016/j.fct.2013.02.029
+View PDF
+View articleView in ScopusGoogle Scholar
+[36]
+Natural rubber global production 2020 [WWW Document]. Statista; 2021. 〈https://www.statista.com/statistics/275387/global-natural-rubber-production/〉. (Accessed 6 September 2022).
+Google Scholar
+[37]
+J.R. Peller, S.P. Mezyk, S. Shidler, J. Castleman, S. Kaiser, R.F. Faulkner, et al.
+Facile nanoplastics formation from macro and microplastics in aqueous media
+Environ Pollut, 313 (2022), Article 120171, 10.1016/j.envpol.2022.120171
+View PDF
+View articleView in ScopusGoogle Scholar
+[38]
+S.-Q. Qiu, G.-Y. Huang, G.-Z. Fang, X.-P. Li, D.-Q. Lei, W.-J. Shi, et al.
+Chemical characteristics and toxicological effects of leachates from plastics under simulated seawater and fish digest
+Water Res, 209 (2022), Article 117892, 10.1016/j.watres.2021.117892
+View PDF
+View articleView in ScopusGoogle Scholar
+[39]
+C.M. Rochman, C. Brookson, J. Bikker, N. Djuric, A. Earn, K. Bucci, et al.
+Rethinking microplastics as a diverse contaminant suite
+Environ Toxicol Chem, 38 (2019), pp. 703-711, 10.1002/etc.4371
+View at publisherView in ScopusGoogle Scholar
+[40]
+Rodgers B, Waddell W. Chapter 9 – the science of rubber Compounding; 2013. 〈https://doi.org/10.1016/B978-0-12-394584-6.00009-1〉.
+Google Scholar
+[41]
+E.L. Schymanski, J. Jeon, R. Gulde, K. Fenner, M. Ruff, H.P. Singer, et al.
+Identifying small molecules via high resolution mass spectrometry: communicating confidence
+Environ Sci Technol, 48 (2014), pp. 2097-2098, 10.1021/es5002105
+View at publisher
+View in ScopusGoogle Scholar
+[42]
+T.J. Suhrhoff, B.M. Scholz-Böttcher
+Qualitative impact of salinity, UV radiation and turbulence on leaching of organic plastic additives from four common plastics — a lab experiment
+Mar Pollut Bull, 102 (2016), pp. 84-94, 10.1016/j.marpolbul.2015.11.054
+View PDF
+View articleView in ScopusGoogle Scholar
+[43]
+K. Tallec, A. Huvet, V. Yeuc’h, N. Le Goïc, I. Paul-Pont
+Chemical effects of different types of rubber-based products on early life stages of Pacific oyster, Crassostrea gigas
+J Hazard Mater, 427 (2022), Article 127883, 10.1016/j.jhazmat.2021.127883
+View PDF
+View articleView in ScopusGoogle Scholar
+[44]
+Z. Tian, H. Zhao, K.T. Peter, M. Gonzalez, J. Wetzel, C. Wu, et al.
+A ubiquitous tire rubber-derived chemical induces acute mortality in coho salmon
+Science, 371 (2021), pp. 185-189, 10.1126/science.abd6951
+View at publisherView in ScopusGoogle Scholar
+[45]
+U.S. EPA. Estimation programs interface SuiteTM for Microsoft® windows v 4.11. United States Environmental Protection Agency; 2012.
+Google Scholar
+[46]
+J.P. van de Merwe, F.D.L. Leusch
+A sensitive and high throughput bacterial luminescence assay for assessing aquatic toxicity–the BLT-Screen
+Environ Sci Process Impacts, 17 (2015), pp. 947-955, 10.1039/c5em00012b
+View at publisherView in ScopusGoogle Scholar
+[47]
+H. van Den Dool, P. Dec Kratz
+A generalization of the retention index system including linear temperature programmed gas—liquid partition chromatography
+J Chromatogr A, 11 (1963), pp. 463-471, 10.1016/S0021-9673(01)80947-X
+View PDF
+View articleView in ScopusGoogle Scholar
+[48]
+E. von der Esch, M. Lanzinger, A.J. Kohles, C. Schwaferts, J. Weisser, T. Hofmann, et al.
+Simple generation of suspensible secondary microplastic reference particles via ultrasound treatment
+Front Chem, 8 (2020), p. 169, 10.3389/fchem.2020.00169
+View at publisherView in ScopusGoogle Scholar
+[49]
+S.-C. Wang, Z.-Y. Gao, F.-F. Liu, S.-Q. Chen, G.-Z. Liu
+Effects of polystyrene and triphenyl phosphate on growth, photosynthesis and oxidative stress of Chaetoceros meülleri
+Sci Total Environ, 797 (2021), Article 149180, 10.1016/j.scitotenv.2021.149180
+View PDF
+View articleView in ScopusGoogle Scholar
+[50]
+Y. Wu, M. Venier
+High levels of synthetic antioxidants and ultraviolet filters in children’s car seats
+Sci Total Environ, 855 (2023), Article 158637, 10.1016/j.scitotenv.2022.158637
+View PDF
+View articleView in ScopusGoogle Scholar
+[51]
+H. Xu, X. Dong, Z. Zhang, M. Yang, X. Wu, H. Liu, et al.
+Assessment of immunotoxicity of dibutyl phthalate using live zebrafish embryos
+Fish Shellfish Immunol, 45 (2015), pp. 286-292, 10.1016/j.fsi.2015.04.033
+View PDF
+View articleView in ScopusGoogle Scholar
+[52]
+F.S. Zarudii, G.Z. Gil’mutdinov, R.F. Zarudii, M.A. Myshkin, F.B. Gershanov, T.A. Novikov
+2,6-di-tert-butyl-4-methylphenol (dibunol, ionol, tonarol): a classical antioxidant (a review)
+Pharmaceut Chem J, 35 (2001), pp. 162-168, 10.1023/A:1010414130628
+View at publisherView in ScopusGoogle Scholar
+[53]
+Y. Zhang, Y. Jiao, Z. Li, Y. Tao, Y. Yang
+Hazards of phthalates (PAEs) exposure: a review of aquatic animal toxicology studies
+Sci Total Environ, 771 (2021), Article 145418, 10.1016/j.scitotenv.2021.145418
+View PDF
+View articleView in ScopusGoogle Scholar
+[54]
+L. Zimmermann, Z. Bartosova, K. Braun, J. Oehlmann, C. Völker, M. Wagner
+Plastic products leach chemicals that induce in vitro toxicity under realistic use conditions
+Environ Sci Technol, 55 (2021), pp. 11814-11823, 10.1021/acs.est.1c01103
+View at publisher
+View in ScopusGoogle Scholar
+[55]
+L. Zimmermann, G. Dierkes, T.A. Ternes, C. Völker, M. Wagner
+Benchmarking the in vitro toxicity and chemical composition of plastic consumer products
+Environ Sci Technol, 53 (2019), pp. 11467-11477, 10.1021/acs.est.9b02293
+View in ScopusGoogle Scholar
+[56]
+K Keck-Antoine, E Lievens, J Bayer, J Mara, DS Jung, SL Jung
+Additives to design and improve the performance of multilayer flexible packaging. In Multilayer flexible packaging, William Andrew Publishing (2010), pp. 37-56
+Jan
+View PDF
+View articleView in ScopusGoogle Scholar
+[57]
+A.M. Booth, L. Sørensen
+Microplastic Fate and Impacts in the Environment
+T. Rocha-Santos, M. Costa, C. Mouneyrac (Eds.), Handbook of Microplastics in the Environment, Springer International Publishing, Cham (2020), pp. 1-24, 10.1007/978-3-030-10618-8_29-1
+Google Scholar
+[58]
+R Core Team (2022). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
+Google Scholar
+Cited by (29)
+The time for ambitious action is now: Science-based recommendations for plastic chemicals to inform an effective global plastic treaty
+2024, Science of the Total Environment
+Citation Excerpt :
+
+Specific concerns for organisms exposed to plastic chemicals and particles, which present a multiple-stressor scenario due to combined physical and chemical exposure, include changes in behavior, impeded growth and reproduction, respiratory stress, and changes in gene and protein expression indicating cellular and tissue-level damage. Owing to their specific physical properties, some shapes and size ranges of MNPs appear to be more toxic than others, with microfibers and tire wear particles currently of greatest toxicological concern (Au et al., 2015; Barboza et al., 2018; Besseling et al., 2013; Capolupo et al., 2020; Capolupo et al., 2021; Green et al., 2016; Hägg et al., 2023; Horn et al., 2020; Jabeen et al., 2018; Jacob et al., 2020; Jovanovic, 2017; Kim et al., 2021; Monclûs et al., 2022; Siddiqui et al., 2022; Siddiqui et al., 2023; Sørensen et al., 2023; Stienbarger et al., 2021; Tian et al., 2021). While most research is available on aquatic organisms, these impacts also encompass terrestrial ecosystems, for which fewer data exist, with nascent studies highlighting similar issues for soil organisms (e.g., earthworms) as for marine and freshwater denizens (Lwanga et al., 2016; Rillig et al., 2017; Zhu et al., 2019).
+
+Show abstract
+Aging increases the particulate- and leachate-induced toxicity of tire wear particles to microalgae
+2024, Water Research
+Citation Excerpt :
+
+Considering that the leaching potential of some additives from TWPs was enhanced after aging processes, especially after UV aging process (Tables S2 and S3), and leachates derived from aged TWPs induced more serious disorders in the metabolome (Table 2), we could still infer that leachate played an important role in the toxicity of TWPs and contributed to the enhanced toxicity of aged TWPs to microalgae. It has been reported that TWP leachates exhibited toxicity to aquatic organisms (Capolupo et al., 2020; Page et al., 2022) and leachates from TWPs were generally more toxic to marine algae than those from thermoplastic (Sorensen et al., 2023). By simultaneously comparing the toxicity of TWPs and leachates generated from an equal amount of TWPs, we for the first time demonstrated that additives leached from TWPs at environmentally relevant concentrations exhibited toxicity to microalgae.
+
+Show abstract
+Common types of microdebris affect the physiology of reef-building corals
+2024, Science of the Total Environment
+Citation Excerpt :
+
+The major constituents of tire wear are synthetic and natural rubber, and vulcanization agents such as sulfur, zinc, polyaromatic hydrocarbons, and thiazoles (Wagner et al., 2018). Tire wear has been shown to leach considerable amounts of these substances, which are known to be toxic to corals and other organisms (Halle et al., 2020; Ouédraogo et al., 2021) and have been identified to exhibit a higher toxicity than other plastic polymers (Sørensen et al., 2023). In contrast, the effect of the beach treatment appeared rather low, comparable to the impact of the PE treatment.
+
+Show abstract
+Small micro- and nanoplastic test and reference materials for research: Current status and future needs
+2024, Cambridge Prisms: Plastics
+Challenges and opportunities toward a sustainable bio-based chemical sector in Europe
+2024, Wiley Interdisciplinary Reviews: Energy and Environment
+Microplastics and Tire Wear Particles in Urban Stormwater: Abundance, Characteristics, and Potential Mitigation Strategies
+2023, Environmental Science and Technology
+View all citing articles on Scopus
+© 2023 The Author(s). Published by Elsevier B.V.
+About ScienceDirect
+Remote access
+Advertise
+Contact and support
+Terms and conditions
+Privacy policy
+
+Cookies are used by this site.Cookie Settings
+
+All content on this site: Copyright © 2025 Elsevier B.V., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the relevant licensing terms apply.

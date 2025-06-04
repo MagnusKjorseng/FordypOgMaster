@@ -42,7 +42,7 @@
 
 \usepackage[round]{natbib}   % omit 'round' option if you prefer square brackets
 \bibliographystyle{plainnat}
-\bibliography{bibliography} %declare the bibliography resource
+%\bibliography{bibliography} %declare the bibliography resource
 \usepackage{comment} %to be able to comment out sections in the .tex files
 \usepackage{afterpage} %to customize page commands such as below
 \pagestyle{plain}
@@ -153,14 +153,15 @@ Department of Ocean Operations and Civil Engineering \\
 %the cleardoublepage command ensures that the next text page is on the right-hand side (odd page) and produces a blank page if necessary to achieve that, as all chapters should begin on the right hand side
 
 
-\chapter{Theory}
+\chapter{Problem Statement}
 \import{Chapters/}{04Theory}
 %\cleardoublepage
 
-\chapter{Method}
+\chapter{Design}
 \import{Chapters/}{05Method}
 %\cleardoublepage
 
+\chapter{Simulation Case Studies}
 
 \chapter{Results}
 \import{Chapters/}{06Results}
