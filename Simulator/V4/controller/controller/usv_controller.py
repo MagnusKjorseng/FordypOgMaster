@@ -19,7 +19,7 @@ def main(args = None):
     kd = 2*m_usv*zeta*omega
     targets = np.array([[10,15,0],[50, -30, 0],[-20, 10, 0],[0,0,0]])
     
-    controller = UsvController(kp, ki, kd, targets = targets)
+    controller = UsvController(kp, ki, kd, targets = [[0,0,0]])
 
     rclpy.spin(controller)
 

@@ -28,6 +28,9 @@ setup(
             'alloc = controller.usv_allocator:main',
             'thrust_controller = controller.sim_thrust_controller:main',
             'position_translator = controller.sim_position_publisher:main',
+            'crane = controller.crane_controller:main',
+            'rov = controller.rov_controller:main',
+            'collector = controller.data_collector.py',
         ],
     },
 )
