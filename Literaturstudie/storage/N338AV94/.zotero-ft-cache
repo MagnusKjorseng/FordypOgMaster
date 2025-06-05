@@ -1,0 +1,803 @@
+6
+Maneuvering Theory
+In Chapter 5 the 6 DOF seakeeping equations of motion for a ship in a seaway were presented. The seakeeping model is based on linear theory and a potential theory program is used to compute the frequency-dependent hydrodynamic forces for varying wave excitation frequencies. The time-domain representation of the seakeeping model is very useful for accurate prediction of motions and sealoads of floating structures offshore. The seakeeping theory can also be applied to displacement ships moving at constant speed. Seakeeping time-domain models are limited to linear theory since it is necessary to approximate the fluid memory effects by impulse responses or transfer functions. An alternative to the seakeeping formalism is to use maneuvering theory to describe the motions of marine craft in 3 DOF, that is surge, sway and yaw. Sometimes roll is augmented to the horizontal plane model to describe more accurately the coupled lateral motions, that is sway–roll–yaw couplings while surge is left decoupled; see Section 7.4. In maneuvering theory, frequency-dependent added mass and potential damping are approximated by constant values and thus it is not necessary to compute the fluidmemory effects. The main results of this chapter are based on the assumption that the hydrodynamic forces and moments can be approximated at one frequency of oscillation such that the fluid-memory effects can be neglected. The result is a nonlinear mass–damper–spring system with constant coefficients. In the following sections, it is shown that the maneuvering equations of motion can be represented by (Fossen, 1991, 1994)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) + go = τ + τwind + τwave (6.1)
+In the case of irrotational ocean currents, the relative velocity vector
+νr = ν − νc, νc = [uc, vc, wc, 0, 0, 0]
+contributes to the hydrodynamic terms such that
+MRBν ̇ + CRB(ν)ν
+} {{ }
+rigid-body forces
++ MAν ̇r + CA(νr)νr + D(νr)νr
+} {{ }
+hydrodynamic forces
++ g(η) + go
+} {{ }
+hydrostatic forces
+= τ + τwind + τwave (6.2)
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+110 Maneuvering Theory
+The model (6.2) can be simplified if the ocean currents are assumed to be constant and irrotational in {n} such that (see Section 8.3)
+ν ̇c =
+[ −S(ωb
+b/n) 03×3
+03×3 03×3
+]
+νc (6.3)
+According to Property 8.1, it is then possible to represent the equations of motion by relative velocities only:
+Mν ̇r + C(νr)νr + D(νr)νr + g(η) + go = τ + τwind + τwave (6.4)
+where
+M = MRB + MA - system inertia matrix (including added mass) C(νr) = CRB(νr) + CA(νr) - Coriolis–centripetal matrix (including added mass) D(νr) - damping matrix g(η) - vector of gravitational/buoyancy forces and moments go - vector used for pretrimming (ballast control) τ - vector of control inputs τwind - vector of wind forces τwave - vector of wave-induced forces
+The expressions for M, C(νr), D(νr), g(η) and go are derived in the forthcoming sections while the environmental forces τwind and τwave are treated separately in Chapter 8. The maneuvering model presented in this chapter is mainly intended for controller–observer design, prediction and computer simulations in combination with system identification and parameter estimation. Application specific models are presented in Chapter 7. Hydrodynamic programs compute mass, inertia, potential damping and restoring forces while a more detailed treatment of viscous dissipative forces (damping) are found in the extensive literature on hydrodynamics; see Faltinsen (1990, 2005), Newman (1977), Sarpkaya (1981) and Triantafyllou and Hover (2002). Other useful references on marine craft modeling are Lewandowski (2004) and Perez (2005).
+6.1 Rigid-Body Kinetics
+Recall from Chapter 3 that the rigid-body kinetics can be expressed as
+MRBν ̇ + CRB(ν)ν = τRB (6.5)
+where MRB = MRB > 0 is the rigid-body mass matrix and CRB(ν) = −CRB(ν) is the rigid-body Coriolis and centripetal matrix due to the rotation of {b} about the inertial frame {n}. The horizontal motion of a maneuvering ship or semi-submersible is given by the motion components in surge, sway and yaw. Consequently, the state vectors are chosen as ν = [u, v, r] and η = [N, E, ψ] . It is also common to assume that the craft has homogeneous mass distribution and xz-plane symmetry so that
+Ixy = Iyz = 0 (6.6)
+
+
+Potential Coefficients 111
+Let the {b}-frame coordinate origin be set in the centerline of the craft in the point CO, such that yg = 0. Under the previously stated assumptions, the matrices (3.44) and (3.60) associated with the rigid-body kinetics reduce to
+MRB =
+⎡
+⎣
+m0 0
+0 m mxg
+0 mxg Iz
+⎤
+⎦ , CRB(ν) =
+⎡
+⎣
+0 −mr −mxgr
+mr 0 0
+mxgr 0 0
+⎤
+⎦ (6.7)
+Notice that surge is decoupled from sway and yaw in MRB due to symmetry considerations of the system inertia matrix (see Section 3.3). The linear approximation to (6.5) about u = U = constant, v = 0 and r = 0 is
+MRBν ̇ + C∗
+RBν = τRB (6.8)
+where
+C∗
+RB =
+⎡
+⎣
+00 0
+0 0 mU
+0 0 mxgU
+⎤
+⎦ (6.9)
+6.2 Potential Coefficients
+Hydrodynamic potential theory programs can be used to compute the added mass and damping matrices by integrating the pressure of the fluid over the wetted surface of the hull; see Section 5.1. These programs assume that viscous effects can be neglected. Consequently, it is necessary to add viscous forces manually. The programs are also based on the assumptions that first- and second-order wave forces can be linearly superimposed. The potential coefficients are usually represented as frequency-dependent matrices for 6 DOF motions. The matrices are:
+• A(ω) added mass • B(ω) potential damping
+where ω is the wave excitation frequency of a sinusoidal (regular) wave generated by a wave maker or the ocean. Figure 6.1 illustrates the components in sway.
+Surface Vessels
+In seakeeping analysis, the equations of motion are formulated as perturbations
+ξ = δη = [δx, δy, δz, δφ, δθ, δψ] (6.10)
+about an inertial equilibrium frame (see Section 5.3). For a floating body at zero speed this is written as
+[MRB + A(ω)]ξ ̈ + B(ω)ξ ̇ + Cξ = f cos(ωt) (6.11)
+where C is the spring stiffness matrix due to Archimedes and the right-hand side of (6.11) is a vector of forced oscillations with amplitudes:
+f = [f1, . . . , f6] (6.12)
+
+
+112 Maneuvering Theory
+Figure 6.1 Added mass A22(ω) and potential damping B22(ω) in sway as a function of ω for a large tanker.
+Equation (6.11) is a pseudo-differential equation combining time and frequency (see Section 5.3.2). This equation is not intended for computer simulations as discussed in Chapter 5 where a proper time-domain representation is derived using the Cummins equation. The matrices A(ω), B(ω) and C can be treated as a hydrodynamic mass–damper–spring system which varies with the frequency ω of the forced oscillation. By exposing the craft to different oscillations it is possible to compute added mass and potential damping for all the frequencies, as shown in Section 5.3.
+Underwater Vehicles
+For vehicles operating at water depths below the wave-affected zone, the hydrodynamic coefficients will be independent of the wave excitation frequency. Consequently,
+A(ω) = constant ∀ω (6.13)
+B(ω) = 0 (6.14)
+This means that if a seakeeping code is used to compute the potential coefficients, only one frequency is needed to obtain an estimate of the added mass matrix. In addition, there will be no potential damping. However, viscous damping BV (ω) will be present.
+
+
+Potential Coefficients 113
+Discussion
+Equation (6.11) should not be used in computer simulations. As earlier mentioned, (6.11) is not an ordinary differential equation since it combines time and frequency. As stressed in Chapter 5, the time-domain seakeeping model should be represented by the Cummins equation, which is an integro-differential equation (Cummins, 1962). For surface vessels it is common to solve the Cummins equation in the time domain under the assumption of linear theory (see Section 5.4). This introduces fluid-memory effects, which can be interpreted as filtered potential damping forces. These forces are retardation functions that can be approximated by transfer functions and state-space models, as shown in Section 5.4. It is standard to include the fluid-memory effects in seakeeping analysis while classical maneuvering theory neglects the fluid-memory by relying on a zero-frequency assumption.
+6.2.1 3 DOF Maneuvering Model
+The classical maneuvering model makes use of the following assumption:
+Definition 6.1 (Zero-Frequency Models for Surge, Sway and Yaw)
+The horizontal motions (surge, sway and yaw) of a marine craft moving at forward speed can be described by a zero-frequency model where:
+MA = A{1,2,6}(0) =
+⎡
+⎣
+A11(0) 0 0
+0 A22(0) A26(0)
+0 A62(0) A66(0)
+⎤
+⎦ (6.15)
+Dp = B{1,2,6}(0) = 0 (6.16)
+are constant matrices.
+Discussion
+When applying a feedback control system to stabilize the motions in surge, sway and yaw, the natural periods will be in the range of 100–200 s. This implies that the natural frequencies are in the range of 0.03–0.10 rad/s, which is quite close to the zero wave excitation frequency. Also note that viscous damping forces will dominate the potential damping terms at low frequency and that fluid memory effects can be neglected at higher speeds.
+Definition 6.1 is frequently applied when deriving maneuvering models for ships in a seaway. It is convenient to represent the equations of motion without using frequency-dependent quantities since this reduces model complexity.
+6.2.2 6 DOF Coupled Motions
+One limitation of Definition 6.1 is that it cannot be applied to heave, roll and pitch. These modes are second-order mass–damper–spring systems where the dominating frequencies are the natural frequencies. Hence, the constant frequency models in heave, roll and pitch should be formulated at their respective natural frequencies and not at the zero frequency. This suggests the following definition:
+Definition 6.2 (Natural Frequency Models for Heave, Roll and Pitch)
+The natural frequencies for the decoupled motions in heave, roll and pitch are given by the implicit equations
+
+
+114 Maneuvering Theory
+ωheave =
+√
+C33
+m + A33(ωheave) (6.17)
+ωroll =
+√
+C44
+Ix + A44(ωroll) (6.18)
+ωpitch =
+√ C55
+Iy + A55(ωpitch) (6.19)
+where the potential coefficients Aii(ω) and Bii(ω) (i = 3, 4, 5) are computed in the center of flotation (CF). The corresponding mass–damper–spring systems are
+[m + A33(ωheave)] ̇z + B33(ωheave)w + C33z = 0 (6.20)
+[Ix + A44(ωroll)]  ̇p + B44(ωroll)p + C44φ = 0 (6.21)
+[Iy + A55(ωpitch)]q ̇ + B55(ωpitch)q + C55θ = 0 (6.22)
+Equations (6.20)–(6.22) are decoupled damped oscillators. However, the natural frequencies (6.17)(6.19) can also be computed for the 6 DOF coupled model (6.11) by using a modal analysis; see Section 4.3.2. Consider the unforced 6 DOF linear seakeeping model
+[MRB + A(ω)]ξ ̈ + [B(ω) + Bv(ω)]ξ ̇ + Cξ = 0 (6.23)
+where viscous damping is included. Furthermore, assume that three constant matrices  ̄A,  ̄B and  ̄BV exist that approximate A(ω), B(ω) and BV (ω). This system can be transformed from seakeeping coordinates {s} to body-fixed coordinates {b} using the approach in Section 5.4. The resulting model is a linear one:
+[MRB + MA]ν ̇ + [C∗
+RB + C∗
+A]ν + [DP + DV ]ν + Gη = 0 (6.24)
+where
+MA =  ̄A
+C∗
+A = U  ̄AL
+C∗
+RB = UMRBL
+DP =  ̄B
+DV =  ̄BV
+G =C
+(6.25)
+and L is the selection matrix (3.63). The potential coefficients A(ω) and B(ω) can be computed using a hydrodynamic code. If we rely on Definitions 6.1 and 6.2 to approximate MA, DP and DV it is necessary to assume that there are no
+
+
+Nonlinear Coriolis Forces due to Added Mass in a Rotating Coordinate System 115
+couplings between the surge, heave–roll–pitch and the sway–yaw subsystems. Hence, added mass and potential damping can be approximated by two constant matrices:
+MA ≈
+⎡
+⎢⎢⎢⎢⎢⎣
+A11(0) 0
+0 A22(0) ... 0
+A26(0)
+...
+A33(ωheave) 0 0 0 A44(ωroll) 0
+0 0 A55(ωpitch)
+...
+0 A62(0) ... A66(0)
+⎤
+⎥⎥⎥⎥⎥⎦
+(6.26)
+Dp ≈
+⎡
+⎢⎢⎢⎢⎢⎣
+00
+0 0 ... 0
+0
+...
+B33(ωheave) 0 0 0 B44(ωroll) 0
+0 0 B55(ωpitch)
+...
+0 0 ... 0
+⎤
+⎥⎥⎥⎥⎥⎦
+(6.27)
+The natural frequencies ωheave, ωroll and ωpitch can be computed using the methods in Sections 4.3.1–4.3.2. The linear viscous damping terms are usually approximated by a diagonal matrix:
+DV ≈ diag{B11v, B22v, B33v, B44v, B55v, B66v} (6.28)
+where the elements Biiv (i = 1, ..., 6) can be computed from the time constants and natural periods of the system (see Section 6.4).
+6.3 Nonlinear Coriolis Forces due to Added Mass in a Rotating Coordinate System
+The model discussed in Section 6.2 was derived using linear theory. In order to extend this to nonlinear maneuvering theory, the Coriolis and centripetal forces will be derived in a Lagrangian framework. The Coriolis and centripetal matrix CA(ν) is a function of added mass MA and depends on which reference frames are considered. Lagrangian theory considers the motion of a rotating frame {b} with respect to {n}. In seakeeping theory, the body frame {b} rotates about {s}. This results in a linear Coriolis and centripetal matrix denoted by C∗
+A (see Section 5.4.2). Both representations can be used depending on whether a linear or nonlinear model is needed. The rotation of {b} about the inertial systems {n} and alternatively {s} are illustrated in Figure 6.2.
+6.3.1 Lagrangian Mechanics
+In Section 3.1, it was shown that the rigid-body kinetics of a marine craft can be derived by applying the Newtonian formulation. As for the rigid-body kinetics, it is advantageous to separate the added mass forces and moments in terms that belong to the added mass matrix MA and a matrix of hydrodynamic Coriolis and centripetal terms denoted CA(ν). To derive the expressions for these two matrices, an energy approach based on Kirchhoff’s equations will now be presented. Detailed discussions of Newtonian and Lagrangian mechanics are found in Goldstein (1980), Hughes (1986), Kane et al. (1983), Meirovitch (1990) and Egeland and Gravdahl (2002). The Lagrangian L is formed by using kinetic energy T and potential energy V , according to
+L = T − V (6.29)
+
+
+116 Maneuvering Theory
+Figure 6.2 Coriolis matrices due to the rotation of the body-fixed frame {b} about the inertial frames {n} or {s}.
+The Euler–Lagrange equation is
+d dt
+( ∂L ∂  ̇η
+)
+− ∂L
+∂η = J− (η)τ (6.30)
+which in component form corresponds to a set of six second-order differential equations. From the above formula it is seen that the Lagrangian mechanics describes the system dynamics in terms of energy. Formula (6.30) is valid in any reference frame, inertial and body-fixed, as long as generalized coordinates are used. For a marine craft not subject to any motion constraints, the number of independent (generalized) coordinates is equal to the number of DOF. For a marine craft moving in 6 DOF the generalized coordinates in {n} can be chosen as
+η = [N, E, D, φ, θ, ψ] (6.31)
+It should be noted that the alternative representation
+η = [N, E, D, η, ε1, ε2, ε3] (6.32)
+using unit quaternions cannot be used in a Lagrangian approach since this representation is defined by seven parameters. Hence, these parameters are not generalized coordinates. It is not straightforward to formulate the equations of motion in {b} since
+ν = [u, v, w, p, q, r] (6.33)
+cannot be integrated to yield a set of generalized coordinates in terms of position and orientation. In fact
+∫t
+0 νdτ has no immediate physical interpretation. Consequently, the Lagrange equation cannot be directly
+used to formulate the equations of motion in {b}. However, this problem is circumvented by applying Kirchhoff’s equations of motion, or the so-called quasi-Lagrangian approach; see Meirovitch and Kwak (1989) for details.
+6.3.2 Kirchhoff’s Equations in Vector Form
+Consider a marine craft with linear velocity ν1 := [u, v, w] and angular velocity ν2 := [p, q, r] expressed in {b}. Hence, the force τ1 := [X, Y, Z] and moment τ2 := [K, M, N] are related to the kinetic
+
+
+Nonlinear Coriolis Forces due to Added Mass in a Rotating Coordinate System 117
+Figure 6.3 Rigid-body and fluid kinetic energy (ocean surrounding the ship). Illustration by Bjarne Stenberg.
+energy (Kirchhoff, 1869)
+T=1
+2 ν Mν (6.34)
+by the vector equations
+d dt
+( ∂T ∂ν1
+)
++ S(ν2) ∂T
+∂ν1
+= τ1 (6.35)
+d dt
+( ∂T ∂ν2
+)
++ S(ν2) ∂T
+∂ν2
++ S(ν1) ∂T
+∂ν1
+= τ2 (6.36)
+where S is the skew-symmetric cross-product operator in Definition 2.2. Kirchhoff’s equations will prove to be very useful in the derivation of the expression for added inertia. Notice that Kirchhoff’s equations do not include the gravitational forces.
+6.3.3 Added Mass and Coriolis–Centripetal Forces due to the Rotation of BODY Relative to NED
+The matrix C∗
+A in (6.25) represents linearized forces due to a rotation of {b} about the seakeeping frame {s}. Instead of using {s} as the inertial frame, we will assume that {n} is the inertial frame and that {b} rotates about {n}. The nonlinear Coriolis and centripetal matrix CA(ν) due to a rotation of {b} about the inertial frame {n} can be derived using an energy formulation based on the constant matrix MA. Since any motion of the marine craft will induce a motion in the otherwise stationary fluid, the fluid must move aside and then close behind the craft in order to let the craft pass through the fluid. As a consequence, the fluid motion possesses kinetic energy that it would lack otherwise (see Figure 6.3). The expression for the fluid kinetic energy TA is written as a quadratic form (Lamb, 1932)
+TA = 1
+2 ν MAν, M ̇ A = 0 (6.37)
+
+
+118 Maneuvering Theory
+where MA = MA ≥ 0 is the 6 × 6 system inertia matrix of added mass terms:
+MA = −
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+X ̇u X ̇v X  ̇w X  ̇p Xq ̇ Xr ̇
+Y ̇u Yv ̇ Y  ̇w Yp ̇ Yq ̇ Yr ̇
+Z ̇u Zv ̇ Z  ̇w Zp ̇ Zq ̇ Zr ̇
+K ̇u Kv ̇ K  ̇w Kp ̇ Kq ̇ Kr ̇
+M ̇u M ̇v M  ̇w M  ̇p Mq ̇ Mr ̇
+N ̇u Nv ̇ N  ̇w N  ̇p Nq ̇ Nr ̇
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(6.38)
+The notation of SNAME (1950) for the hydrodynamic derivatives is used in this expression; for instance the hydrodynamic added mass force Y along the y axis due to an acceleration  ̇u in the x direction is written as
+Y = −Y ̇u  ̇u, Y ̇u := ∂Y
+∂  ̇u (6.39)
+This implies that {MA}21 = −Y ̇u in the example above.
+Property 6.1 (Hydrodynamic System Inertia Matrix MA)
+For a rigid body at rest or moving at forward speed U ≥ 0 in ideal fluid, the hydrodynamic system inertia matrix MA is positive semi-definite:
+MA = MA ≥ 0
+Proof. Newman (1977) has shown this for zero speed. The results extend to forward speed by using the approach presented in Chapter 5.
+Remark 6.1
+In a real fluid the 36 elements of MA may all be distinct but still MA ≥ 0. Experience has shown that the numerical values of the added mass derivatives in a real fluid are usually in good agreement with those obtained from ideal theory (see Wendel, 1956).
+Remark 6.2
+If experimental data are used, the inertia matrix can be symmetrized by using:
+MA = 1
+2
+(MA,exp + MA,exp
+) (6.40)
+where MA,exp contains the experimentally data.
+Added Mass Forces and Moments
+Based on the kinetic energy TA of the fluid, it is straightforward to derive the added mass forces and moments. Substituting (6.37) into (6.35)–(6.36) gives the following expressions for the added mass terms
+
+
+Nonlinear Coriolis Forces due to Added Mass in a Rotating Coordinate System 119
+(Imlay, 1961):
+XA = X ̇u  ̇u + X  ̇w(  ̇w + uq) + Xq ̇ q ̇ + Z  ̇wwq + Zq ̇ q2
++X ̇v  ̇v + X  ̇p  ̇p + Xr ̇r ̇ − Yv ̇ vr − Y  ̇prp − Yr ̇r2
+−X ̇vur − Y  ̇wwr
++Y  ̇wvq + Z  ̇ppq − (Yq ̇ − Zr ̇)qr
+YA = Xv ̇  ̇u + Y  ̇w  ̇w + Yq ̇ q ̇
++Yv ̇  ̇v + Y  ̇p  ̇p + Yr ̇r ̇ + X ̇vvr − Y  ̇wvp + Xr ̇r2 + (Xp ̇ − Zr ̇)rp − Zp ̇ p2
+−X  ̇w(up − wr) + X ̇uur − Z  ̇wwp
+−Zq ̇ pq + Xq ̇ qr
+ZA = X  ̇w(  ̇u − wq) + Z  ̇w  ̇w + Zq ̇ q ̇ − X ̇uuq − Xq ̇ q2
++Y  ̇w  ̇v + Z  ̇p  ̇p + Zr ̇r ̇ + Yv ̇ vp + Yr ̇rp + Y  ̇pp2
++X ̇vup + Y  ̇wwp
+−X ̇vvq − (X  ̇p − Yq ̇ )pq − Xr ̇qr (6.41)
+KA = X  ̇p  ̇u + Z  ̇p  ̇w + Kq ̇ q ̇ − Xv ̇ wu + Xr ̇uq − Y  ̇ww2 − (Yq ̇ − Zr ̇)wq + Mr ̇q2
++Yp ̇  ̇v + K  ̇p  ̇p + Kr ̇r ̇ + Y  ̇wv2 − (Yq ̇ − Zr ̇)vr + Zp ̇ vp − Mr ̇r2 − Kq ̇ rp
++X  ̇wuv − (Yv ̇ − Z  ̇w)vw − (Yr ̇ + Zq ̇ )wr − Y  ̇pwp − Xq ̇ ur
++(Yr ̇ + Zq ̇ )vq + Kr ̇pq − (Mq ̇ − Nr ̇)qr
+MA = Xq ̇ (  ̇u + wq) + Zq ̇ (  ̇w − uq) + Mq ̇ q ̇ − X  ̇w(u2 − w2) − (Z  ̇w − X ̇u)wu
++Yq ̇  ̇v + Kq ̇  ̇p + Mr ̇r ̇ + Y  ̇pvr − Yr ̇vp − Kr ̇(p2 − r2) + (K  ̇p − Nr ̇)rp
+−Y  ̇wuv + Xv ̇ vw − (Xr ̇ + Z  ̇p)(up − wr) + (X  ̇p − Zr ̇)(wp + ur)
+−Mr ̇pq + Kq ̇ qr
+NA = Xr ̇  ̇u + Zr ̇  ̇w + Mr ̇q ̇ + Xv ̇ u2 + Y  ̇wwu − (X  ̇p − Yq ̇ )uq − Z  ̇pwq − Kq ̇ q2
++Yr ̇  ̇v + Kr ̇  ̇p + Nr ̇r ̇ − Xv ̇ v2 − Xr ̇vr − (X  ̇p − Yq ̇ )vp + Mr ̇rp + Kq ̇ p2
+−(X ̇u − Y ̇v)uv − X  ̇wvw + (Xq ̇ + Y  ̇p)up + Yr ̇ur + Zq ̇ wp
+−(Xq ̇ + Y  ̇p)vq − (K  ̇p − Mq ̇ )pq − Kr ̇qr
+Imlay (1961) arranged the equations in four lines with longitudinal components on the first line and lateral components on the second. The third line consists of mixed terms involving u or w as one factor. If one or both of these velocities are large enough to be treated as constants, the third line may be treated as an additional term to the lateral equations of motion. The fourth line contains mixed terms that usually can be neglected as second-order terms. It should be noted that the off-diagonal elements of MA will be small compared to the diagonal elements for most practical applications. A more detailed discussion on the different added mass derivatives can be found in Humphreys and Watkinson (1978).
+
+
+120 Maneuvering Theory
+Property 6.2 (Hydrodynamic Coriolis–Centripetal Matrix CA(ν))
+For a rigid body moving through an ideal fluid the hydrodynamic Coriolis and centripetal matrix CA(ν) can always be parameterized such that it is skew-symmetric:
+CA(ν) = −CA(ν), ∀ν ∈ R6 (6.42)
+One parametrization satisfying (6.42) is
+CA(ν) =
+[ 03×3 −S(A11ν1 + A12ν2)
+−S(A11ν1 + A12ν2) −S(A21ν1 + A22ν2)
+]
+(6.43)
+where Aij ∈ R3×3 is given by
+MA =
+[ A11 A12
+A21 A22
+]
+(6.44)
+Proof. Substituting MA for M in (3.46) in Theorem 3.2 directly proves (6.43).
+Formula (6.43) can be written in component form according to
+CA(ν) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0 0 0 0 −a3 a2
+0 0 0 a3 0 −a1
+0 0 0 −a2 a1 0
+0 −a3 a2 0 −b3 b2
+a3 0 −a1 b3 0 −b1
+−a2 a1 0 −b2 b1 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(6.45)
+where
+a1 = X ̇uu + Xv ̇ v + X  ̇ww + Xp ̇ p + Xq ̇ q + Xr ̇r
+a2 = Y ̇uu + Y ̇vv + Y  ̇ww + Y  ̇pp + Yq ̇ q + Yr ̇r
+a3 = Z ̇uu + Z ̇vv + Z  ̇ww + Z  ̇pp + Zq ̇ q + Zr ̇r
+b1 = K ̇uu + Kv ̇ v + K  ̇ww + Kp ̇ p + Kq ̇ q + Kr ̇r
+b2 = M ̇uu + Mv ̇ v + M  ̇ww + M  ̇pp + Mq ̇ q + Mr ̇r
+b3 = N ̇uu + N ̇vv + N  ̇ww + Np ̇ p + Nq ̇ q + Nr ̇r
+(6.46)
+Properties 6.2 and 8.1 imply that the marine craft dynamics can be represented in terms of nonlinear Coriolis and centripetal forces using relative velocity:
+Mν ̇r + C(νr)νr + D(νr)νr + g(η) = τ + τwind + τwave (6.47)
+where
+M = MRB + MA (6.48)
+C(νr) = CRB(νr) + CA(νr) (6.49)
+while classical seakeeping theory uses linear matrices C∗
+RB and C∗
+A as explained in Section 6.2.
+
+
+Nonlinear Coriolis Forces due to Added Mass in a Rotating Coordinate System 121
+Example 6.1 (Added Mass for Surface Vessels)
+For surface ships such as tankers, cargo ships and cruise-liners it is common to decouple the surge mode from the steering dynamics due to xz-plane symmetry. Similarly, the heave, pitch, and roll modes are neglected under the assumption that these motion variables are small. Hence, νr = [ur, vr, r] implies that the added mass derivatives for a surface ship are
+MA = MA = −
+⎡
+⎣
+X ̇u 0 0
+0 Y ̇v Yr ̇
+0 Yr ̇ Nr ̇
+⎤
+⎦ (Nv ̇ = Yr ̇) (6.50)
+CA(νr) = −CA(νr) =
+⎡
+⎣
+0 0 Y ̇vvr + Yr ̇r
+0 0 −X ̇uur
+−Yv ̇ vr − Yr ̇r X ̇uur 0
+⎤
+⎦ (6.51)
+The Coriolis and centripetal forces are recognized as
+CA(ν)ν =
+⎡
+⎢⎢⎣
+Y ̇vvrr + Yr ̇ r2
+−X  ̇u ur r
+(X ̇u − Yv ̇ )urvr
+} {{ }
+Munk moment
+− Yr ̇urr
+⎤
+⎥⎥⎦ (6.52)
+where the first term in the yaw moment is the nonlinear Munk moment, which is known to have destabilizing effects.
+Example 6.2 (Added Mass for Underwater Vehicles)
+In general, the motion of an underwater vehicle moving in 6 DOF at high speed will be highly nonlinear and coupled. However, in many AUV and ROV applications the vehicle will only be allowed to move at low speed. If the vehicle also has three planes of symmetry, this suggests that the contribution from the off-diagonal elements in the matrix MA can be neglected. Hence, the following simple expressions for the matrices MA and CA are obtained:
+MA = MA = −diag{X ̇u, Yv ̇ , Z  ̇w, Kp ̇ , Mq ̇ , Nr ̇} (6.53)
+CA(νr) = −CA(νr) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0 0 0 0 −Z  ̇wwr Yv ̇ vr
+0 0 0 Z  ̇wwr 0 −X ̇uur
+0 0 0 −Y v ̇ vr X ̇uur 0
+0 −Z  ̇wwr Yv ̇ vr 0 −Nr ̇r Mq ̇ q
+Z  ̇wwr 0 −X ̇uur Nr ̇r 0 −K  ̇pp
+−Y v ̇ vr X ̇uur 0 −Mq ̇ q Kp ̇ p 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(6.54)
+The diagonal structure is often used since it is time consuming to determine the off-diagonal elements from experiments as well as theory. In practice, the diagonal approximation is found to be quite good for many applications. This is due to the fact that the off-diagonal elements of a positive inertia matrix will be much smaller than their diagonal counterparts.
+
+
+122 Maneuvering Theory
+6.4 Viscous Damping and Ocean Current Forces
+Hydrodynamic damping for marine craft is mainly caused by:
+Potential Damping: We recall from the beginning of Section 6.2 that added mass, damping and restoring forces and moments are encountered when a body is forced to oscillate with the wave excitation frequency in the absence of incident waves. The radiation-induced damping term is usually referred to as linear frequency-dependent potential damping B(ω).
+Skin Friction: Linear frequency-dependent skin friction Bv(ω) due to laminar boundary layer theory is important when considering the low-frequency motion of marine craft (Faltinsen and Sortland, 1987). In addition to linear skin friction, there will be a high-frequency contribution due to a turbulent boundary layer. This is usually referred to as a quadratic or nonlinear skin friction. Wave Drift Damping: Wave drift damping can be interpreted as added resistance for surface vessels advancing in waves. This type of damping is derived from second-order wave theory. Wave drift damping is the most important damping contribution to surge for higher sea states. This is due to the fact that the wave drift forces are proportional to the square of the significant wave height Hs. Wave drift damping in sway and yaw is small relative to eddy-making damping (vortex shedding). A rule of thumb is that second-order wave drift forces are less than 1 % of the first-order wave forces when the significant wave height is equal to 1 m and 10 % when the significant wave height is equal to 10 m. Damping Due to Vortex Shedding: D’Alambert’s paradox states that no hydrodynamic forces act on a solid moving completely submerged with constant velocity in a nonviscous fluid. In a viscous fluid, frictional forces are present such that the system is not conservative with respect to energy. This is commonly referred to as interference drag. It arises due to the shedding of vortex sheets at sharp edges. The viscous damping force due to vortex shedding can be modeled as
+f (u) = − 1
+2 ρ CD(Rn) A|u|u (6.55)
+where u is the velocity of the craft, A is the projected cross-sectional area under water, CD(Rn) is the drag coefficient based on the representative area and ρ is the water density. This expression is recognized as one of the terms in Morison’s equation (see Faltinsen, 1990). The drag coefficient CD(Rn) is a function of the Reynolds number:
+Rn = uD
+ν (6.56)
+where D is the characteristic length of the body and ν is the kinematic viscosity coefficient (ν = 1.56 × 10−6 for salt water at 5 ◦C with salinity 3.5 %). Lifting Forces: Hydrodynamic lift forces arise from two physical mechanisms. The first is due to the linear circulation of water around the hull. The second is a nonlinear effect, commonly called crossflow drag, which acts from a momentum transfer from the body to the fluid. This secondary effect is closely linked to vortex shedding.
+The different damping terms contribute to both linear and quadratic damping. However, it is in general difficult to separate these effects. In many cases, it is convenient to write total hydrodynamic damping as
+D(νr) = D + Dn(νr) (6.57)
+
+
+Viscous Damping and Ocean Current Forces 123
+where D is the linear damping matrix due to potential damping and possible skin friction and Dn(νr) is the nonlinear damping matrix due to quadratic damping and higher-order terms. Hydrodynamic damping satisfies the following dissipative property:
+Property 6.3 (Hydrodynamic Damping Matrix D(νr))
+For a rigid body moving through an ideal fluid the hydrodynamic damping matrix,
+D(νr) = 1
+2
+[D(νr) + D(νr) ] + 1
+2
+[D(νr) − D(νr) ] (6.58)
+will be real, nonsymmetric and strictly positive:
+D(νr) > 0, ∀ ν ∈ R6 (6.59)
+or
+x D(νr)x = 1
+2 x [D(νr) + D(νr) ] x > 0 ∀ x =/ 0 (6.60)
+Some of the damping terms can be determined by using well-established methods from the literature and experimental techniques.
+6.4.1 Linear Viscous Damping
+As shown in Section 6.2, the linear damping matrix in CO with decoupled surge dynamics can be written
+D = DP + DV (6.61)
+=−
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+Xu 0 0 0 0 0
+0 Yv 0 Yp 0 Yr
+0 0 Zw 0 Zq 0
+0 Kv 0 Kp 0 Kr
+0 0 Mw 0 Mq 0
+0 Nv 0 Np 0 Nr
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(6.62)
+where the diagonal terms relate to seakeeping theory according to
+−Xu = B11v (6.63)
+−Yv = B22v (6.64)
+−Zw = B33v + B33(ωheave) (6.65)
+−Kp = B44v + B44(ωroll) (6.66)
+−Mq = B55v + B55(ωpitch) (6.67)
+−Nr = B66v (6.68)
+
+
+124 Maneuvering Theory
+Consider a second-order test system stabilized by a PD controller:
+m ̈x + (d + Kd)x ̇ + Kpx = 0 (6.69)
+This system satisfies
+2ζωn = d + Kd
+m , ω2
+n = Kp
+m (6.70)
+In the uncontrolled case Kp = Kd = 0. Hence, the time constant becomes
+T=m
+d (6.71)
+In closed loop, Kp and Kd are positive constants satisfying
+1
+T + Kd
+m = 2ζ
+( 2π
+Tn
+)
+= 4πζ
+Tn
+(6.72)
+If Kd is specified as Kd/m = 1/T , the bandwidth of the closed-loop system is approximately doubled and it follows that
+2
+T = 4πζ
+Tn
+(6.73)
+The relationship between the time constant T , relative damping ratio ζ and the natural period Tn under feedback control is
+T = Tn
+8πζ (6.74)
+The corresponding feedback gains are Kp = mω2
+n and Kd = m/T . This implies that a PD-controlled ship in surge, sway and yaw with relative damping ratio ζ = 0.1 and natural periods in the range 100 s ≤ Tn ≤ 150 s has time constants in the range
+39.8 s ≤ T ≤ 59.7 s (6.75)
+From (6.71), it is seen that the linear viscous damping terms can be specified as three time constants in surge, sway and yaw (Tsurge, Tsway, Tyaw) while additional damping can be added in heave, roll and
+
+
+Viscous Damping and Ocean Current Forces 125
+pitch as ( ζheave, ζroll, ζpitch). Consequently, we can use the following formulae to estimate linear viscous damping:
+B11v = m + A11(0)
+Tsurge
+= 8πζsurge[m + A11(0)]
+Tn,surge
+(6.76)
+B22v = m + A22(0)
+Tsway
+= 8πζsway[m + A22(0)]
+Tn,sway
+(6.77)
+B33v = 2 ζheaveωheave[m + A33(ωheave)] (6.78)
+B44v = 2 ζrollωroll[Ix + A44(ωroll)] (6.79)
+B55v = 2 ζpitchωpitch[Iy + A55(ωpitch)] (6.80)
+B66v = Iz + A66(0)
+Tyaw
+= 8πζyaw[Iz + A66(0)]
+Tn,yaw
+(6.81)
+where typical values for Tsurge, Tsway and Tyaw are 100–250 s, ζheave = ζpitch = 0 while additional roll damping ζroll could be added to obtain a total roll damping of 0.05–0.10, which is quite common for offshore supply vessels, tankers, semi-submersibles and container ships. For ships with anti-roll tanks a relative damping factor of 0.4–0.6 at the resonance frequency ωroll is common.
+6.4.2 Nonlinear Surge Damping
+In surge, the viscous damping for ships may be modeled as (Lewis, 1989)
+X = −1
+2 ρS(1 + k)Cf (ur)|ur|ur (6.82)
+Cf (ur) = 0.075
+(log10 Rn − 2)2
+} {{ }
+CF
++ CR (6.83)
+where ρ is the density of water, S is the wetted surface of the hull,
+ur = u − uc
+= u − Vc cos(βc − ψ) (6.84)
+is the relative surge velocity (see Section 8.3), k is the form factor giving a viscous correction, CF is the flat plate friction from the ITTC 1957 line and CR represents residual friction due to hull roughness, pressure resistance, wave-making resistance and wave-breaking resistance. For ships in transit k is typically 0.1 whereas this value is much higher in DP, typically k = 0.25 (Hoerner, 1965). The friction coefficient CF depends on the Reynolds number:
+Rn = urLpp
+ν (6.85)
+where ν = 1 × 10−6 m/s2 is the kinematic viscosity at 20 ◦C. For small values of (log10 Rn − 2) in the expression for CF , a minimum value of Rn should be used in order to avoid the condition where CF blows up at low speed.
+
+
+126 Maneuvering Theory
+Figure 6.4 Modified resistance curve Cnew
+f (ur) and Cf (ur) as a function of ur when CR = 0. The zero speed value Cnew
+f (0) = (Ax/S)CX where CX = 0.16 is the current coefficient.
+For ships, a typically value is Rn,min = 106, which limits the friction coefficient to CF,max < 0.05 at lower speeds (see Figure 6.4). The damping model in surge can also be written as
+X = X|u|u|ur|ur (6.86)
+X|u|u = − 1
+2 ρS(1 + k)Cf < 0 (6.87)
+For low-speed maneuvering, this formula gives too little damping compared to the quadratic drag formula
+X|u|u = 1
+2 ρAxCx (6.88)
+where CX > 0 is the current coefficient and Ax is the frontal project area (see Section 7.3.1). The current coefficients are usually found from experiments using a model ship in up to 1.0 m/s currents. The resistance and current coefficients (6.87) and (6.88) are related by
+CX = S
+Ax
+Cf (6.89)
+
+
+Viscous Damping and Ocean Current Forces 127
+One way to obtain sufficient damping at low speed is to modify the resistance curve according to
+Cnew
+f (ur) = Cf (umax
+r )+
+( Ax
+S CX − C(umax
+r)
+)
+exp(−αu2
+r ) (6.90)
+where α > 0 (typically 1.0) and the maximum friction coefficient Cf (umax
+r ) is computed for maximum relative velocity umax
+r . The modified resistance curve Cnew
+f (ur) is plotted together with Cf (ur) in Figure 6.4. Notice that the resistance curve is increased at lower velocities due to the contribution of the current coefficient CX. The second plot shows the current coefficient CX at zero speed together with
+Cnew
+X = 1/2ρAxCnew
+f . The effect of the current coefficient vanishes at higher speeds thanks to the exponentially decaying weight exp(−αu2
+r ).
+6.4.3 Cross-Flow Drag Principle
+For relative current angles |βc − ψ| 0, where βc is the current direction, the cross-flow drag principle may be applied to calculate the nonlinear damping force in sway and the yaw moment (Faltinsen, 1990):
+Y = −1
+2ρ
+∫
+Lpp 2
+− Lpp
+2
+T (x)C2D
+d (x)|vr + xr|(vr + xr)dx (6.91)
+N = −1
+2ρ
+∫
+Lpp 2
+− Lpp
+2
+T (x)C2D
+d (x)x|vr + xr|(vr + xr)dx (6.92)
+where C2D
+d (x) is the 2-D drag coefficient, T (x) is the draft and
+vr = v − vc
+= v − Vc sin(βc − ψ) (6.93)
+is the relative sway velocity (see Section 8.3). This is a strip theory approach where each hull section contributes to the integral. Drag coefficients for different hull forms are found in Hooft (1994). A constant 2-D current coefficient can also be estimated using Hoerner’s curve (see Figure 6.5).
+Matlab
+The 2-D drag coefficients C2D
+d can be computed as a function of beam B and length T using Hoerner’s curve. This is implemented in the Matlab MSS toolbox as
+Cd=Hoerner(B,T)
+
+
+128 Maneuvering Theory
+Figure 6.5 2-D cross-flow coefficient C2D
+d as a function of B/2T (Hoerner, 1965).
+A 3-D representation of (6.91)–(6.92) eliminating the integrals can be found by curve fitting formula (6.91) and (6.92) to second-order modulus terms to obtain a maneuvering model similar to that of Fedyaevsky and Sobolev (1963):
+Y = Y|v|v|vr|vr + Y|v|r|vr|r + Yv|r|vr|r| + Y|r|r|r|r (6.94)
+N = N|v|v|vr|vr + N|v|r|vr|r + Nv|r|vr|r| + N|r|r|r|r (6.95)
+where Y|v|v, Y|v|r, Yv|r|, Y|r|r|r|r|, N|v|v, N|v|r, Nv|r|, and N|r|r are maneuvering coefficients defined using the SNAME notation. In the next section, this approach will be used to derive maneuvering models in 3 DOF.
+6.5 Maneuvering Equations
+This section summarizes the linear and nonlinear maneuvering equations using the results in Sections 6.1–6.4. Application specific models for ships and underwater vehicles are presented in Chapter 7.
+6.5.1 Hydrodynamic Mass–Damper–Spring System
+In hydrodynamics it is common to assume that the hydrodynamic forces and moments on a rigid body can be linearly superimposed (see Faltinsen, 1990, 2005). This results in a hydrodynamic mass–damperspring system that can be explained as:
+Forces on the body when the body is forced to oscillate with the wave excitation frequency and there are no incident waves
+
+
+Maneuvering Equations 129
+The contribution to the hydrodynamic mass–damper–spring forces is as follows:
+Hydrodynamic Mass–Damper
+• Added mass MA due to the inertia of the surrounding fluid (see Section 6.2). The corresponding Coriolis and centripetal matrix due to added mass is due to the rotation of {b} with respect to {n} and is denoted CA(νr) (see Section 6.3). • Radiation-induced potential damping DP due to the energy carried away by generated surface waves. • Viscous damping caused by skin friction, wave drift damping, vortex shedding and lift/drag (see Section 6.4). The resulting hydrodynamic force is written as
+τhyd = − MAν ̇r − CA(νr)νr
+} {{ }
+added mass
+− DP νr
+} {{ }
+potential damping
++τvisc (6.96)
+where νr = ν − νc with νc = [u, vc, wc, 0, 0, 0] is the relative velocity due to an irrotational constant ocean current (see Section 8.3) and
+τvisc = − DV νr
+} {{ }
+linear
+viscous friction
+− Dn(νr)νr
+} {{ }
+nonlinear
+viscous damping
+(6.97)
+Hydrostatic Spring Stiffness
+• Restoring forces due to Archimedes (weight and buoyancy); see Section 4.1:
+τhs = −g(η) − go (6.98)
+The potential coefficient matrices A(ω) and B(ω) can be computed using a hydrodynamic code while approximate expressions for MA and DP as well as CA(νr) can be computed using (6.26) and (6.27), which are based on Definitions 6.1 and 6.2. Fully coupled matrices MA and DP in 6 DOF can, however, be computed using model experiments or curve fitting to experimental data. This results in constant (frequency-independent) matrices in the following form:
+MA = −
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+X ̇u 0 0 0 0 0
+0 Yv ̇ 0 Yp ̇ 0 Yr ̇
+0 0 Z  ̇w 0 Zq ̇ 0
+0 K ̇v 0 Kp ̇ 0 Kr ̇
+0 0 M  ̇w 0 Mq ̇ 0
+0 Nv ̇ 0 N  ̇p 0 Nr ̇
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(6.99)
+D=−
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+Xu 0 0 0 0 0
+0 Yv 0 Yp 0 Yr
+0 0 Zw 0 Zq 0
+0 Kv 0 Kp 0 Kr
+0 0 Mw 0 Mq 0
+0 Nv 0 Np 0 Nr
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(6.100)
+where the coefficients are called hydrodynamic derivatives. Again it is convenient to assume that the surge motion is decoupled and that the marine craft is symmetric about the xz plane. This reduces the number of parameters in the model.
+
+
+130 Maneuvering Theory
+The total hydrodynamic damping matrix D(νr) is the sum of the linear part D and the nonlinear part Dn(νr) such that
+D(νr) := D + Dn(νr) (6.101)
+If nonlinear damping is modeled using the ITTC resistance law in Section 6.4.2 and cross-flow drag formulae in Section 6.4.3, the following expression is obtained:
+Dn(νr) = −
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+X|u|u |ur| 0 0 0 0 0
+0 Y|v|v |vr| + Y|r|v |r| 0 0 0 Y|v|r |vr| + Y|r|r |r|
+0 0 Z|w|w|wr| 0 0 0
+0 0 0 K|p|p|p| 0 0
+0 0 0 0 M|q|q|q| 0
+0 N|v|v |vr| + N|r|v |r| 0 0 0 N|v|r |vr| + N|r|r |r|
+∣∣∣∣∣∣∣∣∣∣∣∣∣
+where we have included additional nonlinear damping terms on the diagonal in heave, roll and pitch. In general, there will be coupling terms in all DOF. However, many of these are small so engineering judgement must be used when deriving the model. Standard models for marine craft are discussed in Chapter 7. The resulting nonlinear hydrodynamic mass–damper–spring forces can be expressed by
+τhyd = −MAν ̇r − CA(νr)νr − D(νr)νr (6.102)
+τhs = −g(η) − go (6.103)
+6.5.2 Nonlinear Maneuvering Equations
+The hydrodynamic forces (6.102) and (6.103) must be included in the equations of motion in order to integrate acceleration ν ̇ to velocity and position. Consider the rigid-body kinetics (6.5):
+MRBν ̇ + CRB(ν)ν = τRB (6.104)
+where
+τRB = τhyd + τhs + τwind + τwave + τ (6.105)
+The vector τ represents the propulsion forces and moments. Substituting (6.102) and (6.103) into (6.105) gives the nonlinear maneuvering equations:
+MRBν ̇ + CRB(ν)ν
+} {{ }
+rigid-body forces
++ MAν ̇r + CA(νr)νr + D(νr)νr
+} {{ }
+hydrodynamic forces
++ g(η) + go
+} {{ }
+hydrostatic forces
+= τ + τwind + τwave (6.106)
+
+
+Maneuvering Equations 131
+A special case of (6.106) is obtained for ocean currents that are assumed to be constant and irrotational in {n} such that (see Section 8.3)
+ν ̇c =
+[ −S(ωb
+b/n) 03×3
+03×3 03×3
+]
+νc (6.107)
+According to Property 8.1, it is then possible to represent the equations of motion by relative velocities according to
+Mν ̇r + C(νr)νr + D(νr)νr + g(η) + go = τ + τwind + τwave (6.108)
+where
+M = MRB + MA (6.109)
+C(νr) = CRB(νr) + CA(νr) (6.110)
+The assumption that the potential coefficients are constant (frequency independent) implies that
+M = M > 0, M ̇ = 0 (6.111)
+which are very useful properties when designing energy-based control laws where the sum of kinetic and potential energy is a natural Lyapunov function candidate. Models for simulation and control of marine craft are treated in more detail in Chapter 7 where focus is on tailor-made models for dynamic positioning, roll damping, ship maneuvering, path following and autopilot design.
+6.5.3 Linearized Maneuvering Equations
+The linearized maneuvering equations in surge, sway and yaw is a special case of the nonlinear model (6.106):
+MRBν ̇ + C∗
+RB ν
+} {{ }
+rigid-body forces
++ MAν ̇r + C∗
+Aνr + Dνr
+} {{ }
+hydrodynamic forces
+= τ + τwind + τwave (6.112)
+where restoring forces are neglected, nonlinear Coriolis and centripetal forces are linearized about the cruise speed U and nonlinear damping is approximated by a linear damping matrix. If ocean currents are neglected, Equation (6.112) reduces to
+(MRB + MA)
+} {{ }
+M
+ν ̇ + (C∗
+RB + C∗
+A + D)
+} {{ }
+N
+ν = τ + τwind + τwave (6.113)
+
+
+132 Maneuvering Theory
+The expressions for C∗
+RB and C∗
+A are computed using the selection matrix L given by (3.63). This gives
+C∗
+RB = UMRBL
+=
+⎡
+⎣
+00 0
+0 0 mU
+0 0 mxgU
+⎤
+⎦ (6.114)
+C∗
+A = UMAL
+=
+⎡
+⎣
+00 0
+0 0 −Yv ̇ U
+0 0 −Yr ̇U
+⎤
+⎦ (6.115)
+such that
+⎡
+⎣
+m − X ̇u 0 0
+0 m − Yv ̇ mxg − Yr ̇
+0 mxg − N ̇v Iz − Nr ̇
+⎤
+⎦
+⎡
+⎣
+ ̇u
+ ̇v
+r ̇
+⎤
+⎦
++
+⎡
+⎣
+−Xu 0 0
+0 −Yv (m − Y ̇v)U − Yr
+0 −Nv (mxg − Yr ̇)U − Nr
+⎤
+⎦
+⎡
+⎣
+u
+v
+r
+⎤
+⎦=
+⎡
+⎣
+τ1
+τ2
+τ6
+⎤
+⎦
+Notice that surge is assumed to be decoupled from the sway–yaw subsystem.

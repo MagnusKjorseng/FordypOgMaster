@@ -1,0 +1,3293 @@
+13
+Advanced Motion Control
+Systems
+State-of-the-art motion control systems are usually designed using PID control methods, as described in Chapter 12. This chapter presents more advanced methods for optimal and nonlinear control of marine craft. The main motivation for this is design simplicity and performance. Nonlinear control theory can often yield a more intuitive design than linear theory. Linearization destroys model properties and the results can be a more complicated design process with limited physical insight. Chapter 13 is written for the advanced user who wants to exploit a more advanced model and use this model to improve the performance of the control system. Readers of this chapter need background in optimal and nonlinear control theory.
+Preview of the Chapter
+Chapter 13 starts with linear quadratic optimal control theory (Section 13.1) with the focus on regulation, trajectory-tracking control and disturbance feedforward. Optimal motion control systems are designed by considering the linearized equations of motion (Section 7.5.3) in the following form:
+x ̇ = Ax + Bu + Ew (13.1)
+For a marine craft, the linear model (13.1) is based on several assumptions such as zero or constant cruise speed u together with the assumptions that the velocities v, w, p, q and r are small. In addition, the kinematic equation  ̇η = J (η)ν must be linearized under a set of assumptions on the Euler angles φ, θ and ψ.
+When linearizing the equations of motion, several model properties such as symmetry of the inertia matrix M, skew-symmetry of the Coriolis and centripetal matrix C(ν) and positiveness of the damping matrix D(ν) are destroyed, and this often complicates the control design. Also physical properties that are important tools for good engineering judgement are lost. This is seen by comparing the LQ design procedure with the nonlinear techniques in Sections 13.2–13.4. It is also demonstrated how the nonlinear controllers can be related to the PID control design methods in Chapter 12 in particular, under the assumption of setpoint regulation. Often it is useful to think about the nonlinear controller as a PID control system where additional terms are added to obtain global stability results. Keeping this in mind, it is also possible to derive a nonlinear controller using advanced methods and then use engineering insight to simplify the representation of the controller. The resulting controller should be as simple as possible
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+418 Advanced Motion Control Systems
+but still contain the most important terms when implementing the algorithm into a computer. In fact, a so-called simplified nonlinear controller will be recognized as a PID controller with additional terms. Many nonlinear methods are popular due to their simplicity and design flexibility. The assumptions on u, v, w, p, q, r and φ, θ, ψ which are needed when linearizing the models are also avoided. The nonlinear design methods in this chapter are based on the robot-like model of Fossen (1991):
+ ̇η = Jθ(η)ν (13.2)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) = τ + w (13.3)
+It is important to understand the physical properties of the model in order to know which terms in the model can be omitted when deriving a model-based nonlinear controller. This is an important question since model inaccuracies can destabilize a feedback control system. Often better results are obtained when uncertain terms are chosen to be zero in the controller.
+13.1 Linear Quadratic Optimal Control
+Optimal control deals with the problem of finding a control law for a given system such that a certain optimality criterion is achieved. This is usually a cost function that depends on the state and control variables. The optimal control law is a set of differential equations that minimize the cost functional and it can be derived using Pontryagin’s maximum principle (a necessary condition) or by solving the Hamilton–Jacobi–Bellman equation (a sufficient condition). We will limit our discussion to linear systems and quadratic cost functions. This is referred to as linear quadratic (LQ) optimal control theory (Athans and Falb, 1966).
+13.1.1 Linear Quadratic Regulator
+A fundamental design problem is the regulator problem, where it is necessary to regulate the outputs y ∈ Rm of the system to zero or a constant value while ensuring that they satisfy time-response specifications. A linear quadratic regulator (LQR) can be designed for this purpose by considering the state-space model
+x ̇ = Ax + Bu (13.4)
+y = Cx (13.5)
+where x ∈ Rn, u ∈ Rr and y ∈ Rm. In order to design a linear optimal control law the system (A, B, C) must be controllable while observability (see Definition 11.2 in Section 11.2.3) is necessary if some of the states must be estimated. Controllability for linear time-invariant systems is given by the following definition
+Definition 13.1 (Controllability)
+The state and input matrix (A, B) must satisfy the controllability condition to ensure that there exists a control u(t) that can drive any arbitrary state x(t0) to another arbitrary state x(t1) for t1 > t0. The controllability condition requires that the matrix (Gelb et al., 1988)
+C = [B | AB | · · · | (A)n−1B] (13.6)
+must be of full row rank such that a right inverse exists.
+
+
+Linear Quadratic Optimal Control 419
+The feedback control law for the system (13.4)–(13.5) is found by minimizing the quadratic cost function
+J = min
+u
+{1
+2
+∫T
+0
+(y Qy + u Ru) dt
+=1
+2
+∫T
+0
+(x C QCx + u Ru) dt
+}
+(13.7)
+where R = R > 0 and Q = Q ≥ 0 are the weighting matrices. The steady-state solution to this problem is (Athans and Falb, 1966)
+u = −R−1B P ∞
+} {{ }
+G
+x (13.8)
+P∞A + A P∞ − P∞BR−1B P∞ + C QC = 0 (13.9)
+where P∞ = limt→∞ P(t). The optimal feedback control system is illustrated in Figure 13.1.
+Matlab
+The steady-state LQR feedback control law is computed as (see the script ExLQR.m)
+Q = diag([1]); % user editable tracking error weights (dim m x m)
+R = diag([1]); % user editable input weights (dim r x r)
+% System matrices
+A = [0 1; -1 -2]; % user editable state matrix (dim n x n)
+B = [0; 1]; % user editable input matrix (dim n x r)
+C = [1 0]; % user editable output matrix (dim m x n)
+% Compute the optimal feedback gain matrix G
+[K,P,E] = lqr(A,B,C’*Q*C,R);
+G = -K
+Figure 13.1 Block diagram showing the linear quadratic regulator (LQR).
+
+
+420 Advanced Motion Control Systems
+The Matlab function lqr.m also returns the eigenvalues of the closed-loop system
+x ̇ = (A + BG)x (13.10)
+denoted by the symbol E.
+13.1.2 LQR Design for Trajectory Tracking and Integral Action
+The LQR can be redesigned to track a time-varying reference trajectory xd ∈ Rn for a large class of mechanical systems possessing certain structural properties. This section presents a simple solution to this problem while a more general solution is presented in Section 13.1.3.
+Transformation of the LQ Tracker to a Setpoint Regulation Problem
+In order to transform a trajectory-tracking problem to a setpoint regulation problem reference feedforward can be used. Unmeasured slowly varying or constant disturbances are compensated for by including integral action. This is usually done by augmenting an integral state z ̇ = e to the system model. A mass–damper–spring system will be used to demonstrate the design methodology.
+Example 13.1 (Mass–Damper–Spring Trajectory-Tracking Problem) Consider the mass–damper–spring system
+x ̇ = v
+m ̇v + dv + kx = τ
+Let
+τ = τFF + τLQ (13.11)
+where the feedforward term is chosen as
+τFF = m ̇vd + dvd + kxd (13.12)
+such that
+m ̈e + d  ̇e + ke = τLQ (13.13)
+where e = x − xd and e ̇ = v − vd. The desired states are computed using a reference model:
+x ̇d = vd (13.14)
+ ̇vd = φ(vd, r) (13.15)
+where r is the setpoint. The trajectory-tracking control problem has now been transformed to an LQ setpoint regulation problem given by (13.13), which can be written in state-space form as
+x ̇ =
+[0 1 −d
+m −k
+m
+]
+} {{ }
+A
+x+
+[0
+1 m
+]
+} {{ }
+B
+u
+e = [1 0]
+} {{ }
+C
+x
+where x = [e,  ̇e] and u = τLQ.
+
+
+Linear Quadratic Optimal Control 421
+Integral Action
+In Example 13.1 it was shown that a feedforward term τFF could transform the LQ trajectory-tracking problem to an LQR problem. For the system model
+x ̇ = Ax + Bu (13.16)
+integral action is obtained by augmenting the integral state z ∈ Rm to the state vector. Let
+ ̇z = y = Cx (13.17)
+where the C matrix is used to extract potential integral states from the x vector. This system is a standard LQR problem:
+x ̇ a = Aaxa + Bau (13.18)
+where xa = [z , x ] and
+Aa =
+[0 C
+0A
+]
+, Ba =
+[0
+B
+]
+(13.19)
+The control objective is regulation of xa to zero using u. This is obtained by choosing the performance index
+J = min
+u
+{1
+2
+∫t
+0
+(xa Qaxa + u Ru) dτ
+}
+(13.20)
+where R = R > 0 and Qa = Qa ≥ 0 are the weighting matrices. Hence, the solution of the LQR setpoint regulation problem is (see Section 13.1.1)
+u = −R−1Ba P ∞xa
+= −R−1[0 B ]
+[ P 11 P 12
+P 21 P 22
+][z
+x
+]
+= − R−1B P 12
+} {{ }
+Ki
+z − R−1B P 22
+} {{ }
+Kp
+x (13.21)
+where P12 and P22 are found by solving the algebraic Riccati equation (ARE)
+P ∞Aa + Aa P ∞ − P ∞BaR−1Ba P ∞ + Qa = 0 (13.22)
+Notice that the feedback term u includes feedback from the tracking errors e and  ̇e as well as the integral state
+z=
+∫t
+0
+e(τ)dτ (13.23)
+13.1.3 General Solution of the LQ Trajectory-Tracking Problem
+Consider the state-space model
+x ̇ = Ax + Bu + Ew (13.24)
+y = Cx (13.25)
+
+
+422 Advanced Motion Control Systems
+The LQ trajectory-tracking control problem is addressed under the assumption that both the state vector x and disturbance vector w are measured or at least obtained by state estimation. If the estimated values are used for x and w, stability can be proven by applying a separation principle. This is known as LQG control in the literature and involves the design of a Kalman filter for reconstruction of the unmeasured states, which again requires that the system is observable. For simplicity, full-state feedback is assumed in this chapter. The interested reader is recommended to consult the extensive literature on LQG control for output feedback control; see Athans and Falb (1966) and Brian et al. (1989), for instance.
+Reference Feedforward Assumptions
+Consider a time-varying reference system:
+x ̇ d = φ(xd, r) (13.26)
+yd = Cxd (13.27)
+where xd ∈ Rn is the desired state, yd ∈ Rp (p ≤ n) is the desired output, r ∈ Rr (r ≤ n) is the setpoint and φ : Rn × Rr→Rp. If linear theory is assumed the dynamics of the desired state can be conveniently represented by
+φ(xd, r) = Adxd + Bdr (13.28)
+This is a linear reference model for trajectory-tracking control; see Section 10.2.1 for how to choose Ad and Bd. A special case is regulation:
+yd = Cxd = constant (13.29)
+Disturbance Feedforward Assumptions
+Two cases of disturbance feedforward are considered:
+1. The disturbance vector w = constant for all t > Tp where Tp is the present time. An example of this is a marine craft exposed to constant (or at least slowly varying) wind forces. This is a reasonable assumption since the average wind speed and direction are not likely to change in minutes. 2. The disturbance w = w(t) varies as a function of time t for future time t > Tp. This is the case for most physical disturbances. However, a feedforward solution requires that w is known (or at least estimated) for t ≥ 0. In many cases this is unrealistic so the best we can do is to assume that w(t) = w(Tp) = constant, that is in a finite future time horizon so that it conforms to Case 1 above.
+Control Objective
+The control objective is to design a linear quadratic optimal trajectory-tracking controller using a timevarying smooth reference trajectory yd given by the system (13.26)–(13.27). Assume that the desired output yd = Cxd is known for all time t ∈ [0, T ], where T is the final time. Define the error signal:
+e := y − yd
+= C(x − xd) (13.30)
+The goal is to design an optimal trajectory-tracking controller that tracks the desired output, that is regulates the error e to zero while minimizing
+
+
+Linear Quadratic Optimal Control 423
+J = min
+u
+{1
+2 e (T )Qf e(T ) + 1
+2
+∫T
+t0
+(e Qe + u Ru) dt
+}
+subject to x ̇ = Ax + Bu + Ew, x(0) = x0 (13.31)
+where R = R > 0 and Q = Q ≥ 0 are the tracking error and control weighting matrices, respectively. The weight matrix Qf = Qf ≥ 0 can be included to add penalty to the final state. Notice that this is a finite time-horizon optimal control problem and it has to be solved by using the differential Riccati equation (DRE); see Athans and Falb (1966, pp. 793–801). It is assumed that the desired output signal comes from a linear reference generator given by
+x ̇ d = Ad xd + Bd r (13.32)
+y = Cxd (13.33)
+where r is a given reference input, which is filtered through the generator. C is the same output matrix as in the plant. A special case of (13.31) is the one with no weight on the final state; that is Qf = 0, resulting in the quadratic performance index
+J = min
+u
+{1
+2
+∫T
+0
+(e Qe + u Ru) dt
+}
+(13.34)
+Substituting (13.30) into (13.34) yields the equivalent formulation
+J = min
+u
+{1
+2
+∫T
+0
+(  ̃x Q ̃  ̃x + u Ru) dt
+}
+(13.35)
+where  ̃x = x − xd and
+Q ̃ = C QC ≥ 0 (13.36)
+Linear Time-Varying Systems
+It can be shown that the optimal control law is (Brian et al., 1989)
+u = −R−1B [Px + h1 + h2] (13.37)
+where P, h1 and h2 originate from the Hamiltonian system. P accounts for the feedback part, h1 accounts for the feedforward part due to the time-varying nature of the reference signal yd and h2 accounts for the feedforward part due to the measurable time-varying disturbance w. The equations that need to be solved are
+P ̇ = −PA − A P + PBR−1B P − Q ̃ (13.38)
+ ̇h1 = −[A − BR−1B P] h1 + Q ̃ xd (13.39)
+ ̇h2 = −[A − BR−1B P] h2 − PEw (13.40)
+
+
+424 Advanced Motion Control Systems
+with
+P(T ) = Q ̃ f (13.41)
+h1(T ) = − Q ̃ f xd(T ) (13.42)
+h2(T ) = 0 (13.43)
+where Q ̃ f = C Qf C. Equations (13.38)–(13.40) represent three differential equations: a matrix DRE and two vector differential equations (adjoint operators), respectively. Notice that the initial conditions for these equations are not known, but rather the final conditions are known. Consequently, they have to be integrated backward in time a priori to find the initial conditions, and then be executed forward in time again with the closed-loop plant from [0, T ]. There are different ways of doing this. A frequently used method is to discretize the system and run the resulting difference equation backward. A simple Euler integration routine for (13.38) is given below, where δ is set as a small negative sampling time. Moreover, using a first-order Taylor expansion
+P(t + δ) ≈ P(t) + δ{−PA − A P + PBR−1B P − Q ̃ } (13.44)
+with P(T ) = Q ̃ f produces P(0). Another procedure is to simulate backwards in time. The system
+x ̇ = f (x, t) + G(x, t)u, t ∈ [T, 0] (13.45)
+can be simulated backwards in time by the following change of integration variable t = T − τ with dt = −dτ, and
+− dx(T − τ)
+dτ = f (x(T − τ), T − τ) + G(x(T − τ), T − τ)u(T − τ) (13.46)
+Let z(τ) = x(T − τ); then
+dz(τ)
+dτ = −f (z(τ), T − τ) − G(z(τ), T − τ)u(T − τ) (13.47)
+This system can now be simulated forward in time with the initial condition z(0) = x(T ). The method is demonstrated in Example 13.2, where it is assumed that both xd and w are time varying but known for all future t. A special case dealing with constant values for xd and w will be studied later.
+Example 13.2 (Optimal Time-Varying LQ Trajectory-Tracking Problem) Consider a mass–damper–spring system:
+m ̈x + dx ̇ + kx = u + w (13.48)
+where m is the mass, d is the damping coefficient, k is the spring stiffness coefficient, u is the input and w is the disturbance. Choosing the states as x1 = x and x2 = x ̇, the following state-space realization is obtained:
+[ x ̇1
+x ̇ 2
+] =
+[0 1 −k
+m −d
+m
+] [ x1
+x2
+] +
+[0
+1 m
+]
+u+
+[0
+1 m
+]
+w (13.49)
+
+
+Linear Quadratic Optimal Control 425
+For simplicity, assume that m = k = 1 and d = 2 such that
+x ̇ =
+[0 1
+−1 −2
+]
+x+
+[0
+1
+]
+u+
+[0
+1
+]
+w (13.50)
+y = [ 1 0 ] x (13.51)
+where x = [x1, x2] . The disturbance signal is assumed to be known for all future time and is simply chosen as
+w = cos(t) (13.52)
+Similarly, the reference signal is assumed to be known for all future time and is given by the generator
+x ̇ d =
+[0 1
+−1 −1
+]
+xd +
+[0
+1
+]
+r (13.53)
+yd = [ 1 0 ] xd (13.54)
+where
+r = sin(t) (13.55)
+The Matlab MSS toolbox script ExLQFinHor.m demonstrates how forward and backward integration can be implemented for the mass–damper–spring system. The simulation results are shown in Figures 13.2–13.3.
+Approximate Solution for Linear Time-Invariant Systems
+Unfortunately, the theory dealing with the limiting case
+J = min
+u
+{1
+2 lim
+T →∞
+∫T
+0
+(e Qe + u Ru) dt
+}
+(13.56)
+is not available. This solution is very useful since it represents a steady-state solution of the LQ trajectorytracking problem. Fortunately, this problem can be circumvented by assuming that T is large but still limited; that is
+0 T1 ≤ T < ∞ (13.57)
+where T1 is a large constant. For T → ∞ the solution of (13.38) will tend to the constant matrix P∞ satisfying the algebraic Riccati equation (ARE)
+P∞A + A P∞ − P∞BR−1B P∞ + Q ̃ = 0 (13.58)
+This solution is interpreted as the steady-state solution of (13.38) where P(t) ≈ P∞ for all t ∈ [0, T1]. This is verified in the upper plot of Figure 13.3. Furthermore, it is assumed that
+xd = constant, w = constant, ∀ t ∈ [0, T1] (13.59)
+
+
+426 Advanced Motion Control Systems
+Figure 13.2 Upper plot: states x1and x2 and the reference trajectories xd1 and xd2 as a function of time. Lower plot: optimal control u as a function of time.
+In practice the assumption that xd is constant can be relaxed with xd being slowly varying compared to the state dynamics. A similar argument can be used for w. It is also common to drop the disturbance feedforward term since integral action in the controller can compensate for nonzero slowly varying disturbances. Next, if the eigenvalues of the matrix
+Ac = A + BG1 where G1 = −R−1B P∞ (13.60)
+have negative real parts
+λi(Ac) < 0 (i = 1, . . . , n) (13.61)
+the steady-state solution for h1 and h2 in (13.39) and (13.40) on [0, T1] becomes
+h1∞ = (A + BG1)− Q ̃ xd (13.62)
+h2∞ = −(A + BG1)− P∞Ew (13.63)
+
+
+Linear Quadratic Optimal Control 427
+Figure 13.3 Optimal solutions of the elements in P, h1 and h2 as a function of time.
+Substitution of (13.58) into (13.37) yields the steady-state optimal control law (see Figure 13.4)
+u = G1 x + G2 yd + G3w (13.64)
+Figure 13.4 Block diagram showing the full state feedback LQ tracker solution with disturbance feedforward.
+
+
+428 Advanced Motion Control Systems
+where yd = constant and w = constant, and
+G1 = −R−1B P∞ (13.65)
+G2 = −R−1B (A + BG1)− C Q (13.66)
+G3 = R−1B (A + BG1)− P∞E (13.67)
+Matlab
+The function lqtracker.m is implemented in the MSS toolbox for computation of the matrices G1, G2 and G3:
+function [G1,G2,G3] = lqtracker(A,B,C,Q,R)
+[K,P,E] = lqr(A,B,C’*Q*C,R);
+G1 = -inv(R)*B’*P;
+Temp = inv((A+B*G1)’);
+G2 = -inv(R)*B’*Temp*C’*Q;
+G3 = inv(R)*B’*Temp*P*E;
+For a mass–damper–spring system the optimal trajectory tracking controller is found using
+ExLQtrack.m:
+%Design matrices
+Q = diag([1]); % tracking error weights
+R = diag([1]); % input weights
+% System matrices
+A = [0 1; -1 -2]; % state matrix
+B = [0; 1]; % input matrix
+C = [1 0]; % output matrix
+% Optimal gain matrices
+[G1,G2,G3] = lqtracker(A,B,C,Q,R)
+SISO Systems
+Consider the SISO state-space model
+x ̇ = Ax + bu + Ew (13.68)
+y = c x (13.69)
+where x ∈ Rn, u ∈ R and y ∈ R. For SISO systems, the performance index (13.34) simplifies to
+J = min
+u
+{1
+2 lim
+T →∞
+∫T
+0
+(q e2 + r u2) dτ
+=q
+2 lim
+T →∞
+∫T
+0
+(
+e2 + r
+q u2
+)
+dt
+}
+(13.70)
+
+
+Linear Quadratic Optimal Control 429
+where q ≥ 0 and r > 0 are two scalars. By choosing q = 1 (without loss of generality) and defining λ := r/q > 0, the performance index (13.70) changes to
+J ∗ = min
+u
+{1
+2 lim
+T →∞
+∫T
+to
+(e2 + λu2) dt
+}
+(13.71)
+Consequently, the steady-state optimal solution can be approximated as
+u = g1 x + g2 yd + g3 w (13.72)
+where
+g1 = − 1
+λ b P∞ (13.73)
+g2 = − 1
+λ b (A + bg1 )− c (13.74)
+g3 = 1
+λ b (A + bg1 )− P∞E (13.75)
+Here P∞ = P∞ > 0 is the solution of the ARE:
+P∞A + A P∞ − 1
+λ P∞bb P∞ + cc = 0 (13.76)
+For a mass–damper–spring system the term g1 x can be viewed as a PD controller while g2yd and g3 w represent reference and disturbance feedforward, respectively.
+13.1.4 Case Study: Optimal Heading Autopilot for Ships and Underwater Vehicles
+Autopilots for rudder-controlled ships and underwater vehicles can be designed by considering a linear quadratic optimization problem:
+J = min
+δ
+{α
+T
+∫T
+0
+[e2 + λ1r2 + λ2δ2]dτ
+}
+(13.77)
+where α is a constant to be interpreted later, e = ψd − ψ is the heading error, δ is the actual rudder angle and λ1 and λ2 are two factors weighting the cost of heading errors e and heading rate r against the control effort δ. This criterion can also be reformulated to describe marine craft that not are turned using a single
+
+
+430 Advanced Motion Control Systems
+rudder by replacing the quadratic term δ2 with other control inputs. In the forthcoming, we will restrict our analysis to a single input. For marine craft, operation in restricted waters usually requires accurate control, while the minimization of fuel consumption is more important in open seas. This can be obtained by changing the weights λ1 and λ2. We will discuss three criteria for control weighting that have all been derived by considering a ship. However, the same principles apply for underwater vehicles.
+The Steering Criterion of Koyama
+The first criterion was derived by Koyama (1967) who observed that the ship’s swaying motion y could be approximated by a sinusoid
+y = sin(et) =⇒ y ̇ = e cos(et) (13.78)
+during autopilot control. The length of one arch La of the sinusoid is
+La =
+∫π
+0
+√
+(1 + y ̇2) dτ =
+∫π
+0
+√
+[1 + e2 cos2(eτ)] dτ ≈ π
+(
+1 + e2
+4
+)
+(13.79)
+Hence, the relative elongation due to a sinusoidal course error is
+L
+L = La − L
+L = π(1 + e2/4) − π
+π = e2
+4 (13.80)
+This suggests that the percentage loss of speed during course control can be calculated by using the elongation in distance due to a sinusoidal course error. Consequently, Koyama (1967) proposed minimizing the speed loss term e2/4 against the increased resistance due to steering given by the quadratic term δ2. This motivates the following criterion:
+J = min
+δ
+{
+100
+(π
+180
+)2 1
+T
+∫T
+0
+[ e2
+4 + λ2δ2
+]
+dτ ≈ 0.0076
+T
+∫T
+0
+[e2 + λ2δ2]dτ
+}
+(13.81)
+In this context (13.77) can be interpreted as
+J = loss of speed (%) (13.82)
+α = 0.0076 (13.83)
+Notice that λ1 = 0 for this method. In practice it might be desirable to penalize r2 by choosing λ1 > 0. For ships, Koyama suggested a λ2 factor of approximately 8–10. Experiments show that such high values for λ2 avoid large rudder angles, and thus high turning rates. Therefore, λ2 = 10 will be a good choice in bad weather, where it is important to suppress high-frequency rudder motions.
+Norrbin’s Steering Criterion
+Another approach for computation of λ2 was proposed by Norrbin (1972). Consider the surge dynamics of a rudder-controlled marine craft in the form
+(m − X ̇u)  ̇u = X|u|u|u|u + (1 − t)T + Tloss (13.84)
+
+
+Linear Quadratic Optimal Control 431
+where
+Tloss = (m + Xvr)vr + Xccδδc2 δ2 + (Xrr + mxg)r2 + Xext (13.85)
+Norrbin (1972) suggested minimizing the loss term Tloss to obtain maximum forward speed u. Consequently, the controller should minimize the centripetal term vr, the square rudder angle δ2 and the square heading rate r2, while the unknown disturbance term Xext is neglected in the analysis. The assumptions in doing this are as follows:
+1. The sway velocity v is approximately proportional to r. From Section 7.2 it follows that
+v(s) = Kv(Tvs + 1)
+K(Ts + 1) r(s) ≈ Kv
+K r(s) (13.86)
+if Tv ≈ T . Hence, the centripetal term vr will be approximately proportional to the square of the heading rate; that is vr ≈ (Kv/K)r2. 2. The ship’s yawing motion is periodic under autopilot control such that
+rmax = ωr emax (13.87)
+where ωr is the frequency of the sinusoidal yawing.
+These two assumptions suggest that the loss term Tloss can be minimized by minimizing e2 and δ2 which is the same result obtained in Koyama’s analysis. The only difference between the criteria of Norrbin and Koyama is that the λ2 values arising from Norrbin’s approach will be different when computed for the same ship. The performance of the controller also depends on the sea state. This suggests that a trade-off between the λ2 values proposed by Koyama and Norrbin could be made according to
+(calm sea)
+} {{ }
+Norrbin
+0.1 ≤ λ2 ≤ 10 (rough sea)
+} {{ }
+Koyama
+(13.88)
+Van Amerongen and Van Nauta Lemke’s Steering Criterion
+Experiments with the steering criteria of Koyama and Norrbin soon showed that the performance could be further improved by considering the squared yaw rate r2, in addition to e2 and δ2 (Van Amerongen and Van Nauta Lemke, 1978). Consequently, the following criterion was proposed:
+J = min
+δ
+{ 0.0076 T
+∫T
+0
+(e2 + λ1r2 + λ2δ2) dτ
+}
+(13.89)
+For a tanker and a cargo ship, Van Amerongen and Van Nauta Lemke (1978, 1980) gave the following values for the weighting factors λ1 and λ2 corresponding to the data set of Norrbin (1972):
+Tanker: Lpp = 300 m, λ1 = 15 000, λ2 = 8.0
+Cargo ship: Lpp = 200 m, λ1 = 1 600, λ2 = 6.0
+
+
+432 Advanced Motion Control Systems
+The solution of the optimal steering criteria is found by considering Nomoto’s first-order model in the form
+ψ ̇ ′ = r′ (13.90)
+T ′r ̇ + (U/L)r = (U/L)2K′ δ (13.91)
+Straightforward application of optimal control theory to the criterion of Van Amerongen and Van Nauta Lempke (1978) yields (see Section 13.1.3)
+δ = −Kp(ψ − ψd) − Kdr (13.92)
+where the controller gains are computed using the steady-state solution (13.73) and (13.76). This gives
+Kp =
+√
+1
+λ2
+(13.93)
+Kd = L
+U
+√
+1 + 2KpK′T ′ + K′2(U/L)2 (λ1/λ2) − 1
+K′ (13.94)
+Consequently, the solution of the criteria of Koyama and Norrbin is obtained by setting λ1 = 0 and λ2 = λ, which yields
+Kp =
+√
+1
+λ (13.95)
+Kd = L
+U
+√1 + 2KpK′T ′ − 1
+K′ (13.96)
+From these expressions it is seen that Kp depends on the weighting factor λ, while Kd depends on Kp as well as the model parameters K′ and T ′. Hence, accurate steering requires that K′ and T ′ are known with sufficient accuracy. An extension to Nomoto’s second-order model is found by considering the state-space model (see Section 7.2)
+x ̇ = Ax + Bu (13.97)
+y = Cx (13.98)
+where x = [v, r, ψ] , u = δ, y = [r, ψ] and
+A=
+⎡
+⎣
+a11 a12 0
+a21 a22 0
+0 10
+⎤
+⎦, B =
+⎡
+⎣
+b1
+b2
+0
+⎤
+⎦, C =
+[0 1 0
+001
+]
+(13.99)
+
+
+Linear Quadratic Optimal Control 433
+Let y = [0, ψd] = constant and
+e = y − yd
+= C(x − xd) (13.100)
+The steady-state optimal solution minimizing the quadratic performance index
+J = min
+u
+{1
+2
+∫T
+0
+(e Qe + u Ru) dτ
+}
+(13.101)
+where Q = diag{q11, q22}≥ 0 and R = r11 > 0 are the weights is (see Section 13.1.3)
+u = G1x + G2yd (13.102)
+where
+G1 = −R−1B P∞ (13.103)
+G2 = −R−1B (A + BG1)− C Q (13.104)
+and P∞ is the solution of the matrix Riccati equation:
+P∞A + A P∞ − P∞BR−1B P∞ + C QC = 0 (13.105)
+The robustness of optimal autopilots for course-keeping control with a state estimator is analyzed in Holzh ̈uter (1992).
+13.1.5 Case Study: Optimal Fin and Rudder-Roll Damping Systems for Ships
+The roll motion of ships and underwater vehicles can be damped by using fins alone or in combination with rudders. The main motivation for using roll stabilizing systems on merchant ships is to prevent cargo damage and to increase the effectiveness of the crew by avoiding or reducing seasickness. This is also important from a safety point of view. For naval ships critical marine operations include landing a helicopter, formation control, underway replenishment, or the effectiveness of the crew during combat. Several passive and active (feedback control) systems have been proposed to accomplish roll reduction; see Burger and Corbet (1960), Lewis (1967) and Bhattacharyya (1978) for a more detailed discussion. Design methods for rudder-roll damping and fin stabilization systems are found in Perez (2005). Some passive solutions are:
+Bilge Keels: Bilge keels are fins in planes approximately perpendicular to the hull or near the turn of the bilge. The longitudinal extent varies from about 25 to 50 % of the length of the ship. Bilge keels are widely used, are inexpensive but increase the hull resistance. In addition to this, they are effective mainly around the natural roll frequency of the ship. This effect significantly decreases with the speed of the ship. Bilge keels were first demonstrated in 1870. Hull Modifications: The shape and size of the ship hull can be optimized for minimum rolling using hydrostatic and hydrodynamic criteria. This must, however, be done before the ship is built. Anti-Rolling Tanks: The most common anti-rolling tanks in use are free-surface tanks, U-tube tanks and diversified tanks. These systems provide damping of the roll motion even at small speeds. The disadvantages are the reduction in metacenter height due to free water surface effects and that a large amount of space is required. The earliest versions were installed about the year 1874.
+
+
+434 Advanced Motion Control Systems
+The most widely used systems for active roll damping are:
+Fin Stabilizers: Fin stabilizers are highly useful devices for roll damping. They provide considerable damping if the speed of the ship is not too low. The disadvantage with additional fins is increased hull resistance and high costs associated with the installation, since at least two new hydraulic systems must be installed. Retractable fins are popular, since they are inside the hull when not in use (no additional drag). It should be noted that fins are not effective at low speed and that they cause underwater noise in addition to drag. Fin stabilizers were patented by John I. Thornycroft in 1889. Rudder-Roll Damping (RRD): Roll damping by means of the rudder is relatively inexpensive compared to fin stabilizers, has approximately the same effectiveness and causes no drag or underwater noise if the system is turned off. However, RRD requires a relatively fast rudder to be effective; typically rudder rates of  ̇δmax = 5–20 deg/s are needed. RRD will not be effective at low ship speeds. Gyroscopic Roll Stabilizers: Gyroscopic roll stabilizers are typically used for boats and yachts under 100 feet. The ship gyroscopic stabilizer has a spinning rotor that generates a roll stabilizing moment that counteracts the wave-induced roll motions. Unlike stabilizing fins, the ship gyroscopic stabilizer can only produce a limited roll stabilizing moment and effective systems require approximately 3 to 5 % of the craft’s displacement.
+For a history of ship stabilization, the interested reader is advised to consult Bennett (1991), while a detailed evaluation of different ship roll stabilization systems can be found in Sellars and Martin (1992). Rudder-roll damping (RRD) was first suggested in the late 1970s; see Cowley and Lambert (1972, 1975), Carley (1975), Lloyd (1975) and Baitis (1980). Research in the early 1980 showed that it was indeed feasible to control the heading of a ship with at least one rudder while simultaneously using the rudder for roll damping. If only one rudder is used, this is an underactuated control problem. In the linear case this can be solved by frequency separation of the steering and roll modes since heading control can be assumed to be a low-frequency trajectory-tracking control problem while roll damping can be achieved at higher frequencies. Before designing an RRD system the applicability of the control system in terms of effectiveness should be determined (Roberts, 1993). For a large number of ships it is in fact impossible to obtain a significant roll damping effect due to limitations of the rudder servo and the relatively large inertia of the ship. Motivated by the results in the 1970s, RRD was tested by the US Navy by Baitis et al. (1983, 1989), in Sweden by K ̈allstr ̈om (1987), K ̈allstr ̈om et al. (1988), K ̈allstr ̈om and Schultz (1990) and K ̈allstr ̈om and Theoren (1994), and in the Netherlands by Amerongen and coauthors. Van Amerongen et al. (1987), Van Amerongen and Van Nauta Lempke (1987) and Van der Klugt (1987) introduced LQG theory in RRD systems. A similar approach has been proposed by Katebi et al. (1987), while adaptive RRD is discussed in Zhou (1990). Blanke and co-workers have developed an RRD autopilot (Blanke et al., 1989) that has been implemented by the Danish Navy on 14 ships (Munk and Blanke, 1987). Sea trials show that some of the ships had less efficient RRD systems than others. In Blanke and Christensen (1993) it was shown that the cross-couplings between steering and roll were highly sensitive to parametric variations, which again resulted in robustness problems. Different loading conditions and varying rudder shapes have been identified as reasons for this (Blanke, 1996). In Stoustrup et al. (1995) it has been shown that a robust RRD controller can be designed by separating the roll and steering specifications and then optimizing the two controllers independently. The coupling effects between the roll and yaw modes have also been measured in model scale and compared with full-scale trial results (Blanke and Jensen, 1997), while a new approach to identification of steering-roll models has been presented by Blanke and Tiano (1997). More recently H∞ control has been used to deal with model uncertainties in RRD control systems. This allows the designer to specify frequency-dependent weights for frequency separation between the steering and roll modes; see Yang and Blanke (1997, 1998). Qualitative feedback theory (QFT) has also
+
+
+Linear Quadratic Optimal Control 435
+been applied to solve the combined RRD heading control problem under model uncertainty; see Hearns and Blanke (1998). Results from sea trials are reported in Blanke et al. (2000). Simulation and full-scale experimental results of RRD systems using a multivariate autoregressive model and the minimum AIC estimate procedure have been reported by Oda et al. (1996, 1997). Experimental results with various control strategies are also reported by Sharif et al. (1996). A nonlinear RRD control system using sliding-mode control for compensation of modeling errors is reported in Lauvdal and Fossen (1997). A gain scheduling algorithm for input rate and magnitude saturations in RRD damping systems has been developed by Lauvdal and Fossen (1998). This method is motivated by the automatic gain controller (AGC) by Van der Klugt (1987) and a technique developed for stabilization of integrator chains with input rate saturation. In this section the focus will be on linear quadratic optimal RRD. The interested reader is recommended to consult the references above and Perez (2005) for other design techniques.
+Linear Quadratic Optimal RRD Control System
+Consider the 4 DOF maneuvering model (7.138) in Section 7.4:
+x ̇ = Ax + Bu (13.106)
+where x = [v, p, r, φ, ψ] and
+φ = crollx, ψ = cyawx (13.107)
+The transfer functions corresponding to (13.106) and (13.107) are
+φ
+δ (s) = b2s2+b1s + b0
+s4+a3s3+a2s2+a1s + a0
+≈ Kroll ω2
+roll (1 + T 5s)
+(1 + T 4s)(s2+2ζωrolls + ω2
+roll) (13.108)
+ψ
+δ (s) = c3s3+c2s2+c1s + c0
+s(s4+a3s3+a2s2+a1s + a0) ≈ Kyaw (1 + T 3s)
+s(1 + T 1s)(1 + T 2s) (13.109)
+The control objective is a simultaneous heading control ψ = ψd = constant and RRD (pd = φd = 0) using one control input. There will be a trade-off between accurate heading control (minimizing ψ ̃ = ψ − ψd) and control action needed to increase the natural frequency ωroll and damping ratio ζroll. Also notice that it is impossible to regulate φ to a nonzero value while simultaneously controlling the heading angle to a nonzero value by means of a single rudder. This can easily be seen by performing a steady-state analysis of the closed-loop system. This suggests that the output of the controller should be specified as
+y = [p, r, φ, ψ] , yd = [0, 0, 0, ψd] (13.110)
+Choosing y = Cx implies that
+C=
+⎡
+⎢⎢⎣
+01000
+00100
+00010
+00001
+⎤
+⎥⎥⎦ (13.111)
+
+
+436 Advanced Motion Control Systems
+Application of optimal control theory implies that the control objective should be specified as an optimization problem for course keeping, roll damping and minimum fuel consumption. The trade-off between these quantities can be expressed as
+J = min
+u
+{1
+2
+∫T
+0
+(  ̃y Q  ̃y + u Ru) dτ
+}
+(13.112)
+where  ̃y = y − yd,  ̃x = x − xd and xd = [0, 0, 0, 0, ψd] . Accurate steering is weighted against roll damping by specifying the cost matrix Q = diag{Qp, Qr, Qφ, Qψ} ≥ 0, while R = diag{R1, R21, . . . , Rr} > 0 weights the use of the different rudder servos. The solution to the LQ trajectory-tracking problem is (see Section 13.1.3)
+u = G1x + G2yd (13.113)
+where
+G1 = −R−1B P∞ (13.114)
+G2 = −R−1B (A + BG1)− C Q (13.115)
+with P∞ = P∞ > 0 given by
+P∞A + A P∞ − P∞BR−1B P∞ + C QC = 0 (13.116)
+Frequency Separation and Bandwidth Limitations
+Since (A, B) is controllable and full-state feedback is applied, it is possible to move all the five poles of the system. The closed-loop system becomes
+x ̇ = Ax + Bu
+= (A + BG1 )
+} {{ }
+Ac
+x + BG2 hψd
+}{{}
+yd
+(13.117)
+where
+h = [0, 0, 0, 1] (13.118)
+The closed-loop transfer function in yaw is
+ψ(s) = cyaw(sI − Ac)−1BG2hψd (s) (13.119)
+which clearly satisfy
+lim
+t→∞ ψ(t) = ψd (13.120)
+
+
+Linear Quadratic Optimal Control 437
+Notice that integral action in yaw is needed in a practical implementation of the controller. Similarly, the closed-loop roll dynamics becomes
+φ(s) = croll(sI − Ac)−1BG2hψd (s) (13.121)
+If one rudder is used to control both φ and ψ, frequency separation is necessary to achieve this. Assume that the steering dynamics is slower than the frequency 1/Tl and that the natural frequency in roll is higher than 1/Th. Hence, the vertical reference unit (VRU) and compass measurements can be low- and high-pass filtered according to
+φ
+φvru
+(s) = hh(s) = Ths
+1 + Ths (13.122)
+ψ
+ψcompass
+(s) = hl(s) = 1
+1 + Tls (13.123)
+It is also necessary to filter the roll and yaw rate measurements p(s) and r(s). These signals can also be computed by numerical differentiation of φvru(s) and ψvru(s) using a state estimator. This suggests that the bandwidth of the yaw angle control system must satisfy (frequency separation)
+ωb ωroll (13.124)
+This again implies that the low- and high-pass filters must satisfy
+ωyaw
+}{{}
+cross-over frequency
+< ωb
+}{{}
+bandwidth in yaw
+< 1/Tl
+}{{}
+low-pass filter frequency
+< 1/Th
+}{{}
+high-pass filter frequency
+< ωroll
+}{{}
+natural frequency
+which clearly puts a restriction on the ships that can be stabilized. For many ships this requirement is impossible to satisfy due to limitations of the rudder servos and control forces.
+Example 13.3 (RRD Control System Using One Rudder)
+Let G1 = [g11, g12, g13, g14, g15] and G2 = [0, 0, 0, g24] such that the solution (13.113) of the SISO LQ trajectory-tracking problem can be written
+δ = [g11, g12, g13, g14, g15] x + g24ψd (13.125)
+or
+δ = −Kvv
+} {{ }
+sway feedback
+−Kp(ψ − ψd ) − Kd r
+} {{ }
+PD heading controller
+−Kr1p − Kr2φ
+} {{ }
+roll damper
+(13.126)
+where Kv = −g11, Kp = −g15 = g24, Kd = −g13, Kr1 = −g12 and Kr2 = −g14. Frequency separation suggests that
+δ = hl(s)δcourse + hh(s)δroll (13.127)
+where
+δcourse = −Kvv − Kp(ψ − ψd ) − Kd r (13.128)
+δroll = −Kr1p − Kr2φ (13.129)
+
+
+438 Advanced Motion Control Systems
+The controller gains can be found by using the MSS toolbox m-function (see Section 13.1.3):
+[G1,G2]=lqtracker(A,B,C,Q,R)
+Alternatively, the gains can be computed by using pole placement. The two subsystems (7.145) and (7.146) with heading autopilot and RRD become (neglecting the interactions between the systems)
+[  ̇p
+φ ̇
+] =
+⎡
+⎢⎣
+a22 − b21Kr1
+} {{ }
+−2ζroll ωroll
+(a24 − b21Kr2)
+} {{ }
+−ω2
+roll
+10
+⎤
+⎥⎦
+[p
+φ
+]
+= 0 (13.130)
+⎡
+⎣
+ ̇v
+r ̇
+ψ ̇
+⎤
+⎦=
+⎡
+⎣
+a11 − b11Kv a13 − b11Kd −b11Kp
+a31 − b31Kv a33 − b31Kd −b31Kp
+0 10
+⎤
+⎦
+⎡
+⎣
+v
+r
+ψ − ψd
+⎤
+⎦ = 0 (13.131)
+The poles can be specified directly in Matlab using
+[Kr1,Kr2]=place(A phiphi,B phiphi,[p phi1,p phi2])
+[Kv,Kp,Kd]=place(A psipsi,B psipsi,[p psi1,p psi2,p psi3])
+For roll it is seen that
+−ω2
+roll = a24 − b21Kr2, −2ζrollωroll = a22 − b21Kr1 (13.132)
+or
+Kr1 = a22 + 2ζrollωroll
+b21
+, Kr2 = a24 + ω2
+roll
+b21
+(13.133)
+where ζroll and ωroll are pole-placement design parameters that can be used instead of eigenvalues. The model of Son and Nomoto (see ExRRD2.m in the MSS toolbox) has been used to demonstrate how an LQ optimal RRD control system can be designed. The linear state-space model for the container ship is
+A=
+⎡
+⎢⎢⎢⎢⎢⎣
+−0.0406 −1.9614 0.2137 0.1336 0
+0.0011 −0.1326 −0.1246 −0.0331 0
+−0.0010 0.0147 −0.1163 −0.0006 0
+0 1 0 00
+0 0 1 00
+⎤
+⎥⎥⎥⎥⎥⎦
+, B=
+⎡
+⎢⎢⎢⎢⎢⎣
+−0.0600
+0.0035
+0.0026
+0
+0
+⎤
+⎥⎥⎥⎥⎥⎦
+(13.134)
+The controller gains were computed using[G1,G2]=lqtracker(A,B,C,Q,R) with the weights
+Q=diag([10000 1000 10 1]), R=0.5
+resulting in
+G1=[0.1631-16.1193-6.7655-1.1644-0.4472], G2=[0 0 0 0.4472]
+Notice that g15 = −g24. The open- and closed-loop poles are computed in Matlab by using the commands damp(A)and damp(A+B*G1); see Table 13.1.
+
+
+Linear Quadratic Optimal Control 439
+Table 13.1 Eigenvalues, damping ratios and frequencies for the RRD control system
+Eigenvalues Damping Frequencies (rad/s)
+Open loop Closed loop Open loop Closed loop Open loop Closed loop
+0 −0.061 − 1.00 − 0.016 −0.027 −0.026 1.00 1.00 0.027 0.026 −0.071 + 0.183i −0.100 + 0.165i 0.36 0.52 0.197 0.193 −0.071 − 0.183i −0.100 − 0.165i 0.36 0.52 0.197 0.193 −0.121 −0.131 1.00 1.00 0.121 0.131
+It is seen that the natural frequency and relative damping ratio in roll are ωroll = 0.193 rad/s and ζroll = 0.36, respectively. This is improved to ωroll = 0.197 rad/s and ζroll = 0.52 by roll feedback. It is difficult to increase the relative damping ratio further due to limitations of the steering machine ( ̇δmax = 20 deg/s and δmax = 20 deg). These values can, however, be changed in RRDcontainer.m. Since the roll frequency ωroll is 0.193 rad/s and the cross-over frequency in yaw ωyaw is 0.03 rad/s, see Figure 7.7 in Example 7.7, it is approximately one decade between the frequencies ωyaw and ωroll. Therefore, frequency separation can be obtained by choosing the low-pass and high-pass filter frequencies as 1/Tl = 0.1 rad/s in yaw and 1/Th = 0.05 rad/s in roll, respectively. It is seen that the heading controller moves the poles to −0.061, −0.026 and −0.131, resulting in satisfactory course-changing capabilities (see Figure 13.5). It is also seen that the course-keeping performance is degraded during RRD. The additional yawing motion, typically 1–2 degrees in amplitude, is the price paid for adding roll feedback to an autopilot system. Also notice that the right half-plane zero in the transfer function φ/δ1(s) given by (7.147) is unchanged since feedback only moves the poles.
+Performance Criterion for RRD
+The percentage roll reduction of RRD system can be computed by using the following criterion of Oda et al. (1992):
+Roll reduction = σAP − σRRD
+σAP
+× 100 % (13.135)
+where
+σAP = standard deviation of roll rate during course-keeping (RRD off) σRRD = standard deviation of roll rate during course-keeping (RRD on)
+For the case study in Example 13.3, σAP = 0.0105 and σRRD = 0.0068. This resulted in a roll reduction of approximately 35 % during course-keeping. For small high-speed vessels a roll reduction as high as 50–75 % can be obtained. This of course depends on the shape of the hull (hydrodynamic effects) and the capacity of the steering machine. In particular the maximum rudder rate  ̇δmax should be in the magnitude of 15–20 % to obtain good results.
+Optimal Fin and RRD Systems
+The most effective roll damping systems are those that combine stabilizing fins and rudders; see K ̈allstr ̈om (1981), Roberts and Braham (1990) and Perez (2005). Warship stabilization using integrated rudder and fins are discussed by Roberts (1992). More recently robust fin stabilizer controller design using the QFT
+
+
+440 Advanced Motion Control Systems
+Figure 13.5 Performance of RRD control system during course-keeping and a 10◦ course-changing maneuver. The RRD system is active between t = 300–700 s.
+and H∞ design techniques have been presented by Hearns et al. (2000), while the performance of classical PID, optimized PID (Hickey et al., 2000) and H∞ controllers are compared in Katebi et al. (2000). Sea trials with the MV Barfleur using PID and H∞ controllers are presented in Hickey et al. (1997) and experimental results with a fin and RRD control system onboard a frigate-size Royal Naval warship are reported in Sharif et al. (1995, 1996). Reduction of vertical accelerations of fast ferries using fins and a T-foil is discussed by Esteban et al. (2000) and Giron-Sierra et al. (2001), while the modeling and identification results are reported in de-la-Cruz et al. (1998) and Aranda et al. (2000). Fin stabilizers are useful for roll reduction since they are highly effective, work on a large number of ships and are more easier to control than RRD systems, even for varying load conditions and actuator configurations. Fin stabilizers are effective at high speed, but at the price of additional drag and added noise. The most economical systems are retractable fins, where additional drag is avoided during normal operation, since fin stabilizers are not needed in moderate weather. Another advantageous feature of fin stabilizing systems is that they can be used to control φ to a nonzero value (heel control). This is impossible with an RRD control system where the accurate control of ψ has priority.
+
+
+Linear Quadratic Optimal Control 441
+Notice that a stand alone fin stabilization system can be constructed by simply removing the rudder inputs from the input matrix. When designing an LQ optimal fin and RRD system the following model representations can be used:
+Mν ̇ + Dν = τ (13.136)
+where
+τ = Tf , f = Ku (13.137)
+In this representation, K is the diagonal matrix of force coefficients and T is the actuator configuration matrix (see Section 12.3). We can premultiply (13.136) with M−1 to obtain
+ν ̇ = −M−1D
+} {{ }
+upper left part of A in (7.138)
+ν + M−1TK
+} {{ }
+upper part of B in (7.138)
+u (13.138)
+In the first representation, the generalized force τ is used as the control input while the last representation uses u, that is propeller rpm, rudder angles and fin angles. In practice it is advantageous to use (13.136) instead of (13.138), since actuator failures can be handled independently by the control allocation algorithm without redesigning the control law. Notice that the B matrix in (13.138) depends on T and K while these matrices are not used in (13.136); see Section 12.3.
+Energy Optimal Criterion for Combined Fin and RRD
+It is possible to derive LQ controllers for both models (13.136) and (13.138). This is demonstrated by considering a ship equipped with r1 rudders and r2 fins. The total number of actuators is r = r1 + r2, implying that u ∈Rr. The DOFs considered are sway, roll and yaw; that is n = 3. Consequently, ν = [v, p, r] ∈Rn. It is also assumed that the ship is fully actuated such that r ≥ n. The generalized forces are
+τ = Tf
+= TKu (13.139)
+It is advantageous to solve for the optimal control force τ and then use control allocation to compute u. For most systems the inverse (see alloc.m in the Matlab MSS toolbox)
+u = K−1T †
+wτ (13.140)
+
+
+442 Advanced Motion Control Systems
+exists. An energy optimal criterion weighting f , u or τ against accurate tracking and roll damping is
+J = min
+f
+{1
+2
+∫T
+0
+(e Qe + f Rf f ) dτ
+}
+= min
+u
+⎧⎪⎨
+⎪⎩
+1 2
+∫T
+0
+(e Qe + u K Rf K
+} {{ }
+Ru
+u) dτ
+⎫⎪⎬
+⎪⎭
+= min
+τ
+⎧⎨
+⎩
+1 2
+∫T
+0
+(e Qe + τ (T †
+w) RuT w
+} {{ }
+Rτ
+τ) dτ
+⎫⎬
+⎭ (13.141)
+where e = y − yd. The elements in Q = diag{Qp, Qr, Qφ, Qψ} ≥ 0 are used to weight accurate steering against roll damping. The rudder and fin servos are weighted against each other by specifying the elements in Rf = diag{Rδ1, Rδ2, . . . , Rδr1 , Rf 1, Rf 2, . . . , Rfr2 } > 0. If r1 = 0 and Rδ1 = Rδ2 = · · · = Rδr1 = 0 only fin stabilization is obtained (no rudders). The control weights satisfy
+Ru = K Rf K, Rτ = (T †
+w) Rf T †
+w (13.142)
+The solution to the LQ problem (13.141) with τ as the control variable is (see Section 13.1.3)
+τ = G1x + G2yd (13.143)
+G1 = −[(T †
+w) Rf T †
+w]−1B P∞ (13.144)
+G2 = −[(T †
+w) Rf T †
+w]−1B (A + BG1)− C Q (13.145)
+where Q and Rf are design matrices while P∞ = P∞ > 0 is given by
+P∞A + A P∞ − P∞B[(T †
+w) Rf T †
+w]−1B P∞ + C QC = 0 (13.146)
+Operability and Motion Sickness Incidence Criteria
+Operability criteria for manual and intellectual work as well as motion sickness are important design criteria for the evaluation of autopilot and roll damping systems. Sea-sickness is especially important in high-speed craft and ships with high vertical accelerations.
+Human Operability Limiting Criteria in Roll: Operability limiting criteria with regard to vertical and lateral accelerations, and roll angle for the effectiveness of the crew and the passengers are given in
+
+
+Linear Quadratic Optimal Control 443
+Table 13.2 Criteria for effectiveness of the crew (Faltinsen, 1990)
+Standard deviation (root mean square) criteria
+Vertical Lateral acceleration (  ̇w) acceleration ( ̇v) Roll angle (φ) Description of work
+0.20 g 0.10 g 6.0 deg Light manual work 0.15 g 0.07 g 4.0 deg Heavy manual work 0.10 g 0.05 g 3.0 deg Intellectual work 0.05 g 0.04 g 2.5 deg Transit passengers 0.02 g 0.03 g 2.0 deg Cruise liner
+Table 13.2. This gives an indication on what type of work that can be expected to be carried out for different roll angles/sea states.
+ISO 2631-3:1985 Criterion for Motion Sickness Incidence: In addition to operability, limiting criteria passenger comfort can be evaluated with respect to motion sickness. The International Organization for Standardization (ISO) motion seasickness incidence criterion is reported in ISO 2631-1 (1997). This report replaces ISO 2631-3 (1985); see http://www.iso.ch. The most important factors for seasickness are vertical (heave) accelerations az (m/s2), exposure time t (hours) and encounter frequency ωe (rad/s). The ISO standard criterion for MSI proposes an MSI of 10 %, which means that 10 % of the passengers become seasick during t hours. The MSI curves as a function of exposure time are shown in Figure 13.6, where
+az(t, ωe) =
+{ 0.5√2/t for 0.1 Hz < ωe
+2π ≤ 0.315 Hz
+0.5√2/t · 6.8837 ( ωe
+2π
+)1.67 for 0.315 Hz ≤ ωe
+2π ≤ 0.63 Hz (13.147)
+Matlab
+The MSI curves (13.147) as functions of the exposure time are implemented in the Matlab MSS toolbox as
+[a z,w e] = ISOmsi(t)
+Figure 13.6 is generated by using the example file
+ExMSI
+The main limitation of the ISO criterion is that it only predicts the exceedence of the 10 % MSI point. It is also assumed that the accelerations in the CG are representative for the entire ship and that a representative wave period can be used instead of the actual wave. In many cases it is advantageous to use the extended sickness method for more accurate predictions. This method is presented below. Probability Integral Method for MSI: The O’Hanlon and McCauley (1974) probability integral method is convenient to use since it produces an MSI criterion in percentage for combinations of heave acceleration az (m/s2) and frequency of encounter ωe (rad/s). The MSI index is defined as the
+
+
+444 Advanced Motion Control Systems
+number of sea sick people in percentage for an exposure time of two hours; see Lloyd (1989) and Lewis (1989). The criterion is as follows:
+MSI = 100
+[
+0.5 ± erf
+( ± log10 (az/g) ∓ μMSI 0.4
+)]
+(%) (13.148)
+where
+μMSI = −0.819 + 2.32 (log10 ωe
+)2 (13.149)
+and
+erf(x) = erf(−x) = √12π
+∫x
+0
+exp
+(
+− z2
+2
+)
+dz (13.150)
+Figure 13.6 Heave acceleration az (m/s2) as a function of frequency of encounter ωe (rad/s) for different exposure times. The ISO curves represent an MSI of 10 %.
+
+
+Linear Quadratic Optimal Control 445
+Figure 13.7 MSI is the number of motion sick persons in percentage during a two hour exposure time as a function of encounter frequency ωe (rad/s) and heave acceleration az (m/s2).
+Matlab
+The Matlab MSS toolbox function
+msi = HMmsi(a z,w e)
+can be used for computation of the MSI. Notice that the erf function in HMmsi.m is scaled differently from the Matlab function erf.m. The MSI curves in Figure 13.7 are plotted for different az and ωe using the example file
+ExMSI
+The major drawback of the O’Hanlon and McCauley method is that it only applies to a two hour exposure time. Another effect to take into account is that the O’Hanlon and McCauley MSI criterion is derived from tests with young men seated separately in insulated cabins. According to ISO 2631-1, the MSI number is about 1.5 higher among women and children, suggesting that the actual MSI number for passengers of average age and sex distribution should be at least 1.25 times higher.
+
+
+446 Advanced Motion Control Systems
+13.1.6 Case Study: Optimal Dynamic Positioning System for Ships and Floating Structures
+In Section 12.2.10 a nonlinear PID controller was designed for DP and the equilibrium point was rendered asymptotically stable under the assumption of full-state feedback. Output feedback in terms of a nonlinear passive observer was also discussed and UGAS of the resulting system was relying on a nonlinear separation principle (Loria et al., 2000). An alternative to the nonlinear PID controller is to formulate the problem as a linear optimal control problem using vessel parallel coordinates. The LQ controller will be designed under the assumption that all states can be measured. This assumption can, however, be relaxed by combining the LQ controller with a Kalman filter for optimal state estimation; see Section 11.3.6. The resulting control law is known as the LQG optimal controller, and convergence and stability of the interconnected system can be proven using a linear separation principle (Gelb et al., 1988).
+Controller Model: Recall from Section 7.3.2 that
+ ̇ηp = ν (13.151)
+Mν ̇ + Dν = bp + τ + τwind + τwave (13.152)
+where VP coordinates have been employed (see Section 7.5.3). The North-East positions and heading are related to ηp according to
+η = R(ψ)ηp (13.153)
+In order to incorporate the limitations of the propellers, the model is augmented by actuator dynamics. The simplest way of doing this is to define three time constants in surge, sway and yaw such that
+τ ̇ = Athr(τ − τcom) (13.154)
+where τcom is the commanded thrust and Athr = −diag{1/Tsurge, 1/Tsway, 1/Tyaw} is a diagonal matrix containing the time constants. The resulting state-space model becomes
+x ̇ c = Axc + Bτcom (13.155)
+where the controller states are xc := [ηp , ν , τ ] and
+A=
+⎡
+⎣
+0I 0
+0 −M−1D M−1
+0 0 Athr
+⎤
+⎦, B =
+⎡
+⎣
+0
+0
+−Athr
+⎤
+⎦ (13.156)
+This model is the basis for the LQ controller. Observer Model: The Kalman filter can be designed using only position and heading measurements. For this purpose the filter states are chosen as xf := [ηp , bp , νp ] . The WF model is omitted for simplicity but in an industrial system six more states should be added following the approach in
+
+
+Linear Quadratic Optimal Control 447
+Section 11.3.6, for instance. The filter model takes the following form:
+x ̇ f = Fxf + Gτ + Ew (13.157)
+z = Hxf + v (13.158)
+where
+F=
+⎡
+⎣
+03×3 03×3 I3×3
+03×3 03×3 03×3
+03×3 M−1 −M−1D
+⎤
+⎦, G =
+⎡
+⎣
+03×3
+03×3 M −1
+⎤
+⎦ , H = [I3×3, 03×3, 03×3] (13.159)
+Controllability and Observability
+It is important to be aware that the controller model must be controllable and the observer model must be observable to guarantee a stable solution for the LQG controller. These conditions can easily be verified in Matlab by considering the following example:
+Matlab
+The following example demonstrates how observability and controllability can be checked for a ship in surge, sway and yaw.
+Example 13.4 (Observability and Controllability of Ships)
+Consider a supply vessel with nondimensional system matrices (Fossen et al., 1996):
+M′′ =
+⎡
+⎣
+1.1274 0 0
+0 1.8902 −0.0744
+0 −0.0744 0.1278
+⎤
+⎦ , D′′ =
+⎡
+⎣
+0.0358 0 0
+0 0.1183 −0.0124
+0 −0.0041 0.0308
+⎤
+⎦ (13.160)
+These values are defined in accordance to the bis system (see Section 7.2.5) such that
+M = mT −2(TM′′T −1), D = m
+√
+g/L T −2(TD′′T −1) (13.161)
+where T = diag{1, 1, L}. Assume that Athr = −1/100 × I3×3. The linear state-space model in surge, sway and yaw is computed as
+A=
+⎡
+⎣
+03×3 I3×3 03×3
+03×3 −M−1D M−1
+03×3 03×3 Athr
+⎤
+⎦, B =
+⎡
+⎣
+03×3
+03×3
+−Athr
+⎤
+⎦ (13.162)
+F=
+⎡
+⎣
+03×3 03×3 I3×3
+03×3 03×3 03×3
+03×3 M−1 −M−1D
+⎤
+⎦ , H = [I3×3, 03×3, 03×3]
+Notice that only the positions (N, E) and yaw angle ψ are defined as the outputs for the observer. Observability and controllability can be checked in Matlab using the commands (see ExObsCtr.m):
+n obs = rank(obsv(F,H))
+n ctr = rank(ctrb(A,B))
+Since n obs = n ctr = 9 the supply vessel is both observable and controllable.
+
+
+448 Advanced Motion Control Systems
+Since the supply vessel is controllable, it is straightforward to design an optimal control law with wind feedforward and integral action. In order to do this, it is convenient to split the control input into two parts:
+τcom = τLQ − τˆ wind (13.163)
+where τLQ is the optimal feedback and τˆ wind is an estimate of the generalized wind forces that can be implemented using (12.214).
+Optimal Feedback Control
+The LQ control objective is to obtain x = 0 such that ηp = ν = τ = 0. This is achieved by minimizing the performance index:
+J = min
+τLQ
+{1
+2
+∫T
+0
+(x Qx + τLQRτLQ) dτ
+}
+(13.164)
+where R = R > 0 and Q = Q ≥ 0 are two cost matrices to be specified by the user. The Q matrix is defined as Q := diag{Q1, Q2, Q3} where the weights Q1, Q2 and Q3 put penalty on position and heading ηp, velocity ν and actuator dynamics τ, respectively. The optimal control law minimizing (13.164) is (see Section 13.1.1)
+τLQ = −R−1B P ∞
+} {{ }
+G
+x (13.165)
+where P∞ is the solution of the ARE:
+P∞A + A P∞ − P∞BR−1B P∞ + Q = 0 (13.166)
+Integral Action
+In order to obtain zero steady-state errors in surge, sway and yaw, integral action must be included in the control law. Integral action can be obtained by using state augmentation. Since we want the three outputs (N, E, ψ) to be regulated to zero, no more than three integral states can be augmented to the system. Define a new state variable:
+z :=
+∫t
+0
+y(τ)dτ =⇒  ̇z = y (13.167)
+Here y is a subspace of x given by
+y = Cx (13.168)
+with
+C = [ I3×3 03×3 03×3
+] (13.169)
+
+
+Linear Quadratic Optimal Control 449
+Next consider an augmented model with state vector xa := [z , x ] such that
+x ̇ a = Aaxa + Baτcom (13.170)
+where
+Aa =
+[ 03×3 C
+09×3 A
+]
+, Ba =
+[ 03×3
+B
+]
+(13.171)
+Matlab
+Controllability of the augmented system (Aa, Bb) is checked in Matlab by using the command (see
+ExObsCtr.m):
+n ctr=rank(ctrb(Aa,Ba))
+which gives n ctr = 12. Hence, the supply vessel with additional states for integral action is controllable.
+The performance index for the integral controller becomes
+J = min
+τLQ
+{1
+2
+∫T
+0
+(xa Qaxa + τLQRτLQ) dτ
+}
+(13.172)
+where R = R > 0 and
+Qa =
+[ QI 0
+0Q
+]
+≥ 0 (13.173)
+The matrix QI = QI > 0 is used to specify the integral times in surge, sway and yaw. The optimal PID controller is (see Section 13.1.1)
+τLQ = Gaxa = Gx + GI
+∫t
+0
+y(τ) dτ
+} {{ }
+z
+(13.174)
+where Ga = [GI , G] and
+Ga = −R−1Ba P∞ (13.175)
+P ∞Aa + Aa P ∞ − P ∞BaR−1Ba P ∞ + Qa = 0 (13.176)
+
+
+450 Advanced Motion Control Systems
+LQG Control–Linear Separation Principle
+In practice only some of the states are measured. A minimum requirement is that the position and heading of the craft is measured such that velocities and bias terms can be estimated by an observer. This is usually done under the assumption that the states x can be replaced with the estimated states ˆx such that the optimal integral controller (13.174) can be modified as
+τLQ = Gˆx + GI C
+∫t
+0
+ˆx(τ) dτ (13.177)
+where the state estimate ˆx can be computed using
+• Kalman filter (Section 11.3.6) • Nonlinear passive observer (Section 11.4.1)
+For the Kalman filter in cascade with the LQ controller there exists a linear separation principle guaranteeing that ˆx → x and that x → 0 (Athans and Falb, 1966). This is referred to as LQG control and it was first applied to design DP systems by Balchen et al. (1976, 1980a, 1980b) and Grimble et al. (1980a, 1980b). Optimal DP systems are used to maintain the position of offshore drilling and supply vessels (see Figure 13.8).
+Figure 13.8 Oil production using a dynamically positioned semi-submersible. Illustration by Bjarne Stenberg/MARINTEK.
+
+
+State Feedback Linearization 451
+13.2 State Feedback Linearization
+The basic idea with feedback linearization is to transform the nonlinear system dynamics into a linear system (Freund, 1973). Feedback linearization is discussed in more detail by Isidori (1989) and Slotine and Li (1991). Conventional control techniques such as pole-placement and linear quadratic optimal control theory can then be applied to the linear system. In robotics, this technique is commonly referred to as computed torque control (Sciavicco and Siciliano, 1996). Feedback linearization is easily applicable to ships and underwater vehicles since these models basically are nonlinear mass–damper–spring systems, which can be transformed into a linear system by using a nonlinear mapping. Transformations that can be used for applications both in BODY and NED coordinates will be presented. Trajectory-tracking control in the BODY frame is used for velocity control while NED frame applications are recognized as position and attitude control. Combined position and velocity control systems will also be discussed.
+13.2.1 Decoupling in the BODY Frame (Velocity Control)
+The control objective is to transform the marine craft dynamics into a linear system:
+ν ̇ = ab (13.178)
+where ab can be interpreted as a body-fixed commanded acceleration vector. The body-fixed vector representation should be used to control the linear and angular velocities. Consider the nonlinear marine craft dynamics in the form
+Mν ̇ + n(ν, η) = τ (13.179)
+where η and ν are assumed to be measured and n is the nonlinear vector
+n(ν, η) = C(ν)ν + D(ν)ν + g(η) (13.180)
+The nonlinearities can be canceled out by simply selecting the control law as (see Figure 13.9)
+τ = Mab + n(ν, η) (13.181)
+where the commanded acceleration vector ab can be chosen by, for instance, pole placement or linear quadratic optimal control theory. However, note that to investigate optimality of the original system, the optimal control and cost function must be transformed back through the nonlinear mapping.
+Figure 13.9 Nonlinear decoupling in the BODY frame.
+
+
+452 Advanced Motion Control Systems
+Pole Placement
+Let > 0 be a diagonal design matrix
+= diag{λ1, λ2, . . . , λn}
+used to specify the desired control bandwidth, νd the desired linear and angular velocity vector and ν ̃ = ν − νd the velocity tracking error. Then the commanded acceleration vector can be chosen as a PI controller with acceleration feedforward:
+ab = ν ̇d − Kp ν ̃ − Ki
+∫t
+0
+ν ̃(τ) dτ (13.182)
+Choosing the gains as
+Kp = 2 , Ki = 2
+yields the second-order error dynamics
+M( ν ̃ ̇ − ab) = M
+(
+ν ̃ ̇ + 2 ν ̃ + 2
+∫t
+0
+ν ̃(τ) dτ
+)
+= 0 (13.183)
+This implies that for each DOF both poles are in s = −λi (i = 1, . . . , n). Consequently,
+(s + λi)2
+∫t
+0
+ν ̃(τ) dτ = 0 (i = 1, . . . , n) (13.184)
+The reference model of Section 10.2.1 can be used to generate a smooth velocity trajectory νd for trajectory-tracking control.
+13.2.2 Decoupling in the NED Frame (Position and Attitude Control)
+For position and attitude control the dynamics are decoupled in the NED reference frame. Consider
+ ̈η = an (13.185)
+where an can be interpreted as the commanded acceleration in NED. Consider the kinematic and kinetic equations in the form
+ ̇η = J (η)ν (13.186)
+Mν ̇ + n(ν, η) = τ (13.187)
+where both η and ν are assumed measured. Differentiation of the kinematic equation (13.186) with respect to time yields
+ν ̇ = J−1(η)[ ̈η − J ̇ (η)ν] (13.188)
+
+
+State Feedback Linearization 453
+The nonlinear control law
+τ = Mab + n(ν, η) (13.189)
+applied to (13.187) yields
+M(ν ̇ − ab) = MJ−1(η)[ ̈η − J ̇ (η)ν − J (η)ab] = 0 (13.190)
+Choosing
+an = J ̇ (η)ν + J (η)ab (13.191)
+yields the linear decoupled system
+M∗( ̈η − an) = 0 (13.192)
+where M∗ = J− (η)MJ−1(η) > 0. From (13.191) it is seen that
+ab = J −1(η)[an − J ̇ (η)ν] (13.193)
+where the commanded acceleration an can be chosen as a PID control law with acceleration feedforward:
+an =  ̈ηd − Kd  ̃η ̇ − Kp  ̃η − Ki
+∫t
+0
+ ̃η(τ) dτ (13.194)
+where Kp, Kd and Ki are positive definite matrices chosen such that the error dynamics
+ ̃η ̈ + Kd  ̃η ̇ + Kp  ̃η + Ki
+∫t
+0
+ ̃η(τ) dτ = 0 (13.195)
+is GES. One simple pole-placement algorithm for PID control is
+(s + λi)3
+∫t
+0
+ ̃η(τ) dτ = 0 (i = 1, . . . , n) (13.196)
+which yields
+Kd = 3 = diag{3λ1, 3λ2, . . . , 3λn}
+Kp = 3 2 = diag{3λ2
+1, 3λ2
+2, . . . , 3λ2
+n}
+Ki = 3 = diag{λ3
+1, λ3
+2, . . . , λ3
+n}
+
+
+454 Advanced Motion Control Systems
+Figure 13.10 Nonlinear decoupling in the NED frame with transformation to the BODY frame.
+This is shown in Figure 13.10. When implementing the trajectory-tracking controller a third-order reference model can be used to compute smooth position and attitude trajectories ηd (see Section 10.2.1).
+13.2.3 Case Study: Feedback Linearizing Speed Controller for Ships and Underwater Vehicles
+Consider the following decoupled model of a ship in surge:
+m  ̇u + d1u + d2|u|u = τ (13.197)
+From Section 13.2.1 it follows that the commanded acceleration can be calculated as
+ab =  ̇ud − Kp(u − ud ) − Ki
+∫t
+0
+(u − ud) dτ (13.198)
+while the speed controller takes the following form:
+τ = m[  ̇ud − Kp(u − ud ) − Ki
+∫t
+0
+(u − ud) dτ] + d1u + d2|u|u (13.199)
+Hence, the equilibrium point of the linear system
+ ̃u ̇ + Kp  ̃u + Ki
+∫t
+0
+ ̃u(τ) dτ = 0 (13.200)
+is GES if the gains are chosen as
+Kp = 2λ (13.201)
+Ki = λ2 (13.202)
+with λ > 0. In order to implement the speed controller, the following reference model can be used (see Section 10.2.1):
+ ̈ud + 2ζωu ̇ d + ω2ud = ω2rb (13.203)
+where ζ > 0 and ω > 0 are the reference model damping ratio and natural frequency while rb is the setpoint specifying the desired surge speed.
+
+
+State Feedback Linearization 455
+13.2.4 Case Study: Feedback Linearizing Ship and Underwater Vehicle Autopilot
+Consider the nonlinear model (Norrbin, 1963):
+ψ ̇ = r (13.204)
+mr ̇ + d1r + d2|r|r = τ (13.205)
+where ψ is the yaw angle. Hence, the commanded acceleration can be calculated as (Fossen and Paulsen, 1992)
+an = r ̇d − Kd (r − rd ) − Kp(ψ − ψd ) − Ki
+∫t
+0
+(ψ − ψd) dτ (13.206)
+where rd is the desired yaw rate and ψd is the desired heading angle. For this particular example, (13.193) implies that an = ab. Choosing the decoupling control law as
+τ=m
+[
+r ̇d − Kd (r − rd ) − Kp(ψ − ψd ) − Ki
+∫t
+0
+(ψ − ψd) dτ
+]
++ d1r + d2|r|r (13.207)
+finally gives the error dynamics
+ψ ̇ ̃ =  ̃r (13.208)
+ ̃r ̇ + Kd  ̃r + Kpψ ̃ = 0 (13.209)
+The reference model can be chosen as (see Section 10.2.1)
+ψ(3)
+d + (2ζ + 1)ωψ ̈ d + (2ζ + 1)ω2ψ ̇ d + ω3ψd = ω3rn (13.210)
+Notice that (13.207) depends on the uncertain parameters d1 and d2 while m is quite easy to estimate using hydrodynamic programs. Hence, care must be taken when implementing (13.207). For most craft, the control law (13.207) works very well even with d1 = d2 = 0 so the need for choosing nonzero damping parameters should be seen as a trade-off between robustness and performance.
+13.2.5 Case Study: MIMO Adaptive Feedback Linearizing Controller for Ships and Underwater Vehicles
+So far only feedback linearization has been discussed under the assumption that all model parameters are known. This can be relaxed by using parameter adaptation. Consider a marine craft given by the nonlinear system
+ ̇η = J (η)ν (13.211)
+Mν ̇ + n(ν, η) = τ (13.212)
+Taking the control law to be
+τ = Mˆ ab + ˆn(ν, η) (13.213)
+
+
+456 Advanced Motion Control Systems
+where the hat denotes the adaptive parameter estimates, yields the error dynamics
+M[ν ̇ − ab] = [Mˆ − M]ab + [ ˆn(ν, η) − n(ν, η)] (13.214)
+If the equations of motion are linear in a parameter vector θ, the following parametrization can be applied:
+[Mˆ − M]ab + [ ˆn(ν, η) − n(ν, η)] = (ab, ν, η) θ ̃ (13.215)
+Here θ ̃ = θˆ − θ is the unknown parameter error vector and (ab, ν, η) is a known matrix function of measured signals usually referred to as the regressor matrix. Using the result an = J ̇ (η)ν + J (η)ab from (13.191) gives
+MJ −1(η)[ ̈η − an] = (ab, ν, η) θ ̃ (13.216)
+Premultiplying this expression by J− (η) and letting M∗(η) = J− (η)MJ−1(η) yields the error dynamics
+M∗(η)[ ̈η − an] = J− (η) (ab, ν, η) θ ̃ (13.217)
+Furthermore, let the commanded acceleration be chosen as a PD controller with acceleration feedforward:
+an =  ̈ηd − Kd  ̃ ̇η − Kp  ̃η (13.218)
+where Kp > 0 and Kd > 0. Hence, the error dynamics can be expressed according to
+M∗(η)[  ̃η ̈ + Kd  ̃η ̇ + Kp  ̃η] = J− (η) (ab, ν, η) θ ̃ (13.219)
+Writing this expression in state-space form yields
+x ̇ = Ax + BJ− (η) (ab, ν, η) θ ̃ (13.220)
+where x = [  ̃η ,  ̃ ̇η ] and
+A=
+[0 I
+−Kp −Kd
+]
+, B=
+[0
+M ∗ (η)−1
+]
+(13.221)
+The convergence of  ̃η to zero can be proven by considering
+V (x, θ ̃, t) = x Px + θ ̃ −1 θ ̃ (13.222)
+with a time-varying P = P > 0 and where = > 0 is a positive definite weighting matrix of appropriate dimension. Differentiating V with respect to time and substituting the error dynamics into the expression for V ̇ yields
+V ̇ = x (P ̇ + PA + A P)x + 2(x PBJ− + θ ̃ ̇ −1) θ ̃ (13.223)
+Assume that the parameters are constant such that θ ̇ = 0 holds. The parameter update law is chosen as
+θˆ ̇ = − (ab, ν, η)J−1(η)y (13.224)
+
+
+Integrator Backstepping 457
+where y is signal vector given by
+y = Cx, C = B P (13.225)
+In order to prove that V ̇ ≤ 0, let
+C = [c0I c1I] (13.226)
+where c0 > 0 and c1 > 0 are two scalars to be interpreted later. Furthermore, let
+PA + A P = −Q, Q = Q > 0 (13.227)
+where P and Q are defined according to Asare and Wilson (1986):
+P :=
+[ c0M∗Kd + c1M∗Kp c0M∗
+c0M∗ c1M∗
+]
+(13.228)
+Q :=
+[ 2c0M∗Kp 0
+0 2(c1M∗Kd − c0M∗)
+]
+(13.229)
+Assume that there exists a constant β > 0 such that
+x P ̇ x = x
+[ c0M ̇ ∗Kd + c1M ̇ ∗Kp c0M ̇ ∗
+c0M ̇ ∗ c1M ̇ ∗
+]
+x ≤ βx
+[ M∗ 0
+0 M∗
+]
+x (13.230)
+Hence, P = P > 0, c0 > 0, c1 > 0 and x Qx > x P ̇ x implies that
+V ̇ = x (P ̇ − Q)x ≤ 0 (13.231)
+if the following requirements are satisfied:
+(i) (c0Kd + c1Kp)c1 > c2
+0I
+(ii) 2c0Kp > βI
+(iii) 2(c1Kd − c0I) > βI
+Here β is usually taken to be a small positive constant while Kp > 0 and Kd > 0 can be chosen as diagonal matrices. Consequently, convergence of  ̃η and  ̃ ̇η to zero is guaranteed by applying Barb ̆alat’s lemma (Barb ̆alat, 1959); see Appendix A.2. It is also seen that the parameter vector θ ̃ will be bounded but not necessarily convergent. Adaptive feedback linearization has been applied to the ship autopilot control problem by Fossen and Paulsen (1992). The assumption that x P ̇ x is bounded by a positive constant β can be relaxed by using adaptive slide-mode control where the skew-symmetric property x [M ̇ − 2C(ν)]x = 0 is exploited (see Slotine and Benedetto, 1990, Fossen, 1993).
+13.3 Integrator Backstepping
+Backstepping is a design methodology for construction of a feedback control law through a recursive construction of a control Lyapunov function. Nonlinear backstepping designs are strongly related to feedback linearization. However, while feedback linearization methods cancel all nonlinearities in the system it will be shown that when applying the backstepping design methodology more design flexibility is obtained. In particular, the designer is given the possibility to exploit “good” nonlinearities while “bad” nonlinearities can be dominated by adding nonlinear damping, for instance. Hence, additional robustness
+
+
+458 Advanced Motion Control Systems
+is obtained, which is important in industrial control systems since cancelation of all nonlinearities requires precise models that are difficult to obtain in practice.
+13.3.1 A Brief History of Backstepping
+The idea of integrator backstepping seems to have appeared simultaneously, often implicit, in the works of Koditschek (1987), Sonntag and Sussmann (1988), Tsinias (1989) and Byrnes and Isidori (1989). Stabilization through an integrator (Kokotovic and Sussmann, 1989) can be viewed as a special case of stabilization through an SPR transfer function, which is a frequently used technique in the early adaptive designs (see Parks, 1966, Landau, 1979, Narendra and Annaswamy, 1989). Extensions to nonlinear cascades by using passivity arguments have been done by Ortega (1991) and Byrnes et al. (1991). Integrator backstepping appeared as a recursive design technique in Saberi et al. (1990) and was further developed by Kanellakopoulos et al. (1992). The relationship between backstepping and passivity has been established by Lozano et al. (1992). For the interested reader, a tutorial overview of backstepping is given in Kokotovic (1991). Adaptive and nonlinear backstepping designs are described in detail by Krstic et al. (1995). This includes methods for parameter adaptation, tuning functions and modular designs for both full-state feedback and output feedback (observer backstepping). Sepulchre et al. (1997) make extensions to forwarding, passivity and cascaded designs. Also discussions on stability margins and optimality are included. The concept of vectorial backstepping was first introduced by Fossen and Berge (1997). Vectorial backstepping exploits the structural properties of nonlinear MIMO systems and this simplifies design and analysis significantly. Krstic and Deng (1998) present stochastic systems with a focus on stochastic stability and regulation. The focus of this section is practical designs with implementation considerations for mechanical systems. This is done by exploiting the nonlinear system properties of mechanical systems such as dissipativness (good damping), symmetry of the inertia matrix and the skew-symmetric property of the Coriolis and centripetal matrix. In addition, emphasis is placed on control design with integral action. Two techniques for integral action in nonlinear systems using backstepping designs are discussed (see Loria et al., 1999, Fossen et al., 2001).
+13.3.2 The Main Idea of Integrator Backstepping
+Integrator backstepping is a recursive design technique using control Lyapunov functions (CLF). The CLF concept is a generalization of Lyapunov design results by, for instance, Jacobson (1977) and Jurdjevic and Quinn (1978).
+Definition 13.2 (Control Lyapunov Function)
+A smooth positive definite and radially unbounded function V : Rn → R+ is called a control Lyapunov function for (see Arstein, 1983, Sontag, 1983)
+x ̇ = f (x, u) (13.232)
+where x ∈ Rn and u ∈ Rr if
+inf
+u∈Rr
+{ ∂V
+∂x (x)f (x, u)
+}
+< 0, ∀x =/ 0 (13.233)
+
+
+Integrator Backstepping 459
+Figure 13.11 Second-order nonlinear system with one single nonlinearity f (x1) and a pure integrator at the input.
+The main idea of integrator backstepping can be demonstrated by considering a simple nonlinear scalar system:
+x ̇1 = f (x1) + x2 (13.234)
+x ̇2 = u (13.235)
+y = x1 (13.236)
+where x1 ∈ R, x2 ∈ R, y ∈ R and u ∈ R. The second equation represents a pure integrator (see Figure 13.11). Let the design objective be regulation of y → 0 as t → ∞. The only equilibrium point with y = 0 is (x1, x2) = (0, −f (0)) corresponding to x ̇1 = f (0) + x2 = 0. The design objective is to render the equilibrium point GAS or GES. Since the nonlinear system (13.234)–(13.235) consists of two states x1 and x2, this will be a recursive design in two steps. Equations (13.234)–(13.235) are therefore treated as two cascaded systems, each with a single input and output. The recursive design starts with the system x1 and continues with x2. A change of coordinates
+z = φ(x) (13.237)
+is introduced during the recursive design process where z is a new state vector and φ(x) : Rn → Rn is a transformation to be interpreted later. The backstepping transformation is a global diffeomorphism, that is a mapping with smooth functions φ(x) and φ−1(x). Hence, the existence of an inverse transformation
+x = φ−1(z) (13.238)
+is guaranteed.
+Step 1: For the first system (13.234) the state x2 is chosen as a virtual control input while it is recalled that our design objective is to regulate the output y = x1 to zero. Hence, the first backstepping variable is chosen as
+z1 = x1 (13.239)
+
+
+460 Advanced Motion Control Systems
+The virtual control is defined as
+x2 := α1 + z2 (13.240)
+where
+α1 = stabilizing function z2 = new state variable
+Hence, the z1 system can be written
+ ̇z1 = f (z1) + α1 + z2 (13.241)
+The new state variable z2 will not be used in the first step, but its presence is important since z2 is needed to couple the z1 system to the next system, that is the z2 system to be considered in the next step. Moreover, integrator backstepping implies that the coordinates during the recursive design are changed from x = [x1, x2] to z = [z1, z2] . A CLF for the z1 system is
+V1 = 1
+2 z2
+1 (13.242)
+V ̇1 = z1  ̇z1
+= z1(f (z1) + α1) + z1z2 (13.243)
+We now turn our attention to the design of the stabilizing function α1 which will provide the necessary feedback for the z1 system. For instance, choosing the stabilizing function as a feedback linearizing controller
+α1 = −f (z1) − k1z1 (13.244)
+where k1 > 0 is the feedback gain, yields
+V ̇1 = −k1z2
+1 + z1z2 (13.245)
+and
+ ̇z1 = −k1z1 + z2 (13.246)
+A block diagram showing the stabilizing function and the new state variable is shown in Figure 13.12. Hence, if z2 = 0 then the z1 system is stabilized. We now turn our attention to the z2 system. Step 2: The z2 dynamics is computed by time differentiation of (13.240):
+ ̇z2 = x ̇2 − α ̇ 1
+= u − α ̇ 1 (13.247)
+
+
+Integrator Backstepping 461
+Figure 13.12 Stabilization of the x1 system by means of the stabilizing function α1 = α1(x1). Note that −  ̇α1(x1) when integrated cancels out the feedback term α1(x1).
+A CLF for the z2 system is
+V2 = V1 + 1
+2 z2
+2 (13.248)
+V ̇2 = V ̇1 +  ̇z2z2
+= (−k1z2
+1 + z1z2) +  ̇z2z2
+= −k1z2
+1 + z2(z1 +  ̇z2)
+= −k1z2
+1 + z2(u − α ̇ 1 + z1) (13.249)
+Since our system has relative degree two, the control input u appears in the second step (see Figure 13.13). Hence, choosing the control law as
+u =  ̇α1 − z1 − k2z2 (13.250)
+with k2 > 0 yields
+V ̇2 = −k1z2
+1 − k2z2
+2 < 0, ∀z1 =/ 0, z2 =/ 0 (13.251)
+Implementation Aspects
+When implementing the control law (13.250) it is important to avoid expressions involving the time derivatives of the states. For this simple system only  ̇α1 must be evaluated. This can be done by
+Figure 13.13 Stabilization of the x2 system by means of the control input u = u(α ̇ 1, z1, z2).
+
+
+462 Advanced Motion Control Systems
+time differentiation of α1(x1) along the trajectory of x1. Hence, α ̇ 1 can be computed without using the state derivatives:
+ ̇α1 = − ∂f (x1)
+∂x1
+x ̇1 − k1x ̇1
+=−
+( ∂f (x1) ∂x1
++ k1
+)
+(f (x1) + x2) (13.252)
+The final expression for the control law is then
+u=−
+( ∂f (x1) ∂x1
++ k1
+)
+(f (x1) + x2) − x1 − k2(x2 + f (x1) + k1x1) (13.253)
+If f (x1) = −x1 (linear theory), it is seen that
+u = − (−1 + k1) (−x1 + x2) − x1 − k2(x2 − x1 + k1x1)
+= − (2 + k1k2 − k1 − k2)
+} {{ }
+Kp
+x1 − (k1 + k2 − 1)
+} {{ }
+Kd
+x2 (13.254)
+which is a standard PD control law. In general, the expression for u is a nonlinear feedback control law depending on the nonlinear function f (x1).
+Backstepping Coordinate Transformation
+The backstepping coordinate transformation z = φ(x) takes the form
+[ z1
+z2
+] =
+[ x1
+x2 + f (x1) + k1x1
+]
+(13.255)
+while the inverse transformation x = φ−1(z) is
+[ x1
+x2
+] =
+[ z1
+z2 − f (z1) − k1z1
+]
+(13.256)
+The Final Check
+If you have performed the backstepping design procedure correctly the dynamics of the closed-loop system in (z1, z2) coordinates can always be written as the sum of a diagonal and skew-symmetric matrix times the state vector. This can be seen by writing the resulting dynamics in the form
+[  ̇z1
+ ̇z2
+]
+=−
+[ k1 0
+0 k2
+]
+} {{ }
+diagonal matrix
+[ z1
+z2
+] +
+[0 1
+−1 0
+]
+} {{ }
+skew-symmetrical matrix
+[ z1
+z2
+]
+(13.257)
+or equivalently
+ ̇z = −Kz + Sz (13.258)
+
+
+Integrator Backstepping 463
+where z = [z1, z2] , K = diag{k1, k2} > 0 and
+S = −S =
+[0 1
+−1 0
+]
+(13.259)
+where S satisfies z Sz = 0, ∀z. In some cases the diagonal matrix will be a function of the state; that is K(z) > 0. This is the case when nonlinear damping is added or when some of the nonlinearities not are canceled by the controller.
+Investigation of Stability
+It is also seen that
+V2 = 1
+2 z z (13.260)
+V ̇2 = z (−Kz + Sz)
+= −z Kz (13.261)
+Hence, Lyapunov’s direct method for autonomous systems ensures that the equilibrium point (x1, x2) = (0, −f (0)) is GAS. In fact, this system will also be GES since it can be shown that the state vector x decays exponentially to zero by using Theorem A.3; that is
+‖z(t)‖2 ≤ e−β(t−t0) ‖z(t0)‖2 (13.262)
+where β = λmin(K) > 0 is the convergence rate. A generalization to SISO mass–damper–spring systems is done in Section 13.3.3 while extensions to MIMO control are made in Section 13.3.6.
+Backstepping versus Feedback Linearization
+The backstepping control law of the previous section is in fact equal to a feedback linearizing controller since the nonlinear function f (x1) is perfectly compensated for by choosing the stabilizing function as
+α1 = −f (x1) − k1z1 (13.263)
+The disadvantage with this approach is that a perfect model is required. This is impossible in practice. Consequently, an approach of canceling all the nonlinearities may be sensitive for modeling errors. One of the nice features of backstepping is that the stabilizing functions can be modified to exploit so-called “good” nonlinearities. For instance, assume that
+f (x1) = −a0x1 − a1x2
+1 − a2 |x1| x1 (13.264)
+where a0, a1 and a2 are assumed to be unknown positive constants. Since both a0x1and a2 |x1| x1 tend to damp out the motion these two expressions should be exploited in the control design and therefore not canceled out. On the contrary, the destabilizing term a1x2
+1 must be perfectly compensated for or
+dominated by adding a nonlinear damping term proportional to x3
+1 (remember that z1 = x1). Nonlinear damping suggests the following candidate for the stabilizing function:
+α1 = −k1z1
+} {{ }
+linear damping
+−κ1z3
+1
+} {{ }
+nonlinear damping
+(13.265)
+
+
+464 Advanced Motion Control Systems
+Figure 13.14 Domination of destabilizing terms by adding nonlinear damping.
+where k1 > 0 and κ1 > 0 (see Figure 13.14). Hence,
+ ̇z1 = f (z1) + (α1 + z2)
+= −a0z1 − a1z2
+1 − a2 |z1| z1 − (k1 + κ1z2
+1)z1 + z2
+= −( a0 + a2 |z1|
+} {{ }
+good damping
++k1)z1 − a1z2
+1
+}{{}
+bad damping
+−κ1z3
+1 + z2 (13.266)
+Consider the CLF:
+V1 = 1
+2 z2
+1 (13.267)
+V ̇1 = −(a0 + a2 |z1| + k1)z2
+1 − a1z3
+1 − κ1z4
+1 + z1z2 (13.268)
+In the next step it is seen that
+V2 = V1 + 1
+2 z2
+2
+V ̇2 = −( a0 + a2 |z1|
+} {{ }
+energy dissipation
++k1)z2
+1 − a1z3
+1
+}{{}
+energy dissipation/ generation
+−κ1z4
+1 + z2(z1 + u −  ̇α1)
+From this expression it can be concluded that the good damping terms contribute to the energy dissipation. The bad damping term, however, must be dominated by the nonlinear damping term. Choosing
+u = α ̇ 1 − k2z2 − z1 (13.269)
+finally yields
+V ̇2 = −(a0 + a2 |z1| + k1)z2
+1 − a1z3
+1 − κ1z4
+1 − k2z2
+2 (13.270)
+
+
+Integrator Backstepping 465
+This expression can be rewritten by completing the squares. Consider the expression
+(1
+2√κ1
+x + √κ1y
+)2
+=1
+4κ1
+x2 + xy + κ1y2 ≥ 0 (13.271)
+−xy − κ1y2 = −
+(1
+2√κ1
+x + √κ1y
+)2
++1
+4κ1
+x2 (13.272)
+Equation (13.270) with x = a1z1 and y = z2
+1 yields
+V ̇2 = −
+( a1
+2√κ1
+z1 + √κ1z2
+1
+)2
++ a2
+1
+4κ1
+z2
+1 − (a0 + a2 |z1| + k1)z2
+1 − k2z2
+2 (13.273)
+Since
+−
+( a1
+2√κ1
+z1 + √κ1z2
+1
+)2
+≤0
+−a2 |z1| ≤ 0 (13.274)
+it then follows that
+V ̇2 ≤ −
+(
+a0 + k1 − a2
+1
+4κ1
+)
+z2
+1 − k2z2
+2 (13.275)
+Hence, by choosing the controller gains according to
+κ1 > 0 (13.276)
+k1 > a2
+1
+4κ1
+− a0 (13.277)
+k2 > 0 (13.278)
+our design goal to render V ̇2 < 0 is satisfied. Notice that the controller (13.269) with (13.265) is implemented without using the unknown parameters a0, a1 and a2. Hence, a robust nonlinear controller is derived by using backstepping. This result differs from feedback linearization, which is based on model cancelation.
+13.3.3 Backstepping of SISO Mass–Damper–Spring Systems
+The results of Section 13.3.2 can be generalized to the following class of SISO mechanical systems:
+x ̇ = v (13.279)
+m ̇v + d(v)v + k(x)x = τ (13.280)
+y = x (13.281)
+
+
+466 Advanced Motion Control Systems
+Figure 13.15 Nonlinear mass–damper–spring system.
+where x is the position, v is the velocity and
+m = mass (positive) d(v) = nonlinear damper (non-negative) k(x) = nonlinear spring (non-negative)
+The nonlinear mass–damper–spring system is shown in Figure 13.15.
+Nonlinear Trajectory-Tracking Control
+Backstepping of the mass–damper–spring can be performed by choosing the output
+e = y − yd (13.282)
+where e is the tracking error and yd(t) ∈ Cr is an r times differentiable (smooth) and bounded reference trajectory (see Section 10.2.1). Regulation of y = x to zero is obtained by choosing y ̇d = yd = 0. Time differentiation of e yields the following model:
+ ̇e = v − y ̇d (13.283)
+m ̇v = τ − d(v)v − k(x)x (13.284)
+The backstepping control law solving this problem is derived in two recursive steps similar to the integrator backstepping example in Section 13.3.2.
+Step 1: Let z1 = e = y − yd, such that
+ ̇z1 = v − y ̇d (13.285)
+Taking v as virtual control,
+v = α1 + z2 (13.286)
+where z2 is a new state variable to be interpreted later, yields
+ ̇z1 = α1 + z2 − y ̇d (13.287)
+Next, the stabilizing function α1 is chosen as
+α1 = y ̇d − [k1 + n1(z1)]z1 (13.288)
+
+
+Integrator Backstepping 467
+where k1 > 0 is a feedback gain and n1(z1) ≥ 0 is a nonlinear damping term, for instance a nonlinear nondecreasing function n1(z1) = κ1 |z1|n1 with n1 > 0 and κ1 ≥ 0. This yields
+ ̇z1 = −[k1 + n1(z1)]z1 + z2 (13.289)
+A CLF for z1 is
+V1 = 1
+2 z2
+1 (13.290)
+V ̇1 = z1  ̇z1
+= −[k1 + n1(z1)]z2
+1 + z1z2 (13.291)
+Step 2: The second step stabilizes the z2 dynamics. Moreover, from (13.286) it is seen that
+m ̇z2 = m ̇v − mα ̇ 1
+= τ − d(v)v − k(x)x − m  ̇α1 (13.292)
+Let V2 be the second CLF, which is chosen to reflect the kinetic energy 1
+2 mv2 of the system. However, it makes sense to replace the velocity v with z2 in order to solve the trajectory-tracking control problem. This is usually referred to as “pseudo-kinetic energy”. Consider
+V2 = V1 + 1
+2 mz2
+2 (13.293)
+V ̇2 = V ̇1 + mz2  ̇z2
+= −[k1 + n1(z1)]z2
+1 + z1z2 + z2[τ − d(v)v − k(x)x − m  ̇α1] (13.294)
+Since the input τ appears in V ̇2, a value for τ can be prescribed such that V ̇2 becomes negative definite. For instance:
+τ = m  ̇α1 + d(v)v + k(x)x − z1 − k2z2 − n2(z2)z2 (13.295)
+where k2 > 0 and n2(z2) = κ2 |z2|n2 ≥ 0 with n2 > 0 can be specified by the designer. This yields
+V ̇2 = −[k1 + n1(z1)]z2
+1 − [k2 + n2(z2)]z2
+2 (13.296)
+When implementing the control law,  ̇α1 is computed by taking the time derivative of α1 along the trajectories of yd and z1, see (13.288), to obtain
+ ̇α1 = ∂α1
+∂y ̇ d
+y ̈d − ∂α1
+∂z1
+ ̇z1 = y ̈d − ∂α1
+∂z1
+(v − y ̇d) (13.297)
+Hence, the state derivatives are avoided in the control law. Notice that the desired state yd is assumed to be smooth such that y ̇d and y ̈d exist.
+
+
+468 Advanced Motion Control Systems
+Error Dynamics
+The resulting error dynamics is written
+[1 0
+0m
+][  ̇z1
+ ̇z2
+]
+=−
+[ k1 + n1(z1) 0
+0 k2 + n2(z2)
+][ z1
+z2
+] +
+[0 1
+−1 0
+][ z1
+z2
+]
+M  ̇z = −K(z)z + Sz (13.298)
+where z = [z1, z2] and
+M = diag{1, m}
+K(z) = diag{k1 + n1(z1), k2 + n2(z2)}
+S=
+[0 1
+−1 0
+]
+Hence, the equilibrium point (z1, z2) = (0, 0) is GES. This can be seen from V2(z) = 1
+2 z Mz, which
+after time differentiation yields V ̇2(z) = −z Kz since z Sz = 0, ∀z. Notice that kinetic energy has been applied in the Lyapunov analysis to achieve this.
+Setpoint Regulation
+Setpoint regulation is obtained by choosing y ̇d = yd = 0. For simplicity let n1(z1) = n2(z2) = 0 such that
+z1 = x
+α1 = −k1z1
+and
+τ = m  ̇α1 + d(v)v + k(x)x − z1 − k2z2 (13.299)
+Nonlinear PD Control
+The backstepping control law (13.299) can also be viewed as a nonlinear PD control law:
+u = −Kp(x)x − Kd(v)v (13.300)
+by writing (13.299) as
+u = [d(v) − mk1]v + [k(x) − 1]x − k2(v + k1x)
+= [d(v) − mk1 − k2]v + [k(x) − 1 − k1k2]x (13.301)
+
+
+Integrator Backstepping 469
+Hence,
+Kp(x) = k1k2 + 1 − k(x) (13.302)
+Kd(v) = mk1 + k2 − d(v) (13.303)
+Nonlinear PID Control
+The nonlinear PD controller (13.300) can be extended to include integral action by using constant parameter adaptation or by augmenting an additional integrator to the plant. More specifically
+1. Constant parameter adaptation: An unknown constant (or slowly varying) disturbance is added to the dynamic model. This constant or bias is estimated online by using adaptive control. The resulting system with parameter estimator can be shown to be UGAS for the case of regulation and trajectorytracking control (Fossen et al., 2001). 2. Integrator augmentation: An additional integrator is augmented on the right-hand side of the integrator chain in order to obtain zero steady-state errors. The resulting system is proven to be GES.
+The methods are presented in Sections 13.3.4 and 13.3.5.
+13.3.4 Integral Action by Constant Parameter Adaptation
+The constant parameter adaptation technique is based on Fossen et al. (2001). For simplicity a massdamper–spring system is considered. Hence, adaptive backstepping results in a control law of PID type.
+Consider the system:
+x ̇ = v (13.304)
+m ̇v + d(v)v + k(x)x = τ + w (13.305)
+ ̇w = 0 (13.306)
+The trajectory-tracking control law can be designed by considering the tracking error
+z1 = x − xd (13.307)
+with
+ ̇z1 = x ̇ − x ̇d
+= v − x ̇d
+= (α1 + z2) − vd
+(13.308)
+where z2 is a new state variable and v := α1 + z2 is the virtual control for z1. Choosing the stabilizing function
+α1 = x ̇d − k1z1 (13.309)
+
+
+470 Advanced Motion Control Systems
+yields
+ ̇z1 = −k1z1 + z2 (13.310)
+The definition z2 := v − α1 implies that
+ ̇z2 =  ̇v −  ̈xd + k1(v − x ̇d) (13.311)
+m ̇z2 = τ − d(v)v − k(x)x + w − m ̈xd + mk1(v − x ̇d) (13.312)
+Consider the CLF:
+V1 = 1
+2 z2
+1+ 1
+2pw ̃2, p > 0 (13.313)
+V ̇1 = z1  ̇z1 + 1
+pw ̃w ̇ ̃
+= z1z2 − k1z2
+1+ 1
+pw ̃ ˆ ̇w (13.314)
+where w ̃ = ˆw − w is the parameter estimation error. Next, consider the CLF:
+V2 = V1 + 1
+2 mz2
+2 (13.315)
+V ̇2 = V ̇1 + z2(m ̇z2)
+= z1z2 − k1z2
+1+ 1
+pw ̃ ˆ ̇w
++ z2[τ − d(v)v − k(x)x + w − m ̈xd + mk1(v − x ̇d)] (13.316)
+where it is noticed that w ̇ ̃ = ˆ ̇w. Choosing the control law as
+τ = d(v)α1 + k(x)x − ˆw + m ̈xd − mk1(v − x ̇d) − z1 − k2z2 (13.317)
+where α1 = v − z2, yields
+V ̇2 = −k1z2
+1 − [k2 + d(v)]z2
+2 +w ̃
+(1
+p
+ˆ ̇w − z2
+)
+(13.318)
+
+
+Integrator Backstepping 471
+Choosing the update law as
+ˆ ̇w = pz2 (13.319)
+finally yields
+V ̇2 = −k1z2
+1 − [k2 + d(v)]z2
+2 (13.320)
+The error dynamics takes the form
+[  ̇z1
+ ̇z2
+] =
+[ −k1 1
+−1 −k2 − d(v)
+] [ z1
+z2
+] +
+[0
+−1
+]
+w ̃ (13.321)
+w ̇ ̃ = −p [ 0 −1 ] [ z1
+z2
+]
+(13.322)
+ ̇z = h(z, t) + bw ̃ (13.323)
+w ̇ ̃ = −pb
+( ∂W(z, t) ∂z
+)
+(13.324)
+Notice that the dissipative term d(v) = d(z2 + α1) = d(z2 − k1z1 + x ̇d(t)) > 0, ∀v has not been “canceled out” in order to exploit this as good damping in the error dynamics. The price for exploiting the socalled good nonlinearities in the design is that the error dynamics becomes nonautonomous. Since the feedback gains are assumed to be positive, that is k1 > 0 and k2 > 0, p > 0, b = [0, −1] and b b = 1 > 0, Theorem A.6 with W (z) = 1
+2 z z guarantees that the nonautonomous systems (13.321)(13.322) is UGAS. Notice that if a feedback linearizing controller is applied instead of (13.317), replacing the damping term d(v)α1 with d(v)v), the control input becomes
+τ = d(v)v + k(x)x − ˆw + m ̈xd − mk1(v − x ̇d) − z1 − k2z2 (13.325)
+The error dynamics
+[  ̇z1
+ ̇z2
+] =
+[ −k1 1
+−1 −k2
+] [ z1
+z2
+] +
+[0
+−1
+]
+w ̃ (13.326)
+is autonomous. In this case, Krasovskii–LaSalle’s invariant set theorem (Theorem A.2) can be used to prove GAS.
+
+
+472 Advanced Motion Control Systems
+13.3.5 Integrator Augmentation Technique
+Consider the second-order mass–damper–spring system:
+x ̇ = v (13.327)
+m ̇v + d(v)v + k(x)x = τ + w (13.328)
+y = x (13.329)
+where w is a constant unknown disturbance. Let e denote the tracking error
+e = y − yd (13.330)
+where yd is the desired output. Hence,
+ ̇e = v − y ̇d (13.331)
+m ̇v + d(v)v + k(x)x = τ + w (13.332)
+Nonlinear PD Control
+If w = 0, backstepping results in a nonlinear control law of PD type similar to the result in Section 13.3.3. However, by augmenting the plant with an additional integrator at the right end of the integrator chain, as illustrated in Figure 13.16, nonlinear PID control can be obtained.
+Nonlinear PID Control
+Augmentation of an additional integrator  ̇eI = e to the second-order plant (13.331)–(13.332) yields
+ ̇eI = e (13.333)
+ ̇e = v − y ̇d (13.334)
+m ̇v + d(v)v + k(x)x = τ + w (13.335)
+Figure 13.16 Augmentation of an additional integrator.
+
+
+Integrator Backstepping 473
+For simplicity let us first assume that w = 0. Hence, backstepping with z1 = eI results in three steps:
+Step 1:
+ ̇z1 = e
+= α1 + z2 (13.336)
+Choosing the stabilizing function α1 = −k1z1 yields
+ ̇z1 = −k1zI + z2 (13.337)
+Hence,
+V1 = 1
+2 z2
+1 (13.338)
+V ̇1 = z1  ̇z1
+= −k1z2
+1 + z1z2 (13.339)
+Step 2:
+ ̇z2 =  ̇e −  ̇α1
+= v − y ̇d − α ̇ 1
+= (α2 + z3) − y ̇d −  ̇α1 (13.340)
+Hence,
+V2 = V1 + 1
+2 z2
+2 (13.341)
+V ̇2 = −k1z2
+1 + z1z2 + z2  ̇z2
+= −k1z2
+1 + z2(z1 + α2 + z3 − y ̇d − α ̇ 1) (13.342)
+Choosing the stabilizing function α2 =  ̇α1 + y ̇d − k2z2 − z1 yields
+ ̇z2 = −z1 − k2z2 + z3 (13.343)
+V ̇2 = −k1z2
+1 − k2z2
+2 + z2z3 (13.344)
+Step 3:
+m ̇z3 = m ̇v − m  ̇α2
+= τ + w − d(v)v − k(x)x − mα ̇ 2
+= τ − d(v)α2 − d(v)z3 − k(x)x − mα ̇ 2 (13.345)
+
+
+474 Advanced Motion Control Systems
+Let
+V3 = V2 + 1
+2 mz2
+3 (13.346)
+V ̇3 = −k1z2
+1 − k2z2
+2 + z3(z2 + m ̇z3)
+= −k1z2
+1 − k2z2
+2 + z3(z2 + τ − d(v)α2 − d(v)z3 − k(x)x − mα ̇ 2) (13.347)
+Choosing the control law as
+τ = m  ̇α2 + d(v)α2 + k(x)x − z2 − k3z3 (13.348)
+yields
+V ̇3 = −k1z2
+1 − k2z2
+2 − (d(v) + k3)z2
+3 < 0, ∀z1 =/ 0, z2 =/ 0, z3 =/ 0 (13.349)
+and
+m ̇z3 = −[d(v) + k3]z3 − z2 (13.350)
+Error Dynamics
+For the undisturbed case w = 0, the error dynamics takes the form
+⎡
+⎣
+10 0
+01 0
+00m
+⎤
+⎦
+⎡
+⎣
+ ̇z1
+ ̇z2
+ ̇z3
+⎤
+⎦=−
+⎡
+⎣
+k1 0 0
+0 k2 0
+0 0 d(v) + k3
+⎤
+⎦
+⎡
+⎣
+z1
+z2
+z3
+⎤
+⎦+
+⎡
+⎣
+0 10
+−1 0 1
+0 −1 0
+⎤
+⎦
+⎡
+⎣
+z1
+z2
+z3
+⎤
+⎦ (13.351)
+Hence, the equilibrium point (z1, z2, z3) = (0, 0, 0) is GES and therefore the tracking error e converges to zero. If w = constant, the error dynamics takes the form
+⎡
+⎣
+10 0
+01 0
+00m
+⎤
+⎦
+⎡
+⎣
+ ̇z1
+ ̇z2
+ ̇z3
+⎤
+⎦=−
+⎡
+⎣
+k1 0 0
+0 k2 0
+0 0 d(v) + k3
+⎤
+⎦
+⎡
+⎣
+z1
+z2
+z3
+⎤
+⎦+
+⎡
+⎣
+0 10
+−1 0 1
+0 −1 0
+⎤
+⎦
+⎡
+⎣
+z1
+z2
+z3
+⎤
+⎦+
+⎡
+⎣
+0
+0
+1
+⎤
+⎦w
+Hence, in the steady state ( ̇z = 0 and d(v) = 0)
+z2 = k1z1 = e − α1 = e + k1z1 ⇒ e = 0 (13.352)
+The equilibrium point for w = constant is
+⎡
+⎣
+z1
+z2
+z3
+⎤
+⎦=
+⎡
+⎣
+k1 −1 0
+1 k2 −1
+0 1 k3
+⎤
+⎦
+−1 ⎡
+⎣
+0
+0
+1
+⎤
+⎦w = 1
+k1k2k3 + k1 + k3
+⎡
+⎣
+1
+k1
+1 + k1k2
+⎤
+⎦ w (13.353)
+Therefore it can be concluded that for the case w = constant the equilibrium point (z1, z2, z3) is GES but (z1, z2, z3) will converge to the constant nonzero values given by (13.353), even though e = 0. This shows that augmentation of an additional integrator when performing backstepping leads to zero steady-state errors in the case of regulation under the assumption of a constant disturbance w.
+
+
+Integrator Backstepping 475
+Implementation Considerations
+The integrator augmentation technique is particularly interesting for implementation in mechanical systems since the integral term is computed by integrating z1 = y − yd which for a mechanical system is the position tracking error. This corresponds to applying a PID controller on a second-order system. On the contrary, when using constant parameter adaptation the integral term will be the integral of a linear combination of the state tracking errors; see (13.322). For a mechanical system this implies that both the position and velocity tracking errors are used to provide integral action. In many cases it is difficult to measure the velocity with the same accuracy as the position. This implies that the adaptive method will be more sensitive to measurement noise than the integrator augmentation technique. A comparative study of the different backstepping integral techniques is found in Skjetne and Fossen (2004).
+13.3.6 Case Study: Backstepping of MIMO Mass–Damper–Spring Systems
+The concept of vectorial backstepping was first introduced by Fossen and Berge (1997) and Fossen and Grøvlen (1998). Consider a MIMO nonlinear mass–damper–spring system in the form
+x ̇ = v (13.354)
+M  ̇v + D(v)v + K(x)x = Bu (13.355)
+where x ∈ Rn is the position vector, v ∈ Rn is the velocity vector, u ∈ Rr (r ≥ n) is the control input vector, D(v) ∈ Rn×n represents a matrix of damping coefficients, K(x) ∈ Rn×n is a matrix of spring coefficients, M ∈ Rn×n is the inertia matrix and B ∈ Rn×r is the input matrix. Hence, backstepping can be performed in two vectorial steps.
+Step 1: For the first system (13.354) consider v as the control and let
+v = s + α1 (13.356)
+where
+s =  ̃v +  ̃x New state vector used for tracking control
+α1 Stabilizing vector field to be defined later
+Here  ̃v = v − vd and  ̃x = x − xd are the velocity and position tracking errors, respectively, and > 0 is a diagonal matrix of positive elements. The definition of the s vector is motivated by Slotine and Li (1987), who introduced s as a measure of tracking when designing their adaptive robot controller. It turns out that this transformation has the nice property of transforming the nonlinear state-space model (13.354)–(13.355) to the form
+Ms ̇ + D(v)s = M  ̇v + D(v)v − M  ̇vr − D(v)vr
+= Bu − M  ̇vr − D(v)vr − K(x)x (13.357)
+
+
+476 Advanced Motion Control Systems
+where vr can be interpreted as a “virtual” reference trajectory:
+vr = v − s
+= vd −  ̃x (13.358)
+The position error dynamics of Step 1 can therefore be written
+ ̇ ̃x = v − vd
+= s + α1 − vd (α1 = vr = v − s)
+= −  ̃x + s (13.359)
+Hence,
+V1 = 1
+2  ̃x Kp  ̃x, Kp = Kp > 0 (13.360)
+and
+V ̇1 =  ̃x Kp  ̃x ̇
+=  ̃x Kp(−  ̃x + s)
+= −  ̃x Kp  ̃x + s Kp  ̃x (13.361)
+Step 2: In the second step, a CLF motivated by pseudo-kinetic energy is chosen according to
+V2 = 1
+2 s Ms + V1, M = M > 0 (13.362)
+V ̇2 = s Ms ̇ + V ̇1
+= s (Bu − M  ̇vr − D(v)vr − K(x)x − D(v)s) −  ̃x Kp  ̃x + s Kp  ̃x
+= s (Bu − M  ̇vr − D(v)vr − K(x)x − D(v)s + Kp  ̃x) −  ̃x Kp  ̃x (13.363)
+This suggests that the control law is chosen as
+Bu = M  ̇vr + D(v)vr + K(x)x − Kp  ̃x − Kds, Kd > 0 (13.364)
+which results in
+V ̇2 = −s (D(v) + Kd)s −  ̃x Kp  ̃x
+Since V2 is positive definite and V ̇2 is negative definite it follows from Theorem A.3 that the equilibrium point (  ̃x, s) = (0, 0) is GES. Moreover, convergence of s → 0 and  ̃x → 0 implies that  ̃v → 0. When implementing the control law (13.364) it is assumed that B has an inverse:
+B† = B (BB )−1 (13.365)
+or simply B−1 for the square case r = n.
+
+
+Integrator Backstepping 477
+Nonlinear Mass–Damper–Spring System with Actuator Dynamics
+Consider the mass–damper–spring system of the previous section with actuator dynamics:
+x ̇ = ν (13.366)
+M  ̇v + D(v)v + K(x)x = Bu (13.367)
+T  ̇u + u = uc (13.368)
+where T ∈ Rr×r is a diagonal matrix of actuator time constants and uc ∈ Rr is a vector of actuator commands. Instead of choosing the controller u in Step 2, uc is treated as the control input to be specified in Step 3. Recall that
+V ̇2 = s (Bu − M  ̇vr − D(v)vr − K(x)x − D(v)s + Kp  ̃x) −  ̃x Kp  ̃x (13.369)
+Step 3: Let Bu be the virtual control vector of Step 3. Hence,
+Bu = z + α2 (13.370)
+α2 = M  ̇vr + D(v)vr + K(x)x − Kp  ̃x − Kds (13.371)
+where z is a new state variable. This results in
+V ̇2 = s z − s (D(v) + Kd)s −  ̃x Kp  ̃x (13.372)
+Choose
+V3 = 1
+2 z z + V2 (13.373)
+V ̇3 = z K  ̇z + V ̇2
+= z (B  ̇u −  ̇α2) + s z − s (D(v) + Kd)s −  ̃x Kp  ̃x
+= z (BT −1(uc − u) −  ̇α2 + s) − s (D(v) + Kd)s −  ̃x Kp  ̃x (13.374)
+The control law
+uc = u + TB†(  ̇α2 − s − Kzz) (13.375)
+yields
+V ̇3 = −z Kzz − s (D(v) + Kd)s −  ̃x Kp  ̃x (13.376)
+
+
+478 Advanced Motion Control Systems
+Again GES is guaranteed. The main drawback of including the actuator dynamic is that  ̇α2 must be computed. The expression for  ̇α2 will not depend of the state derivatives since
+ ̇α2 =
+∑n
+i=1
+∂α2 ∂(state)i
+•
+(state)i
+•
+(state)i = system equation depending on the states only
+Example 13.5 (MIMO Backstepping of Robots)
+This example is based on the results of Fossen and Berge (1997). Consider the nonlinear robot model (Sciavicco and Siciliano, 1996):
+q ̇ = v (13.377)
+M(q) ̇v + C(q, v)v + g(q) = τ (13.378)
+where M(q) = M (q) > 0 is the inertia matrix, C(q, v) is a matrix of Coriolis and centripetal forces defined in terms of the Christoffel symbols and g(q) is a vector of gravitational forces and moments. q ∈ Rn is a vector of joint angles, v ∈ Rn is a vector of joint angular rates and τ ∈ Rn is a vector of control torques. Vectorial backstepping of a robot manipulator (see Figure 13.17) can be done in two steps:
+Figure 13.17 Robot manipulator.
+
+
+Integrator Backstepping 479
+Step 1: Define the virtual control vector
+q ̇ = v := s + α1 (13.379)
+where s is a new state variable and α1 is stabilizing vector field, which can be chosen as
+α1 = vr, vr = νd −  ̃q (13.380)
+where > 0 is a diagonal design matrix and  ̃q = q − qd is the tracking error. Combining (13.379) and (13.380) yields
+ ̃v = −  ̃q + s (13.381)
+where  ̃q ̇ =  ̃v.
+Step 2: Consider the CLF:
+V=1
+2
+(s M(q)s +  ̃q Kq  ̃q) > 0, ∀s =/ 0,  ̃q =/ 0 (13.382)
+V ̇ = s M(q)s ̇ + 1
+2 s M ̇ (q)s +  ̃q Kq  ̃v
+= s M(q)s ̇ + 1
+2 s M ̇ (q)s −  ̃q Kq  ̃q +  ̃q Kqs (13.383)
+Equations (13.379) and (13.380) can be combined to give
+M(q)s ̇ = M(q) ̇v − M(q)  ̇α
+= τ − M(q) ̇vr − C(q, v)vr − g(q) − C(q, v)s (13.384)
+Substituting (13.384) into (13.383) yields
+V ̇ = s (τ − M(q) ̇vr − C(q, v)vr − g(q) + Kq  ̃q)
++s
+(1
+2
+M ̇ (q) − C(q, v)
+)
+s −  ̃q Kq  ̃q
+= s (τ − M(q) ̇vr − C(q, v)vr − g(q) + Kq  ̃q) −  ̃q Kq  ̃q (13.385)
+Here the skew-symmetric property s ( 1
+2 M ̇ (q) − C(q, v))s = 0, ∀s has been applied. The backstepping control law is chosen as
+τ = M(q) ̇vr + C(q, v)vr + g(q) − Kds − Kq  ̃q (13.386)
+where Kd = Kd > 0 and Kq = Kq > 0 are design matrices. This finally yields
+V ̇ = −s Kds −  ̃q Kq  ̃q < 0, ∀s =/ 0,  ̃q =/ 0 (13.387)
+and GES follows. The control law (13.386) is equivalent to the control law of Slotine and Li (1987) with perfectly known parameters (nonadaptive case) except for the additional feedback term Kq  ̃q which is necessary to obtain GES.
+
+
+480 Advanced Motion Control Systems
+13.3.7 Case Study: MIMO Backstepping for Fully Actuated Ships
+Conventional ship control systems are designed under the assumption that the kinematic and kinetic equations can be linearized such that gain-scheduling techniques and optimal control theory can be applied (see Fossen, 1994). This is not a good assumption for tracking applications where the surge and sway positions (N, E) and yaw angle ψ must be controlled simultaneously. The main reason for this is that the rotation matrix in yaw must be linearized. In addition to this, assumptions such as linear damping and negligible Coriolis and centripetal forces are only good for low-speed maneuvering and stationkeeping. These limitations clearly motivate a nonlinear design. MIMO nonlinear backstepping designs can be used for this purpose by exploiting nonlinear system properties such as symmetry of the inertia matrix, dissipative damping and skew-symmetry of the Coriolis and centripetal matrix (see Fossen and Fjellstad, 1995). A MIMO nonlinear backstepping technique for marine craft where the nonlinear system properties are exploited is presented below (Fossen and Strand, 1998). An alternative reference is Fossen and Strand (1999a) .
+Vectorial Backstepping of Marine Craft in 6 DOF
+Consider a marine craft described by the following equations of motion:
+ ̇η = J (η)ν (13.388)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) = τ (13.389)
+τ = Bu (13.390)
+This model describes the motion of a craft in 6 DOF. It is assumed that the craft is fully actuated such that BB is invertible. The system (13.388)–(13.390) satisfies the following properties:
+(i) M = M > 0, M ̇ = 0 (ii) C(ν) = −C (ν) (iii) D(ν) > 0 (iv) BB is nonsingular (v) J (η) = Euler angle transformation matrix (not defined for θ = ± 90◦)
+New State Variables
+Assume that the reference trajectories given by η(3)
+d ,  ̈ηd,  ̇ηd and ηd are smooth and bounded. The virtual reference trajectories in BODY and NED coordinates are defined as
+ ̇ηr :=  ̇ηd − η ̃ (13.391)
+νr := J −1(η) ̇ηr, θ =/ ± 90◦ (13.392)
+where  ̃η = η − ηd is the tracking error and > 0 is a diagonal design matrix. Furthermore, let
+s =  ̇η −  ̇ηr = η ̇ ̃ + η ̃ (13.393)
+The marine craft dynamics (13.388)–(13.389) can be written (Fossen, 1993)
+M∗(η) ̈η + C∗(ν, η) ̇η + D∗(ν, η) ̇η + g∗(η) = J− (η)τ (13.394)
+
+
+Integrator Backstepping 481
+where
+M∗(η) = J − (η)MJ −1(η)
+C∗(ν, η) = J − (η)[C(ν) − MJ −1(η)J ̇ (η)]J −1(η)
+D∗(ν, η) = J − (η)D(ν)J −1(η)
+g∗(η) = J − (η)g(η)
+Hence,
+M∗(η)s ̇ = −C∗(ν, η)s − D∗(ν, η)s + J− (η)Bu
+− M∗(η) ̈ηr − C∗(ν, η) ̇ηr − D∗(ν, η) ̇ηr − g∗(η) (13.395)
+or equivalently
+M∗(η)s ̇ = −C∗(ν, η)s − D∗(ν, η)s
++J− (η)[Bu − Mν ̇r − C(ν)νr − D(ν)νr − g(η)] (13.396)
+Step 1: Consider the error dynamics
+ ̇η −  ̇ηd = J (η)(ν − νd) (13.397)
+Let ν be the virtual control vector
+J (η)ν := s + α1 (13.398)
+The position error dynamics can therefore be written
+ ̃η ̇ = J (η)(ν − νd)
+= s + α1 − J (η)νd {α1 =  ̇ηr =  ̇ηd − η ̃,  ̇ηd = J (η)νd}
+= − η ̃ + s (13.399)
+Hence, a CLF is
+V1 = 1
+2  ̃η Kp η ̃, Kp = Kp > 0 (13.400)
+resulting in
+V ̇1 =  ̃η Kp  ̃ ̇η
+=  ̃η Kp(− η ̃ + s)
+= −  ̃η Kp η ̃ + s Kp  ̃η (13.401)
+Step 2: In the second step a CLF motivated by the pseudo-kinetic energy is chosen:
+V2 = 1
+2 s M∗(η)s + V1, M∗ = (M∗) > 0 (13.402)
+
+
+482 Advanced Motion Control Systems
+V ̇2 = s M∗(η)s ̇ + 1
+2 s M ̇ ∗(η)s + V ̇1
+= −s [C∗(ν, η) + D∗(ν, η)]s
++ s J− (η)[Bu − Mν ̇r − C(ν)νr − D(ν)νr − g(η)]
++1
+2 s M ̇ ∗(η)s −  ̃η Kp η ̃ + s Kp  ̃η (13.403)
+Using the skew-symmetric property
+s (M ̇ ∗(η) − 2C∗(ν, η)) s = 0, ∀ν, η, s (13.404)
+yields
+V ̇2 = s J− (η) [Bu − Mν ̇r − C(ν)νr − D(ν)νr − g(η) + J (η)Kp  ̃η]
+−s D∗(ν, η)s −  ̃η Kp η ̃ (13.405)
+Hence, the control law can be chosen as (see Figure 13.18)
+τ = Mν ̇r + C(ν)νr + D(ν)νr + g(η) − J (η)Kp η ̃ − J (η)Kds (13.406)
+u = B†τ (13.407)
+Figure 13.18 Nonlinear MIMO backstepping controller for 6 DOF trajectory-tracking control.
+
+
+Integrator Backstepping 483
+where Kd > 0. This results in
+V ̇2 = −s (D∗(ν, η) + Kd)s −  ̃η Kp η ̃
+Since V2 is positive definite and V ̇2 is negative definite it follows from Theorem A.3 that the equilibrium
+point ( η ̃, s) = (0, 0) is GES. In addition, it follows from convergence of s → 0 and η ̃ → 0 that η ̇ ̃ → 0.
+Vectorial Backstepping in 3 DOF
+Vectorial backstepping in 3 DOF (surge, sway and yaw) is a special case of the general 6 DOF solution which can be applied for surface vessels. Typical applications are stationkeeping and low-speed maneuvering of ships, semi-submersibles and high-speed craft (see Figure 13.19). In this case the Euler angle transformation matrix J (η) reduces to (see (2.40) in Section 2.2):
+J (η) ∈ R6×6 → R(ψ) ∈ SO(3) (13.408)
+Figure 13.19 Dynamic positioning of a supply vessel using measurements from a global navigation satellite system. Illustration by Bjarne Stenberg/Department of Marine Technology, NTNU.
+
+
+484 Advanced Motion Control Systems
+which is the rotation matrix in yaw. This implies that
+R−1(ψ) = R (ψ) (13.409)
+The equations of motion (13.394) therefore become
+M∗(ψ) ̈η + C∗(ν, ψ) ̇η + D∗(ν, ψ) ̇η = R(ψ)τ (13.410)
+where the gravitational and buoyancy forces are assumed to outbalance each other such that g(η) = 0, and
+M∗(ψ) = R(ψ)MR (ψ)
+C∗(ν, ψ) = R(ψ)[C(ν) − MR (ψ)  ̇R(ψ)]R (ψ)
+D∗(ν, ψ) = R(ψ)D(ν)R (ψ)
+13.3.8 Case Study: MIMO Backstepping Design with Acceleration Feedback for Fully Actuated Ships
+The results of the previous section can be extended to include acceleration feedback. A surface vessel in surge, sway and yaw will be used to illustrate the design procedure. For simplicity a PD control law will be designed. Integral action can easily be included by using adaptive backstepping or integral augmentation techniques as explained in Sections 13.3.4 and 13.3.5. Consider the 3 DOF maneuvering model:
+ ̇η = R(ψ)ν (13.411)
+Mν ̇ + C(ν)ν + D(ν)ν = τ (13.412)
+where
+M=
+⎡
+⎣
+m − X ̇u 0 0
+0 m − Y  ̇v mxg−Y r ̇
+0 mxg−Nv ̇ Iz−Nr ̇
+⎤
+⎦ (13.413)
+Conventional accelerometers measure linear accelerations along the body axes. Hence, the signals  ̇u and  ̇v can be fed back using the control law
+τ = τPD − Kmν ̇ − Cm(ν)ν (13.414)
+where
+Km =
+⎡
+⎣
+K11 K12 0
+K21 K22 0
+K31 K32 0
+⎤
+⎦ (13.415)
+Cm(ν) =
+⎡
+⎣
+0 0 −K21u − K22v
+0 0 K11u + K12v
+K21u + K22v −K11u − K12v 0
+⎤
+⎦ (13.416)
+
+
+Integrator Backstepping 485
+The expression for Cm(ν) in (13.414) is based on (6.43). Consequently, the system inertia matrix after acceleration feedback becomes
+H = M + Km =
+⎡
+⎣
+m − X ̇u+K11 K12 0
+K21 m − Y  ̇v+K22 mxg−Y r ̇
+K31 mxg−Nv ̇ +K32 Iz−Nr ̇
+⎤
+⎦ (13.417)
+and
+CH (ν) = C(ν) + Cm(ν) (13.418)
+The feedback term Cm(ν)ν is necessary to ensure that
+s [H ̇ ∗(ψ) − 2C∗
+H (ν, ψ)]s = 0, s =/ 0 (13.419)
+where
+H∗(ψ) = R(ψ)HR (ψ) (13.420)
+C∗
+H (ν, ψ) = R(ψ)[CH (ν) − HR (ψ)  ̇R(ψ)]R (ψ) (13.421)
+The control law (13.414) gives us some flexibility since the acceleration feedback terms K11, K12, K21, K22, K31 and K32 can be chosen such that H = H > 0. A symmetric inertia matrix is obtained by requiring that
+Km =
+⎡
+⎣
+K11 K12 0
+K21 K22 0
+K31 K32 0
+⎤
+⎦ :=
+⎡
+⎣
+X ̇u + K11 0 0
+0 Yv ̇ + K22 0
+0 N ̇v − Yr ̇ 0
+⎤
+⎦ (13.422)
+where K11 and K22 can be treated as additional design parameters for the mass in the x and y directions. The resulting expression is
+H=
+⎡
+⎣
+m + K11 0 0
+0 m + K22 mxg−Y r ̇
+0 mxg−Y r ̇ Iz−Nr ̇
+⎤
+⎦ (13.423)
+If K11 = K22, the mass in the x and y directions is equal. Hence, the PID controller will be independent of the heading angle, which is advantageous when tuning dynamic positioning systems, for instance. The resulting dynamics after acceleration feedback is
+Hν ̇ + CH (ν)ν + D(ν)ν = τPD (13.424)
+Consider the CLF:
+V1 = 1
+2 z1 Kpz1, z1 = ηd − η (13.425)
+V2 = V1 + 1
+2 ν Hν (13.426)
+where V1 and V2 represent the potential and kinetic energy, respectively.
+
+
+486 Advanced Motion Control Systems
+New State Variables
+Assume that the reference trajectories η(3)
+d ,  ̈ηd,  ̇ηd and ηd are smooth and bounded. A virtual reference trajectory is defined as
+ ̇ηr :=  ̇ηd − η ̃, νr := R (ψ) ̇ηr (13.427)
+where  ̃η = η − ηd is the tracking error and > 0 is a diagonal design matrix. Furthermore, let
+s =  ̇η −  ̇ηr =  ̃η ̇ + η ̃ (13.428)
+The marine craft dynamics (13.411)–(13.424) can be transformed to
+H ∗(ψ) ̈η + C∗
+H (ν, ψ) ̇η + D∗(ν, ψ) ̇η = R(ψ)τPD (13.429)
+Hence,
+H ∗(ψ)s ̇ = −C∗
+H (ν, ψ)s − D∗(ν, ψ)s + R(ψ)τPD
+−H ∗(ψ) ̈ηr − C∗
+H (ν, ψ) ̇ηr − D∗(ν, ψ) ̇ηr (13.430)
+or equivalently
+H ∗(ψ)s ̇ + C∗
+H (ν, ψ)s + D∗(ν, ψ)s = R(ψ)[τPD − Hν ̇r − CH (ν)νr − D(ν)νr] (13.431)
+Step 1: Consider the error dynamics:
+ ̇η −  ̇ηd = R(ψ)[ν − νd] (13.432)
+Let R(ψ)ν be the virtual control vector R(ψ)ν := s + α1. The position error dynamics can therefore be written
+ ̃η ̇ = R(ψ)[ν − νd]
+= s + α1 − R(ψ)νd, {α1 =  ̇ηr =  ̇ηd − η ̃,  ̇ηd = R(ψ)νd}
+= − η ̃ + s (13.433)
+Hence,
+V1 = 1
+2  ̃η Kp η ̃, Kp = Kp > 0 (13.434)
+and
+V ̇1 =  ̃η Kp  ̃ ̇η
+=  ̃η Kp(− η ̃ + s)
+= −  ̃η Kp η ̃ + s Kp  ̃η (13.435)
+Step 2: In the second step, a CLF is motivated by pseudo-kinetic energy is chosen according to
+V2 = 1
+2 s H∗(ψ)s + V1 (13.436)
+
+
+Integrator Backstepping 487
+Figure 13.20 Acceleration feedback and PID controller.
+V ̇2 = s H∗(ψ)s ̇ + 1
+2 s H ̇ ∗(ψ)s + V ̇1
+= s [−C∗
+H (ν, ψ)s − D∗(ν, ψ)s + R(ψ) [τPD − H ν ̇r − CH (ν)νr − D(ν)νr]]
++1
+2 s H ̇ ∗(ψ)s −  ̃η Kp η ̃ + s Kp  ̃η (13.437)
+Using the skew-symmetric property s [H ̇ ∗(ψ) − 2C∗
+H (ν, ψ)]s = 0 yields
+V ̇2 = s R(ψ)[τPD − H ν ̇r − CH (ν)νr − D(ν)νr + R (ψ)Kp η ̃]
+−s D∗(ν, ψ)s −  ̃η Kp η ̃ (13.438)
+Consequently, the 3 DOF control law
+τPD = H ν ̇r + CH (ν)νr + D(ν)νr − R (ψ)[Kp  ̃η + Kds] (13.439)
+results in
+V ̇2 = −s (D∗(ν, ψ) + Kd)s −  ̃η Kp η ̃
+Since V2 is positive definite and V ̇2 is negative definite it follows that the equilibrium point ( ̃η, s) = (0, 0)
+is GES. Moreover, convergence of s → 0 and  ̃η → 0 implies that  ̃η ̇ → 0. The PD controller can easily be replaced by a PID controller (see Sections 13.3.4 and 13.3.5). In this case only UGAS is guaranteed.
+13.3.9 Case Study: Nonlinear Separation Principle for PD Controller-Observer Design
+For the motion control systems presented so far, slowly varying environmental forces have been compensated for by adding integral action in the controller. In this section it is demonstrated how a globally converging observer and a PD control law plus a nonlinear term of observer bias estimates can be combined to compensate for slowly varying environmental disturbances (Loria et al., 2000). Moreover, the
+
+
+488 Advanced Motion Control Systems
+integral term is removed in the controller and replaced by a bias estimate. The stability proof is based on a separation principle, which holds for nonlinear systems. The separation principle is theoretically supported by results on cascaded nonlinear systems and standard Lyapunov theory, and it is validated in practice by experimentation with a model ship. The controller–observer is designed in three steps:
+1. Design a UGAS state estimator. 2. Design the control law as if the whole state x and bias term b were known (measured) and free of noise. 3. Implement the control law with the observer estimates ˆx and ˆb and show that the observer–controller error dynamics is GAS.
+The stability proof of this approach requires that the separation principle hold for nonlinear systems. The method in this section relies on Lyapunov theorems for stability of cascaded time-varying systems to prove UGAS (Panteley and Loria, 1998).
+Cascaded Systems
+Consider the time-varying systems 1 and 2 (Loria et al., 2000):
+1 : x ̇ 1 = f 1(t, x1) + G(t, x)x2 (13.440)
+2 : x ̇ 2 = f 2(t, x2) (13.441)
+where x1 ∈ Rn, x2 ∈ Rm and x = [x1 , x2 ] . The function f 1(t, x1) is continuously differentiable in (t, x1), while f 2(t, x2) and G(t, x) are continuous in their arguments, and locally Lipschitz. The two subsystems 1 and 2 will represent the controller and observer error dynamics, respectively, while G(t, x)x2 is the interaction term coupling these two subsystems together. A growth rate condition on G(t, x) is needed in order to prevent the controller error dynamics 1 from becoming unstable when the true states are replaced with observer estimates. The cascaded system (13.440)–(13.441) can be proven to be UGAS by reformulating Theorems 1 and 2 in Panteley and Loria (1998) according to:
+Theorem 13.1 (UGAS for Cascaded Systems)
+The cascaded system (13.440)–(13.441) is UGAS if Assumptions A1–A3 are satisfied:
+A1. The system
+x ̇ 1 = f 1(t, x1) (13.442)
+is UGAS with a Lyapunov function V (t, x1), V : R≥0 × Rn → R≥0, positive definite, that is V (t, 0) = 0 and V (t, x1) > 0 for all x1 =/ 0, and proper (radially unbounded), which satisfies
+∥∥∥∥
+∂V ∂x1
+∥∥∥∥ ‖x1‖ ≤ c1V (t, x1), ∀ ‖x1‖ ≥ μ (13.443)
+where c1, μ > 0. It is also assumed that (∂V/∂x1)(t, x1) is bounded uniformly in t for all ‖x1‖ < μ; that is there exists a constant c2 > 0 such that for all t ≥ t0 ≥ 0:
+∥∥∥∥
+∂V ∂x1
+∥∥∥∥ ≤ c2, ∀ ‖x1‖ ≤ μ (13.444)
+
+
+Integrator Backstepping 489
+A2. The function G(t, x) satisfies
+‖G(t, x)‖ ≤ θ1 (‖x2‖) + θ2 (‖x2‖) ‖x1‖ (13.445)
+where θ1, θ2 : R≥0 → R≥0 are continuous.
+A3. Equation x ̇ 2 = f 2(t, x2) is UGAS, and for all t0 ≥ 0:
+∫∞
+t0
+‖x2(t)‖ dt ≤ φ (‖x2(t0)‖) (13.446)
+where the function φ(·) is a class K function.
+DP Control System
+Consider the nonlinear DP model:
+ ̇η = R(ψ)ν (13.447)
+Mν ̇ + Dν = τ + R (ψ)b (13.448)
+b ̇ = 0 (13.449)
+y = η + ηw (13.450)
+where b ∈ R3 is a bias term representing slowly varying environmental forces and y ∈ R3 represent the measurements. Instead of using integral action to compensate for b, a PD controller
+τ = −R (ψ)Kpe − Kdν − R (ψ)b, e = η − ηd (13.451)
+can be implemented under the assumption that b is known (perfect compensation) and  ̇ηd = 0. However, it is impossible to measure b so a state observer is needed. For this purpose the passive observer (11.128)–(11.132) in Section 11.4.1 can be used to generate estimates of η, ν and b, and at the same time provide wave filtering. Application of a nonlinear separation principle implies that the controller can be implemented using the estimated states ˆη, ˆν and ˆb; that is
+τ = −R (ψ)Kp ˆe − Kd ˆν − R (ψ)ˆb, ˆe = ˆη − ηd (13.452)
+The proof needed to show that the passive observer with the controller (13.452) is UGAS is done in three steps corresponding to Assumptions A1–A3 in Theorem 13.1.
+Step 1: Observer Error Dynamics
+Since the observer error dynamics
+2 : x ̇ 2 = f 2(t, x2) (13.453)
+
+
+490 Advanced Motion Control Systems
+is UGES and consequently UGAS when considering the passive observer in Section 11.4.1, there exist positive constants λ1 and λ2 such that
+‖x2(t)‖ ≤ λ1 ‖x2(t0)‖ e−λ2(t−t0) (13.454)
+Therefore Assumption A3 in Theorem 13.1 is satisfied with φ (‖x2(t0)‖) = (λ1/λ2) ‖x2(t0)‖.
+Step 2: Regulator Error Dynamics
+The full-state feedback controller (13.451) when applied to (13.447)–(13.448) results in
+ ̇e = R(ψ)ν (13.455)
+Mν ̇ + (D + Kd) ν + R (ψ)Kpe = 0 (13.456)
+This system is GAS according to LaSalle–Krasovskii’s theorem since
+V=1
+2
+(ν Mν + e Kpe) > 0, ∀ν =/ 0, e =/ 0 (13.457)
+and
+V ̇ = −ν (D + Kd) ν ≤ 0 (13.458)
+This implies that the first condition on the system x ̇ 1 = f 1(t, x1), Assumption A1 in Theorem 13.1, is satisfied. Next, a constant c1 is easily found by considering
+∥∥∥∥
+∂V ∂x1
+∥∥∥∥ ‖x1‖ ≤ max{mM , kM , 1} ‖x1‖2 , ∀ ‖x1‖ ≥ μ (13.459)
+where mM = λmax(M) and kM = λmax(Kp). Hence, (13.443) is satisfied with
+c1 = max{mM , kM , 1}
+min{mm, km, 1} (13.460)
+where mm = λmin(M) and km = λmin(Kp). Also from (13.459) it is clear that (13.444) is satisfied by
+c2 = max{mM , kM , 1}μ (13.461)
+Step 3: Growth Rate Condition
+Finally, it can be shown that the growth rate condition (13.445) on x1, Assumption A2 in Theorem 13.1, is satisfied by choosing θ1 = constant and θ2 = 0 such that
+‖G(t, x)‖ ≤ θ1 (‖x2‖) (13.462)
+The details in this analysis is found in Loria et al. (2000).
+Experimental Results
+The nonlinear controller (13.452) and passive observer of Section 11.4.1 have been tested experimentally using a model ship. In this experiment wind and wave forces were generated using a fan and a wave maker. More details regarding the experiment are found in Loria et al. (2000).
+
+
+Integrator Backstepping 491
+In the experiments the desired position and heading of the ship during DP were chosen as
+xd = 208 m (13.463)
+yd = 334 m (13.464)
+ψd = −150 deg (13.465)
+The experiment was carried out for a ship scale 1:70, but the results have been transformed to full scale. The development of the experiment is as follows:
+1. During the first 350 seconds there are no environmental forces perturbing the ship. Comments: From Figure 13.22 it is seen that the bias estimate ˆb and the WF estimate ˆηw are both approximately zero, as expected, in the first 350 seconds. The nonzero values of ˆb are due to the water motion generated by the propellers. It is also seen that the regulation and estimation errors are very small during this phase; see upper plots in Figures 13.21 and 13.23. 2. After 350 seconds wind forces are generated by using a ducted fan directed approximately 30 degrees off the port side bow of the ship. Comments: When turned on, the fan produces a step input disturbance to the system; notice the peaks in Figures 13.21 and 13.23. This step is an unrealistic situation (in full-scale applications, no abrupt changes in the bias occur). However, it can be generated in the laboratory to show the performance of the observer-based controller. The bias estimates ˆb from the observer are used in the output feedback control law to obtain perfect regulation, which verifies the separation principle (see Figure 13.23). Most of the wind force is compensated by the control input, and therefore the regulation errors converge to zero in 100–150 seconds; see the first three plots of Figure 13.21. However, since the wind force is a step, the observer needs some time for the bias estimate to converge to its true value, after which the controller compensates for the bias, hence keeping the ship almost still. 3. After 800 seconds the wave generator is turned on. Comments: This results in an oscillatory WF motion ηw which builds up over time. The estimated wave frequency motion ˆηw is shown in the upper plots of Figure 13.22. Their effect in the position measurements is shown in the upper plots of Figure 13.21. In order to avoid ˆηw entering the feedback loop, this signal is filtered out from the position measurement. This results in smooth controls; see the bottom plots of Figure 13.22. The LF estimates are clearly shown in the upper plots of Figure 13.21. 4. After 1700 seconds both the wind and wave generators are turned off. Comments: Turning off the fan produces a second step input disturbance while the wave-induced motion decays more slowly. It is seen from Figure 13.22 that the bias estimates drop to approximately their initial values in 100–150 seconds while the amplitudes of the WF motion estimates drop quite slowly. Again, almost perfect regulation to zero is obtained as soon as the bias estimates have converged to their true values. This clearly demonstrates the separation principle. In a full-scale implementation the wind force will build up quite slowly. Hence the step inputs do not constitute a problem.
+13.3.10 Case Study: Weather Optimal Position Control for Ships and Floating Structures
+Conventional DP systems for ships and free-floating rigs are usually designed for stationkeeping by specifying a desired constant position (Nd, Ed) and a desired constant heading angle ψd. In order to minimize the ship fuel consumption, the desired heading ψd should in many operations be chosen such that the yaw moment is zero. For vessels with port/starboard symmetry, this means that the mean environmental forces due to wind, waves and ocean currents act through the centerline of the vessel. Then the ship must be rotated until the yaw moment is zero.
+
+
+492 Advanced Motion Control Systems
+Figure 13.21 Plots 1–3 show the three components of the measurement vector y = [x + xw, y + yw, ψ + ψw] and the LF estimates. Plots 4–6 show the estimated LF velocity components ˆν = [ ˆu, ˆv, rˆ] versus time.
+
+
+Integrator Backstepping 493
+Figure 13.22 Plots 1–3 show the estimated WF motion components ˆηw = [ˆxw, yˆw, ψˆ w] while plots 4–6 show the bias estimates ˆb = [ˆb1, ˆb2, ˆb3] versus time.
+
+
+494 Advanced Motion Control Systems
+Figure 13.23 Plots 1–3 show the three components of the measured position y = [x + xw, y + yw, ψ + ψw] together with the desired position ηd = [xd, yd, ψd] while plots 4–6 are the control inputs τ = [τ1, τ2, τ3] versus time.
+
+
+Integrator Backstepping 495
+Unfortunately, it is impossible to measure or compute the direction of the mean environmental force with sufficient accuracy. Hence, the desired heading ψd is usually taken to be the measurement of the mean wind direction, which can be easily measured. In practice, however, this can result in large offsets from the true mean direction of the total environmental force. The main reason for this is the unmeasured ocean current force component and waves that do not coincide with the wind direction. Hence, the DP system can be operated under highly nonoptimal conditions if fuel saving is the issue. A small offset in the optimal heading angle will result in a large use of thrust. One popular method for computing the weather optimal heading ψd is to monitor the resulting thruster forces in the x and y directions. Hence, the bow of the ship can be turned in one direction until the thruster force in the y direction approaches zero. This method is appealing but the main catch in doing this is that the total resulting thruster forces in the x and y directions have to be computed since there are no sensors doing this job directly. The sensors only measure the angular speed and pitch angle of the propellers. Hence, the thrust for each propeller must be computed by using a model of the thruster characteristic, resulting in a fairly rough estimate of the total thruster force in each direction. Another principle, proposed by Pinkster (1971) and Pinkster and Nienhuis (1986), is to control the x and y positions using a PID feedback controller, in addition to feedback from the yaw velocity, such that the vessel tends toward the optimal heading. This principle, however, requires that the rotation point of the vessel is located a certain distance forward of the center of gravity, or even fore of the bow, and it also puts restrictions on the thruster configuration and the number of thrusters installed. This section describes the weather optimal position controller (WOPC) by Fossen and Strand (2001). The control objective is that the vessel heading should adjust automatically to the mean environmental forces (wind, waves and ocean currents) such that a minimum amount of energy is used in order to save fuel and reduce NOx/COx emissions without using any environmental sensors. This is particularly useful for shuttle tankers and FPSOs, which can be located at the same position for a long time. Also DP-operated supply vessels that must keep their position for days in loading/off-loading operations have a great WOPC fuel-saving potential. The ship can be exponentially stabilized on a circle arc with constant radius by letting the bow of the ship point toward the origin of the circle. In order to maintain a fixed position at the same time, a translatory circle center control law is designed. The circle center is translated such that the Cartesian position is constant, while the bow of the ship is automatically turned up against the mean environmental force to obtain weathervaning. This approach is motivated by a pendulum in the gravity field where gravity is the unmeasured quantity. The circular motion of the controlled ship, where the mean environmental force can be interpreted as an unknown force field, copies the dynamics of a pendulum in the gravity field (see Figure 13.24).
+3 DOF Equations of Motion using Polar Coordinates
+Consider a marine craft in 3 DOF:
+ ̇η = R(ψ)ν (13.466)
+Mν ̇ + C(ν)ν + D(ν)ν = τ + w (13.467)
+where the North-East positions (N, E) and heading ψ are represented by η = [N, E, ψ] and the bodyfixed velocities are represented by ν = [u, v, r] . It is assumed that M = M > 0, M ̇ = 0 and D(ν) > 0. Unmodeled external forces and moment due to wind, ocean currents and waves are lumped together into a body-fixed disturbance vector w ∈ R3 to be interpreted later. The Cartesian coordinates (N, E) are related to the polar coordinates by
+N = N0 + ρ cos(γ), E = E0 + ρ sin(γ) (13.468)
+
+
+496 Advanced Motion Control Systems
+Figure 13.24 The principle of WOPC using the equivalence to a pendulum in the gravity field where gravity is the unmeasured quantity.
+where (N0, E0) is the origin of a circle with radius ρ and polar angle γ given by
+ρ=√
+(N − N0)2 + (E − E0)2 γ = atan2 ((E − E0), (N − N0)) (13.469)
+Time differentiation of (13.468) yields
+N ̇ = N ̇ 0 + ρ ̇ cos(γ) − ρ sin(γ)γ ̇ (13.470)
+E ̇ = E ̇ 0 + ρ ̇ sin(γ) + ρ cos(γ)γ ̇ (13.471)
+Define the state vectors:
+p0 := [N0, E0] , x := [ρ, γ, ψ] (13.472)
+From (13.470) and (13.471) a new kinematic relationship can be derived in terms of the vectors p0 and x as
+ ̇η = R(γ)H(ρ)x ̇ + L  ̇p0 (13.473)
+H(ρ) =
+⎡
+⎣
+100
+0ρ0
+001
+⎤
+⎦, L =
+⎡
+⎣
+10
+01
+00
+⎤
+⎦ (13.474)
+
+
+Integrator Backstepping 497
+From (13.473) the Cartesian kinematics (13.466) can be replaced by a differential equation for the polar coordinates:
+x ̇ = T (x)ν − T (x)R (ψ)L  ̇p0 (13.475)
+T (x) = H−1(ρ) R (γ)R(ψ)
+} {{ }
+R (γ−ψ)
+(13.476)
+Note that the conversion between Cartesian and polar coordinates is only a local diffeomorphism, since the radius must be kept larger than a minimum value, that is ρ > ρmin > 0, in order to avoid the singular point ρ = 0.
+Marine Craft Model Transformation
+The marine craft model (13.467) can be expressed in polar coordinates by using (13.475) and substituting
+ν = T −1(x)x ̇ + R L  ̇p0 (13.477)
+ν ̇ = T −1(x) ̈x + T ̇ −1(x)x ̇ + R L  ̈p0 +  ̇R L  ̇p0 (13.478)
+such that
+Mν ̇ + C(ν)ν + D(ν)ν = τ + w
+⇐⇒
+ρ>0
+Mx(x) ̈x + Cx(ν, x)x ̇ + Dx(ν, x)x ̇ = T − [q(ν, x,  ̇p0,  ̈p0) + τ + w] (13.479)
+where
+Mx(x) = T − (x)MT −1(x)
+Cx(ν, x) = T − (x) (C(ν) − MT −1(x)T ̇ (x)) T −1(x)
+Dx(ν, x) = T − (x)D(ν)T −1(x)
+q(ν, x,  ̇p0,  ̈p0) = −MR (ψ)L  ̈p0 − M  ̇R (ψ)L  ̇p0 − [C(ν) + D(ν)]R (ψ)L  ̇p0
+Here Mx(x), Cx(ν, x) and Dx(ν, x) can be shown to satisfy
+Mx(x) = Mx (x) > 0, Dx(ν, x) > 0, ∀x
+The marine craft dynamics also satisfy the skew-symmetric property:
+z (M ̇ x − 2Cx
+) z = 0, ∀z, x (13.480)
+
+
+498 Advanced Motion Control Systems
+Figure 13.25 Environmental force Fe decomposed into components w1 and w2.
+Weather Optimal Control Objectives
+The steady-state LF motion of the craft and also the craft’s equilibrium position depend on the unknown environmental forces acting on the hull. Let the environmental forces due to wind, waves and ocean currents be represented by:
+• A slowly varying mean force Fe that attacks the craft at a point (lx, ly) in body-fixed coordinates. • A slowly varying mean direction βe relative to the Earth-fixed frame (see Figure 13.25).
+The WF motion is assumed to be filtered out of the measurements by using a wave filter (see Chapter 11). Since there are no sensors that can be used to measure (Fe, βe) and (lx, ly) with sufficient accuracy, it is impossible to use feedforward from the environmental forces. This leads to the following assumptions:
+A1: The unknown mean environmental force Fe and its direction βe are assumed to be constant or at least slowly varying. A2: The unknown attack point (lx, ly) is constant for each constant Fe.
+Discussion: These are good assumptions since the motion control system is only supposed to counteract the slowly varying motion components of the environmental forces.
+From Figure 13.25 the body-fixed environmental force vector w ∈ R3 can be expressed as
+w=
+⎡
+⎣
+w1(ψ)
+w2(ψ)
+w3(ψ)
+⎤
+⎦=
+⎡
+⎣
+Fe cos(βe − ψ)
+Fe sin(βe − ψ)
+lxFe sin(βe − ψ) − lyFe cos(βe − ψ)
+⎤
+⎦ (13.481)
+
+
+Integrator Backstepping 499
+Notice that the environmental forces vary with the heading angle ψ of the craft. Consequently,
+Fe = √
+w2
+1 + w2
+2, βe = ψ + tan−1(w2/w1) (13.482)
+The environmental forces Xw and Yw with attack point (lx(ψ), ly(ψ)) are shown in Figure 13.25. Note that the attack point will change with the yaw angle ψ. This relationship will be a complicated function of hull and superstructure geometries. However, the weather optimal control objectives can be satisfied by using the following definitions (Fossen and Strand, 2001):
+Definition 13.3 (Weather Optimal Heading)
+The weather optimal heading angle ψopt is given by the equilibrium state where the yaw moment w3(ψopt) = 0 at the same time as the bow of the craft is turned up against weather (mean environmental forces); that is w2(ψopt) = 0. This implies that ψopt = βe, lx(ψopt) = constant and ly(ψopt) = 0 such that
+w(ψopt) =
+⎡
+⎣
+w1(ψopt)
+w2(ψopt)
+w3(ψopt)
+⎤
+⎦=
+⎡
+⎣
+−Fe
+0
+0
+⎤
+⎦
+Hence, the mean environmental force attacks the craft in the bow, which has the minimum drag coefficient for water and wind loads.
+Definition 13.4 (Weather Optimal Positioning)
+Weather optimal positioning (stationkeeping) is defined as the equilibrium state where ψopt satisfies
+w1(ψopt) = −Fe, w2(ψopt) = w3(ψopt) = ly( ψopt) = 0 (13.483)
+and the position (N, E) = (Nd, Ed) is kept constant.
+These definitions motivate the following two control objectives:
+• Weather Optimal Heading Control (WOHC): This is obtained by restricting the craft’s movement to a circle with constant radius ρ = ρd and at the same time force the craft’s bow to point towards the center of the circle until the weather optimal heading angle ψ = ψopt is reached (see Figure 13.26). An analogy to this is a pendulum in a gravity field (see Figure 13.24). The position (N, E) = (N0 + ρ cos(γ), E0 + ρ sin(γ)) will vary until the weather optimal heading angle is reached. This is obtained by specifying the control objective in polar coordinates according to
+ρd = constant, γ ̇d = 0, ψd = π + γ (13.484)
+Discussion: The requirement ρd = constant implies that the craft follows a circular arc with a constant radius. The second requirement γ ̇d = 0 implies that the tangential speed ργ ̇ is kept small while the last requirement ψd = π + γ ensures that the craft’s bow points toward the center of the circle.
+• Weather Optimal Positioning Control (WOPC): In order to maintain a fixed Earth-fixed position (N, E) = (Nd, Ed), the circle center p0 = [N0, E0] must be moved simultaneously as control objective O1 is satisfied. This is referred to as translatory circle center control.
+Nonlinear and Adaptive Control Design
+The WOPC positioning controller is derived by using the polar coordinate representation. The backstepping design methodology (Krstic et al., 1995) with extension to integral control (Fossen et al., 2001) is
+
+
+500 Advanced Motion Control Systems
+Figure 13.26 Stable and unstable equilibrium points for WOPC.
+used to derive the feedback controller (see Section 13.3). Notice that conventional PID control can be used as well. It is assumed that all states can be measured. The WOPC controller will be derived in three successive steps:
+1. Nonlinear backstepping (PD control): The ship is forced to move along a circular arc with desired radius ρd, with minimum tangential velocity ργ ̇ and desired heading ψd. 2. Adaptive backstepping (PID control): This is necessary to compensate for the unknown environmental force Fe. 3. Translational control of the circle center: The circle center (N0, E0) is translated such that the ship maintains a constant position (Nd, Ed) even though it is moving along a virtual circular arc. Hence, the captain of the ship will only notice that the ship is rotating a yaw angle ψ about a constant position (Nd, Ed) until the weather optimal heading ψopt is reached.
+Nonlinear Backstepping (PD Control)
+A general positioning controller is derived by using vectorial backstepping (Fossen and Grøvlen, 1998). The tracking objective is specified in polar coordinates using a smooth reference trajectory xd = [ρd , γd , ψd ] ∈ C3 where
+xd , x ̇ d ,  ̈xd ∈ L∞
+
+
+Integrator Backstepping 501
+Since the transformed system (13.479) is of order 2, backstepping is performed in two vectorial steps, resulting in a nonlinear PD control law. First, a virtual reference trajectory is defined as:
+x ̇ r := x ̇ d − z1 (13.485)
+where z1 = x − xd is the tracking error and > 0 is a diagonal design matrix. Furthermore, let z2 denote a measure of tracking defined according to
+z2 := x ̇ − x ̇ r =  ̇z1 + z1 (13.486)
+From (13.486), the following expressions are obtained:
+x ̇ = z2 + x ̇ r,  ̈x =  ̇z2 +  ̈xr (13.487)
+This implies that the marine craft model (13.479) can be expressed in terms of z2, x ̇ r and  ̈xr as
+Mx  ̇z2 + Cxz2 + Dxz2 = T − τ + T − q(·) − Mx  ̈xr − Cxx ̇ r − Dxx ̇ r + T − w (13.488)
+Step 1: Let z1 be the first error variable, which from (13.486) has the dynamics
+ ̇z1 = − z1 + z2 (13.489)
+A CLF for the first step is
+V1 = 1
+2 z1 Kpz1 (13.490)
+V ̇1 = −z1 Kp z1 + z1 Kpz2 (13.491)
+where Kp = Kp > 0 is a constant design matrix. Step 2: In the second step the CLF is motivated by the “pseudo-kinetic energy”:
+V2 = V1 + 1
+2 z2 Mxz2, Mx = Mx > 0 (13.492)
+Time differentiation of V2 along the trajectories of z1 and z2 gives
+V ̇2 = V ̇1 + z2 Mxz ̇2 + 1
+2 z2 M ̇ xz2 (13.493)
+which by substitution of (13.491) and (13.488) gives
+V ̇2 = −z1 Kp z1 + 1
+2 z2
+(M ̇ x − 2Cx
+) z2 − z2 Dxz2 + z2 T − w
++z2
+(Kpz1 + T − τ + T − q(·) − Mx  ̈xr − Cxx ̇ r − Dxx ̇ r
+) (13.494)
+By using the property (13.480) and choosing the nonlinear PD control law as
+τ = T (Mx  ̈xr + Cxx ̇ r + Dxx ̇ r − Kpz1 − Kd z2) − q(·) (13.495)
+where Kd > 0 is a strictly positive design matrix, it is seen that
+V ̇2 = −z1 Kp z1 − z2 (Kd + Dx)z2 + z T − w (13.496)
+
+
+502 Advanced Motion Control Systems
+Notice that the dissipative term z2 Dxz2 > 0, ∀z2 =/ 0 is exploited in the design as it appears in the
+expression for V ̇2. With the control law (13.495) the closed-loop dynamics becomes
+Mx  ̇z2 + (Cx + Dx + Kd )z2 + Kpz1 = T − w (13.497)
+Error dynamics: The error dynamics of the resulting system becomes nonautonomous since
+[ Kp 03×3
+03×3 Mx
+] [  ̇z1
+ ̇z2
+]
+=−
+[ Kp 03×3
+03×3 Cx + Dx + Kd
+] [ z1
+z2
+]
++
+[ 03×3 Kp
+−Kp 03×3
+] [ z1
+z2
+] +
+[ 03×1 T−
+]
+w
+M(x)z ̇ = −K(x, ν)z + Sz + B(x)w (13.498)
+where the different matrices are defined as
+M(x) = MT (x) =
+[ Kp 03×3
+03×3 Mx(x)
+]
+K(x, ν) =
+[ Kp 03×3
+03×3 Cx(x, ν) + Dx(x, ν) + Kd
+]
+>0
+S = −ST =
+[ 03×3 Kp
+−Kp 03×3
+]
+, B(x) =
+[ 03×1
+T − (x)
+]
+In the absence of disturbances, w ≡ 0, the origin z = 0 is uniformly locally exponentially stable (ULES) according to Lyapunov. Global results cannot be achieved due to the local diffeomorphism between the Cartesian and polar coordinates; that is the transformation matrix T (x) is singular for ρ = 0. With disturbances w =/ 0, the closed-loop system is input-to-state stable (ISS). In the next section, it is shown how adaptive backstepping (backstepping with integral action) can be used to obtain ULES for the case of a nonzero disturbance vector w =/ 0.
+Adaptive Backstepping (PID Control)
+Since the mean disturbance w is nonzero this will result in a steady-state offset when using the PD controller from the previous section. The craft is, however, restricted to move along a circular arc with w as a force field. Therefore there will be a stable and an unstable equilibrium point on the circle arc (similar to a pendulum in the gravity field); see Figure 13.24. The stable equilibrium point is given by
+w = φFe = [−1, 0, 0] Fe (13.499)
+Since the disturbance Fe is assumed to be slowly varying, adaptive backstepping can be applied to obtain an integral effect in the system. Thus, in the analysis it will be assumed that F ̇ e = 0. Let the estimate of Fe be denoted as Fˆ e and F ̃e = Fˆ e − Fe. An additional step in the derivation of the backstepping control law must be performed in order to obtain an adaptive update law for Fˆ e.
+
+
+Integrator Backstepping 503
+Step 3: The adaptive update law is found by adding the square parameter estimation error to V2. Consequently,
+V3 = V2 + 1
+2σ
+F ̃ 2
+e, σ > 0 (13.500)
+V ̇3 = V ̇2 + 1
+σ
+F ̃ ̇e F ̃e (13.501)
+The nonlinear control law (13.495) is modified to
+τ = T (Mx  ̈xr + Cxx ̇ r + Dxx ̇ r − Kpz1 − Kd z2) − q(·) − φFˆe (13.502)
+where the last term φFˆ e provides integral action. Hence, the z2 dynamics becomes
+Mx  ̇z2 + (Cx + Dx + Kd )z2 + Kpz1 = −T − φ F ̃e (13.503)
+This implies that
+V ̇ 3 = −z1 Kp z1 − z2 (Kd + Dx)z2 − z2 T − φ F ̃e + 1
+σ
+F ̃ ̇e F ̃e
+= −z1 Kp z1 − z2 (Kd + Dx)z2 + F ̃e( − φ T −1z2 + 1
+σ
+F ̃ ̇e) (13.504)
+The adaptive law Fˆ ̇e = F ̃ ̇e is chosen as
+Fˆ ̇e = σφ T −1z2, σ > 0 (13.505)
+such that
+V ̇ 3 = −z1 Kp z1 − z2 (Kd + Dx)z2 ≤ 0 (13.506)
+Error Dynamics
+The nonautonomous error dynamics for the adaptive backstepping controller can be written
+M(x)z ̇ = [−K(x, ν) + S]z + B(x) F ̃e (13.507)
+F ̃ ̇e = −σB (x)z (13.508)
+where
+B(x) =
+[ 03×1
+−T − (x)φ
+]
+(13.509)
+
+
+504 Advanced Motion Control Systems
+In order to satisfy control objective O1, the controller gains must be chosen according to
+Kp =
+⎡
+⎣
+kp1 0 0
+000
+0 0 kp3
+⎤
+⎦ , Kd =
+⎡
+⎣
+kd1 0 0
+0 kd2 0
+0 0 kd3
+⎤
+⎦, =
+⎡
+⎣
+λ1 0 0
+000
+0 0 λ3
+⎤
+⎦ (13.510)
+Notice that kp2 = λ2 = 0. This implies that the craft is free to move along the circular arc with tangential velocity ργ ̇ . The gain kd2 > 0 is used to increase the tangential damping (D control) while the radius ρ and heading ψ are stabilized by using PID control.
+Semi-Definite Matrices
+Since the controller gains kp2 and λ2 are chosen to be zero, the matrices
+Kp ≥ 0, ≥ 0 (13.511)
+are only positive semi-definite. Hence, V3 is positive semi-definite. Uniform local asymptotic stability (ULAS) of the equilibrium (z, F ̃e) = (0, 0) can, however, be proven since the error dynamics (z1, z2) is ISS. Consider the reduced order system (z1r, z2) given by
+z1r = Ez1, E =
+[1 0 0
+001
+]
+(13.512)
+This implies that
+ ̇z1r = −E z1 + Ez2
+= −(E E )z1r + Ez2 (13.513)
+Notice that the last step is possible since the diagonal matrices = diag{λ1, 0, λ3} satisfy
+E z1r = z1 (13.514)
+Hence, the error dynamics (13.507)–(13.508) can be transformed to
+Mr(x) ̇zr = [−Kr(x, ν) + Sr]zr + Br(x) F ̃e (13.515)
+Fˆ ̇e = −σBr (x)zr (13.516)
+where zr = [z1r, z2 ] and
+Mr(x) = Mr (x) =
+[ EKpE 02×3
+03×2 Mx(x)
+]
+Kr(x, ν) =
+[ (EKpE )(E E ) 02×3
+03×2 Cx(x, ν) + Dx(x, ν) + Kd
+]
+>0
+Sr = −Sr =
+[ 02×2 EKp
+−KpE 03×3
+]
+, Br(x) =
+[ 02×1
+T − (x)φ
+]
+where the fact that KpE z1r = Kpz1 for Kp = diag{kp1, 0, kp3} has been applied.
+
+
+Integrator Backstepping 505
+Nonautonomous Lyapunov Analysis
+Even though the Lyapunov function V3 corresponding to the states (z1, z2) is only positive semi-definite (since Kp is positive semi-definite) the Lyapunov function V3r corresponding to the new output (z1r, z2) is positive definite. Using the fact that the closed-loop system governed by (z1, z2) is ISS, asymptotic tracking is guaranteed by
+V3r = 1
+2
+[
+z1r(EKpE )z1r + z2 Mxz2 + 1
+σ
+F ̃ 2
+e
+]
+> 0 (13.517)
+V ̇3r = −z1r(EKpE )(E E )z1r − z2 (Kd + Dx)z2 ≤ 0 (13.518)
+where EKpE > 0 and E E > 0. Hence, z1r, z2, F ̃e ∈ L∞. Notice that V ̇3 is only negative semi
+definite since a negative term proportional to − F ̃2
+e is missing in the expression for V ̇3. ULES of the
+equilibrium point (z1r, z2, F ̃e) = (0, 0, 0) follows by using the stability theorem of Fossen et al. (2001) for nonlinear nonautonomous systems (see Appendix A.2.4). Since, the closed-loop system (z1, z2) is ISS it is sufficient to consider the reduced order system (z1r, z2) with output z1r = Ez1 in the stability analysis. According to Appendix A.2.4, we can choose x1 = [z1r, z2 ] , x2 = F ̃e, P = σ and W (x1, t) = 1
+2 x1 x1.
+Then the equilibrium point (z1r, z2, F ̃e) = (0, 0, 0) of the nonlinear error system (13.507)–(13.508) is ULES since
+rank{(M−1
+r (x)Br(x)) (M−1
+r (x)Br(x))} = 1, ∀x
+and
+max {‖h(x1, t)‖ , ‖x1‖} = max {∥∥M−1
+r (x)[−Kr(x, ν) + Sr]x1
+∥∥ , ‖x1‖}
+≤ ρ1(‖x1‖) ‖x1‖
+‖B(x, t)‖ = ∥∥M−1
+r (x)Br(x)∥∥ ≤ ρ2(‖x1‖)
+max
+{∥∥∥∥
+∂B(x, t) ∂t
+∥∥∥∥ ,
+∥∥∥∥
+∂B(x, t) ∂xi
+∥∥∥∥
+}
+= max
+{∥∥∥∥
+∂M−1
+r (x)Br(x) ∂xi
+∥∥∥∥
+}
+≤ ρ3(‖x1‖)
+Translational Control of the Circle Center
+The adaptive backstepping controller satisfies a control objective O1, that is weather optimal heading control. Weather optimal position control (control objective O2) can be satisfied by moving the circle center p0 = [N0, E0] online such that the craft maintains a constant position p = [N, E] . In order to meet the fixed position control objective, an update law for the circle center p0 must be derived. The Cartesian Earth-fixed position of the craft is given by
+p = L η (13.519)
+where L is defined in (13.474). Let  ̃p = p − pd denote the corresponding deviation from the desired position vector pd = [Nd, Ed] . The desired position can either be constant (regulation) or a smooth timevarying reference trajectory. The control law for translation of the circle center is derived by considering
+
+
+506 Advanced Motion Control Systems
+the following CLF:
+Vp = 1
+2  ̃p  ̃p (13.520)
+V ̇p =  ̃p (p ̇ − p ̇d) =  ̃p (L η ̇ − p ̇d) (13.521)
+By using (13.473), L L = I2×2 and x ̇ = z2 + x ̇ r it is seen that
+V ̇ p =  ̃p [L (R(γ)H(ρ)x ̇ + L  ̇p0) −  ̇pd]
+=  ̃p (p ̇ 0 − p ̇ d + L R(γ)H(ρ)x ̇r) +  ̃p L R(γ)H(ρ)z2 (13.522)
+Now, by choosing the circle center update law as
+ ̇p0 =  ̇pd − L R(γ)H(ρ)x ̇ r − k0  ̃p (13.523)
+where k0 > 0, it is seen that
+V ̇p = −k0  ̃p  ̃p +  ̃p L R(γ)H(ρ)z2 (13.524)
+In (13.524) a cross-term in  ̃p and z2 is noted. In order to guarantee that the time derivative of the total system Vwopc = V3r + Vp is negative semi-definite, the weather optimal controller (13.502) must be modified such that the cross-term in (13.524) is canceled.
+Weather Optimal Position Control (WOPC)
+The cross-terms involving  ̃p and z2 in V ̇p can be removed by modifying the nonlinear controller (13.502) to
+τ = T (Mx  ̈xr + Cxx ̇ r + Dxx ̇ r − Kpz1 − Kdz2) − q(·) − φFˆ e − T H (ρ)R (γ)L  ̃p (13.525)
+The last term in τ implies that
+V ̇3r = −z1r(EKpE )(E E )z1r − z2 (Kd + Dx)z2 −  ̃p L R(γ)H (ρ)z2 (13.526)
+Consider
+Vwopc = V3r + Vp (13.527)
+V ̇wopc = −z1r(EKpE )(E E )z1r − z2 (Kd + Dx)z2 − k0  ̃p  ̃p (13.528)
+and therefore the equilibrium point (z1r, z2, F ̃e,  ̃p) = (0, 0, 0, 0) is ULES. The term  ̈p0 is needed in the expression for q(·). This term is computed from (13.523) as
+
+
+Integrator Backstepping 507
+ ̈p0 =  ̈pd − k0(  ̇p −  ̇pd) − L R(γ)H (ρ) ̈xr
+−L R ̇ (γ)H(ρ)x ̇r − L R(γ)H ̇ (ρ)x ̇ r (13.529)
+Experiment 1: Weather Optimal Heading Control (WOHC)
+The proposed WOHC system has been implemented and tested experimentally using a model ship of scale 1:70. A ducted fan was used to generate wind forces. The length of the model ship is Lm = 1.19 m and the mass is mm = 17.6 kg. The experimental results are scaled to full scale by considering a supply vessel with mass ms = 4500 tons using the bis system (see Section 7.2.5). In the first experiment the ship was allowed to move on the circle arc and the circle center controller (13.523) was turned off; that is N0 = constant and E0 = constant. This is referred to as WOHC. The fixed origin and circle arc are shown in Figure 13.27. Notice that the initial heading is approximately 30 degrees (see Figure 13.28), while the position (N, E) ≈ (13, −43). These values are those obtained when the fan was initially directed at 210 degrees in the opposite direction of the ship heading. After 3000 seconds the fan was slowly rotated to 165 degrees, corresponding to a weather optimal heading of −15 degrees (see Figure 13.28). During this process, the ship starts to move on the circle arc with heading towards the circle center until it is stabilized to its new heading at −15 degrees. The new position on the circle arc is (N, E) ≈ (3, 20). This clearly demonstrates that the ship heading converges to the optimal value by copying the dynamics of a pendulum in the gravity field. This is done without using any external wind sensor.
+Figure 13.27 WOHC experiment showing the circular motion of the ship when the circle center controller is turned off (WOHC).
+
+
+508 Advanced Motion Control Systems
+Figure 13.28 WOHC experiment showing the performance of the radius regulator (upper plot) and weather optimal heading (lower plot) versus time (s).
+In the next experiment, the circle center is translated online in order to obtain a constant position (N, E).
+Experiment 2: Weather Optimal Position Control (WOPC)
+In the second experiment the ship should maintain its position by activating the circle center controller (13.523). The performance during stationkeeping and translation of the circle is shown in Figures 13.29–13.31. The position controller works within an accuracy of ±1 m, which is the accuracy of the GNSS system. Again the weather optimal heading is changed from approximately 23 degrees to 2 degrees but this time without changing the position (N, E) of the ship. The position deviations and the weather optimal heading are shown in Figure 13.30. These values are obtained by moving the fan from an initial angle of 203 degrees to 182 degrees.
+
+
+Integrator Backstepping 509
+Figure 13.29 WOPC experiment showing how the circle center is moved to obtain stationkeeping to (Nd, Ed) = (0, 0).
+13.3.11 Case Study: Heading Autopilot for Ships and Underwater Vehicles
+A nonlinear backstepping controller can be designed by writing the autopilot model (7.53) in SISO strict feedback form:
+ψ ̇ = r (13.530)
+mr ̇ + d(r)r = δ (13.531)
+where m = T/K and d(r) = HN (r)/K. The only nonlinearity in this model is due to the maneuvering characteristic HN(r). In Section 13.3.3 it was shown that the backstepping controller for this system is
+δ = mα ̇ 1 + d(r)r − z1 − k2z2 − n2(z2)z2 (13.532)
+α1 = rd − [k1 + n1(z1)]z1 (13.533)
+where k1 > 0 and k2 > 0 are two feedback gains and ni(zi) ≥ 0 (i = 1, 2) are two optional nonlinear damping terms, for instance chosen as nondecreasing functions ni(zi) = κi |zi|ni with ni ≥ 1 and κi ≥ 0 (i = 1, 2) as design parameters. The following change of coordinates is needed to implement the controller:
+z1 = ψ − ψd (13.534)
+z2 = r − α1 (13.535)
+
+
+510 Advanced Motion Control Systems
+Figure 13.30 WOPC experiment showing the North and East position accuracies (upper plots) and weather optimal heading (lower plot) versus time (seconds). The position accuracy is within ±1 m while the heading changes from 23 degrees to 2 degrees as the fan is rotated.
+
+
+Integrator Backstepping 511
+Figure 13.31 WOPC experiment showing the deviation for the radius regulator (upper plot) and the translation of the circle center (N0, E0) (lower plots) versus time in seconds. The radius deviation is within ±1 m during the rotation of the fan.
+
+
+512 Advanced Motion Control Systems
+The backstepping controller includes a PD term as well as reference feedforward. In addition the nonlinear damping terms ni(zi) (i = 1, 2) can be used to improve the performance and stability of the closedloop system. When using feedback linearization all the nonlinearities in HN(r) are compensated for. This requires that the dissipative terms are known with good accuracy, which is not true in many cases. The backstepping controller gives more design flexibility with respect to the damping terms. In fact, it is possible to exploit good damping terms such as n3r3 and n1r in HN (r) instead of canceling them. This is straightforward in setpoint regulation; see Krstic et al. (1995), for instance. In trajectory-tracking control, however, it is not clear how good damping with respect to a time-varying reference trajectory should be defined. A discussion on backstepping versus feedback linearization is found in Section 13.3.2. Extensions to integral action can be done by using the method of Loria et al. (1999) and Fossen et al. (2001), which is referred to as backstepping with integral action. Alternatively, an integrator augmentation technique can be applied. Both these methods are described in detail in Sections 13.3.4 and 13.3.5. The actuator dynamics can be included in the design by using the approach of Fossen and Berge (1997) where backstepping is performed in three steps to include a first-order actuator model.
+13.3.12 Case Study: Path-Following Controller for Underactuated Marine Craft
+For floating rigs, semi-submersibles and supply vessels, trajectory-tracking control in surge, sway and yaw (3 DOF) is easily achieved since independent control forces and moments are simultaneously available in all degrees of freedom. For slow speed, this is referred to as DP and the craft is controlled by means of tunnel thrusters, azimuths and main propellers. Conventional craft, on the other hand, are usually equipped with one or two main propellers for forward speed control and rudders for turning control. The minimum configuration for waypoint tracking control is one main propeller and a single rudder. This means that only two controls are available, thus rendering the ship underactuated for the task of 3 DOF trajectory-tracking control (see Section 9.4). Conventional waypoint guidance systems are usually designed by reducing the output space from 3 DOF position and heading to 2 DOF heading and surge (Healey and Marco, 1992). In its simplest form this involves the use of a classical autopilot system where the commanded yaw angle ψd is generated such that the cross-track error is minimized. A path-following control system is usually designed such that the ship moves forward with reference speed ud at the same time as the cross-track error to the path is minimized. As a result, ψd and ud are tracked using only two controls. This section is based on Fossen et al. (2003a) and presents a maneuvering controller involving an LOS guidance system and a nonlinear feedback trajectory-tracking controller. The desired output is reduced from (xd, yd, ψd) to ψd and ud using an LOS projection algorithm. The tracking task ψ(t) → ψd(t) is then achieved using only one control (normally the rudder), while tracking of the speed assignment ud is performed by the remaining control (the main propeller). Since we are dealing with segments of straight lines, the LOS projection algorithm will guarantee that the task of path-following is satisfied. First, an LOS guidance procedure is derived. This includes a projection algorithm and a waypoint switching algorithm. To avoid large bumps in ψd when switching, and to provide the necessary derivatives of ψd to the controller, the commanded LOS heading is fed through a reference model. Second, a nonlinear 2 DOF tracking controller is derived using the backstepping technique. Three stabilizing functions α := [α1, α2, α3] are defined where α1 and α3 are specified to satisfy the tracking objectives in the controlled surge and yaw modes. The stabilizing function α2 in the uncontrolled sway mode is left as a free design variable. By assigning dynamics to α2, the resulting controller becomes a dynamic feedback controller so that α2(t) → v(t) during path following. This is an appealing idea that adds to the extensive theory of backstepping. The presented design technique results in a robust controller for underactuated ships since integral action can be implemented for both path-following and speed control.
+
+
+Integrator Backstepping 513
+Problem Statement
+The problem statement is stated as a maneuvering problem with the following two objectives (Skjetne et al., 2004):
+LOS Geometric Task: Force the marine craft position p = [x, y] to converge to a desired path by forcing the course angle χ to converge to (see Section 10.3.2)
+χd = atan2 (ylos − y, xlos − x) (13.536)
+where the LOS position plos = [xlos, ylos] is the point along the path to which the craft should be pointed. Notice that ψ = χ − β and ψd = χd − β implies that ψ ̃ = χ ̃ when designing the controller. Dynamic Task: Force the speed u to converge to a desired speed assignment ud according to
+lim
+t→∞ [u(t) − ud(t)] = 0 (13.537)
+where ud is the desired speed composed along the body-fixed x axis.
+A conventional trajectory-tracking control system for 3 DOF is usually implemented using a standard PID autopilot in series with an LOS algorithm. Hence, a state-of-the-art autopilot system can be modified to take the LOS reference angle as input (see Figure 12.20). This adds flexibility since the default commercial autopilot system can be used together with the LOS guidance system. The speed can be adjusted manually by the captain or automatically using the path speed profile. Consider the 3 DOF nonlinear maneuvering model in the following form:
+ ̇η = R(ψ)ν (13.538)
+Mν ̇ + N(ν)ν =
+⎡
+⎣
+(1 − t)T
+Yδδ
+Nδδ
+⎤
+⎦ :=
+⎡
+⎣
+τ1
+Yδδ
+τ3
+⎤
+⎦ (13.539)
+where η = [N, E, ψ] , ν = [u, v, r] and
+R(ψ) =
+⎡
+⎣
+cos (ψ) − sin (ψ) 0
+sin (ψ) cos (ψ) 0
+0 01
+⎤
+⎦ (13.540)
+The matrices M and N take the following form:
+M=
+⎡
+⎣
+m11 0 0
+0 m22 m23
+0 m32 m33
+⎤
+⎦=
+⎡
+⎣
+m − X ̇u 0 0
+0 m − Y  ̇v mxg−Y r ̇
+0 mxg−Nv ̇ Iz−Nr ̇
+⎤
+⎦
+N(ν) =
+⎡
+⎣
+n11 0 0
+0 n22 n23
+0 n32 n33
+⎤
+⎦=
+⎡
+⎣
+−Xu 0 0
+0 −Y v mu − Y r
+0 −Nv mxgu − Nr
+⎤
+⎦
+The control force and moment in surge and yaw are denoted τ1 and τ3, respectively, while sway is left uncontrolled. Notice that the rudder angle δ affects the sway equation but it will not be used to actively
+
+
+514 Advanced Motion Control Systems
+control sway. The controller computes τ1 and τ3 which can be allocated to thrust T and rudder angle δ using
+τ1 = (1 − t)T (13.541)
+τ3 = Nδδ (13.542)
+where t is the thrust deduction number. This gives
+T= 1
+1 − t τ1 (13.543)
+δ= 1
+Nδ
+τ3 (13.544)
+Backstepping Design
+The design is based on the model (13.538)–(13.539) where M = M > 0. Define the error signals z1 ∈ S and z2 ∈ R3 according to
+z1 := χ − χd = ψ − ψd (13.545)
+z2 := [z2,1, z2,2, z2,3] = ν − α (13.546)
+where χd and its derivatives are provided by proper filtering of the LOS angle, ud ∈ L∞ is the desired speed and α := [α1, α2, α3] ∈ R3 is a vector of stabilizing functions to be specified later. Next, let
+h = [0, 0, 1] (13.547)
+such that
+ ̇z1 = r − rd = h ν − rd
+= α3 + h z2 − rd (13.548)
+where rd = ψ ̇ d and
+M  ̇z2 = Mν ̇ − M  ̇α
+= τ − Nν − M  ̇α (13.549)
+Consider the CLF:
+V=1
+2 z2
+1+ 1
+2 z2 Mz2, M = M > 0 (13.550)
+Differentiating V along the trajectories of z1 and z2 yields
+V ̇ = z1  ̇z1 + z2 Mz ̇2
+= z1(α3 + h z2 − rd) + z2 (τ − Nν − M  ̇α)
+Choosing the virtual control α3 as
+α3 = −cz1 + rd (13.551)
+
+
+Integrator Backstepping 515
+while α1 and α2 are yet to be defined gives
+V ̇ = −cz2
+1 + z1h z2 + z2 (τ − Nν − M  ̇α)
+= −cz2
+1 + z2 (hz1 + τ − Nν − M  ̇α) (13.552)
+Suppose we can assign
+τ=
+⎡
+⎣
+τ1
+Yδδ
+τ3
+⎤
+⎦ = M  ̇α + Nν − Kz2 − hz1 (13.553)
+where K = diag{k1, k2, k3} > 0. This results in
+V ̇ = −cz2
+1 − z2 Kz2 < 0, ∀z1 =/ 0, z2 =/ 0 (13.554)
+and by standard Lyapunov arguments, this guarantees that (z1, z2) is bounded and converges to zero. However, notice from (13.553) that it is only possible to prescribe values for τ1 and τ3; that is
+τ1 = m11  ̇α1 + n11u − k1(u − α1) (13.555)
+τ3 = m32  ̇α2 + m33α ̇ 3 + n32v + n33r − k3(r − α3) − z1 (13.556)
+Choosing α1 = ud clearly solves the dynamic task since the closed-loop surge dynamics becomes
+m11 (  ̇u − u ̇ d) + k1 (u − ud) = 0 (13.557)
+The second equation in (13.553) results in a dynamic equality constraint
+m22  ̇α2 + m23  ̇α3 + n22v + n23r − k2(v − α2) = Yδ
+Nδ
+τ3 (13.558)
+affected by the control input τ3. Substituting (13.556) into this expression yields
+(
+m22 − Yδ
+Nδ
+m32
+)
+ ̇α2 +
+(
+m23 − Yδ
+Nδ
+m33
+)
+α ̇ 3 +
+(
+n22 − Yδ
+Nδ
+n32
+)
+v+
+(
+n23 − Yδ
+Nδ
+n33
+)
+r
+− k2(v − α2) + Yδ
+Nδ
+(k3(r − α3) + z1) = 0
+Application of  ̇α3 = c2z1 − cz2,3 + r ̇d , α3 = −cz1 + rd , v = α2 + z2,2 and r = α3 + z2,3 then gives
+(
+m22 − Yδ
+Nδ
+m32
+)
+ ̇α2 = −
+(
+n22 − Yδ
+Nδ
+n32
+)
+α2 + γ(z1, z2, rd, r ̇d) (13.559)
+where
+γ(z1, z2, rd , r ̇d ) = −
+(
+m23 − Yδ
+Nδ
+m33
+) (c2z1 − cz2,3 + r ̇d
+)−
+(
+n22 − Yδ
+Nδ
+n32
+)
+z2,2
+−
+(
+n23 − Yδ
+Nδ
+n33
+) (−cz1 + rd + z2,3
+) + k2z2,2 − Yδ
+Nδ
+(k3z2,3 + z1
+) (13.560)
+The variable α2 becomes a dynamic state of the controller according to (13.559). Furthermore, m22 > (Yδ/Nδ)m32 and n22 > (Yδ/Nδ)n32 imply that (13.559) is a stable differential equation driven
+
+
+516 Advanced Motion Control Systems
+by the converging error signals (z1, z2) and the bounded reference signals (rd, r ̇d) within the expression of γ(·). Since z2,2(t) → 0, it follows that |α2(t) − v(t)| → 0 as t → ∞. The main result is summarized by Theorem 13.2, which is a modification of Fossen et al. (2003a).
+Theorem 13.2 (LOS Backstepping Controller for Underactuated Craft)
+The LOS maneuvering problem for the 3 DOF underactuated craft (13.538)–(13.539) is solved using the control laws
+τ1 = m11  ̇ud + n11u − k1(u − ud )
+τ3 = m32  ̇α2 + m33α ̇ 3 + n32v + n33r − k3(r − α3) − z1
+where k1 > 0, k3 > 0, z1 := ψ − ψd, z2 := [u − ud, v − α2, r − α3] and
+α3 = −cz1 + rd, c > 0 (13.561)
+ ̇α3 = −c(r − rd) + r ̇d (13.562)
+The reference signals ud,  ̇ud, ψd, rd and r ̇d are provided by the LOS guidance system, while α2 is given by (
+m22 − Yδ
+Nδ
+m32
+)
+ ̇α2 = −
+(
+n22 − Yδ
+Nδ
+n32
+)
+α2 + γ(z1, z2, rd , r ̇d )
+This results in a UGAS equilibrium point (z1, z2) = (0, 0) and α2 ∈ L∞ satisfies
+lim
+t→∞ |α2(t) − v(t)| = 0 (13.563)
+Remark 13.1
+Notice that the smooth reference signal ψd ∈ L∞ must be differentiated twice to produce rd and r ̇d while ud ∈ L∞ must be differentiated once to give  ̇ud. This is most easily achieved by using reference models represented by low-pass filters (see Section 10.2.1).
+Proof. The closed-loop equations become
+[  ̇z1
+ ̇z2
+] =
+[ −c h
+−M−1h −M−1K
+] [ z1
+z2
+]
+(13.564)
+m  ̇α2 = −nα2 + γ(z1, z2, rd, r ̇d) (13.565)
+where
+m=
+(
+m22 − Yδ
+Nδ
+m32
+)
+, n=
+(
+n22 − Yδ
+Nδ
+n32
+)
+(13.566)
+From the Lyapunov arguments (13.550) and (13.554), the equilibrium (z1, z2) = (0, 0) of the z subsystem is UGAS. The unforced α2 subsystem (γ = 0) is clearly exponentially stable. Since (z1, z2) ∈ L∞ and (rd, r ̇d) ∈ L∞, then γ ∈ L∞. This implies that the α2 subsystem is input-to-state stable from γ to α2. This is seen by applying, for instance, V2 = 1
+2 mα2
+2 which differentiated along the solutions of α2 gives
+V ̇2 ≤ − 1
+2 nα2
+2 for all |α2| ≥ 2
+n |γ(z1, z2, rd, r ̇d)| . By standard comparison functions, it is then possible
+to show that for all |α2| ≥ 2
+n |γ(z1, z2, rd , r ̇d )| then
+|α2(t)| ≤ |α2(0)| e− n
+2 t (13.567)
+Hence, α2 converges to the bounded set {α2 : |α2| ≤ 2
+n |γ(z1, z2, rd , r ̇d )|} since z2,2(t) → 0 as t → ∞.

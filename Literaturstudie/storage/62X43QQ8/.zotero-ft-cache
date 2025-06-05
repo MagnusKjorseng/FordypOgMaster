@@ -1,0 +1,929 @@
+4
+Hydrostatics
+Archimedes (287–212 BC) derived the basic laws of fluid statics that are the fundamentals of hydrostatics today. In hydrostatic terminology, the gravitational and buoyancy forces are called restoring forces and are equivalent to the spring forces in a mass–damper–spring system. In the derivation of the restoring forces and moments it will be distinguished between submersibles and surface vessels:
+• Section 4.1: underwater vehicles (ROVs, AUVs and submarines). • Section 4.2: surface vessels (ships, semi-submersibles, structures and high-speed craft).
+For a floating or submerged vessel, the restoring forces are determined by the volume of the displaced fluid, the location of the center of buoyancy (CB), the area of the water plane and its associated moments. The forthcoming sections show how these quantities determine the heaving, rolling and pitching motions of a marine craft.
+4.1 Restoring Forces for Underwater Vehicles
+Consider the submarine in Figure 4.1 where the gravitational force f b
+g acts through the CG defined by the vector rb
+g := [xg, yg, zg] with respect to CO. Similarly, the buoyancy force f b
+b acts through the CB defined by the vector rb
+b := [xb, yb, zb] (see Section 2.1). Both vectors are referred to the body-fixed reference point CO.
+4.1.1 Hydrostatics of Submerged Vehicles
+Let m be the mass of the vehicle including water in free floating space, ∇ the volume of fluid displaced by the vehicle, g the acceleration of gravity (positive downwards) and ρ the water density. According to the SNAME (1950) notation, the submerged weight of the body and buoyancy force are written as
+W = mg, B = ρg∇ (4.1)
+These forces act in the vertical plane of {n}. Hence,
+fn
+g=
+⎡
+⎣
+0
+0
+W
+⎤
+⎦ and f n
+b =−
+⎡
+⎣
+0
+0
+B
+⎤
+⎦ (4.2)
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+60 Hydrostatics
+Figure 4.1 Gravitational and buoyancy forces acting on the center of gravity (CG) and center of buoyancy (CB) of a submarine.
+Notice that the z axis is taken to be positive downwards such that gravity is positive and buoyancy is negative. By applying the results from Section 2.2.1, the weight and buoyancy force can be expressed in {b} by
+fb
+g = Rn
+b ( nb)−1f n
+g (4.3)
+fb
+b = Rn
+b ( nb)−1f n
+b (4.4)
+where Rn
+b( nb) is the Euler angle coordinate transformation matrix defined in Section 2.2.1. According to (2.2), the sign of the restoring forces and moments f b
+i and mb
+i = rb
+i × fb
+i , i ∈ {g, b}, must be changed when moving these terms to the left-hand side of (2.2) that is the vector g(η). Consequently, the restoring force and moment vector expressed in {b} is
+g(η) = −
+[ fb
+g + fb
+b rb
+g × fb
+g + rb
+b × fb
+b
+]
+=−
+[ Rn
+b ( nb)−1 (f n
+g + fn
+b
+)
+rb
+g × Rn
+b ( nb)−1f n
+g + rb
+b × Rn
+b ( nb)−1f n
+b
+]
+(4.5)
+Expanding this expression yields
+g(η) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+(W − B) sin(θ)
+− (W − B) cos(θ) sin(φ)
+− (W − B) cos(θ) cos(φ)
+− (ygW − ybB) cos(θ) cos(φ) + (zgW − zbB) cos(θ) sin(φ)
+(zgW − zbB) sin(θ) + (xgW − xbB) cos(θ) cos(φ)
+− (xgW − xbB) cos(θ) sin(φ) − (ygW − ybB) sin(θ)
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(4.6)
+
+
+Restoring Forces for Underwater Vehicles 61
+Matlab
+The restoring forces g(η) can be computed by using the MSS toolbox commands:
+r g = [0, 0, 0] % location of CG with respect to CO
+r b = [0, 0, -10] % location of CB with respect to CO
+m = 1000 % mass
+g = 9.81 % acceleration of gravity
+W = m*g; % weight
+B = W; % buoyancy
+% pitch and roll angles
+theta = 10*(180/pi); phi = 30*(pi/180)
+% g-vector
+g = gvect(W,B,theta,phi,r g,r b)
+The numerical result is:
+g = 104 · [0, 0, 0, 1.8324, 9.0997, 0]
+Equation (4.6) is the Euler angle representation of the hydrostatic forces and moments. An alternative representation can be found by applying unit quaternions. Then Rn
+b(q) replaces Rn
+b( nb) in (4.3); see Section 2.2.2. A neutrally buoyant underwater vehicle will satisfy
+W = B (4.7)
+It is convenient to design underwater vehicles with B > W (positive buoyancy) such that the vehicle will surface automatically in the case of an emergency situation, for instance power failure. In this case, the magnitude of B should only be slightly larger than W. If the vehicle is designed such that B W, too much control energy is needed to keep the vehicle submerged. Hence, a trade-off between positive buoyancy and controllability must be made.
+Example 4.1 (Neutrally Buoyant Underwater Vehicles)
+Let the distance between the CG and the CB be defined by the vector:1
+BG := [BGx, BGy, BGz] = [xg − xb, yg − yb, zg − zb] (4.8)
+For neutrally buoyant vehicles W = B, (4.6) therefore simplifies to
+g(η) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0
+0
+0
+−BGyW cos(θ) cos(φ) + BGzW cos(θ) sin(φ)
+BGzW sin(θ) + BGxW cos(θ) cos(φ)
+−BGxW cos(θ) sin(φ) − BGyW sin(θ)
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(4.9)
+1 In hydrostatics it is common to denote the distance between two points A and B as AB.
+
+
+62 Hydrostatics
+An even simpler representation is obtained for vehicles where the CG and CB are located vertically on the z axis, that is xb = xg and yg = yb. This yields
+g(η) = [ 0, 0, 0, BGzW cos(θ)sin(φ), BGzW sin(θ), 0 ] (4.10)
+4.2 Restoring Forces for Surface Vessels
+Formula (4.6) should only be used for completely submerged vehicles. Static stability considerations due to restoring forces are usually referred to as metacentric stability in the hydrostatic literature. A metacentric stable vessel will resist inclinations away from its steady-state or equilibrium points in heave, roll and pitch. For surface vessels, the restoring forces will depend on the vessel’s metacentric height, the location of the CG and the CB, as well as the shape and size of the water plane. LetAwp denote the water plane area and
+GMT = transverse metacentric height (m)
+GML = longitudinal metacentric height (m) (4.11)
+The metacentric height GMi, where i ∈ {T, L} , is the distance between the metacenter Mi and the CG, as shown in Figures 4.2 and 4.3.
+Definition 4.1 (Metacenter)
+The theoretical point at which an imaginary vertical line through the CB intersects another imaginary vertical line through a new CB created when the body is displaced, or tilted, in the water (see Figure 4.2).
+4.2.1 Hydrostatics of Floating Vessels
+For a floating vessel at rest, Archimedes stated that buoyancy and weight are in balance:
+mg = ρg∇ (4.12)
+Figure 4.2 Transverse metacentric stability. Notice that mg = ρg∇. A similar figure can be drawn to illustrate lateral metacentric stability by simply replacing MT and φ with ML and θ.
+
+
+Restoring Forces for Surface Vessels 63
+Let z denote the displacement in heave and let z = 0 denote the equilibrium position corresponding to the nominal displaced water volume ∇. Hence, the hydrostatic force in heave will be the difference between the gravitational and the buoyancy forces:
+Z = mg − ρg [∇ + δ∇(z)]
+= −ρgδ∇(z) (4.13)
+where the change in displaced water δ∇(z) is due to variations in heave position z. This can be written
+δ∇(z) =
+∫z
+0
+Awp(ζ)dζ (4.14)
+where Awp(ζ) is the water plane area of the vessel as a function of the heave position. For conventional rigs and ships, however, it is common to assume that Awp(ζ) ≈ Awp(0) is constant for small perturbations in z. Hence, the restoring force Z will be linear in z, that is
+Z ≈ − ρgAwp(0)
+} {{ }
+Zz
+z (4.15)
+Recall that if a floating vessel is forced downwards by an external force such that z > 0, the buoyancy force becomes larger than the constant gravitational force since the submerged volume ∇ increases by δ∇ to ∇ + δ∇. This is physically equivalent to a spring with stiffness Zz = −ρgAwp(0) and position z. The restoring force expressed in {b}, δf b
+r , can therefore be written
+δf b
+r = Rn
+b ( nb)−1δf n
+r
+= Rn
+b ( nb)−1
+⎡
+⎣
+0
+0
+−ρg ∫ z
+0 Awp(ζ)dζ
+⎤
+⎦
+= −ρg
+⎡
+⎣
+− sin(θ)
+cos(θ) sin(φ)
+cos(θ) cos(φ)
+⎤
+⎦
+∫z
+0
+Awp(ζ)dζ (4.16)
+From Figure 4.2 it is seen that the moment arms in roll and pitch can be related to the moment arms GMT sin(φ) and GML sin(θ) in roll and pitch, and a z-direction force pair with magnitude W = B = ρg∇. Hence,
+rb
+r=
+⎡
+⎣
+−GML sin(θ)
+GMT sin(φ)
+0
+⎤
+⎦ (4.17)
+fb
+r = Rn
+b ( nb)−1
+⎡
+⎣
+0
+0
+−ρg∇
+⎤
+⎦ = −ρg∇
+⎡
+⎣
+− sin(θ)
+cos(θ) sin(φ)
+cos(θ) cos(φ)
+⎤
+⎦ (4.18)
+
+
+64 Hydrostatics
+Neglecting the moment contribution due to δf b
+r (only considering f b
+r ) implies that the restoring moment becomes
+mb
+r = rb
+r × fb
+r
+= −ρg∇
+⎡
+⎢⎣
+GMT sin(φ) cos(θ) cos(φ)
+GML sin(θ) cos(θ) cos(φ)
+(−GML cos(θ)+GMT ) sin(φ) sin(θ)
+⎤
+⎥⎦ (4.19)
+The assumption that rb
+r × δf b
+r = 0 (no moments due to heave) is a good assumption since this term is small compared to rb
+r × fb
+r . The restoring forces and moments are finally written
+g(η) = −
+[ δf b
+r
+mb
+r
+]
+(4.20)
+or in component form:
+g(η) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎢⎣
+−ρg ∫ z
+0 Awp(ζ)dζ sin(θ)
+ρg ∫ z
+0 Awp(ζ)dζ cos(θ) sin(φ)
+ρg ∫ z
+0 Awp(ζ)dζ cos(θ) cos(φ)
+ρg∇GMT sin(φ) cos(θ) cos(φ)
+ρg∇GML sin(θ) cos(θ) cos(φ)
+ρg∇(−GML cos θ + GMT ) sin(φ) sin(θ)
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎥⎦
+(4.21)
+4.2.2 Linear (Small Angle) Theory for Boxed-Shaped Vessels
+For surface vessels it is convenient to use a linear approximation:
+g(η) ≈ Gη (4.22)
+that can be derived by assuming that φ, θ and z are small. Moreover, assuming that ∫z
+0
+Awp(ζ)dζ ≈ Awp(0)z
+and
+sin(θ) ≈ θ, cos(θ) ≈ 1
+sin(φ) ≈ φ, cos(φ) ≈ 1
+implies that (4.21) can be written:
+g(η) ≈
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+−ρgAwp(0) zθ
+ρgAwp(0) zφ
+ρgAwp(0) z
+ρg∇GMT φ
+ρg∇GML θ
+ρg∇(−GML + GMT ) φθ
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+≈
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0
+0
+ρgAwp(0)z
+ρg∇GMT φ
+ρg∇ GM L θ
+0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(4.23)
+
+
+Restoring Forces for Surface Vessels 65
+Hence,
+G = diag{0, 0, ρgAwp(0), ρg∇GMT , ρg∇GML, 0} (4.24)
+which can be used in a linearized model:
+Mν ̇ + Nν + Gη + go = τ + τwind + τwave (4.25)
+The restoring force matrix (4.24) is based on the assumption of yz symmetry (fore–aft symmetry). In the asymmetrical case G takes the form
+G=G =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+00 0 0 0 0
+00 0 0 0 0
+0 0 −Zz 0 −Zθ 0
+0 0 0 −Kφ 0 0
+0 0 −Mz 0 −Mθ 0
+00 0 0 0 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+> 0 (4.26)
+where the elements in G are computed in CF (see Section 2.1). Sometimes it is convenient to compute the data in CO and transform these to CF using (7.249) and (7.250). The coefficients in (4.26) are related to Awp, ∇, CG and CB according to
+−Zz = ρgAwp(0) (4.27)
+−Zθ = ρg
+∫∫
+Awp
+xdA (4.28)
+−Mz = −Zθ (4.29)
+−Kφ = ρg∇(zg − zb) + ρg
+∫∫
+Awp
+y2dA = ρg∇GMT (4.30)
+−Mθ = ρg∇(zg − zb) + ρg
+∫∫
+Awp
+x2dA = ρg∇GML (4.31)
+Notice that the integrals for the water plane area moments are defined about CF.
+4.2.3 Computation of Metacenter Height for Surface Vessels
+The metacenter height can be computed by using basic hydrostatics:
+GMT = BMT − BG, GML = BML − BG (4.32)
+
+
+66 Hydrostatics
+Figure 4.3 Metacenter M, center of gravity G and center of buoyancy B for a submerged and a floating vessel. K is the keel line.
+This relationship is seen directly from Figure 4.3, where MT and ML denote the transverse and longitudinal metacenters (intersections between the vertical lines through B and B1 when φ and θ approaches zero). The symbol K is used to denote the keel line. For small inclinations (φ and θ are small) the transverse and longitudinal radii of curvature can be approximated by
+BMT = IT
+∇ , BML = IL
+∇ (4.33)
+where the moments of area about the water plane are defined as
+IL :=
+∫∫
+Awp
+x2dA, IT :=
+∫∫
+Awp
+y2dA (4.34)
+The integrals are computed about the CF or the centroid of the water plane Awp. CF is located a distance LCF in the x direction along the centerline. For conventional ships an upper bound on these integrals can be found by considering a rectangular water plane area Awp = BL where B and L are the beam and length of the hull, respectively. This implies that
+IL < 1
+12 L3B, IT < 1
+12 B3L (4.35)
+These formulae can be used as a first estimate when simulating the vessel dynamics.
+
+
+Restoring Forces for Surface Vessels 67
+Example 4.2 (Computation of GM Values)
+Consider a floating barge with length 100 m and width 8 m. The draft is 5 m while CG is located 3 m above the keel line (KG = 3.0 m). Since KB = 2.5 m, it follows that
+BG = KG − KB = 3 − 2.5 = 0.5 m (4.36)
+Hence,
+IT = 1
+12 B3L = 1
+12 83 × 100 = 4 266.7 m4 (4.37)
+IL = 1
+12 L3B = 1
+12 1003 × 8 = 666 666.7 m4 (4.38)
+The volume displacement is
+∇ = 100 × 8 × 5 = 4 000 m3 (4.39)
+Consequently,
+BMT = IT
+∇ = 2.08 m (4.40)
+BML = IL
+∇ = 166.7 m (4.41)
+Finally,
+GMT = BMT − BG = 2.08 − 0.5 = 1.58 m (4.42)
+GML = BML − BG = 166.7 − 0.5 = 166.2 m (4.43)
+The corresponding metacentric heights are
+KMT = KG + GMT = 3 + 1.58 = 4.58 m (4.44)
+KML = KG + GML = 3 + 166.2 = 169.2 m (4.45)
+Definition 4.2 (Metacenter Stability)
+A floating vessel is said to be transverse metacentrically stable if
+GMT ≥ GMT,min > 0 (4.46)
+and longitudinal metacentrically stable if
+GML ≥ GML,min > 0 (4.47)
+The longitudinal stability requirement (4.47) is easy to satisfy for ships since the pitching motion is quite limited. The transverse requirement, however, is an important design criterion used to predescribe sufficient stability in roll to avoid the craft rolling around. For most ships GMT,min > 0.5 m while GML,min usually is much larger (more than 100 m). If the transverse metacentric height GMT is large, the spring is stiff in roll and it is quite uncomfortable for passengers onboard the vessel. However, the stability margin and robustness to large transverse waves are good in this case. Consequently, a trade-off between stability and comfort should be made. Another point to consider is that all ships have varying load conditions. This implies that the pitch and roll periods will vary with the loads since GMT varies with the load. This is the topic for the next section.
+
+
+68 Hydrostatics
+4.3 Load Conditions and Natural Periods
+The chosen load condition or weight distribution will determine the heave, roll and pitch periods of a marine craft. In a linear system, the natural periods will be independent of the coordinate origin if they are computed using the 6 DOF coupled equations of motion. This is due to the fact that the eigenvalues of a linear system do not change when applying a similarity transformation. However, it is not straightforward to use the linear equations of motion since the potential coefficients depend on the wave frequency. In Section 6.2, the zero-frequency added mass and potential damping coefficients were used in surge, sway and yaw while for heave, roll and pitch the natural frequencies were used. In the 6 DOF coupled case a frequency-dependent modal analysis can be used to compute the natural frequencies.
+4.3.1 Decoupled Computation of Natural Periods
+Consider the linear decoupled heave, roll and pitch equations:
+[m + A33(ωheave)]  ̇z + B33(ωheave)w + C33z = 0 (4.48)
+[Ix + A44(ωroll)]  ̇p + B44(ωroll)p + C44φ = 0 (4.49)
+[Iy + A55(ωpitch)] q ̇ + B55(ωpitch)q + C55θ = 0 (4.50)
+where the potential coefficients Aii and Bii (i = 3, 4, 5), spring stiffness Cii (i = 3, 4, 5) and moments of inertia Ix and Iy are computed in the CF, which is the vessel rotation point for a pure rolling or pitching motion. In the coupled case, the point of rotation as well as the rotation axes will change. If CF is unknown, a good approximation is to use the midships origin CO. This will only affect the pitching frequency, which is not very sensitive to small translations along the x axis. If the natural frequencies are computed in a point far from CF using the decoupled equations (4.48)–(4.50), the results can be erroneous since the eigenvalues of the decoupled equations depend on the coordinate origin as opposed to the 6 DOF coupled system. From (4.48)–(4.50) it follows that the natural frequencies and periods of heave, roll and pitch in the CF are given by the implicit equations:
+ωheave =
+√
+C33
+m + A33(ωheave) , Theave = 2π
+ωheave
+(4.51)
+ωroll =
+√
+C44
+Ix + A44(ωroll) , Troll = 2π
+ωroll
+(4.52)
+ωpitch =
+√ C55
+Iy + A55(ωpitch) , Tpitch = 2π
+ωpitch
+(4.53)
+which can be solved using the Newton–Raphson method:
+ωn+1 = ωn − f (ωn)
+f ′(ωn) (4.54)
+
+
+Load Conditions and Natural Periods 69
+where
+f (ωn) = ωn −
+√
+C
+M + A(ωn) (4.55)
+f ′(ωn) = 1 + A
+2[M + A(ωn)]
+√
+C
+M + A(ωn) (4.56)
+with obvious choices of M, A and C. This is implemented in the MSS toolbox as:
+Matlab
+1 DOF decoupled analysis for the tanker model:
+w n = natfrequency(vessel,dof,w 0,speed,LCF)
+vessel = MSS vessel data (computed in CO)
+dof = degree of freedom (3,4,5), use -1 for 6 DOF analysis
+w 0 = initial natural frequency (typical 0.5)
+speed = speed index 1,2,3...
+LCF = (optionally) longitudinal distance to CF from CO
+Natural periods:
+load tanker
+T heave = 2*pi/natfrequency(vessel,3,0.5,1)
+T roll = 2*pi/natfrequency(vessel,4,0.5,1)
+T pitch = 2*pi/natfrequency(vessel,5,0.5,1)
+This gives Theave = 9.68 s, Troll = 12.84 s and Tpitch = 9.14 s.
+4.3.2 Computation of Natural Periods in a 6 DOF Coupled System
+A 6 DOF coupled analysis of the frequency-dependent data can be done by using modal analysis. The coupled system can be transformed to six decoupled systems and the natural frequencies can be computed for each of them. This involves solving a generalized eigenvalue problem at each frequency. Consider the linear seakeeping model:
+[MRB + A(ω)]ξ ̈ + [B(ω) + BV (ω) + Kd]ξ ̇ + [C + Kp]ξ = 0 (4.57)
+where Kp and Kd are optional positive definite matrices due to feedback control, A(ω) and B(ω) are frequency-dependent added mass and potential damping (see Section 5.3) while BV (ω) denotes additional viscous damping. Let
+M(ω) = MRB + A(ω) (4.58)
+D(ω) = B(ω) + BV (ω) + Kd (4.59)
+G = C + Kp (4.60)
+where M(ω) = M(ω) > 0 and D(ω) = D(ω) > 0 such that
+M(ω)ξ ̈ + D(ω)ξ ̇ + Gξ = 0 (4.61)
+
+
+70 Hydrostatics
+For surface vessels, the restoring matrix takes the following form (see Section 4.2):
+G=G =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+Kp11 0 0 0 0 0
+0 Kp22 0 0 0 0
+0 0 C33 0 C35 0
+0 0 0 C44 0 0
+0 0 C53 0 C55 0
+0 0 0 0 0 Kp66
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(4.62)
+Notice that Kp11, Kp22 and Kp66 must be positive to guarantee that G > 0. Assume that the floating vessel under PD control carries out oscillations in 6 DOF:
+ξ = a cos(ωt) (4.63)
+where a = [a1, . . . , a6] is a vector of amplitudes. Then,
+[G − ω2M(ω) − jωD(ω)] a = 0 (4.64)
+The natural frequencies can be computed for the undamped system D(ω) = 0 by solving
+[G − ω2M(ω)] a = 0 (4.65)
+The natural frequencies of a marine craft are usually shifted less than 1.0 % when damping is added. Hence, the undamped system (4.65) gives an accurate estimate of the frequencies of oscillation. Equation (4.65) represents a frequency-dependent generalized eigenvalue problem:
+Gxi = λiM(ω)xi (i = 1, ..., 6) (4.66)
+where xi is the eigenvector and λi = ω2 are the eigenvalues. This is recognized as an algebraic equation:
+|G − λiM(ω)| = 0 (4.67)
+where λi is an eigenvalue satisfying (see Figure 4.4):
+Figure 4.4 For 6 DOF coupled generalized eigenvalues.
+
+
+Load Conditions and Natural Periods 71
+λi = ω2 (4.68)
+The characteristic equation of (4.67) is of sixth order:
+λ6 + a5λ5 + a4λ4 + a3λ3 + a2λ2 + a1λ + a0 = 0 (4.69)
+Let the solutions of the eigenvalue problem (4.67) as a function of ω be denoted λ∗
+i (ω). Then we can use the Newton–Raphson method:
+ωi,k+1 = ωi,k − fi(ωi,k)
+f′
+i (ωi,k) (i = 1, . . . , 6, k = 1, . . . , n) (4.70)
+where k denotes the number of iterations, i is the DOF considered and
+fi(ωi,k) = λ∗
+i (ωi,k) − ω2
+i,k (4.71)
+to satisfy the constraint (4.68). After solving fi(ωi,k) = 0 for all DOFs to obtain ωi,n, the natural periods in 6 DOF follow from
+Ti = 2π
+ωi,n
+(4.72)
+The presented algorithm in Section 4.3.2 is implemented in the MSS toolbox and the 6 DOF results for the MSS tanker model are obtained by considering:
+Matlab
+6 DOF coupled analysis for the MSS tanker model:
+dof = -1 % use -1 for 6 DOF analysis
+load tanker
+T = 2*pi./natfrequency(vessel,dof,0.5,1)
+This gives Theave = 9.83 s, Troll = 12.45 s and Tpitch = 8.95 s, which is quite close to the numbers obtained in the decoupled analysis in Section 4.3.1.
+4.3.3 Natural Period as a Function of Load Condition
+The roll and pitch periods will depend strongly on the load condition while heave is less affected. Consider the restoring terms (see Section 4.2.1)
+C33 = ρgAwp(0) (4.73)
+C44 = ρg∇GMT (4.74)
+C55 = ρg∇GML (4.75)
+for a floating vessel. It is noticed that Awp(z) = Awp(0) = constant for a box-shaped vessel while C44 and C55 varies with GMT and GML as well as ∇. Hence,
+
+
+72 Hydrostatics
+Theave = 2π
+√ m + A33(ωheave)
+ρgAwp(0) (4.76)
+Troll = 2π
+√ Ix + A44(ωroll)
+ρg∇ GM T
+(4.77)
+Tpitch = 2π
+√ Ix + A55(ωpitch)
+ρg∇ GM L
+(4.78)
+To illustrate the sensitivity to variation in metacentric height one can parametrize the moments of inertia according to
+Ix = mR2
+44 (4.79)
+Iy = mR2
+55 (4.80)
+where R44 and R55 are the radii of gyration. For offshore vessels R44 ≈ 0.35B while tankers have R44 ≈ 0.37B. Semi-submersibles have two or more pontoons so 0.40B is not uncommon for these vessels. In pitch and yaw it is common to use R55 = R66 ≈ 0.25Lpp for smaller vessels while tankers use R55 = R66 ≈ 0.27Lpp. Define κ as the ratio
+κ := A44(ωroll)
+Ix
+, κ > 0 (4.81)
+Typical values are 0.1–0.3 for ships and 1.0 or more for semi-submersibles. This implies that
+Ix + A44(ωroll) = (1 + κ)mR2
+44 (4.82)
+The radius of gyration R44 is proportional with B. Let us define
+R44 := aB (4.83)
+where a ≈ 0.35–0.40. Then the roll period (4.77) can be expressed as
+Troll = cB
+√
+GM T
+(4.84)
+with
+c = 2πa√(1 + κ)
+√g (4.85)
+where the c value for small cargo and passenger vessels is typically 0.77, supply vessel 0.80–0.82, large cargo vessels 0.85 and tankers and FPSOs 0.85–0.90. Semi-submersibles have large c values and 1.2 is not uncommon.
+
+
+Load Conditions and Natural Periods 73
+Figure 4.5 Roll period Troll as a function of GMT for given R44.
+Matlab
+The load condition data can be plotted using the MSS toolbox command:
+loadcond(vessel)
+The roll period as a function of GMT for the MSS Hydro tanker example is shown in Figure 4.5. It is seen that Troll is reduced if GMT is increased and vice versa. Many ships are equipped liquid tanks such as ballast and anti-roll tanks. A partially filled tank is known as a slack tank and in these tanks the liquid can move and endanger the ship’s stability. The reduction of metacentric height caused by the liquids in slack tanks is known as the free-surface effect. The mass of the liquid or the location of the tanks have no role; it is only the moment of inertia of the surface that affects stability. The effective metacentric height corrected for slack tanks filled with sea water is (Brian, 2003)
+GMT,eff = GMT − FSC (4.86)
+where the free-surface correction (FSC) is
+FSC =
+N ∑
+r=1
+ρ
+m ir (4.87)
+where ir is the moment of inertia of the water surface. For a rectangular tank with length l in the x direction and width b in the y direction, the moment of inertia of the surface about an axis through the centroid is
+ir = lb3
+12 (4.88)
+
+
+74 Hydrostatics
+A similar reduction in GMT is observed if a payload with mass mp is lifted up and suspended at the end of a rope of length h. Then the effective metacentric height becomes
+GMT,eff = GMT − h mp
+m (4.89)
+Consequently, it is important to notice that a reduction in GMT due to slack tanks or lift operations increases the roll period/passenger comfort to the cost of a less stable ship. These effects are also observed in pitch, but pitch is much less affected since GML GMT .
+4.4 Ballast Systems
+In addition to the metacentric restoring forces g(η) described in Section 4.1, the equilibrium point can be changed by pretrimming, for instance by pumping water between the ballast tanks of the vessel. The vessel can only be trimmed in heave, pitch and roll where restoring forces are present. Let the equilibrium point be
+z = zd, φ = φd and θ = θd
+where zd, φd and θd are the desired states. The equilibrium states corresponding to these values are found by considering the steady-state solution of
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) + go = τ + τwind + τwave
+} {{ }
+w
+(4.90)
+which under assumption of zero acceleration/speed (ν ̇ = ν = 0) and no control forces (τ = 0) reduces to
+g(ηd) + go = w (4.91)
+where ηd = [−, −, zd, φd, θd, −] ; that is only three states are used for pretrimming. The forces and moments go due to the ballast tanks are computed using hydrostatic analyses. Consider a marine craft with n ballast tanks of volumes Vi ≤ Vi,max (i = 1, . . . , n). For each ballast tank the water volume is
+Vi(hi) =
+∫ hi
+o
+Ai(h)dh ≈ Aihi (Ai(h) = constant) (4.92)
+where Ai(h) is the area of the ballast tank at height h. Hence, the volume of the water column in each ballast tank can be computed by measuring the water heights hi. Next, assume that the ballast tanks are located at
+rb
+i = [xi, yi, zi] (i = 1, . . . , n) (4.93)
+where rb
+i is the vector from the coordinate origin CO to the geometric center of tank i. The gravitational forces Wi in heave are summed up according to (see Figure 4.6)
+Zballast =
+∑n
+i=1
+Wi
+= ρg
+∑n
+i=1
+Vi (4.94)
+
+
+Ballast Systems 75
+Figure 4.6 Semi-submersible ballast tanks. Illustration by Bjarne Stenberg.
+The moments due to the ballast heave force ρgVi are then found from
+mi = ri × f i
+=
+⎡
+⎣
+xi
+yi
+zi
+⎤
+⎦×
+⎡
+⎣
+0
+0
+ρgVi
+⎤
+⎦
+=
+⎡
+⎣
+yiρgVi
+−xiρgVi
+0
+⎤
+⎦ (4.95)
+implying that the roll and pitch moments due to ballast are
+Kballast = ρg
+∑n
+i=1
+yiVi (4.96)
+Mballast = −ρg
+∑n
+i=1
+xiVi (4.97)
+Finally, this gives
+go =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0
+0
+−Zballast
+−Kballast
+−Mballast
+0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+= ρg
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0
+0
+− ∑n
+i=1 Vi
+− ∑n
+i=1 yiVi
+∑n
+i=1 xiVi
+0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(4.98)
+
+
+76 Hydrostatics
+Metacentric Height Correction
+Since ballast tanks are partially filled tanks of liquids, the restoring roll moment in g(η), formula (4.30), will be affected. The formulae for the free-surface correction (4.86)–(4.87) can, however, be applied to correct the transverse metacentric height GMT in roll.
+4.4.1 Conditions for Manual Pretrimming
+Distribution of water between the ballast tanks can be done manually by pumping water until the desired water levels hi in each tank are reached or automatically by using feedback control. For manual operation, the steady-state relationships between water levels hi and the desired pretrimming values zd, φd and θd are needed. Trimming is usually done under the assumptions that φd and θd are small such that linear theory can be applied:
+g(ηd) ≈ Gηd (4.99)
+Since we are only concerned with the heave, roll and pitch modes it is convenient to use the 3 DOF reduced-order system:
+G{3,4,5} =
+⎡
+⎣
+−Zz 0 −Zθ
+0 −Kφ 0
+−Mz 0 −Mθ
+⎤
+⎦
+g{3,4,5}
+o = ρg
+⎡
+⎣
+− ∑n
+i=1 Vi
+− ∑n
+i=1 yiVi
+∑n
+i=1 xiVi
+⎤
+⎦
+η{3,4,5}
+d = [zd , φd , θd ]
+w{3,4,5} = [w3, w4, w5]
+The key assumption for open-loop pretrimming is that w{3,4,5} = [w3, w4, w5] = 0, that is no disturbances in heave, roll and pitch. From (4.91) and (4.26) it follows that
+G{3,4,5} η{3,4,5}
+d + g{3,4,5}
+o = 0 (4.100)
+⎡
+⎣
+−Zz 0 −Zθ
+0 −Kφ 0
+−Mz 0 −Mθ
+⎤
+⎦
+⎡
+⎣
+zd
+φd
+θd
+⎤
+⎦ + ρg
+⎡
+⎣
+− ∑n
+i=1 Vi
+− ∑n
+i=1 yiVi
+∑n
+i=1 xiVi
+⎤
+⎦=0
+
+
+Ballast Systems 77
+This can be rewritten as
+Hυ = y (4.101)
+ρg
+⎡
+⎣
+1 ··· 1 1
+y1 · · · yn−1 yn
+−x1 · · · −xn−1 −xn
+⎤
+⎦
+⎡
+⎢⎢⎢⎢⎣
+V1
+V2
+...
+Vn
+⎤
+⎥⎥⎥⎥⎦
+=
+⎡
+⎣
+−Zzzd − Zθθd
+−Kφ φd
+−Mzzd − Mθθd
+⎤
+⎦ (4.102)
+where υ is a vector of tank volumes:
+υ = [V1, V2, . . . , Vn] (4.103)
+The tank volumes are computed from (4.101) by using the Moore–Penrose pseudo-inverse:
+υ = H†y
+= H (HH )−1y (4.104)
+where it is assumed that n ≥ 3 and that HH has full rank. Finally, the desired water heights can be computed from
+Vi(hi) =
+∫ hi
+o
+Ai(h)dh (4.105)
+⇓ (Ai(h) = Ai)
+hi = Vi
+Ai
+(4.106)
+Example 4.3 (Semi-Submersible Ballast Control)
+Consider the semi-submersible shown in Figure 4.7 with four ballast tanks located at rb
+1 = [−x, −y], rb
+2 = [x, −y], rb
+3 = [x, y] and rb
+4 = [−x, y]. In addition, yz symmetry implies that
+Zθ = Mz = 0 while the diagonal elements in G{3,4,5} are nonzero. Consequently,
+H = ρg
+⎡
+⎣
+1 1 11
+−y −y y y
+x −x −x x
+⎤
+⎦
+y=
+⎡
+⎣
+−Zzzd
+−Kφ φd
+−Mθ θd
+⎤
+⎦ = ρg
+⎡
+⎣
+Awp(0)zd
+∇GMT φd
+∇ GM L θd
+⎤
+⎦
+The right pseudo-inverse of H is
+H † = H (HH )−1 = 1
+4ρg
+⎡
+⎢⎢⎢⎣
+1 −1
+y
+1 x
+1 −1
+y −1
+x 11
+y −1
+x
+11
+y
+1 x
+⎤
+⎥⎥⎥⎦
+
+
+78 Hydrostatics
+Figure 4.7 Semi-submersible with four ballast tanks. Vi (m3) is the water volume in leg i = 1, . . . , 4 and pj (m3/s) is the volume flow for water pump j = 1, . . . , 3. Illustration by Bjarne Stenberg.
+which finally gives the water volumes Vi corresponding to the desired values zd, φd and θd:
+υ=
+⎡
+⎢⎢⎣
+V1
+V2
+V3
+V4
+⎤
+⎥⎥⎦ = 1
+4ρg
+⎡
+⎢⎢⎢⎣
+1 −1
+y
+1 x
+1 −1
+y −1
+x 11
+y −1
+x
+11
+y
+1 x
+⎤
+⎥⎥⎥⎦
+⎡
+⎣
+ρgAwp(0)zd
+ρg∇GMT φd
+ρg∇ GM L θd
+⎤
+⎦
+4.4.2 Automatic Pretrimming using Feedback from z, φ and θ
+In the manual pretrimming case it was assumed that w{3,4,5} = 0. This assumption can be removed by using feedback from z, φ and θ. The closed-loop dynamics of a PID-controlled water pump can be described by a first-order model with amplitude saturation:
+Tj  ̇pj + pj = sat(pdj ) (4.107)
+where Tj (s) is a positive time constant, pj is the volumetric flow rate m3/s produced by pump j = 1, . . . , m and pdj is the pump setpoint. As shown in Figure 4.7, one separate water pump can be used to pump water in each direction. This implies that the water pump capacity is different for positive and negative flow directions. Moreover,
+sat(pdj ) =
+⎧⎨
+⎩
+p+
+j,max pj > p+
+j,max
+pdj p−
+j,max ≤ pdj ≤ p+
+j,max
+p−
+j,max pdj < p−
+j,max
+(4.108)
+The pump time constant Tj is found from a step response, as shown in Figure 4.8.
+
+
+Ballast Systems 79
+Figure 4.8 The time constant Tj for pump j is found by commanding a step pdj = pj,max as shown in the plot.
+The volume flow V ̇i to tank i is given by linear combinations of flows corresponding to the pumps/pipelines supporting tank i. For the semi-submersible shown in Figure 4.7, we obtain
+V ̇1 = −p1 (4.109)
+V ̇2 = −p3 (4.110)
+V ̇3 = p2 + p3 (4.111)
+V ̇4 = p1 − p2 (4.112)
+More generally, the water flow model can be written
+T  ̇p + p = sat(pd) (4.113)
+υ ̇ = Lp (4.114)
+where sat(pd) = [sat(pd1 ), . . . , sat(pdm )] , p = [p1, . . . , pm] and υ = [V1, . . . , Vn] (m ≥ n). The
+mapping from the water volume vector υ to η{3,4,5} is given by the steady-state condition (see Figure 4.9)
+G{3,4,5}η{3,4,5} = g{3,4,5}
+o (υ) + w{3,4,5} (4.115)
+Example 4.4 (Semi-Submersible Ballast Control, Continued)
+Consider the semi-submersible in Example 4.3. The water flow model corresponding to Figure 4.7 becomes
+υ=
+⎡
+⎢⎢⎣
+V1
+V2
+V3
+V4
+⎤
+⎥⎥⎦ , p =
+⎡
+⎣
+p1
+p2
+p3
+⎤
+⎦, L =
+⎡
+⎢⎢⎣
+−1 0 0
+0 0 −1
+011
+1 −1 0
+⎤
+⎥⎥⎦ (4.116)
+
+
+80 Hydrostatics
+Figure 4.9 Ballast control system using feedback from z, φ and θ.
+reflecting that there are three pumps and four water volumes connected through the configuration matrix L.
+A feedback control system for automatic trimming is presented in Figure 4.9. The ballast controllers can be chosen to be of PID type, for instance:
+pd = H pid(s)G{3,4,5} (η{3,4,5}
+d − η{3,4,5}) (4.117)
+where η{3,4,5}
+d = [zd , φd , θd ] and
+H pid(s) = diag{h1,pid(s), h2,pid(s), . . . , hm,pid(s)} (4.118)
+is a diagonal transfer matrix containing m PID controllers. Integral action in the controllers is needed to compensate for nonzero environmental disturbances w{3,4,5}.

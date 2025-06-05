@@ -1,0 +1,741 @@
+3
+Rigid-Body Kinetics
+In order to derive the marine craft equations of motion, it is necessary to study the motion of rigid bodies, hydrodynamics and hydrostatics. The overall goal of Chapter 3 is to show that the rigid-body kinetics can be expressed in a vectorial setting according to (Fossen, 1991)
+MRBν ̇ + CRB(ν)ν = τRB (3.1)
+where MRB is the rigid-body mass matrix, CRB is the rigid-body Coriolis and centripetal matrix due to the rotation of {b} about the inertial frame {n}, ν = [u, v, w, p, q, r] is the generalized velocity vector expressed in {b} and τRB = [X, Y, Z, K, M, N] is a generalized vector of external forces and moments expressed in {b}. The rigid-body equations of motion will be derived using the Newton–Euler formulation and vectorial mechanics. In this context it is convenient to define the vectors without reference to a coordinate frame (coordinate free vector). The velocity of the origin ob with respect to {n} is a vector vb/n that is defined by its magnitude and the direction. The vector vb/n decomposed in the inertial reference frame is denoted as vi
+b/n, which is also referred to as a coordinate vector (see Section 2.1). The equations of motion will be represented in two body-fixed reference points:
+CO - origin ob of {b} CG - center of gravity
+These points coincide if the vector rg = 0 (see Figure 3.1). The point CO is usually specified by the control engineer and it is the reference point used to design the guidance, navigation and control systems. For marine craft, it is common to locate this point on the centerline midships. It is advantageous to use a fixed reference point CO for controller–observer design since CG will depend on the load condition (see Section 4.3).
+3.1 Newton–Euler Equations of Motion about CG
+The Newton–Euler formulation is based on Newton’s second law, which relates mass m, acceleration  ̇vg/i and force fg according to
+mv ̇g/i = f g (3.2)
+where vg/i is the velocity of the CG with respect to the inertial frame {i}.
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+46 Rigid-Body Kinetics
+Figure 3.1 Definition of the volume element dV and the coordinate origins CO and CG.
+If no force is acting (fg = 0), then the rigid body is moving with constant speed (vg/i = constant) or the body is at rest (vg/i = 0)–a result known as Newton’s first law. Newton’s laws were published in 1687 by Isaac Newton (1643–1727) in Philosophia Naturalis Principia Mathematica.
+Euler’s First and Second Axioms
+Leonhard Euler (1707–1783) showed in his Novi Commentarii Academiae Scientarium Imperialis Petropolitane that Newton’s second law can be expressed in terms of conservation of both linear momentum pg and angular momentum hg. These results are known as Euler’s first and second axioms, respectively:
+id
+dt pg = fg pg = mvg/i (3.3)
+id
+dt hg = mg hg = Igωb/i (3.4)
+where fg and mg are the forces and moments acting on the body’s CG, ωb/i is the angular velocity of {b} with respect to {i}, and Ig is the inertia dyadic about the body’s CG (to be defined later). Time differentiation in the inertial frame {i} is denoted by id/dt. The application of these equations is often referred to as vectorial mechanics since both conservation laws are expressed in terms of vectors. When deriving the equations of motion it will be assumed: (1) that the craft is rigid and (2) that the NED frame {n} is inertial; see Section 2.1. The first assumption eliminates the consideration of forces acting between individual elements of mass while the second eliminates forces due to the Earth’s motion relative to a star-fixed inertial reference system. Consequently,
+vg/i ≈ vg/n (3.5)
+ωb/i ≈ ωb/n (3.6)
+
+
+Newton–Euler Equations of Motion about CG 47
+Time differentiation of a vector a in a moving reference frame {b} satisfies
+id
+dt a =
+bd
+dt a + ωb/i × a (3.7)
+where time differentiation in {b} is denoted as
+a ̇ :=
+bd
+dt a (3.8)
+For guidance and navigation applications in space it is usual to use a star-fixed reference frame or a reference frame rotating with the Earth. Marine craft are, on the other hand, usually related to {n}. This is a good assumption since the forces on marine craft due to the Earth’s rotation:
+ωe/i = 7.2921 × 10−5 rad/s (3.9)
+are quite small compared to the hydrodynamic forces. The Earth’s rotation should, however, not be neglected in global navigation or if the equations of motion of a drifting ship are analyzed.
+3.1.1 Translational Motion about CG
+From Figure 3.1 it follows that
+rg/i = rb/i + rg (3.10)
+where rg is the distance vector from CO (origin ob) to CG. Consequently, the assumption that {n} is inertial implies that (3.10) can be rewritten as
+rg/n = rb/n + rg (3.11)
+Time differentiation of rg/n in a moving reference frame {b} using (3.7) gives
+vg/n = vb/n +
+( bd
+dt rg + ωb/n × rg
+)
+(3.12)
+For a rigid body, CG satisfies
+bd
+dt rg = 0 (3.13)
+such that
+vg/n = vb/n + ωb/n × rg (3.14)
+
+
+48 Rigid-Body Kinetics
+From Euler’s first axiom (3.3) it follows that
+fg =
+id
+dt (mvg/i)
+=
+id
+dt (mvg/n)
+=
+bd
+dt (mvg/n) + mωb/n × vg/n
+= m( ̇vg/n + ωb/n × vg/n) (3.15)
+Finally, the vectors can be expressed in {b} such that the translational motion in CG becomes
+m[  ̇vb
+g/n + S(ωb
+b/ n )vb
+g/n] = f b
+g (3.16)
+where the cross-product is written in matrix form using the skew-symmetric matrix (2.10), that is S(ωb
+b/ n )vb
+g/n = ωb
+b/n × vb
+g/ n .
+3.1.2 Rotational Motion about CG
+The rotational dynamics (attitude dynamics) follows a similar approach. From Euler’s second axiom (3.4), it is seen that
+mg =
+id
+dt (Igωb/i)
+=
+id
+dt (Igωb/n)
+=
+bd
+dt (Igωb/n) + ωb/n × (Igωb/n)
+= Igω ̇ b/n − (Igωb/n) × ωb/n (3.17)
+From this it follows that
+Igω ̇ b
+b/n − S(Igωb
+b/ n )ωb
+b/n = mb
+g (3.18)
+since S(Igωb
+b/ n )ωb
+b/n = (Igωb
+b/n) × ωb
+b/n. This expression is also referred to as Euler’s equations.
+Definition 3.1 (Inertia Matrix)
+The inertia matrix Ig ∈ R3×3 about CG is defined as
+Ig :=
+⎡
+⎣
+Ix −Ixy −Ixz
+−Iyx Iy −Iyz
+−Izx −Izy Iz
+⎤
+⎦ , Ig = Ig > 0 (3.19)
+
+
+Newton–Euler Equations of Motion about CO 49
+where Ix, Iy and Iz are the moments of inertia about the xb, yb and zb axes, and Ixy = Iyx, Ixz = Izx and Iyz = Izy are the products of inertia defined as
+Ix = ∫
+V (y2 + z2) ρmdV ; Ixy = ∫
+V xy ρmdV = ∫
+V yx ρmdV = Iyx
+Iy = ∫
+V (x2 + z2) ρmdV ; Ixz = ∫
+V xz ρmdV = ∫
+V zx ρmdV = Izx
+Iz = ∫
+V (x2 + y2) ρmdV ; Iyz = ∫
+V yz ρmdV = ∫
+V zy ρmdV = Izy
+3.1.3 Equations of Motion about CG
+The Newton–Euler equations (3.16) and (3.18) can be represented in matrix form according to
+M CG
+RB
+[  ̇vb
+g/n
+ω ̇ b
+b/n
+]
++ CCG
+RB
+[ vb
+g/n
+ωb
+b/n
+] =
+[ fb
+g
+mb
+g
+]
+(3.20)
+or
+[ mI3×3 03×3
+03×3 Ig
+]
+} {{ }
+M CG
+RB
+[  ̇vb
+g/n
+ω ̇ b
+b/n
+] +
+[ mS(ωb
+b/n) 03×3
+03×3 −S(Igωb
+b/ n )
+]
+} {{ }
+CCG
+RB
+[ vb
+g/n
+ωb
+b/n
+] =
+[ fb
+g
+mb
+g
+]
+(3.21)
+3.2 Newton–Euler Equations of Motion about CO
+For marine craft it is desirable to derive the equations of motion for an arbitrary origin CO to take advantage of the craft’s geometric properties. Since the hydrodynamic forces and moments often are computed in CO, Newton’s laws will be formulated in CO as well. In order to do this, we will start with the equations of motion about CG and transform these expressions to CO using a coordinate transformation. The needed coordinate transformation is derived from (3.14). Moreover,
+vb
+g/n = vb
+b/n + ωb
+b/n × rb
+g
+= vb
+b/n − rb
+g × ωb
+b/n
+= vb
+b/n + S (rb
+g)ωb
+b/n (3.22)
+From this it follows that
+[ vb
+g/n
+ωb
+b/n
+]
+= H (rb
+g)
+[ vb
+b/n
+ωb
+b/n
+]
+(3.23)
+where rb
+g = [xg, yg, zg] and H (rb
+g) ∈ R3×3 is a transformation matrix:
+H (rb
+g) :=
+[ I3×3 S (rb
+g)
+03×3 I3×3
+]
+, H (rb
+g) =
+[ I3×3 03×3
+S(rb
+g) I3×3
+]
+(3.24)
+Notice that angular velocity is unchanged during this transformation. The next step is to transform (3.20) from CG to CO using (3.23). This gives
+H (rb
+g )M CG
+RB H (rb
+g)
+[  ̇vb
+b/n
+ω ̇ b
+b/n
+]
++ H (rb
+g )CCG
+RB H (rb
+g)
+[ vb
+b/n
+ωb
+b/n
+]
+= H (rb
+g)
+[ fb
+g
+mb
+g
+]
+(3.25)
+
+
+50 Rigid-Body Kinetics
+We now define two new matrices in CO according to
+M CO
+RB := H (rb
+g )M CG
+RB H (rb
+g) (3.26)
+CCO
+RB := H (rb
+g )CCG
+RB H (rb
+g) (3.27)
+Expanding these expressions gives
+M CO
+RB =
+[ mI3×3 −mS(rb
+g)
+mS(rb
+g) Ig − mS2(rb
+g)
+]
+(3.28)
+CCO
+RB =
+[ mS(ωb
+b/n) −mS(ωb
+b/n)S(rb
+g)
+mS(rb
+g)S(ωb
+b/n) −S ((Ig − mS2(rb
+g)) ωb
+b/ n )
+]
+(3.29)
+where we have used the fact that
+mS(rb
+g)S(ωb
+b/n)S (rb
+g)ωb
+b/n − S(Igωb
+b/ n )ωb
+b/n ≡ S ((Ig − mS2(rb
+g)) ωb
+b/ n )ωb
+b/n (3.30)
+3.2.1 Translational Motion about CO
+From the first row in (3.25) with matrices (3.28) and (3.29) it is seen that the translational motion about CO satisfies
+m[  ̇vb
+b/n + S (rb
+g)ω ̇ b
+b/n + S(ωb
+b/ n )vb
+b/n + S(ωb
+b/n)S (rb
+g)ωb
+b/n] = f b
+g (3.31)
+Since the translational motion is independent of the attack point of the external force f b
+g = fb
+b it follows that
+m[  ̇vb
+b/n + S(ω ̇ b
+b/ n )r b
+g + S(ωb
+b/ n )vb
+b/n + S2(ωb
+b/ n )r b
+g] = fb
+b (3.32)
+where we have exploited the fact that S (a)b = −S(a)b = S(b)a. An alternative representation of (3.32) using vector cross-products is
+m[  ̇vb
+b/n + ω ̇ b
+b/n × rb
+g + ωb
+b/n × vb
+b/n + ωb
+b/n × (ωb
+b/n × rb
+g)] = f b
+b (3.33)
+3.2.2 Rotational Motion about CO
+In order to express the rotational motion (attitude dynamics) about CO we will make use of the parallel-axes theorem that transforms the inertia matrix to an arbitrarily point.
+Theorem 3.1 (Parallel-Axes Theorem or Huygens–Steiner Theorem)
+The inertia matrix Ib = Ib ∈ R3×3 about an arbitrary origin ob is given by
+Ib = Ig − mS2(rb
+g) = Ig − m (rb
+g(rb
+g) − (rb
+g) rb
+g I3×3
+) (3.34)
+where Ig = Ig ∈ R3×3 is the inertia matrix about the body’s center of gravity.
+
+
+Rigid-Body Equations of Motion 51
+Proof. See Egeland and Gravdahl (2002).
+The lower-right elements in (3.28) and (3.29) can be reformulated by using the parallel-axes theorem. For instance,
+Ig + mS(rb
+g)S (rb
+g) = Ig − mS2(rb
+g)
+= Ib (3.35)
+while the quadratic term in (3.29) satisfies (follows from the Jacobi identity)
+S(rb
+g)S(ωb
+b/n)S (rb
+g)ωb
+b/n = −S(ωb
+b/ n )S 2 (r b
+g)ωb
+b/n (3.36)
+such that
+mS(rb
+g)S(ωb
+b/n)S (rb
+g)ωb
+b/n + S(ωb
+b/ n )I g ωb
+b/n = S(ωb
+b/ n )I b ωb
+b/n (3.37)
+Consequently, the rotational motion about CO is given by the last row in (3.25):
+Ibω ̇ b
+b/n + S(ωb
+b/ n )I b ωb
+b/n + mS(rb
+g )  ̇vb
+b/n + mS(rb
+g)S(ωb
+b/ n )vb
+b/n = mb
+b (3.38)
+where the moment about CO is
+mb
+b = mb
+g + rb
+g × fb
+g
+= mb
+g + S(rb
+g)f b
+g (3.39)
+Equation (3.38) can be written in cross-product form as
+Ibω ̇ b
+b/n + ωb
+b/n × Ibωb
+b/n + mrb
+g × ( ̇vb
+b/n + ωb
+b/n × vb
+b/n) = mb
+b (3.40)
+3.3 Rigid-Body Equations of Motion
+In the previous sections it was shown how the rigid-body kinetics can be derived by applying Newtonian mechanics. In this section, useful properties of the equations of motion are discussed and it is also demonstrated how these properties considerably simplify the representation of the nonlinear equations of motion.
+3.3.1 Nonlinear 6 DOF Rigid-Body Equations of Motion
+Equations (3.33) and (3.40) are usually written in component form according to the SNAME (1950) notation by defining:
+fb
+b = [X, Y, Z] - force through ob expressed in {b}
+mb
+b = [K, M, N] - moment about ob expressed in {b}
+vb
+b/n = [u, v, w] - linear velocity of ob relative on expressed in {b}
+ωb
+b/n = [p, q, r] - angular velocity of {b} relative to {n} expressed in {b}
+rb
+g = [xg, yg, zg] - vector from ob to CG expressed in {b}
+
+
+52 Rigid-Body Kinetics
+Applying this notation, (3.33) and (3.40) become
+m [  ̇u − vr + wq − xg(q2 + r2) + yg(pq − r ̇) + zg(pr + q ̇)] = X
+m [ ̇v − wp + ur − yg(r2 + p2) + zg(qr −  ̇p) + xg(qp + r ̇)] = Y
+m [  ̇w − uq + vp − zg(p2 + q2) + xg(rp − q ̇) + yg(rq +  ̇p)] = Z
+Ix  ̇p + (Iz − Iy)qr − (r ̇ + pq)Ixz + (r2 − q2)Iyz + (pr − q ̇)Ixy
++m [yg(  ̇w − uq + vp) − zg( ̇v − wp + ur)] = K
+Iyq ̇ + (Ix − Iz)rp − (  ̇p + qr)Ixy + (p2 − r2)Izx + (qp − r ̇)Iyz
++m [zg(u ̇ − vr + wq) − xg(  ̇w − uq + vp)] = M
+Izr ̇ + (Iy − Ix)pq − (q ̇ + rp)Iyz + (q2 − p2)Ixy + (rq −  ̇p)Izx
++m [xg( ̇v − wp + ur) − yg(  ̇u − vr + wq)] = N
+(3.41)
+The first three equations represent the translational motion, while the last three equations represent the rotational motion.
+Vectorial Representation
+The rigid-body kinetics (3.41) can be expressed in a vectorial setting as (Fossen, 1991)
+MRBν ̇ + CRB(ν)ν = τRB (3.42)
+where ν = [u, v, w, p, q, r] is the generalized velocity vector expressed in {b} and τRB = [X, Y, Z, K, M, N] is a generalized vector of external forces and moments.
+Property 3.1 (Rigid-Body System Inertia Matrix MRB)
+The representation of the rigid-body system inertia matrix MRB is unique and satisfies
+MRB = MRB > 0, M ̇ RB = 06×6 (3.43)
+where
+MRB =
+[ mI3×3 −mS(rb
+g)
+mS(rb
+g) Ib
+]
+=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+m 0 0 0 mzg −myg
+0 m 0 −mzg 0 mxg
+0 0 m myg −mxg 0
+0 −mzg myg Ix −Ixy −Ixz
+mzg 0 −mxg −Iyx Iy −Iyz
+−myg mxg 0 −Izx −Izy Iz
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(3.44)
+
+
+Rigid-Body Equations of Motion 53
+Here, I3×3 is the identity matrix, Ib = Ib > 0 is the inertia matrix according to Definition 3.1 and S(rb
+g) is a skew-symmetric matrix according to Definition 2.2.
+Matlab
+The rigid-body system inertia matrix MRB can be computed in Matlab as
+r g = [10 0 1]’ % location of the CG with respect to CO nu = [10 0 1 0 0 1]’ % velocity vector I g = 10000*eye(3) % inertia tensor m = 1000; % mass
+% rigid-body system inertia matrix MRB = [ m*eye(3) -m*Smtrx(r g) m*Smtrx(r g) I g ]
+which produces the numerical result
+MRB =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+1000 0 0 0 1000 0
+0 1000 0 −1000 0 10000
+0 0 1000 0 −10000 0
+0 −1000 0 10000 0 0
+1000 0 −10000 0 10000 0
+0 10000 0 0 0 10000
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+The matrix CRB in (3.42) represents the Coriolis vector term ωb
+b/n × vb
+b/n and the centripetal vector term ωb
+b/n × (ωb
+b/n × rb
+g). Contrary to the representation of MRB, it is possible to find a large number of representations for the matrix CRB.
+Theorem 3.2 (Coriolis–Centripetal Matrix from System Inertia Matrix) Let M be a 6 × 6 system inertia matrix defined as
+M=M =
+[ M11 M12
+M21 M22
+]
+> 0 (3.45)
+where M21 = M12. Then the Coriolis–centripetal matrix can always be parameterized such that C(ν) = −C (ν) by choosing (Sagatun and Fossen, 1991)
+C(ν) =
+[ 03×3 −S(M11ν1 + M12ν2)
+−S(M11ν1 + M12ν2) −S(M21ν1 + M22ν2)
+]
+(3.46)
+where ν1 := vb
+b/n = [u, v, w] , ν2 := ωb
+b/n = [p, q, r] and S is the cross-product operator according to Definition 2.2.
+
+
+54 Rigid-Body Kinetics
+Proof. The kinetic energy T is written in the quadratic form:
+T=1
+2 ν Mν, M = M > 0 (3.47)
+Expanding this expression yields
+T=1
+2
+(ν1 M11ν1 + ν1 M12ν2 + ν2 M21ν1 + ν2 M22ν2
+) (3.48)
+where M12 = M21 and M21 = M12. This gives
+∂T ∂ν1
+= M11ν1 + M12ν2 (3.49)
+∂T ∂ν2
+= M21ν1 + M22ν2 (3.50)
+Using Kirchhoff’s equations (Kirchhoff, 1869):
+d dt
+( ∂T ∂ν1
+)
++ S(ν2) ∂T
+∂ν1
+= τ1 (3.51)
+d dt
+( ∂T ∂ν2
+)
++ S(ν2) ∂T
+∂ν2
++ S(ν1) ∂T
+∂ν1
+= τ2 (3.52)
+where S is the skew-symmetric cross-product operator in Definition 2.2, it is seen that there are some terms dependent on acceleration, that is (d/dt)(∂T/∂ν1) and (d/dt)(∂T/∂ν2). The remaining terms are due to Coriolis–centripetal forces. Consequently,
+C(ν)ν :=
+[ S(ν2) ∂T
+∂ν1
+S(ν2) ∂T
+∂ν2 + S(ν1) ∂T
+∂ν1
+]
+=
+[ 03×3 −S( ∂T
+∂ν1 )
+−S( ∂T
+∂ν1 ) −S( ∂T
+∂ν2 )
+] [ ν1
+ν2
+]
+(3.53)
+which after substitution of (3.49) and (3.50) gives (3.46); see Sagatun and Fossen (1991) for the original proof of this theorem.
+We next state some useful properties of the Coriolis and centripetal matrix CRB(ν).
+Property 3.2 (Rigid-Body Coriolis and Centripetal Matrix CRB)
+According to Theorem 3.2 the rigid-body Coriolis and centripetal matrix CRB(ν) can always be represented such that CRB(ν) is skew-symmetric. Moreover,
+CRB(ν) = −CRB(ν), ∀ν ∈ R6 (3.54)
+The skew-symmetric property is very useful when designing a nonlinear motion control system since the quadratic form ν CRB(ν)ν ≡ 0. This is exploited in energy-based designs where Lyapunov functions play a key role. The same property is also used in nonlinear observer design. There exist several parametrizations that satisfy Property 3.2. Two of them are presented below:
+1. Lagrangian parametrization: Application of Theorem 3.2 with M = MRB yields the following expression:
+
+
+Rigid-Body Equations of Motion 55
+CRB(ν) =
+[ 03×3 −mS(ν1) − mS(S(ν2)rb
+g)
+−mS(ν1) − mS(S(ν2)rb
+g) mS(S(ν1)rb
+g) − S(Ibν2)
+]
+(3.55)
+which can be rewritten according to (Fossen and Fjellstad, 1995)
+CRB(ν) =
+[ 03×3 −mS(ν1) − mS(ν2)S(rb
+g)
+−mS(ν1) + mS(rb
+g)S(ν2) −S(Ibν2)
+]
+(3.56)
+In order to ensure that CRB(ν) = −CRB(ν), it is necessary to use S(ν1)ν1 = 0 and include S(ν1)
+in C{21}
+RB .
+2. Velocity-independent parametrizations: By using the cross-product property S(ν1)ν2 = −S(ν2)ν1,
+it is possible to move S(ν1)ν2 from C{12}
+RB to C{11}
+RB in (3.55). This gives an expression for CRB(ν) that is independent of linear velocity ν1 (Fossen and Fjellstad, 1995):
+CRB(ν) =
+[ mS(ν2) −mS(ν2)S(rb
+g)
+mS(rb
+g)S(ν2) −S(Ibν2)
+]
+(3.57)
+Notice that this expression is similar to (3.29) which was derived using Newton–Euler equations.
+Remark 3.1.
+Expression (3.57) is useful when ocean currents enter the equations of motion. The main reason for this is that CRB(ν) does not depend on linear velocity ν1 (uses only angular velocity ν2 and lever arm rb
+g). This can be further exploited when considering a marine craft exposed to irrotational ocean currents. According to Property 8.1 in Section 8.3:
+MRBν ̇ + CRB(ν)ν ≡ MRBν ̇r + CRB(νr)νr (3.58)
+if the relative velocity vector νr = ν − νc is defined such that only linear current velocities are used:
+ν := [uc, vc, wc, 0, 0, 0] (3.59)
+Since the ocean current (3.59) is assumed to be irrotational, Equation (3.58) can be proven using parametrization (3.57). The details are outlined in Section 8.3.
+
+
+56 Rigid-Body Kinetics
+Component Form
+To illustrate the complexity of 6 DOF modeling, the rigid-body Coriolis and centripetal terms in expression (3.55) are expanded according to give (Fossen, 1991)
+CRB(ν) =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+00 0
+00 0
+00 0
+−m(ygq + zgr) m(ygp + w) m(zgp − v)
+m(xgq − w) −m(zgr + xgp) m(zgq + u)
+m(xgr + v) m(ygr − u) −m(xgp + ygq)
+(3.60)
+m(ygq + zgr) −m(xgq − w) −m(xgr + v)
+−m(ygp + w) m(zgr + xgp) −m(ygr − u)
+−m(zgp − v) −m(zgq + u) m(xgp + ygq)
+0 −Iyzq − Ixzp + Izr Iyzr + Ixyp − Iyq
+Iyzq + Ixzp − Izr 0 −Ixzr − Ixyq + Ixp
+−Iyzr − Ixyp + Iyq Ixzr + Ixyq − Ixp 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+Matlab
+Theorem 3.2 is implemented in the Matlab MSS toolbox in the function m2c.m.The following example demonstrates how CRB(ν) can be computed numerically using the command
+% rigid-body system inertia matrix
+MRB = [1000*eye(3) zeros(3,3)
+zeros(3,3) 10000*eye(3)];
+% rigid-body Coriolis and centripetal matrix
+nu = [10 1 1 1 2 3]’
+CRB = m2c(MRB,nu)
+which produces the numerical result
+CRB =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0 0 0 0 1000 −1000
+0 0 0 −1000 0 10000
+0 0 0 1000 −10000 0
+0 1000 −1000 0 30000 −20000
+−1000 0 10000 −30000 0 10000
+1000 −10000 0 20000 −10000 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+3.3.2 Linearized 6 DOF Rigid-Body Equations of Motion
+The rigid-body equations of motion (3.42) can be linearized about ν0 = [U, 0, 0, 0, 0, 0] for a marine craft moving at forward speed U. This gives
+
+
+Rigid-Body Equations of Motion 57
+MRBν ̇ + C∗
+RBν = τRB (3.61)
+where
+C∗
+RB = MRBLU (3.62)
+and L is a selection matrix
+L=
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0000 0 0
+0000 0 1
+0 0 0 0 −1 0
+0000 0 0
+0000 0 0
+0000 0 0
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(3.63)
+The linearized Coriolis and centripetal forces are recognized as
+f c = C∗
+RBν =
+⎡
+⎢⎢⎢⎢⎢⎢⎢⎣
+0
+mUr
+−mUq
+−mygUq − mzgUr
+mxgUq
+mxgUr
+⎤
+⎥⎥⎥⎥⎥⎥⎥⎦
+(3.64)
+Simplified 6 DOF Rigid-Body Equations of Motion
+The rigid-body equations of motion can be simplified by choosing the origin of the body-fixed coordinate system according to the following criteria:
+1. Origin CO coincides with the CG: This implies that rb
+g = [0, 0, 0] , Ib = Ig (see Theorem 3.1), and
+MRB =
+[ mI3×3 03×3
+03×3 Ig
+]
+(3.65)
+A further simplification is obtained when the body axes (xb, yb, zb) coincide with the principal axes of inertia. This implies that Ig = diag{Icg
+x , Icg
+y , Icg
+z }.
+2. Translation of the origin CO such that Ib becomes diagonal: It is often convenient to let the body axes coincide with the principal axes of inertia or the longitudinal, lateral and normal symmetry axes of the craft. The origin of the body-fixed coordinate system can then be chosen such that the inertia matrix of the body-fixed coordinate system will be diagonal, that is Ib = diag{Ix, Iy, Iz}, by applying
+
+
+58 Rigid-Body Kinetics
+the parallel-axes theorem; see Theorem 3.1. Expanding (3.34) with Ib = diag{Ix, Iy, Iz} and Ig as a full matrix yields the following set of equations:
+Ix = Icg
+x + m(y2
+g + z2
+g)
+Iy = Icg
+y + m(x2
+g + z2
+g) (3.66)
+Iz = Icg
+z + m(x2
+g + y2
+g)
+where xg, yg and zg must be chosen such that
+mI cg
+yz x2
+g = −Icg
+xy Icg
+xz
+mI cg
+xz y2
+g = −Icg
+xy Icg
+yz (3.67)
+mI cg
+xy z2
+g = −Icg
+xz Icg
+yz
+are satisfied. For this case, (3.41) reduces to
+m [  ̇u − vr + wq − xg(q2 + r2) + yg(pq − r ̇) + zg(pr + q ̇)] = X
+m [ ̇v − wp + ur − yg(r2 + p2) + zg(qr −  ̇p) + xg(qp + r ̇)] = Y
+m [  ̇w − uq + vp − zg(p2 + q2) + xg(rp − q ̇) + yg(rq +  ̇p)] = Z
+Ix  ̇p + (Iz − Iy)qr + m [yg(  ̇w − uq + vp) − zg( ̇v − wp + ur)] = K
+Iyq ̇ + (Ix − Iz)rp + m [zg(  ̇u − vr + wq) − xg(  ̇w − uq + vp)] = M
+Izr ̇ + (Iy − Ix)pq + m [xg( ̇v − wp + ur) − yg(u ̇ − vr + wq)] = N
+(3.68)

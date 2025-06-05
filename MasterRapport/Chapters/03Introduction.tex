@@ -2,26 +2,130 @@
 \usepackage{graphicx}
 \graphicspath{{../Figures}}
 
+%\usepackage[round]{natbib}   % omit 'round' option if you prefer square brackets
+%\bibliographystyle{plainnat}
+
 \begin{document}
-\section{What's the issue}
-Marine plastic pollution is a widely documented issue in the world, most plastic sinks but most research is done on surface plastics. Subsurface plastics will leech and decay into the surrounding ocean. This is bad. Removing the plastics will stop them from leeching and decaying into the sea.
+\section{Marine Plastic Pollution}
+Marine plastic pollution is a widely documented issue. The exact amount of plastic is not known. The \citet{world_economic_forum_top_2022} estimate there to be betweel 75 and 199 million metric tons of plastic waste currently in the ocean, while \citet{jambeck_plastic_2015} estimated that the annual release in 2010 alone was between 4.8 and 12.7 metric tons. According to \citet{isobe_fate_2022}, most plastic types sink, however the majority of research on marine plastics is done on floating surface plastics. This means that the majority of the pollution is both unknown and unhandled.
+
+There are two major paths for health effects from plastic pollution, larger pieces being broken down into microplastics which then get taken up into the food chain, and material leeching into the surrounding seawater. Once microplastics have entered into the foodchain, leeching becomes a concern within creatures as well.
+
+Leeching refers to the chemical breakdown of materials going into solution, or compounds moving from one carrier to another. For example, bisphenol A (also known as BPA) is a material commonly used in polycarbonate production. \citet{rochester_bisphenol_2013} show in a meta-review that Bisphenol A can affect the endocrine system of humans, especially fetuses and infants. These materials can with certain types of exposure, such as mechanical abbrasion or acidity, leech from their polymerized form into the surrounding water. Other researchers, such as \citet{sorensen_organic_2023} show that some chemicals associated with rubbers and elastomers have a toxic effect on certain marine microalgae. \citet{sorhus_crude_2023} also shows the negative effects of crude oil on haddock roe and larvae. In short, plastic leeching has been shown to impact the health of both humans and other living things.
+
+Microplastics on the other hand, refer to small particles of plastics, less than 5mm in size along their longest axis. Microplastics might be broken up from larger pieces, for instance by wave motion grinding waste against the seafloor or against each other. Microplastics might also be released from products that include them intentionally, for instance certain exfoliating soaps or polishing compounds use small plastic beads to do the polishing/exfoliating work. The negative health impacts of microplastics both on human and animal life have been shown, for example by \citet{segovia-mendoza_how_2020} and \citet{zolotova_harmful_2022}. Filtering out microplastics is very difficult due to their small size clogging filters and other filtering methods quickly. One of the best solutions for dealing with microplastics is to simply avoid them being created and released. The release of microplastics is not something this report will go further into, but removing larger plastics from the seafloor would effectively halt their breakdown and further realeasing of microplastics.
+
+The above demonstrates the health effects of marine plastic pollution, but additionally there is the concern that the physical presence of plastics might harm or inhabit marine life. Ghost fishing for instance, is a large concern from an ecological perspective. Ghost fishing refers to when tools such as fishing nets or pots are lost at sea but continue to drift, allowing them to catch animals that end up harmed or dying without human control. \citet{matsuoka_review_2005} goes into the issues of ghost fishing in greater detail and explains more fully how and why it is an issue.
+
+\section{Previous work}
+Work regarding preventing plastics from entering the ocean generally would fall under public works. Services such as convenient trash collection from private people and businesses, fines for littering or mis-sorting waste and so on do some work. There are also some public works such as in the australian city of Kwinana where the city has installed drainage nets (viewable in \cref{fig:waste_net}) leading into a nature reserve to prevent contamination of the reserve from the waterways.
+
+\begin{figure}
+	\centering
+	\includegraphics{waste_net}
+	\caption{Illustration image of a drainage net installed in the city of Kwinana, Australia. The nets installed are used to collect waste before it enters a natural reserve. Image credit of the City of Kwinana}
+	\label{fig:waste_net}
+\end{figure}
+
+When it comes to collecting waste already released, there are several projects currently underway. One of the most famous is The Ocean Cleanup, illustrated seen in \cref{fig:oceancleanup}. The Ocean Cleanup have shown the efficacy of their solution and are currently working to reduce surface plastic pollution in the oceans and certain rivers. There are also projects like SeaClear, which primarily focus on removal of waste from shallower and clearer waters where visual identification from the sky is possible.
+
+\begin{figure}
+	\centering
+	\includegraphics{TheOceanCleanup}
+	\caption{The Ocean Cleanup's ocean solution, consisting of a large net dragged behind two ships. The net captures surface plastics into a hose that can later be collected and dumped on another ship for sorting and disposal. Credit: The Ocean Cleanup}
+	\label{fig:oceancleanup}
+\end{figure}
+
+\section{Remaining work}
+There is a missing piece to the puzzle of
+
+
+\section{This report}
+\end{document}
+This thesis concerns the development and testing of a control system for a sub-surface marine plastic waste removal system. The waste removal system is a part of the project under the name "Plan Sea", and due to the deep ties between the project and this thesis and its related project, Plan Sea will be mentioned frequently and explained intermittently.
+
+This chapter goes into the problem of marine plastic pollution, how to avoid and remove marine plastic waste, as well as going further into the Plan Sea project and defining the exact specifications for the project this thesis is based on.
 
 
 \section{Why's it an issue}
 Health effects, effects on animals etc., effects on the conditions in the ocean (acidity etc.). There's also very little research going into it currently.
 
-\section{What are we doing about it}
+\section{A layered approach}
+Solving the problem of marine plastic pollution can be seen as a layered approach. In the first layer is reducing the use of plastics in general. Particularly single use plastics should be reduced as much as possible, but more sustainably produced options made from natural materials should also be considered for things like clothing, crates, liners for fluid tanks or other places where plastics are used today.
+
+Still, there are some areas of life in which the use of plastics or single-use plastics cannot be removed practically. Healthcare is an example of this, where single-use items are necessary for hygeine considerations, as well as for practical purposes. For instance having intravenous needles not made from plastic was done before, but they are far less comfortable than their modern plastic counterparts.
+
+In cases like these, as well as others, the second layer steps in. The second layer here is increased or improved collection. Waste which is collected correctly doesn't end up in the natural environment. Having proper recycling efforts, as well as waste collection systems for consumers and industry is a massive boon here. Additionally under this layer is solutions such as river collection nets and similar. These solutions are made to catch waste which happens to get into the waterways or wastewater treatment system before it is released into the sea. However, environmental studies need to be performed to ensure undue ecological damage isn't done by essentially demming up rivers or waterways. There are also issues when it comes to the cost of maintenance and emptying of the collection systems.
+
+
+
+The two layers described above are helpful to prevent waste from getting into the oceans, as the saying goes "an ounce of prevetntion is worth a pound of cure". There are two problems with relying only on those two layers, however. Firstly, some litter inevitably slips through the cracks of the systems and ends up in the ocean despite our best efforts. This is unavoidable and will always be a problem so long as plastics exist. Secondly, and arguably more importantly: there are already many million tons of waste in the ocean. Even if our prevention efforts were perfectly implemented with no "leaks", the harm is already done, or in the process of being done as is the case with leeching. Thus, the third layer is necessary.
+
+The third layer of this solution is removal. By removing the waste from the oceans, it is possible to halt its harmful future effects on the environment. Today, most collection efforts are done by human divers in relatively shallow waters, such as harbours. Human divers are an excellet solution to this problem when it comes to their dexterity and detection capabilities, however diving is a dangerous activity. Nitrogen saturation in joints and tissues is a very real danger for divers who spend too long pressurized or don't decompress properly. Diving in areas such as harbours is dangerous with regard to boat traffic potentially harming the divers. Generally the diving done for litter collection would also be done on a volunteer basis by divers with only recreational certification and equipment. This means that for practical purposes, they would be limited to a maximum of 50m depth. This is due to how air is used more quickly at greater depths, as well as the problems of decompression or tissue saturation already mentioned. Nitrogen narcosis, a condition where a diver experiences sudden drowsiness, inattentiveness or sluggishness is also a greater risk at greater depths. There exist solutions for diving deeper than 50m of course, but generally then one would use expensive gas mixes rather than plain or oxygen-enriched air, as well as spending more time on descent and ascent for safety reasons. Saturation diving is another option for diving deeper, but it is so insurmountably expensive for litter collection that it is not a real option. Saturation diving generally requires specialized ships to stay in position for weeks or months at a time with on-board pressure chambers and diving bells for crews to go down. The wage costs alone would be prohibitive for such a non-profitable effort as litter collection.
+
+Clearly, there is a need for a solution which works at greater depths than humans can reach, and which is relatively cheap to implement and operate. This is where the Plan Sea project comes in. Plan Sea is a student-driven project which is undertaken at NTNU in Ålesund, Norway, and is the basis for this thesis. The Plan Sea project will be further discussed later. The third layer is also going to be the main focus of this thesis going forward, further options for reduction or prevention (layers 1 and 2) will not be discussed at length.
+
+Further in this thesis, plastic litter will be divided into four main categories, differentiated by size along the largest axis. The categories and their deciding size can be seen in \cref{tab:plastics}. This is a common distinction used in several articles discussing marine plastic pollution.
+
+\begin{table}
+\centering
+\begin{tabular}{c|c}
+\textbf{Plastic category} & \textbf{Size criteria} \\
+\hline
+Micro & \(l<5mm\) \\
+Meso & \(5mm<l<50mm\) \\
+Macro & \(50mm<l<500mm\)\\
+Mega & \(500mm<l\)\\
+\end{tabular}
+\caption{The four categories of plastic sizes used in this thesis, \(l\) representing the length along the longest axis of the litter}
+\label{tab:plastics}
+\end{table}
+
+\subsection{Potential removal strategies}
+The different sizes and types of litter necessitate a different approach for removing them. A tyre, used as a boat fender which fell off a boat, does not have the same removal strategy as a discarded fishing net or a bed of settled plastic dust. While large, discrete litter conceptually can be removed fairly simply, by using a large gripper for example. Complex or long shapes, like discarded nets, fishing lines or mooring lines, need different considerations because of a risk of entanglement with the removal equipment. Long shapes also need to be further considered with regards to how they have integrated into the seafloor already, if removal is possible without disturbing the sealife that might have taken home in it, or if it might need to be cut into several parts for material safety. Microplastics again require a new strategy. It's possible to trawl with very fine nets, though they would likely fill up very quickly due to the necessarily fine mask of the net to catch the plastics. An alternate option is a vacuum solution with a sort of size filtering option, a cyclonic filter for instance.
+
+The end result is that collecting meso- and microplastics, as well as large aspect ratio litter can be dangerous to equipment or require a lot of specialized development only for the collection equipment. It was decided that for the Plan Sea project, macro- and megaplastics were going to be the main focus of removal because these can be removed with a simple gripper/grasper/bucket solution.
 
 \subsection{Plan Sea project}
-\subsection{Previous work (Specialization project)}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\textwidth]{overview}
+	\caption{Sketch of the proposed solution from the Plan Sea project. The sketch includes people on the surface vessel, these are only meant for scale as the planned vessel will be unmanned.}
+	\label{fig:overview-sketch}
+\end{figure}
+The Plan Sea project is, at time of writing, an ongoing student-led project at NTNU in Ålesund. The goal of the project is to find a solution to the problems of subsurface marine plastic pollution as laid out above. In the project, several specialized groups have been working on separate fields. There has been a group dedicated to hull design, a group dedicated to energy- and propulsion systems, as well as groups for the mechatronic systems, the automation systems and systems for water-quality testing and collection.
 
-\section{How are we doing it}
-A system consisting of two distinct but connected parts. A surface vessel and a connected, non-buoyant remotely operated gripper.
+During the first year of the project, the result of the Plan Sea project has been designs for a solution, as well as primary material acquisition. The goal is to build an autonomous catamaran surface vessel which will work as a stable platform for a non-buoyant ROV which will descend through the water column and detect and collect macroplastics. In addition, a subsea basket solution was proposed which would reduce the amount of transit time for the ROV. A sketch of the total Plan Sea solution can be seen in \cref{fig:overview-sketch}. Generally, descent and ascent in marine ROV operations is measured on the order of meters per minute, this means that in order to descend to for instance 50m depth would generally take several minutes. If the goal of collection is for very large objects, for instance discarded rubber tyres or large fish crates, this might be worthwhile. However, to increase flexibility, the basket would make it worthwhile to collect smaller pieces as well, by having a place to return to underwater lets the ROV collect a piece of litter and place it in the basket, only ascending once the operation requires it.
 
+
+At time of writing, the hull for the Plan Sea project has been completed, as well as an azimuth thruster solution. The vessel is built from donated carbon fiber sandwich boards, donated by Brødrene Aa shipyard. The thrust configuration is with two electric azimuth thrusters placed at the stern. The thrusters themselves are made by Torqeedo, and the azimuth solution is developed in-house at NTNU.
+
+\section{Previous work (Specialization project)}
+
+This report is in a way a continuation of a specialization project\cite{specialization} done previously. The specialization project has always had the goal of being the groundwork for this master's thesis. The goal of the specialization project was to set up a framework to make work for the master's project easier. Part of the specialization project has been starting work on a simulator that can be used to work on a control system. The control system is currently rudimentary implemented and there is room for improvement.
+
+The goal of the development for the conttrol sytem is to have it be platform agnostic. That is, the control system does not care whether it's connected to a simulator or a vessel in the real world. The way this is ideally implemented is by using ROS2. ROS2 is a framework to control robotics, built around publishers and subscribers that all act around topics.
+
+An ideal solution will have a
+
+A major point of interest in the specialization project, along with making the groundwork for this project, was to find whether or not the towed ROV could be localized using the tether utilizing a sort of taut line localization \cite{app:taut-line}. This was found to be not possible due to the large delay in movement of the tether. As the ROV moves relative to the surface vessel or the other way around, the tether is affected by water resistance, leading essentially to a lag of the effects. If the ROV moves while the surface vessel stays stationary the tether follows the ROV and the ROV experiences this as an added resistance, but the surface vessel doesn't feel this effect until the effect has propogated all the way up the tether, up to several minutes later depending on the depth. The end result of this is that positioning and following for the surface vessel is essential for the ROV to be able to do its work. The surface vessel should follow the ROV's movement fairly closely, and the acceptable range of movement for the ROV before the surface vessel would need to follow should be essentially a cone shape with the tip at the surface vessel.
+
+\section{The focus of this project}
+This thesis is focused on a project related to the Plan Sea project. Plan Sea in itself is too large to do as a single-person-project, and thus this is only part of it. The goal for the project this thesis describes is to develop a control system which is extensible and usable for the full system, including surface vessel, ROV and crane. Additionally, the project has had as a goal to continue the development of the simulator from the specialization project to the point where the simulator and the real-life solution are equivalent from the point of view of the control system. This would allow for simpler development of systems and tuning of the controls by providing a realistic means of testing the development.
 
 \section{Reader's guide}
 
-\end{document}
+%\bibliography{../bibliography}
+
+
+
+
+
+
+
+
+
+
 \section{Marine plastic pollution}
 Plastic pollution in the oceans has been widely documented, however the amount of plastic currently in the ocean is uncertain. Jambeck et al.\cite{jambeck_plastic_2015} estimates that in 2010, somewhere between 4.8 and 12.7 million metric tons(MT) of plastic ended up in the ocean. According to the World Economic Forum\cite{world_economic_forum_top_2022}, there is between 75 and 199 million MT of plastic waste currently in the ocean. Around two thirds of all plastics that end up in the ocean are heavier than seawater \cite{isobe_fate_2022} meaning that they sink and either drift in the pelagic zone or end up on the seafloor as litter. Removing litter and plastic pollution on a large scale is difficult, removing it under many meters of ocean makes it much more difficult. 
 

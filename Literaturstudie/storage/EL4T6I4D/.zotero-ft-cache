@@ -1,0 +1,219 @@
+B
+Numerical Methods
+From a physical point of view, marine craft kinematics and kinetics are most naturally derived in the continuous-time domain using Newtonian or Lagrangian dynamics. In the implementation of a control law, it is desirable to represent the nonlinear dynamics in discrete time. This chapter discusses methods for discretization of linear and nonlinear systems, numerical integration and differentiation.
+B.1 Discretization of Continuous-Time Systems
+This section discusses discretization of linear state-space models with extensions to nonlinear systems using the method of Smith (1977).
+Forward Shift Operator
+For notational simplicity, let tk = kt such that x(k) = x(tk) and x(k + 1) = x(tk + h) where h is the sampling interval. The forward shift operator z is defined by
+x(k + 1) := zx(k) (B.1)
+B.1.1 Linear State-Space Models
+Consider the linear continuous-time model
+x ̇ = Ax + Bu (B.2)
+Assume that u is piecewise constant over the sampling interval h and equal to u(k). Hence, the solution of (B.2) can be written
+x(k + 1) = exp(Ah)x(k) +
+∫ (k+1)h
+kh
+exp(A[(k + 1)h − τ])Bu(k)dτ (B.3)
+which after integration yields the linear discrete-time model
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+542 Numerical Methods
+x(k + 1) = x(k) + u(k) (B.4)
+where
+= exp(Ah), = A−1( − I)B (B.5)
+Matlab
+The matrices and can be computed in Matlab as
+[PHI,DELTA]=c2d(A,B,h)
+Example B.1 (Discretization of a First-Order Linear System) Consider the SISO linear system
+x ̇ = ax + bu (B.6)
+y = cx + du (B.7)
+Application of (B.3) yields
+x(k + 1) = exp(ah)x(k) + b
+a [exp(ah) − 1]u(k) (B.8)
+y(k) = cx(k) + du(k) (B.9)
+Computation of the Transition Matrix
+The transition matrix can be computed numerically as
+= exp(Ah) = I + Ah + 1
+2! A2h2 + · · · + 1
+n! Anhn + · · · (B.10)
+Hence,
+= A−1( − I)B = h + 1
+2! Ah2 + · · · + 1
+n! An−1hn + · · · (B.11)
+Consequently, a first-order approximation (Euler discretization) is obtained by
+≈ I + Ah, ≈ Bh (B.12)
+Alternately, can be computed by applying a similarity transformation
+= exp(Ah) = E exp( h)E−1 (B.13)
+
+
+Discretization of Continuous-Time Systems 543
+where
+exp( h) = diag{exp(λih)} (B.14)
+is a diagonal matrix containing the eigenvalues λi of A and E is the corresponding eigenvector matrix.
+Matlab
+The transition matrix can be computed in Matlab as
+[L,E]=eig(A)
+PHI=E*exp(L*h)*inv(E)
+B.1.2 Nonlinear State-Space Models
+Consider the nonlinear model
+M ν ̇ + C(ν) ν + D(ν) ν + g(η) = Bu (B.15)
+ ̇η = J (η)ν (B.16)
+which can be expressed as a nonlinear time-invariant system
+x ̇ = f (x, u) (B.17)
+where x = [η , ν ] and
+f (x, u) =
+[ J (η)ν
+M−1[Bu − C(ν)ν − D(ν)ν − g(η)]
+]
+(B.18)
+Differentiating (B.17) with respect to time yields
+ ̈x = ∂f (x, u)
+∂x x ̇ + ∂f (x, u)
+∂u  ̇u (B.19)
+The effect of a zero-order hold in the digital-to-analog converter makes  ̇u = 0 over the discrete-time interval. Furthermore, the definition of the Jacobian
+J (x) := ∂f (x, u)
+∂x (B.20)
+implies that the nonlinear continuous equation (B.19) is reduced to a homogeneous equation
+ ̈x = J (x)x ̇ (B.21)
+Let
+J (x(k)) = ∂f (x, u)
+∂x
+∣∣∣∣x=x(k)
+(B.22)
+
+
+544 Numerical Methods
+Hence, the solution of the homogeneous differential equation is
+x ̇ = exp[J (x(0))(t − t0)] x ̇ (0) (B.23)
+Integration of this expression over a sampling interval h finally yields
+x(k + 1) = x(k) +
+∫h
+0
+exp[J(x(k))τ] x ̇ (k) dτ (B.24)
+Example B.2 (Discretization of a Second-Order Nonlinear System) Consider the SISO nonlinear system
+x ̇1 = x2 (B.25)
+x ̇2 = f (x2) + u (B.26)
+where x = [x1, x2] is the state vector and u is the input. The Jacobian is found as
+J (x) =
+[0 1
+0 a(x2)
+]
+, a(x2) = ∂f (x2)
+∂x2
+(B.27)
+Hence, applying a similarity transformation:
+exp[J (x(k))t] = E−1 exp( t)E (B.28)
+where is a diagonal matrix containing the eigenvectors of J and E is a matrix formed by the corresponding eigenvectors, yields
+exp[J(x(k))t] =
+[1 1
+ak [1 − exp(akt)]
+0 exp(akt)
+]
+(B.29)
+where ak = a(x2(k)). Hence,
+[ x1(k + 1)
+x2(k + 1)
+] =
+[ x1(k)
+x2(k)
+] +
+∫h
+0
+[1 1
+ak [1 − exp(akτ)]
+0 exp(akτ)
+][ x2(k)
+f (x2(k)) + u(k)
+]
+dτ (B.30)
+The discrete model (B.24) can be simplified by approximating the exponential function to the first order, that is
+exp[J (x(k))h] = I + J (x(k))h + O(h2) (B.31)
+B.2 Numerical Integration Methods
+In this section numerical solutions to the nonlinear time-varying system
+x ̇ = f (x, u, t) (B.32)
+where the control input u is assumed to be constant over the sampling interval h (zero-order hold), are discussed. Four different methods will be presented.
+
+
+Numerical Integration Methods 545
+B.2.1 Euler’s Method
+A frequently used method for numerical integration is forward Euler:
+x(k + 1) = x(k) + hf (x(k), u(k), tk) (B.33)
+The global truncation error for Euler’s method is of order O(h). Applying Euler’s method to a second-order system
+x ̇ = v (B.34)
+m ̇v + dv + kx = τ (B.35)
+yields
+v(k + 1) = v(k) + h
+[1
+m τ(k) − d
+m v(k) − k
+m x(k)
+]
+(B.36)
+x(k + 1) = x(k) + hv(k) (B.37)
+It should be noted that Euler’s method should only be applied to a well-damped second-order system and not an undamped oscillator. In fact an undamped oscillator will yield an unstable solution, as seen from Figure B.1, where the circle in the upper left-hand plot represents the stable region. An undamped oscillator will have eigenvalues on the imaginary axis, which clearly lie outside the circle.
+Forward and Backward Euler Integration
+A stable method for the undamped second-order system can be obtained by combining the forward and backward methods of Euler (dotted line in the upper left-hand plot in Figure B.1) according to
+Forward Euler: v(k + 1) = v(k) + h
+[1
+m τ(k) − d
+m v(k) − k
+m x(k)
+]
+(B.38)
+Backward Euler: x(k + 1) = x(k) + hv(k + 1) (B.39)
+Extension to Nonlinear Systems
+The methods of Euler can be extended to the more general nonlinear system
+ν ̇ = M−1 [Bu − C(ν)ν − D(ν)ν − g(η)] (B.40)
+ ̇η = J (η)ν (B.41)
+
+
+546 Numerical Methods
+Figure B.1 Stability regions for the Euler, Adams–Bashford, RK-2 and RK-4 methods.
+by the following set of discrete-time equations:
+ν(k + 1) = ν(k) + hM−1 [Bu(k) − C(ν(k))ν(k) − D(ν(k))ν(k) − g(η(k))] (B.42)
+η(k + 1) = η(k) + h [J (η(k))ν(k + 1)] (B.43)
+B.2.2 Adams–Bashford’s Second-Order Method
+Adams–Bashford integration is more computationally intensive than the schemes of Euler. For instance, the two-step Adams–Bashford integration
+x(k + 1) = x(k) + h
+[3
+2 f (x(k), u(k), tk) − 1
+2 f (x(k − 1), u(k − 1), tk−1)
+]
+(B.44)
+implies that the old value
+x ̇ (k − 1) = f (x(k − 1), u(k − 1), tk−1) (B.45)
+
+
+Numerical Differentiation 547
+must be stored. The global truncation error for this method is of order O(h2). The advantage with this method compared to Euler integration is seen from Figure B.1.
+B.2.3 Runge–Kutta Second-Order Method
+Heun’s integration method or Runge–Kutta’s second-order method (RK-2) is implemented as
+k1 = f (x(k), u(k), tk)
+k2 = f (x(k) + hk1, u(k), tk + h)
+x(k + 1) = x(k) + h
+2 (k1 + k2)
+(B.46)
+The global truncation error for Heun’s method is of order O(h2).
+B.2.4 Runge–Kutta Fourth-Order Method
+An extension of Heun’s integration method to the fourth order (RK-4) is
+k1 = f (x(k), u(k), tk)
+k2 = hf (x(k) + k1/2, u(k), tk + h/2) k3 = hf (x(k) + k2/2, u(k), tk + h/2) k4 = hf (x(k) + k3/2, u(k), tk + h)
+x(k + 1) = x(k) + 1
+6 (k1 + 2k2 + 2k3 + k4)
+(B.47)
+The global truncation error for the RK-4 method is of order O(h4).
+B.3 Numerical Differentiation
+Numerical differentiation is usually sensitive to noisy measurements. Nevertheless, a reasonable estimate η ̇f of the time derivative  ̇η of a signal η can be obtained by using a filtered differentiation. The simplest filter is obtained by the first-order low-pass structure
+ ̇ηf (s) = Ts
+Ts + 1 η(s) (B.48)
+corresponding to the continuous-time system
+x ̇ = ax + bu (B.49)
+y = cx + du (B.50)
+
+
+548 Numerical Methods
+with u = η, y =  ̇ηf , a = b = −1/T and c = d = 1. Using the results from Example B.1, the following discrete-time filter equations can be used to differentiate a time-varying signal:
+x(k + 1) = exp(−h/T )x(k) + [exp(−h/T ) − 1]u(k) (B.51)
+y(k) = x(k) + u(k) (B.52)

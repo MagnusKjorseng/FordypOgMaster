@@ -1,0 +1,1831 @@
+11
+Sensor and Navigation Systems
+Conventional ship and underwater vehicle control systems are implemented with a state estimator for processing of the sensor and navigation data. The quality of the raw measurements are usually monitored and handled by a signal processing unit or a program for quality check and wild-point removal. The processed measurements are transmitted to the sensor and navigation computer which uses a state estimator capable of noise filtering, prediction and reconstruction of unmeasured states. The most famous algorithm is the Kalman filter which was introduced in the 1960s (Kalman, 1960; Kalman and Bucy, 1961). Later, other methods based on passivity and nonlinear theory have been developed. Wave filtering is one of the most important issues to take into account when designing ship control systems (Fossen, 1994; Fossen and Perez, 2009). Environmental forces due to waves, wind and ocean currents are considered disturbances to the motion control system. These forces, which can be described in stochastic terms, are conceptually separated into low-frequency (LF) and wave-frequency (WF) components; see Figure 11.1. Waves produce a pressure change on the hull surface, which in turn induces forces. These pressureinduced forces have an oscillatory component that depends linearly on the wave elevation. Hence, these forces have the same frequency as that of the waves and are therefore referred to as wave-frequency forces. Wave forces also have a component that depends nonlinearly on the wave elevation (Newman, 1977; Faltinsen, 1990). Nonlinear wave forces are due to the quadratic dependence of the pressure on the fluid-particle velocity induced by the passing of the waves. If, for example, two sinusoidal incident waves have different frequencies, then their quadratic relationship gives pressure forces with frequencies at both the sum and difference of the incident wave frequencies. They also contribute with zero-frequency or mean forces. Hence, the nonlinear wave forces have a wider frequency range than the incident waves. The mean wave forces cause the craft to drift. The forces with a frequency content at the difference of the wave frequencies can have LF content, which can lead to resonance in the horizontal motion of marine craft with mooring lines or under positioning control (Faltinsen, 1990). The high-frequency wave-pressure-induced forces, which have a frequency content at the sum of the wave frequencies, are normally too high to be considered in ship-motion control, but these forces can contribute to structural vibration in the hull. For further details about wave loads and their effects on ship motion, see Newman (1977) and Faltinsen (1990). In low-to-medium sea states, the frequency of oscillations of the linear wave forces do not normally affect the operational performance of the craft. Hence, controlling only LF motion avoids correcting the motion for every single wave, which can result in unacceptable operational conditions for the propulsion system due to power consumption and potential wear of the actuators. Operations that require the control of only the LF motion include dynamic positioning, heading autopilots and thruster-assisted position
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+286 Sensor and Navigation Systems
+Figure 11.1 Separation of the total motion of a marine craft into LF and WF motion components.
+mooring. Dynamic positioning refers to the use of the propulsion system to regulate the horizontal position and heading of the craft. In thruster-assisted position mooring, the propulsion system is used to reduce the mean loading on the mooring lines. Additional operations that require the control of only the LF motion include slow maneuvers that arise, for example, from following underwater remotely operated vehicles. Operations that require the control of only the WF motions include heave compensation for deploying loads on the sea floor (Perez and Steinmann, 2007) as well as ride control of passenger vessels, where reducing roll and pitch motion helps avoid motion sickness (Perez, 2005). It is important that only the slowly varying forces are counteracted by the steering and propulsion systems; the oscillatory motion due to the waves (first-order wave-induced forces) should be prevented from entering the feedback loop. This is done by using wave filtering techniques (Balchen et al., 1976). A wave filter is usually a model-based observer that separates the position and heading measurements into LF and WF position and heading signals; see Figure 11.1.
+Definition 11.1 (Wave Filtering)
+Wave filtering can be defined as the reconstruction of the LF motion components from noisy measurements of position, heading and in some cases velocity and acceleration by means of a state observer or a filter.
+Remark 11.1
+If a state observer is applied, estimates of the WF motion components (first-order wave-induced forces) can also be computed.
+
+
+Low-Pass and Notch Filtering 287
+Wave filtering is crucial in ship motion control systems since the WF part of the motion should not be compensated for by the control system unless wave-induced vibration damping is an issue. This is the case for high-speed craft. If the WF part of the motion enters the feedback loop, this will cause unnecessary use of the actuators (thrust modulation) and reduce the tracking performance, which, again, results in increased fuel consumption. In this chapter, model-based wave filtering and observer design using linear wave response models are discussed. This is one of the most important features of a high-precision ship control system. The best commercial autopilot and DP systems all have some kind of wave filtering in order to reduce wear and tear on the steering machine, as well as thrust modulation.
+11.1 Low-Pass and Notch Filtering
+Low-pass and notch filters can be used to reduce motions induced by ocean waves in the feedback loop. This assumes that the filters can be implemented in series, as shown in Figure 11.2. For wave periods in the interval 5 s < T0 < 20 s, the dominating wave frequency (modal frequency) f0 of a wave spectrum will be in the range (see Section 8.2)
+0.05 Hz < f0 < 0.2 Hz (11.1)
+The circular frequency ω0 = 2πf0 corresponding to periods T0 > 5 s is
+ω0 < 1.3 rad/s (11.2)
+Waves within the frequency band (11.1) can be accurately described by first- and second-order wave theory. The first-order wave forces produce large oscillations about a mean wave force, which can be computed from second-order wave theory (see Figure 11.1). The mean wave (drift) force is slowly varying and is usually compensated for by using integral action in the control law, while wave filtering must be performed to remove first-order components from the feedback loop. For instance, first-order wave forces around f0 = 0.1 Hz can be close to or outside the control bandwidth of the marine craft depending of the craft considered. For a large oil tanker, the crossover frequency can be as low as 0.01 rad/s, as shown in Figure 11.3, while smaller vessels such as cargo ships and the Mariner class vessel are close to 0.05 rad/s. A feedback control system will typically move the bandwidth of these vessels up to 0.1 rad/s, which still is below the wave spectrum shown in Figure 11.3. However, the wave forces will be inside the bandwidth of the servos and actuators of the craft. Hence, the wave forces must be filtered out before
+Figure 11.2 LP and notch filters in series with the control system.
+
+
+288 Sensor and Navigation Systems
+Figure 11.3 Bode plots showing ψ/δ(s) for three different vessels and the JONSWAP wave spectrum for ω0 = 0.5 rad/s and Hs = 5 m.
+feedback is applied in order to avoid unnecessary control action. In other words, we do not want the rudder and thruster actuators of the ship to compensate for the first-order WF motion. This is usually referred to as wave filtering.
+11.1.1 Low-Pass Filtering
+For sea states where the WF motion is much higher than the bandwidth ωb of the controller, a low-pass filter can be used to filter out the WF motions if ωb satisfies
+ωb ωe (11.3)
+where
+ωe =
+∣∣∣∣ω0 − ω2
+0
+U
+g cos(β)
+∣∣∣∣ (11.4)
+is the frequency of encounter (see Figure 8.12). This is typically the case for large vessels such as oil tankers. In the autopilot case, the design objective can be understood by considering the measurement equation
+
+
+Low-Pass and Notch Filtering 289
+y(s) = hship(s)δ(s)
+} {{ }
+ψ(s)
++ hwave(s)w(s)
+} {{ }
+ψw (s)
+(11.5)
+where y(s) is the compass measurement, w(s) is a zero-mean Gaussian white noise process and δ(s) is the rudder input. The signal ψ(s) represents the LF motion, while ψw(s) is the WF motion. Linear theory suggests that, see (8.112) and (7.46),
+hwave(s) = Kws
+s2 + 2λω0s + ω2
+0
+(11.6)
+hship(s) = K(1 + T3s)
+s(1 + T1s)(1 + T2s) (11.7)
+Feedback directly from y will therefore include the WF motion. For a large tanker, proper wave filtering can be obtained by using a low-pass filter to produce an estimate of ψ(s) such that
+ψˆ (s) = hlp(s)y(s) (11.8)
+Consequently, the feedback control law δ should be a function of ψˆ and not y in order to avoid first-order wave-induced rudder motions. For instance, a first-order low-pass filter with time constant Tf can be designed according to
+hlp(s) = 1
+1 + Tf s , ωb < 1
+Tf
+< ωe (11.9)
+This filter will suppress forces over the frequency 1/Tf . This criterion is obviously hard to satisfy for smaller craft since ωb can be close to or even larger than ωe. Higher-order low-pass filters can be designed by using a Butterworth filter, for instance. The nth-order Butterworth filter:
+hlp(s) = 1
+p(s) (11.10)
+is found by solving the Butterworth polynomial:
+p(s)p(−s) = 1 + (s/jωf
+)2n (11.11)
+for p(s). Here n denotes the order of the filter while ωf is the cutoff frequency. For n = 1, . . . , 4 the solutions are
+(n = 1) hlp(s) = 1
+1 + s/ωf
+(n = 2) hlp(s) = ω2
+f
+s2 + 2ζωf s + ω2
+f
+; ζ = sin(45◦)
+
+
+290 Sensor and Navigation Systems
+Figure 11.4 Bode plot showing the Butterworth filter for n = 1, . . . , 4 with cutoff frequency ωf = 1.0 rad/s.
+(n = 3) hlp(s) = ω2
+f
+s2 + 2ζωf s + ω2
+f
+·1
+1 + s/ωf
+; ζ = sin(30◦)
+(n = 4) hlp(s) =
+2 ∏
+i=1
+ω2
+f
+s2 + 2ζiωf s + ω2
+f
+; ζ1 = sin(22.5◦), ζ2 = sin(67.5◦)
+A higher-order low-pass filter implies better disturbance suppression of the price of additional phase lags (see Figure 11.4).
+11.1.2 Cascaded Low-Pass and Notch Filtering
+For smaller craft the bandwidth of the controller ωb can be close to or within the range ωmin < ωe < ωmax of the wave spectrum. This problem can be handled by using a low-pass filter in cascade with a notch filter:
+ψˆ (s) = hlp(s)hn(s)y(s) (11.12)
+
+
+Low-Pass and Notch Filtering 291
+Figure 11.5 Bode plot showing the notch filter for ζ ∈ {0.1, 0.5, 0.9} and ω0 = 0.63 rad/s in cascade with a low-pass filter with time constant Tf = 0.1 s. The thick line represents three cascaded notch filters at ω1 = 0.4 rad/s, ω2 = 0.63 rad/s and ω3 = 1.0 rad/s.
+where
+hn(s) = s2 + 2ζωns + ω2
+n
+(s + ωn)2 (11.13)
+Here 0 < ζ < 1 is a design parameter used to control the magnitude of the notch while the notch frequency ωn should be chosen equal to the peak frequency ω0 of the spectrum for a marine craft at zero speed (dynamic positioning). The low-pass and notch filters are shown in Figure 11.5 for different values of ζ. For a marine craft moving at forward speed U the optimal notch frequency will be
+ωn = ωe (11.14)
+This frequency can be computed online by using a frequency tracker or adaptive filtering techniques. Since the estimate of ωn can be poor and one single-notch filter only covers a small part of the actual frequency range of the wave spectrum, an alternative filter structure consisting of three cascaded notch filters with fixed center frequencies has been suggested; see Grimble and Johnson (1989):
+hn(s) =
+3 ∏
+i=1
+s2 + 2ζωis + ω2
+i
+(s + ωi)2 (11.15)
+
+
+292 Sensor and Navigation Systems
+Figure 11.6 Block diagram showing the system model and the observer signal flow.
+The center frequencies of the notch filters are typically chosen as ω1 = 0.4 rad/s, ω2 = 0.63 rad/s and ω3 = 1.0 rad/s. This is shown in Figure 11.5. Notice that additional phase lag is introduced when using a cascaded notch filter.
+11.2 Fixed Gain Observer Design
+The simplest state estimator is designed as a fixed gain observer where the ultimate goal of the observer is to reconstruct the unmeasured state vector ˆx from the measurements u and y of a dynamical system (see Figure 11.6). In order for this to succeed, the system must be observable.
+11.2.1 Observability
+Observability can be understood as a measure for how well internal states x of a system can be inferred by knowledge of its external outputs u and y. The observability and controllability of a system are mathematical duals. More specifically, a system is said to be observable if, for any possible sequence of state and control vectors, the current state can be determined in finite time using only the outputs. In other words, this means that from the outputs of the system it is possible to determine the behavior of the entire system. If a system is not observable, this means that the current values of some of its states cannot be determined through output sensors. This implies that their value is unknown to the controller and, consequently, that it will be unable to fulfil the control specifications referred to these outputs. For time-invariant linear systems, a convenient observability test is given by the following definition:
+Definition 11.2 (Observability)
+Consider the linear time-invariant system:
+x ̇ = Ax + Bu (11.16)
+y = Hx (11.17)
+The state and output matrix (A, H) must satisfy the observability condition to ensure that the state x can be reconstructed from the output y and the input u. The observability condition requires that the matrix (Gelb et al., 1988)
+O = [H | A H | · · · | (A )n−1H ] (11.18)
+must be of full column rank such that (at least) a left inverse exists.
+
+
+Fixed Gain Observer Design 293
+11.2.2 Luenberger Observer
+Consider an observable linear time-invariant system:
+x ̇ = Ax + Bu + Ew (11.19)
+y = Hx + v (11.20)
+where w and v are zero-mean white noise terms. An observer copying the dynamics (11.19)–(11.20) under the assumption that the zero-mean noise terms w and v can be neglected is
+xˆ ̇ = Aˆx + Bu + γ(y, ˆy) (11.21)
+yˆ = H ˆx (11.22)
+where γ(y, ˆy) is an injection term to be constructed such that ˆx → x as t → ∞. Note that the variables of a state observer are commonly denoted by a “hat” to distinguish them from the variables of the equations satisfied by the physical system. The Luenberger observer is obtained by choosing the injection term γ as
+γ(y, ˆy) = Kε, ε = y − ˆy = H  ̃x (11.23)
+where K = constant is a matrix of observer gains. Assume that w = v = 0. Defining the estimation error as  ̃x := x − ˆx implies that the difference between (11.19) and (11.21) can be written
+ ̃x ̇ = A  ̃x − γ(y, ˆy) (11.24)
+For the Luenberger observer, the error dynamics becomes
+ ̃x ̇ = (A − KH)  ̃x (11.25)
+Asymptotical convergence of  ̃x to zero can be obtained for a constant K if the system (A, H) is observable, as explained in Section 11.2.1.
+Matlab
+If the observability matrix O is nonsingular, the poles of the error dynamics can be placed in the left half-plane by using the Matlab function:
+K = place(A′,H,p)′
+where p=[p 1,...,p n]is a vector describing the desired locations of the observer error poles (must be distinct). Notice that both K and A are transposed, since the dual problem of the regulator problem is solved.
+
+
+294 Sensor and Navigation Systems
+Examples 11.1–11.2 in Section 11.2.3 demonstrate how the Luenberger observer can be used in ship control when only compass measurements are available. Emphasis is placed on wave filtering and the estimation of the yaw rate.
+11.2.3 Case Study: Luenberger Observer for Heading Autopilots using only Compass Measurements
+An alternative to LP and notch filtering of wave-induced forces is to apply a state estimator (observer). A state estimator can be designed to separate the LF components of the motion from the noisy measurements by using a model of the ship and the WF motions. In fact, a model-based wave filter is well suited to separate the LF and WF motions from each other, even for marine craft, where the control bandwidth is close to or higher than the encounter frequency. It will now be shown how this can be done by considering a ship autopilot for heading control. It is assumed that the heading angle ψ is measured using a gyro or a magnetic compass while angular rate is left unmeasured, even though it is possible to use a gyro to measure the yaw rate ψ ̇ .
+Example 11.1 (Nomoto Ship Model Exposed to Wind, Waves and Ocean Currents)
+Assume that a first-order Nomoto model describes the LF motion of the ship with sufficient accuracy:
+ψ ̇ = r (11.26)
+r ̇ = − 1
+Tr+ K
+T (δ − b) + wr (11.27)
+b ̇ = − 1
+Tb
+b + wb (11.28)
+where the rudder offset b is modeled as a first-order Markov process with Tb T . In the limiting case, that is Tb → ∞, this reduces to a Wiener process (b ̇ = wb). The rudder bias model is needed to counteract slowly varying moments on the ship due to wave drift forces, LF wind and ocean currents. Consequently, the bias term b ensures that δ = b gives r = 0 and ψ = constant in the steady state. The linear wave model (8.122)–(8.123) can be used to model the wave response:
+ξ ̇w = ψw (11.29)
+ψ ̇ w = −ω2
+0ξw − 2λω0ψw + Kwww (11.30)
+The process noise terms wr, wb and ww are modeled as zero-mean Gaussian white noise processes. By combining the ship and wave models, the compass measurement equation can be expressed by the sum
+y = ψ + ψw + v (11.31)
+where v represents zero-mean Gaussian measurement noise. Notice that neither the yaw rate r nor the wave states ξw and ψw are measured. The resulting SISO state-space model for u = δ, x = [ξw, ψw, ψ, r, b] and w = [ww, wr, wb] becomes
+x ̇ = Ax + bu + Ew (11.32)
+y = h x + v (11.33)
+
+
+Fixed Gain Observer Design 295
+where
+A=
+⎡
+⎢⎢⎢⎣
+0 1 00 0 −ω2
+0 −2λω0 0 0 0 0 0 01 0 0 0 0 −1
+T −K
+T
+0 0 0 0 −1
+Tb
+⎤
+⎥⎥⎥⎦, b =
+⎡
+⎢⎢⎢⎢⎢⎣
+0
+0 0
+K T
+0
+⎤
+⎥⎥⎥⎥⎥⎦
+(11.34)
+E=
+⎡
+⎢⎢⎢⎢⎢⎣
+0 00 2λω0σ
+} {{ }
+Kw
+00
+0 00 0 10 0 01
+⎤
+⎥⎥⎥⎥⎥⎦
+, h = [0, 1, 1, 0, 0] (11.35)
+Matlab
+The following example shows how the Luenberger observer gains of a ship autopilot system can be computed in Matlab.
+Example 11.2 (Luenberger Observer Gains)
+It is straightforward to see that the autopilot model with WF, wind and ocean current model (11.34)–(11.35) is observable from the input δ to the compass measurement y. Let K = 1, T = 50, λ = 0.1, ω0 = 1 and Tb = 1000; then
+K = 1; T=50; lambda = 0.1; wo =1; Tb = 1000;
+A=[01000
+-wo*wo -2*lambda*wo 0 0 0
+00010
+0 0 0 -1/T -K/T
+0 0 0 0 -1/Tb ]
+h = [0,1,1,0,0]’
+n = rank(obsv(A,h’))
+results in n = 5 corresponding to rank(O) = 5. Hence, the system is observable according to Definition 11.2, implying that the states r, b, ψw and ξw can be reconstructed from a single measurement y = ψ + ψw + v using a Luenberger observer:
+xˆ ̇ = Aˆx + bu + k(y − yˆ) (11.36)
+yˆ = h ˆx (11.37)
+The filter gains can be computed by using pole placement in Matlab, for instance:
+k = place(A’,h,[p1,p2,p3,p4,p5])’
+where p1,p2,p3,p4 and p5 are the desired closed-loop poles of the error dynamics (11.25).
+
+
+296 Sensor and Navigation Systems
+11.3 Kalman Filter Design
+The Kalman filter is an efficient recursive filter that estimates the state of a linear or nonlinear dynamic system from a series of noisy measurements. It is widely used in sensor and navigation systems since it can reconstruct unmeasured states as well as remove white and colored noise from the state estimates. It is also possible to include wild-point removal capabilities. In cases of temporarily loss of measurements, the filter equations behave such as a predictor. As soon as new measurements are available, the predictor is corrected and updated online to give the minimum variance estimate. This feature is particularly useful when satellite signals are lost since the Kalman filter can predict the motion using only gyros and accelerometers. Inertial navigation systems and observers for inertial measurement units are discussed in Section 11.5. Together with the linear quadratic regulator (LQR), the Kalman filter solves the linear quadratic Gaussian (LQG) control problem; see Section 13.1. This section summarizes the most useful results for the design of discrete-time and continuous-time Kalman filters for marine craft. The key assumption when designing a Kalman filter is that the system model is observable. This is necessary in order to obtain convergence of the estimated states ˆx to x. Moreover, if the system model is observable (see Definition 11.2), the state vector x ∈Rn can be reconstructed recursively through the measurement vector y ∈Rm and the control input vector u ∈Rp as shown in Figure 11.6.
+11.3.1 Discrete-Time Kalman Filter
+The discrete-time Kalman filter (Kalman, 1960) is defined in terms of the discretized system model:
+x(k + 1) = x(k) + u(k) + w(k) (11.38)
+y(k) = Hx(k) + v(k) (11.39)
+where
+= exp(Ah) ≈ I + Ah + 1
+2 (Ah)2 + · · · + 1
+N! (Ah)N (11.40)
+= A−1( − I)B, = A−1( − I)E (11.41)
+and h is the sampling time.
+Matlab
+The discretized system matrices can be computed as
+[PHI,DELTA]=c2d(A,B,h)
+[PHI,GAMMA]=c2d(A,E,h)
+where PHI= , DELTA= and GAMMA= . Notice that Euler integration implies choosing N = 1 such that (k) = I + Ah.
+
+
+Kalman Filter Design 297
+Table 11.1 Discrete-time Kalman filter
+Design matrices Q(k) = Q (k) > 0, R(k) = R (k) > 0 (usually constant)
+ ̄x(0) = x0 Initial conditions P ̄ (0) = E[(x(0) − ˆx(0))(x(0) − ˆx(0)) ] = P0
+Kalman gain matrix K(k) = P ̄ (k)H (k) [H(k)P ̄ (k)H (k) + R(k)]−1 State estimate update ˆx(k) =  ̄x(k) + K(k) [y(k) − H(k) ̄x(k)] Error covariance update Pˆ (k) = [I − K(k)H(k)] P ̄ (k) [I − K(k)H(k)] +K(k)R(k)K (k), Pˆ (k) = Pˆ (k) > 0
+State estimate propagation  ̄x(k + 1) = (k)ˆx(k) + (k)u(k) Error covariance propagation P ̄ (k + 1) = (k)Pˆ (k) (k) + (k)Q(k) (k)
+The linear discrete-time Kalman filter algorithm is given in Table 11.1. This algorithm, however, requires that the state estimation error covariance matrix Pˆ (k) = Pˆ (k) > 0 is computed online. Since the matrix is symmetrical, the number of differential equations will be n(n + 1)/2 for P(k) ∈ Rn×n. In addition, there are n state estimates corresponding to ˆx(k).
+11.3.2 Continuous-Time Kalman Filter
+Consider the linear continuous-time system:
+x ̇ = Ax + Bu + Ew (11.42)
+where the process noise w is assumed to be a zero-mean Gaussian white noise process with covariance matrix Q = Q > 0. In the one-dimensional case Q corresponds to the squared standard deviation σ2. Furthermore, let the measurement equation (sensor system) be represented by
+y = Hx + v (11.43)
+where the measurement noise v is assumed to be a zero-mean Gaussian white noise process with covariance matrix R = R > 0. If the system (11.42)–(11.43) is observable (see Definition 11.2), the state vector x ∈Rn can be reconstructed recursively through the measurement vector y ∈Rm and the control input vector u ∈Rp (see Figure 11.6). The continuous-time KF algorithms are given in Table 11.2.
+Table 11.2 Continuous-time Kalman filter
+Design matrices Q(t) = Q (t) > 0, R(t) = R (t) > 0 (usually constant)
+ˆx(0) = x0 Initial conditions P(0) = E[(x(0) − ˆx(0))(x(0) − ˆx(0)) ] = P0
+Kalman gain matrix propagation K(t) = P(t)H (t)R−1(t)
+State estimate propagation ˆ ̇x(t) = A(t)ˆx(t) + B(t)u(t) + K(t)[y(t) − H(t)ˆx(t)] Error covariance propagation P ̇ (t) = A(t)P(t) + P(t)A (t) + E(t)Q(t)E (t) −P(t)H (t)R−1(t)H(t)P(t), P(t) = P (t) > 0
+
+
+298 Sensor and Navigation Systems
+In the linear case it is computationally advantageous to use the steady-state solution of the KF. This filter will in fact have the same structure as the fixed-gain observers of Section 11.2.3. The only difference is the method for computation of the filter gain matrix.
+Continuous-Time Steady-State Kalman Filter
+A frequently used simplification of the continuous-time Kalman filter is the steady-state solution obtained for the linear time-invariant (LTI) system:
+x ̇ = Ax + Bu + Ew (11.44)
+y = Hx + v (11.45)
+where w and v are zero-mean Gaussian white noise processes. The steady-state Kalman filter is given by
+ˆ ̇x = Aˆx + Bu + K∞(y − H ˆx) (11.46)
+K∞ = P∞H R−1 (11.47)
+where P∞ = P∞ > 0 is the positive definite solution of the algebraic matrix Riccati equation
+AP∞ + P∞A + EQE − P∞H R−1H P∞ = 0 (11.48)
+11.3.3 Extended Kalman Filter
+The Kalman filter can also be applied to nonlinear systems in the form
+x ̇ = f (x) + Bu + Ew (11.49)
+y = Hx + v (11.50)
+where f (x) is a nonlinear vector field. For this system, the state vector can be estimated using the discrete-time extended Kalman filter (EKF) algorithm of Table 11.3. The discrete-time quantities F(ˆx(k), u(k)), (k) and (k) in Table 11.3 can be found by using forward Euler integration, for instance. Moreover,
+F(ˆx(k), u(k)) ≈ ˆx(k) + h[f (ˆx(k)) + Bu(k)] (11.51)
+(k) ≈ I + h ∂f (x(k), u(k))
+∂x(k)
+∣∣∣∣x(k)= ˆx(k)
+(11.52)
+(k) ≈ hE (11.53)
+
+
+Kalman Filter Design 299
+Table 11.3 Discrete-time extended Kalman filter (EKF)
+Design matrices Q(k) = Q (k) > 0, R(k) = R (k) > 0 (usually constant)
+ ̄x(0) = x0 Initial conditions P ̄ (0) = E[(x(0) − ˆx(0))(x(0) − ˆx(0)) ] = P0
+Kalman gain matrix K(k) = P ̄ (k)H (k) [H(k)P ̄ (k)H (k) + R(k)]−1 State estimate update ˆx(k) =  ̄x(k) + K(k) [y(k) − H(k) ̄x(k)] Error covariance update Pˆ (k) = [I − K(k)H(k)] P ̄ (k) [I − K(k)H(k)] +K(k)R(k)K (k), Pˆ (k) = Pˆ (k) > 0
+State estimate propagation  ̄x(k + 1) = F(ˆx(k), u(k)) Error covariance propagation P ̄ (k + 1) = (k)Pˆ (k) (k) + (k)Q(k) (k)
+where h > 0 is the sampling time. The EKF has been widely used in many applications. In Jouffroy and Fossen (2010) it has been shown that the continuous-time EKF is incremental GES under the assumption that the P matrix of the Riccati equation is uniformly positive definite and upper bounded, that is
+pminI ≤ P(t) ≤ pmax I (11.54)
+for two strictly positive constants pmin and pmax. This guarantees that the estimates converge exponentially to the actual states.
+11.3.4 Corrector–Predictor Representation for Nonlinear Observers
+When implementing nonlinear observers, the corrector–predictor representation of the discrete-time EKF can be used to handle effectively slow measurement rates, multiple measurement rates and deadreckoning. Consider the continuous-time nonlinear observer:
+ˆ ̇x = f (ˆx, u) + γ(y, ˆy) (11.55)
+with the linear injection term
+γ(y, ˆy) = K(y − ˆy) (11.56)
+The discrete-time corrector–predictor formulation for the nonlinear system model (11.55) in terms of Euler integration becomes
+Corrector ˆx(k) =  ̄x(k) + Kd [y(k) −  ̄y(k)]
+Predictor  ̄x(k + 1) =  ̄x(k) + hf (ˆx(k), u(k)) (11.57)
+where Kd = hK and h is the sampling time. At each time tk a measurement y(k) is available, the corrector updates the state  ̄x(k) to ˆx(k). The updated state is used by the predictor to predict the states at time tk+1 based on the nonlinear system model x ̇ = f (x, u).
+Example 11.3 (Corrector–Predictor for Ship Navigation using Two Measurement Rates)
+Consider a ship navigation system where the predictor runs at 100 Hz. The IMU and GPS measurements, yIMU and yGPS, are received at 100 Hz (same as the sampling time) and 10 Hz, respectively.
+
+
+300 Sensor and Navigation Systems
+The corrector–predictor representation can be modified to handle two measurement frequencies by modifying the gain Kd or the measurement vector y according to
+h = 0.01
+GPS = 10
+ ̄x = x0
+sampling time
+counter for GPS measurements
+initial state vector
+while estimating
+Method A Method B
+yIMU = measurement yIMU = measurement
+yGPS = measurement
+Kd = [hkIMU, 0] Kd = [hkIMU, 10hkGPS]
+if GPS = 10 if GPS = 10
+Kd = [hkIMU, 10hkGPS] yGPS = measurement
+GPS = 0 GPS = 0
+end end
+if dead-reckoning (no updates) if dead-reckoning (no updates)
+Kd = [0, 0] Kd = [0, 0]
+end end
+y = [yIMU, yGPS] y = [yIMU, yGPS]
+ˆx =  ̄x + Kd [y − H  ̄x] ˆx =  ̄x + Kd [y − H  ̄x]
+u = control system (optionally) u = control system (optionally)
+ ̄x =  ̄x + hf (ˆx, u)  ̄x =  ̄x + hf (ˆx, u)
+GPS = GPS + 1 GPS = GPS + 1
+end
+Dead-reckoning refers to the case where there are no updates (signal loss) for a period of time. During sensor failures, the best thing to do is to trust the model without any updates. Hence, the corrector is bypassed by setting ˆx(k) =  ̄x(k) and prediction is based on the system model only:
+ ̄x(k + 1) =  ̄x(k) + hf ( ̄x(k), u(k)) (11.58)
+Notice that observers with linear injection terms can use both methods while observers with nonlinear injection terms only can use the second method.
+11.3.5 Case Study: Kalman Filter for Heading Autopilots using only Compass Measurements
+This section explains how observers and wave filters for heading autopilots can be designed.
+Heading Sensors
+The main sensor components for a heading controlled marine craft are:
+• Magnetic and/or gyroscopic compasses measuring ψ • Yaw rate gyro measuring r
+
+
+Kalman Filter Design 301
+In many commercial systems only the compass is used for feedback control since the yaw rate can be estimated quite well by a state estimator. A compass is the primary device for direction-finding on the surface of the Earth. Compasses may operate on magnetic or gyroscopic principles or by determining the direction of the Sun or a star. The discussions will be restricted to magnetic and gyroscopic compasses, since these are the primary devices onboard commercial ships and rigs. The magnetic compass is an old Chinese invention, which probably dates back to 100 AD. Knowledge of the compass as a directional device came to western Europe sometime in the 12th century and it is today a standard unit in all commercial and navy ships. A magnetic compass is in fact an extremely simple device (as opposed to a gyroscopic compass). It consists of a small, lightweight magnet balanced on a nearly frictionless pivot point. The magnet is generally called a needle. The magnetic field inside the Earth has its south end at the North Pole and opposite. Hence, the North end of the compass needle points towards the North Pole (opposite magnets attract). The magnetic field of the Earth is, however, not perfectly aligned along the Earth’s rotational axis. It is skewed slightly off center. This skew or bias is called the declination and it must be compensated for. It is therefore common to indicate what the declination is on navigational maps. Sensitivity to magnetic variations and declination cause problems in ship navigation. These problems were overcome after the introduction of the gyroscopic compass. The first recorded construction of the gyroscope is usually credited to C. A. Bohnenberger in 1810 while the first electrically driven gyroscope was demonstrated in 1890 by G. M. Hopkins (see Allensworth, 1999; Bennet, 1979). A gyroscope is a disk mounted on a base in such a way that the disk can spin freely on its x and y axes; that is the disk will remain in a fixed position in whatever directions the base is moved. A properly mounted gyroscope will always turn to match its plane of rotation with that of the Earth, just as a magnetic compass turns to match the Earth’s magnetic field. The large variations in the magnetic character of ships caused by electrical machinery and weapon systems made the construction of accurate declination or deviation tables for the magnetic compass very difficult. In parallel works, Dr H. Ansch ̈utz of Germany and Elmer Sperry of the USA worked on a practical application of Hopkins’ gyroscope. In 1908 Ansch ̈utz patented the first North-seeking gyrocompass, while Elmer Sperry was granted a patent for his ballistic compass, which includes vertical damping, three years later. In 1910, when the Ansch ̈utz gyro compass appeared, the problem with magnetic variations in ship navigation was eliminated. However, this compass proved to be quite unsatisfactory during rolling of the ship, since it produced an “intercardinal rolling error”. Therefore in 1912 Ansch ̈utz redesigned the compass to overcome this defect. One year later, the Sperry compass entered the market and it became a serious competitor with the Ansch ̈utz. Today gyroscopic compasses are produced by a large number of companies for both commercial and navy ships.
+System Model for Heading Autopilot Observer Design
+As in the case of positioning, we consider the first-order wave-induced motion as an output disturbance. Hence the measured yaw angle can be decomposed into
+y = ψ + ψw + v (11.59)
+where ψ is the response due to the control action and LF disturbance, ψw represents the first-order wave-induced motion and v is zero-mean Gaussian white measurement noise introduced by the compass. To estimate ψ and r from y, and at the same time obtain wave filtering, one can use a WF
+
+
+302 Sensor and Navigation Systems
+model to predict the wave motions ψw. The main tool for this is a linear time-invariant Kalman filter based on
+ξ ̇w = ψw (11.60)
+ψ ̇ w = −ω2
+0 ξw − 2λω0 ψw + w1 (11.61)
+where λ and ω0 are the relative damping ratio and peak frequency of the filter used to represent the wave-induced yaw motion. The yaw dynamics of a marine craft is given by the Nomoto model (see Section 7.2):
+ψ ̇ = r (11.62)
+rˆ ̇ = − 1
+Tr+ 1
+m (τwind + τN) + b + w2 (11.63)
+b ̇ = w3 (11.64)
+where b is a bias term and w1, w2 and w3 are zero-mean Gaussian white noise processes. The constant m = Iz − Nr ̇ is introduced for convenience such that the rudder angle δ generates a yaw moment τN given by
+τN = m K
+T δ = Nδδ (11.65)
+while τwind represents an optional term for wind feedforward. Notice that neither the yaw rate r nor the wave states ξw and ψw are measured. The resulting state-space model is
+x ̇ = Ax + bu + Ew (11.66)
+y = h x + v (11.67)
+where
+x = [ξw, ψw, ψ, r, b] (11.68)
+u = τwind + τN (11.69)
+w = [w1, w2, w3] (11.70)
+and
+A=
+⎡
+⎢⎢⎢⎣
+0 1 000 −ω2
+0 −2λω0 0 0 0 0 0 010 0 0 0 −1/T 1 0 0 000
+⎤
+⎥⎥⎥⎦, b =
+⎡
+⎢⎢⎢⎢⎢⎣
+0
+0
+0
+1/m
+0
+⎤
+⎥⎥⎥⎥⎥⎦
+(11.71)
+E=
+⎡
+⎢⎢⎢⎣
+000 100 000 010 001
+⎤
+⎥⎥⎥⎦, h = [0, 1, 1, 0, 0] (11.72)
+In order to implement a Kalman filter for a heading autopilot, the system model can be used in a discreteor continuous-time filter, as presented in Sections 11.3.1–11.3.2. The main problem in the realization
+
+
+Kalman Filter Design 303
+of the state estimator is that the parameters T, m, ω0 and λ are uncertain. The parameters T and m can be estimated from tests performed in calm water while the parameters ω0 and λ of the first-order WF model and the covariance of the driving noise w1 can be estimated from maneuvering trials or parameter estimation. Holzh ̈uter (1992) claims that the damping coefficient in the wave model can be chosen rather arbitrarily as long as it is low (typically λ = 0.01–0.1), whereas the wave frequency ω0 can be treated as a tunable or gain scheduled parameter. In some cases it can be advantageous to estimate ω0 online by applying a frequency tracker or adaptive control theory (Strand and Fossen, 1999).
+Matlab
+The following example illustrates how the Kalman filter gains can be computed in Matlab for a ship exposed to waves.
+Example 11.4 (Continuous-Time Steady-State KF for Ship Autopilots)
+For the ship-wave system (11.66)–(11.67), the SISO continuous-time state estimator takes the form
+ˆ ̇x = Aˆx + bu + k∞(y − h x) (11.73)
+where the Kalman filter gain is
+k∞ = 1
+r P∞h (11.74)
+The covariance matrix P∞ = P∞ > 0 is given by the ARE:
+AP∞ + P∞A + EQE − 1
+r P∞hh P∞ = 0 (11.75)
+The KF gain k∞ is computed in Matlab as
+R=r
+Q = diag{q11,q22,q33}
+[k,P] = lqe(A,E,h,Q,R)
+where the tuning of the filter is done by choosing the four design parameters r, q11, q22 and q33. The first of these, r, represents the compass covariance, which can be computed by logging a time series psi= ψ(t) of the compass at a constant heading. Hence, the Matlab command
+r=cov(psi)
+gives a good estimate of the measurement noise. The disadvantage with the KF approach is that information about the process noise w1, w2 and w3 represented by the weights q11,q22 and q33 are necessary. These three quantities are usually found by trial and error. The variance of the process and measurement noise will vary with each sea state, implying that several sets of KF gains must be computed.
+Example 11.5 (Kalman-Filter-Based Wave Filter for the Mariner Class Vessel)
+To illustrate the performance of Kalman filter-based wave filtering, we consider the case study in Fossen and Perez (2009) of an autopilot application taken from the Marine Systems Simulator (MSS, 2011). This
+
+
+304 Sensor and Navigation Systems
+Figure 11.7 Kalman filter performance for a heading autopilot designed for the Mariner class cargo ship: (a) shows the true LF heading ψ and estimate ψˆ , (b) shows the true LF heading rate r and estimate rˆ and (c) shows the WF component of the heading ψw and its estimate ψˆ w.
+simulation package implemented in Matlab-Simulink provides models of marine craft and a library of Simulink blocks for heading autopilot control system design. A Simulink block for Kalman filter-based wave filtering is also included. The marine craft considered is a 160 m Mariner class vessel with a nominal service speed of 15 knots, or 7.7 m/s. The parameters of a complete and validated nonlinear model for the Mariner class vessel are given in Fossen (1994). From the step tests performed on the nonlinear model, a first-order Nomoto model is identified with the parameters K = 0.185 s−1 and T = 107.3 s. Based on the time constant, a sampling period of 0.5 s is chosen for the implementation of the Kalman filter. The standard deviation of the noise of the compass is 0.5 degrees. From a record of heading motion while the rudder is kept constant, the parameters of the first-order wave-induced motion model are estimated, namely ζ = 0.1,
+ω0 = 1.2 rad/s, and the standard deviation of the noise driving the filter is σw1 = √300 rad/s. Figure 11.7 demonstrates the performance of the Kalman filter. The two upper plots show the true LF heading angle and rate together with the Kalman filter estimates while the lower plot shows the first-order wave-induced heading angle and its estimate.
+11.3.6 Case Study: Kalman Filter for Dynamic Positioning Systems using GNSS and Compass Measurements
+Kalman filtering (or optimal state estimation in the sense of minimum variance) allows the user to estimate the state x of a dynamic system from a noise-contaminated input–output pair (u, y). The interested reader
+
+
+Kalman Filter Design 305
+is advised to consult Brown and Hwang (1998) or Gelb et al. (1988) for details on Kalman filter design. Applications specific to the field of guidance and control can be found in Lin (1992). Dynamic positioning (DP) systems have been commercially available for marine craft since the 1960s. The first DP systems were designed using conventional PID controllers in cascade with low-pass and/or notch filters to suppress the wave-induced motion components. From the middle of the 1970s more advanced filtering techniques were available thanks to the Kalman filter (Kalman, 1960). This motivated Balchen and coauthors to develop optimal wave filtering and state estimation; see Balchen et al. (1976, 1980a, 1980b). KF-based wave filtering has also been discussed by Grimble et al. (1980a, 1980b), Fung and Grimble (1981, 1983), Fotakis et al. (1982), Sælid and Jenssen (1983), Sælid et al. (1983), Reid et al. (1984), Holzh ̈uter and Strauch (1987), Holzh ̈uter (1992), Sørensen et al. (1995, 1996, 2000), Fossen and Strand (2000) and Fossen and Perez (2009). In this section, the Kalman filter is presented for DP applications. Both observers include wave filtering, bias state estimation and reconstruction of the LF motion components, and estimates of the nonmeasured body velocities are considered. Positioning feedback systems are described more closely in Sections 12.2.10 and 13.1.6. Before observer design is discussed, a general introduction to navigation systems is given.
+Global Navigation Satellite Systems (GNSS)
+Several Global Navigation Satellite Systems (GNSS) provide autonomous geospatial positioning with global coverage. The United States NAVSTAR Global Positioning System (GPS) has been fully operative since 1995 (see Hofmann-Wellenhof et al., 1994; Parkinson and Spilker, 1995). In addition to GPS, the Russian GLObal’naya NAvigatsionnaya Sputnikovaya Sistema (GLONASS) has been restored; see Kayton and Fried (1997) and Leick (1995), for instance. A more recent and more accurate system is the European Union’s GALILEO positioning system, which will be complementary to GPS and GLONASS. For this purpose, integrated GNSS receivers capable of combining signals from one or more systems can be used. This also improves redundancy in marine control systems. The GNSS measurements are usually used in a motion control system that operates in the three planar degrees of freedom, namely surge (forward motion), sway (transverse motion) and yaw (rotation about the vertical axis, also called heading). The position of the marine craft is normally measured by differential GNSS, while the heading is measured by a gyrocompass. Additional types of sensors are usually available to ensure reliability of the positioning system, namely inertial measurement units, hydro acoustic position sensors, taut wires and laser sensors.
+• Differential and Augmented GNSS: The main idea of a differential GNSS system is that a fixed receiver located, for example, on shore with a known position is used to calculate the GNSS position errors. The position errors are then transmitted to the GNSS receiver on board the ship and used as corrections to the actual ship position. In a differential GNSS the horizontal positioning errors are squeezed down to less than 1 m, which is the typical accuracy of a ship positioning system today (Hofmann-Wellenhof et al., 1994). • Carrier Differential GNSS: A GNSS receiver in lock is able to track the phase shift of the carrier and output the fractional phase measurement at each epoch. However, the overall phase measurement contains an unknown number of carrier cycles. This is called the integer ambiguity (N). This ambiguity exists because the receiver merely begins counting carrier cycles from the time a satellite signal is placed in an active track. For GPS, the precision of the phase measurement is about 0.01 cycles (≈ 0.01 × 19 cm = 1.9 mm), and if N is determined, it allows for highly accurate position measurements. Ambiguity resolution is a very active research area, and there are several receivers known as real-time kinematic (RTK) receivers on the market today that utilize carrier measurements to achieve position accuracy in the order of a few centimeters. These position measurements are, however, not as robust as GPS and DGPS.
+
+
+306 Sensor and Navigation Systems
+System Model for Dynamic Positioning Observer Design
+In Section 7.3 it was shown that the 3 DOF nonlinear model for DP can be written as
+ ̇η = R(ψ)ν (11.76)
+Mν ̇ + CRB(ν)ν + D exp(−αVrc)νr + d(Vrc, γrc) = τ + τwind (11.77)
+where η = [N, E, ψ] , ν = [u, v, r] and
+d(Vrc, γcr) =
+⎡
+⎣
+−1
+2 ρAFcCX(γrc)V 2
+rc −1
+2 ρALcCY (γrc)V 2
+rc −1
+2 ρALcLoaCN (γrc)V 2
+rc − N|r|rr|r
+⎤
+⎦ (11.78)
+This model is highly nonlinear but it is possible to use the extended KF to estimate the velocities and ocean currents using only position and heading measurements. However, the model can be simplified. In particular, CXc (γrc), CYc (γrc) and CNc (γrc) are difficult to estimate with accuracy and extensive hydrodynamic tests are expensive to perform. In such cases, it is common practice to simplify the observer model in terms of a linear damping matrix and a bias term in the form (Fossen and Strand, 1999b)
+D exp(−αVrc)νr + d(Vrc, γrc) ≈ Dν − R (ψ)b (11.79)
+where
+D=
+⎡
+⎣
+d11 0 0
+0 d22 d23
+0 d32 d33
+⎤
+⎦, b =
+⎡
+⎣
+b1
+b2
+b3
+⎤
+⎦ (11.80)
+In this model, the effects of the ocean currents as well as unmodeled nonlinear dynamics are lumped into a bias term b. The resulting DP model becomes
+ξ ̇ = Awξ + Eww1 (11.81)
+ ̇η = R(ψ)ν (11.82)
+b ̇ = w2 (alternatively b ̇ = −T −1b + w2) (11.83)
+Mν ̇ = −Dν + R (ψ)b + τ + τwind + w3 (11.84)
+y = η + Cwξ + v (11.85)
+where the output ηw = Cwξ represents three linear wave response models in surge, sway and yaw with state vector ξ ∈ R6 and Aw ∈ R6×6, Ew ∈ R6×3 and Cw ∈ R3×6 are constant matrices of appropriate dimensions describing the sea state. The variables wi (i = 1, 2, 3) are zero-mean Gaussian noise vectors representing model uncertainty. The measurement y is the sum of the LF and WF components corresponding to the GNSS and compass measurements. The bias is usually modeled as a Wiener process (random walk):
+b ̇ = w2 (11.86)
+An alternative model is the first-order Markov model:
+b ̇ = −T −1b + w2 (11.87)
+where T = diag{T1, T2, T3} ∈ R3×3 is a user-specified diagonal matrix of positive bias time constants. These models can be used to describe slowly varying environmental forces and moments due to:
+
+
+Kalman Filter Design 307
+• second-order wave drift forces • ocean currents • wind forces (alternatively implemented as wind feedforward)
+The estimate of b will be nonphysical since it contains several components. Many DP operators call this DP current since it is experienced as a drift force due to second-order wave drift forces, ocean currents and unmodeled dynamics. The model (11.81)–(11.85) is nonlinear since the kinematic transformation matrix R(ψ) depends on the state ψ. This suggests that the DP observer must be based on the extended KF formulation. For a DP system operating at constant heading or slow turning rates, the following assumption can be used:
+Assumption (Constant Heading): The yaw rate is zero (r = 0) such that  ̇R(ψ) = 0.
+Hence, the use of vessel parallel coordinates implies that (see Section 7.5.3)
+ηp = R (ψ)η (11.88)
+bp = R (ψ)b (11.89)
+Consequently, the kinematics (11.76) can be approximated by a linear model:
+ ̇ηp = R (ψ) ̇η +  ̇R (ψ)η
+= R (ψ)R(ψ)ν +  ̇R (ψ)η
+= ν +  ̇R (ψ)η
+≈ ν (11.90)
+If the heading angle is constant, the bias model in vessel parallel coordinates can be formulated as
+b ̇p = w2 (11.91)
+Remark: Notice that if the heading angle is changed, bp needs time to converge to its new value due to the dependency of the rotation matrix. In many commercial systems, the constant heading assumption is removed by designing an EKF for the nonlinear model (11.76)–(11.77) which includes the rotation matrix.
+Linear DP Observer Model for Constant Heading
+The resulting DP observer model in vessel parallel coordinates becomes
+ξ ̇ = Awξ + Eww1 (11.92)
+ ̇ηp = ν (11.93)
+b ̇p = w2 (alternatively b ̇p = −T −1bp + w2) (11.94)
+Mν ̇ = −Dν + bp + τ + τwind + w3 (11.95)
+y = ηp + Cwξ + v (11.96)
+
+
+308 Sensor and Navigation Systems
+The control forces usually have two components:
+τ = −τˆ wind + Buu (11.97)
+where τˆ wind is an estimate of the wind forces implemented by using feedforward compensation and Buu represents actuator forces. The wind feedforward term, which is proportional to the square of the measured wind velocity, depends on the craft’s projected area in the direction of the wind (see Section 8.1). The vector u is the command to the actuators, which are assumed to have a much faster dynamic response than the craft; thus the coefficient Bu represents the mapping from the actuator command to the force generated by the actuator. For example, if the command to a propeller is the rotation speed, then the corresponding coefficient in Bu maps the speed to the generated thrust. The resulting model for a DP observer design is the fifteenth-order state-space model:
+x ̇ = Ax + Bu + Ew (11.98)
+y = Hx + v (11.99)
+where x = [ξ , ηp , bp , ν ] ∈ R15 is the state vector, u ∈ Rp (p ≥ 3) is the control vector, w = [w1 , w2 , w3 ] ∈ R9 represents the process noise vector and v ∈ R3 is a vector of measurement noise. The system matrices are
+A=
+⎡
+⎢⎣
+Aw 06×3 06×3 06×3
+03×6 03×3 03×3 I3×3
+03×6 03×3 −T −1 03×3
+03×6 03×3 M−1 −M−1D
+⎤
+⎥⎦, B =
+⎡
+⎢⎢⎢⎣
+06×p
+03×p
+03×p
+M −1 Bu
+⎤
+⎥⎥⎥⎦ (11.100)
+E=
+⎡
+⎢⎣
+Ew 06×3 06×3
+03×3 03×3 03×3
+03×3 I3×3 03×3
+03×3 03×3 M−1
+⎤
+⎥⎦ , H = [ Cw I3×3 03×3 03×3
+] (11.101)
+Continuous-Time Kalman Filter
+The continuous-time filter equations for (11.98) and (11.99) are (see Table 11.2 in Section 11.2.3)
+ˆx ̇ = Aˆx + Bu + PH R−1
+} {{ }
+K
+(y − H ˆx) (11.102)
+P ̇ = AP + PA + EQE − PH R−1HP (11.103)
+Notice that the covariance matrices Q = Q ∈ R9×9 and R = R ∈ R3×3 must be specified by the user. The measurement covariance matrix can be chosen as
+R = diag {σ2
+v1, σ2
+v2, . . . , σ2
+vp
+}
+where the covariance σ2
+vi of the measurement noise of the sensor i can be estimated by the sample covariance from a data record taken while the craft is at port with no motion. The matrix Q can also be chosen to be diagonal with positive tunable parameters. These are usually found by trial and error. The estimation of the covariance Q of the state noise w in (11.98) is more complex since it depends
+
+
+Kalman Filter Design 309
+on the sea state, the heading of the craft relative to the environmental forces and how uncertain the model is. This covariance matrix is chosen to be block diagonal, that is
+Q = diag{Q1, Q2, Q3} (11.104)
+The matrix Q1 ∈ R3×3 is the covariance of the noise w1, which drives the noise filter representing linear wave-induced motion, Q2 ∈ R3×3 is the covariance of the noise w2, which represents the uncertainty in the equation of motion, and Q3 ∈ R3×3 is the covariance of the noise w3, which represents the uncertainty in the bias term that models the rest of the environmental forces. The matrices Q2 and Q3 are usually chosen to be diagonal. The entries of the matrix Q2 are taken as a fraction of the variance of the position measurement noises. The entries of Q3 are high values. These choices provide a filter with an appropriate balance of the uncertainty in various parts of the model. The covariance Q1 is estimated together with the parameters of the WF motion model from data measured before and during the operation of the craft.
+Discrete-Time Kalman Filter
+Since the GNSS measurement frequency can be as low as 1–10 Hz it is advantageous to implement the discrete-time version of the KF. The discrete-time system model is written as
+x(k + 1) = x(k) + u(k) + w(k) (11.105)
+y(k) = Hx(k) + v(k) (11.106)
+where
+= exp(Ah) (11.107)
+= A−1( − I)B (11.108)
+= A−1( − I)E (11.109)
+Here h is the sampling time, and the equivalent discrete-time noises w(k) and v(k) are Gaussian and white with zero mean. The discrete-time Kalman filter uses the corrector–predictor representation (see Table 11.1 in Section 11.3.1):
+Kalman Gain:
+K(k) = P ̄ (k)H (k) [H(k)P ̄ (k)H (k) + R(k)]−1 (11.110)
+Corrector:
+Pˆ (k) = [I − K(k)H(k)]P ̄ (k)[I − K(k)H(k)] + K(k)R(k)K (k) (11.111)
+ˆx(k) =  ̄x(k) + K(k)[y(k) − H(k) ̄x(k)] (11.112)
+Predictor:
+ ̄x(k + 1) = (k)ˆx(k) + (k)u(k) (11.113)
+P ̄ (k + 1) = (k)Pˆ (k) (k) + (k)Q(k) (k) (11.114)
+
+
+310 Sensor and Navigation Systems
+In order to implement a Kalman filter, the parameters of the model as well as the covariance of the state measurement noises in the model are necessary. The mass and damping parameters of the model can be initially estimated from hydrodynamic computations. Then, an update of the parameter estimates can be obtained from data of tests performed in calm water (Fossen et al., 1996). The parameters are re-estimated after significant changes in heading or at regular intervals of 20 minutes, which is the time period for which the sea state can be considered to be stationary. Since the craft is in a positioning control mode, the total motion measured can be recorded and detrended to obtain an estimate of the wave-induced motion vector ˆηw(k), or, equivalently, a first-order high-pass filter can be used (Holzh ̈uter and Strauch, 1987). These data can then be used to estimate the parameters of the wave-induced motion model, for which it is convenient to consider the directly parameterized innovations form (Ljung, 1999)
+ξˆ(k + 1) = Aw(θ)ξˆ(k) + Kw(θ) (k) (11.115)
+ˆηw(k) = Cw(θ)ξˆ(k) + (k) (11.116)
+where θ is the vector of parameters to be estimated and (k) is the vector of innovations. The parameter estimation problem can then be formulated as (Fossen and Perez, 2009)
+θˆ = arg min
+θ
+det
+N ∑
+k=1
+ε(k, θ)ε(k, θ) (11.117)
+with
+(k, θ) = ˆηw(k) − Cw(θ)ξˆ(k) (11.118)
+ξˆ(k + 1) = Aw(θ)ξˆ(k) + Kw(θ) (k, θ) (11.119)
+where ηw(k) is replaced by the estimate ˆηw(k) obtained from detrending the measured data. Equations (11.117)–(11.119) comprise a standard prediction error estimation problem whose solution is related to the maximum likelihood estimate of the parameter vector θ (Harvey, 1989; Ljung, 1999). Once the parameters of the mode are estimated, the covariance ˆQ of the innovations can also be estimated from the sample covariance of the predictions errors. Then, the Kalman filter can be implemented with the innovation WF model and thus we can chose Q1 = ˆQ . This choice entails no loss of information. An alternative to the procedure described above consists of fixing the damping ζ of the WF model to a value in the range 0.01 to 0.1 as suggested in Holzh ̈uter (1992) and estimate only the natural frequency ω0 and noise covariance (Holzh ̈uter and Strauch, 1987; Holzh ̈uter, 1992). This estimation approach is summarized in Fossen (1994), where recursive least squares is used for parameter estimation. A related approach, also based on recursive least squares, is given in Perez (2005).
+11.4 Nonlinear Passive Observer Designs
+The drawback of the Kalman filter is that it is difficult and time-consuming to tune the state estimator, which is a stochastic system with 15 states and 120 covariance equations. The main reason for this is that the numerous covariance tuning parameters may be difficult to relate to physical quantities. This results in an ad hoc tuning procedure for the process covariance matrix Q while the measurement covariance matrix R usually is well defined in terms of sensor specifications.
+
+
+Nonlinear Passive Observer Designs 311
+In the 1990s, vectorial observer backstepping was presented as an alternative design methodology for DP state estimation (Fossen and Grøvlen, 1998). The motivation for this was to avoid vessel parallel coordinates or linearization of the yaw kinematics in order to obtain a global stability result. Another motivating factor was to reduce the relatively time-consuming process of tuning the Kalman filter covariance matrices online. In fact, vectorial observer backstepping resulted in a uniformly globally exponentially stable (UGES) output feedback control system, which could be directly applied to stationkeeping of ships and rigs. The work of Fossen and Grøvlen (1998) is, however, based on a simplified model of the environmental forces, since it is assumed that the WF motion and bias states can be neglected in the design. Aarset et al. (1998) have shown that these results can be extended to the general case by including a dynamic model for wave filtering and bias state estimation. It is also possible to extend this result to ships that are course-unstable (open-loop unstable in sway and yaw) thanks to the results by Robertson and Johansson (1998) and Lindegaard and Fossen (2001b). A drawback with observer backstepping and also Kalman filter-based design techniques is that a relatively large number of parameters must be determined through experimental testing of the craft. This motivated the research of a nonlinear passivity-based observer, since passivity arguments simplify the tuning procedure significantly (Fossen and Strand, 1999b). Hence, the time needed for sea trials and tuning can be drastically reduced. The nonlinear passive observer, as opposed to a linearized or extended Kalman filter, guarantees global convergence of all estimation errors (including the bias terms) to zero. Hence, only one set of observer gains is needed to cover the whole state space. In addition, the number of observer tuning parameters is significantly reduced and the wave filter parameters are directly coupled to the dominating wave frequency. Passivity implies that the phase of the error dynamics is limited by 90 degrees, which gives excellent stability properties. Passivity theory also proved to be a new tool with respect to accurate tuning of the observer. The proposed nonlinear observer opens the way for new controller designs that are more in line with the actual structure of the physical system, for instance by using a nonlinear separation principle (Loria et al., 2000). For extensions to adaptive wave filtering, see Strand and Fossen (1999), while extensions to position mooring systems are found in Strand (1999).
+11.4.1 Case Study: Passive Observer for Dynamic Positioning using GNSS and Compass Measurements
+The passive observer is based on Fossen and Strand (1999b) in which the Kalman filter zero yaw rate assumption is removed. The following assumptions are, however, necessary to prove passivity:
+Assumption P1: w = 0 and v = 0. The zero-mean Gaussian white noise terms are omitted in the analysis of the observer. If they are included in the Lyapunov function analysis the error dynamics will be uniformly ultimated bounded (UUB) instead of uniform global asymptotical/exponential stable (UGAS/UGES). Assumption P2: R(y3) = R(ψ), implying that y3 = ψ + ψw ≈ ψ. This is a good assumption since the magnitude of the wave-induced yaw disturbance ψw will normally be less than 5 degrees in extreme weather situations (sea state codes 5–9) and less than 1 degree during normal operation of the ship (sea state codes 0–4).
+The following model properties of the inertia and damping matrices will be exploited in the passivation design:
+M = M > 0, M ̇ = 0, D > 0
+
+
+312 Sensor and Navigation Systems
+System Model for Nonlinear Passive Observer
+The application of Assumptions P1–P2 to (11.81)–(11.85) gives the following DP observer model:
+ξ ̇ = Awξ (11.120)
+ ̇η = R(y3)ν (11.121)
+b ̇ = −T −1b (alternatively b ̇ = 0) (11.122)
+Mν ̇ = −Dν + R (y3)b + τ + τwind (11.123)
+y = η + Cwξ (11.124)
+For notational simplicity (11.120), (11.121) and (11.124) are written in state-space form:
+ ̇η0 = A0η0 + B0R(y3)ν (11.125)
+y = C0η0 (11.126)
+where η0 = [ξ , η ] and
+A0 =
+[ Aw 06×3
+03×6 03×3
+]
+, B0 =
+[ 06×3
+I 3×3
+]
+, C0 = [ Cw I3×3
+] (11.127)
+Observer Equations
+The observer equations can be chosen to copy the dynamics (11.120)–(11.124) resulting in 15 ODEs with no covariance updates, as shown in Figure 11.8. Moreover,
+Figure 11.8 Block diagram showing the nonlinear passive DP observer.
+
+
+Nonlinear Passive Observer Designs 313
+ξˆ ̇ = Awξˆ + K1(ωo)  ̃y (11.128)
+ˆ ̇η = R(y3)ˆν + K2  ̃y (11.129)
+ˆb ̇ = −T −1 ˆb + K3  ̃y (alternatively ˆb ̇ = K3  ̃y) (11.130)
+M ˆν ̇ = −Dˆν + R (y3)ˆb + τ + τwind + R (y3)K4  ̃y (11.131)
+ˆy = ˆη + Cwξˆ (11.132)
+where  ̃y = y − ˆy is the estimation error and K1(ωo) ∈ R6×3 and K2,3,4 ∈ R3×3 are observer gain matrices to be interpreted later. Notice that K1(ωo) is a function of the wave spectra peak frequencies ωo = [ωo1, ωo2, ωo3] in surge, sway and yaw. The main difference in performance of the two bias state estimators (11.130) is that the first model includes low-pass filtering (T > 0) instead of pure integration of the white noise term K3  ̃y. This results
+in exponential stability while application of the model ˆb ̇ = K3  ̃y only results in asymptotic stability.
+Observer Estimation Errors
+As for (11.125) and (11.126), the system (11.128), (11.129) and (11.132) is written in state-space form:
+ˆ ̇η0 = A0 ˆη0 + B0R(y3)ˆν + K0(ωo)  ̃y (11.133)
+ˆy = C0 ˆη0 (11.134)
+where ˆη0 = [ξˆ , ˆη ] and
+K0(ωo) =
+[ K1(ωo)
+K2
+]
+(11.135)
+The estimation errors are defined as ν ̃ = ν − ˆν, b ̃ = b − ˆb and η ̃0 = η0 − ˆη0. Hence, the error dynamics can be written
+η ̃ ̇0 = [A0 − K0(ωo)C0] η ̃0 + B0R(y3) ν ̃ (11.136)
+b ̃ ̇ = −T −1 b ̃ − K3  ̃y (alternatively b ̃ ̇ = −K3  ̃y) (11.137)
+M ν ̃ ̇ = −D ν ̃ + R (y3) b ̃ − R (y3)K4  ̃y (11.138)
+In the Lyapunov analysis of the error dynamics (11.136)–(11.138), it is possible to prove UGES for T > 0 (Fossen and Strand, 1999b) since V ̇ (x, t) < 0 (negative definite). If the bias model b ̇ = 0 is applied, that is T → ∞, the Lyapunov analysis results in V ̇ (x, t) ≤ 0 (negative semi-definite). Since the error dynamics is nonautonomous and recall that y3 = y3(t) is time varying, Krasovskii–LaSalle’s theorem cannot be applied to prove UGAS. However, it is possible to prove UGAS by using Matrosov’s theorem. Technicalities with respect to the limiting case T → ∞ are omitted in this section, but the analysis for T > 0 is given below. The dynamics of the velocity estimation error (11.138) is rewritten as
+M ν ̇ ̃ = −D ν ̃ − R (y3)  ̃z (11.139)
+
+
+314 Sensor and Navigation Systems
+Figure 11.9 Block diagram showing the dynamics of the position/bias and velocity estimation errors.
+where
+ ̃z = K4  ̃y − b ̃ (11.140)
+By defining a new state vector
+ ̃x =
+[ η ̃0
+b ̃
+]
+(11.141)
+Equations (11.136), (11.137) and (11.140) can be written in compact form as
+ ̃x ̇ = A  ̃x + BR(y3) ν ̃ (11.142)
+ ̃z = C  ̃x (11.143)
+where
+A=
+[ A0 − K0(ωo)C0 09×9
+−K3C0 −T −1
+]
+, B=
+[ B0
+03×3
+]
+, C = [ K4C0 −I3×3
+] (11.144)
+In Figure 11.9 the error signals εz and εν are defined according to
+εz := −R (y3)  ̃z (11.145)
+εν := R(y3) ν ̃ (11.146)
+Thus, the observer error system can be viewed as two linear blocks H1 and H2, interconnected through the bounded transformation matrix R(y3); that is
+H1 : {M  ̃ν ̇ = −D  ̃ν + εz (11.147)
+H2 :
+{  ̃x ̇ = A  ̃x + Bεν
+ ̃z = C  ̃x (11.148)
+Stability Analysis for the Passive Observer
+Based on the physical properties of the ship dynamics, the following statement can be made:
+
+
+Nonlinear Passive Observer Designs 315
+Proposition 11.1 (Strictly Passive Velocity Error Dynamics) The mapping H1 is state strictly passive.
+Proof. Let,
+S1 = 1
+2 ν ̃ M ν ̃ (11.149)
+be a positive definite storage function. Time differentiation of S1 along the trajectories of ν ̃ yields
+S ̇1 = − 1
+2 ν ̃ (D + D ) ν ̃ −  ̃z R(y3) ν ̃ (11.150)
+Using the fact that εz = −R (y3)  ̃z, yields
+εz ν ̃ = S ̇1 + 1
+2 ν ̃ (D + D ) ν ̃ (11.151)
+Hence,
+∫t
+t0
+εz (τ) ν ̃(τ) dτ ≥ α ν ̃ ν ̃ + β (11.152)
+where α = 1
+2 λmin(M) is a positive constant and
+β= 1
+2
+∫t
+t0
+ν ̃ (D + D ) ν ̃dτ ≥ 0 (11.153)
+is the dissipated energy due to hydrodynamic damping. Thus, (11.152) proves that εz → ν ̃ or the block H1 is state strictly passive.
+For definitions on passivity see, for instance, Sepulchre et al. (1997), Ortega et al. (1998) or Lozano et al. (2000). In order to show that the interconnected system in Figure 11.9 is passive, one of the blocks must be passive while the other block must be strictly passive (Lozano et al., 2000). Since the mapping εz → ν ̃ is strictly passive (block H1), post-multiplication with the bounded transformation matrix R(y3) and premultiplication by its transpose will not affect the passivity properties. Hence, it only remains to show that the the mapping εν →  ̃z (block H2) is passive. This can be done by applying the Kalman–YakubovichPopov (KYP) lemma.
+Lemma 11.1 (Kalman–Yakubovich–Popov)
+Let Z(s) = C(sI − A)−1B be an m × m transfer function matrix, where A is Hurwitz, (A, B) is controllable and (A, C) is observable. Then Z(s) is strictly positive real (SPR) if and only if there exist positive definite matrices P = P and Q = Q such that
+PA + A P = −Q (11.154)
+B P = C (11.155)
+Proof. See Yakubovich (1973) or Khalil (2002).
+Theorem 11.1 (Passive Observer Error Dynamics)
+The interconnected system (11.147) and (11.148) is passive if the observer gain matrices Ki (i = 1, . . , 4) are chosen such that (11.148) satisfies the KYP lemma.
+
+
+316 Sensor and Navigation Systems
+Proof. Since it is established that H1 is strictly passive and H2, which is given by the matrices (A, B, C), can be made SPR by choosing the gain matrices Ki (i = 1, . . . , 4) according to the KYP lemma, the interconnected system (11.147) and (11.148) is passive (Fossen and Strand, 1999b).
+Determination of the Observer Gains
+In practice it is easy to find a set of gain matrices Ki (i = 1, . . . , 4) satisfying the KYP lemma. Notice that the mapping εν →  ̃z (block H2) describes three decoupled systems in surge, sway and yaw. This suggests that the observer gain matrices should have a diagonal structure:
+K1(ωo) =
+[ diag{K11(ωo1), K12(ωo2), K13(ωo3)}
+diag{K14(ωo1), K15(ωo3), K16(ωo3)}
+]
+(11.156)
+K2 = diag{K21, K22, K23} (11.157)
+K3 = diag{K31, K32, K33} (11.158)
+K4 = diag{K41, K42, K43} (11.159)
+Consequently, three decoupled transfer functions can be found:
+H(s) = diag{h1(s), h2(s), h3(s)} (11.160)
+such that
+ ̃z(s) = H(s)εν(s)
+= H0(s)HB(s)εν(s) (11.161)
+where
+H 0(s) = C0[sI + A0 − K0(ω0)C0]−1B0
+H B(s) = K4 + (sI + T −1)−1K3
+The diagonal structure of H(s) is illustrated in Figure 11.10. The transfer functions hoi(s) (i = 1, . . . , 3) and hBi(s) (i = 1, . . . , 3) corresponding to H0(s) and HB(s), respectively, become
+hoi(s) = s2 + 2λiωois + ω2
+oi
+s3 + (K1(i+3) + K2i + 2λiωoi)s2 + (ω2
+oi + 2λiωoiK2i − K1iω2
+oi)s + ω2
+oi K2i
+(11.162)
+hBi(s) = K4i
+s+
+(
+1
+Ti + K3i
+K4i
+)
+s+ 1
+Ti
+Ti≈1 K4i
+s + K3i
+K4i
+s+ 1
+Ti
+(11.163)
+where ωoi is the wave spectrum peak frequency, Ti is defined in (11.87) and λi is the relative damping ratio of the wave spectrum. In order to obtain the desired notch effect (wave filtering) of the observer, the
+
+
+Nonlinear Passive Observer Designs 317
+Figure 11.10 Bode plot showing the transfer function hi(s) in surge (i = 1) when 1/Ti K3i/K4i < ωoi < ωci; see ExPassiveObs.m in the MSS toolbox.
+desired shape of hoi(s) is specified as
+hdi(s) = s2 + 2λiωois + ω2
+oi
+(s2 + 2ζniωois + ω2
+oi
+) (s + ωci) (11.164)
+where ζni > λi determines the notch and ωci > ωoi is the filter cutoff frequency. Typically ζni = 1.0 and λi = 0.1. Equating (11.162) and (11.164) yields the following formulae for the filter gains in K1(ωo) and K2:
+K1i(ωoi) = −2(ζni − λi) ωci
+ωoi
+(11.165)
+K1(i+3)(ωoi) = 2ωoi(ζni − λi) (11.166)
+K2i = ωci (11.167)
+Notice that the filter gains can be gain-scheduled with respect to the dominating wave frequencies ωoi if desired. In Figure 11.10 the transfer function hi(s) = hBi(s)hoi(s) is illustrated when all filter gains are properly selected. It is important that the three decoupled transfer functions hi(s) all have a phase greater
+
+
+318 Sensor and Navigation Systems
+than −90◦ in order to meet the SPR requirement. It turns out that the KYP lemma and therefore the SPR requirement can easily be satisfied if the following tuning rules for Ti, K3i and K4i are applied:
+1/Ti K3i/K4i < ωoi < ωci (i = 1, . . . , 3) (11.168)
+Here ωoi (i = 1, . . . , 3) are the dominating wave frequencies and Ti 1 (i = 1, . . . , 3) are the bias time constants used to specify the limited integral effect in the bias estimator.
+Uniform Global Exponential Stability
+The passivity analysis mainly serves as a tool to determine the observer gains. In order to ensure that all estimation errors converge exponentially to zero the following theorem is applied.
+Theorem 11.2 (Uniformly Globally Exponentially Stable Observer Error Dynamics)
+Under Assumptions P1–P2 the nonlinear observer given by (11.128)–(11.132) is uniformly globally exponentially stable.
+Proof. Consider the following Lyapunov function candidate:
+V = ν ̃ M ν ̃ +  ̃x P  ̃x (11.169)
+Differentiation of V along the trajectories of ν ̃ and  ̃x and application of Assumptions P1–P2 yields
+V ̇ = − ν ̃ (D + D )ν ̃ +  ̃x (PA + A P) ̃x + 2 ν ̃ R (y3)B P  ̃x − 2 ν ̃ R (y3)  ̃z (11.170)
+Application of the KYP lemma, that is B P  ̃x = C  ̃x =  ̃z, to (11.170) yields
+V ̇ = − ν ̃ (D + D )ν ̃ −  ̃x Q  ̃x < 0, ∀  ̃x =/ 0, ν ̃ =/ 0 (11.171)
+Hence, ν ̃ and  ̃x = [ξ ̃ , η ̃ , b ̃ ] converge exponentially to zero.
+Computer Simulations and Experimental Results
+A combination of computer simulations and full-scale experiments have been used to evaluate the performance and robustness of the nonlinear passive observer.
+Example 11.6 (Passive Nonlinear DP Observer)
+The case studies are based on the following models of the ship–bias–wave system (Fossen and Strand, 1999b):
+M=
+⎡
+⎣
+5.3122 × 106 0 0
+0 8.2831 × 106 0
+0 0 3.7454 × 109
+⎤
+⎦ (11.172)
+D=
+⎡
+⎣
+5.0242 × 104 0 0
+0 2.7229 × 105 −4.3933 × 106
+0 −4.3933 × 106 4.1894 × 108
+⎤
+⎦ (11.173)
+
+
+Nonlinear Passive Observer Designs 319
+with the coordinate system located in the CG. In the experiments the bias time constants were chosen as
+T = diag{1000, 1000, 1000} (11.174)
+The wave model parameters were chosen as λi = 0.1 and ωoi = 0.8976 rad/s, corresponding to a wave period of 7.0 s in surge, sway and yaw. The notch filter parameters were chosen as ζni = 1.0 and ωci = 1.2255ωoi = 1.1 rad/s. From (11.165)–(11.167) we get (see the MSS toolbox script ExPassiveObs.m)
+K1 =
+[ −diag{2.2059, 2.2059, 2.2059}
+diag{1.6157, 1.6157, 1.6157}
+]
+(11.175)
+K2 = diag{1.1, 1.1, 1.1} (11.176)
+The loop transfer function hoi(s) = hBi(s)hoi(s) for
+K3 = 0.1K4 (11.177)
+K4 = diag{0.1, 0.1, 0.01} (11.178)
+is plotted in Figure 11.10.
+Both the simulation study and the full-scale experiment were performed with a measurement frequency of 1 Hz. The simulation study was performed with nonzero noise terms v and w even though these terms were assumed to be zero in the Lyapunov analysis. This was done to demonstrate the excellent performance of the observer in the presence of stochastic noise. The results of the computer simulations are shown in Figures 11.11–11.12. The plots illustrate that all state estimates converge to their true values. In Figures 11.13–11.14 full-scale experimental results with the same observer are reported. Again, excellent convergence and performance in surge, sway and yaw are observed. In the full-scale experiment it was not possible to verify that the velocity estimates converged to their true values; see the lower plots in Figure 11.14. The main reason for this was that only GPS position measurements were available. However, simulation studies indicate that the velocity estimates converge to their true values as well.
+11.4.2 Case Study: Passive Observer for Heading Autopilots using only Compass Measurements
+The DP observer in Section 11.4.1 can be reduced to 1 DOF and used in autopilot designs. For this purpose, the autopilot model in Section 11.3.5 is considered. In the 1 DOF case, the compass measurement is taken as the sum of the LF and WF signals:
+y = ψ + ψw (11.179)
+The corresponding system model is
+ξ ̇w = ψw (11.180)
+ψ ̇ w = −ω2
+0 ξw − 2λω0 ψw (11.181)
+ψ ̇ = r (11.182)
+rˆ ̇ = − 1
+Tr+ 1
+m (τwind + τN) + b (11.183)
+b ̇ = − 1
+Tb
+b (11.184)
+
+
+320 Sensor and Navigation Systems
+Figure 11.11 Simulation study: LF and WF position, velocity, bias and their estimates in surge.
+where λ and ω0 are the relative damping ratio and peak frequency of the wave spectrum, respectively. The constant m = Iz − Nr ̇ is introduced for convenience such that the rudder angle δ generates a yaw moment τN given by
+τN = m K
+Tδ
+= Nδδ (11.185)
+while τwind represents an optional term for wind feedforward. Notice that neither the yaw rate r nor the wave states ξw and ψw are measured. The resulting state-space model is
+x ̇ = Ax + bu (11.186)
+y = h x (11.187)
+where x = [ξw, ψw, ψ, r, b] , u = τwind + τN and
+A=
+⎡
+⎢⎢⎢⎣
+0 1 00 0 −ω2
+0 −2λω0 0 0 0 0 0 01 0 0 0 0 −1/T 1 0 0 0 0 −1/T b
+⎤
+⎥⎥⎥⎦ , b =
+⎡
+⎢⎢⎢⎢⎢⎣
+0
+0
+0
+1/m
+0
+⎤
+⎥⎥⎥⎥⎥⎦
+(11.188)
+h = [0, 1, 1, 0, 0] (11.189)
+
+
+Nonlinear Passive Observer Designs 321
+Figure 11.12 Simulation study: LF and WF position, velocity, bias and their estimates in sway and yaw.
+
+
+322 Sensor and Navigation Systems
+Figure 11.13 Experimental data. Three upper plots: actual position (LF+WF) with estimates of the LF and WF positions in surge, sway and yaw. Lower plots: estimates of the LF velocities.
+
+
+Nonlinear Passive Observer Designs 323
+Figure 11.14 Experimental data: control inputs in surge, sway and yaw.
+The passive observer copying the dynamics (11.186) and (11.187) is
+ˆ ̇x = Aˆx + bu + k(y − h ˆx) (11.190)
+y = h x (11.191)
+Expanding this expression gives
+ξˆ ̇w = ψˆ w + K1 ε (11.192)
+ψˆ ̇ w = −ω2
+0 ξˆw − 2λω0ψˆ w + K2ε (11.193)
+ψˆ ̇ = rˆ + K3ε (11.194)
+rˆ ̇ = − 1
+T rˆ + 1
+m (τwind + τN) + ˆb + K4ε (11.195)
+ˆb ̇ = − 1
+Tb
+ˆb + K5ε (11.196)
+where ε = y − yˆ is the estimation error. The observer gains K1, K2, K3, K4 and K5 can be computed by noticing that the observer error dynamics can be reformulated as two subsystems for yaw angle/rudder bias and yaw rate. These systems form a passive interconnection if the observer gains are chosen according to
+
+
+324 Sensor and Navigation Systems
+k=
+⎡
+⎢⎢⎢⎢⎢⎣
+−2ω0(1 − λ)/ωc
+2ω0(1 − λ)
+ωc
+K4
+K5
+⎤
+⎥⎥⎥⎥⎥⎦
+(11.197)
+where ωc > ω0 is the filter cutoff frequency and the remaining gains must satisfy
+0 < 1/Tb < K5/K4 < ω0 < ωc (11.198)
+The design problem is now reduced to choosing K4 and K5 such that the ratio K5/K4 satisfies the passive gain constraint (11.198).
+Matlab
+The passive wave filter can be simulated using the Simulink block:
+passive autopilot wave filter 2
+in the MSS toolbox (see Example 11.7).
+A more detailed analysis of the passive observer is done in Section 11.4.1, which discusses applications to ship positioning in 3 DOF.
+Example 11.7 (Passive Wave Filtering)
+Consider the Mariner class cargo ship with K = 0.185 s−1, T = T1 + T2 − T3 = 107.3 s and input τN/m = (K/T )δ, where δ is the rudder angle (Chislett and Strøm-Tejsen, 1965a). The bias time constant is chosen to be rather large, for instance Tb = 100 s. The wave response model is modeled by a linear approximation to the JONSWAP spectrum with λ = 0.1 and ω0 = 1.2 rad/s (see Section 8.2.6). Hence, (11.34)–(11.35) become
+A=
+⎡
+⎢⎢⎢⎣
+0 10 0 0 −1.44 −0.24 0 0 0 0 00 1 0 0 0 0 −0.0093 1 0 0 0 0 −0.01
+⎤
+⎥⎥⎥⎦, b =
+⎡
+⎢⎢⎢⎢⎢⎣
+0
+0
+0
+0.0017
+0
+⎤
+⎥⎥⎥⎥⎥⎦
+(11.199)
+E=
+⎡
+⎢⎢⎢⎣
+0 00 0.24 σ 0 0 0 00 0 10 0 01
+⎤
+⎥⎥⎥⎦ , h = [0, 1, 1, 0, 0] (11.200)
+
+
+Nonlinear Passive Observer Designs 325
+where σ > 0 reflects the sea state. Using passivity as a tool for filter design with cutoff frequency ωc = 1.1 ω0 yields
+k=
+⎡
+⎢⎢⎢⎢⎢⎣
+K1
+K2
+K3
+K4
+K5
+⎤
+⎥⎥⎥⎥⎥⎦
+=
+⎡
+⎢⎢⎢⎢⎢⎣
+−2ω0(1 − λ)/ωc
+2ω0(1 − λ)
+ωc
+K4
+K5
+⎤
+⎥⎥⎥⎥⎥⎦
+=
+⎡
+⎢⎢⎢⎢⎢⎣
+−1.64
+1.80 ω0
+1.10 ω0
+K4
+K5
+⎤
+⎥⎥⎥⎥⎥⎦
+(11.201)
+This clearly shows that the gains should be adjusted with varying ω0. Choosing K4 = 0.1 and K5 = 0.01 such that K5/K4 = 0.1 yields the transfer functions shown later in Figure 11.16. Notice that the notch effect at ω0 for h3(s) and h4(s) represents the state estimates ψˆ and rˆ. We also see that high-frequency motion components above ωc are low-pass filtered. Finally, the transfer function h2(s) representing reconstruction of the WF motion ψˆ w filters out signals on the outside of the wave response spectrum, while signals close to ω0 pass through the filter with unity gain, that is 0 dB. The poles of the error dynamics are
+p1 = −0.7248 + 0.4388i
+p2 = −0.7248 − 0.4388i
+p3 = −2.1762
+p4 = −0.1037
+p5 = −0.0098
+The time series for σ = 6.25 are shown in Figure 11.15.
+Wave Filter Frequency Analysis
+Consider the state estimator
+ˆ ̇x = Aˆx + bu + k(y − h ˆx) (11.202)
+It is then straightforward to show that
+ˆx(s) = (sI − A + kh )−1(ky(s) + bu(s)) (11.203)
+Assume that u(s) = 0 (no feedback) such that
+h(s) = [h1, h2, h3, h4, h5] = (sI − A + kh )−1k (11.204)
+The states of interest are
+ψˆ w(s) = h2(s)y(s) (11.205)
+ψˆ (s) = h3(s)y(s) (11.206)
+rˆ(s) = h4(s)y(s) (11.207)
+
+
+326 Sensor and Navigation Systems
+Figure 11.15 Time series showing the performance of the passive wave filter.
+where h3(s) represents a notch filter with a low-pass filter in cascade:
+h3(s) = hnotch(s) hlow pass(s) (11.208)
+The filter h4(s) also possesses notch filtering in cascade with a second filter representing a limited differentiator for generation of rˆ(s) from y(s). Notice that h2(s) is close to 1 (0 dB) in a band around the wave spectrum, while lower and higher frequencies are suppressed in order to reconstruct ψw(s) from y(s). This can be seen from the Bode plot in Figure 11.16. These results have also been theoretically verified by Grimble (1978). In this work Grimble showed that the stationary Kalman filter for the ship positioning problem will be approximately equivalent to a notch filter in cascade with a second filter, typically a low-pass filter. When including the feedback term u(s) in the analysis, it is well known that application of an observer is superior to notch and low-pass filtering in cascade, since the observer uses the input u(s) for prediction in addition to filtering the measured output y(s). In fact, this input signal reduces the problems associated with additional phase lag in the filtered signal, which is the main problem with most standard filters (low-pass, high-pass and notch). Simulation results verifying these observations have been documented by Grimble (1978).
+
+
+Nonlinear Passive Observer Designs 327
+Figure 11.16 Bode plot showing the wave filter transfer functions and the JONSWAP spectrum.
+11.4.3 Case Study: Passive Observer for Heading Autopilots using both Compass and Rate Measurements
+In this section the design of the previous section is modified to include a rate gyro in addition to the compass. This is advantageous since the gyro can be integrated with the compass in an optimal manner, resulting in less variance and better accuracy of the state estimates. One simple way to do this is to treat the gyro measurements as an input to the system model by writing the yaw dynamics according to
+ψ ̇ = ugyro + b (11.209)
+where b denotes the gyro bias and ugyro is the rate gyro measurement. The WF model is similar to (11.180)–(11.181). This model will give proper wave filtering of the state ψ. However, the estimate of r is not wave filtered, since this signal is taken directly from the gyro measurement ugyro. This can be improved by filtering ugyro with a notch filter hnotch(s) and a low-pass filter hlp(s) to the cost of some phase lag:
+uf = hnotch(s) hlp(s) ugyro (11.210)
+The observer equations become
+
+
+328 Sensor and Navigation Systems
+ξˆ ̇w = ψˆ w + K1ε (11.211)
+ψˆ ̇ w = −ω2
+0ξˆw − 2λω0ψˆ w + K2ε (11.212)
+ψˆ ̇ = uf + ˆb + K3ε (11.213)
+ˆb ̇ = − 1
+Tb
+ˆb + K4ε (11.214)
+where ε = y − ψˆ − ψˆ w and Tb 0. Notice that the gyro bias must be estimated online since it will vary with temperature and possible scale factor/misalignment errors when mounted onboard the ship. This is a slowly varying process so the gain K4 can be chosen quite small, reflecting a large bias time constant. If passivity-based pole placement (11.197) is used, K1, K2 and K3 become
+K1 = −2 ω0
+ωc
+(1 − λ), K2 = 2ω0(1 − λ), K3 = ωc (11.215)
+Alternatively, the KF algorithm can be used to compute the gains.
+Matlab
+The observer with compass and rate measurements can be simulated using the Simulink block:
+passive autopilot wave filter 1
+in the MSS toolbox.
+Other techniques for the integration of compass and rate measurements are described in Lindegaard (2003).
+11.5 Integration Filters for IMU and Global Navigation Satellite Systems
+An inertial measurement unit (IMU) can be integrated with a satellite navigation system in a state observer to obtain estimates of generalized position and velocity in 6 DOFs. The measurements available from a typical IMU are three-axes rate gyros, accelerometers and magnetometers. A stand alone IMU solution, where acceleration measurements are integrated twice and gyro outputs are integrated once to obtain positions and attitude, respectively, will drift due to sensor biases, misalignments and temperature variations (see Figure 11.17). Hence, an estimator providing feedback and compensation of bias drift terms is needed. The kinematic equations (strapdown equations) which are integrated numerically in conjuncture with an IMU constitutes an inertial navigation system (INS). The INS drift can be removed by GNSS/INS integration in a state observer. The 6 DOF solution for drift compensation requires that the coupled observers for linear and angular velocity estimation are constructed while the special case where only the 3 DOF rotation dynamics is considered is referred to as an attitude and heading reference system (AHRS).
+
+
+Integration Filters for IMU and Global Navigation Satellite Systems 329
+Figure 11.17 The principle for integration of IMU sensor data. The position and quaternion outputs will drift due to the bias terms.
+The position and velocity accuracies will mainly depend on the GNSS quality while acceleration and attitude depend on the quality of the accelerometers, gyros and magnetometers. If a low-cost IMU is used, the position and attitude estimates will drift rapidly during GNSS shortages while a more expensive unit will have better stand alone capabilities. Construction of integrated GNSS/INS navigation systems, their performance and stand alone capabilities are described more closely in Farrell and Barth (1998), Titterton and Weston (1997) and Grewal et al. (2001), to mention only some. Strapdown inertial navigation systems are usually designed using the EKF. However, a nonlinear observer avoiding the Riccati equations is presented by Vik and Fossen (2001). The goal of this section is to present low-cost IMU/GNSS integration techniques for marine craft navigation by neglecting the Earth rotation and assuming that the GNSS signals are available all the time. Consequently, the North-East-Down reference frame {n} is assumed to be the inertial reference frame even though the Earth is moving relatively to a star fixed reference frame. This is, indeed, a good approximation for a marine craft navigating on the surface of the Earth. The solutions presented here are not intended for INS stand alone applications or cases with GNSS failure.
+IMU Measurements
+Today inertial measurement technology is available for commercial users thanks to a significant reduction in price during the last decades. As a consequence of this, low-cost inertial sensors can be integrated with a satellite navigation system using a conventional Kalman filter or a nonlinear state observer; see Farrell and Barth (1998), Titterton and Weston (1997), Grewal et al. (2001) and Vik and Fossen (2001). The key components of the IMU are:
+• Gyroscopes: The classic gyro is a spinning wheel that utilizes conservation of momentum to detect rotation, and belongs naturally in a gimballed system. For strapdown applications, optical gyros such as ring laser gyros (RLG) and fiber optic gyros (FOG) have been used for some time, and are also expected to be the standard for high accuracy strapdown inertial systems for the foreseeable future. For low and medium cost applications, gyros based on micro-electric-mechanical systems (MEMSs) are expected to be dominant (Barbour and Schmidt, 1998). • Accelerometers: There are several different types of accelerometer. Two of these are mechanical and vibratory accelerometers. The mechanical accelerometer can be a pendulum, which in its simplest form is based on Newton’s second law of motion:
+F = ma
+
+
+330 Sensor and Navigation Systems
+A force F acting on a body of mass m causes the body to accelerate with respect to inertial space. When the case of the instrument is subjected to an acceleration along its sensitive axis, the proof mass tends to resist the change in movement due to its own inertia. As a result, the mass is displaced with respect to the case. Under steady-state conditions the force acting on the mass will be balanced by the tension of the spring. The extension of the spring then provides a measure of the force, which is proportional to the acceleration. The vibratory accelerometers are usually based on measurement of frequency shifts due to increased or decreased tension in a string. The operation is similar to that of a violin. When a violin string is tightened, the frequency goes up. Similarly, when the accelerometer proof mass attached to a quartz beam is loaded, the frequency of the quartz beam increases. The difference in frequency is measured, and is proportional to the applied acceleration. In addition to quartz technology, vibrating beam accelerometers using silicon are also being developed.
+The inertial sensors are mounted onboard the craft in a body-fixed coordinate system {m} located at rb
+m := rb
+m/b = [xm, ym, zm] with respect to the {b}-frame coordinate origin CO. This is referred to as a strapdown system because the sensors are strapped to the craft and a lightweight digital computer is used to perform computations. Thus the need for a mechanical gimbal system is eliminated. Instead of transforming the IMU measurements to the coordinate origin of {b}, the state estimator is formulated in {m} and the estimated states are transformed to {b} using the lever arm given by rb
+m. The tool for this is the transformation matrix in Section 7.5.4. The estimated velocity vector ˆνm = [(ˆvb
+m/n) , ( ˆωb
+m/n) ] can be transformed to {b} to obtain ˆν by using the following transformation:
+[ ˆvb
+b/n
+ˆωb
+b/n
+]
+= H −1(rb
+m)
+[ ˆvb
+m/n
+ˆωb
+m/n
+]
+(11.216)
+ˆν = H −1(rb
+m)ˆνm (11.217)
+where
+H −1(rb
+m) =
+[ I3×3 S(rb
+m)
+03×3 I3×3
+]
+(11.218)
+If the IMU is mounted close to the coordinate origin CO this transformation is not needed. The measurements from the three-axis rate gyros, accelerometers and magnetometers are conveniently expressed as (Mahony et al., 2008)
+ab
+imu = Rb
+n( )( ̇vn
+m/n + gn) + bb
+acc + wb
+acc (11.219)
+ωb
+imu = ωb
+m/n + bb
+gyro + wb
+gyro (11.220)
+mb
+imu = Rb
+n( )mn + bb
+mag + wb
+mag (11.221)
+where = [φ, θ, ψ] is a vector of Euler angles and Rb
+n( ) is the rotation matrix between {n} and {b} (see Section 2.2). Alternatively, the quaternion rotation matrix Rb
+n(q) can be used. The accelerometer and gyro biases are denoted as bb
+acc and bb
+gyro while bb
+mag is the local magnetic disturbance. Additive zero-mean sensor measurement noises are modeled by wb
+acc, wb
+gyro and wb
+mag .
+
+
+Integration Filters for IMU and Global Navigation Satellite Systems 331
+The IMU measurement model is only valid for low-speed applications such as a marine craft moving on the surface of the Earth since it assumes that {n} is nonrotating. For terrestrial navigation the Earth rotation will affect the results and it is necessary to express the velocities and accelerations in {i}. Inertial navigation systems are also sensitive to scale factor and misalignments angles due to inaccurate mounting of the IMU (Titterton and Weston, 1997). These effects can, however, be neglected for local area navigation and low-speed applications. The following sections discuss effective methods for GNSS/INS integration.
+Gravity
+The gravity of Earth in {n} is modeled as a constant vector:
+gn =
+⎡
+⎣
+0
+0
+g
+⎤
+⎦ (11.222)
+Gravity increases from 9.789 m/s2 at the equator to 9.832 m/s2 at the poles. The nominal “average” value at the surface of the Earth, known as standard gravity, is, by definition, g = 9.80665 m/s2.
+Compass Heading and Roll-Pitch Angles from Magnetometers
+The magnetic field of the Earth is similar to a simple bar magnet. The magnetic field is a magnetic dipole that has its field lines originating at a point near the South Pole and terminating at a point near the North Pole. The field lines vary in both strength and direction about the face of the Earth. At each location on the Earth, the field lines intersect the Earth’s surface at a specific angle of inclination. Near the equator, the field lines are approximately parallel to the Earth’s surface and thus the inclination angle in this region is 0◦. As one travels North from the equator the field lines become progressively steeper. At the magnetic pole, the field lines are directed almost straight down into the Earth and the inclination is 90◦. Consequently, the inclination angle varies with latitude. It is necessary to perform filtering and calibration of the magnetometer to remove the bias bb
+mag and noise wb
+mag. The calibrated measurements are denoted
+⎡
+⎣
+mx
+my
+mz
+⎤
+⎦ = mb
+imu − bb
+mag (11.223)
+The magnetic compass heading can be determined from the three magnetometer measurements if the tilt angles of the device are known. If the magnetometer is sitting in a local horizontal plane leveled to the surface of the Earth such that φ = θ = 0, the magnetic heading angle ψm is recognized as the direction planar with the surface of the Earth satisfying
+tan(ψm) = my
+mx
+(11.224)
+One method to determine the roll and pitch angles is to use a tilt sensor. Alternatively, a gyroscope can be used to maintain a known inertial reference frame at all times. If the roll and pitch
+
+
+332 Sensor and Navigation Systems
+angles are known the magnetic readings mx, my and mz can be transformed to the horizontal plane according to
+⎡
+⎣
+hx
+hy
+hz
+⎤
+⎦ = Ry,θRx,φ
+⎡
+⎣
+mx
+my
+mz
+⎤
+⎦ (11.225)
+or
+⎡
+⎣
+hx
+hy
+hz
+⎤
+⎦=
+⎡
+⎣
+cos(θ) 0 sin(θ)
+0 10
+−sin(θ) 0 cos(θ)
+⎤
+⎦
+⎡
+⎣
+10 0
+0 cos(φ) −sin(φ)
+0 sin(φ) cos(φ)
+⎤
+⎦
+⎡
+⎣
+mx
+my
+mz
+⎤
+⎦ (11.226)
+The horizontal components are
+hx = mx cos(θ) + my sin(θ) sin(φ) + mz cos(φ) sin(θ) (11.227)
+hy = my cos(φ) − mz sin(φ) (11.228)
+The sign of the arguments hx and hy must be taken into account when computing the magnetic heading. This is can be done by using the following mapping:
+ψm =
+⎧⎪⎪⎪⎪⎪⎪⎨
+⎪⎪⎪⎪⎪⎪⎩
+180◦ − 180◦
+π arctan ( hy
+hx
+) if hx < 0
+− 180◦
+π arctan ( hy
+hx
+) if hx > 0, hy < 0
+360◦ − 180◦
+π arctan ( hy
+hx
+) if hx > 0, hy > 0
+90◦ if hx = 0, hy < 0
+270◦ if hx = 0, hy > 0
+⎫⎪⎪⎪⎪⎪⎪⎬
+⎪⎪⎪⎪⎪⎪⎭
+(11.229)
+To determine true North heading ψ the appropriate declination angle which depends on the latitude must be added or subtracted.
+11.5.1 Integration Filter for Position and Linear Velocity
+The expression for the linear acceleration in {n} is derived from the acceleration measurement equation (11.219). Moreover,
+ ̇vn
+m/n = Rb
+n( ) [ab
+imu − bb
+acc − wb
+acc] − gn (11.230)
+Since the measurement noise E(wb
+acc) = 0, the velocity observer will be designed under the assumption that the term wb
+acc can be neglected when analyzing the stability properties of the error dynamics.
+Integration of IMU and GNSS Position Measurements
+The state estimator will be formulated in {m}. The position of the IMU coordinate system {m} with respect to the NED reference frame {n} expressed in {n} is denoted by pn
+m/n. If the GNSS receiver is located at rb
+gnss = [xgnss, ygnss, zgnss] with respect to {m}, the GNSS position measurements pn
+gnss = [Ngnss, Egnss, Dgnss] must be corrected for rotations and lever arm rb
+gnss according to
+pn
+m/n = pn
+gnss − Rn
+b( )rb
+gnss (11.231)
+
+
+Integration Filters for IMU and Global Navigation Satellite Systems 333
+If the GNSS receiver is located next to the IMU, rb
+gnss = 0, the position measurements satisfies pn
+m/n = pn
+gnss .
+The translational dynamics including acceleration bias is (see Figure 11.17)
+p ̇ n
+m/n = vn
+m/n (11.232)
+ ̇vn
+m/n = Rn
+b( )[ab
+imu − bb
+acc] − gn (11.233)
+b ̇ b
+acc = 0 (11.234)
+y1 = pn
+m/n (11.235)
+where y1 is the GNSS measurement. A nonlinear design method for simultaneously linear and angular velocity estimation has been proposed by Hua (2010) using GNSS/INS measurements. This method discusses stability of accelerated vehicles where the linear and angular dynamics are coupled. The EKF method discussed in Section 11.3.3 can also be used for this purpose. However, Kalman filtering requires linearization of the rotation matrix and implementation of time-varying Riccati equations that suffer from singularities. Hence, care must be taken when implementing the EKF. An alternative approach is to use a nonlinear decoupled fixed-gain observer where it is assumed that the attitude signal is available when estimating the linear velocity ˆvn
+m/n. Algorithms for computation of are presented in Section 11.5.2. Consider the following nonlinear observer for linear velocity (see Figure 11.17):
+ˆ ̇pn
+m/n = ˆvn
+m/n + K1  ̃y1 (11.236)
+ˆv ̇ n
+m/n = Rn
+b( )[ab
+imu − ˆbb
+acc] − gn + K2  ̃y1 (11.237)
+ˆ ̇bb
+acc = K3Rn
+b( )  ̃y1 (11.238)
+ˆy1 = ˆpn
+m/n (11.239)
+where  ̃y1 = y1 − ˆy1 = pn
+m/n − ˆpn
+m/n is the injection term. The linear velocity estimate ˆvn
+m/n expressed in {n} is transformed to {b} using the rotation matrix
+ˆvb
+m/n = Rb
+n( )ˆvn
+m/n (11.240)
+The observer error dynamics becomes
+⎡
+⎢⎣
+ ̃p ̇n
+m/n
+ ̃v ̇n
+m/n
+b ̇ ̃b
+acc
+⎤
+⎥⎦=
+⎡
+⎣
+−K1 I 0
+−K2 0 −Rn
+b( )
+−K3Rn
+b( ) 0 0
+⎤
+⎦
+⎡
+⎢⎣
+ ̃pn
+m/n
+ ̃vn
+m/n
+b ̃b
+acc
+⎤
+⎥⎦ (11.241)
+x ̇ = A( )x (11.242)
+The gains K1, K2 and K3 can be chosen such that x converges exponentially to zero. This is not straightforward since the matrix A( ) depends on the attitude vector and thus becomes time varying.
+
+
+334 Sensor and Navigation Systems
+For marine craft a practical solution to this problem can be found by noticing that the angular rates ωb
+m/n = ωb
+b/n = [p, q, r] are quite small. This is the key assumption in order to apply the result of Lindegaard and Fossen (2001a). Consider the transformation
+x = T ( )z (11.243)
+where T ( ) is a transformation matrix
+T ( ) = diag{Rn
+b( ), Rn
+b( ), I} (11.244)
+satisfying T ( )−1 = T ( ) . Hence,
+ ̇z = T ( ) x ̇ + T ̇ ( ) x
+= T ( ) A( )x + T ̇ ( ) x
+= T ( ) A( )T ( )z + T ̇ ( ) T ( )z (11.245)
+Stability of this system can be guaranteed under the assumption that T ̇ ( ) is sufficiently small. This is indeed satisfied if the angular rate vector ωb
+m/n of the craft is small. Moreover,
+T ̇ ( ) = diag{Rn
+b( )S(ωb
+m/n), Rn
+b( )S(ωb
+m/n), 0}
+≈ 0 (11.246)
+if S(ωb
+m/n) ≈ 0. This is a good assumption for a marine craft since ωb
+m/n is quite small during rolling, pitching and yawing. Hence, from a practical point of view it is sufficient to check stability of the system:
+ ̇z = T ( ) A( )T ( )z (11.247)
+A pole-placement algorithm can be derived by using the following property:
+Property 11.1 (Commuting Matrices)
+A matrix K ∈ R3×3 is said to commute with the rotation matrix Rn
+b( ) if
+KRn
+b( ) = Rn
+b( )K (11.248)
+Examples of K matrices satisfying Property 11.1 are linear combinations:
+K = a1Rn
+b( ) + a2I + a3kk (11.249)
+where
+k = [0, 0, 1] (11.250)
+is the axis of rotation and ai (i = 1, . . . , 3) are scalars.
+If the observer gain matrices Ki (i = 1, . . . , 3) are chosen to commute with the rotation matrix Rn
+b( ), Property 11.1 implies that the error dynamics (11.247) can be written
+z ̇ = Az (11.251)
+
+
+Integration Filters for IMU and Global Navigation Satellite Systems 335
+where A is a constant system matrix:
+A=
+⎡
+⎣
+−K1 I 0
+−K2 0 −I
+−K3 0 0
+⎤
+⎦ (11.252)
+Then it follows that
+A = T ( ) A( )T ( ) (11.253)
+One way to satisfy this is to choose the matrices Ki with the following diagonal structure:
+Ki = diag{ki, ki, li}, i = 1, 2, 3 (11.254)
+where surge and sway have the same gains ki > 0 and heave can be tuned independently by li > 0. This clearly satisfies (11.249) since a1 = 0, a2 > 0 and a3 > 0. Hence, stability can be checked by computing the eigenvalues of A since the eigenvalues of A and A( ) are equal for all . A necessary condition for exponential stability is that the eigenvalues of A lie in the left half-plane, that is A must be Hurwitz.
+Integration of IMU and GNSS Position and Velocity Measurements
+It is straightforward to modify the observer (11.236)–(11.239) to include GNSS velocity measurements, y2 = vn
+m/n. Moreover,
+ˆ ̇pn
+m/n = ˆvn
+m/n + K11  ̃y1 + K21  ̃y2 (11.255)
+ˆv ̇ n
+m/n = Rn
+b( )[ab
+imu − ˆbb
+acc] − gn + K12  ̃y1 + K22  ̃y2 (11.256)
+ˆ ̇bb
+acc = K13Rn
+b( )  ̃y1 + K23Rn
+b( )  ̃y2 (11.257)
+ˆy1 = ˆpn
+m/n (11.258)
+ˆy2 = ˆvn
+m/n (11.259)
+where  ̃yi = yi − ˆyi (i = 1, 2) results in the error dynamics
+⎡
+⎢⎣
+ ̃p ̇n
+m/n
+ ̃v ̇n
+m/n
+b ̃ ̇b
+acc
+⎤
+⎥⎦ =
+⎡
+⎣
+−K11 I − K21 0
+−K12 −K22 −Rn
+b( )
+−K13Rn
+b ( ) −K23Rn
+b( ) 0
+⎤
+⎦
+⎡
+⎢⎣
+ ̃pn
+m/n
+ ̃vn
+m/n
+b ̃b
+acc
+⎤
+⎥⎦
+x ̇ = A( )x (11.260)
+
+
+336 Sensor and Navigation Systems
+Choosing the gains Kij (i = 1, 2, 3, j = 1, 2) according to Property 11.1 such that they commute with Rn
+b( ) and assuming that the angular rate vector ωb
+m/n is small, gives the following error dynamics:
+ ̇z = T ( )AT ( )z
+= Az (11.261)
+where
+A=
+⎡
+⎣
+−K11 I − K21 0
+−K12 −K22 −I
+−K13 −K23 0
+⎤
+⎦ (11.262)
+Hence, exponential convergence of z to zero is guaranteed if the gains Kij are chosen such that A is Hurwitz.
+11.5.2 Accelerometer and Compass Aided Attitude Observer
+A nonlinear attitude observer can be designed by integrating the gyro measurements ωimu to obtain an estimate of the quaternions ˆq. The quaternion estimate is corrected by approximating q using accelerometer and compass measurements (see Figure 11.18). The attitude observer in this section can be viewed as a special case of Vik and Fossen (2001) where the Earth rotation is neglected. An attitude observer can also be derived using the EKF algorithm. However, the nonlinear representation is highly advantageous from an implementation point of view since it avoids numerical integration of a large number of the Kalman filter Riccati equations.
+Figure 11.18 Block diagram showing the nonlinear attitude observer with the IMU acceleration mapping.
+
+
+Integration Filters for IMU and Global Navigation Satellite Systems 337
+Mapping from Linear Accelerations to Roll and Pitch Angles
+Before designing the attitude observer, it is necessary to map the three-axis linear IMU accelerations to roll and pitch angles. The principle for this is that the angle between the acceleration and gravity vectors can be computed using trigonometry. This is a static mapping that suffers from inaccuracies when performing high-acceleration maneuvers. For ships this works quite well but aircraft and other highly maneuverable vehicles should use other methods. The static acceleration mapping, together with a magnetometer, is used to construct a Euler angle measurement vector , which again is used to compute q as illustrated in Figure 11.18. The IMU acceleration measurements
+ab
+imu = Rb
+n( )( ̇vn
+m/n + gn) + bb
+acc + wb
+acc (11.263)
+can be transformed to roll and pitch angles by noticing that for three orthogonal accelerometers onboard a craft at rest,  ̇vn
+m/n = 0, the measurement equation is
+ab
+imu = Rb
+n( )gn + bb
+acc + wb
+acc (11.264)
+The initial accelerometer biases bb
+acc are usually removed by calibrating the accelerometer in a laboratory for varying temperatures. This can be implemented as a look-up table in combination with a temperature sensor. It is also necessary to remove the dynamic drift and measurement noise wb
+acc by low-pass filtering the accelerometer measurements properly before the roll and pitch angles are computed. The key assumption is to assume that the average acceleration with respect to the environment during some period of time is zero, for instance 10–20 seconds. For aircraft this assumption does not hold since they can generate significant accelerations lasting longer than the maximum time. After calibration and filtering, this suggests that
+ab
+imu ≈ Rb
+n( )gn (11.265)
+⎡
+⎣
+ax
+ay
+az
+⎤
+⎦ ≈ Rb
+n( )
+⎡
+⎣
+0
+0
+g
+⎤
+⎦=
+⎡
+⎣
+−g sin(θ)
+g cos(θ) sin(φ)
+g cos(θ) cos(φ)
+⎤
+⎦ (11.266)
+Taking the ratios
+ay
+az
+≈ tan(φ), ax
+g ≈ − sin(θ), a2
+y + a2
+z
+g2 ≈ cos2(θ) (11.267)
+this gives
+φ ≈ atan
+( ay
+az
+)
+(11.268)
+θ ≈ −atan
+(
+ax
+√ay2 + az2
+)
+(11.269)
+Notice that the transformation is singular for φ = ±90 degrees. When combined with a compass measuring the heading ψ the attitude vector = [φ, θ, ψ] is completely determined. The Euler angles can
+
+
+338 Sensor and Navigation Systems
+easily be transformed to unit quaternions q = [η, ε1, ε2, ε3] by using Algorithm 2.2 in Section 2.2.3. The quaternion representation is advantageous when implementing the attitude observer in a computer.
+Attitude Observer
+In Section 2.2.2 the unit quaternion differential equation was written
+q ̇ = T q(q)ωb
+m/n (11.270)
+with
+T q(q) = 1
+2
+[ −ε
+ηI + S(ε)
+]
+(11.271)
+From the gyro measurement equation (11.220) it follows that
+ωb
+m/n = ωb
+imu − bb
+gyro − wb
+gyro (11.272)
+Consequently,
+q ̇ = T q(q) [ωb
+imu − bb
+gyro − wb
+gyro
+] (11.273)
+b ̇ b
+gyro = 0 (11.274)
+where bb
+gyro is the gyro bias. The nonlinear attitude observer of Salcudean (1991) has been extended to include gyro bias estimation by Vik et al. (1999), Vik (2000) and Vik and Fossen (2001):
+ˆ ̇q = T q(ˆq) Rn
+b(q) Rn
+b ( ˆq)
+} {{ }
+R (  ̃q)
+[ωb
+imu − ˆbb
+gyro + Kp ε ̃ sgn(η ̃)] (11.275)
+ˆb ̇ b
+gyro = − 1
+2 Ki ε ̃ sgn(η ̃) (11.276)
+where Kp = Kp > 0 and Ki = Ki > 0 are tunable gain matrices. The observer structure is shown in Figure 11.18. The quaternion estimation error is defined as
+ ̃q := ˆq∗ ⊗ q (11.277)
+where q = [η, ε1, ε2, ε3] and ˆq∗ = [ˆη, −ˆε1, −ˆε2, −ˆε3] is the conjugate of ˆq corresponding to multiplying the vector ˆε = [ˆε1, ˆε2, ˆε3] with −1. The symbol ⊗ denotes the quaternion product, which is defined as (Chou, 1992)
+q1 ⊗ q2 :=
+[ η1η2 − ε1 ε2
+η2ε1 + η1ε2 + ε1 × ε2
+]
+=
+[ η1 −ε1
+ε1 η1I + S(ε1)
+]
+q2 (11.278)
+
+
+Integration Filters for IMU and Global Navigation Satellite Systems 339
+This yields
+ ̃q =
+[ ˆηη + ˆε ε
+−ηˆε + ˆηε − S(ˆε)ε
+]
+(11.279)
+Notice that  ̃q =/ q − ˆq. After some tedious calculations, it can be shown that the observer error dynamics becomes
+ ̃q ̇ = −T (  ̃q) [  ̃bb
+gyro + Kp  ̃ε sgn(η ̃)] (11.280)
+ ̃b ̇b
+gyro = 1
+2 Ki  ̃ε sgn(η ̃) (11.281)
+From (11.271) it is seen that the expression for  ̃q ̇ can be written as
+ ̃q ̇ = − 1
+2
+[ −  ̃ε
+η ̃I + S(  ̃ε)
+] [  ̃bb
+gyro + Kp  ̃ε sgn(η ̃)] (11.282)
+or
+η ̇ ̃ = 1
+2  ̃ε [  ̃bb
+gyro + Kp  ̃ε sgn(η ̃)] (11.283)
+ ̃ε ̇ = − 1
+2
+[ η ̃I + S(  ̃ε)] [  ̃bb
+gyro + Kp  ̃εsgn(η ̃)] (11.284)
+Since the measurement noise E(wb
+gyro) = 0, the term wb
+gyro is neglected in the Lyapunov analysis. Consider
+V=1
+2 (  ̃bb
+gyro) K−1
+i  ̃bb
+gyro + H (η ̃) (11.285)
+where different candidates for H(η ̃) are found in Table 11.4 (Fjellstad and Fossen, 1994). Notice that the function H(η ̃) is Lipschitz. Hence, time differentiation of V along the trajectories of  ̃b ̇b
+gyro and η ̃ yields
+V ̇ = (  ̃bb
+gyro) K−1
+i
+ ̃b ̇ b
+gyro + ∂H (η ̃)
+∂ η ̃
+η ̇ ̃ (11.286)
+Choosing H(η ̃) = 1 − | η ̃| such that ∂H(η ̃)/∂ η ̃ = −sgn(η ̃) (see the first row in Table 11.4) yields
+V ̇ = 1
+2 (  ̃bb
+gyro)  ̃ε sgn(η ̃) − sgn(η ̃) 1
+2  ̃ε [  ̃bb
+gyro + Kp  ̃ε sgn(η ̃)]
+= −1
+2  ̃ε Kp  ̃ε ≤ 0 (11.287)
+Thienel and Sanner (2003) have proven that the equilibrium points  ̃q = [±1, 0, 0, 0] of the attitude observer error dynamics is asymptotically stable if the pair (A(t), C) is uniformly completely observable
+Table 11.4 Alternative choices of attitude update laws
+H( η ̃) Update law Stable equation Unstable equation
+1 − | η ̃| −Kp  ̃ε sgn(η ̃) η ̃ = ±1 1 − η ̃ −Kp  ̃ε η ̃ = 1 η ̃ = −1 1 + η ̃ Kp  ̃ε η ̃ = −1 η ̃ = 1
+
+
+340 Sensor and Navigation Systems
+for the system
+x ̇ = A(t)x (11.288)
+where x = [  ̃ε , (  ̃bb
+gyro) ] and
+A(t) =
+[−1
+2 Kpsgn(η ̃) [ η ̃I + S(  ̃ε)] − 1
+2
+[ η ̃I + S(  ̃ε)]
+1
+2 sgn(η ̃)I 0
+]
+(11.289)
+Hence,
+V ̇ = −x C Cx
+≤ 0 (11.290)
+where
+C=
+[√
+1
+2 Ki, 0
+]
+(11.291)
+This corresponds to a persistency of excitation (PE) argument ensuring exponential convergence of the estimation error  ̃bb
+gyro to zero. Global results cannot be obtained since this system has two equilibrium points. This is a well-known topological limitation as described by Bhat and Bernstein (2000).
+Vertical Reference Unit (VRU)
+The special solution of the observer when only φ and θ are estimated (no compass measurement) is referred to as a vertical reference unit (VRU). The performance of state-of-the-art VRUs has been evaluated by Ingram et al. (1996). A VRU is particularly useful if you want to transform the GNSS position and velocity measurements
+pn
+gnss = [Ngnss, Egnss, Dgnss] (11.292)
+vn
+gnss = [N ̇ gnss, E ̇ gnss, D ̇ gnss] (11.293)
+for a GNSS receiver located at the position rb
+gnss = [xgnss, ygnss, zgnss] to the IMU coordinate system {m}. The NED position pn
+m/n and linear velocity vn
+m/n of the craft are found as
+pn
+m/n = pn
+gnss − Rn
+b( )rb
+gnss (11.294)
+vn
+m/n = vn
+gnss − Rn
+b( )S(ωb
+b/ n )r b
+gnss (11.295)
+since S(ωb
+b/n) = S(ωb
+m/n). The expression for the NED velocity (11.295) makes use of r ̇b
+gnss = 0; that is the position of the GNSS receiver is constant when mounted onboard a rigid craft. Consequently,
+vn
+m/n =  ̇pn
+m/n =  ̇pn
+gnss −  ̇Rn
+b( )rb
+gnss (11.296)
+where p ̇ n
+gnss = vn
+gnss and  ̇Rn
+b( ) = Rn
+b( )S(ωb
+b/n); see Theorem 2.2 in Section 2.2.1.
+11.5.3 Attitude Observer using Gravitational and Magnetic Field Directions
+The attitude observer developed in Section 11.5.2 suffers from the assumption that  ̇vn
+m/n = 0 when computing the roll and pitch angles from accelerometer measurements. Hence, inaccuracies propagate
+
+
+Integration Filters for IMU and Global Navigation Satellite Systems 341
+to q and thus the observer injection term. An alternative approach could be to use accelerometer and magnetometer measurements directly to update the estimator. Mahony et al. (2008) have derived a nonlinear attitude observer with an injection term that compares the directions of the measurement vectors when transformed from the body-fixed frame to the inertial frame using true and estimated attitude. Let vn
+0i (i = 1, . . . , n) denote a set of n known inertial directions. This vector can be expressed in {b} by using the quaternion rotation matrix
+vb
+i = Rb
+n(q)vn
+0i + wi (11.297)
+where wi (i = 1, . . . , n) are zero-mean noise processes. Since only the direction of the measurement is
+relevant to the observer, it is assumed that all measurements are normalized such that ∥∥vn
+0i
+∥∥ = 1. The associated estimate of vb
+i is computed as
+ˆvb
+i = Rb
+n ( ˆq)vn
+0i (11.298)
+where ˆq is the estimate of the quaternion vector. Hence, the difference between the two signals (11.297) and (11.298) is zero if ˆq = q. The attitude observer can be implemented using normalized acceleration and magnetometer measurements according to
+vb
+1 = ab
+imu
+∥∥ab
+imu
+∥∥ , vb
+2 = mb
+mag
+∥∥mbmag
+∥∥ (11.299)
+where the acceleration ab
+imu and magnetometer mb
+mag measurements are given by (11.219) and (11.221), respectively.
+Explicit Complementary Filter with Bias Correction
+The quaternion representation of the Mahony et al. (2008) attitude observer can be expressed as (see Figure 11.19)
+Figure 11.19 Nonlinear attitude observer-based directional measurements.
+
+
+342 Sensor and Navigation Systems
+ωb
+mes = −vex
+(∑n
+i=1
+ki 2
+(vb
+i (ˆvb
+i ) − ˆvb
+i (vb
+i ) ))
+(11.300)
+ˆ ̇q = T q(ˆq) [ωb
+imu − ˆbb
+gyro + Kpωb
+mes
+] (11.301)
+ˆb ̇ b
+gyro = − 1
+2 Kiωb
+mes (11.302)
+where ki is a tunable gain and the operator vex: SO(3) → R3 denotes the inverse of the cross-product operator S(a). Moreover,
+a × b = S(a)b (11.303)
+vex(S(a)) = a (11.304)
+Hence, the following expression corresponding to (11.300) can be derived:
+vex (abT − ba ) =
+⎡
+⎣
+a3b2 − a2b3
+a1b3 − a3b1
+a2b1 − a1b2
+⎤
+⎦ (11.305)
+The estimate ˆvb
+1 corresponding to the accelerometer measurement is computed according to
+ˆvb
+1 = Rb
+n ( ˆq)vn
+01
+= Rb
+n ( ˆq)
+⎡
+⎣
+0
+0
+1
+⎤
+⎦ (11.306)
+where the known inertial direction of gravity vn
+01 = gn/‖gn‖ is exploited. The magnetometer measures three inertial components:
+mb
+mag = [mx, my, mz] (11.307)
+when the sensor unit is mounted in a craft at rest to sense the components of the Earth’s magnetic field. Consequently, the normalized magnetometer estimate in {b} becomes
+ˆvb
+2 = Rb
+n ( ˆq)vn
+02
+= Rb
+n(ˆq) 1
+√m2x + m2y + mz2
+⎡
+⎣
+mx
+my
+mz
+⎤
+⎦ (11.308)
+Stability Analysis
+The stability proof of Mahony et al. (2008) assumes that the reference vectors vn
+0i are constant. This has been relaxed by Grip et al. (2011) using the projection algorithm. From this work it is concluded that the equilibrium point of the quaternion error dynamics is semi-global exponential stable for n ≥ 2 independent inertial directions vn
+0i.

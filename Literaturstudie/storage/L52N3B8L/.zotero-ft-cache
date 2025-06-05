@@ -1,0 +1,1226 @@
+2
+Kinematics
+The study of dynamics can be divided into two parts: kinematics, which treats only geometrical aspects of motion, and kinetics, which is the analysis of the forces causing the motion. In this chapter kinematics with application to local and terrestrial navigation is discussed. Kinetics is dealt with in Chapters 3–8. The interested reader is advised to consult Britting (1971), Maybeck (1979), Savage (1990), Forssell (1991), Lin (1992), Hofmann-Wellenhof et al. (1994), Parkinson and Spilker (1995), Titterton and Weston (1997), and Farrell and Barth (1998) for a discussion of navigation kinematics and kinematics in general. The development of the kinematic equations of motion are also found in Kane et al. (1983) and Hughes (1986). Both of these references use spacecraft systems for illustration. An alternative derivation of the Euler angle representation in the context of ship steering is given by Abkowitz (1964). A more recent discussion of quaternions is found in Chou (1992). An analogy to robot manipulators is given by Craig (1989) or Sciavicco and Siciliano (1996), while a more detailed discussion of kinematics is found in Goldstein (1980) and Egeland and Gravdahl (2002).
+6 DOF Marine Craft Equations of Motion
+The overall goal of Chapters 2–8 is to show that the marine craft equations of motion can be written in a vectorial setting according to Fossen (1991):
+ ̇η = J (η)ν (2.1)
+Mν ̇ + C(ν)ν + D(ν)ν + g(η) + g0 = τ + τwind + τwave (2.2)
+where the different matrices and vectors and their properties will be defined in the forthcoming sections. This model representation is used as a foundation for model-based control design and stability analysis in Part II.
+Motion Variables
+For marine craft moving in six degrees of freedom (DOFs), six independent coordinates are necessary to determine the position and orientation. The first three coordinates, and their time derivatives, correspond to the position and translational motion along the x, y and z axes, while the last three coordinates and their
+Handbook of Marine Craft Hydrodynamics and Motion Control, First Edition. Thor I. Fossen.
+© 2011 John Wiley & Sons Ltd. Published 2011 by John Wiley & Sons Ltd. ISBN: 978-1-119-99149-6
+
+
+16 Kinematics
+Figure 2.1 The 6 DOF velocities u, v, w, p, q and r in the body-fixed reference frame {b} = (xb, yb, zb).
+time derivatives are used to describe orientation and rotational motion. For marine craft, the six different motion components are conveniently defined as surge, sway, heave, roll, pitch and yaw (see Figure 2.1 and Table 2.1).
+2.1 Reference Frames
+When analyzing the motion of marine craft in 6 DOF, it is convenient to define two Earth-centered coordinate frames as indicated in Figure 2.2. In addition several geographic reference frames are needed.
+Earth-Centered Reference Frames
+ECI: The Earth-centered inertial (ECI) frame {i} = (xi, yi, zi) is an inertial frame for terrestrial navigation, that is a nonaccelerating reference frame in which Newton’s laws of motion apply. This includes inertial navigation systems. The origin of {i} is located at the center oi of the Earth with axes as shown in Figure 2.2. ECEF: The Earth-centered Earth-fixed (ECEF) reference frame {e} = (xe, ye, ze) has its origin oe fixed to the center of the Earth but the axes rotate relative to the inertial frame ECI, which is fixed in space. The angular rate of rotation is ωe = 7.2921 × 10−5 rad/s. For marine craft moving at relatively low speed, the Earth rotation can be neglected and hence {e} can be considered to be inertial. Drifting ships, however, should not neglect the Earth rotation. The coordinate system {e} is usually used for global
+Table 2.1 The notation of SNAME (1950) for marine vessels
+Forces and Linear and Positions and DOF moments angular velocities Euler angles
+1 motions in the x direction (surge) X u x 2 motions in the y direction (sway) Y v y 3 motions in the z direction (heave) Z w z 4 rotation about the x axis (roll, heel) K p φ 5 rotation about the y axis (pitch, trim) M q θ 6 rotation about the z axis (yaw) N r ψ
+
+
+Reference Frames 17
+Figure 2.2 The Earth-centered Earth-fixed (ECEF) frame xeyeze is rotating with angular rate ωe with respect to an Earth-centered inertial (ECI) frame xiyizi fixed in space.
+guidance, navigation and control, for instance to describe the motion and location of ships in transit between different continents.
+Geographic Reference Frames
+NED: The North-East-Down (NED) coordinate system {n} = (xn, yn, zn) with origin on is defined relative to the Earth’s reference ellipsoid (World Geodetic System, 1984). This is the coordinate system we refer to in our everyday life. It is usually defined as the tangent plane on the surface of the Earth moving with the craft, but with axes pointing in different directions than the body-fixed axes of the craft. For this system the x axis points towards true North, the y axis points towards East while the z axis points downwards normal to the Earth’s surface. The location of {n} relative to {e} is determined by using two angles l and μ denoting the longitude and latitude, respectively. For marine craft operating in a local area, approximately constant longitude and latitude, an Earthfixed tangent plane on the surface is used for navigation. This is usually referred to as flat Earth navigation and it will for simplicity be denoted by {n}. For flat Earth navigation one can assume that {n} is inertial such that Newton’s laws still apply. BODY: The body-fixed reference frame {b} = (xb, yb, zb) with origin ob is a moving coordinate frame that is fixed to the craft. The position and orientation of the craft are described relative to the inertial reference frame (approximated by {e} or {n} for marine craft) while the linear and angular velocities of the craft should be expressed in the body-fixed coordinate system. The origin ob is usually chosen to coincide with a point midships in the water line. This point will be referred to as CO (see Figure 2.3). For marine craft, the body axes xb, yb and zb are chosen to coincide with the principal axes of inertia, and they are usually defined as (see Figure 2.3): • xb - longitudinal axis (directed from aft to fore) • yb - transversal axis (directed to starboard) • zb - normal axis (directed from top to bottom)
+
+
+18 Kinematics
+Figure 2.3 Body-fixed reference points.
+In addition to the body-fixed coordinate system {b}, it is convenient to define other body-fixed coordinate systems when performing hydrodynamic computations. This includes a system using flow axes (see Section 2.4) and the seakeeping reference frame {s} (see Section 5.2).
+Body-Fixed Reference Points
+The following reference points are defined with respect to CO:
+CG - center of gravity CB - center of buoyancy CF - center of flotation (located a distance LCF from CO in the x-direction)
+The center of flotation is the centroid of the water plane area Awp in calm water. The craft will roll and pitch about this point. Consequently, this point can be used to compute the pitch and roll periods. The eigenvalues of the 6 DOF linear equations of motion are independent of the reference point but the decoupled equations will produce incorrect results if they are formulated in a point different from CF (see Section 4.3).
+6 DOF Vectorial Notation
+We will use the notation u to refer to a coordinate free vector, that is a directed line segment. When a vector is described relative to a coordinate system {n}, the following notation will be used:
+u = un
+1 n1 + un
+2 n2 + un
+3n3 (2.3)
+where ni (i = 1, 2, 3) are the unit vectors that define {n}, un
+i are the measures of u along ni and un
+i ni are the components of u in {n}. We will also use the coordinate form un of u in {n} which is represented by a column vector in R3:
+un = [un
+1 , un
+2 , un
+3] (2.4)
+
+
+Reference Frames 19
+For marine craft the following notation will be adopted for vectors in the coordinate systems {b}, {e} and {n}:
+ve
+b/n = linear velocity of the point ob with respect to {n} expressed in {e}
+ωb
+n/e = angular velocity of {n} with respect to {e} expressed in {b}
+fn
+b = force with line of action through the point ob expressed in {n}
+mn
+b = moment about the point ob expressed in {n}
+nb = Euler angles between {n} and {b}
+The different quantities in Table 2.1, as defined by SNAME (1950), can now be conveniently expressed in a vectorial setting according to:
+ECEF position pe
+b/e =
+⎡
+⎣
+x
+y
+z
+⎤
+⎦ ∈ R3 Longitude and latitude en =
+[l
+μ
+]
+∈ S2
+NED position pn
+b/ n =
+⎡
+⎣
+N
+E
+D
+⎤
+⎦ ∈ R3 Attitude (Euler angles) nb =
+⎡
+⎣
+φ
+θ
+ψ
+⎤
+⎦ ∈ S3
+Body-fixed
+linear velocity vb
+b/n =
+⎡
+⎣
+u
+v
+w
+⎤
+⎦ ∈ R3 Body-fixed
+angular velocity ωb
+b/ n =
+⎡
+⎣
+p
+q
+r
+⎤
+⎦ ∈ R3
+Body-fixed force f b
+b=
+⎡
+⎣
+X
+Y
+Z
+⎤
+⎦ ∈ R3 Body-fixed moment mb
+b=
+⎡
+⎣
+K
+M
+N
+⎤
+⎦ ∈ R3
+where R3 is the Euclidean space of dimension three and S2 denotes a torus of dimension two (shape of a donut), implying that there are two angles defined on the interval [0, 2π] . In the three-dimensional (3-D) case the set S3 is a sphere. Hence, the general motion of a marine craft in 6 DOF with ob as coordinate origin is described by the following vectors:
+η=
+[ pn
+b/n (or pe
+b/ n )
+nb
+]
+, ν=
+[ vb
+b/n
+ωb
+b/n
+]
+, τ=
+[fb
+b
+mb
+b
+]
+(2.5)
+where η ∈ R3 × S3 denotes the position and orientation vector where the position vector pn
+b/n ∈ R3 is the distance from NED to BODY expressed in NED coordinates, nb ∈ S3 is a vector of Euler angles, ν ∈ R6 denotes the linear and angular velocity vectors that are decomposed in the body-fixed reference frame and τ ∈ R6 is used to describe the forces and moments acting on the craft in the body-fixed frame. In many applications, such as flat Earth navigation, the position vector pn
+b/n ∈ R3 from NED to BODY is expressed in NED coordinates. For global navigation it is convenient to express the position of the BODY origin ob with respect to ECEF, that is pe
+b/e ∈ R3. The orientation of the marine craft with respect to NED will be represented by means of the Euler angles nb or the quaternions q ∈ R4. In the next sections, the kinematic equations relating the BODY, NED and ECEF reference frames will be presented.
+
+
+20 Kinematics
+2.2 Transformations between BODY and NED
+The rotation matrix R between two frames a and b is denoted as Ra
+b, and it is an element in SO(3), that is the special orthogonal group of order 3:
+SO(3) = {R|R ∈ R3×3, R is orthogonal and det R = 1} (2.6)
+The group SO(3) is a subset of all orthogonal matrices of order 3, that is SO(3) ⊂ O(3) where O(3) is defined as
+O(3) := {R|R ∈ R3×3, RR = R R = I} (2.7)
+Rotation matrices are useful when deriving the kinematic equations of motion for a marine craft. As a consequence of (2.6) and (2.7), the following properties can be stated:
+Property 2.1 (Rotation Matrix)
+A rotation matrix R ∈ SO(3) satisfies
+RR = R R = I, det R = 1
+which implies that R is orthogonal. Consequently, the inverse rotation matrix is given by R−1 = R .
+In this book, the following notation is adopted when transforming a vector from one coordinate frame to another:
+(2.8)
+Here νfrom ∈ R3 denotes a velocity vector that can be transformed to a new reference frame by applying the rotation matrix Rto
+from. The result is the vector νto ∈ R3. A frequently used rotation matrix in guidance, navigation and control is the rotation matrix Rn
+b between {n} and {b}. When deriving the expression for Rn
+b we will make use of the following matrix properties:
+Definition 2.1 (Skew-Symmetry of a Matrix)
+A matrix S ∈ SS(n), that is the set of skew-symmetric matrices of order n, is said to be skewsymmetrical if
+S = −S
+This implies that the off-diagonal elements of S satisfy sij = −sji for i =/ j while the diagonal elements are zero.
+Definition 2.2 (Cross-Product Operator) The vector cross-product × is defined by
+λ × a := S(λ)a (2.9)
+where S ∈ SS(3) is defined as
+S(λ) = −S (λ) =
+⎡
+⎣
+0 −λ3 λ2
+λ3 0 −λ1
+−λ2 λ1 0
+⎤
+⎦, λ =
+⎡
+⎣
+λ1
+λ2
+λ3
+⎤
+⎦ (2.10)
+
+
+Transformations between BODY and NED 21
+Matlab
+The cross-product operator is included in the MSS toolbox as Smtrx.m. Hence, the cross-product b = S(λ)a can be computed as
+S = Smtrx(lambda)
+b = S*a
+Definition 2.3 (Simple Rotation)
+The motion of a rigid body or reference frame B relative to a rigid body or reference frame A is called a simple rotation of B in A if there exists a line L, called an axis of rotation, whose orientation relative to both A and B remains unaltered throughout the motion.
+Based on this definition, Euler stated the following theorem for rotation of two rigid bodies or reference frames (Euler, 1776).
+Theorem 2.1 (Euler’s Theorem on Rotation)
+Every change in the relative orientation of two rigid bodies or reference frames {A} and {B} can be produced by means of a simple rotation of {B} in {A}.
+Let vb
+b/n be a vector fixed in BODY and vn
+b/n be a vector fixed in NED. Hence, the vector vn
+b/n can be expressed in terms of the vector vb
+b/n, the unit vector λ = [λ1, λ2, λ3] , ‖ λ‖ = 1, parallel to the axis of rotation and β the angle NED is rotated. This rotation is described by (see Hughes, 1986, Kane et al., 1983)
+vn
+b/n = Rn
+b vb
+b/n, Rn
+b := Rλ,β (2.11)
+Here, Rλ,β is the rotation matrix corresponding to a rotation β about the λ axis:
+Rλ,β = I3×3 + sin(β)S(λ) + [1 − cos(β)] S2(λ) (2.12)
+where I3×3 is the identity matrix and S(λ) is the skew-symmetric matrix according to Definition 2.2. Consequently, S2(λ) = λλ − I3×3 since λ is a unit vector. Expanding (2.12) yields the following expressions for the matrix elements:
+R11 = [1 − cos(β)] λ2
+1 + cos(β)
+R22 = [1 − cos(β)] λ2
+2 + cos(β)
+R33 = [1 − cos(β)] λ2
+3 + cos(β)
+R12 = [1 − cos(β)] λ1λ2 − λ3 sin(β)
+R21 = [1 − cos(β)] λ2λ1 + λ3 sin(β)
+R23 = [1 − cos(β)] λ2λ3 − λ1 sin(β)
+R32 = [1 − cos(β)] λ3λ2 + λ1 sin(β)
+R31 = [1 − cos(β)] λ3λ1 − λ2 sin(β)
+R13 = [1 − cos(β)] λ1λ3 + λ2 sin(β)
+(2.13)
+
+
+22 Kinematics
+2.2.1 Euler Angle Transformation
+The Euler angles, roll (φ), pitch (θ) and yaw (ψ), can now be used to decompose the body-fixed velocity vector vb
+b/n in the NED reference frame. Let Rn
+b( nb) : S3 → SO(3) denote the Euler angle rotation matrix with argument nb = [φ, θ, ψ] . Hence,
+vn
+b/n = Rn
+b ( nb)vb
+b/n (2.14)
+Principal Rotations
+The principal rotation matrices (one axis rotations) can be obtained by setting λ = [1, 0, 0] , λ = [0, 1, 0] and λ = [0, 0, 1] corresponding to the x, y and z axes, and β = φ, β = θ and β = ψ, respectively, in the formula for Rλ,β given by (2.12). This yields
+Rx,φ =
+⎡
+⎣
+10 0
+0 cφ −sφ
+0 sφ cφ
+⎤
+⎦ , Ry,θ =
+⎡
+⎣
+cθ 0 sθ
+0 10
+−sθ 0 cθ
+⎤
+⎦ , Rz,ψ =
+⎡
+⎣
+cψ −sψ 0
+sψ cψ 0
+0 01
+⎤
+⎦ (2.15)
+where s · = sin(·) and c · = cos(·).
+Linear Velocity Transformation
+It is customary to describe Rn
+b( nb) by three principal rotations about the z, y and x axes (zyx convention). Note that the order in which these rotations is carried out is not arbitrary. In guidance, navigation and control applications it is common to use the zyx convention from {n} to {b} specified in terms of the Euler angles φ, θ and ψ for the rotations. This matrix is denoted Rb
+n( nb) = Rn
+b( nb) . The matrix transpose implies that the same result is obtained by transforming a vector from {b} to {n}, that is by reversing the order of the transformation. This rotation sequence is mathematically equivalent to
+Rn
+b ( nb) := Rz,ψRy,θRx,φ (2.16)
+and the inverse transformation is then written (zyx convention)
+Rn
+b ( nb)−1 = Rb
+n( nb) = Rx,φRy,θRz,ψ (2.17)
+where we have used the result of Property 2.1. This can also be seen by studying Figure 2.4. Let x3y3z3 be the coordinate system obtained by translating the NED coordinate system xnynzn parallel to itself until its origin coincides with the origin of the body-fixed coordinate system. The coordinate system x3y3z3 is rotated a yaw angle ψ about the z3 axis. This yields the coordinate system x2y2z2. The coordinate system x2y2z2 is rotated a pitch angle θ about the y2 axis. This yields the coordinate system x1y1z1. Finally, the coordinate system x1y1z1 is rotated a roll angle φ about the x1 axis. This yields the body-fixed coordinate system xbybzb. Expanding (2.16) yields
+Rn
+b ( nb) =
+⎡
+⎣
+cψcθ −sψcφ + cψsθsφ sψsφ + cψcφsθ
+sψcθ cψcφ + sφsθsψ −cψsφ + sθsψcφ
+−sθ cθsφ cθcφ
+⎤
+⎦ (2.18)
+
+
+Transformations between BODY and NED 23
+Figure 2.4 Euler angle rotation sequence (zyx convention). The submarine is rotated from {n} to {b} by using three principal rotations.
+Matlab
+The rotation matrix Rn
+b( nb) is implemented in the MSS toolbox as
+R = Rzyx(phi,theta,psi)
+For small angles δφ, δθ and δψ the expression (2.18) simplifies to
+Rn
+b(δ nb) ≈ I3×3 + S(δ nb) =
+⎡
+⎣
+1 −δψ δθ
+δψ 1 −δφ
+−δθ δφ 1
+⎤
+⎦ (2.19)
+which is quite useful when applying linear theory.
+
+
+24 Kinematics
+The body-fixed velocity vector vb
+b/n can be expressed in {n} as
+ ̇pn
+b/n = Rn
+b ( nb)vb
+b/n (2.20)
+where p ̇ n
+b/n is the NED velocity vector. Expanding (2.20) yields
+N ̇ = u cos(ψ) cos(θ) + v[cos(ψ) sin(θ) sin(φ) − sin(ψ) cos(φ)]
++w [sin(ψ) sin(φ) + cos(ψ) cos(φ) sin(θ)] (2.21)
+E ̇ = u sin(ψ)cos(θ) + v[cos(ψ) cos(φ) + sin(φ) sin(θ) sin(ψ)]
++w[sin(θ) sin(ψ) cos(φ) − cos(ψ) sin(φ)] (2.22)
+D ̇ = −u sin(θ) + v cos(θ) sin(φ) + w cos(θ) cos(φ) (2.23)
+The inverse velocity transformation is obtained by Definition 2.1 as
+vb
+b/n = Rn
+b ( nb)−1  ̇pn
+b/n = Rn
+b ( nb)  ̇pn
+b/n (2.24)
+Example 2.1 (Numerical Computation of Position Trajectory) The flight path or position trajectory pn
+b/n of the craft relative to the NED coordinate system is found by numerical integration of (2.20), for instance by using Euler integration:
+pn
+b/n(k + 1) = pn
+b/n(k) + hRn
+b( nb(k))vb
+b/n(k) (2.25)
+where h > 0 is the sampling time and k is the sample index.
+Angular Velocity Transformation
+The body-fixed angular velocity vector ωb
+b/n = [p, q, r] and the Euler rate vector  ̇ nb = [φ ̇ , θ ̇, ψ ̇ ] are related through a transformation matrix T ( nb) according to
+ ̇ nb = T ( nb)ωb
+b/n (2.26)
+It should be noted that the angular body velocity vector ωb
+b/n = [p, q, r] cannot be integrated directly
+to obtain actual angular coordinates. This is due to the fact that ∫ t
+0 ωb
+b/n(τ)dτ does not have any immediate physical interpretation; however, the vector nb = [φ, θ, ψ] does represent proper generalized coordinates. The transformation matrix T ( nb) can be derived in several ways, for instance:
+ωb
+b/n =
+⎡
+⎣
+φ ̇
+0
+0
+⎤
+⎦ + Rx,φ
+⎡
+⎣
+0
+θ ̇
+0
+⎤
+⎦ + Rx,φRy,θ
+⎡
+⎣
+0
+0
+ψ ̇
+⎤
+⎦ := T −1( nb)  ̇ nb (2.27)
+
+
+Transformations between BODY and NED 25
+This relationship is verified by inspection of Figure 2.4. Expanding (2.27) yields
+T −1( nb) =
+⎡
+⎣
+1 0 −sθ
+0 cφ cθsφ
+0 −sφ cθcφ
+⎤
+⎦ =⇒ T ( nb) =
+⎡
+⎣
+1 sφtθ cφtθ
+0 cφ −sφ
+0 sφ/cθ cφ/cθ
+⎤
+⎦ (2.28)
+where s · = sin(·), c · = cos(·) and t · = tan(·). Expanding (2.26) yields the Euler angle attitude equations in component form:
+φ ̇ = p + q sin(φ) tan(θ) + r cos(φ) tan(θ) (2.29)
+θ ̇ = q cos(φ) − r sin(φ) (2.30)
+ψ ̇ = q sin(φ)
+cos(θ) + r cos(φ)
+cos(θ) , θ =/ ± 90◦ (2.31)
+Notice that T ( nb) is undefined for a pitch angle of θ = ± 90◦ and that T ( nb) does not satisfy Property 2.1. Consequently, T −1( nb) =/ T ( nb). For surface vessels this is not a problem whereas both underwater vehicles and aircraft may operate close to this singularity. In this case, the kinematic equations can be described by two Euler angle representations with different singularities and the singular point can be avoided by switching between them. Another possibility is to use a quaternion representation; see Section 2.2.2. For small angles δφ, δθ and δψ the transformation matrix T ( nb) simplifies to
+T (δ nb) ≈
+⎡
+⎣
+1 0 δθ
+0 1 −δφ
+0 δφ 1
+⎤
+⎦ (2.32)
+The differential equation for the rotation matrix is given by Theorem 2.2.
+Theorem 2.2 (Rotation Matrix Differential Equation)
+The differential equation for the rotation matrix between the BODY and NED reference frames is
+ ̇Rn
+b = Rn
+b S (ωb
+b/n) (2.33)
+where
+S(ωb
+b/n) =
+⎡
+⎣
+0 −r q
+r 0 −p
+−q p 0
+⎤
+⎦ (2.34)
+This can be written in component form as nine differential equations:
+⎡
+⎣
+ ̇R11  ̇R12  ̇R13
+ ̇R21  ̇R22  ̇R23
+ ̇R31  ̇R23  ̇R33
+⎤
+⎦=
+⎡
+⎣
+R12r − R13q −R11r + R13p R11q − R12p
+R22r − R23q −R21r + R23p R21q − R22p
+R23r − R33q −R31r + R33p R31q − R23p
+⎤
+⎦ (2.35)
+
+
+26 Kinematics
+Proof. For a small time increment t the rotation matrix Rn
+b satisfies
+Rn
+b(t + t) ≈ Rn
+b (t )Rn
+b( t) (2.36)
+since sin( t) ≈ t and cos( t) ≈ 1. Assume that after time t + t there has been an infinitesimal increment β in the rotation angle. From (2.12) we have
+Rn
+b( t) = I3×3 + sin( β) S(λ) + [1 − cos( β)] S2(λ)
+≈ I3×3 + β S(λ) (2.37)
+From (2.36), it follows that
+Rn
+b(t + t) = Rn
+b(t) [I3×3 + β S(λ)] (2.38)
+Defining the vector βb := βλ, the time derivative of Rn
+b is found as
+ ̇Rn
+b(t) = lim
+t→0
+Rn
+b(t + t) − Rn
+b (t ) t
+= lim
+t→0
+Rn
+b(t) β S(λ) t
+= lim
+t→0
+Rn
+b(t)S( βb) t
+= Rn
+b (t )S (ωb
+b/n) (2.39)
+where ωb
+b/n = lim t→0( βb/ t).
+6 DOF Kinematic Equations
+Summarizing the results from this section, the 6 DOF kinematic equations can be expressed in vector form as
+ ̇η = J (η)ν
+[  ̇pn
+b/n
+ ̇ nb
+] =
+[ Rn
+b ( nb) 03×3
+03×3 T ( nb)
+] [ vb
+b/n
+ωb
+b/n
+] (2.40)
+where η ∈ R3 × S3 and ν ∈ R6.
+Matlab
+The transformation matrix J (η) and its diagonal elements J11(η) = Rn
+b( nb) and J 22(η) = T ( nb) can be computed by using the MSS toolbox command:
+[J,J11,J22] = eulerang(phi,theta,psi)
+
+
+Transformations between BODY and NED 27
+The differential equations are then found by
+p dot = J1*v
+theta dot = J2*w nb
+Alternatively, (2.40) can be written in component form as
+N ̇ = u cos(ψ) cos(θ) + v[cos(ψ) sin(θ) sin(φ) − sin(ψ) cos(φ)]
++w [sin(ψ) sin(φ) + cos(ψ) cos(φ) sin(θ)] (2.41)
+E ̇ = u sin(ψ)cos(θ) + v[cos(ψ) cos(φ) + sin(φ) sin(θ) sin(ψ)]
++w[sin(θ) sin(ψ) cos(φ) − cos(ψ) sin(φ)] (2.42)
+D ̇ = −u sin(θ) + v cos(θ) sin(φ) + w cos(θ) cos(φ) (2.43)
+φ ̇ = p + q sin(φ) tan(θ) + r cos(φ) tan(θ) (2.44)
+θ ̇ = q cos(φ) − r sin(φ) (2.45)
+ψ ̇ = q sin(φ)
+cos(θ) + r cos(φ)
+cos(θ) , θ =/ ± 90◦ (2.46)
+3 DOF Model for Surface Vessels
+A frequently used simplification of (2.40) is the 3 DOF (surge, sway and yaw) representation for marine craft. This is based on the assumption that φ and θ are small, which is a good approximation for most conventional ships, underwater vehicles and rigs. Hence, Rn
+b ( nb) = Rz,ψRy,θRx,φ ≈ Rz,ψ and
+T ( nb) ≈ I3×3. Neglecting the elements corresponding to heave, roll and pitch finally yields:
+ ̇η = R(ψ)ν (2.47)
+where R(ψ) := Rz,ψ with ν = [u, v, r] and η = [N, E, ψ] .
+2.2.2 Unit Quaternions
+An alternative to the Euler angle representation is a four-parameter method based on unit quaternions or Euler parameters. The main motivation for using four parameters is to avoid the representation singularity of the Euler angles. A quaternion q is defined as a complex number (Chou, 1992) with one real part η and three imaginary parts given by the vector
+ε = [ε1, ε2, ε3] (2.48)
+A unit quaternion satisfies q q = 1. The set Q of unit quaternions is therefore defined as
+Q := {q|q q = 1, q = [η, ε ] , ε ∈ R3 and η ∈ R} (2.49)
+The motion of the body-fixed reference frame relative to the inertial frame will now be expressed in terms of unit quaternions.
+
+
+28 Kinematics
+Unit Quaternions
+From (2.12) it is seen that
+Rβ,λ = I3×3 + sin(β)S(λ) + [1 − cos(β)]S2(λ) (2.50)
+The real and imaginary parts of the unit quaternions are defined as (Chou, 1992)
+η := cos
+(β
+2
+)
+(2.51)
+ε = [ε1, ε2, ε3] := λ sin
+(β
+2
+)
+(2.52)
+where λ = [λ1, λ2, λ3] is a unit vector satisfying
+λ = ± √εε ε if
+√ε ε =/ 0 (2.53)
+Consequently, the unit quaternions can be expressed in the form
+q=
+⎡
+⎢⎢⎣
+η
+ε1
+ε2
+ε3
+⎤
+⎥⎥⎦ =
+[
+cos ( β
+2
+)
+λ sin ( β
+2
+)
+]
+∈ Q, 0 ≤ β ≤ 2π (2.54)
+This parametrization implies that the unit quaternions satisfy the constraint q q = 1, that is
+η2 + ε2
+1 + ε2
+2 + ε2
+3 = 1 (2.55)
+From (2.50) with (2.51) and (2.52), the following coordinate transformation matrix for the unit quaternions is obtained:
+Rn
+b(q) := Rη,ε = I3×3 + 2ηS(ε) + 2S2(ε) (2.56)
+Linear Velocity Transformation
+The transformation relating the linear velocity vector in an inertial reference frame to a velocity in the body-fixed reference frame can now be expressed as
+ ̇pn
+b/n = Rn
+b (q)vb
+b/n (2.57)
+
+
+Transformations between BODY and NED 29
+where
+Rn
+b(q) =
+⎡
+⎣
+1 − 2(ε2
+2 + ε2
+3) 2(ε1ε2 − ε3η) 2(ε1ε3 + ε2η)
+2(ε1ε2 + ε3η) 1 − 2(ε2
+1 + ε2
+3) 2(ε2ε3 − ε1η)
+2(ε1ε3 − ε2η) 2(ε2ε3 + ε1η) 1 − 2(ε2
+1 + ε2
+2)
+⎤
+⎦ (2.58)
+Expanding (2.57) yields
+N ̇ = u(1 − 2ε2
+2 − 2ε2
+3) + 2v(ε1ε2 − ε3η) + 2w(ε1ε3 + ε2η) (2.59)
+E ̇ = 2u(ε1ε2 + ε3η) + v(1 − 2ε2
+1 − 2ε2
+3) + 2w(ε2ε3 − ε1η) (2.60)
+D ̇ = 2u(ε1ε3 − ε2η) + 2v(ε2ε3 + ε1η) + w(1 − 2ε2
+1 − 2ε2
+2) (2.61)
+As for the Euler angle representation, Property 2.1 implies that the inverse transformation matrix satisfies Rn
+b (q)−1 = Rn
+b(q) .
+Matlab
+The quaternion rotation matrix is easily computed by using the MSS toolbox commands
+q = [eta,eps1,eps2,eps3]
+R = Rquat(q)
+Notice that q q = 1 must be true for Rquat.m to return a solution. One way to ensure this is to use the transformation
+q = euler2q(phi,theta,psi)
+transforming the three Euler angles φ, θ and ψ to the unit quaternion vector q; see Section 2.2.3 for details.
+Angular Velocity Transformation
+The angular velocity transformation can be derived by substituting the expressions for Rij from (2.58) into the differential equation  ̇Rn
+b = Rn
+b S (ωb
+b/n); see Theorem 2.2. Some calculations yield
+q ̇ = T q(q)ωb
+b/n (2.62)
+where
+T q(q) = 1
+2
+⎡
+⎢⎢⎣
+−ε1 −ε2 −ε3
+η −ε3 ε2
+ε3 η −ε1
+−ε2 ε1 η
+⎤
+⎥⎥⎦ , T q (q)T q(q) = 1
+4 I3×3 (2.63)
+
+
+30 Kinematics
+Hence,
+ ̇η = − 1
+2 (ε1p + ε2q + ε3r) (2.64)
+ ̇ε1 = 1
+2 (ηp − ε3q + ε2r) (2.65)
+ε ̇2 = 1
+2 (ε3p + ηq − ε1r) (2.66)
+ ̇ε3 = 1
+2 (−ε2p + ε1q + ηr) (2.67)
+An alternative formulation is the vector representation (Kane et al., 1983)
+q ̇ =
+[  ̇η
+ ̇ε
+]
+=1
+2
+[ −ε
+ηI3×3 + S(ε)
+]
+ωb
+b/n (2.68)
+6 DOF Kinematic Equations
+Consequently, the 6 DOF kinematic equations of motion can be expressed by seven differential equations for η = [N, E, D, η, ε1, ε2, ε3] (recall that only six differential equations are needed when using the Euler angle representation):
+ ̇η = Jq(η)ν
+[ p ̇ n
+b/n
+q ̇
+] =
+[ Rn
+b (q) 03×3
+04×3 T q(q)
+] [ vb
+b/n
+ωb
+b/n
+] (2.69)
+where η ∈ R7 and ν ∈ R6, and Jq(η) ∈ R7×6 is a nonquadratic transformation matrix. Equation (2.69) in component form is given by (2.59)–(2.61) and (2.64)–(2.67).
+Matlab
+The transformation matrix Jq(η) and its elements J11 = Rn
+b(q) and J 22 = T q(q) can be computed directly in the MSS toolbox by using the following commands:
+q = [eta,eps1,eps2,eps3]’
+[J,J11,J22] = quatern(q)
+The corresponding differential equations are
+p dot = J11*v
+q dot = J22*w bn
+
+
+Transformations between BODY and NED 31
+Implementation Considerations: Unit Quaternion Normalization
+When integrating (2.62), a normalization procedure is necessary to ensure that the constraint
+q q = ε2
+1 + ε2
+2 + ε2
+3 + η2 = 1 (2.70)
+is satisfied in the presence of measurement noise and numerical round-off errors. For this purpose, the following discrete-time algorithm can be applied.
+Algorithm 2.1 (Discrete-Time Normalization of the Unit Quaternions)
+1. k = 0. Compute initial values of q(k = 0). 2. For simplicity, Euler integration implies that
+q(k + 1) = q(k) + hT q(q(k))ωb
+b/n(k) (2.71)
+where h is the sampling time. 3. Normalization:
+q(k + 1) = q(k + 1)
+‖q(k + 1)‖ = q(k + 1)
+√q (k + 1)q(k + 1)
+4. Let k = k + 1 and return to Step 2.
+A continuous time algorithm for unit quaternion normalization can be implemented by noting that
+d dt
+(q q) = 2q T q(q)ωb
+b/n = 0 (2.72)
+This shows that if q is initialized as a unit vector, then it will remain a unit vector. Since integration of the quaternion vector q from the differential equation (2.62) will introduce numerical errors that will cause the length of q to deviate from unity, a nonlinear feedback or normalization term is suggested. In Simulink this is done by replacing the kinematic differential equation (2.62) with
+q ̇ = T q(q)ωb
+b/n + γ
+2 (1 − q q)q (2.73)
+where γ ≥ 0 (typically 100) is a design parameter reflecting the convergence rate of the normalization. This results in
+d dt
+(q q) = 2q T q(q)ωb
+b/n
+} {{ }
+0 since q(0) is a unit vector
++ γ(1 − q q)q q = γ(1 − q q)q q (2.74)
+Observe that q q will decrease if q q > 1 while it increases for q q < 1. When q q = 1 the usual kinematic differential equations are recovered. A change of coordinates x = 1 − q q, x ̇ = −d/dt(q q) yields
+x ̇ = −γx(1 − x) (2.75)
+
+
+32 Kinematics
+Linearization about x = 0 gives x ̇ = −γx. Consequently, the normalization algorithm converges with a time constant T = γ−1.
+2.2.3 Quaternions from Euler Angles
+If the Euler angles nb = [φ, θ, ψ] are known and therefore the expression for the rotation matrix Rn
+b( nb) = {Rij}, a singularity free extraction procedure can be used to compute the corresponding unit quaternions (Shepperd, 1978).
+Algorithm 2.2 (Quaternions From Euler Angles)
+1. Given the Euler angles φ, θ and ψ. Let the transformation matrix Rn
+b according to (2.18) be written
+Rn
+b( nb) :=
+⎡
+⎣
+R11 R12 R13
+R21 R22 R23
+R31 R32 R33
+⎤
+⎦
+2. The trace of Rn
+b( nb) is computed as
+R44 = tr(Rn
+b ) = R11 + R22 + R33
+3. Let 1 ≤ i ≤ 4 be the index corresponding to
+Rii = max(R11, R22, R33, R44)
+4. Compute pi corresponding to Index i of Step 3 according to
+pi =
+∣∣∣√
+1 + 2Rii − R44
+∣∣∣
+where the sign ascribed to pi can be chosen to be either positive or negative. 5. Compute the other three pi-values from
+p4p1 = R32 − R23 p2p3 = R32 + R23
+p4p2 = R13 − R31 p3p1 = R13 + R31
+p4p3 = R21 − R12 p1p2 = R21 + R12
+by simply dividing the three equations containing the component pi with the known value of pi (from Step 4) on both sides. 6. Compute the Euler parameters q = [η, ε1, ε2, ε3] according to
+εj = pj/2 (j = 1, 2, 3)
+η = p4/2
+Matlab
+Algorithm 2.2 is implemented in the MSS toolbox as euler2q.m. This algorithm can also be used to compute the initial values of the Euler parameters corresponding to Step 1 of Algorithm 2.1.
+
+
+Transformations between BODY and NED 33
+Example 2.2 (Euler Angles to Unit Quaternions)
+Consider a marine craft with orientation φ = 10.0◦, θ = −20.0◦ and ψ = 30.0◦. The unit quaternions are computed in Matlab by using the commands
+phi=10*(pi/180), theta=-20*(pi/180), psi=30*(pi/180)
+q = euler2q(phi,theta,psi)
+q = [0.9437, 0.1277, -0.1449, 0.2685]
+% normalization test
+norm(q) =
+1.0000
+2.2.4 Euler Angles from Quaternions
+The relationship between the Euler angles φ, θ and ψ (zyx convention) and the unit quaternions qi (i = 1, . . . , 4) can be established by requiring that the rotation matrices of the two kinematic representations are equal:
+Rn
+b ( nb) := Rn
+b(q) (2.76)
+Let the elements of Rn
+b(q) be denoted by Rij where the superscripts i and j denote the ith row and jth column. Writing expression (2.76) in component form yields a system of nine equations with three unknowns (φ, θ and ψ) given by
+⎡
+⎣
+cψcθ −sψcφ + cψsθsφ sψsφ + cψcφsθ
+sψcθ cψcφ + sφsθsψ −cψsφ + sθsψcφ
+−sθ cθsφ cθcφ
+⎤
+⎦=
+⎡
+⎣
+R11 R12 R13
+R21 R22 R23
+R31 R32 R33
+⎤
+⎦ (2.77)
+Algorithm 2.3 (Euler Angles from Quaternions) One solution to (2.77) is
+φ = atan2(R32, R33) (2.78)
+θ = − sin−1(R31) = − tan−1
+(
+R31
+√
+1 − R2
+31
+)
+; θ =/ ± 90◦ (2.79)
+ψ = atan2(R21, R11) (2.80)
+In Algorithm 2.3 atan2(y, x) is the four-quadrant arctangent of the real parts of the elements of x and y satisfying
+−π ≤ atan2(y, x) ≤ π (2.81)
+Precautions must be taken against computational errors in the vicinity of θ = ±90◦.
+
+
+34 Kinematics
+Matlab
+The MSS toolbox script
+[phi,theta,psi] = q2euler(q)
+is based on Algorithm 2.3. A singularity test is included in order to avoid θ = ±90◦.
+Example 2.3 (Unit Quaternions to Euler Angles)
+Consider the marine vessel in Example 2.2 where the Euler angles where converted into unit quaternions. The inverse transformation q2euler.m results in
+q =[0.9437,0.1277,-0.1449,0.2685]’
+[phi,theta,psi] = q2euler(q/norm(q))
+phi = 0.1746
+theta = -0.3491
+psi = 0.5235
+corresponding to φ = 10.0◦, θ = −20.0◦ and ψ = 30.0◦.
+2.3 Transformations between ECEF and NED
+Wide area or terrestrial guidance and navigation implies that the position should be related to the Earth center instead of a local frame on the Earth’s surface. This can be done by using the results from the previous sections.
+2.3.1 Longitude and Latitude Transformations
+The transformation between the ECEF and NED velocity vectors is
+p ̇ e
+b/e = Re
+n( en)  ̇pn
+b/e = Re
+n( en)Rn
+b ( nb)vb
+b/e (2.82)
+where en = [l, μ] ∈ S2 is a vector formed by longitude l and latitude μ (see Figure 2.5) and Re
+n( en): S2 → SO(3) is a rotation matrix between ECEF and NED. This is found by performing two principal rotations: (1) a rotation l about the z axis and (2) a rotation (−μ − π/2) about the y axis. This gives
+Re
+n( en) = Rz,lRy,−μ− π
+2 (2.83)
+=
+⎡
+⎣
+cos(l) − sin(l) 0
+sin(l) cos(l) 0
+0 01
+⎤
+⎦
+⎡
+⎣
+cos (−μ− π
+2 ) 0 sin (−μ− π
+2) 0 10
+− sin (−μ− π
+2 ) 0 cos (−μ− π
+2)
+⎤
+⎦
+Using the trigonometric formulae cos(−μ − π
+2 ) = − sin(μ) and sin(−μ − π
+2 ) = − cos(μ) yields
+Re
+n( en) =
+⎡
+⎣
+− cos(l) sin(μ) − sin(l) − cos(l) cos(μ)
+− sin(l) sin(μ) cos(l) − sin(l) cos(μ)
+cos(μ) 0 − sin(μ)
+⎤
+⎦ (2.84)
+
+
+Transformations between ECEF and NED 35
+Figure 2.5 Definitions of longitude l and latitude μ and the NED reference frame on the surface of the Earth. The D axis points in the normal direction to the Earth’s surface.
+Hence, the ECEF positions pe
+b/e = [x, y, z] can be found by integration of (2.82). This equation can also be used when designing a global waypoint tracking control system for ships.
+Matlab
+The rotation matrix Re
+n( en) is computed using the MSS toolbox command
+R = Rll(l,mu)
+Flat Earth Navigation
+For local flat Earth navigation it can be assumed that the NED tangent plane is fixed on the surface of the Earth, that is l and and μ are constants, by assuming that the operating radius of the vessel is limited. This suggests that the NED position vector
+ ̇pn
+b/n = Rn
+b ( nb)vb
+b/n (2.85)
+is used for control design. When designing dynamic positioning (DP) systems for offshore vessels this is particularly useful. The ECEF coordinates for flat Earth navigation are found by requiring that en = constant, such that
+Re
+n( en) = Ro = constant (2.86)
+ ̇pe
+b/e = RoRn
+b ( nb)vb
+b/e (2.87)
+
+
+36 Kinematics
+Figure 2.6 Definitions of the ellipsoidal parameters.
+When designing global waypoint tracking control systems for ships, “flat Earth” is not a good approximation since (l, μ) will vary largely for ships in transit between the different continents. Hence, the more general expression (2.82) should be used for global navigation.
+2.3.2 Longitude and Latitude from ECEF Coordinates
+The measurements of satellite navigation systems (GPS, GLONASS and Gallileo) are given in the Cartesian ECEF frame, but there are measurements that do not make much sense to the user. The presentation of terrestrial position data pe
+b/e = [x, y, z] is therefore made in terms of the ellipsoidal parameters longitude l, latitude μ and height h. Figure 2.6 shows the definitions of parameters needed for the transformations. The reference ellipsoid used for satellite navigation systems, WGS-84, is found by rotating an ellipse around the polar axis. Because of symmetry about the polar axis, it is only necessary to look at the meridian plane (latitude) equations. The origin of the ellipsoid coincides with the mass center of the Earth. The most important parameters of the WGS-84 ellipsoid are listed in Table 2.2. In Figure 2.6, μ is the geodetic latitude, h is the ellipsoidal height and N is the radius of curvature in the prime vertical. N is calculated by
+N = r2
+e
+√
+re2 cos2(μ) + r2p sin2(μ)
+(2.88)
+where the equatorial and polar earth radii, re and rp, are the semi-axes of the ellipsoid.
+Table 2.2 WGS-84 parameters
+Parameters Comments
+re = 6 378 137 m Equatorial radius of ellipsoid (semi-major axis) rp = 6 356 752 m Polar axis radius of ellipsoid (semi-minor axis) ωe = 7.292115 × 10−5 rad/s Angular velocity of the Earth e = 0.0818 Eccentricity of ellipsoid
+
+
+Transformations between ECEF and NED 37
+Longitude l is easily computed as
+l = atan
+(y
+x
+)
+(2.89)
+while latitude μ and height h are implicitly computed by
+tan(μ) = z
+p
+(
+1 − e2 N
+N +h
+)−1
+(2.90)
+h= p
+cos(μ) − N (2.91)
+where e is the eccentricity of the Earth given by
+e=
+√
+1−
+( rp
+re
+)2
+(2.92)
+Since these two equations are implicit, they can be solved iteratively by using Algorithm 2.4 (HofmannWellenhof et al., 1994).
+Algorithm 2.4 (Transformation of ( x, y, z ) to ( l, μ, h ))
+1. Compute p = √
+x2 + y2.
+2. Compute the approximate value μ(0) from
+tan(μ(0)) = z
+p (1 − e2)−1
+3. Compute an approximate value N from
+N = r2
+e
+√
+re2 cos2(μ(0)) + r2p sin2(μ(0))
+4. Compute the ellipsoidal height by
+h= p
+cos(μ(0)) − N(0)
+5. Compute an improved value for the latitude by
+tan(μ) = z
+p
+(
+1 − e2 N(0)
+N(0) + h
+)−1
+6. Check for another iteration step: if |μ − μ(0)| < tol, where tol is a small number, then the iteration is complete. Otherwise set μ(0) = μ and continue with Step 3.
+
+
+38 Kinematics
+Matlab
+Algorithm 2.4 is programmed in the MSS toolbox as a function
+[l,mu,h] = ecef2llh(x,y,z)
+Several other algorithms can be used for this purpose; see Farrell and Barth (1998) and references therein. An approximate solution can also be found in Hofmann-Wellenhof et al. (1994) and an exact explicit solution is given by Zhu (1993).
+Height Transformation
+The WGS-84 ellipsoid is a global ellipsoid, which is only an approximation of the mean sea level of the Earth. It can deviate from the real mean sea level by as much as 100 meters at certain locations. The Earth’s geoid, on the other hand, is defined physically and its center is coincident with the center of the Earth. It is an equipotential surface so that it has the same gravitational magnitude all over the surface, and the gravity vector is always perpendicular to the geoid. The geoid is the surface chosen as a zero level reference. The ellipsoidal height h in Figure 2.7 must therefore be transformed to the orthometric height H in Figure 2.7 through the relation
+h ≈ H +M
+where M is called the geoidal height. The angle εd is small enough for the above approximation to be sufficiently accurate for all practical purposes. The angle εd is known as the deflection of the vertical, and does not exceed 30 arcseconds in most of the world. In fact the largest deflection encountered over the entire earth is in the order of 1 arcminutes (Britting, 1971). The geoidal height M is found through a datum transformation (Hofmann-Wellenhof et al., 1994).
+2.3.3 ECEF Coordinates from Longitude and Latitude
+The transformation from en = [l, μ] for given heights h to pe
+b/e = [x, y, z] is given by (Heiskanen and Moritz, 1967)
+⎡
+⎣
+x
+y
+z
+⎤
+⎦=
+⎡
+⎢⎣
+(N + h) cos(μ) cos(l)
+(N + h) cos(μ) sin(l)
+( r2p
+re2
+N +h
+)
+sin(μ)
+⎤
+⎥⎦ (2.93)
+For a ship h is the vertical distance from the sea level to the coordinate origin of {b}.
+Figure 2.7 Illustration of ellipsoidal and orthonometric heights h and H where εd is the deflection of gravity and M is the geoidal height (undulation).
+
+
+Transformations between BODY and FLOW 39
+Matlab
+The transformation from en = [l, μ] to pe
+b/e = [x, y, z] , Equation (2.93), is programmed in the MSS toolbox function
+[x,y,z]=llh2ecef(l,mu,h)
+Example 2.4 (ECEF Coordinates from l and μ)
+Assume that l = 10.3◦, μ = 63.0◦ and h = 0 m. Hence, the ECEF coordinates are computed to be
+⎡
+⎣
+x
+y
+z
+⎤
+⎦=
+⎡
+⎣
+2 856 552 m
+519 123 m
+5 659 978 m
+⎤
+⎦
+using the MSS Matlab command
+[x,y,z]=llh2ecef(10.3*(pi/180),63.0*(pi/180),0)
+2.4 Transformations between BODY and FLOW
+Flow axes are often used to express hydrodynamic data. The FLOW axes are found by rotating the BODY axis system such that resulting x axis is parallel to the freestream flow. Moreover, in FLOW axes, the x axis points directly into the relative flow while the z axis remains in the reference plane, but rotates so that it remains perpendicular to the x axis. The y axis completes the right-handed system. The transformation is outlined in Section 2.4.2. The main reason for the FLOW axis system is that it is more convenient for calculating hydrodynamic forces. For instance, lift is, by definition, perpendicular to the relative flow, while drag is parallel. With FLOW axes, both lift and drag resolve into a force that is parallel to one of the axes.
+2.4.1 Definitions of Course, Heading and Sideslip Angles
+The relationship between the angular variables course, heading and sideslip is important for maneuvering of a marine craft in the horizontal plane (3 DOF). The terms course and heading are used interchangeably in much of the literature on guidance, navigation and control of marine craft, and this leads to confusion. Consequently, definitions utilizing a consistent symbolic notation will now be established. The speed of a marine craft moving in the horizontal plane is
+U=
+√
+u2 + v2 (2.94)
+In the presence of ocean currents, the relative speed becomes
+Ur = √
+(u − uc)2 + (v − vc)2 (2.95)
+where the velocity components of the current are uc and vc. The relationship between the angular variables is shown in Figure 2.8. The following definitions for motions in the horizontal plane are adopted from Breivik and Fossen (2004b):
+Definition 2.4 (Course Angle χ )
+The angle from the xn axis of {n} to the velocity vector of the craft, positive rotation about the zn axis of {n} by the right-hand screw convention.
+
+
+40 Kinematics
+Definition 2.5 (Heading (Yaw) Angle ψ)
+The angle from the xn axis of {n} to the xb axis of {b}, positive rotation about the zn axis of {n} by the right-hand screw convention.
+Definition 2.6 (Sideslip (Drift) Angle β)
+The angle from the xb axis of {b} to the velocity vector of the vehicle, positive rotation about the zb axis of {b} by the right-hand screw convention.
+By these definitions, it is apparent that the course angle satisfies
+χ = ψ + β (2.96)
+where
+β = sin−1
+(v
+U
+) β small
+⇒ β≈ v
+U (2.97)
+This relationship is easily verified from Figure 2.8. The sideslip angle can be extended to include the effect of ocean currents by letting
+βr = sin−1
+( vr
+Ur
+) βr small
+⇒ βr ≈ vr
+Ur
+(2.98)
+where vr = v − vc is the relative sway velocity.
+Remark 2.1
+In SNAME (1950) and Lewis (1989) the sideslip angle for marine craft is defined according to:
+βSNAME := −β
+Note that the sideslip definition in this section follows the sign convention used by the aircraft community, for instance as in Nelson (1998) and Stevens and Lewis (1992). This definition is more intuitive from a guidance point of view, as shown in Figure 2.8.
+Figure 2.8 The geometrical relationship χ = ψ + β between course χ, heading angle ψ and sideslip angle β.
+
+
+Transformations between BODY and FLOW 41
+Example 2.5 (Sideslip Angle: No Ocean Currents)
+Consider a marine craft moving at U = 10 m/s under the assumption of no ocean currents and zero sway velocity (v = 0). Hence, the sideslip angle is
+β = sin−1
+(v
+U
+)
+= 0 (2.99)
+For this case the heading angle equals the course angle, that is
+χ ≡ ψ (2.100)
+Example 2.6 (Sideslip Angle: Ocean Currents)
+Consider a marine craft at rest and exposed for an ocean current uc = vc = 0.5 m/s. Since
+u = v = 0 it follows that Ur = √uc2 + vc2 and
+βr = sin−1
+(
+−vc
+√uc2 + vc2
+)
+= −0.36 (2.101)
+corresponding to −20.7◦. In this case the heading and the course angles satisfy
+χ = ψ − 20.7◦ (2.102)
+2.4.2 Sideslip and Angle of Attack
+The transformation from FLOW to BODY axes is defined by two principal rotations. First, the flow axes are rotated by a negative sideslip angle −β about the z axis and the new coordinate system is called stability axes. Second, the stability axes are rotated by a positive angle α about the new y axis. This angle α is called the angle of attack.
+The names stability and wind axes are commonly used in aerodynamics to model lift and drag forces, which both are nonlinear functions of α, β and U. This convention has been adopted by the marine community and SNAME to describe lift and drag forces on submerged vehicles (SNAME, 1950). For marine craft, wind axes correspond to flow axes. Stability and flow axes are also used in path following. For instance, a ship equipped with a single rudder and a main propeller can follow a path even though only two controls are available by simply steering the vessel to the path using the rudder. The speed is controlled by an independent propeller feedback loop (Fossen et al., 2003a). This means that we control the xy coordinates and yaw angle ψ of the ship (3 DOF). When doing this, it is optimal to have a zero sideslip angle when there are no ocean currents, wave and wind loads. If the environmental forces are nonzero, it is optimal to have a nonzero sideslip angle, as shown in Figure 2.9 (Breivik and Fossen, 2005a). This is referred to as weathervaning.
+Figure 2.9 Illustration of stability and flow axes in terms of the angle of attack α and the sideslip angle β.
+
+
+42 Kinematics
+However, it is extremely difficult to track the desired path given by x and y, and at the same time maintain a constant heading angle ψ unless three controls are available for feedback since this is an underactuated control problem. The transformation between BODY, STABILITY and FLOW axes can be mathematically expressed as
+vstab = Ry,αvb (2.103)
+vflow = Rz,−βvstab (2.104)
+where
+Ry,α =
+⎡
+⎣
+cos(α) 0 sin(α)
+0 10
+−sin(α) 0 cos(α)
+⎤
+⎦ (2.105)
+Rz,−β = Rz,β =
+⎡
+⎣
+cos(β) sin(β) 0
+− sin(β) cos(β) 0
+0 01
+⎤
+⎦ (2.106)
+The transformation matrix from BODY to FLOW axes then becomes
+Rflow
+b = Rz,−βRy,α
+=
+⎡
+⎣
+cos(β) cos(α) sin(β) cos(β) sin(α)
+− sin(β) cos(α) cos(β) − sin(β) sin(α)
+− sin(α) 0 cos(α)
+⎤
+⎦ (2.107)
+The velocity transformation
+vflow = Rflow
+b vb (2.108)
+can now be rewritten as
+vb = (Rflow
+b ) vflow (2.109)
+⎡
+⎣
+u
+v
+w
+⎤
+⎦ = Ry,αRz,−β
+⎡
+⎣
+U
+0
+0
+⎤
+⎦ (2.110)
+Writing this expression in component form yields
+u = U cos(α) cos(β) (2.111)
+v = U sin(β) (2.112)
+w = U sin(α) cos(β) (2.113)
+
+
+Transformations between BODY and FLOW 43
+For a marine craft moving at constant forward speed U > 0, the angle of attack and sideslip angle become
+α = tan−1
+(w
+u
+)
+(2.114)
+β = sin−1
+(v
+U
+)
+(2.115)
+For small angles of α and β (linear theory), it follows that
+u ≈ U, v ≈ βU, w ≈ αU (2.116)
+and
+α≈ w
+U, β≈ v
+U (2.117)
+Time differentiation of (2.112) under the assumption that U and the ocean current in {n} are constant gives the sway rate
+ ̇v = U cos(β)β ̇ (2.118)
+Consequently, the sideslip rate for U > 0 becomes
+β ̇ = 1
+U cos(β)  ̇v (2.119)
+This relationship is exploited when designing path-following control systems (see Section 10.4).
+Extension to Ocean Currents
+For a marine craft exposed to ocean currents, the concept of relative velocities is introduced; see Section 8.3. Let the current velocities expressed in {b} be denoted uc, vc and wc. The relative velocities are
+ur = u − uc (2.120)
+vr = v − vc (2.121)
+wr = w − wc (2.122)
+such that the relative speed becomes
+Ur = √
+ur2 + vr2 + wr2 (2.123)
+Angle of attack and sideslip angle as given by (2.111)–(2.113) are modified in terms of the relative velocities according to
+ur = Ur cos(αr) cos(βr) (2.124)
+vr = Ur sin(βr) (2.125)
+wr = Ur sin(αr) cos(βr) (2.126)
+
+
+44 Kinematics
+such that
+αr = tan−1
+( wr
+ur
+)
+(2.127)
+βr = sin−1
+( vr
+Ur
+)
+(2.128)
+For small angles αr and βr, it is seen that
+ur ≈ Ur, vr ≈ βrUr, wr ≈ αrUr (2.129)
+such that
+αr ≈ w − wc
+Ur
+, βr ≈ v − vc
+Ur
+(2.130)
+State-Space Transformation
+The state-space model of a marine craft can be transformed to FLOW axes using a transformation matrix depending on speed. Let
+ν = [u, v, w, p, q, r] (2.131)
+and
+νflow = [U, β, α, p, q, r] (2.132)
+The latter representation is often more intuitive to use from a hydrodynamic point of view, while control engineers prefer the former. Both representations are, however, equivalent since there exists a nonlinear transformation between (u, v, w) and (U, β, α), given by (2.111)–(2.113). For small angles, the following approximative transformation:
+νflow = T (U)ν (2.133)
+with
+T (U) = diag
+{
+1, 1
+U, 1
+U , 1, 1, 1
+}
+(2.134)
+can be used. If we assume that U = constant such that T ̇ (U) = 0, the linear model
+Mν ̇ + Nν = τ (2.135)
+transforms to FLOW axes according to
+T (U)MT (U)−1ν ̇flow + T (U)NT (U)−1νflow = T (U)τ (2.136)
