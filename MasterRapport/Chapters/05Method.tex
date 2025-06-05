@@ -4,14 +4,50 @@
 \usepackage{cleveref}
 
 \begin{document}
+This project can be very broadly divided into two segments, the simulation segment and the physical testing segment. The goal is that the simulation is to be as true to reality as possible. With a true-to-life simulation, a control system can be built to work in the simulation. Once the control system is created and tested satisfacotrily, it can be "transplanted" to the physical test. Because of these two different segments, I will talk about them separately.
+
+Another way to look at this is as an agnostic control system and a plant, where the plant is implemented both as a simulation and as a physical vessel. Which alternative is better is hard to tell right now so both are included.
 \section{Simulation framework}
+The simulation was implemented in Algoryx AB's AGX Dynamics, a seemingly solid simulation framework which is able to simulate both the hydrodynamic effects on the vessels, as well as the wire dynamics etc. on the tether. A license for AGX Dynamics (from here just AGX) was also available within the university making implementation easy.
+
+The exact details of the implementation are more specifically brought up in \citet{specialization}, the specialization project completed as a preparation for this thesis. Below is a brief explanation of the simulation setup.
+
+\subsection{Brief simulation setup}
+The two vessels to be simulated are the surface vessel and the ROV. The ROV was simplified as a cuboid with the proper dimensions according to the manufacturer's specifications. The ROV to be used is a modified BlueROV2 Heavy made by Blue Robotics. The dimensions of which are 575 x 254 x 457 mm (WxHxD). The density of the ROV has not been tested, but is implemented in the simulation as \(2000kg/m^3\). This is a rough estimation and the real density is likely lower.
+
+The surface vessel was modelled roughly in CAD and then exported as a \texttt{.obj} 3D-file for AGX to work with. The dimensions and shape of the vessel are roughly corresponding with the real vessel, though not exactly as it was intended to be exchanged for a more detailed model produced by a different master project at a later date. The density of the surface vessel is implemented at \(600kg/m^3\) which was arrived at by taking a rough average of the different densities of sandwich plate we had for building the hull and then adding some extra mass to account for batteries, sensorics and other added weights.
+
+As a note on the densities of the vessels: while AGX is able to model non-uniform densities and varying density distributions, this was not implemented in this simulation simply for the constraint of time. It was assumed that the loss of accuracy from assuming uniform density is small enough not to matter.
+
+Since the ROV sinks it needs help staying afloat. This is achieved by a tether connected to the surface vessel. The tether is modelled as a non-buoyant rope/wire with a radius of 10mm and a Young's modulus of \(10^9\). These figures are all assumed values and should be updated when the real values from the real version are found.
+
+The two vessels and the tether are placed in a 200x200x100m pool of water. It is possible in AGX to simulate different sea-states, but currently implemented is a calm sea, meaning the only hydrodynamic effects are those brought on by the movement of the vessels.
+
+
 \subsection{Improvements made since specialization project}
+\label{sec:simulation_work}
+During the specialization project, it was not possible to implement the simulation as one decoupled from the controller. As such, the end result was that both the controller and the plant were running in the same simulation script. This has been improved upon now as the controller and its parts has been separated from the simulator and are now running as separate nodes commuicating via ROS2. The full ROS2 graph can be seen in \cref{fig:ros_graph}. Decoupling the simulator and the various controller nodes has allowed for work to progress slightly faster and more reliably. When it is possible to more or less finish one module before working on another, it makes doing the work easier.
+
+In addition, the simulator now is capable of simulating the winching movement of the winch on the ROV. Previously it was implemented as a fixed length wire. This means that the crane now is able to operate. A rudimentary implementation to ROS has been made as well, allowing for the speed of the winch and breaking power to be changed via ROS topics.
 
 \section{Physical setup}
 \subsection{Surface vessel}
+The Plan Sea project was contacted by the shipyard Brødrene Aa, in Hyen, Norway, and asked if they wanted an introduction to composite hull construction and some free materials. The Plan Sea project accepted this and got training and materials in how to apply and build a vessel from carbon fiber sandwich boards.
+
+The sandwich boards are built up of a central foam core clad with 3-5 layers of carbon fiber weave and epoxy. Using the foam core it is possible to achieve stronger hulls than using the carbon fiber alone would, while also being lighter than an equivalent strength hull made from only carbon fiber.
+
+The vessel was constructed as a two-engine catamaran with rough dimensions of 2.5x2x1m. A catamaran construction was chosen due to the small size of the vessel not affording a lot of stability, a catamaran would allow for a wider hull without significantly increasing hull drag compared to a monohull construction.
+
+Another bonus of having a catamaran construction as opposed to a monohull construction is that by simply cutting a hole in the deck between the hulls, a "moonpool" is achieved. This lets the ROV be lifted at a point closer to the center of mass for the catamaran which leads to fewer instabilities in the system and less chance of capsizing or other catastrophe.
+
+The thrusters for the surface vessel have been made using two Torqeedo Cruise 3FP thrusters. The thrusters are fully electric and designed for through-hull mounting. This makes the modification from stationary to azimuth thrusters relatively simple. The modified azimuth thrusters were mounted to the aft of the two hulls, one in each. If this is too little thrust it is possible to mount further thrusters further forward to provide assistance, either for propulsion, DP or redundancy.
+
+
 \subsection{Subsea vessel}
 The subsea vessel is based on a BlueROV2 Heavy, made by BlueRobotics. The BlueROV is a prosumer-grade battery operated remotely operated vehicle. It's approximately 0.5x0.5x0.3m in WxDxH. The ROV has been acquired to use for the Plan Sea project specifically. It is not the ideal solution for this case, but it's been decided that modifying an existing and functioning solution is better than attempting to build a new one, at least for this proof of concept.
+
 A bracket has been designed to account for a mounting point for the USBL transponder, as well as to securely mount to the ROV already in use.
+
 \subsection{Crane}
 A crane needs to be designed. Thsi can be done as simply as possible having just a simple A-frame crane mounted over a moon pool. The crane system needs to consist of a few different parts. The gantry/frame itself, a winch motor, a winching system for the ROV tether and a winching system for the ROV lifting wire.
 \subsection{Control systems/Ancillary}

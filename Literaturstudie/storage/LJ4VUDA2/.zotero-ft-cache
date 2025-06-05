@@ -1,0 +1,699 @@
+Skip to main content
+Skip to article
+View PDF
+Download full issue
+Marine Pollution Bulletin
+Volume 190, May 2023, 114843
+Crude oil exposure of early life stages of Atlantic haddock suggests threshold levels for developmental toxicity as low as 0.1 μg total polyaromatic hydrocarbon (TPAH)/L
+Author links open overlay panel
+Elin Sørhus a
+,
+Lisbet Sørensen a b
+,
+Bjørn Einar Grøsvik a
+,
+Jérémie Le Goff c
+,
+John P. Incardona d
+,
+Tiffany L. Linbo d
+,
+David H. Baldwin e
+,
+Ørjan Karlsen a
+,
+Trond Nordtug b
+,
+Bjørn Henrik Hansen b
+,
+Anders Thorsen a
+,
+Carey E. Donald a
+,
+Terje van der Meeren f
+,
+William Robson g
+,
+Steven J. Rowland g
+,
+Josef D. Rasinger a
+,
+Frode B. Vikebø a
+,
+Sonnich Meier a
+Show more
+Outline
+Share
+Cite
+https://doi.org/10.1016/j.marpolbul.2023.114843
+Get rights and content
+Under a Creative Commons license
+Open access
+Highlights
+•
+Haddock embryos exposed to medium concentrations of oil had reduced survival.
+•
+The lowest exposure concentration impacted heart development, but not survival.
+•
+The adverse effect threshold in risk assessment should be set to 0.1 μg TPAH/L.
+Abstract
+Atlantic haddock (Melanogrammus aeglefinus) embryos bind dispersed crude oil droplets to the eggshell and are consequently highly susceptible to toxicity from spilled oil. We established thresholds for developmental toxicity and identified any potential long-term or latent adverse effects that could impair the growth and survival of individuals. Embryos were exposed to oil for eight days (10, 80 and 300 μg oil/L, equivalent to 0.1, 0.8 and 3.0 μg TPAH/L). Acute and delayed mortality were observed at embryonic, larval, and juvenile stages with IC50 = 2.2, 0.39, and 0.27 μg TPAH/L, respectively. Exposure to 0.1 μg TPAH/L had no negative effect on growth or survival. However, yolk sac larvae showed significant reduction in the outgrowth (ballooning) of the cardiac ventricle in the absence of other extracardiac morphological defects. Due to this propensity for latent sublethal developmental toxicity, we recommend an effect threshold of 0.1 μg TPAH/L for risk assessment models.
+Graphical abstract
+Download: Download high-res image (250KB)
+Download: Download full-size image
+Previous
+Next
+Keywords
+Crude oilPAHMarine cold-water fishCardiotoxicitySublethal defectsLong-term survival
+1. Introduction
+The early life stages of fish, i.e., embryos and larvae, are particularly sensitive to adverse impacts from oil spills during ontogeny. Following release into the water column, or entrainment in nearshore substrates, compounds from oil dissolved into water can bioconcentrate in developing fish embryos in the vicinity of a spill. Exposure to effluents from generator columns with oil-coated substrates (Marty et al., 1997a) and barrier experiments with dispersed oil droplets (Carls et al., 2008) demonstrate that it is the truly water-soluble components of oil that damage fish embryos. However, the eggshells of some Gadid species bind dispersed oil droplets, leading to a “time-release capsule” effect for prolonged bioconcentration of oil compounds across the chorion following a transient exposure to the dispersed oil (Laurel et al., 2019; Sørhus et al., 2015).
+While crude oils have immense chemical complexity, only a very small fraction of compounds in oil have appreciable water solubilities. Numerous weathering studies have clearly linked fish developmental toxicity at the organismal, tissue and cellular levels, to those sparingly soluble components of oil that are left after the most soluble volatile compounds disappear from the mixture (Brette et al., 2014; Carls et al., 1999; Esbaugh et al., 2016; Hatlen et al., 2010; Heintz et al., 1999; Hicken et al., 2011; Incardona et al., 2013; Jung et al., 2013; Marty et al., 1997b; Morris et al., 2018). For those sparingly soluble compounds that remain in spilled oil after initial weathering, the primary determinants of water solubility are aromaticity and polarity (Liu and Kujawinski, 2015b). Consistent with this, toxicity to developing fish has been repeatedly and robustly linked to polycyclic aromatic hydrocarbons (PAHs) in water concentration and tissue dose-dependent manners. Laboratory experiments and field studies with a variety of source oils and multiple fish species, and single compound studies in zebrafish, all support dose-dependent developmental toxicity driven by PAHs (reviews are given by (Incardona and Scholz, 2017, Incardona and Scholz, 2018). However, these studies do not rule out contributions from other uncharacterized or unmeasured chemical constituents; for example, from polar components with similar dissolution profiles to PAHs (Liu and Kujawinski, 2015a; Sørensen et al., 2019b). Nevertheless, to date there has been no identification of any other compounds that produce the same coupled dose-dependent toxicity and weathering profiles as the conventionally measured PAHs.
+The developing fish heart is one of the major target organs of canonical (i.e., non-phototoxic) crude oil developmental toxicity. Dose-response studies have characterized a syndrome that extends from complete heart failure, severe extra-cardiac defects secondary to loss of circulation, and embryo-larval mortality at the high end, to low-end effects that include acute and latent alterations in subtle aspects of cardiac structure, reduced cardiorespiratory performance, and latent mortality in surviving larvae and juveniles, without other externally visible extracardiac defects (Incardona and Scholz, 2016). Severe developmental impacts of higher-level exposures are clearly lethal in the early hatching stages (Esbaugh et al., 2016; Khursigara et al., 2017). However, detailed characterization of adverse impacts at the low end of dose-responses is critical for understanding and quantifying the long-term impact on fisheries resources from oil spills, chronic low-level petroleum pollution from extraction activities, and sources such as urban stormwater runoff.
+Only a handful of studies have assessed impacts in larval or juvenile fish that survived and grew following embryonic exposure to oil. While embryonically-exposed juvenile pink salmon (Oncorhynchus gorbuscha) did not show dose-dependent mortality under high-ration hatchery culture (Incardona et al., 2015), dose-dependent, latent impacts on survival were observed when embryonically oil-exposed fish were released into the wild to become reproductively mature adults (Heintz, 2007; Heintz et al., 2000). Poor growth and latent mortality in oil-exposed pink salmon were likely linked to subtle pathological changes in juvenile cardiac form and reduced cardiorespiratory performance (Gardner et al., 2019; Incardona et al., 2015). Similar effects on juvenile cardiac structure and cardiorespiratory performance in Pacific herring (Clupea pallasi) were subsequently traced back to a delay in the posterior outgrowth (ballooning) of the ventricular chamber in hatching stage larvae and defects in formation of the spongy myocardium (Incardona et al., 2021).
+In the present study, we extend our previous work on the early acute impacts of oil exposure on Atlantic haddock embryos (Sørensen et al., 2017; Sørhus et al., 2021a; Sørhus et al., 2015; Sørhus et al., 2017; Sørhus et al., 2016), and assess the latent impacts on growth and survival in larvae and juveniles surviving embryonic exposure.
+The world-wide increasing demand for energy and petroleum products has resulted in increased activity in established areas, but also increased interest in exploration in Arctic regions, such as the Barents Sea and areas off Lofoten-Vesterålen. However, Arctic regions and especially the areas off Lofoten-Vesterålen, also provide main spawning grounds for commercially important Atlantic haddock, Atlantic herring (Clupea harengus), and saithe (Pollachius virens) (Olsen et al., 2010; Sundby et al., 2013) and support the world's largest fishery of Atlantic cod (Gadus morhua) (Kjesbu et al., 2014). Thus, significant effort has been invested in developing risk assessment tools to evaluate the potential impacts of oil spills in this region (Carroll et al., 2018; Hjermann et al., 2007; Langangen et al., 2017; Vikebo et al., 2015). To use models that realistically predict effects of oil spills on the early life stages of marine fish requires establishment of thresholds for concentrations that causes adverse effects (Olsen et al., 2013; Vikebo et al., 2014).
+The oil-binding characteristics of haddock eggshell (Hansen et al., 2018) have profound practical importance due to the intersection of the Norwegian oil extraction and fishing industries. For the purposes of building data-rich risk assessment models, we aimed to establish threshold values for acute developmental impacts and latent oil-induced mortality in the early life stages of Atlantic haddock. We exposed Atlantic haddock to nominal oil concentrations of 10–300 μg oil/L for eight days during the embryonic phase (i.e., 2–10 days post fertilization). Exposure metrics included measures of PAHs in water and embryos, cardiac function and morphology, induction of mRNA for cytochrome P4501A (cyp1a), and PAH metabolite-derived DNA adducts. After transferring the embryos to clean water for hatching, they were followed for 9 months to assess the long-term effects on survival and growth through the larval and early juvenile phases.
+2. Materials and methods
+2.1. Source of oil and exposures
+Exposures used a blend of crude oil from the Heidrun oil field (Norwegian Sea, supplied by SINTEF Ocean, Trondheim, Norway) that was laboratory weathered (residue after evaporation of compounds up to 200 °C). The oil weathering process and oil droplet dispersion system are detailed in Nordtug et al. (2011) and exposures performed as previously described (Sørensen et al., 2017; Sørhus et al., 2015; Sørhus et al., 2016). In short, the crude oil was pumped into the dispersion system with a HPLC pump (Shimadzu, LC-20AD Liquid Chromatograph Pump). The system generates an oil dispersion with oil droplets in the low μm size with a nominal oil load of 26 mg/L (stock solution). Two parallel pipe systems (one with oil dispersion and one with clean sea water) regulated the amount of oil that entered each tank through a 3-way magnetic valve system. Different dilutions into the tanks were regulated through sampling times from each pipe (oil dispersion and clean sea water). Dispersions of crude oil were introduced into the exposure tanks with nominal oil concentrations of 10 μg/L (low concentration), 80 μg/L (medium concentration) and 300 μg/L (high concentration) seawater. Untreated (control) embryos were kept under same conditions but in clean sea water. The concentrations applied in this study intended to recreate a real life scenario, such as the Deepwater Horizon accident, where the high concentration represents concentrations close to the spill, while the low concentration represents concentrations up to 20 km from the spill (Boehm et al., 2016).
+2.2. Source and culturing of haddock eggs, larvae and juveniles, and experimental design
+Fertilized eggs were collected from an Atlantic haddock broodstock maintained at the Institute of Marine Research (IMR), Austevoll Research Station. Eggs were transferred to indoor egg incubators at 7 ± 1 °C before transfer to experimental tanks. On day 2 post fertilization (dpf), approximately 18,000 eggs were transferred into each of 16 (4 treatments with 4 replicates each) circular green polyethylene tanks (50 L) for exposure. Another 16 clean tanks were used for recovery after the exposure. Tank conditions are described in Sørensen et al. (2017).
+Transfer of eggs from egg incubators to the exposure tanks was done using a 5 mL cylinder with a mesh grid bottom (7 × 5 mL with eggs giving a total of ≈18,000 eggs in each tank). Dead eggs, which no longer float on the surface, were removed daily from the bottom of the exposure and recovery tanks and quantified from digital photos that were counted using tools from MATLAB R2012b (The MathWorks Inc., Natick, MA, USA) as described in Duan et al. (2015).
+An overview of the experimental design and the timeline from fertilization in April to final sampling in December, is presented in Fig. S1. Exposure started at 2 days post fertilization (dpf) and ended 10 dpf. After exposure, aliquots of ≈5200 eggs were transferred to new 50 L tanks (recovery tanks) with clean seawater, preserving the replicate design. Time of 50 % hatch occurred at 11 dpf (April 22nd) and was defined as 0 days post hatch (dph). Natural zooplankton (mainly nauplii of the copepod Acartia longiremis) harvested from a marine pond system “Svartatjern” (van der Meeren et al., 2014) was introduced as food for the larvae from 4 dph (April 26nd). Enriched rotifers (Brachionus spp) were also provided until 10 dph to facilitate initial feeding and ensure enough live prey. Enrichment and culture of rotifer is described in Karlsen et al. (2015). The tanks were further supplemented with marine microalgae concentrate (Instant Algae, Nanno 3600, Reed Mariculture Inc., CA, USA) to enhance feeding throughout the experiment (van der Meeren et al., 2007). The larvae were fed zooplankton for 2 months (April 24th- June 23th) and then gradually weaned to formulated feed only, on June 30 (Otohime™, Reed Mariculture Inc., CA, USA and AgloNorse® 400–600 μm, Tromsø Fiskeindustri AS, Tromsø, Norway). Thereafter (July 1st), the feed was switched to Gemma Diamond® 0.8 mm (Skretting, Stavanger, Norway). Mean water temperature in the culture tanks was 8.8 ± 0.5 °C and the salinity was 35.0 ± 0.1 practical salinity unit (psu).
+On July 8th (77 dph), all remaining fish in the 4 replicate 50 L tanks were counted and pooled into 500 L tanks, one for each treatment group (total of 3 tanks; control, low (10 μg oil/L) and medium (80 μg oil/L concentration); the high (300 μg oil/L) concentration was terminated (Table S1)). An automated cleaning device (van der Meeren et al., 1998) was used for removing excess feed and faeces from the bottom. Table S2 and Fig. S1 show time points for counting and transfer of fish. From July 8th to August 12th, the temperature was 12.0 ± 0.2 °C, and this was reduced to 8.2 ± 0.2 °C in the period from August 13th to September 13th. Salinity in these periods was 34.8 ± 0.1 psu. The light source consisted of two 20 W tungsten halogen light bulbs (12 V) over each tank that provided 300–500 μW/cm2 at the water surface (IL 1400A photometer, International Light Inc., Boston, MA, USA).
+On 145 dph (September 14th), all the fish were individually PIT tagged (Trovan PIT tag; ID100) and transferred to common 3000 L tank. From this point to December 14th (236 dph) the fish were fed using automatic dish feeders that supplied 50/50 % Gemma Diamond 1.8 mm and Amber Neptun 2.0 mm (Skretting, Stavanger, Norway) in excess. Mean temperature was 8.0 ± 0.2 °C, salinity 34.8 ± 0.1 psu.
+2.3. Water samples
+PAH concentrations in the water were verified by analyzing water samples (1 L) taken from each exposure tank at the beginning (day 0) and end (day 8) of the experiment. The samples were preserved by acidification (HCl, pH < 2) and addition of 30 mL of dichloromethane (DCM), and the samples were stored in the dark at 4 °C until processing (maximum 3 weeks from sampling). The samples were extracted twice by partitioning into DCM (30 mL) in a separating funnel (2 min). Deuterated internal standards were added prior to extraction to account for analyte loss during extraction. The method is described in detail in Sørhus et al. (2015). PAH concentrations in the water are expressed as TPAH, the sum of all measured compounds. Values for individual concentration levels are reported as the combined mean of the four exposure tanks and the two sampling points.
+2.4. Body burden of PAHs and GCxGC–MS analysis of other petrogenic compounds
+Pools of ∼100 living eggs from three of the four replicate tanks were sampled for tissue PAH body burden after 8 days of exposure (10 dpf). The body burden measurements were made on intact eggs, including the possibly oil-contaminated chorion. To study body burden in embryos separate from the oil-contaminated chorion, one sample of 100 eggs from the high concentration was manually dechorionated immediately prior to hatch, and the embryo body and the chorions were analyzed separately, as described by Sørensen et al. (2017). All samples were preserved by flash-freezing in liquid nitrogen and stored at −80 °C until further handling.
+Extraction for PAH analysis was performed as described by Sørensen et al. (2016). After addition of surrogate standards (100 ng/g sample), the samples were homogenized in n-hexane-DCM (1:1 v/v, 2 mL), vortexed and centrifuged. The supernatant was collected, and the extraction repeated twice. The combined organic extract was concentrated to ∼1 mL prior to clean-up by solid phase extraction (SPE) using silica (Agilent Bond Elut SI, 500 mg, Agilent Technologies, USA). The sample of the dechorionated embryos, the sample of chorions, and a sample of the applied crude oil was purified by gel permeation chromatography rather than SPE, as previously described in Sørensen et al. (2019a). Immediately prior to the analysis, the volume of the purified extract was reduced to ∼100 μL under a gentle stream of N2.
+PAH analysis for both water and body burden was performed using gas chromatography coupled to tandem mass spectrometry (GC-MS/MS) as described by Sørensen et al. (2016) and comprehensive two-dimensional GC coupled to MS, as described by Sørensen et al. (2019a). All datapoints are presented in Supplementary Dataset S1 (PAHs in water) and Dataset S2 (PAHs in tissue).
+2.5. Detection of cyp1a expression
+Pools of 10–20 animals from each tank (n = 4) were collected for RNA extraction and cyp1a analysis at 3, 5, and 10 dpf (embryos) and 0, 1, and 3 dph (larvae). All animals collected were imaged under a microscope before they were frozen in liquid nitrogen and stored at −80 °C. Total RNA was isolated from frozen sets of embryos using Trizol reagent (Invitrogen, Carlsbad, California, USA), according to procedures provided by the manufacturer. All samples were homogenized in their respective lysis buffer for 2 × 20 s at 5000 rpm using a Precellys 24. The amount of RNA was quantified using a Nanodrop spectrophotometer (NanoDrop Technologies, Wilmington, DE, USA), and quality checked using a 2100 Bioanalyzer (Agilent Technologies, Santa Clara, CA). cDNA was subsequently generated using SuperScript VILO cDNA Synthesis Kit (Life Technologies Corporation), according to the manufacturer's instructions. The cDNA was normalized to obtain a concentration of 50 ng/μL.
+Specific primers and probes for real-time, qPCR analysis of Atlantic haddock cyp1a and the technical reference ef1a (elongation factor 1 alpha, housekeeping gene) were designed with Primer Express software (Applied Biosystems, Carlsbad, California, USA) according to the manufacturer's guidelines. Primer and probe sequences are presented in Table S3. TaqMan PCR assays were performed in duplicate using 96-well optical plates on an ABI Prism Fast 7900HT Sequence Detection System (Applied Biosystems, Carlsbad, CA, USA) with settings as follows: 50 °C for 2 min, 95 °C for 20 s, followed by 40 cycles of 95 °C for 1 s and 60 °C for 20 s. Duplicates with standard deviation2 (SD2) ≤ 0.05 were either rerun or eliminated from the dataset. No-template, no-reverse transcriptase enzyme control, and genomic DNA controls were included. For each 10 μL PCR reaction, a 2 μL cDNA 1:40 dilution (2.5 ng) was mixed with 200 nM fluorogenic probe, 900 nM sense primer, and 900 nM antisense primer in 1xTaqMan Fast Advanced Master Mix (Applied Biosystems, Carlsbad, California, USA). Gene expression data for cyp1a were calculated relative to the control samples after normalization to the reference gene (ef1a) using the ΔΔCt method as described in detail by Bogerd et al. (2001). All datapoints are presented in supplementary dataset S3.
+2.6. Imaging of larvae and measurement of cardiac function
+Morphological and cardiac functional assessments were performed on 20 larvae from each exposure tank, for all exposure groups, at 3 dph. Total number of larvae per treatment was 80. Digital still micro-images and videos of live larvae at 3 dph were obtained using an Olympus SZX-10 Stereo microscope equipped with a 1.2 Mp resolution video camera (Unibrain Fire-I 785c) controlled by BTV Pro 5.4.1 software (www.bensoftware.com). Larvae were immobilized in a glass Petri dish using 3 % methyl cellulose, and temperature was maintained at 8 °C using a temperature-controlled microscope stage. Video focusing on the heart for each larva was collected from both a lateral and ventral view, with overall morphology assessed in whole-larva lateral views.
+The length of the ethmoid plate (https://zfin.org/ZFA:0001405) tip to eye, total length of each larva, area of yolk sac edema (total area of edema and yolk sac - area yolk sac), ventricular contractility, and total ventricular dimensions area were measured using ImageJ (ImageJ 1.48r, National Institutes of Health, Bethesda, Maryland, USA, http://rsb.info.nih.gov/ij) as described previously (Sørhus et al., 2016). The atrial diastolic (D) and systolic diameter (S) was used to calculate the Fractional Shortening (FS) by the formula: FS = (D − S) / D. For the posterior balloon area of the ventricle, videos were opened in ImageJ and advanced to a frame showing maximum diastole. The area was traced from the center of the AV canal to the ventral point opposite, allowing the area to close with an automatic perpendicular line (as indicated in Fig. 6). Measures were taken at three different time points in each video and averaged. Measurements were made blind, then checked against unblinded videos and remeasured for validation.
+2.7. Larval and juvenile survival and growth
+Larval survival was determined relative to hatching and assessed after 20 dph (May 12th) from multiple pictures of the recovery tanks. The pictures were taken from directly above, using a digital SLR camera (Olympus E3) with a wide-angle lens (Olympus Digital 11–22 mm). Minor parts of the tanks were not visible in the pictures due to obstructions such as water tubes or light reflections in the water. Therefore, larvae were counted in defined subsections of the tank; these sections were considered as representative subsamples, and the numbers were used to calculate the total amount of fish in the tank. Survival to juvenile stage was assessed on 77 dph by counting at transfer to 500 L tanks.
+The length of larvae was measured twice during early larval stages (11 and 19 dph) and 7 times during the late larval and juvenile stages from 56 dph (June 17th) to 236 dph (December 14th). Microscope images (Olympus SZX-10) were used to obtain total lengths for the larval stages (imaged larvae were sacrificed after imaging). On September 14th (145 dph) and October 15th (176 dph) all fish were anesthetized (60 mg/L tricaine methanesulfonate, MS 222, Sigma-Aldrich) and weight and length were documented, before the fish were returned to the tank. At the final timepoint, December 14th, all fish were sacrificed, and the liver weight was measured and condition factor, hepatosomatic index (HSI, liver weight/fish weight), and average of individual specific growth rate (SGR) % from September to December SGR = (eg − 1) ∗ 100, where g = (ln(Wt1) − ln(Wt0)) / (t1 − t0) (Ricker, 1958).
+2.8. Nonlinear regressions of mortality
+Nonlinear curve fits of acute and delayed survival versus the log of TPAH concentrations were performed using a three-parameter logistic equation with a fixed Hill slope of −1.0; Y = Bottom + (Top-Bottom) / (1 + 10 (X-LogIC50)), in Prism 9 (GraphPad Software, Inc.). All data were normalized to the mean of the controls. Therefore, the value for Top was constrained to one (i.e., 100 % of the mean of the controls) and the value for Bottom to zero (i.e., 0 %). Confidence intervals for the Log Half maximal effective concentration (EC50) (and therefore half maximal inhibitory concentration (IC50)) were calculated using the profile likelihood method.
+2.9. DNA adduct analyses (32P-postlabelling)
+Details of the 32P-postlabelling methods have been reported by Pampanin et al. (2017), and the procedure was as described in Le Goff et al. (2006). Samples of 50 yolk sac larvae (3 dph) from all 4 tanks of each treatment group were preserved by flash-freezing in liquid nitrogen. The frozen larvae were stored at −80 °C until further handling. Purified DNA was obtained by liquid-liquid extraction with phenol/chloroform, after homogenization of haddock larvae, isolation of cell nuclei using a sucrose gradient and treatment with RNases A and T1. For each extracted sample, the DNA concentration in solution was quantified from the absorbance at 260 nm. The absorbance ratios A260/A280 and A260/A230, associated with the absorbance profile of samples between 230 nm and 300 nm, were used to verify the quality of DNA solutions (more especially the absence of contamination proteins). The protocol for adduct analyses is suitable for quantification of so-called “bulky” DNA adducts. To express the results, labelled DNA adducts were compared to the labelling of a known quantity of nucleotides. Results were expressed in Relative Adducts Levels (RAL) for 109 non-labelled nucleotides (nmol adduct/mol normal DNA).
+2.10. Statistics
+All data were tested for homogeneity of variance (Levene's test) and normality (Shapiro-Wilk) prior to statistical analysis. Then, pairwise comparisons were made; most datasets were compared to control, while all-pairwise comparison was performed for long-term growth data to visualize differences among the remaining treatments.
+Normally distributed and homogenous data: PAH body burden data (log transformed), cyp1a expression (log transformed), DNA adducts, cardiac function, and survival in treatment versus control were tested using one-way ANOVA with Dunnett's multiple comparison (p < 0.05) in R (The R Foundation for Statistical Computing Platform). Significant differences in the larval and juvenile length and juvenile SGR (%) and liver condition were tested using one-way ANOVA followed by Tukey-Kramer multiple comparison test (p < 0.05) in XLSTAT software (Addinsoft, US). Ventricular balloon area data were analyzed by one-way ANOVA with replicates nested within treatment, followed by post-hoc Dunnett test (JMP 15 for Mac, SAS Institute Inc.).
+Nonparametric comparisons were used for two data sets. Data for total length at hatch were not distributed normally and were analyzed by Wilcoxon rank sum test and post-hoc multiple comparisons with control using the Steel method (JMP 15 for Mac, SAS Institute Inc.). Log transformed PAH-water data did not have equal variances therefore, significant differences from control were tested using the non-parametric Kruskal Wallis test (p < 0.05), by applying pairwise Wilcoxon rank sum tests with Bonferroni correction. Different, non-parametric, post hoc tests were used for these data sets because of their sample sizes (n of 4 and 80 for PAH water and length at hatch, respectively). Steel method is not appropriate for sample size n < 4 (https://www.rdocumentation.org/packages/kSamples/versions/1.2-9/topics/Steel.test).
+Total ventricular area was analyzed by nonlinear regression with Prism (GraphPad Software, LLC) using a three-parameter log(inhibitor) vs. response model.
+2.11. Ethics statement
+The Austevoll Research Station has permits from the Norwegian Directorate of Fisheries to catch and maintain Atlantic haddock (VL-AV-0010, VL-AV-0011, and VL-AV-0012). The Austevoll Research Station is also a certified Research Animal Facility for fish (all developmental stages) (code 93 from the national Institutional Animal Care and Use Committee (IACUC)). No permits are needed for work with embryos and yolk sac larvae. All experiments on feeding haddock larvae and juveniles used in the study were approved by the Norwegian Animal Research Authority (http://www.fdu.no/fdu/, reference number 2012/275334-2). All procedures were performed in accordance with these approvals.
+3. Results
+3.1. PAHs measured in water samples and embryos, and qualitative separation of non-bioavailable oil compounds on eggshells
+The TPAH in the water at the start and end of the exposure period was significantly different from the control in all exposure groups (Fig. 1A). Accumulated tissue doses of TPAH in all three exposure groups, measured at the end of the 8-day exposure (10 dpf), were significantly higher than in the control group (Fig. 1B). Measured water TPAH concentrations at 0.10 ± 0.07, 0.76 ± 0.1, and 3.2 ± 0.7 μg/L were reflective of nominal oil concentrations, 10, 80 and 300 μg oil/L, and tissue TPAH doses at 27 ± 10, 330 ± 124, and 2066 ± 410 ng/g wet weight were in turn reflective of water concentrations. The distribution of various PAHs differed between the matrixes. For example, the percentage of 3–6-rings in the high concentration were ∼40 % in the water, while ∼70 % in the tissue (Dataset 1, Dataset 2, note C4-DBT and C4-CHR were not analyzed in the water samples and thus excluded in this calculation).
+Two-dimensional gas chromatography-mass spectroscopy coupled to time-of-flight mass spectrometry (GCxGC-ToF-MS) was used to produce a comprehensive profile of the parent oil used in the crude oil dispersion, in dechorionated high concentration embryos and on the eggshell or chorion (Fig. 2). These analyses were not quantitative (details are given in Material and Methods), but the GCxGC analysis serves to highlight the separation of broad classes of oil compounds and potential for differential distribution between the chorion and embryo. For visualization, we separate the whole oil into three broad classes: PAHs (Fig. 2A, i), monoaromatic hydrocarbons (MAHs) (Fig. 2A, ii), and aliphatic compounds (including alkanes) (Fig. 2A, iii). Consistent with the relatively small proportion of PAHs typically present in crude oils, the MAHs and aliphatic compound regions are more dominant in the parent oil chromatogram, suggesting higher abundance in the extracts. It is important to note that the largest molecular weight compounds were removed during sample purification (the injected oil sample was treated similarly to the extracted embryo and chorion samples for comparability). The GCxGC profile in dechorionated embryos (middle panel) is less populated and individual peaks corresponding to PAHs and MAHs are mainly observed (Fig. 2A, middle panel). On the other hand, the chorion samples were clearly enriched with aliphatics (Fig. 2A, right panel) and higher elution range (generally corresponding to higher molecular weight) compounds. In Fig. 2.B–D, we have extracted examples of 2–4 ring PAHs and their alkylated homologues. These images support that lower molecular weight (e.g. naphthalenes compared to pyrenes/fluoranthenes) and lower alkylation (to the left in each chromatogram) of the parent compound leads to preferential transfer to the embryo, while higher molecular weight and larger alkyl substitution on compounds leave them as residue on the chorion. The separation of unhatched embryos from the eggshell by manual dechorionation is challenging, and oil from the disrupted chorions may have contaminated the embryo samples to a small degree. Additionally, the yolk sac often ruptured during dechorionation. The yolk is lipid-rich compared to the embryo body tissues, so the PAH content in the measured whole embryo samples may be underestimated without the yolk. In addition, the liquid between yolk sac and embryo is also lost during dechorionation and therefore polar compounds may be lost.
+Download: Download high-res image (213KB)
+Download: Download full-size image
+
+Fig. 1. PAH concentrations in exposure water and embryos. Total PAH concentration (TPAHs) in the exposure tank water and in Atlantic haddock eggs (Melanogrammus aeglefinus) in control, low concentration (10 μg oil/L, TPAH 0.1 μg/L), medium concentration (80 μg oil/L, TPAH 0.76 μg/L) and high concentration (300 μg oil/L, TPAH 3.2 μg/L) treatments (mean ± standard deviation (SD). A) The water analysis is given as average concentration in 4 replicated tanks per group and measured at exposure start (2 dpf) and end (10 dpf). B) The body burden in the eggs, ng/g wet weight, at 10 dpf is given as the average concentration in 3 replicates. Asterisks indicate statistically different from the control fish p < 0.01 = **, p < 0.001 = ***.
+
+Download: Download high-res image (346KB)
+Download: Download full-size image
+
+Fig. 2. Two-dimensional gas chromatography analysis. GCxGC total ion current chromatograms demonstrating the difference in the chemical profiles of the oil (left panel) compared to uptake into the embryo (mid panel) and oil droplets on the haddock chorion (right panel). A) Total ion chromatogram (major column bleed ions omitted), retention time (RT) 1, 25–105 min, RT2 0–4 s. Circles mark elution ranges of i) PAHs, ii) monoaromatic compounds and iii) aliphatic compounds a. B) Extracted molecular ions of naphthalenes (NAPs) (C0-C7), RT1 35–80 min, RT2 1.0–2.5 s. C) Extracted molecular ions of phenanthrenes (PHEs) (C0-C5) RT1 68–95 min, RT2 2.7–4.0 s. D) Extracted molecular ions of pyrenes/fluoranthenes (PYRs/FLUs) (C0-C4), RT1 80–105 min, RT2 3.5–1.5 s. Eggs from the high concentration (100) were mechanically dechorionated and the pooled embryos and chorion (mid and right panel, respectively) were analyzed separately.
+
+3.2. Dose-dependent induction of cyp1a mRNA
+As expected, cyp1a expression was strongly dependent on TPAH-concentration (Fig. 3). Dose-dependent cyp1a induction was already observed at 3 dpf after 24 h of exposure and peaked by 5 dpf in low and medium, and by 10 dpf in the high concentration. Levels of cyp1a mRNA were still elevated at hatch, but showed a rapid decline, as expected from effective depuration following transfer to clean water. By 3 dph, cyp1a mRNA levels declined to control levels in all groups except for the highest concentration.
+Download: Download high-res image (272KB)
+Download: Download full-size image
+
+Fig. 3. Expression of cyp1a. The relative expression of cyp1a of Atlantic haddock embryos and larvae (Melanogrammus aeglefinus) in control, low concentration (10 μg oil/L – TPAH 0.1 μg/L), medium concentration (80 μg oil/L – TPAH 0.76 μg/L) and high concentration (300 μg/L – TPAH 3.2 μg/L) exposure treatments. The data are shown as average cyp1a expression (±SD across the 4 replicates in each treatment). Asterisks indicate statistical differences relative to the control fish. p < 0.05 = *, p < 0.001 = ***.
+
+3.3. DNA adducts detected in yolk sac larvae after embryonic exposure
+DNA adducts were induced in yolk sac larvae for all treatments, with a clear dose-dependent trend (Fig. 4). However, levels of DNA adducts were statistically significant only for the high concentration exposure. Three of the control samples were below the detection limit of 0.1 nmol DNA-adduct/mol normal DNA, while one was detected with 2.7 nmol DNA-adduct/mol normal DNA. In both low and medium concentrations, one of the replicates was below the detection limit. For the remaining replicates, levels were between 5 and 10 (TPAH 0.1 μg/L) and 13–17 (TPAH 0.76 μg/L) nmol DNA adduct/mol normal DNA. In the TPAH 3.2 μg/L (300 μg oil/L) exposure, DNA adducts were detected in all samples with levels between 29 and 45 nmol DNA adduct/mol normal DNA. However, despite the clear trend, only the high concentration data showed statistically significant differences compared to the control (p < 0.001). Assessment criteria for DNA adducts in haddock are advised by ICES. Background levels are set to 3.0 nmol DNA adducts per mol nucleotides and environmental assessments criteria (EAC) to >6.7 nmol DNA adducts per mol nucleotides. Levels above EAC are considered high and cause for concern (ICES, 2011, ICES, 2012). PAH water concentrations, PAH body burdens, cyp1a expression, and DNA adduct concentrations were strongly correlated (Table 1).
+Download: Download high-res image (240KB)
+Download: Download full-size image
+
+Fig. 4. DNA adducts in yolk sac larvae. The levels of DNA adduct (relative to normal DNA (nmol DNA adduct/mol normal DNA)) in Atlantic haddock larvae (Melanogrammus aeglefinus) in control, low concentration (10 μg oil/L, TPAH 0.1 μg/L), medium concentration (80 μg oil/L, TPAH 0.76 μg/L) and high concentration (300 μg/L, TPAH 3.2 μg/L) exposure treatments. The measurements were made on pooled samples (50 larvae) at 3 dph yolk sac larvae (4 days after the end of exposure and transfer to clean sea water). A) Shows examples of autoradiograms of TLC plates from each treatment group. B) The data are shown as average bulk DNA-adducts (±SD) across the 4 replicates in each treatment. Asterisks indicate statistical differences relative to the control fish, p < 0.001 = ***.
+
+Table 1. Correlation matrix (Pearson) for PAH water concentration (PAH W.C., μg/L), PAH body burden (PAH B.B., ng/g), cyp1a (relative expression of cyp1a) and DNA-adduct (nmol DNA adduct/mol normal DNA) at 3 dph.
+
+Variable	PAH W.C.	PAH B.B.	Cyp1a	DNA adducts
+PAH W.C.	–	0.996	1.000	0.995
+PAH B.B.	0.996	–	0.996	0.989
+cyp1a	1.000	0.996	–	0.993
+DNA adducts	0.995	0.989	0.993	–
+3.4. Functional and morphological impacts on cardiac and craniofacial development
+Impacts on gross morphology included accumulation of pericardial (Fig. S2) and yolk sac edema, increasingly profound impacts on jaw and head development, deformation of the body axis, and reduction in extent of the finfolds visible at hatch (3 dph; Fig. 5A–D). Generally, by 11 dph, larvae exposed to the highest concentration did not recover from these effects (Fig. 5H), but larvae surviving the medium (and low) exposures showed no edema and had sufficiently functional jaws to feed and grow (Fig. 5F, G).
+Download: Download high-res image (585KB)
+Download: Download full-size image
+
+Fig. 5. Gross morphology of larvae hatched after embryonic oil exposure. Representative phenotypes of Atlantic haddock larvae at 3 (left panel) and 11 (right panel) dph. (A, E) Control and (B–D and F–H) exposed larvae with low (10 μg oil/L - TPAH 0.1 μg/L), medium (80 μg oil/L - TPAH 0.76 μg/L), and high (300 μg oil/L - TPAH 3.2 μg/L) concentrations, respectively. White arrowhead: reduced outgrowth of upper jaw, black arrowhead: scoliosis, asterisk: reduced finfold, black arrow: yolk sac edema, open black arrow: pericardial edema, red arrowhead: distorted jaw, green arrowhead: reduced head. Scale bar is 1 mm. (For interpretation of the references to colour in this figure legend, the reader is referred to the web version of this article.)
+
+Although not quantified, the rapid acute effects of oil exposure were microscopically visible by 7 dpf (exposure day 5), just after establishment of a regular heartbeat at 6.5 dpf (Fig. S2). Pericardial edema indicative of reduced cardiac output was visible in embryos exposed to the high (TPAH 3.2 μg/L) concentration (Fig. S2D, red arrows), and in embryos exposed to the medium (TPAH 0.76 μg/L) concentration at 9 dpf (Fig. S2C). Imaging with a standardized orientation for morphometrics is extremely challenging in unhatched embryos, so developmental and cardiac abnormalities were quantified in 3 dph larvae (Table 2). As shown above (Fig. 3), cyp1a-inducing compounds were largely depurated by this point. As expected, oil exposure resulted in the continued accumulation of yolk sac edema, although rather than having a strict dose-response relationship, the extent of edema was closer to an all-or-none response (Table 2). Larvae exposed to TPAH 0.76 μg/L or 3.2 μg/L both had >50 % of the yolk sac area occupied by edema fluid, while there was no significant increase in edema area in larvae exposed to TPAH 0.1 μg/L. Only larvae exposed to the highest concentration (3.2 μg/L) showed a mild bradycardia or slowing of the heart rate, at 70 ± 12 beats/min compared to controls at 75 ± 6 beats/min. While there was no effect on contractility of the atrial chamber (measured as fractional shortening), larvae exposed to the highest concentrations showed a 50 % reduction in ventricular contractility (fractional shortening of 9.2 ± 1.3 % compared to controls at 18.6 ± 0.4 %). The incidence of noncontractile (silent) ventricle was dose-dependent, occurring in 30 % of larvae exposed to TPAH 3.2 μg/L and 3 % of larvae exposed to 0.76 μg/L.
+
+Table 2. Morphological and cardiac measurements at 3 dph in control, low (10 μg oil/L, TPAH 0.1 μg/L), medium (80 μg oil/L, TPAH 0.76 μg/L) and high (300 μg oil/L, TPAH 3.2 μg/L) concentrations.
+
+Treatment	Yolk sac edema
+area (%)	Heart rate (beats/min)	AFS1%	VFS%	SV incidence (%)	Total body length (mm)	EP (μm)
+Control	2 ± 11	75 ± 6	18.8 ± 1.0	18.6 ± 0.4	0	4.6 ± 0.07	166 ± 10
+0.1 μg/L – 27 ng/g	4 ± 13	73 ± 6	18.5 ± 2.1	18.5 ± 1.3	0	4.6 ± 0.05	164 ± 12
+0.76 μg/L – 330 ng/g	58 ± 10⁎	75 ± 7	18.7 ± 1.7	16.4 ± 1.1	3	4.3 ± 0.10*	168 ± 173
+3.2 μg/L – 2066 ng/g	52 ± 15⁎	70 ± 12*	19.5 ± 2.3	9.2 ± 1.3*	30	3.6 ± 0.15*	76 ± 9⁎
+1
+AFS, atrial fractional shortening; VFS, ventricular fractional shortening; SV, silent ventricle; EP, ethmoid plate. Data represent the mean ± SD from 4 replicates with a minimum of 13 individuals measured per replicate. Statistical differences from control are indicated by * (p < 0.001).
+Embryonic exposure resulted in a dose-dependent reduction in the total diastolic (relaxed phase) area of the ventricle in larvae, measured in ventral views (Fig. 6E), but also apparent in lateral views (Fig. 6A–D). While there was no significant effect on the total ventral area of the ventricle in larvae exposed to TPAH 0.1 μg/L, larvae exposed to TPAH 0.76 μg/L or TPAH 3.2 μg/L had 40 % and 60 % reductions in ventricular area compared to controls (Fig. 6E; 0.0075 mm2 and 0.005 mm2, respectively, vs 0.0127 mm2 in controls). Nonlinear regression modeling calculated an IC50 value of TPAH 0.72 μg/L for reduction in ventricular area (Fig. 6E). Similar to observations of other species, the ventricle begins its major posterior outgrowth (or ballooning) at the hatching stage, in haddock. We more specifically measured the ballooning area of the ventricle posterior to the atrioventricular canal using lateral views in fish exposed to the low concentration (TPAH 0.1 μg/L). The average area of the posterior ballooning portion of the ventricle was 0.00503 ± 0.0002 mm2 in controls but was reduced by almost 10 % to 0.00454 ± 0.0001 mm2 in in the low concentration exposure (P = 0.01; Fig. 6F). In the low concentration group, 70 % of larvae (42/60) had posterior ventricle areas that were below the mean of control larvae, while only 38 % of the larvae in the control group (23/60) were below the mean.
+Download: Download high-res image (466KB)
+Download: Download full-size image
+
+Fig. 6. Dose-dependent impacts on ventricular form. (A–D) Representative high magnification lateral views of the heart in 3 dph larvae in Control (A), low (B), medium (C) and high (D) concentration exposures. TPAH water concentrations are indicated for each. The ventricular chamber is outlined in black, with the posterior balloon portion highlighted with dashed line in the control (A) and low concentration (B). Scale bar is 0.1 mm. (E) Nonlinear regression modeling of dose-dependent reduction in the area of ventricles measured in ventral views. Data represent mean ± SD for N = 3 replicates with 13–20 individuals per replicate (F) Area of the posterior balloon area in control and low concentration groups. Box-and-whisker plots are shown for N = 3 replicates with 20 individuals per replicate. Each dot represents an individual measure, with box ends representing the 25th and 75th quantiles and whisker ends ±1.5 times the 25th–75th quantile range. The diamond shows the mean (dashed line) ± S.D., and the solid line within the box the median.
+
+3.5. Embryonic, larval and juvenile survival and growth
+Mortality during the exposure at the embryonic stage was only observed in the highest concentration (300 μg oil/L, TPAH 3.2 μg/L). All high-concentration larvae that lived through hatching were severely damaged. Consequently, none survived through first feeding (Fig. 7). Exposure to the medium oil concentrations (80 μg oil/L, TPAH 0.76 μg/L) resulted in reduced survival at both larval (26 %) and juvenile (9 %) stages compared to the control group (Fig. 7, Table S1). Even though there were no significant differences in survival of the low concentration group (TPAH 0.1 μg/L) compared to the control (Table S1), the low concentration group displayed a higher variation between replicate tanks. The relative standard deviation (RSD) for the low concentration group was 43 % at 20 dph and 73 % 77dph, while in the control group the RSD was 22 % and 34 % at the same ages, respectively. In late juvenile stages (from 77 dph and onward), mortality was relatively low, with 34 %, 20 % and 30 % in control, low (10 μg oil/L, TPAH 0.1 μg/L), and medium concentrations (80 μg oil/L, TPAH 0.76 μg/L), respectively (Table S2). For comparison, the survival of eggs, larvae, and juveniles from a similar previous experiment (Sørhus et al., 2016), was re-calculated, showing acute mortality (during exposure) in the highest concentrations (TPAH 6.7 ± 0.2 μg/L from 600 μg oil/L) and reduced survival after exposure in the lowest concentrations (0.58 ± 0.05 μg/L from 60 μg oil/L) at both larval and juvenile stages (Fig. S3).
+Download: Download high-res image (258KB)
+Download: Download full-size image
+
+Fig. 7. Embryonic, larval and juvenile survival. Survival of early life stages of Atlantic haddock after exposure to low (10 μg oil/L, TPAH 0.1 μg/L), medium (80 μg oil/L, TPAH 0.76 μg/L), and high (300 μg oil/L, TPAH 3.2 μg/L) concentrations of oil. A) Embryo survival after 8 days of oil exposure (10 dpf). B) Larval survival at 20 dph (21 days in clean water). C) Juvenile survival at 77 dph. The data are shown as average survival (±SD) (n = 4). Asterisks indicate statistically difference from the control fish. p < 0.05 = *, p < 0.01 = **.
+
+At hatch, there was a dose-dependent trend toward reduced total length, with controls and low concentration groups averaging ∼4.6 mm, and medium and high concentration groups at ∼4.3 mm and ∼3.6 mm, respectively (Table 2). Larvae from the surviving (low and medium concentration) groups showed no significant difference from controls at 11 and 19 dph (Fig. S4). However, juveniles from the low-concentration exposure were consistently about 1 cm longer than controls at about 5–6 months post hatch. This difference also continued after pooling into a single tank (p < 0.05, Fig. 8; Sept 14, and Oct 15). At about 9 months post hatch (Dec 14), all three groups showed significant differences in length, with low (10 μg oil/L, TPAH 0.1 μg/L) concentration > control > (80 μg oil/L, TPAH 0.76 μg/L) medium concentration (18.5 ± 1.3, 18.2 ± 1.3 and 17.6 ± 1.7 cm, respectively; Fig. 8). There were also significant differences in weight at all time points (Table S4), with fish exposed to the low concentration consistently heavier. At the final time point there were no significant differences in weight of the liver, hepatosomatic index, or condition factor (despite differences in length and weight) (Table S4). The relative growth for Sept – Dec within the pooled treatment tanks (SGR %) was significantly lower for both the low (1.2 % ± 0.3b) and medium (1.3 % ± 0.4b) concentration group compared to the control (1.4 % ± 0.3a) (Table S4).
+Download: Download high-res image (254KB)
+Download: Download full-size image
+
+Fig. 8. Larval and juvenile growth. Length of Atlantic haddock larvae and juveniles from control and oil exposed groups (Low – 10 μg oil/L, TPAH 0.1 μg/L and medium – 80 μg oil/L, TPAH 0.76 μg/L concentrations). Statistically significant differences between groups (p < 0.05) are indicated with letters. Data for groups with the same letters were not significantly different from each other. Each time point represents the average length +/− standard deviation of 50–175 animals per treatment.
+
+3.6. Nonlinear regressions of mortality
+A logistic regression of survival was calculated by plotting survival (relative to the control mean) versus oil exposure (TPAH μg/L) and body burden (TPAH ng/g) (Fig. 9). Data from all the regressions are shown in Table S5. The IC50 values represent exposure concentrations at which survival is predicted to be 50 % lower than the controls (rather than an absolute 50 % survival). Survival during the embryo exposure was relatively high, with an IC50 = 2.22 [1.33–3.83] TPAH μg/L (estimated with a 95 % confidence interval). However, a large number of the exposed animals had severe developmental malformations and were not able to survive the critical period of first feeding, so for the larvae at 20 dph, the IC50 had dropped to 0.39 [0.16–0.86] TPAH μg/L. Relatively lower survival in the exposed groups continued through subsequent stages, and by the early juvenile stage the mortality IC50 was 0.27 [0.07–0.90] TPAH μg/L. The corresponding values for tissue TPAH doses are given in Fig. 9, right column, and Table S4.
+Download: Download high-res image (665KB)
+Download: Download full-size image
+
+Fig. 9. Logistic regression of the effect of oil exposure (TPAH μg/L) (left) and body burden (right) on survival (decrease in survival relative to the control mean) in the early life stages of Atlantic haddock. A and B) Acute survival during embryonic exposure (8 days) at 10 dpf. C and D) Delayed mortality (decreased survival) at the larval stage (20 dph). E and F) Delayed mortality at the juvenile stage (77 dph). The points indicate replicate tanks, while the solid line shows the result of the logistic regression and the upper and lower dashed lines show the 95 % confidence intervals of the regression.
+
+4. Discussion
+In this study we aimed to define threshold levels of measured PAHs for a number of acute and latent adverse effects following exposure of Atlantic haddock embryos to Norwegian crude oil. Consistent with all prior studies, we observed clear PAH dose-dependent cardiotoxic impacts on function and morphology of the heart as an immediate consequence of embryonic exposure. Dose-dependent mortality occurred latently in the larval and early juvenile periods. However, impacts on larval and juvenile growth in fish that survived through those periods were equivocal and difficult to interpret.
+4.1. PAH concentrations and toxicity thresholds
+While we have calculated toxicity thresholds based on both the water concentrations and total tissue doses of PAHs, measures of true tissue dose in haddock embryos are challenged by oil droplet binding to the eggshell. While a similar phenomenon was observed with Polar cod (Laurel et al., 2019), the high surface-dependency of droplet binding allowed the use of droplet-free submerged embryos to calculate the bioavailable fraction of PAHs segregated between the eggshell and embryo, based on correlation of tissue PAH dose and cyp1a mRNA levels (Laurel et al., 2019). In that study, at higher levels of oiling (e.g., 300 μg/L dispersed oil), <30 % of the measured TPAH was estimated to represent accumulation in the embryo (i.e., 70 % remained outside on the eggshell). At lower exposure concentrations, all of the measured TPAH was predicted to be within embryonic tissues. Although not quantitative, the GCxGC-ToF-MS analysis here is consistent with a similar distribution in haddock. Thus, it is highly likely that in the 80 μg/L oil - TPAH 0.76 μg/L (medium) exposure, the measured 330 ng/g body burden represents the actual embryonic tissue dose, as does the 27 ng/g for the lowest dose. As detailed below, confidence in these tissue values is important for comparisons with species that lack dispersed-oil droplet binding or have been assessed in dissolved-compound-only studies with generator column effluents. However, for the purposes of oil spill risk and damage assessment, water concentrations may be the only metric available (Esbaugh et al., 2016; Incardona et al., 2014; Morris et al., 2018). Hence, models based on water PAH concentrations from species-specific studies such as this, are still valuable for predicting spill effects in those species' habitats (e.g., Atlantic haddock in Lofoten). As discussed in detail below, we observed adverse impacts on developing haddock larvae with a dispersed oil exposure producing a TPAH water concentration of only 0.1 μg/L, and tissue dose of 27 ng/g (nominal concentrations of 10 μg oil/L).
+4.2. Thresholds for immediate developmental impacts in newly hatched larvae
+Consistent with work on other species, our combined studies on haddock have defined the most sensitive developmental period to be from the onset of a regular heartbeat, through establishment of atrioventricular conduction and the side-by-side rotation of the atrial and ventricular chambers (looping) (Sørhus et al., 2021a; Sørhus et al., 2015; Sørhus et al., 2016). While the exposure here was carried out through the entire course of embryonic development to hatch, because of the time-release effect of oil droplet binding, a 3-day exposure just before the onset of regular heartbeat is sufficient to cause severe developmental cardiotoxicity (Sørhus et al., 2021a). In the current study, cardiotoxic endpoints were quantified at 3 dph, after the depuration of PAHs (and, by inference, other Cyp1a-inducing substrates). Therefore, measured changes represent persistent effects downstream of the acute rapid impact of crude oil on action potential generation and excitation-contraction coupling in exposed cardiomyocytes (Brette et al., 2014). Qualitatively, those acute effects were observed during exposure, manifested as reduced cardiac output (edema) at exposure concentrations ≥ TPAH 0.76 μg/L (80 μg oil/L). Bradycardia, reduced ventricular contractility, and ventricular asystole all persisted past PAH depuration following the high (300 μg oil/L, TPAH 3.2 μg/L) exposure. This effect likely contributed to mortality in the high exposure group, and is consistent with impacts of oil exposure on, not just cardiomyocyte ion channel function, but on the developmental trajectory of cardiomyocytes through disruption of excitation-transcription coupling (Sørhus et al., 2021a; Sørhus et al., 2017; Sørhus et al., 2016). At the same time, edema at hatch, although at lower concentration levels, was associated with elevated juvenile mortality in oil-exposed zebrafish (Incardona et al., 2013). This is likely to have contributed to mortality in both the medium- and high-exposed groups here. Similar persistent effects on heart rate and contractility were observed in Polar cod (Laurel et al., 2019). Unfortunately, due to the requirement for a non-parametric statistical analysis, these measures lacked sufficient statistical power for a robust threshold determination. Moreover, the lack of a tight dose-response relationship is likely since these functional changes measured after hatch (and PAH depuration) are several steps away from the acute impacts of exposure. However, ventricular morphology proved to be a highly sensitive and robust effect measure of oil exposure.
+Both looping and ventricular ballooning are dependent on multiple Ca2+-regulated processes (Auman et al., 2007; Grassini et al., 2019; Merks et al., 2018). Consistent with the rapid impacts of oil exposure on intracellular Ca2+ handling in cardiomyocytes (Brette et al., 2014; Sørhus et al., 2021a) and attendant whole-chamber response of reduced contractility, a delay in ventricular ballooning recently was identified as an early latent impact on heart development in Pacific herring exposed to very low levels of crude oil (0.25–1.0 g mass oil per kg gravel resulting in 1–4 μg PAH/L) (Incardona et al., 2021). We have now shown that an identical phenotype occurs in the early larval haddock heart. As in herring, the measure of ballooning in haddock is statistically robust, with a lowest tested effective concentration of TPAH 0.1 μg/L (10 μg oil/L). Thus, we show that decreased ballooning has an even lower threshold than the canonical edema phenotype.
+The burst-swimming Gadid species possess a simpler cardiac structure compared to the high-performance swimmer, herring (Claireaux et al., 2005; Hu et al., 2000; Santer and Walker, 1980; Santer et al., 1983). Not only is the impact on ventricular ballooning essentially identical in these highly divergent species with completely different overall ventricular structures, but these effects also resulted from exposure to completely different sources oils (Norwegian Sea and Alaska North Slope), and with completely different exposure methods; oiled gravel effluent (herring) and dispersed oil droplets (haddock).
+4.3. Body burden thresholds and potential links between low-level acute and latent impacts
+Links between the acute sublethal cardiac toxicity, including any linked or independent developmental impacts, and latent impacts on growth and survival in haddock can be considered in the context of prior work on other species. First, these data have implications for potential connections between cardiotoxicity and impacts on craniofacial development. Although we did not examine craniofacial structure in detail, previous studies highlighted striking defects of the upper jaw cartilage, and specifically the ethmoid plate as dose-dependently reduced (Sørhus et al., 2021a; Sørhus et al., 2016; Sørhus et al., 2021b). At the lower exposure concentrations tested here, we found no impact on the ethmoid plate in larvae that still had measurable impacts on heart development. This is consistent with prior studies in zebrafish where craniofacial structure was carefully assessed in juvenile fish that survived impaired cardiac function as embryos (Incardona et al., 2013). However, while these findings show that cardiotoxicity has a lower threshold than craniofacial defects, they have no bearing on whether there are direct or independent impacts of oil exposure that contribute to the more severe craniofacial defects observed at higher doses.
+The likelihood that cardiac defects persisted to later stages is high. In a separate study, older haddock larvae from the TPAH 27 ng/g (10 μg oil/L, TPAH 0.1 μg/L) and 330 ng/g (80 μg oil/L, TPAH 0.67 μg/L) exposure doses were found to have reduced swimming speed in a marine in situ assay at 29 to 35 dph (Cresci et al., 2020). Latent impacts on ventricular structure and cardiorespiratory performance (critical swimming speed, Ucrit) were observed in juvenile Pacific herring and pink salmon 7 to 9 months after an embryonic body burden of TPAH 29 ng/g (wet weight) and 222 ng/g, respectively (Incardona et al., 2015). The oil-induced delay in ventricular ballooning at the yolk sac stage was identified in a follow-up study in herring, and impacts on heart structure were tracked from the yolk sac stage into the early juvenile period (110 dph) (Gardner et al., 2019; Incardona et al., 2015; Incardona et al., 2021). While ventricular ballooning was not assessed at the yolk sac stage in exposed polar cod, by 43 dph, larvae surviving body burdens of TPAH 517 and ∼700 ng/g also showed dose-dependent alterations in the lateral dimensions of the ventricle, with qualitative suggestions of trabeculation defects at the higher concentration (Laurel et al., 2019). Our findings here show a similar threshold to Pacific herring for impacts on initiation of ventricular ballooning, with a lowest effective tested dose of 27 ng/g (from exposure concentration TPAH 0.1 μg/L). Distribution of lipids and other yolk-derived factors is a clear function of the early larval fish heart critical for extracardiac development (Sørhus et al., 2021b), and circulation would be expected to be critical for removal of metabolites (Wang et al., 2019), maintenance of salt and water balance (Varsamos et al., 2005) in addition to impacting oxygen transport capabilities. Thus, reduced cardiac performance could underlie the latent reduction in swimming performance observed in the low and medium concentration-exposed haddock through a number of direct or indirect mechanisms.
+4.4. Impact of exposure to oil on survival and growth
+At the highest exposure concentration (300 μg oil/L, TPAH 3.2 μg/L), morphological abnormalities reduced the likelihood of survival through the larval period. Accordingly, all larvae initially hatching from the high-concentration treatment were eliminated between 20 and 77 dph. At the medium concentration (TPAH 0.76 μg/L) all larvae present at later stages were externally normal, suggesting a strong selective mortality of grossly abnormal individuals. Overall, the medium concentration group experienced significantly reduced survival relative to the control group, with virtually all of the mortality occurring by 77 dph. Mortality was increased about 10 times as a consequence of the TPAH 0.76 μg/L – 330 ng/g exposure, but the TPAH 0.1 μg/L – 27 ng/g exposure had no effect on survival under these conditions.
+Although there was no difference in size among treatment groups during initial growth in replicate tanks, following pooling into single treatment (concentration-level) tanks, the survivors of the low-concentration exposure grew larger relative to the control. This may be due to stronger selection in the low concentration group. Although there were no statistical differences in survival between low concentration and control group, the standard deviation was much larger in the low concentration (Fig. 7). This could indicate that individuals with lower fitness did not survive the oil challenge, leaving a larger proportion of more robust animals in the low concentration group compared to the control group. The final relative rate of growth was significantly lower for the medium concentration group, but there was no significant effect on growth rate in the low concentration group (TPAH 0.76 μg/L – 330 ng/g). However, because fish were no longer in replicate tanks, statistical analysis could not distinguish whether the differences in length or SGR were a tank effect or an effect of treatment (oil exposure). In sum, even though the low concentration fish were consistently longer from September to December, the growth rate in the period was not different from control, and only the medium concertation showed a reduced growth rate.
+The equivocal effects on growth could be due to experimental design constraints and lack of statistical power. However, prior studies suggest latent impacts on survival and growth may be masked by the rearing conditions in the laboratory. Despite the fact that tank-raised fish are subjected to stressors that are not present in their natural ocean environment, we have optimized our laboratory conditions for their growth by providing them with natural live feed to ensure they maintain an appropriate nutritional status (Karlsen et al., 2015). As indicated by the studies in pink salmon (Heintz et al., 2000; Heintz, 2007; Incardona et al., 2015) and red drum (Sciaenops ocellatus) (Khursigara et al., 2021), the addition of real-world stressors such as competitive prey foraging may be needed to reveal adverse impacts on growth following such low-level exposures. Similarly, the reduced growth observed in the related species Arctic cod (Laurel et al., 2019) is likely related to the additional challenge of living at extreme temperature. The consequences of low-level crude oil exposures under laboratory conditions may therefore be underestimated for haddock. Nevertheless, this is an important negative result, setting a clear baseline for controlled multi-stressor studies that may allow more accurate assessments of the real-world impacts of petroleum pollution.
+4.5. Cyp1a induction and DNA adduct formation as quantitative biomarkers of oil exposure
+Induction of cyp1a is routinely used as a dose-responsive, quantitative biomarker for oil exposure in studies of fish early life history stages. PAH-induced DNA adducts are also well established biomarkers of oil exposure in juvenile and adult fish in the laboratory (Aas et al., 2000; Holth et al., 2009; Lyons et al., 1997; Meier et al., 2020; Sundt et al., 2012), in field observations after spills (Amat et al., 2006; Harvey et al., 1999), or after chronic discharge in vicinity of offshore oil platforms (Balk et al., 2011; Grøsvik et al., 2012; Pampanin et al., 2019). However, until now, no study has measured DNA adducts in fish embryos or larvae exposed to oil. Moreover, we have directly compared the sensitivity of PAH measurements in tissues, cyp1a mRNA induction, and levels of DNA adducts. We did observe a trend of increasing amount of DNA adducts with increasing oil concentrations, but only the high (TPAH 3.2 μg/L) concentration produced a statistically significant difference. However, this study had limited statistical power with only four replicates, some outlier samples, and samples with levels below the detection limit. Nonetheless, these results raise the possibility of adverse impacts due to DNA adduct genotoxicity (Kienzler et al., 2013; Pampanin et al., 2017). We detected DNA adducts in all treatments, from 5 to 10 in low to 29–45 nmol DNA adduct/mol DNA in the high concentration treatment. DNA adduct levels in haddock above 6.7 nmol DNA adducts per mol nucleotides are considered high and cause for concern (ICES, 2011, ICES, 2012). These established thresholds fit well with the other adverse effect levels reported in this study.
+5. Conclusions
+In this study we show that exposure to oil at 300 μg oil/L, (TPAH 3.2 μg/L, 2066 ng/g tissue) resulted in severe abnormalities in yolk sac larvae leading to complete mortality in the early larval period. Exposure to medium concentrations (80 μg oil/L, TPAH 0.76 μg/L, 330 ng/g tissue) resulted in a relatively high degree of cardiac dysfunction, manifested as edema and smaller ventricles at hatch. This concentration led to higher delayed mortality (∼10-times greater than controls) during the first ∼2.5 months of growth, most likely because of earlier cardiotoxicity. Overall, we observed a dose-dependent reduction in the size of the ventricle with an IC50 water concentration of TPAH 0.72 μg/L and the IC50 for reduced juvenile survival was TPAH 0.27 μg/L. The lowest tested concentration (10 μg oil/L, TPAH 0.1 μg/L, 27 ng/g tissue) produced no externally visible morphological abnormalities, but led to an impact on the posterior outgrowth of the cardiac ventricle that normally initiates in hatching stage larvae. In Pacific herring this response occurs at a similar threshold and has been shown to produce latent impacts on heart form and function many months later in juveniles. Under laboratory rearing conditions, fish surviving either the low or medium concentration into the late larval and juvenile periods did not show linear dose response changes in growth or further mortality. The laboratory conditions most likely masked latent impacts, but our findings provide the basis for future multi-stressor studies that more closely reflect conditions in marine habitats. Nevertheless, the toxic effects threshold at a water concentration of TPAH 0.1 μg/L is consistent with a very low tolerance of cold-water species for oil exposure and should be a major incitement for protecting haddock spawning habitats from oil pollution.
+The following are the supplementary data related to this article.
+Download: Download spreadsheet (36KB)
+
+Dataset 1. Detailed overview of PAHs in water at exposure start and stop.
+
+Download: Download spreadsheet (44KB)
+
+Dataset 2. Detailed overview of PAHs in tissue at exposure stop.
+
+Download: Download spreadsheet (11KB)
+
+Dataset 3. Relative expression of cyp1a.
+
+Download: Download Word document (6MB)
+
+Supporting Information containing supplementary figures S1-S4 and tables S1-S5.
+
+CRediT authorship contribution statement
+E.S. designed the study; collected, analyzed, and interpreted the data, and wrote the paper. L.S. designed the study; collected, analyzed, and interpreted the data, and reviewed paper. B.E.G. collected and interpreted the data for the DNA adduct and reviewed the paper. J.L.G. analyzed the DNA adduct samples. J.P.I. designed the study, collected, analyzed, and interpreted the data, and wrote the paper. T.L.L. designed the study, collected and analyzed the data. D.H.B. and J.D.R. modelled the mortality data. Ø.K. designed the study, collected the data, and reviewed the paper. T.N. interpreted the data and reviewed the paper. B.H.H. interpreted the data and reviewed the paper. A.T. collected and analyzed the data and reviewed the paper. C.E.D interpreted the data and reviewed the paper. T.V.D.M. designed the study, collected the data, and reviewed the paper. W·B and S.J.R. were together with L.S. responsible for the GCxGC-MS analysis and reviewed the paper. F.V. designed the study, interpreted the data and contributed to discussions and writing. S.M. designed the study, collected and interpreted the data, wrote the original paper, which was reviewed by all the authors and funded the research.
+Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+Acknowledgements
+General: We thank Michal Rejmer and Stig Ove Utskot for breeding and maintenance of the fish, Tor Linbo for assistance with imaging of yolk sac larvae and Ben Laurel for discussing the growth data.
+Funding
+This research was supported by funds from the Research Council of Norway through the project, “Assessment of long-term effects of oil exposure on early life stages of Atlantic haddock using state-of-the-art genomics tools in combination with fitness observations” (project # 234367) and EGGTOX: Unraveling the mechanistic effects of crude oil toxicity during early life stages of cold-water marine teleosts (Project # 267820).
+Data availability
+Data will be made available on request.
+References
+Aas et al., 2000
+E. Aas, T. Baussant, L. Balk, B. Liewenborg, O.K. Andersen
+PAH metabolites in bile, cytochrome P4501A and DNA adducts as environmental risk parameters for chronic oil exposure: a laboratory experiment with Atlantic cod
+Aquat. Toxicol., 51 (2000), pp. 241-258
+View PDF
+View articleView in ScopusGoogle Scholar
+Amat et al., 2006
+A. Amat, T. Burgeot, M. Castegnaro, A. Pfohl-Leszkowicz
+DNA adducts in fish following an oil spill exposure
+Environ. Chem. Lett., 4 (2006), pp. 93-99
+View at publisherCrossrefView in ScopusGoogle Scholar
+Auman et al., 2007
+H.J. Auman, H. Coleman, H.E. Riley, F. Olale, H.J. Tsai, D. Yelon
+Functional modulation of cardiac form through regionally confined cell shape changes
+PLoS Biol., 5 (2007), Article e53
+View at publisherCrossrefGoogle Scholar
+Balk et al., 2011
+L. Balk, K. Hylland, T. Hansson, M.H. Berntssen, J. Beyer, G. Jonsson, A. Melbye, M. Grung, B.E. Torstensen, J.F. Borseth, H. Skarphedinsdottir, J. Klungsoyr
+Biomarkers in natural fish populations indicate adverse biological effects of offshore oil production
+Plos One, 6 (2011), Article e19735
+View at publisherCrossrefView in ScopusGoogle Scholar
+Boehm et al., 2016
+P.D. Boehm, K.J. Murray, L.L. Cook
+Distribution and attenuation of polycyclic aromatic hydrocarbons in Gulf of Mexico seawater from the Deepwater Horizon oil accident
+Environ. Sci. Technol., 50 (2016), pp. 584-592
+View at publisherCrossrefView in ScopusGoogle Scholar
+Bogerd et al., 2001
+J. Bogerd, M. Blomenrohr, E. Andersson, H.H. van der Putten, C.P. Tensen, H.F. Vischer, J.C.M. Granneman, C. Janssen-Dommerholt, H.J. Goos, R.W. Schulz
+Discrepancy between molecular structure and ligand selectivity of a testicular follicle-stimulating hormone receptor of the African catfish (Clarias gariepinus)
+Biol. Reprod., 64 (2001), pp. 1633-1643
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Brette et al., 2014
+F. Brette, B. Machado, C. Cros, J.P. Incardona, N.L. Scholz, B.A. Block
+Crude oil impairs cardiac excitation-contraction coupling in fish
+Science, 343 (2014), pp. 772-776
+View at publisherCrossrefView in ScopusGoogle Scholar
+Carls et al., 2008
+M.G. Carls, L. Holland, M. Larsen, T.K. Collier, N.L. Scholz, J.P. Incardona
+Fish embryos are damaged by dissolved PAHs, not oil particles
+Aquat. Toxicol., 88 (2008), pp. 121-127
+View PDF
+View articleView in ScopusGoogle Scholar
+Carls et al., 1999
+M.G. Carls, S.D. Rice, J.E. Hose
+Sensitivity of fish embryos to weathered crude oil: part I. Low-level exposure during incubation causes malformations, genetic damage, and mortality in larval Pacific herring (Clupea pallasi)
+Environ. Toxicol. Chem., 18 (1999), pp. 481-493
+View in ScopusGoogle Scholar
+Carroll et al., 2018
+J. Carroll, F. Vikebo, D. Howell, O.J. Broch, R. Nepstad, S. Augustine, G.M. Skeie, R. Bast, J. Juselius
+Assessing impacts of simulated oil spills on the Northeast Arctic cod fishery
+Mar. Pollut. Bull., 126 (2018), pp. 63-73
+View PDF
+View articleView in ScopusGoogle Scholar
+Claireaux et al., 2005
+G. Claireaux, D.J. McKenzie, A.G. Genge, A. Chatelier, J. Aubin, A.P. Farrell
+Linking swimming performance, cardiac pumping ability and cardiac anatomy in rainbow trout
+J. Exp. Biol., 208 (2005), pp. 1775-1784
+View at publisherCrossrefView in ScopusGoogle Scholar
+Cresci et al., 2020
+A. Cresci, H.I. Browman, A.B. Skiftesvik, S. Shema, R. Bjelland, C. Durif, M. Foretich, C. Di Persia, V. Lucchese, F. Vikebø, E. Sørhus
+Effects of exposure to low concentrations of oil on expression of cytochrome P4501a and routine swimming speed of Atlantic haddock (Melanogrammus aeglefinus) larvae in situ
+Environ. Sci. Technol., 18 (2020), p. 13515
+Google Scholar
+Duan et al., 2015
+Y.N. Duan, L.H. Stien, A. Thorsen, O. Karlsen, N. Sandlund, D.L. Li, Z.T. Fu, S. Meier
+An automatic counting system for transparent pelagic fish eggs based on computer vision
+Aquac. Eng., 67 (2015), pp. 8-13
+View PDF
+View articleView in ScopusGoogle Scholar
+Esbaugh et al., 2016
+A.J. Esbaugh, E.M. Mager, J.D. Stieglitz, R. Hoenig, T.L. Linbo, C. Lay, H. Forth, T.L. Brown, B.L. French, N.L. Scholz, J.P. Incardona, J.M. Morris, D.D. Benetti, M. Grosell
+The effects of weathering and chemical dispersion on Deepwater Horizon crude oil toxicity to mahi-mahi (Coryphaena hippurus) early life stages
+Sci. Total Environ., 543 (2016), pp. 644-651
+View PDF
+View articleView in ScopusGoogle Scholar
+Gardner et al., 2019
+L.D. Gardner, K.A. Peck, G.W. Goetz, T.L. Linbo, J.R. Cameron, N.L. Scholz, B.A. Block, J.P. Incardona
+Cardiac remodeling in response to embryonic crude oil exposure involves unconventional NKX family members and innate immunity genes
+J. Exp. Biol. (2019), p. 222
+Google Scholar
+Grassini et al., 2019
+D.R. Grassini, J. da Silva, T.E. Hall, G.J. Baillie, C. Simons, R.G. Parton, B.M. Hogan, K.A. Smith
+Myosin Vb is required for correct trafficking of N-cadherin and cardiac chamber ballooning
+Dev. Dyn., 248 (2019), pp. 284-295
+View at publisherCrossrefView in ScopusGoogle Scholar
+Grøsvik et al., 2012
+B.H. Grøsvik, E. Kalstveit, L. Liu, G. Nesje, K. Westrheim, M.H.G. Berntssen, J. LeGoff, S. Meier
+Condition Monitoring in the Water Column 2011: Oil Hydrocarbons in Fish From Norwegian Waters
+Institute of Marine Research (2012)
+Google Scholar
+Hansen et al., 2018
+B.H. Hansen, L. Sørensen, P.A. Carvalho, S. Meier, A.M. Booth, D. Altin, J. Farkas, T. Nordtug
+Adhesion of mechanically and chemically dispersed crude oil droplets to eggs of Atlantic cod (Gadus morhua) and haddock (Melanogrammus aeglefinus)
+Sci. TotalEnviron., 640–641 (2018), pp. 138-143
+View PDF
+View articleView in ScopusGoogle Scholar
+Harvey et al., 1999
+J.S. Harvey, B.P. Lyons, T.S. Page, C. Stewart, J.M. Parry
+An assessment of the genotoxic impact of the sea empress oil spill by the measurement of DNA adduct levels in selected invertebrate and vertebrate species
+Mutat. Res. Genet. Toxicol. Environ. Mutagen., 441 (1999), pp. 103-114
+View PDF
+View articleView in ScopusGoogle Scholar
+Hatlen et al., 2010
+K. Hatlen, C.A. Sloan, D.G. Burrows, T.K. Collier, N.L. Scholz, J.P. Incardona
+Natural sunlight and residual fuel oils are an acutely lethal combination for fish embryos
+Aquat. Toxicol., 99 (2010), pp. 56-64
+View PDF
+View articleView in ScopusGoogle Scholar
+Heintz, 2007
+R.A. Heintz
+Chronic exposure to polynuclear aromatic hydrocarbons in natal habitats leads to decreased equilibrium size, growth, and stability of pink salmon populations
+Integr. Environ. Assess. Manag., 3 (2007), pp. 351-363
+View in ScopusGoogle Scholar
+Heintz et al., 2000
+R.A. Heintz, S.D. Rice, A.C. Wertheimer, R.F. Bradshaw, F.P. Thrower, J.E. Joyce, J.W. Short
+Delayed effects on growth and marine survival of pink salmon Oncorhynchus gorbuscha after exposure to crude oil during embryonic development
+Mar. Policy, 208 (2000), pp. 205-216
+View at publisherCrossrefView in ScopusGoogle Scholar
+Heintz et al., 1999
+R.A. Heintz, J.W. Short, S.D. Rice
+Sensitivity of fish embryos to weathered crude oil: part II. Increased mortality of pink salmon (Oncorhynchus gorbuscha) embryos incubating downstream from weathered Exxon Valdez crude oil
+Environ. Toxicol. Chem., 18 (1999), pp. 494-503
+View in ScopusGoogle Scholar
+Hicken et al., 2011
+C.E. Hicken, T.L. Linbo, D.H. Baldwin, M.L. Willis, M.S. Myers, L. Holland, M. Larsen, M.S. Stekoll, G.S. Rice, T.K. Collier, N.L. Scholz, J.P. Incardona
+Sub-lethal exposure to crude oil during embryonic development alters cardiac morphology and reduces aerobic capacity in adult fish
+Proc. Natl. Acad. Sci. U. S. A., 108 (2011), pp. 7086-7090
+View at publisherCrossrefView in ScopusGoogle Scholar
+Hjermann et al., 2007
+D.O. Hjermann, A. Melsom, G.E. Dingsor, J.M. Durant, A.M. Eikeset, L.P. Roed, G. Ottersen, G. Storvik, N.C. Stenseth
+Fish and oil in the Lofoten-Barents Sea system: synoptic review of the effect of oil spills on fish populations
+Mar. Policy, 339 (2007), pp. 283-299
+View at publisherCrossrefView in ScopusGoogle Scholar
+Holth et al., 2009
+T.F. Holth, B.A. Beylich, H. Skarphedinsdottir, B. Liewenborg, M. Grung, K. Hylland
+Genotoxicity of environmentally relevant concentrations of water-soluble oil components in cod (Gadus morhua)
+Environ. Sci. Technol., 43 (2009), pp. 3329-3334
+View at publisherCrossrefView in ScopusGoogle Scholar
+Hu et al., 2000
+N. Hu, D. Sedmera, H.J. Yost, E.B. Clark
+Structure and function of the developing zebrafish heart
+Anat. Rec., 260 (2000), pp. 148-157
+View in ScopusGoogle Scholar
+ICES, 2011
+ICES
+ICES Symposium Reports 2011, International Council for the Exploration of the Sea (2011), p. 15
+Google Scholar
+ICES, 2012
+ICES
+ICES Annual Report 2012
+International Council for the Exploration of the Sea (2012)
+Google Scholar
+Incardona et al., 2015
+J.P. Incardona, M.G. Carls, L. Holland, T.L. Linbo, D.H. Baldwin, M.S. Myers, K.A. Peck, S.D. Rice, N.L. Scholz
+Very low embryonic crude oil exposures cause lasting cardiac defects in salmon and herring
+Sci. Rep., 5 (2015), p. 13499
+View in ScopusGoogle Scholar
+Incardona et al., 2014
+J.P. Incardona, L.D. Gardner, T.L. Linbo, T.L. Brown, A.J. Esbaugh, E.M. Mager, J.D. Stieglitz, B.L. French, J.S. Labenia, C.A. Laetz, M. Tagal, C.A. Sloan, A. Elizur, D.D. Benetti, M. Grosell, B.A. Block, N.L. Scholz
+Deepwater Horizon Crude Oil Impacts the Developing Hearts of Large Predatory Pelagic Fish
+Proc. Natl. Acad. Sci. U. S. A. (2014), p. 111
+Google Scholar
+Incardona et al., 2021
+J.P. Incardona, T. Linbo, B.L. French, J. Cameron, K.A. Peck, C.A. Laetz, M. Hicks, G. Hutchinson, S.E. Allan, D.T. Boyd, G.M. Ylitalo, N.L. Scholz
+Low-level embryonic oil exposure disrupts ventricular ballooning and subsequent trabeculation in Pacific herring
+Aquat. Toxicol., 235 (2021), Article 105810
+View PDF
+View articleView in ScopusGoogle Scholar
+Incardona and Scholz, 2016
+J.P. Incardona, N.L. Scholz
+The influence of heart developmental anatomy on cardiotoxicity-based adverse outcome pathways in fish
+Aquat. Toxicol., 177 (2016), pp. 515-525
+View PDF
+View articleView in ScopusGoogle Scholar
+Incardona and Scholz, 2017
+J.P. Incardona, N.L. Scholz
+Environmental pollution and the fish heart
+A.K. Gamperl, T.E. Gillis, A.P. Farrell, C.J. Brauner (Eds.), Fish Physiology, the Cardiovascular System: Phenotypic and Physiological Responses, Elsevier, London (2017)
+Google Scholar
+Incardona and Scholz, 2018
+J.P. Incardona, N.L. Scholz
+Case study: the 2010 Deepwater Horizon oil spill
+W. Burggren, B. Dubansky (Eds.), Development, Physiology, and Environment: A Synthesis, Springer, London (2018)
+Google Scholar
+Incardona et al., 2013
+J.P. Incardona, T.L. Swarts, R.C. Edmunds, T.L. Linbo, R.C. Edmunds, A. Aquilina-Beck, C.A. Sloan, L.D. Gardner, B.A. Block, N.L. Scholz
+Exxon Valdez to Deepwater Horizon: comparable toxicity of both crude oils to fish early life stages
+Aquat. Toxicol., 142–143 (2013), pp. 303-316
+View PDF
+View articleView in ScopusGoogle Scholar
+Jung et al., 2013
+J.-H. Jung, C.E. Hicken, D. Boyd, B.F. Anulacion, M.G. Carls, W.J. Shim, J.P. Incardona
+Geologically distinct crude oils cause a common cardiotoxicity syndrome in developing zebrafish
+Chemosphere, 91 (2013), pp. 1146-1155
+View PDF
+View articleView in ScopusGoogle Scholar
+Karlsen et al., 2015
+O. Karlsen, T. van der Meeren, I. Ronnestad, A. Mangor-Jensen, T.F. Galloway, E. Kjorsvik, K. Hamre
+Copepods enhance nutritional status, growth and development in Atlantic cod (Gadus morhua L.) larvae - can we identify the underlying factors?
+Peerj, 3 (2015), Article e902
+View at publisherCrossrefView in ScopusGoogle Scholar
+Khursigara et al., 2021
+A.J. Khursigara, J.L. Johansen, A.J. Esbaugh
+The effects of acute crude oil exposure on growth and competition in red drum,Sciaenops ocellatus
+Sci. Total Environ., 751 (2021), Article 141804
+View PDF
+View articleView in ScopusGoogle Scholar
+Khursigara et al., 2017
+A.J. Khursigara, P. Perrichon, N. Martinez Bautista, W.W. Burggren, A.J. Esbaugh
+Cardiac function and survival are affected by crude oil in larval red drum,Sciaenops ocellatus
+Sci. Total Environ., 579 (2017), pp. 797-804
+View PDF
+View articleView in ScopusGoogle Scholar
+Kienzler et al., 2013
+A. Kienzler, S. Bony, A. Devaux
+DNA repair activity in fish and interest in ecotoxicology: a review
+Aquat. Toxicol., 134 (2013), pp. 47-56
+View PDF
+View articleView in ScopusGoogle Scholar
+Kjesbu et al., 2014
+O.S. Kjesbu, B. Bogstad, J.A. Devine, H. Gjosaeter, D. Howell, R.B. Ingvaldsen, R.D.M. Nash, J.E. Skjaeraasen
+Synergies between climate and management for Atlantic cod fisheries at high latitudes
+Proc. Natl. Acad. Sci. U. S. A., 111 (2014), pp. 3478-3483
+View at publisherCrossrefView in ScopusGoogle Scholar
+Langangen et al., 2017
+O. Langangen, E. Olsen, L.C. Stige, J. Ohlberger, N.A. Yaragina, F.B. Vikebo, B. Bogstad, N.C. Stenseth, D.O. Hjermann
+The effects of oil spills on marine fish: implications of spatial variation in natural mortality
+Mar. Pollut. Bull., 119 (2017), pp. 102-109
+View PDF
+View articleView in ScopusGoogle Scholar
+Laurel et al., 2019
+B.J. Laurel, L. Copeman, P. Iseri, M. Spencer, G. Hutchinson, T. Nordtug, C. Donald, S. Meier, S.E. Allan, D. Boyd, G. Ylitalo, J. Cameron, B. French, T. Linbo, N.L. Scholz, J.P. Incardona
+Embryonic crude oil exposure impairs growth and lipid allocation in a keystone Arctic forage fish
+iScience, 19 (2019), pp. 1101-1113
+View PDF
+View articleView in ScopusGoogle Scholar
+Le Goff et al., 2006
+J. Le Goff, J. Gallois, L. Pelhuet, M.H. Devier, H. Budzinski, D. Pottier, V. André, J. Cachot
+DNA adduct measurements in zebra mussels, Dreissena polymorpha, Pallas: potential use for genotoxicant biomonitoring of fresh water ecosystems
+Aquat. Toxicol., 79 (2006), pp. 55-64
+View PDF
+View articleView in ScopusGoogle Scholar
+Liu and Kujawinski, 2015a
+Y. Liu, E.B. Kujawinski
+Chemical composition and potential environmental impacts of water-soluble polar crude oil components inferred from ESI FT-ICR MS
+PLOS ONE, 10 (2015), Article e0136376
+View at publisherCrossrefView in ScopusGoogle Scholar
+Liu and Kujawinski, 2015b
+Y.N. Liu, E.B. Kujawinski
+Chemical composition and potential environmental impacts of water-soluble polar crude oil components inferred from ESI FT-ICR MS
+Plos One, 10 (2015)
+Google Scholar
+Lyons et al., 1997
+B.P. Lyons, J.S. Harvey, J.M. Parry
+An initial assessment of the genotoxic impact of the sea empress oil spill by the measurement of DNA adduct levels in the intertidal teleost Lipophrys pholis
+Mutat. Res. Genet. Toxicol. Environ. Mutagen., 390 (1997), pp. 263-268
+View PDF
+View articleView in ScopusGoogle Scholar
+Marty et al., 1997a
+G.D. Marty, J.E. Hose, M.D. McGurk, E.D. Brown, D.E. Hinton
+Histopathology and cytogenetic evaluation of Pacific herring larvae exposed to petroleum hydrocarbons in the laboratory or in Prince William Sound, Alaska, after the Exxon Valdez oil spill
+Can. J. Fish. Aquat. Sci., 54 (1997), pp. 1846-1857
+View in ScopusGoogle Scholar
+Marty et al., 1997b
+G.D. Marty, J.W. Short, D.M. Dambach, N.H. Willits, R.A. Heintz, S.D. Rice, J.J. Stegeman, D.E. Hinton
+Ascites, premature emergence, increased gonadal cell apoptosis, and cytochrome P4501A induction in pink salmon larvae continuously exposed to oil-contaminated gravel during development
+Can. J. Zool., 75 (1997), pp. 989-1007
+View at publisherCrossrefView in ScopusGoogle Scholar
+Meier et al., 2020
+S. Meier, Ø. Karlsen, J. Le Goff, L. Sørensen, E. Sørhus, D.M. Pampanin, C.E. Donald, P.G. Fjelldal, E. Dunaevskaya, M. Romano, I. Caliani, S. Casini, A.S. Bogevik, P.A. Olsvik, M. Myers, B.E. Grøsvik
+DNA damage and health effects in juvenile haddock (Melanogrammus aeglefinus) exposed to PAHs associated with oil-polluted sediment or produced water
+Plos One, 15 (2020), Article e0240307
+View at publisherCrossrefView in ScopusGoogle Scholar
+Merks et al., 2018
+A.M. Merks, M. Swinarski, A.M. Meyer, N.V. Müller, I. Özcan, S. Donat, A. Burger, S. Gilbert, C. Mosimann, S. Abdelilah-Seyfried, D. Panáková
+Planar cell polarity signalling coordinates heart tube remodelling through tissue-scale polarisation of actomyosin activity
+Nat. Commun., 9 (2018), p. 2161
+View in ScopusGoogle Scholar
+Morris et al., 2018
+J. Morris, M. Gielazyn, M. Krasnec, R. Takeshita, H. Forth, J.S. Labenia, T.L. Linbo, B.L. French, J.A. Gill, D.H. Baldwin, N.L. Scholz, J.P. Incardona
+Crude oil cardiotoxicity to red drum embryos is independent of oil dispersion energy
+Chemosphere, 213 (2018), pp. 205-214
+View PDF
+View articleView in ScopusGoogle Scholar
+Nordtug et al., 2011
+T. Nordtug, A.J. Olsen, D. Altin, S. Meier, I. Overrein, B.H. Hansen, O. Johansen
+Method for generating parameterized ecotoxicity data of dispersed oil for use in environmental modelling
+Mar. Pollut. Bull., 62 (2011), pp. 2106-2113
+View PDF
+View articleView in ScopusGoogle Scholar
+Olsen et al., 2010
+E. Olsen, S. Aanes, S. Mehl, J.C. Holst, A. Aglen, H. Gjosaeter
+Cod, haddock, saithe, herring, and capelin in the Barents Sea and adjacent waters: a review of the biological value of the area
+ICES, 67 (2010), pp. 87-101
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Olsen et al., 2013
+G.H. Olsen, C. Klok, A.J. Hendriks, P. Geraudie, L. De Hoop, F. De Laender, E. Farmen, B.E. Grosvik, B.H. Hansen, M. Hjorth, C.R. Jansen, T. Nordtug, E. Ravagnan, K. Viaene, J. Carroll
+Toxicity data for modeling impacts of oil components in an Arctic ecosystem
+Mar. Environ. Res., 90 (2013), pp. 9-17
+View PDF
+View articleView in ScopusGoogle Scholar
+Pampanin et al., 2017
+D.M. Pampanin, S.J. Brooks, B.E. Grosvik, J. Le Goff, S. Meier, M.O. Sydnes
+DNA adducts in marine fish as biological marker of genotoxicity in environmental monitoring: the way forward
+Mar. Environ. Res., 125 (2017), pp. 49-62
+View PDF
+View articleView in ScopusGoogle Scholar
+Pampanin et al., 2019
+D.M. Pampanin, S.J. Brooks, B.E. Grøsvik, S. Sanni
+Water Column Monitoring 2017. Environmental Monitoring of Petroleum Activities on the Norwegian Continental Shelf 2017, NORCE-Environment (2019), p. 92
+Google Scholar
+Ricker, 1958
+W.E. Ricker
+Handbook of Computations for Biological Statistics of Fish Populations
+Fisheries Research Board of Canada, Ottawa (1958)
+Google Scholar
+Santer and Walker, 1980
+R.M. Santer, M.G. Walker
+Morphological-studies on the ventricle of teleost and elasmobranch hearts
+J. Zool., 190 (1980), pp. 259-272
+View at publisherCrossrefView in ScopusGoogle Scholar
+Santer et al., 1983
+R.M. Santer, M.G. Walker, L. Emerson, P.R. Witthames
+On the morphology of the heart ventricle in marine teleost fish (Teleostei)
+Environ. Pollut., 76 (1983), pp. 453-457
+View PDF
+View articleView in ScopusGoogle Scholar
+Sørensen et al., 2019a
+L. Sørensen, B.H. Hansen, J. Farkas, C.E. Donald, W.J. Robson, A. Tonkin, S. Meier, S.J. Rowland
+Accumulation and toxicity of monoaromatic petroleum hydrocarbons in early life stages of cod and haddock
+Environ. Pollut., 251 (2019), pp. 212-220
+View PDF
+View articleView in ScopusGoogle Scholar
+Sørensen et al., 2019b
+L. Sørensen, P. McCormack, D. Altin, W.J. Robson, A.M. Booth, L.G. Faksness, S.J. Rowland, T.R. Størseth
+Establishing a link between composition and toxicity of offshore produced waters using comprehensive analysis techniques - a way forward for discharge monitoring?
+Sci. TotalEnviron., 694 (2019), Article 133682
+View PDF
+View articleView in ScopusGoogle Scholar
+Sørensen et al., 2016
+L. Sørensen, S. Meier, S.A. Mjøs
+Application of gas chromatography/tandem mass spectrometry to determine a wide range of petrogenic alkylated polycyclic aromatic hydrocarbons in biotic samples
+Rapid Commun. Mass Spectrom., 30 (2016), pp. 2052-2058
+View at publisherCrossrefView in ScopusGoogle Scholar
+Sørensen et al., 2017
+L. Sørensen, E. Sørhus, T. Nordtug, J.P. Incardona, T.L. Linbo, L. Giovanetti, O. Karlsen, S. Meier
+Oil droplet fouling and differential toxicokinetics of polycyclic aromatic hydrocarbons in embryos of Atlantic haddock and cod
+Plos One, 12 (2017), Article e0180048
+View at publisherCrossrefView in ScopusGoogle Scholar
+Sørhus et al., 2021a
+E. Sørhus, C.E. Donald, D. da Silva, A. Thorsen, Ø. Karlsen, S. Meier
+Untangling mechanisms of crude oil toxicity: linking gene expression, morphology and PAHs at two developmental stages in a cold-water fish
+Sci. Total Environ., 757 (2021), Article 143896
+View PDF
+View articleView in ScopusGoogle Scholar
+Sørhus et al., 2015
+E. Sørhus, R.B. Edvardsen, O. Karlsen, T. Nordtug, T. van der Meeren, A. Thorsen, C. Harman, S. Jentoft, S. Meier
+Unexpected interaction with dispersed crude oil droplets drives severe toxicity in Atlantic haddock embryos
+Plos One, 10 (2015), Article e0124376
+View at publisherCrossrefView in ScopusGoogle Scholar
+Sørhus et al., 2017
+E. Sørhus, J.P. Incardona, T. Furmanek, G.W. Goetz, N.L. Scholz, S. Meier, R.B. Edvardsen, S. Jentoft
+Novel adverse outcome pathways revealed by chemical genetics in a developing marine fish
+eLife, 6 (2017), Article e20707
+View in ScopusGoogle Scholar
+Sørhus et al., 2016
+E. Sørhus, J.P. Incardona, O. Karlsen, T. Linbo, L. Sørensen, T. Nordtug, T. van der Meeren, A. Thorsen, M. Thorbjørnsen, S. Jentoft, R.B. Edvardsen, S. Meier
+Crude oil exposures reveal roles for intracellular calcium cycling in haddock craniofacial and cardiac development
+Sci. Rep., 6 (2016), p. 31058
+View in ScopusGoogle Scholar
+Sørhus et al., 2021b
+E. Sørhus, S. Meier, C.E. Donald, T. Furmanek, R.B. Edvardsen, K.K. Lie
+Cardiac dysfunction affects eye development and vision by reducing supply of lipids in fish
+Sci. TotalEnviron., 800 (2021), Article 149460
+View PDF
+View articleView in ScopusGoogle Scholar
+Sundby et al., 2013
+S. Sundby, P. Fossum, A. Sandvik, F.B. Vikebø, A. Aglen, L. Buhl-Mortensen, A. Folkvord, K. Bakkeplass, P. Buhl-Mortensen, M. Johannesen, M.S. Jørgensen, T. Kristiansen, C.S. Landa, M.S. Myksvoll, R. Nash
+KunnskapsInnhenting Barentshavet–Lofoten–Vesterålen (KILO)
+Fisken og Havet (2013), pp. 1-186
+View at publisher
+CrossrefGoogle Scholar
+Sundt et al., 2012
+R.C. Sundt, A. Ruus, H. Jonsson, H. Skarpheoinsdottir, S. Meier, M. Grung, J. Beyer, D.M. Pampanin
+Biomarker responses in Atlantic cod (Gadus morhua) exposed to produced water from a North Sea oil field: laboratory and field assessments
+Mar. Pollut. Bull., 64 (2012), pp. 144-152
+View PDF
+View articleView in ScopusGoogle Scholar
+van der Meeren et al., 1998
+T. van der Meeren, T. Harboe, J.C. Holm, R. Solbakken
+A new cleaning system for rearing tanks in larval fish culture
+ICES, 1998/L (1998), p. 13
+Google Scholar
+van der Meeren et al., 2014
+T. van der Meeren, Ø. Karlsen, P.J. Liebig, A. Mangor-Jensen
+Copepod production in a saltwater pond system: a reliable method for achievement of natural prey in start-feeding of marine fish larvae
+Aquac. Eng., 62 (2014), pp. 17-27
+View PDF
+View articleView in ScopusGoogle Scholar
+van der Meeren et al., 2007
+T. van der Meeren, A. Mangor-Jensen, J. Pickova
+The effect of green water and light intensity on survival, growth and lipid composition in Atlantic cod (Gadus morhua) during intensive larval rearing
+Aquaculture, 265 (2007), pp. 206-217
+View PDF
+View articleView in ScopusGoogle Scholar
+Varsamos et al., 2005
+S. Varsamos, C. Nebel, G. Charmantier
+Ontogeny of osmoregulation in postembryonic fish: a review
+Comp. Biochem. Physiol. C Toxicol. Pharmacol., 141 (2005), pp. 401-429
+View PDF
+View articleView in ScopusGoogle Scholar
+Vikebo et al., 2014
+F.B. Vikebo, P. Ronningen, V.S. Lien, S. Meier, M. Reed, B. Adlandsvik, T. Kristiansen
+Spatio-termporal overlap of oil spills and early life stages of fish
+ICES, 71 (2014), pp. 970-981
+View at publisher
+CrossrefView in ScopusGoogle Scholar
+Vikebo et al., 2015
+F.B. Vikebo, P. Ronningen, S. Meier, B.E. Grosvik, V.S. Lien
+Dispersants have limited effects on exposure rates of oil spills on fish eggs and larvae in shelf seas
+Environ. Sci. Technol., 49 (2015), pp. 6061-6069
+View at publisherCrossrefView in ScopusGoogle Scholar
+Wang et al., 2019
+Y. Wang, C. Pasparakis, J.D. Stieglitz, D.D. Benetti, M. Grosell
+The effects of Deepwater Horizon crude oil on ammonia and urea handling in mahi-mahi (Coryphaena hippurus) early life stages
+Aquat. Toxicol., 216 (2019), p. 105294
+View PDF
+View articleView in ScopusGoogle Scholar
+Cited by (13)
+Toxicity of crude oil-derived polar unresolved complex mixtures to Pacific herring embryos: Insights beyond polycyclic aromatic hydrocarbons
+2024, Science of the Total Environment
+Show abstract
+3-Methyl-phenanthrene (3-MP) disrupts the electrical and contractile activity of the heart of the polar fish, navaga cod (Eleginus nawaga)
+2024, Chemosphere
+Citation Excerpt :
+
+Polycyclic aromatic hydrocarbons (PAHs) are the key component of crude oil responsible for toxicity in fish (Carls et al., 1999, 2008; Heintz et al., 1999; Incardona et al., 2010, 2011, 2013). Exposure of fish embryos to crude oil or mixtures of PAHs cause developmental abnormalities including mortality, delayed hatching, compromised swimming (Le Bihanic et al., 2014), pericardial and yolk sac edema (Incardona et al., 2005; Hicken et al., 2011; Lucas et al., 2014; Sørhus et al., 2023), jaw malformations, and skeletal/spinal anomalies (Sorhus et al., 2016; Sørhus et al., 2023). Exposure to individual PAHs can mimic many of these functional and morphological defects (Incardona et al., 2004; Brette et al., 2017; Donald et al., 2023).
+
+Show abstract
+Structure-activity relationships for alkyl-phenanthrenes support two independent but interacting synergistic models for PAC mixture potency
+2024, Science of the Total Environment
+Show abstract
+Biological Responses of Pacific Herring Embryos to Crude Oil Are Quantifiable at Exposure Levels Below Conventional Limits of Quantitation for PAHs in Water and Tissues
+2023, Environmental Science and Technology
+Co-Exposure of Phenanthrene and the cyp-Inducer 3-Methylchrysene Leads to Altered Biotransformation and Increased Toxicity in Fish Egg and Larvae
+2023, Environmental Science and Technology
+Effects of Exposure Timing on cyp1a Expression, PAH Elimination, and Lipid Utilization in Lumpfish Embryos Exposed to Produced Water
+2023, Environmental Science and Technology
+View all citing articles on Scopus
+© 2023 The Authors. Published by Elsevier Ltd.
+About ScienceDirect
+Remote access
+Advertise
+Contact and support
+Terms and conditions
+Privacy policy
+
+Cookies are used by this site.Cookie Settings
+
+All content on this site: Copyright © 2025 Elsevier B.V., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the relevant licensing terms apply.

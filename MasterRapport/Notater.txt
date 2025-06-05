@@ -1,0 +1,32 @@
+Introduksjon er for stor
+Skal være
+1. Hva er kontekst
+2. Hva har blitt gjort tidligere
+3. Hva gjenstår
+4. Hva blir gjort her
+
+Vurdere å endre "teori" til "problem statement"
+
+Korte ned teori sine underkapitler
+
+Vurdere å endre "metode" til "design"
+
+Vurdere å legge til kapitel "simulation case study"
+
+Endre på "AGX er valgt på grunn av"
+
+Fig 1.2, referere til spes.prosj.
+
+Vurdere å fjerne akronym fra titler
+
+Case - Kjør til punkt, senk ROV, skift slave/master, kjør rundt med ROV, heve, kjøre til annen plass, senk ned til ny dybde og kjøre rundt
+Case 1. Froskjellig dybde på ROV
+Case 2. Med forstyrrelser
+Case 3. Vertikal respons i røff sjø
+Case 4. Kontrollrespons i røff sjø
+Interessante data Pådrag af thrust, feil, aktuatorer, tid, osv
+
+I diskusjon:
+ta med overførbarhet til virkelighet
+Kontrollsystem har feedback, det gjør det realistisk
+se på resultatene, er simuleringen til å stole på

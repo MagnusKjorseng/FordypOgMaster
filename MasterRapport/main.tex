@@ -13,6 +13,7 @@
 \usepackage[T1]{fontenc} %to manage special characters
 \usepackage[Bjarne]{fncychap} %fancy chapter style (many more available, like Sonny or Lenny etc.)
 \usepackage[bf]{caption}
+\captionsetup{width=0.8\textwidth}
 \usepackage{subcaption}
 \usepackage{fancyhdr} %to customize the headers
 \usepackage[lmargin=1in, rmargin=1in, tmargin=1in, bmargin=1in]{geometry} %sets the margins for the pages
@@ -26,6 +27,7 @@
 \usepackage{array, booktabs} %to make better tables
 \usepackage{graphicx} %to include graphics
 \graphicspath{{./Figures}}
+\setkeys{Gin}{width=0.8\textwidth}
 \usepackage{float} %to include floats
 %\usepackage[export]{adjustbox} %to adjust floats
 %\usepackage{subfig} %to include subfigures
@@ -38,13 +40,8 @@
 
 %\usepackage{tgtermes}
 
-\usepackage[backend = bibtex,
-            style = harvard,
-            date = long,     % Long: 24th Mar. 1997 | Short: 24/03/1997
-            sorting = none,
-            maxcitenames = 3,   % max names to include before et. al.
-            ]{biblatex} %customize the look of your citations and bibliography
-\addbibresource{bibliography.bib}
+\usepackage[round]{natbib}   % omit 'round' option if you prefer square brackets
+\bibliographystyle{plainnat}
 %\bibliography{bibliography} %declare the bibliography resource
 \usepackage{comment} %to be able to comment out sections in the .tex files
 \usepackage{afterpage} %to customize page commands such as below
@@ -156,14 +153,15 @@ Department of Ocean Operations and Civil Engineering \\
 %the cleardoublepage command ensures that the next text page is on the right-hand side (odd page) and produces a blank page if necessary to achieve that, as all chapters should begin on the right hand side
 
 
-\chapter{Theory}
+\chapter{Problem Statement}
 \import{Chapters/}{04Theory}
 %\cleardoublepage
 
-\chapter{Method}
+\chapter{Design}
 \import{Chapters/}{05Method}
 %\cleardoublepage
 
+\chapter{Simulation Case Studies}
 
 \chapter{Results}
 \import{Chapters/}{06Results}
@@ -181,7 +179,8 @@ Department of Ocean Operations and Civil Engineering \\
 
 \newpage
 \addcontentsline{toc}{chapter}{\protect\numberline{}Bibliography}
-\printbibliography %you may change the title in the toc here if you want
+\bibliography{bibliography}
+%\printbibliography %you may change the title in the toc here if you want
 %\cleardoublepage
 
 
