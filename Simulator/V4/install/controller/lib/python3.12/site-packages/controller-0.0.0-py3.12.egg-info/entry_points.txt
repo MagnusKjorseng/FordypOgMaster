@@ -1,5 +1,8 @@
 [console_scripts]
 alloc = controller.usv_allocator:main
+collector = controller.data_collector.py
+crane = controller.crane_controller:main
 position_translator = controller.sim_position_publisher:main
+rov = controller.rov_controller:main
 thrust_controller = controller.sim_thrust_controller:main
 usv = controller.usv_controller:main
