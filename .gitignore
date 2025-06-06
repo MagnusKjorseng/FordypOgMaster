@@ -3,10 +3,4 @@
 *.log
 *.pyc
 *.aux
-Simulator/bin
-Simulator/include
-Simulator/lib
-Simulator/lib64
-Simulator/pyvenv.cfg
-Simulator/V4/build
-Simulator/V4/install
+
