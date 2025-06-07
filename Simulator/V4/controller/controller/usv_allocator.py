@@ -80,7 +80,12 @@ class Allocator(Node):
         # this makes a list of every two elements
         thrust = [tau[i*2:i*2+2] for i in range(len(tau)//2)]
 
-        alpha = [np.arctan(command[0]/command[1]) for command in thrust]
+        self.get_logger().info(f'Thrust =  {thrust}', once=True)
+
+        try:
+            alpha = [np.arctan(command[0]/command[1]) for command in thrust]
+        except: #catches division by zero
+            alpha = [0 for command in thrust]
 
         thrust = [np.sqrt(command[0]**2 + command[1]**2) for command in thrust]
 
