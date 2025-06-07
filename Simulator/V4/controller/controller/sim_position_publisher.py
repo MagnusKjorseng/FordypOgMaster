@@ -17,6 +17,7 @@ import rclpy
 from rclpy.node import Node
 import geometry_msgs.msg as geo_msgs
 import nmea_msgs.msg as nmea_msgs
+import std_msgs.msg as std_msgs
 from datetime import datetime, UTC
 
 import utils.nmea_utils as nmea_utils #custom library
@@ -48,10 +49,18 @@ class Translator(Node):
                                                         5)
         self.gga_publisher = self.create_publisher(nmea_msgs.Gpgga,
                                                    "gpgga_received",
-                                                   5)
+                                                    5)
+        ''' #Issues with HDT messages in ROS so these are omitted for now.
         self.hdt_publisher = self.create_publisher(nmea_msgs.Gphdt,
                                                    "gphdt_received",
                                                    5)
+        '''
+
+        #temporary heading publisher because HDT messages don't work.'
+        self.heading_publisher = self.create_pubisher(std_msgs.Float32,
+                                                      "temp_heading",
+                                                      5)
+
         self.baseline = baseline
         self.current_position = baseline
 
@@ -75,9 +84,13 @@ class Translator(Node):
         rot = rot.as_euler("xyz", degrees=True)
         heading = rot[-1]
 
-        hdt_msg = self.make_hdt_message(heading)
+        heading_msg = std_msgs.Float32()
+        heading_msg.data = heading
+        self.heading_publisher.publish(heading_msg)
 
-        self.hdt_publisher.publish(hdt_msg)
+        #hdt_msg = self.make_hdt_message(heading)
+
+        #self.hdt_publisher.publish(hdt_msg)
 
     def make_gga_message(self, lat, lon):
         message = nmea_msgs.Gpgga()
