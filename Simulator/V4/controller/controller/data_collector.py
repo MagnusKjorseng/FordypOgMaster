@@ -20,8 +20,11 @@ class DataCollector(Node):
 
         self.usv_target = [0.,0.,0.]
         self.rov_target = [0.,0.,-50.]
+        self.scenario = "Stationary"
+        self.wave_height = "0m"
 
-        self.plot_timer = self.create_timer(5, self.plot)
+        self.plot_time = 2
+        self.plot_timer = self.create_timer(self.plot_time, self.plot)
 
         self.usv_poses = []
         self.usv_pose_listener = self.create_subscription(geo_msgs.Pose,
@@ -59,10 +62,18 @@ class DataCollector(Node):
 
         usv_position_errors = self.usv_target - usv_positions
         usv_position_mse = np.square(usv_position_errors).mean(axis=1)
-        print(usv_positions)
-        plt.plot(usv_positions[:,0])
+
+        usv_pos, usv_pos_ax = plt.subplots()
+        usv_pos_ax.plot(usv_positions[:,0], usv_positions[:,1])
+        usv_pos_ax.set_xlabel("X-position (m)")
+        usv_pos_ax.set_ylabel("Y-position (m)")
+        usv_pos_ax.set_title("Movement of USV")
+
 
         plt.show()
+
+        plt.plot(usv_position_errors[:,:2])
+        # plt.show()
 
         rov_poses = np.array(self.rov_poses)
         rov_positions = rov_poses[0,:]
@@ -75,6 +86,7 @@ class DataCollector(Node):
         rov_forces = np.array(self.rov_forces)
         rov_force = rov_forces[0,:]
         rov_torque = rov_forces[1,:]
+
 
 
 
