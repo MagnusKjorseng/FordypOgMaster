@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 import std_msgs.msg as std_msgs
-import geo_msgs.msg as geo_msgs
+import geometry_msgs.msg as geo_msgs
 
 import numpy as np
 from scipy.spatial.transform import Rotation as R
@@ -20,8 +20,11 @@ class DataCollector(Node):
 
         self.usv_target = [0.,0.,0.]
         self.rov_target = [0.,0.,-50.]
+        self.scenario = "Stationary"
+        self.wave_height = "0m"
 
-        self.plot_timer = self.create_timer(10, self.plot)
+        self.plot_time = 2
+        self.plot_timer = self.create_timer(self.plot_time, self.plot)
 
         self.usv_poses = []
         self.usv_pose_listener = self.create_subscription(geo_msgs.Pose,
@@ -54,13 +57,23 @@ class DataCollector(Node):
 
     def plot(self):
         usv_poses = np.array(self.usv_poses)
-        usv_positions = usv_poses[0, :]
-        usv_orientations = usv_poses[1,:]
+        usv_positions = usv_poses[:, 0]
+        usv_orientations = usv_poses[:,1]
 
-        usv_position_errors = usv_target - usv_positions
+        usv_position_errors = self.usv_target - usv_positions
         usv_position_mse = np.square(usv_position_errors).mean(axis=1)
 
-        plt.plot(usv_position_mse)
+        usv_pos, usv_pos_ax = plt.subplots()
+        usv_pos_ax.plot(usv_positions[:,0], usv_positions[:,1])
+        usv_pos_ax.set_xlabel("X-position (m)")
+        usv_pos_ax.set_ylabel("Y-position (m)")
+        usv_pos_ax.set_title("Movement of USV")
+
+
+        plt.show()
+
+        plt.plot(usv_position_errors[:,:2])
+        # plt.show()
 
         rov_poses = np.array(self.rov_poses)
         rov_positions = rov_poses[0,:]
@@ -73,6 +86,7 @@ class DataCollector(Node):
         rov_forces = np.array(self.rov_forces)
         rov_force = rov_forces[0,:]
         rov_torque = rov_forces[1,:]
+
 
 
 
@@ -111,6 +125,9 @@ class DataCollector(Node):
     def rov_force_callback(self, msg):
         force, torque = self.force_callback(msg)
         rov_forces.append([force, torque])
+
+    def crane_callback(self, msg):
+        return
 
 
 
