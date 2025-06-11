@@ -4,6 +4,20 @@
 
 \begin{document}
 
+\section{Case results}
+One case was tested in which the ROV and USV are initialized at the desired point to hold with a given seastate. There are two variables which have been tested: the length of the wire (and thus the starting depth of the ROV) and the waveheight. Specifically, the ROV's height was tested at 0m (analogous to being stowed), 50m and 100m. 0m was chosen as a baseline, showing the USV's performance when not affected by the drag of the ROV. From the plans for the project at the time of writing, the planned maximum operating depth is 100m, making this a natural second datapoint. 50m was chosen as a midpoint between the two for additional data collection.
+
+Data was gathered by a data collection ROS2 node which collected, worked and plotted the data.
+
+\begin{figure}
+    \centering
+    \includegraphics{scenario1/rov-0m/0.0m/usv_pos_error_uncontrolled}
+    \caption{Position of the USV uncontrolled}
+
+\end{figure}
+
+\subsection{}
+
 \section{Simulation results}
 As mentioned in previous chapters, the simulation was a continued work basedon a specialization project which was undertaken in the fall semester of 2024. The goal of the simulation was to simulate the physical situation to allow for tuning and development of the controller. As such, using the commercially available simulation framework AGX Dynamics, developed by Algoryx AB was seen as reasonable.
 
