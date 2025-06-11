@@ -31,6 +31,7 @@ setup(
             'crane = controller.crane_controller:main',
             'rov = controller.rov_controller:main',
             'collector = controller.data_collector:main',
+
         ],
     },
 )

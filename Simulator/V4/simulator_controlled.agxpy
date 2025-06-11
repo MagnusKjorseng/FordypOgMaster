@@ -26,7 +26,7 @@ import yaml
 
 usv_density = 600 #kg/m^3, average density over the entire object
 rov_density = 2000
-rov_depth = -20
+rov_depth = -100
 
 def init_camera(app):
     eye = agx.Vec3(100,0,60)
@@ -38,8 +38,8 @@ def init_camera(app):
 
 
 def build_control_scene(sim, app):
-    water_geometry = agxCollide.Geometry(agxCollide.Box(100,100,50))
-    position = agx.Vec3(0,0,-50)
+    water_geometry = agxCollide.Geometry(agxCollide.Box(100,100,60))
+    position = agx.Vec3(0,0,-60)
     water_geometry.setPosition(position)
     
     #make new material to change the density to that of seawater, 1025kg/m^3
@@ -51,7 +51,7 @@ def build_control_scene(sim, app):
     controller = agxModel.WindAndWaterController()
     controller.addWater(water_geometry)
     
-    controller.setWaterWrapper(water_geometry, waterwrappers.WaveWaterWrapper(0))
+    controller.setWaterWrapper(water_geometry, waterwrappers.WaveWaterWrapper(2))
     
     sim.add(controller)
     sim.add(water_geometry)
@@ -232,10 +232,10 @@ class SimpleVesselMover(agxSDK.StepEventListener):
             y  = self.msgRecieve.force.y
             n  = self.msgRecieve.torque.z
 
-            force_vector = agx.Vec3(x,y,0)
+            self.force_vector = agx.Vec3(x,y,0)
             self.torque_vector = agx.Vec3(0,0,n)
 
-        self.vessel.add_force(force_vector)
+        self.vessel.add_force(self.force_vector)
         self.vessel.add_torque(self.torque_vector)
 
 class VesselMover(agxSDK.StepEventListener):

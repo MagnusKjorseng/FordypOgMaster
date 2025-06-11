@@ -84,6 +84,7 @@ class Allocator(Node):
 
         self.get_logger().info(f'Thrust =  {thrust}', once=True)
 
+
         try:
             alpha = [np.arctan(command[0]/command[1]) for command in thrust]
         except: #catches division by zero

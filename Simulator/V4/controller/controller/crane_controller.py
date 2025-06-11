@@ -15,7 +15,8 @@ class CraneController(Node):
     def __init__(self):
         super().__init__("crane_controller")
 
-        self.target_depth = 20
+        self.target_depth = -0
+
 
         self.rov_listener = self.create_subscription(geo_msgs.Pose,
                                                 "rov_pose",

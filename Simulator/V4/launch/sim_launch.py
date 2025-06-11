@@ -30,4 +30,15 @@ def generate_launch_description():
             executable='position_translator',
             name='position_translator'
         ),
+        Node(
+            package='controller',
+
+            executable='crane',
+            name='crane'
+        ),
+        Node(
+            package='controller',
+
+            executable = 'rov',
+            name='rov')
     ])
