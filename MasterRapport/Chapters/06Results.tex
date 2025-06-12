@@ -1,22 +1,184 @@
 \documentclass[class=article, crop=false]{standalone}
 \usepackage{graphicx}
 \graphicspath{{../Figures}}
+\setkeys{Gin}{width=0.9\textwidth}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{cleveref}
 
 \begin{document}
 
 \section{Case results}
 One case was tested in which the ROV and USV are initialized at the desired point to hold with a given seastate. There are two variables which have been tested: the length of the wire (and thus the starting depth of the ROV) and the waveheight. Specifically, the ROV's height was tested at 0m (analogous to being stowed), 50m and 100m. 0m was chosen as a baseline, showing the USV's performance when not affected by the drag of the ROV. From the plans for the project at the time of writing, the planned maximum operating depth is 100m, making this a natural second datapoint. 50m was chosen as a midpoint between the two for additional data collection.
 
-Data was gathered by a data collection ROS2 node which collected, worked and plotted the data.
+Data was gathered by a data collection ROS2 node which collected, worked and plotted the data. The data was collected over a period of 30s. This time period was chosen because it was difficult to have the simulation be stable for a longer period while controlled. Looking at the visual output of the simulation it seemed as if the wire physics did unexpected things and caused the simulation to break. It was possible to collect all the data at 30s intervals however, and the data does give enough information to draw conclusions from.
+
+There were five different wave heights that were used for simulations, 0m to 2m in 0.5m intervals. Looking at the simulation and the results, only the three lowest of these seem reasonable to compare. The vessel tumbled a lot for the higher wave heights and the simulation started being very unstable. When the vessel tumbled, sometimes it also got "wrapped up" in the wire, causing further instability.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{entwined}
+    \caption{Figure showing the USV entwined in the ROV wire due to tumbling in the waves. The vessel is the green wireframe while the tether is the teal and pink line.}
+    \label{fig:entwined}
+\end{figure}
+
+As mentioned in \cref{chap:cases}, the equation used to simulate the waves is
+\[h = 0.5\sin(0.5 x +0.6t) + 0.25\cos(0.6y + 0.3x + 1.45t)\]
+Where \(h\) is the height above \(z=0\), \(x\) and \(y\) are the position in the horizontal plane and \(t\) is the time since the simulation started. The shape of this equation can be seen plotted in \cref{fig:wave-shape}
 
 \begin{figure}
     \centering
-    \includegraphics{scenario1/rov-0m/0.0m/usv_pos_error_uncontrolled}
-    \caption{Position of the USV uncontrolled}
-
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics{wave-shape}
+        \caption{3D representation. Note that the Z-axis is not scaled the same as the X- and Y-axes}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics{wave-contour}
+        \caption{Contour plot}
+    \end{subfigure}
+    \caption{The wave-shape for the simulated wave given at \(t=0\).}
+    \label{fig:wave-shape}
 \end{figure}
 
-\subsection{}
+A lot of data was collected. Only the data which will be directly discussed in the next chapter will be brought up here. All results can be seen plotted in the appendix \ref{App:data}.
+
+\subsection{Uncontrolled behaviour}
+As a baseline, the USV was placed in the simulation with no control system applied. With no waves, as seen in \cref{fig:0-uncontrolled}. Uncontrolled and with higher waves can be seen in \cref{fig:0.5m-uncontrolled} and \cref{fig:1.0m-uncontrolled}. These three figures show the USV's position in X- and Y- direction. The starting position is represented by a dot and the desired position is represented by an X in the plot. The line shows the position the USV follows as time progresses. The results in those three figures are very similar within each group, and so for brevity only one example is shown for each.
+
+\begin{figure}
+    \centering
+    \includegraphics{scenario1/rov-0m/0.0m/usv_position_uncontrolled}
+    \caption{The USV's position uncontrolled with 0m waves with the ROV retracted}
+    \label{fig:0-uncontrolled}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics{scenario1/rov-0m/0.5m/usv_position_uncontrolled}
+    \caption{The USV's movement uncontrolled with 0.5m waves with the ROV retracted}
+    \label{fig:0.5m-uncontrolled}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics{scenario1/rov-0m/1.0m/usv_position_uncontrolled}
+    \caption{The USV's movement uncontrolled with 1m waves with the ROV retracted}
+    \label{fig:1.0m-uncontrolled}
+\end{figure}
+
+For the 0m wave case there is minimal movement, on the order of millimeters. This is likely due to noise and chaos in the simulation, small initial conditions randomized with time which cause calculations to be slightly different. It is probably safe to ignore the movement in the 0m case. There are similarities between the 0.5m wave height and the 1m wave height cases. There is a movement south-west first before it moves south-east. What likely happens here is that the vessel finds some local minimum in the wave shape and is carried along it. Sadly, the shape of the waves is not visually represented in the simulation in real-time, so this is not visually confirmed. Because of the minimal movement with no wave interference, the 0m wave case will not be further plotted here. It is however plotted fully in the appendix.
+
+The error for the position can be seen in \cref{fig:position_errors}. The various position errors have a similar shape but vary in magnitude. Comparing the error at 0.5m waves with the position at 0.5m waves, \cref{fig:position_errors} and \cref{fig:0.5m-uncontrolled}, it is visible that these results are at least connected. The Y-direction error increases early then is stable, while the X-direction error goes first in one direction and then in the other until the simulation ends. The magnitudes of the results are also comparable and as expected.
+
+\begin{figure}
+    \centering
+    \includegraphics{scenario1/rov-0m/0.5m/usv_pos_error_uncontrolled}
+    \caption{The USV's position error, uncontrolled with 0.5m waves with the ROV retracted. The X-direction error is in blue while the Y-direction in yellow.}
+    \label{fig:position_errors}
+\end{figure}
+
+The heading of the USV is also charted. This can be seen in \cref{fig:0.5m-heading-unc}. Once again, the shapes of the different wave heights and ROV-states are very similar, and so for brevity, only one example will be brought up. The desired heading here is the starting heading, i.e. that the vessel stays facing the way that it started. This heading is 180°, or due south. In the 0.5m and 1m waves it does almost an about face, turning to face almost 30°. All of the uncontrolled heading results show similar results. It is therefore reasonable to assume that this is caused by the hydrodynamic effects of the vessel and it finding a stable state with regards to the seastate.
+
+\begin{figure}
+    \centering
+    \includegraphics{scenario1/rov-0m/0.5m/usv_heading_error_uncontrolled}
+    \caption{The USV's heading uncontrolled with 0.5m waves with the ROV retracted}
+    \label{fig:0.5m-heading-unc}
+\end{figure}
+
+In this simulation, the ROV is also uncontrolled. With regards to mastering, the USV is defined as the master for this scenario. This means that the ROV's "target position" is directly below the USV. Because of this, the ROV error has also been measured without the control system enabled to use as a control. The position in the horizontal plane can be seen in \cref{fig:rov_xy_error} and the depth error can be seen in \cref{fig:rov_depth_error}. As above, the shapes of the curves are very similar for all cases except the control case, therefore only one example is used. Of note: for some reason the "depth error" plots got some slightly jumbled data in, and therefore plot the "error" as relative to 100m deep. This means that for the ROV at 0m, a value of -100 is desired, for the ROV at 50m, a value of -50 is desired and for the ROV at 100m a value of 0 is desired. This error was spotted too late to remake the plots and thus will be abn error in the depiction.
+
+\begin{figure}
+    \centering
+    \includegraphics{scenario1/rov-50m/0.5m/rov_position_error_uncontrolled}
+    \caption{ROV horizontal error at 50m depth with 0.5m waves}
+    \label{fig:rov_xy_error}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics{scenario1/rov-50m/0.5m/rov_depth_error_uncontrolled}
+    \caption{ROV depth error at 50m with 0.5m waves. Note the incorrect Y-axis as described in the text.}
+\end{figure}
+
+
+
+\subsection{Controlled response}
+The same simulations as above were performed but this time with the control system enabled.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.7\textwidth}
+        \centering
+        \includegraphics{scenario1/rov-0m/0.0m/usv_position_controlled}
+        \caption{0m ROV}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}{0.7\textwidth}
+        \centering
+        \includegraphics{scenario1/rov-50m/0.0m/usv_position_controlled}
+        \caption{50m ROV}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}{0.7\textwidth}
+        \centering
+        \includegraphics{scenario1/rov-100m/0.0m/usv_position_controlled}
+        \caption{100m ROV}
+    \end{subfigure}
+    \caption{The USV's movement controlled with 0m waves and varying ROV depth}
+    \label{fig:0-controlled}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.7\textwidth}
+        \centering
+        \includegraphics{scenario1/rov-0m/0.5m/usv_position_controlled}
+        \caption{0m ROV}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}{0.7\textwidth}
+        \centering
+        \includegraphics{scenario1/rov-50m/0.5m/usv_position_controlled}
+        \caption{50m ROV}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}{0.7\textwidth}
+        \centering
+        \includegraphics{scenario1/rov-100m/0.5m/usv_position_controlled}
+        \caption{100m ROV}
+    \end{subfigure}
+    \caption{The USV's movement controlled with 0.5m waves and varying ROV depth}
+    \label{fig:0.5m-controlled}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.7\textwidth}
+        \centering
+        \includegraphics{scenario1/rov-0m/1.0m/usv_position_controlled}
+        \caption{0m ROV}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}{0.7\textwidth}
+        \centering
+        \includegraphics{scenario1/rov-50m/1.0m/usv_position_controlled}
+        \caption{50m ROV}
+    \end{subfigure}
+    \vfill
+    \begin{subfigure}{0.7\textwidth}
+        \centering
+        \includegraphics{scenario1/rov-100m/1.0m/usv_position_controlled}
+        \caption{100m ROV}
+    \end{subfigure}
+    \caption{The USV's movement controlled with 1m waves and varying ROV depth}
+    \label{fig:1.0m-controlled}
+\end{figure}
 
 \section{Simulation results}
 As mentioned in previous chapters, the simulation was a continued work basedon a specialization project which was undertaken in the fall semester of 2024. The goal of the simulation was to simulate the physical situation to allow for tuning and development of the controller. As such, using the commercially available simulation framework AGX Dynamics, developed by Algoryx AB was seen as reasonable.
