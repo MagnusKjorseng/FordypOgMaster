@@ -5,11 +5,12 @@
 
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage[subsection]{placeins}
 
 \begin{document}
 
 \section{USV position}
-
+\FloatBarrier
 \subsection{Uncontrolled}
 \begin{figure}
     \centering
@@ -48,7 +49,7 @@
         \label{}
     \end{subfigure}
 
-    \caption{USV position over time at different wave heights, ROV at 0m}
+    \caption{USV position without control at different wave heights, ROV at 0m}
 \end{figure}
 
 \begin{figure}
@@ -88,7 +89,7 @@
         \label{}
     \end{subfigure}
 
-    \caption{USV position over time at different wave heights, ROV at 50m}
+    \caption{USV position without control at different wave heights, ROV at 50m}
 \end{figure}
 
 \begin{figure}
@@ -128,9 +129,9 @@
         \label{}
     \end{subfigure}
 
-    \caption{USV position over time at different wave heights, ROV at 100m}
+    \caption{USV position without control at different wave heights, ROV at 100m}
 \end{figure}
-
+\FloatBarrier
 \subsection{Controlled}
 \begin{figure}
     \centering
@@ -169,7 +170,7 @@
         \label{}
     \end{subfigure}
 
-    \caption{USV position over time at different wave heights, ROV at 0m}
+    \caption{USV position with control at different wave heights, ROV at 0m}
 \end{figure}
 
 \begin{figure}
@@ -209,7 +210,7 @@
         \label{}
     \end{subfigure}
 
-    \caption{USV position over time at different wave heights, ROV at 50m}
+    \caption{USV position with control at different wave heights, ROV at 50m}
 \end{figure}
 
 \begin{figure}
@@ -249,9 +250,9 @@
         \label{}
     \end{subfigure}
 
-    \caption{USV position over time at different wave heights, ROV at 100m}
+    \caption{USV position with control at different wave heights, ROV at 100m}
 \end{figure}
-
+\FloatBarrier
 \section{USV position errors over time}
 For the following figures the X- and Y- components of the movement of the USV are shown as blue and yellow respectively.
 \subsection{Uncontrolled}
@@ -291,7 +292,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \caption{2m}
         \label{}
     \end{subfigure}
-    \caption{USV position error over time at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 0m}
+    \caption{USV position error without control at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 0m}
     \label{}
 \end{figure}
 
@@ -331,7 +332,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \caption{2m}
         \label{}
     \end{subfigure}
-    \caption{USV position error over time at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 50m}
+    \caption{USV position error without control at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 50m}
     \label{}
 \end{figure}
 
@@ -371,10 +372,10 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \caption{2m}
         \label{}
     \end{subfigure}
-    \caption{USV position error over time at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 100m}
+    \caption{USV position error without control at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 100m}
     \label{}
 \end{figure}
-
+\FloatBarrier
 \subsection{Controlled}
 \begin{figure}
     \centering
@@ -412,7 +413,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \caption{2m}
         \label{}
     \end{subfigure}
-    \caption{USV position error over time at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 0m}
+    \caption{USV position error with control at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 0m}
     \label{}
 \end{figure}
 
@@ -452,7 +453,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \caption{2m}
         \label{}
     \end{subfigure}
-    \caption{USV position error over time at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 50m}
+    \caption{USV position error with control at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 50m}
     \label{}
 \end{figure}
 
@@ -492,10 +493,10 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \caption{2m}
         \label{}
     \end{subfigure}
-    \caption{USV position error over time at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 100m}
+    \caption{USV position error with control at different wave heights, X-direction as blue, Y-direction as yellow. ROV at 100m}
     \label{}
 \end{figure}
-
+\FloatBarrier
 \section{USV heading error}
 \subsection{Uncontrolled}
 \begin{figure}
@@ -535,7 +536,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{USV heading error at different wave heights, ROV at 0m}
+    \caption{USV heading error at different wave heights, ROV at 0m, without control}
 \end{figure}
 
 \begin{figure}
@@ -575,7 +576,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{USV heading error at different wave heights, ROV at 50m}
+    \caption{USV heading error at different wave heights, ROV at 50m, without control}
 \end{figure}
 
 \begin{figure}
@@ -615,9 +616,9 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{USV heading error at different wave heights, ROV at 100m}
+    \caption{USV heading error at different wave heights, ROV at 100m, without control}
 \end{figure}
-
+\FloatBarrier
 \subsection{Controlled}
 \begin{figure}
     \centering
@@ -656,7 +657,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{USV heading error at different wave heights, ROV at 0m}
+    \caption{USV heading error at different wave heights, ROV at 0m, with control}
 \end{figure}
 
 \begin{figure}
@@ -696,7 +697,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{USV heading error at different wave heights, ROV at 50m}
+    \caption{USV heading error at different wave heights, ROV at 50m, with control}
 \end{figure}
 
 \begin{figure}
@@ -736,9 +737,9 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{USV heading error at different wave heights, ROV at 100m}
+    \caption{USV heading error at different wave heights, ROV at 100m, with control}
 \end{figure}
-
+\FloatBarrier
 \section{USV applied forces}
 \subsection{Lateral forces}
 \begin{figure}
@@ -858,6 +859,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
 
     \caption{USV lateral forces applied by controller at different wave heights, ROV at 100m}
 \end{figure}
+\FloatBarrier
 \subsection{Torque}
 \begin{figure}
     \centering
@@ -977,7 +979,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
     \caption{USV torque applied by controller at different wave heights, ROV at 100m}
 \end{figure}
 
-
+\FloatBarrier
 \section{ROV position error over time}
 \subsection{Uncontrolled}
 \begin{figure}
@@ -1017,7 +1019,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{ROV position error over time at different wave heights, ROV at 0m}
+    \caption{ROV position error without control at different wave heights, ROV at 0m}
 \end{figure}
 
 \begin{figure}
@@ -1057,7 +1059,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{ROV position error over time at different wave heights, ROV at 50m}
+    \caption{ROV position error without control at different wave heights, ROV at 50m}
 \end{figure}
 
 \begin{figure}
@@ -1097,9 +1099,9 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{ROV position error over time at different wave heights, ROV at 100m}
+    \caption{ROV position error without control at different wave heights, ROV at 100m}
 \end{figure}
-
+\FloatBarrier
 \subsection{Controlled}
 \begin{figure}
     \centering
@@ -1138,7 +1140,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{ROV position error over time at different wave heights, ROV at 0m}
+    \caption{ROV position error with control at different wave heights, ROV at 0m}
 \end{figure}
 
 \begin{figure}
@@ -1178,7 +1180,7 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{ROV position error over time at different wave heights, ROV at 50m}
+    \caption{ROV position error with control at different wave heights, ROV at 50m}
 \end{figure}
 
 \begin{figure}
@@ -1218,9 +1220,9 @@ For the following figures the X- and Y- components of the movement of the USV ar
         \label{}
     \end{subfigure}
 
-    \caption{ROV position error over time at different wave heights, ROV at 100m}
+    \caption{ROV position error with control at different wave heights, ROV at 100m}
 \end{figure}
-
+\FloatBarrier
 \section{ROV depth error over time}
 Note that it seems the depth calculations for the plotting have gone wrong. They ended up being relative to 100m depth. It was not possible to fix this, so please simply imagine that the depths are correct. For the retracted ROV, the goal height is -100m, while for the fully extended one it is 0m.
 \subsection{Uncontrolled}
@@ -1261,7 +1263,7 @@ Note that it seems the depth calculations for the plotting have gone wrong. They
         \label{}
     \end{subfigure}
 
-    \caption{ROV depth error over time at different wave heights, ROV at 0m}
+    \caption{ROV depth error without control at different wave heights, ROV at 0m}
 \end{figure}
 
 \begin{figure}
@@ -1301,7 +1303,7 @@ Note that it seems the depth calculations for the plotting have gone wrong. They
         \label{}
     \end{subfigure}
 
-    \caption{ROV depth error over time at different wave heights, ROV at 50m}
+    \caption{ROV depth error without control at different wave heights, ROV at 50m}
 \end{figure}
 
 \begin{figure}
@@ -1341,9 +1343,9 @@ Note that it seems the depth calculations for the plotting have gone wrong. They
         \label{}
     \end{subfigure}
 
-    \caption{ROV depth error over time at different wave heights, ROV at 100m}
+    \caption{ROV depth error without control at different wave heights, ROV at 100m}
 \end{figure}
-
+\FloatBarrier
 \subsection{Controlled}
 \begin{figure}
     \centering
@@ -1382,7 +1384,7 @@ Note that it seems the depth calculations for the plotting have gone wrong. They
         \label{}
     \end{subfigure}
 
-    \caption{ROV depth error over time at different wave heights, ROV at 0m}
+    \caption{ROV depth error with control at different wave heights, ROV at 0m}
 \end{figure}
 
 \begin{figure}
@@ -1422,7 +1424,7 @@ Note that it seems the depth calculations for the plotting have gone wrong. They
         \label{}
     \end{subfigure}
 
-    \caption{ROV depth error over time at different wave heights, ROV at 50m}
+    \caption{ROV depth error with control at different wave heights, ROV at 50m}
 \end{figure}
 
 \begin{figure}
@@ -1462,7 +1464,7 @@ Note that it seems the depth calculations for the plotting have gone wrong. They
         \label{}
     \end{subfigure}
 
-    \caption{ROV depth error over time at different wave heights, ROV at 100m}
+    \caption{ROV depth error with control at different wave heights, ROV at 100m}
 \end{figure}
 
 \end{document}
