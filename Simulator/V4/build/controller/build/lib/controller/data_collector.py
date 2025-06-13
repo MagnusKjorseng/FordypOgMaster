@@ -28,7 +28,7 @@ class DataCollector(Node):
 
         self.delta_time = 1/100 #time between simulation steps
 
-        self.plot_time = 25
+        self.plot_time = 30
         self.plot_timer = self.create_timer(self.plot_time, self.plot)
 
         self.sample_time = np.arange(0, self.plot_time, self.delta_time) #total time of sampling

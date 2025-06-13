@@ -3,47 +3,48 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: plainnat.bst
 Database file #1: bibliography.bib
-Warning--I didn't find a database entry for "sorensen_crude_2023"
-Warning--I didn't find a database entry for "specialization"
-You've used 8 entries,
+Warning--to sort, need author or key in noauthor_fordypogmastersimulator_nodate
+Warning--empty year in noauthor_fordypogmastersimulator_nodate
+Warning--empty institution in specialization
+You've used 11 entries,
             2773 wiz_defined-function locations,
-            672 strings with 7455 characters,
-and the built_in function-call counts, 4604 in all, are:
-= -- 430
-> -- 308
-< -- 3
-+ -- 104
-- -- 96
-* -- 433
-:= -- 746
-add.period$ -- 47
-call.type$ -- 8
-change.case$ -- 56
-chr.to.int$ -- 8
-cite$ -- 16
-duplicate$ -- 160
-empty$ -- 313
-format.name$ -- 106
-if$ -- 934
+            688 strings with 8488 characters,
+and the built_in function-call counts, 6395 in all, are:
+= -- 574
+> -- 483
+< -- 4
++ -- 164
+- -- 153
+* -- 607
+:= -- 1033
+add.period$ -- 58
+call.type$ -- 11
+change.case$ -- 85
+chr.to.int$ -- 11
+cite$ -- 26
+duplicate$ -- 211
+empty$ -- 410
+format.name$ -- 165
+if$ -- 1290
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 7
-newline$ -- 71
-num.names$ -- 32
-pop$ -- 80
+missing$ -- 8
+newline$ -- 88
+num.names$ -- 40
+pop$ -- 138
 preamble$ -- 1
-purify$ -- 48
+purify$ -- 73
 quote$ -- 0
-skip$ -- 125
+skip$ -- 178
 stack$ -- 0
-substring$ -- 176
-swap$ -- 15
+substring$ -- 201
+swap$ -- 19
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 88
-warning$ -- 0
-while$ -- 35
+type$ -- 121
+warning$ -- 3
+while$ -- 42
 width$ -- 0
-write$ -- 156
-(There were 2 warnings)
+write$ -- 196
+(There were 3 warnings)

@@ -1,9 +1,14 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{11}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[noa()]{noauthor_fordypogmastersimulator_nodate}
+{FordypOgMaster}/{Simulator} at recovery · {MagnusKjorseng}/{FordypOgMaster}.
+\newblock URL
+  \url{https://github.com/MagnusKjorseng/FordypOgMaster/tree/recovery/Simulator}.
 
 \bibitem[Isobe and Iwasaki(2022)]{isobe_fate_2022}
 Atsuhiko Isobe and Shinsuke Iwasaki.
@@ -26,6 +31,12 @@ Jenna~R. Jambeck, Roland Geyer, Chris Wilcox, Theodore~R. Siegler, Miriam
 \newblock \doi{10.1126/science.1260352}.
 \newblock URL \url{https://www.science.org/doi/10.1126/science.1260352}.
 \newblock Publisher: American Association for the Advancement of Science.
+
+\bibitem[Kjørseng(2024)]{specialization}
+Magnus Kjørseng.
+\newblock Simulation of a coupled system con- sisting of a non-buoyant remotely
+  op- erated vehicle and a surface vessel.
+\newblock Technical report, December 2024.
 
 \bibitem[Matsuoka et~al.(2005)Matsuoka, Nakashima, and
   Nagasawa]{matsuoka_review_2005}
@@ -73,6 +84,23 @@ Lisbet Sørensen, Tânia Gomes, Amaia Igartua, Inger~Larsen Lyngstad,
 \newblock \doi{10.1016/j.jhazmat.2023.131810}.
 \newblock URL
   \url{https://www.sciencedirect.com/science/article/pii/S0304389423010932}.
+
+\bibitem[Sørhus et~al.(2023)Sørhus, Sørensen, Grøsvik, Le~Goff, Incardona,
+  Linbo, Baldwin, Karlsen, Nordtug, Hansen, Thorsen, Donald, van~der Meeren,
+  Robson, Rowland, Rasinger, Vikebø, and Meier]{sorhus_crude_2023}
+Elin Sørhus, Lisbet Sørensen, Bjørn~Einar Grøsvik, Jérémie Le~Goff,
+  John~P. Incardona, Tiffany~L. Linbo, David~H. Baldwin, Ørjan Karlsen, Trond
+  Nordtug, Bjørn~Henrik Hansen, Anders Thorsen, Carey~E. Donald, Terje van~der
+  Meeren, William Robson, Steven~J. Rowland, Josef~D. Rasinger, Frode~B.
+  Vikebø, and Sonnich Meier.
+\newblock Crude oil exposure of early life stages of {Atlantic} haddock
+  suggests threshold levels for developmental toxicity as low as 0.1 mcg total
+  polyaromatic hydrocarbon ({TPAH})/{L}.
+\newblock \emph{Marine Pollution Bulletin}, 190:\penalty0 114843, May 2023.
+\newblock ISSN 0025-326X.
+\newblock \doi{10.1016/j.marpolbul.2023.114843}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0025326X23002746}.
 
 \bibitem[{World Economic Forum}(2022)]{world_economic_forum_top_2022}
 {World Economic Forum}.

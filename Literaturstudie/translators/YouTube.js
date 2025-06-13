@@ -1,15 +1,15 @@
 {
 	"translatorID": "d3b1d34c-f8a1-43bb-9dd6-27aa6403b217",
+	"translatorType": 4,
 	"label": "YouTube",
 	"creator": "Sean Takats, Michael Berkowitz, Matt Burton, Rintze Zelle, and Geoff Banh",
 	"target": "^https?://([^/]+\\.)?youtube\\.com/",
 	"minVersion": "3.0",
-	"maxVersion": "",
+	"maxVersion": null,
 	"priority": 100,
 	"inRepository": true,
-	"translatorType": 4,
 	"browserSupport": "gcsibv",
-	"lastUpdated": "2024-04-05 04:04:37"
+	"lastUpdated": "2025-06-12 16:15:00"
 }
 
 /*
@@ -144,7 +144,8 @@ function scrape(doc, url) {
 		}
 		var description = text(doc, '#description .content')
 			|| text(doc, '#description')
-			|| text(doc, 'ytm-expandable-video-description-body-renderer .collapsed-string-container');
+			|| text(doc, 'ytm-expandable-video-description-body-renderer .collapsed-string-container')
+			|| text(doc, '#snippet span');
 		if (description) {
 			item.abstractNote = description;
 		}

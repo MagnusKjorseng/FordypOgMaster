@@ -1,11 +1,11 @@
-\documentclass[a4paper, 12pt]{report}
+%\documentclass[a4paper, 12pt]{report}
 
 
 %TODO: Endre kommentering her!!!
 
 
 
-%\documentclass[a4paper, 12pt, openany]{book} %chose the paper size and font size. Openany ensures that all all chapters and similar may begin at any page, not only odd pages. For the introductory pages and appendices we want openany, but for chapter pages in the main content we want chapters to begin only on odd pages (right hand side). The book class ensures that the margins are automatically adjusted such that left hand pages are slightly moved to the left and vice versa at the right, which makes the thesis very readable and good looking when printed in bound book format.
+\documentclass[a4paper, 12pt, openany]{book} %chose the paper size and font size. Openany ensures that all all chapters and similar may begin at any page, not only odd pages. For the introductory pages and appendices we want openany, but for chapter pages in the main content we want chapters to begin only on odd pages (right hand side). The book class ensures that the margins are automatically adjusted such that left hand pages are slightly moved to the left and vice versa at the right, which makes the thesis very readable and good looking when printed in bound book format.
 \usepackage[australian]{babel}
 \usepackage[subpreambles=false]{standalone}
 \usepackage{import}
@@ -16,7 +16,7 @@
 \captionsetup{width=0.8\textwidth}
 \usepackage{subcaption}
 \usepackage{fancyhdr} %to customize the headers
-\usepackage[lmargin=1in, rmargin=1in, tmargin=1in, bmargin=1in]{geometry} %sets the margins for the pages
+% \usepackage[lmargin=1in, rmargin=1in, tmargin=1in, bmargin=1in]{geometry} %sets the margins for the pages
 \setcounter{tocdepth}{2} %table of contents number depth for subsections (2 = x.x.x)
 \setcounter{secnumdepth}{4} %numbering depth for headers for subsections in the text(4 = x.x.x.x)
 \usepackage{url} %to include urls
@@ -27,7 +27,7 @@
 \usepackage{array, booktabs} %to make better tables
 \usepackage{graphicx} %to include graphics
 \graphicspath{{./Figures}}
-\setkeys{Gin}{width=0.8\textwidth}
+\setkeys{Gin}{width=0.9\textwidth}
 \usepackage{float} %to include floats
 %\usepackage[export]{adjustbox} %to adjust floats
 %\usepackage{subfig} %to include subfigures
@@ -37,6 +37,10 @@
 \usepackage{color, xcolor} %edit e.g. text colors
 \usepackage{cleveref}
 \usepackage{parskip}
+
+\usepackage{pdfpages}
+\usepackage[section]{placeins}
+\usepackage{rotating}
 
 %\usepackage{tgtermes}
 
@@ -48,8 +52,8 @@
 \pagestyle{plain}
 \fancyhead[L]{Master's thesis \\ IP502022}
 %\fancyhead[C]{Candidate 10016}
-\fancyhead[C]{Magnus Renaa Kjørseng}
-\fancyhead[R]{\today}
+\fancyhead[R]{Magnus Renaa Kjørseng}
+% \fancyhead[R]{\today}
 
 \lfoot{}
 \fancyfoot[C]{\thepage}
@@ -59,7 +63,7 @@
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{comment}
+\begin{comment}
 % The title page:
 % For NTNU students this page will be generated automatically when submitting your paper, and should not be included in the final file from Latex. Delete or comment out the title page setup. The final report should then start with the first page being the abstract. I have included a title page here so it is possible to see how it may look like, and for those who does not get an automatically generated title page. Of course you will need to change the names and titles etc. to your case.
 
@@ -97,7 +101,7 @@ Department of Ocean Operations and Civil Engineering \\
 \end{titlepage}
 \restoregeometry
 %\myemptypage %empty page such that the abstract starts at the first right hand side after the title page
-%\end{comment}
+\end{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % The pre-chapters
@@ -120,10 +124,10 @@ Department of Ocean Operations and Civil Engineering \\
 %\addcontentsline{toc}{chapter}{\protect\numberline{}\listtablename}
 %\listoftables
 
-
-\chapter*{Abbreviations}
-\addcontentsline{toc}{chapter}{\protect\numberline{}Abbreviations}
-\import{Chapters/}{02Abbreviations}
+%
+% \chapter*{Abbreviations}
+% \addcontentsline{toc}{chapter}{\protect\numberline{}Abbreviations}
+% \import{Chapters/}{02Abbreviations}
 %\newpage
 %\myemptypage
 %add an empty non-counted page by the command below in order to get the first chapter on the left hand side, if needed (check your page number so that the first chapter is on an odd page)
@@ -147,48 +151,57 @@ Department of Ocean Operations and Civil Engineering \\
 %main content 
 
 \pagenumbering{arabic}
+% \pagestyle{fancy}
 \chapter{Introduction}
 \import{Chapters/}{03Introduction}
-%\cleardoublepage
+\cleardoublepage
 %the cleardoublepage command ensures that the next text page is on the right-hand side (odd page) and produces a blank page if necessary to achieve that, as all chapters should begin on the right hand side
 
 
 \chapter{Problem Statement}
 \import{Chapters/}{04Theory}
-%\cleardoublepage
+\cleardoublepage
 
 \chapter{Design}
 \import{Chapters/}{05Method}
-%\cleardoublepage
-
-\chapter{Simulation Case Studies}
+\cleardoublepage
 
 \chapter{Results}
 \import{Chapters/}{06Results}
-%\cleardoublepage
+\cleardoublepage
 
 
 \chapter{Discussion}
 \import{Chapters/}{07Discussion}
-%\cleardoublepage
+\cleardoublepage
 
 
 \chapter{Conclusions}
 \import{Chapters/}{08Conclusion}
-%\cleardoublepage
+\cleardoublepage
 
 \newpage
 \addcontentsline{toc}{chapter}{\protect\numberline{}Bibliography}
 \bibliography{bibliography}
 %\printbibliography %you may change the title in the toc here if you want
-%\cleardoublepage
+\cleardoublepage
 
+\renewcommand\chaptername{Appendix}
+\renewcommand\thechapter{\Alph{chapter}}
+\setcounter{chapter}{0}
 
-%\chapter*{\LARGE \textbf{Appendices}}
+\addcontentsline{toc}{chapter}{\protect\numberline{}Appendices}
+
 \fancyhf{} %clear the header, it should be empty for the appendices
 \renewcommand{\headrulewidth}{0pt} %no rule
-\fancyfoot[C]{\thepage} %set the page numbers in the center of the footer instead 
-
+\fancyfoot[C]{\thepage} %set the page numbers in the center of the footer instead
+\chapter{All simulation results}
+\label{app:data}
+\import{Chapters/}{90Allresults}
+\cleardoublepage
+\chapter{Specialization report}
+\label{app:spec}
+\includepdf[pages={1-}]{../FordypningsRapport/main.pdf}
 %it is possible to set a different page numbering style for the appendix, but I personally just continued with the same page numbering as the main content as I find that more tidy
 %\pagenumbering{roman}
 %\setcounter{page}{1}%

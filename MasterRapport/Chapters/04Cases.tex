@@ -9,22 +9,7 @@
 This chapter will go through the two scenarios to be simulated, their setups and purposes. The scenarios are divided into several cases so that each case only refers to one simulation setup.
 
 \section{USV mastered control response in different seastates}
-The USV controller implemented is quite simple. It has no predictive capability and is completely reactive. This scenario is made to compare the controller's actions as well as the error of the system in calm seas as well as in more moving seas. The simulation framework does allow for current and wind simulations as well, but these are not implemented and thus will not be simulated. The goal for the surface vessel is to stay stationary, simulating an operation where dynamic positioning is necessary for the ROV to do its work.
 
-Three cases will be compared here: No sea, low sea and high sea. The different kinds of seas are simulated with the same wavelength but different wave heights. The wave simulation is a simple regular wave in two dimensions with its wave height defined by the following equation:
-\[h = 0.5\sin(0.5 x +0.6t) + 0.25\cos(0.6y + 0.3x + 1.45t)\]
-Where \(x\) and \(y\) are the point in the XY-plane and \(t\) is the current simulation timestep. The equation was taken from Algoryx's examples for buoyancy simulation for simplicity and ease of use. The actual value of the equation is irrelevant in the larger scheme of things because the only thing it's doing is providing a local height plot. This equation has been used to be "random enough" for the control system to get some challenges. The actual shape of the wave can be seen in \cref{fig:waves}.
-
-\begin{figure}
-    \centering
-    \includegraphics{wave_height}
-    \caption{The wave height plot shown at t=0}
-    \label{fig:waves}
-\end{figure}
-
-Because of the simplicity of the wave height equation, and the fact that it is technically a regular wave, finding significant wave height is not as easy as it might have otherwise been.
-
-The expected response assuming a well functioning system is that the error should be relatively minor, but there is the danger of the seas being too high. If the seas are two high there are two potential faults, the surface vessel might capsize or the thrusters might exceed their authority. The first fault is obviously disastrous and should be avoided at all costs. The second is unfortunate and might lead to loss of control or scrubbing of the mission. Both of these faults can be used as limits to find the maximum acceptable operational criteria for a mission.
 
 \section{Vertical response in rough seas}
 As the surface vessel moves up and down with the waves, the ROV will be tugged by the cable. This would potentially change its depth. However, the cable is long and elastic (to an extent). This scenario will use the maximum acceptable wave range from the previous scenario and simulate the ROV at three different depths. 10m, 50m and 100m. These depths have been chosen because the current planned max depth for the ROV is 100m, the other points being chosen as respectively a point reasonably close to the surface and the midpoint between the maximum extent and the surface.

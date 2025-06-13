@@ -3,5 +3,30 @@
 \graphicspath{{../Figures}}
 
 \begin{document}
+Removing plastic from the ocean is a large and complex issue. The project undertaken for this thesis, as well as by \cite{specialization}, will hopefully help somewhat with this issue. The goal of this project has been to continue the work on a coupled system consisting of an unmanned surface vessel and a non-buoyant remotely operated underwater vehicle. The specific work has been relating to further development of a control system and simulation for this coupled system.
+
+This thesis has had four stated goals:
+\begin{enumerate}
+\item To reimplement the controller from the specialization project in the framework ROS2
+\item To extend the controller to include winch and ROV control
+\item To create a rough graphical user interface
+\item To test the simulator in more situations than previously
+\end{enumerate}
+
+The controller has been decoupled from the simulation framework, as it was in the beginning of this project. It is now implemented in a node-based structure using ROS 2. The node structure allows for quicker development and easier trouble-shooting of new modules. It also makes it so the control system is more or less agnostic as to whether it's connected to a simulator or a real-world vessel. Using this node based structure, the controller has also been extended to allow for control of the ROV's winch and the ROV itself.
+
+A rough user interface has been mocked up, but is not currently functioning.
+
+The reason why the simulator is desired in the first place is as a testing platform for the control system, as well as to help determine operational criteria for a potential mission. The simulator and controller together have been tested in one scenario. The scenario involves the surface vessel being placed in water with the ROV at varying depths and with simulated waves at different heights. This has been tested both with and without the control system enabled, to show the natural response of the simulator and simulated vessel, as well as the controller's effect.
+
+It is clear from the simulated results that the controller is not well enough tuned. There are uncomfortable oscillations in the system. Additionally, assumptions made about the vessels are shown to be either wrong or impractical: the vessel is not able to maintain position in even the smallest simulated waves. Further work needs to be done to establish the capabilities of a real-world vessel and this needs to be implemented into the simulator before it can be used predictively.
+
+Furthermore, the simulated results show two major limitations with the simulation as it is. Firstly, the simulator can be unstable if the wire is mishandled, leading to crashes. This is a limitation of the simulation framework and is not possible to avoid without changing the framework out. Secondly, the surface vessel is currently implemented as a uniformly dense hull, this has led to some instabilities in wavy seas. Further work should look into implementing non-uniform density distribution for the hull to more realistically simulate its response.
+
+Some work has also been done to make the controller "reversibly mastered", what this means is that either of the coupled vessels can be the leading one and the other will dynamically follow. This has been roughly implemented, but would require further work with regards to how the mastering is decided and changed.
+
+Other further work includes the graphical user interface and better controller tuning,
+
+Overall, the project this thesis is based on has reached its goals satisfactorily. Further work is however necessary before the simulator here is usable as a proper analogue of a real-world vessel.
 
 \end{document}
